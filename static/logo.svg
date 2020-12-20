@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="204.363" height="51.842" viewBox="0 0 204.363 51.842">
+  <g id="Group_344" data-name="Group 344" transform="translate(-224.501 -63.635)">
+    <g id="Group_319" data-name="Group 319" transform="translate(8.309 -34)">
+      <text id="nekretnine" transform="translate(260.555 141.476)" fill="#f3b86c" font-size="36" font-family="HelveticaNeue-CondensedBlack, Helvetica Neue" font-weight="800"><tspan x="0" y="0">nekretnine</tspan></text>
+      <rect id="Rectangle_1579" data-name="Rectangle 1579" width="12" height="7" transform="translate(230.465 97.635) rotate(45)" fill="#1b1c32"/>
+      <g id="Group_317" data-name="Group 317" transform="translate(231.277 118.083)">
+        <path id="Path_6" data-name="Path 6" d="M0,0H24.605V24.6H0Z" transform="translate(20.98 -1.809) rotate(90)" fill="#1b1c32"/>
+        <g id="Group_314" data-name="Group 314" transform="translate(8.457 3.494)">
+          <rect id="Rectangle_1571" data-name="Rectangle 1571" width="11.641" height="14.136" transform="translate(1.247)" fill="#fff"/>
+          <path id="Path_7" data-name="Path 7" d="M0,0H8.315" transform="translate(0 7.068)" fill="none" stroke="#1b1c32" stroke-width="3"/>
+        </g>
+      </g>
+      <path id="Union_2" data-name="Union 2" d="M0,0H0V0Z" transform="translate(220.192 108.887)" fill="none" stroke="#f3b86c" stroke-width="8"/>
+    </g>
+  </g>
+</svg>

@@ -8,7 +8,9 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap' }
     ]
   },
 
@@ -20,6 +22,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    '~plugins/snackbar/index.js',
+    '~plugins/moment.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -31,7 +35,32 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    '@nuxtjs/auth',
+    '@nuxtjs/axios',
+    ['nuxt-material-design-icons']
   ],
+
+  axios: {
+    baseURL: 'https://polar-cove-31327.herokuapp.com/'
+  },
+
+  auth: {
+    redirect: {
+      login: '/auth/login',
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/oauth/token', method: 'post', propertyName: 'access_token' },
+          logout: false,
+          user: { url: '/me', method: 'get', propertyName: false }
+        },
+        // tokenRequired: true,
+        // tokenType: 'bearer'
+        autoFetchUser: true
+      }
+    }
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
