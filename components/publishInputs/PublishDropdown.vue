@@ -1,0 +1,127 @@
+<template>
+  <div class="main-wrapper">
+    <label>{{ title }}</label>
+    <div class="input-wrapper">
+      <input type="text"
+             :placeholder="placeholder"
+             @input="showSuggests"
+             v-model="selectedCity"
+      >
+      <i class="material-icons">room</i>
+      <!-- Autocomplete dropdown -->
+      <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
+        <ul>
+          <li v-for="suggest in suggestions" @click="selectOption(suggest)">
+            {{ suggest.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Component, Vue, Prop} from "nuxt-property-decorator";
+
+@Component({
+})
+
+export default class PublishDropdown extends Vue{
+  @Prop({ type: String }) title;
+  @Prop({ type: String }) placeholder;
+
+  showAutoCompleteDropdown = false;
+  suggestions = [];
+  selectedCity = '';
+
+  selectOption(s) {
+    this.selectedCity = s.name;
+    this.$emit('select-option', s);
+    this.showAutoCompleteDropdown = false;
+  }
+
+  async showSuggests(e) {
+    let q = e.target.value;
+    if(q.length) {
+      this.showAutoCompleteDropdown = true;
+      let res = await this.$axios.get('/cities?q=' + q);
+      this.suggestions = res.data.data;
+    } else {
+      this.showAutoCompleteDropdown = false;
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  label {
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+}
+.input-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  height: 60px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  margin-right: 24px;
+  transition: 0.1s all ease;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+  input {
+    width: 100%;
+    border: none;
+    height: 40px;
+    &:focus {
+      outline: none;
+    }
+  }
+  i {
+    font-size: 20px !important;
+    color: #757B9A;
+    margin-right: 10px;
+  }
+
+  .autocomplete-dropdown {
+    position: absolute;
+    border-radius: 10px;
+    top: 70px;
+    padding: 12px;
+    background: #fff;
+    width: 100%;
+    right: 0;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+    z-index: 3;
+    left: 0;
+    height: fit-content;
+    ul {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      max-height: 400px;
+      overflow: scroll;
+      li {
+        width: 100%;
+        font-size: 14px;
+        font-weight: 500;
+        color: #434343;
+        background: #F3F5FB;
+        border-radius: 5px;
+        padding: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div class="grid-layout">
-    <ListingCard v-for="listing in listings" :title="listing.title" :price="listing.price" :address="listing.address" :key="listing.id" :type="listing.listing_type" :updated="listing.published_at"/>
+    <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
   </div>
 </template>
 
@@ -37,5 +37,9 @@
 <style lang="scss">
 .container {
   background: black;
+}
+
+.grid-layout {
+  padding: 16px 80px;
 }
 </style>

@@ -50,13 +50,13 @@ export default {
   border-radius: 5px;
   padding: 16px;
   position: fixed;
-  z-index: 1;
+  z-index: 9999;
   left: 30px;
   top: 30px;
 }
 
 .snackbar.success {
-  background-color: rgb(71, 244, 36);
+  background-color: #757B9A;
 }
 
 .snackbar.danger {

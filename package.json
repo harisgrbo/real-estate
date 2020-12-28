@@ -19,7 +19,9 @@
     "nuxt": "^2.14.6",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-material-design-icons": "^1.0.4",
-    "nuxt-property-decorator": "^2.8.8"
+    "nuxt-property-decorator": "^2.8.8",
+    "swiper": "^5.4.5",
+    "vue-awesome-swiper": "^4.1.1"
   },
   "devDependencies": {
     "fibers": "^5.0.0",

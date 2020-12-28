@@ -13,17 +13,13 @@
       <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
         <ul>
           <li v-for="suggest in suggestions" @click="goToSearch(suggest)">
-              {{ suggest }}
+            {{ suggest }}
           </li>
         </ul>
       </div>
     </div>
     <div class="auth-buttons">
       <button v-if="!$auth.user">Registracija</button>
-      <nuxt-link :to="{ path: '/objava'}" class="publish">
-        <i class="material-icons">add</i>
-        Objavi nekretninu
-      </nuxt-link>
       <button class="login" @click="showUserDropdown = !showUserDropdown">
         <i class="material-icons">menu</i>
         <i class="material-icons person">person</i>
@@ -34,7 +30,7 @@
         <button v-if="$auth.user" @click="$auth.logout">Odjava</button>
       </div>
     </div>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -44,7 +40,7 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({})
 
-export default class Navbar extends Vue{
+export default class SearchNavbar extends Vue{
 
   showUserDropdown = false;
   showAutoCompleteDropdown = false;
@@ -91,19 +87,18 @@ export default class Navbar extends Vue{
 <style scoped lang="scss">
 .navbar-wrapper {
   padding: 0 16px;
-  height: 80px;
+  height: 50px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  top: 0;
   background: #fff;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-  z-index: 3;
   box-sizing: border-box;
+  position: relative;
+  z-index: 5;
   .input-wrapper {
-    height: 48px;
+    height: 38px;
     border: 1px solid #DDDDDD;
     display: flex;
     align-items: center;
@@ -115,7 +110,7 @@ export default class Navbar extends Vue{
     input {
       width: 100%;
       border: none;
-      height: 40px;
+      height: 36px;
       &:focus {
         outline: none;
       }
@@ -231,29 +226,6 @@ export default class Navbar extends Vue{
       min-width: 280px;
       right: 0;
       box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-    }
-  }
-
-  .publish {
-    padding: 0 8px;
-    height: 32px;
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    border-radius: 16px;
-    outline: none;
-    border: none;
-    background: #757B9A !important;
-    color: #fff;
-    font-weight: 500 !important;
-    transition: 0.3s all ease;
-    i {
-      margin-right: 8px;
-    }
-    &:hover {
-      box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
     }
   }
 }

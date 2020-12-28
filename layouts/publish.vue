@@ -1,7 +1,9 @@
 <template>
-  <div class="home-wrapper">
+  <div class="publish-wrapper">
     <Navbar></Navbar>
-    <Nuxt />
+    <div class="nuxt-wrap">
+      <Nuxt />
+    </div>
   </div>
 </template>
 
@@ -13,14 +15,19 @@ import Navbar from "@/components/includes/Navbar";
   components: {Navbar}
 })
 
-export default class Home extends Vue {
+export default class Publish extends Vue {
 }
 </script>
 
 <style lang="scss">
-.home-wrapper {
+.publish-wrapper {
   padding-top: 100px !important;
-  height: 100%;
+  height: calc(100vh - 100px);
+  background: #fafafa;
+  .nuxt-wrap {
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
 }
 </style>
 

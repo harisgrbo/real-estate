@@ -1,6 +1,6 @@
 <template>
-  <div class="home-wrapper">
-    <Navbar></Navbar>
+  <div class="search-wrapper">
+    <SearchNavbar></SearchNavbar>
     <Nuxt />
   </div>
 </template>
@@ -13,14 +13,13 @@ import Navbar from "@/components/includes/Navbar";
   components: {Navbar}
 })
 
-export default class Home extends Vue {
+export default class Search extends Vue {
 }
 </script>
 
 <style lang="scss">
-.home-wrapper {
-  padding-top: 100px !important;
-  height: 100%;
+.search-wrapper {
+  padding-top: 0;
 }
 </style>
 

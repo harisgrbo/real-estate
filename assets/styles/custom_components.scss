@@ -35,5 +35,14 @@
   width: 100%;
   justify-content: center;
   box-sizing: border-box;
-  padding: 16px 80px;
+}
+
+.grid-filters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
 }
