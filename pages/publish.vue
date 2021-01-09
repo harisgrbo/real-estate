@@ -15,6 +15,22 @@
         <PublishRadioButton :options="listingTypes" v-model="listingType"></PublishRadioButton>
       </div>
 
+      <h2>Izaberite lokaciju nekretnine</h2>
+      <div class="grid-filters">
+        <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
+      </div>
+
+      <div v-if="city !== null">
+        <PublishMap :location="city"></PublishMap>
+      </div>
+
+      <h2>Unesite osnovne informacije</h2>
+      <div class="grid-filters">
+        <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
+        <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
+        <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
+      </div>
+
       <button @click="nextStep">Next</button>
     </div>
 
@@ -69,9 +85,32 @@ import Categories from "@/components/publishInputs/Categories";
   }
 })
 export default class Publish extends Vue {
-
-  created() {
-    console.log(this.globalAttributes, 'globali');
+  // Errors
+  errors = {
+    'title': {
+      'error': false,
+      'message': "Title needs to be two words"
+    },
+    'address': {
+      'error': false,
+      'message': "required"
+    },
+    'price': {
+      'error': false,
+      'message': "required"
+    },
+    'city': {
+      'error': false,
+      'message': "required"
+    },
+    'category': {
+      'error': false,
+      'message': "required"
+    },
+    'listingType': {
+      'error': false,
+      'message': "required"
+    },
   }
 
   // Stepping logic
@@ -88,6 +127,16 @@ export default class Publish extends Vue {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
       // @TODO: Objava
     } else {
+      switch (this.currentStep) {
+        case this.steps.STEP_ONE:
+          let validation = this.validateStepOne();
+
+          if(! validation)
+            return
+
+          break;
+      }
+
       this.currentStep++;
     }
   }
@@ -99,19 +148,21 @@ export default class Publish extends Vue {
   }
 
   // Category logic
-  currentCategory = null;
+  category = null;
 
-  @Watch('currentCategory', {
+  @Watch('category', {
     deep: true,
   })
   handleCategoryChange(newCategory, oldCategory) {
+    this.errors.category.error = false;
+
     if (newCategory) {
       this.fetchAttributesByCategory();
     }
   }
 
   handleSelectedCategory(e) {
-    this.currentCategory = e;
+    this.category = e;
   }
 
   // Attribute Logic
@@ -144,7 +195,86 @@ export default class Publish extends Vue {
     deep: true
   })
   handleListingTypeChange(newVal, oldVal) {
-    console.log(newVal, 'novi listing tip');
+    this.errors.listingType.error = false;
+
+    if (newVal) {
+      this.fetchAttributesByListingType();
+    }
+  }
+
+  // City location
+  city = null;
+
+  handleSelectedCity(f) {
+    this.city = f;
+
+    this.errors.city.error = false;
+  }
+
+  // Basic info
+  title = null;
+  address = null;
+  price = null;
+
+  @Watch('title')
+  handleTitleChange(newVal, oldVal) {
+    this.errors.title.error = false;
+  }
+
+  @Watch('address')
+  handleAddressChange(newVal, oldVal) {
+    this.errors.address.error = false;
+  }
+
+  @Watch('price')
+  handlePriceChange(newVal, oldVal) {
+    this.errors.price.error = false;
+  }
+
+  // Step 1 validation
+  stepOneValidationProps = [
+    'title', 'address', 'price', 'city', 'category', 'listingType'
+  ]
+
+  validateTitle() {
+    return this.title !== null;
+  }
+
+  validateAddress() {
+    return this.address !== null;
+  }
+
+  validatePrice() {
+    return this.price !== null;
+  }
+
+  validateCity() {
+    return this.city !== null;
+  }
+
+  validateCategory() {
+    return this.category !== null;
+  }
+
+  validateListingType() {
+    return this.listingType !== null;
+  }
+
+  validateStepOne() {
+    let flag = true;
+
+    this.stepOneValidationProps.forEach((item) => {
+      const firstToUpper = item.charAt(0).toUpperCase() + item.slice(1);
+      const result = this['validate' + firstToUpper]();
+
+      if (! result) {
+        flag = false;
+
+        this.errors[item].error = true;
+      }
+    })
+
+    return flag;
   }
 }
 </script>
