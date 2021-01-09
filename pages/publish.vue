@@ -37,6 +37,22 @@
     <div v-show="currentStep === steps.STEP_TWO" class="step-2">
       Step 2
 
+      <p>Globalni obicni attributi</p>
+      <component
+        v-for="(attr, index) in ordinaryGlobalAttributes"
+        :attr="attr"
+        :options="attr"
+        :is="filterFor(attr)"
+        @changed="handleChangedAttribute"
+      />
+
+      <p>Globalni cekboxi</p>
+      <TermInput
+        v-for="(attr, index) in termGlobalAttributes"
+        @changed="handleChangedAttribute"
+        :attr="attr"
+      />
+
       <button @click="prevStep">Prev</button>
       <button @click="nextStep">Next</button>
     </div>
@@ -55,9 +71,13 @@
 import { Component, Watch, Vue} from "nuxt-property-decorator";
 import Categories from "@/components/publishInputs/Categories";
 
+import TermsInput from "@/components/inputs/TermsInput"
+import TermInput from "@/components/inputs/TermInput"
+import RangeInput from "@/components/inputs/RangeInput"
+
 @Component({
   components: {
-    Categories
+    Categories, TermsInput, TermInput, RangeInput
   },
   layout() { return "publish" },
   async asyncData(ctx) {
@@ -113,6 +133,11 @@ export default class Publish extends Vue {
     },
   }
 
+  // Util
+  capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   // Stepping logic
   steps = {
     STEP_ONE: 1,
@@ -166,8 +191,24 @@ export default class Publish extends Vue {
   }
 
   // Attribute Logic
+  filterFor(attr) {
+    return `${this.capitalize(attr.attr_type)}Input`;
+  }
+
   categoryAttributes = []
   listingTypeAttributes = []
+
+  handleChangedAttribute(e) {
+    console.log(e, 'inputi')
+  }
+
+  get ordinaryGlobalAttributes() {
+    return this.globalAttributes.filter(item => item.attr_type !== 'term');
+  }
+
+  get termGlobalAttributes() {
+    return this.globalAttributes.filter(item => item.attr_type === 'term');
+  }
 
   async fetchAttributesByCategory() {
     try {
@@ -264,7 +305,7 @@ export default class Publish extends Vue {
     let flag = true;
 
     this.stepOneValidationProps.forEach((item) => {
-      const firstToUpper = item.charAt(0).toUpperCase() + item.slice(1);
+      const firstToUpper = this.capitalize(item)
       const result = this['validate' + firstToUpper]();
 
       if (! result) {
