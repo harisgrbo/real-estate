@@ -25,6 +25,7 @@ export default {
     checkedOption() {
       this.$emit('changed', {
         id: this.attr.id,
+        name: this.attr.name,
         value: !this.checked
       })
     }

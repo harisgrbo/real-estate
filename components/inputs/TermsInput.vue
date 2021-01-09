@@ -26,6 +26,7 @@ export default {
       this.val = o;
       this.$emit('changed', {
         id: this.attr.id,
+        name: this.attr.name,
         value: this.val
       })
     }
