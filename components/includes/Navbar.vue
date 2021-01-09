@@ -1,13 +1,20 @@
 <template>
   <div class="navbar-wrapper">
     <img src="/logo.svg" alt="">
-    <div class="input-wrapper">
+    <div class="input-wrapper"
+         @focusin="focused = true"
+         @focusout="focused = false"
+         :class="[ focused? 'focused' : '']"
+    >
+      <button @click="search">
+        <i class="material-icons">search</i>
+      </button>
       <input type="text"
              @keyup.enter="search"
              @input="showSuggests"
       >
-      <button @click="search">
-        <i class="material-icons">search</i>
+      <button>
+        <i class="material-icons">close</i>
       </button>
       <!-- Autocomplete dropdown -->
       <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
@@ -32,6 +39,12 @@
       <div class="user-dropdown" v-if="showUserDropdown">
         <button v-if="!$auth.user">Prijavi se</button>
         <button v-if="$auth.user" @click="$auth.logout">Odjava</button>
+        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)">Moj profil</button>
+        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
+        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
+        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
+        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
+
       </div>
     </div>
     </div>
@@ -49,6 +62,7 @@ export default class Navbar extends Vue{
   showUserDropdown = false;
   showAutoCompleteDropdown = false;
   suggestions = [];
+  focused = false;
 
   buildTitle(title) {
     return JSON.stringify({
@@ -58,6 +72,9 @@ export default class Navbar extends Vue{
     })
   }
 
+  created() {
+    console.log(this.$auth.user)
+  }
   search(e) {
     if (e.target.value.length) {
       let query = this.buildTitle(e.target.value);
@@ -108,10 +125,16 @@ export default class Navbar extends Vue{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 24px;
+    border-radius: 8px;
     padding: 0 12px;
     min-width: 400px;
     position: relative;
+    transition: 0.3s all ease;
+    &.focused {
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.06);
+      border-radius: 8px;
+      border: 1px solid #f8f8f8;
+    }
     input {
       width: 100%;
       border: none;

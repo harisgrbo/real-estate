@@ -1,7 +1,7 @@
 <template>
   <div class="listing-wrapper">
     <div class="profile-content">
-      <UserProfile :user="user"></UserProfile>
+      <UserProfile :user="user" :followed="isFollowed"></UserProfile>
     </div>
     <div class="listing-content">
       <client-only>
@@ -82,6 +82,7 @@ import UserProfile from "@/components/UserProfile";
 })
 
 export default class Artikal extends Vue {
+  user_id = null;
   user = {}
   types = {
     rent: 'Iznajmljivanje',
@@ -99,22 +100,37 @@ export default class Artikal extends Vue {
       prevEl: '.swiper-button-prev'
     }
   }
+  isFollowed = false;
   listing = {}
 
   async created() {
     await this.fetchListing();
+    await this.fetchUser(this.user_id);
   }
+
   async fetchListing() {
     try {
       let response = await this.$axios.$get('/listings/' + this.$route.params.id);
       this.listing = response.data;
-      this.user = response.data.user;
+      this.user_id = response.data.user.id;
       console.log(response.data, 'artikal')
       console.log(response.data.user, 'user')
     } catch(e) {
       console.log(e)
     }
   }
+
+  async fetchUser(id) {
+    try {
+      let response = await this.$axios.get('/users/' + id)
+      this.user = response.data.data;
+      this.isFollowed = response.data.meta.followed;
+      console.log(response, 'artial res')
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   get listingType() {
     return this.types[this.listing.listing_type];
   }

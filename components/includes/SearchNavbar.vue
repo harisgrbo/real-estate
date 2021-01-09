@@ -28,6 +28,7 @@
       <div class="user-dropdown" v-if="showUserDropdown">
         <button v-if="!$auth.user">Prijavi se</button>
         <button v-if="$auth.user" @click="$auth.logout">Odjava</button>
+        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.id)">Moj profil</button>
       </div>
     </div>
   </div>
