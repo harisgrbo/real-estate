@@ -105,7 +105,7 @@ export default class Detailed extends Vue {
 
   handleChanged(e) {
     this.selectedTermsInputs[e.id] = e;
-    console.log(this.selectedTermsInputs)
+    console.log(this.selectedTermsInputs, 'inputi')
   }
 
   capitalize(str) {

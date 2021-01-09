@@ -35,7 +35,6 @@ import Categories from "@/components/publishInputs/Categories";
 @Component({
   components: {Categories, PublishMap, PublishDropdown, PublishRadioButton, PublishTextInput},
 })
-
 export default class Required extends Vue {
 
   value = null;
@@ -92,8 +91,8 @@ export default class Required extends Vue {
   runValidate() {
     let flag = true;
 
-    flag &&= this.validateTitle(this.title)
-    flag &&= this.validateAddress(this.address)
+    flag = flag && this.validateTitle(this.title);
+    flag = flag && this.validateAddress(this.address);
 
     return flag
   }
