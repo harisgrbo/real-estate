@@ -53,12 +53,46 @@
         :attr="attr"
       />
 
+      <p>Kategorija obicni attributi</p>
+      <component
+        v-for="(attr, index) in ordinaryCategoryAttributes"
+        :attr="attr"
+        :options="attr"
+        :is="filterFor(attr)"
+        @changed="handleChangedAttribute"
+      />
+
+      <p>Kategorija cekboxi</p>
+      <TermInput
+        v-for="(attr, index) in termCategoryAttributes"
+        @changed="handleChangedAttribute"
+        :attr="attr"
+      />
+
+      <p>Listing tip obicni attributi</p>
+      <component
+        v-for="(attr, index) in ordinaryListingTypeAttributes"
+        :attr="attr"
+        :options="attr"
+        :is="filterFor(attr)"
+        @changed="handleChangedAttribute"
+      />
+
+      <p>Listing tip cekboxi</p>
+      <TermInput
+        v-for="(attr, index) in termListingTypeAttributes"
+        @changed="handleChangedAttribute"
+        :attr="attr"
+      />
+
       <button @click="prevStep">Prev</button>
       <button @click="nextStep">Next</button>
     </div>
 
     <div v-show="currentStep === steps.STEP_THREE" class="step-3">
       Step 3
+
+      Bice slikica nakon deploya obecavam reha
 
       <button @click="prevStep">Prev</button>
       <button @click="nextStep">Submit</button>
@@ -131,6 +165,7 @@ export default class Publish extends Vue {
       'error': false,
       'message': "required"
     },
+    'attributes': {}
   }
 
   // Util
@@ -148,15 +183,43 @@ export default class Publish extends Vue {
 
   currentStep = this.steps.STEP_ONE;
 
+  async publish() {
+    const payload = {
+      title: this.title,
+      description: 'Description',
+      address: this.address,
+      price: this.price,
+      listing_type_id: this.listingType.id,
+      category_id: this.category.id,
+      city_id: this.city.id,
+      lat: 42,
+      lng: 43,
+      attributes: this.prepareAttributes()
+    }
+
+    try {
+      let response = await this.$axios.post('/listings', payload);
+
+      await this.$router.push('/artikal/' + response.data.data.id)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
       // @TODO: Objava
+      this.publish();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
-          let validation = this.validateStepOne();
+          if(! this.validateStepOne())
+            return
 
-          if(! validation)
+          break;
+
+        case this.steps.STEP_TWO:
+          if(! this.validateStepTwo())
             return
 
           break;
@@ -198,8 +261,24 @@ export default class Publish extends Vue {
   categoryAttributes = []
   listingTypeAttributes = []
 
+  attributePayload = {};
+
+  prepareAttributes() {
+    let result = []
+
+    Object.values(this.attributePayload).forEach(item => {
+      result.push({
+        name: item.name,
+        value: item.value
+      })
+    })
+
+    return result;
+  }
+
   handleChangedAttribute(e) {
-    console.log(e, 'inputi')
+    this.attributePayload[e.id] = e;
+    console.log(this.attributePayload, 'attr payloadare');
   }
 
   get ordinaryGlobalAttributes() {
@@ -208,6 +287,22 @@ export default class Publish extends Vue {
 
   get termGlobalAttributes() {
     return this.globalAttributes.filter(item => item.attr_type === 'term');
+  }
+
+  get ordinaryCategoryAttributes() {
+    return this.categoryAttributes.filter(item => item.attr_type !== 'term');
+  }
+
+  get termCategoryAttributes() {
+    return this.categoryAttributes.filter(item => item.attr_type === 'term');
+  }
+
+  get ordinaryListingTypeAttributes() {
+    return this.listingTypeAttributes.filter(item => item.attr_type !== 'term');
+  }
+
+  get termListingTypeAttributes() {
+    return this.listingTypeAttributes.filter(item => item.attr_type === 'term');
   }
 
   async fetchAttributesByCategory() {
@@ -226,6 +321,23 @@ export default class Publish extends Vue {
     } catch(e) {
       console.log(e)
     }
+  }
+
+  validateStepTwo() {
+    let allAttributes = this.ordinaryGlobalAttributes;
+    let flag = true;
+
+    allAttributes.forEach(item => {
+      if (item.required) {
+        flag = this.attributePayload[item.id] !== null;
+
+        if (! flag) {
+          this.errors.attributes[item.id] = true;
+        }
+      }
+    })
+
+    return flag;
   }
 
 
