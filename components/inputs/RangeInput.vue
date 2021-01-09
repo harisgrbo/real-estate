@@ -1,13 +1,15 @@
 <template>
   <div class="input-wrapper">
-    <label>{{ title }}</label>
+    <label>
+      <p v-if="required">*</p>{{ title }}
+    </label>
     <input
       :type="type"
+      :placeholder="placeholder"
       :class="error && error.length? 'hasError' : ''"
       :value="value"
-      @input="updateValue($event.target.value)"  @blur="$emit('blur')"/>
-    <span v-if="error">{{ error }}</span>
-    {{ error }}
+      @input="updateValue($event.target.value)" />
+    <p v-if="error">{{ error }}</p>
   </div>
 </template>
 
@@ -17,10 +19,12 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 @Component({
 })
 
-export default class PublishTextInput extends Vue{
-  @Prop({ type: String, required: true}) type;
-  @Prop({ type: String }) error;
+export default class RangeInput extends Vue{
+  @Prop({ type: String }) type;
+  @Prop({ type: Boolean }) required;
+  @Prop({ type: String }) placeholder;
   @Prop({ type: String }) title;
+  @Prop({ type: String }) error;
   @Prop({ type: String }) value;
 
   updateValue(value) {
@@ -34,24 +38,19 @@ export default class PublishTextInput extends Vue{
   display: flex;
   flex-direction: column;
   position: relative;
-  label {
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 12px;
-  }
   input {
-    display: flex;
+    height: 53px;
+    background: #F5F5F5;
+    border-radius: 4px;
+    border: none;
     width: 100%;
-    height: 60px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 0 24px;
-    margin-right: 24px;
-    transition: 0.1s all ease;
+    margin-bottom: 12px;
+    font-weight: 500;
+    font-size: 14px;
     box-sizing: border-box;
-    cursor: pointer;
     &:focus {
       outline: none;
     }
@@ -59,13 +58,10 @@ export default class PublishTextInput extends Vue{
       border: 1px solid red;
     }
   }
-  span {
-    color: red;
-    font-size: 14px;
-    font-weight: 400;
-    position: absolute;
-    left: 0;
-    top: 60px;
+  label {
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 12px;
   }
 }
 </style>

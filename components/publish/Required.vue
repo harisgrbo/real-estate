@@ -1,5 +1,9 @@
 <template>
   <div class="required-wrapper">
+    <h2>Odaberite kategoriju oglasa</h2>
+    <div>
+      <Categories @selected-category="handleSelectedCategory"/>
+    </div>
     <h2>Odaberite vrstu objave</h2>
     <div>
       <PublishRadioButton :options="listingTypes" v-model="value"></PublishRadioButton>
@@ -13,9 +17,9 @@
     </div>
     <h2>Unesite osnovne informacije</h2>
     <div class="grid-filters">
-      <PublishTextInput type="text" title="Naslov"></PublishTextInput>
-      <PublishTextInput type="text" title="Adresa"></PublishTextInput>
-      <PublishTextInput type="number" title="Cijena"></PublishTextInput>
+      <PublishTextInput type="text" title="Naslov" v-model="title" @blur="emitData" :error="errorBag.title"></PublishTextInput>
+      <PublishTextInput type="text" title="Adresa" v-model="address" @focusout="emitData"></PublishTextInput>
+      <PublishTextInput type="number" title="Cijena" v-model="price" @focusout="emitData"></PublishTextInput>
     </div>
   </div>
 </template>
@@ -26,15 +30,25 @@ import PublishTextInput from "@/components/publishInputs/PublishTextInput";
 import PublishRadioButton from "@/components/publishInputs/PublishRadioButton";
 import PublishDropdown from "@/components/publishInputs/PublishDropdown";
 import PublishMap from "@/components/publish/PublishMap";
+import Categories from "@/components/publishInputs/Categories";
 
 @Component({
-  components: {PublishMap, PublishDropdown, PublishRadioButton, PublishTextInput},
+  components: {Categories, PublishMap, PublishDropdown, PublishRadioButton, PublishTextInput},
 })
 
 export default class Required extends Vue {
+
+  value = null;
   listingTypes = []
-  value = null
   selectedLocation = null
+  selectedCategory = {}
+  cityId = ''
+  title = ''
+  address = ''
+  price = ''
+  listingType = ''
+  errorBag = {}
+
 
   async created() {
     await this.fetchListingTypes()
@@ -42,6 +56,12 @@ export default class Required extends Vue {
 
   handleSelectedOptions(e) {
     console.log(e)
+  }
+
+  handleSelectedCategory(e) {
+    this.selectedCategory = e;
+
+    this.emitData();
   }
 
   async fetchListingTypes() {
@@ -55,7 +75,64 @@ export default class Required extends Vue {
 
   handleSelectedOption(f) {
     this.selectedLocation = f;
-    console.log(this.selectedLocation)
+
+    this.emitData();
+  }
+
+  emitData() {
+    if(this.runValidate()) {
+      this.$emit('data', this.buildQuery())
+
+      return true;
+    }
+
+    return false;
+  }
+
+  runValidate() {
+    let flag = true;
+
+    flag &&= this.validateTitle(this.title)
+    flag &&= this.validateAddress(this.address)
+
+    return flag
+  }
+
+  validateTitle(title) {
+    if(title.length < 4 || title.trim().indexOf(' ') === -1) {
+      this.errorBag.title = 'Los naslov';
+
+      return false
+    }
+    this.errorBag.title = null;
+
+    return true;
+  }
+
+  validateAddress(address) {
+    if(address.length < 4 || address.trim().indexOf(' ') === -1) {
+      this.errorBag.address = 'Losa adresa';
+
+      return false
+    }
+
+    return true;
+  }
+
+
+  buildQuery() {
+    let obj = {
+      title: this.title,
+      address: this.address,
+      price: this.price,
+      location: this.selectedLocation,
+      listing_type: this.value,
+      category: this.selectedCategory,
+    }
+    console.log(obj)
+
+    return obj;
+
   }
 }
 </script>

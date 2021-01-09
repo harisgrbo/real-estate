@@ -6,12 +6,12 @@
           <li v-for="(tab, index) in tabs" @click="currentTab = index" :class="[ currentTab === index? 'active' : '']">{{ tab.name }}</li>
         </ul>
         <div class="content-filters">
-          <component :is="tabs[currentTab].component"></component>
+          <component :is="tabs[currentTab].component" ref="component" @data="handleData" :category="selectedCategory" :listing-type="listingType"></component>
         </div>
         <div class="buttons">
           <button @click="currentTab--" :disabled="currentTab <=0">Nazad</button>
           <span>Korak {{ currentTab + 1 }} od {{ tabs.length }}</span>
-          <button @click="currentTab++">{{ currentTab === 2 ? 'Objavi' : 'Naprijed'}}</button>
+          <button @click="nextPage">{{ currentTab === 2 ? 'Objavi' : 'Naprijed'}}</button>
         </div>
       </div>
       <div class="progress">
@@ -52,6 +52,20 @@ export default class Objava extends Vue {
     },
   ]
   currentTab = 0
+  payload = {}
+  selectedCategory = {}
+  listingType = {}
+
+  nextPage() {
+    if (this.$refs.component.emitData()) this.currentTab++;
+  }
+
+  handleData(e) {
+    this.payload = Object.assign(this.payload, e);
+    console.log(this.payload, 'payload')
+    this.selectedCategory = e.category;
+    this.listingType = e.listing_type;
+  }
 }
 </script>
 

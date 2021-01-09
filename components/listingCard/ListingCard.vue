@@ -45,7 +45,7 @@ export default class ListingCard extends Vue{
   saved = false;
 
   get listingType() {
-    return this.types[this.listing.listing_type];
+    return this.types[this.listing.listing_type.shortname];
   }
 
   saveListing() {

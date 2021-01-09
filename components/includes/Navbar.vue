@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="auth-buttons">
-      <button v-if="!$auth.user">Registracija</button>
+      <button v-if="!$auth.user" class="register">Registracija</button>
       <nuxt-link :to="{ path: '/objava'}" class="publish">
         <i class="material-icons">add</i>
         Objavi nekretninu
@@ -178,7 +178,7 @@ export default class Navbar extends Vue{
       border-radius: 19px;
       border: none;
       background: transparent;
-      padding: 0 12px;
+      padding: 0 4px;
       font-weight: 500;
       font-size: 14px;
       cursor: pointer;
@@ -193,6 +193,11 @@ export default class Navbar extends Vue{
 
       &:focus {
         outline: none;
+      }
+
+      &.register {
+        padding: 0 24px;
+        margin-right: 12px;
       }
 
       &.login {
@@ -236,13 +241,13 @@ export default class Navbar extends Vue{
 
   .publish {
     padding: 0 8px;
-    height: 32px;
+    height: 38px;
     width: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 13px;
-    border-radius: 16px;
+    border-radius: 19px;
     outline: none;
     border: none;
     background: #757B9A !important;
