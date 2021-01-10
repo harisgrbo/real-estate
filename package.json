@@ -21,7 +21,9 @@
     "nuxt-material-design-icons": "^1.0.4",
     "nuxt-property-decorator": "^2.8.8",
     "swiper": "^5.4.5",
-    "vue-awesome-swiper": "^4.1.1"
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-radial-progress": "^0.3.2",
+    "vue2-circle-progress": "^1.2.3"
   },
   "devDependencies": {
     "fibers": "^5.0.0",

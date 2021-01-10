@@ -28,6 +28,9 @@ export default {
   plugins: [
     '~plugins/snackbar/index.js',
     '~plugins/moment.js',
+    {
+      src: '~plugins/progress.js', ssr: false
+    },
     { src: '~plugins/swiper.js', mode: 'client' },
   ],
 

@@ -2,7 +2,20 @@
   <div class="publish-wrapper-inner">
     <Snackbar />
       <div class="progress-wrapper">
-        {{ completion }} %
+        <p>Postotak objave: {{ completion.toFixed() }} %</p>
+        <client-only>
+          <radial-progress-bar :diameter="200"
+                               :animateSpeed="300"
+                               :completed-steps="completion"
+                               :total-steps="100"
+                               startColor="#757B9A"
+                               endColor="#757B9A"
+                               :strokeWidth="20"
+                               :innerStrokeWidth="20"
+                               innerStrokeColor="#f1f1f1"
+          >
+          </radial-progress-bar>
+        </client-only>
       </div>
 
       <div class="content-wrapper">
@@ -146,10 +159,11 @@ import TermInput from "@/components/inputs/TermInput"
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
 import Snackbar from "@/components/global/Snackbar";
+import RadialProgressBar from 'vue-radial-progress'
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar
+    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, RadialProgressBar
   },
   layout() { return "publish" },
   async asyncData(ctx) {
@@ -553,6 +567,23 @@ export default class Publish extends Vue {
       box-sizing: border-box;
       border-radius: 10px;
       box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06);
+      flex-direction: column;
+
+      p {
+        font-weight: 500;
+        font-size: 18px;
+        border-bottom: 1px solid #f1f1f1;
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+      }
+
+      ::v-deep .radial-progress-container {
+        height: 200px;
+        width: 100%;
+        min-width: 100%;
+        display: flex;
+        justify-content: center;
+      }
     }
 
     .content-wrapper {
@@ -620,7 +651,7 @@ export default class Publish extends Vue {
             border-radius: 8px;
             outline: none;
             border: none;
-            background: #757B9A !important;
+            background: #757b9a !important;
             color: #fff;
             font-weight: 500 !important;
             transition: 0.3s all ease;

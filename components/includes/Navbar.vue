@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-wrapper">
     <div class="img-wrapper">
-      <img src="/logo.svg" alt="">
+      <img src="/logo.svg" alt="" @click="$router.push('/')">
     </div>
     <div class="input-wrapper"
          @focusin="focused = true"
@@ -128,7 +128,7 @@ export default class Navbar extends Vue{
   }
   .input-wrapper {
     height: 48px;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #eaeaea;
     display: flex;
     align-items: center;
     justify-content: space-between;
