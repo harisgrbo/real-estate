@@ -1,16 +1,17 @@
 <template>
-  <div>images</div>
+  <div>notifikacije</div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 
 @Component({
-  components: {},
+  components: {
+  },
+  layout() { return "account" }
 })
 
-export default class Images extends Vue {
-
+export default class notifikacije extends Vue {
 }
 </script>
 

@@ -2,25 +2,27 @@
   <div class="user-profile">
     <div class="avatar">
       <div>
-        <img src="/avatar.jpg" alt="">
-        <div class="user-info">
-          <p>Haris Grbo</p>
-          <span>Korisnik</span>
-          <div class="stats">
-            <ul>
-              <li>
-                Artikala
-                <b>50</b>
-              </li>
-              <li>
-                Pratilaca
-                <b>500</b>
-              </li>
-              <li>
-                Ocjena
-                <b>8.9</b>
-              </li>
-            </ul>
+        <div class="avatar-wrapper">
+          <img src="/avatar.jpg" alt="" @click="$router.push('/users/' + user.id)">
+          <div class="user-info">
+            <p>{{ user.name }}</p>
+            <span>{{ user.user_type }}</span>
+            <div class="stats">
+              <ul>
+                <li>
+                  Artikala
+                  <b>50</b>
+                </li>
+                <li>
+                  Pratilaca
+                  <b>500</b>
+                </li>
+                <li>
+                  Ocjena
+                  <b>8.9</b>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -39,13 +41,13 @@
     </div>
     <div class="buttons">
       <button>Chat</button>
-      <button>Zaprati</button>
+      <button @click.stop.preventt="toggleFollow">{{ alreadyFollowed? 'Otprati' : 'Zaprati' }}</button>
     </div>
   </div>
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({
   components: {
@@ -53,7 +55,37 @@ import { Component, Vue} from "nuxt-property-decorator";
 })
 
 export default class UserProfile extends Vue {
+  @Prop({}) user;
+  @Prop({}) followed;
+
   showMoreInfo = false;
+  alreadyFollowed = false;
+
+  async created() {
+    this.alreadyFollowed = this.followed;
+    console.log(this.followed, 'jel followan')
+  }
+
+  toggleFollow() {
+    if (this.alreadyFollowed === false) {
+      try {
+        this.$axios.post('/users/' + this.user.id + '/follow');
+
+        this.alreadyFollowed = true;
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      try {
+        this.$axios.delete('/users/' + this.user.id + '/follow');
+
+        this.alreadyFollowed = false;
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }
+
 }
 
 </script>
@@ -62,12 +94,24 @@ export default class UserProfile extends Vue {
   .user-profile {
     display: flex;
     flex-direction: column;
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    height: 100%;
+    padding-right: 24px;
+    margin-right: 24px;
+    border-right: 1px solid #f1f1f1;
     .avatar {
       display: flex;
       flex-direction: column;
       > div {
         display: flex;
         justify-content: space-between;
+      }
+      .avatar-wrapper {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
       }
       .more-info {
         font-size: 13px;

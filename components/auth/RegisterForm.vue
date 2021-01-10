@@ -2,7 +2,7 @@
   <div class="form-wrapper">
     <h2>Registracija</h2>
     <ul>
-      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :class="[ currentType === index ? 'active' : '' ]">{{ type }}</li>
+      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :id="index" :class="[ currentType === index ? 'active' : '' ]">{{ type }}</li>
     </ul>
     <!-- User registration -->
     <div v-if="currentType === 0">

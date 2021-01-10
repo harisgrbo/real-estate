@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="radio-wrapper">
-      <label class="radio" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']"  @change="selectOption(option)">
+      <label class="radio" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
         <input type="radio" :id="option.id" :value="option.title" :checked="value && value.id === option.id">
         <span>{{ option.title  }}</span>
       </label>
