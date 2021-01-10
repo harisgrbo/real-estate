@@ -1,124 +1,126 @@
 <template>
-  <div>
-    Feha publish
-
-    <div v-show="currentStep === steps.STEP_ONE" class="step-1">
-      Step 1
-
-      <h2>Odaberite kategoriju oglasa</h2>
-      <div>
-        <InputError :error="errors.category" />
-        <Categories @selected-category="handleSelectedCategory" />
-      </div>
-
-      <h2>Odaberite vrstu objave</h2>
-      <div>
-        <InputError :error="errors.listingType" />
-        <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
-      </div>
-
-      <h2>Izaberite lokaciju nekretnine</h2>
-      <div class="grid-filters">
-        <InputError :error="errors.city" />
-        <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
-      </div>
-
-      <div v-if="city !== null">
-        <PublishMap :location="city"></PublishMap>
-      </div>
-
-      <h2>Unesite osnovne informacije</h2>
-      <div class="grid-filters">
-        <InputError :error="errors.title" />
-        <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
-
-        <InputError :error="errors.address" />
-        <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
-
-        <InputError :error="errors.price" />
-        <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
-
-        <InputError :error="errors.description" />
-        <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
-      </div>
-
-      <button @click="nextStep">Next</button>
+  <div class="publish-wrapper">
+    <div class="progress-wrapper">
+      progress bar
     </div>
+    <div class="content-wrapper">
+      <div v-show="currentStep === steps.STEP_ONE" class="step-1">
+        Korak 1 od {{ steps.length }}
 
-    <div v-show="currentStep === steps.STEP_TWO" class="step-2">
-      Step 2
+        <h2>Odaberite kategoriju oglasa</h2>
+        <div>
+          <InputError :error="errors.category" />
+          <Categories @selected-category="handleSelectedCategory" />
+        </div>
 
-      <p>Globalni obicni attributi</p>
+        <h2>Odaberite vrstu objave</h2>
+        <div>
+          <InputError :error="errors.listingType" />
+          <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
+        </div>
 
-      <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-        <InputError :error="errors.attributes[attr.id]" />
-        <component
-          :attr="attr"
-          :options="attr"
-          :is="filterFor(attr)"
-          @changed="handleChangedAttribute"
-        />
+        <h2>Izaberite lokaciju nekretnine</h2>
+        <div class="grid-filters">
+          <InputError :error="errors.city" />
+          <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
+        </div>
+
+        <div v-if="city !== null">
+          <PublishMap :location="city"></PublishMap>
+        </div>
+
+        <h2>Unesite osnovne informacije</h2>
+        <div class="grid-filters">
+          <InputError :error="errors.title" />
+          <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
+
+          <InputError :error="errors.address" />
+          <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
+
+          <InputError :error="errors.price" />
+          <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
+
+          <InputError :error="errors.description" />
+          <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
+        </div>
+
+        <button @click="nextStep">Next</button>
       </div>
 
-      <p>Globalni cekboxi</p>
-      <TermInput
-        v-for="attr in termGlobalAttributes"
-        @changed="handleChangedAttribute"
-        :attr="attr"
-        :key="attr.id"
-      />
+      <div v-show="currentStep === steps.STEP_TWO" class="step-2">
+        Step 2
 
-      <p>Kategorija obicni attributi</p>
-      <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
-        <InputError :error="errors.attributes[attr.id]" />
-        <component
-          :attr="attr"
-          :options="attr"
-          :is="filterFor(attr)"
+        <p>Globalni obicni attributi</p>
+
+        <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+          <InputError :error="errors.attributes[attr.id]" />
+          <component
+            :attr="attr"
+            :options="attr"
+            :is="filterFor(attr)"
+            @changed="handleChangedAttribute"
+          />
+        </div>
+
+        <p>Globalni cekboxi</p>
+        <TermInput
+          v-for="attr in termGlobalAttributes"
           @changed="handleChangedAttribute"
+          :attr="attr"
+          :key="attr.id"
         />
+
+        <p>Kategorija obicni attributi</p>
+        <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+          <InputError :error="errors.attributes[attr.id]" />
+          <component
+            :attr="attr"
+            :options="attr"
+            :is="filterFor(attr)"
+            @changed="handleChangedAttribute"
+          />
+        </div>
+
+        <p>Kategorija cekboxi</p>
+        <TermInput
+          v-for="attr in termCategoryAttributes"
+          @changed="handleChangedAttribute"
+          :attr="attr"
+          :key="attr.id"
+        />
+
+        <p>Listing tip obicni attributi</p>
+        <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
+          <InputError :error="errors.attributes[attr.id]" />
+          <component
+            :attr="attr"
+            :options="attr"
+            :is="filterFor(attr)"
+            @changed="handleChangedAttribute"
+          />
+        </div>
+
+        <p>Listing tip cekboxi</p>
+        <TermInput
+          v-for="attr in termListingTypeAttributes"
+          @changed="handleChangedAttribute"
+          :attr="attr"
+          :key="attr.id"
+        />
+
+        <button @click="prevStep">Prev</button>
+        <button @click="nextStep">Next</button>
       </div>
 
-      <p>Kategorija cekboxi</p>
-      <TermInput
-        v-for="attr in termCategoryAttributes"
-        @changed="handleChangedAttribute"
-        :attr="attr"
-        :key="attr.id"
-      />
+      <div v-show="currentStep === steps.STEP_THREE" class="step-3">
+        Step 3
 
-      <p>Listing tip obicni attributi</p>
-      <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
-        <InputError :error="errors.attributes[attr.id]" />
-        <component
-          :attr="attr"
-          :options="attr"
-          :is="filterFor(attr)"
-          @changed="handleChangedAttribute"
-        />
+        Bice slikica nakon deploya obecavam reha
+
+        <button @click="prevStep">Prev</button>
+        <button @click="nextStep">Submit</button>
       </div>
-
-      <p>Listing tip cekboxi</p>
-      <TermInput
-        v-for="attr in termListingTypeAttributes"
-        @changed="handleChangedAttribute"
-        :attr="attr"
-        :key="attr.id"
-      />
-
-      <button @click="prevStep">Prev</button>
-      <button @click="nextStep">Next</button>
     </div>
-
-    <div v-show="currentStep === steps.STEP_THREE" class="step-3">
-      Step 3
-
-      Bice slikica nakon deploya obecavam reha
-
-      <button @click="prevStep">Prev</button>
-      <button @click="nextStep">Submit</button>
-    </div>
-
   </div>
 </template>
 
@@ -478,4 +480,9 @@ export default class Publish extends Vue {
 </script>
 
 <style scoped lang="scss">
+  .publish-wrapper {
+    display: flex;
+    justify-content: space-between;
+    height: calc(100vh - 80px);
+  }
 </style>
