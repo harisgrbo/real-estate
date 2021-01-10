@@ -7,16 +7,19 @@
 
       <h2>Odaberite kategoriju oglasa</h2>
       <div>
-        <Categories @selected-category="handleSelectedCategory"/>
+        <InputError :error="errors.category" />
+        <Categories @selected-category="handleSelectedCategory" />
       </div>
 
       <h2>Odaberite vrstu objave</h2>
       <div>
-        <PublishRadioButton :options="listingTypes" v-model="listingType"></PublishRadioButton>
+        <InputError :error="errors.listingType" />
+        <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
       </div>
 
       <h2>Izaberite lokaciju nekretnine</h2>
       <div class="grid-filters">
+        <InputError :error="errors.city" />
         <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
       </div>
 
@@ -26,8 +29,13 @@
 
       <h2>Unesite osnovne informacije</h2>
       <div class="grid-filters">
+        <InputError :error="errors.title" />
         <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
+
+        <InputError :error="errors.address" />
         <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
+
+        <InputError :error="errors.price" />
         <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
       </div>
 
@@ -38,51 +46,61 @@
       Step 2
 
       <p>Globalni obicni attributi</p>
-      <component
-        v-for="(attr, index) in ordinaryGlobalAttributes"
-        :attr="attr"
-        :options="attr"
-        :is="filterFor(attr)"
-        @changed="handleChangedAttribute"
-      />
+
+      <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+        <InputError :error="errors.attributes[attr.id]" />
+        <component
+          :attr="attr"
+          :options="attr"
+          :is="filterFor(attr)"
+          @changed="handleChangedAttribute"
+        />
+      </div>
 
       <p>Globalni cekboxi</p>
       <TermInput
-        v-for="(attr, index) in termGlobalAttributes"
+        v-for="attr in termGlobalAttributes"
         @changed="handleChangedAttribute"
         :attr="attr"
+        :key="attr.id"
       />
 
       <p>Kategorija obicni attributi</p>
-      <component
-        v-for="(attr, index) in ordinaryCategoryAttributes"
-        :attr="attr"
-        :options="attr"
-        :is="filterFor(attr)"
-        @changed="handleChangedAttribute"
-      />
+      <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+        <InputError :error="errors.attributes[attr.id]" />
+        <component
+          :attr="attr"
+          :options="attr"
+          :is="filterFor(attr)"
+          @changed="handleChangedAttribute"
+        />
+      </div>
 
       <p>Kategorija cekboxi</p>
       <TermInput
-        v-for="(attr, index) in termCategoryAttributes"
+        v-for="attr in termCategoryAttributes"
         @changed="handleChangedAttribute"
         :attr="attr"
+        :key="attr.id"
       />
 
       <p>Listing tip obicni attributi</p>
-      <component
-        v-for="(attr, index) in ordinaryListingTypeAttributes"
-        :attr="attr"
-        :options="attr"
-        :is="filterFor(attr)"
-        @changed="handleChangedAttribute"
-      />
+      <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
+        <InputError :error="errors.attributes[attr.id]" />
+        <component
+          :attr="attr"
+          :options="attr"
+          :is="filterFor(attr)"
+          @changed="handleChangedAttribute"
+        />
+      </div>
 
       <p>Listing tip cekboxi</p>
       <TermInput
-        v-for="(attr, index) in termListingTypeAttributes"
+        v-for="attr in termListingTypeAttributes"
         @changed="handleChangedAttribute"
         :attr="attr"
+        :key="attr.id"
       />
 
       <button @click="prevStep">Prev</button>
@@ -108,10 +126,11 @@ import Categories from "@/components/publishInputs/Categories";
 import TermsInput from "@/components/inputs/TermsInput"
 import TermInput from "@/components/inputs/TermInput"
 import RangeInput from "@/components/inputs/RangeInput"
+import InputError from "@/components/inputs/InputError"
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput
+    Categories, TermsInput, TermInput, RangeInput, InputError
   },
   layout() { return "publish" },
   async asyncData(ctx) {
@@ -278,7 +297,12 @@ export default class Publish extends Vue {
 
   handleChangedAttribute(e) {
     this.attributePayload[e.id] = e;
-    console.log(this.attributePayload, 'attr payloadare');
+
+    if (e) {
+      this.$set(this.errors.attributes, e.id, {
+        error: false
+      })
+    }
   }
 
   get ordinaryGlobalAttributes() {
@@ -329,10 +353,15 @@ export default class Publish extends Vue {
 
     allAttributes.forEach(item => {
       if (item.required) {
-        flag = this.attributePayload[item.id] !== null;
+        const val = this.attributePayload[item.id];
+
+        flag = (val !== null) && (val !== undefined);
 
         if (! flag) {
-          this.errors.attributes[item.id] = true;
+          this.$set(this.errors.attributes, item.id, {
+            error: true,
+            message: 'Required'
+          })
         }
       }
     })
@@ -417,8 +446,7 @@ export default class Publish extends Vue {
     let flag = true;
 
     this.stepOneValidationProps.forEach((item) => {
-      const firstToUpper = this.capitalize(item)
-      const result = this['validate' + firstToUpper]();
+      const result = this['validate' + this.capitalize(item)]();
 
       if (! result) {
         flag = false;
@@ -433,5 +461,4 @@ export default class Publish extends Vue {
 </script>
 
 <style scoped lang="scss">
-
 </style>

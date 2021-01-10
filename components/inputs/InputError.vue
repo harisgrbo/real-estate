@@ -1,0 +1,22 @@
+<template>
+  <div class="error" v-if="error && error.error">
+    <label>{{ error.message }}</label>
+  </div>
+</template>
+
+<script>
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
+
+@Component({})
+export default class InputError extends Vue {
+  @Prop({
+    type: Object
+  }) error;
+}
+</script>
+
+<style scoped>
+  .error {
+    color: red;
+  }
+</style>
