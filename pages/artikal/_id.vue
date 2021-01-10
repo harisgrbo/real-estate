@@ -75,15 +75,33 @@ import { Component, Vue} from "nuxt-property-decorator";
 import UserProfile from "@/components/UserProfile";
 
 @Component({
-  components: {
+  components: {},
+  layout() { return "home" },
+  async asyncData(ctx) {
+    let listing = null;
+    let user = null
+    let isFollowed = false;
+    let isSaved = false;
 
-  },
-  layout() { return "home" }
+    try {
+      let response = await ctx.app.$axios.get('/listings/' + ctx.params.id);
+      listing = response.data.data;
+      user = listing.user;
+      isFollowed = response.data.meta.followed;
+      isSaved = response.data.meta.saved;
+    } catch(e) {
+      console.log(e)
+    }
+
+    return {
+      listing,
+      user,
+      isFollowed,
+      isSaved
+    }
+  }
 })
-
 export default class Artikal extends Vue {
-  user_id = null;
-  user = {}
   types = {
     rent: 'Iznajmljivanje',
     sell: 'Prodaja',
@@ -98,36 +116,6 @@ export default class Artikal extends Vue {
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
-    }
-  }
-  isFollowed = false;
-  listing = {}
-
-  async created() {
-    await this.fetchListing();
-    await this.fetchUser(this.user_id);
-  }
-
-  async fetchListing() {
-    try {
-      let response = await this.$axios.$get('/listings/' + this.$route.params.id);
-      this.listing = response.data;
-      this.user_id = response.data.user.id;
-      console.log(response.data, 'artikal')
-      console.log(response.data.user, 'user')
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
-  async fetchUser(id) {
-    try {
-      let response = await this.$axios.get('/users/' + id)
-      this.user = response.data.data;
-      this.isFollowed = response.data.meta.followed;
-      console.log(response, 'artial res')
-    } catch(e) {
-      console.log(e)
     }
   }
 
