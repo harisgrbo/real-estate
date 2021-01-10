@@ -45,6 +45,49 @@
         </div>
 
         <button @click="nextStep">Next</button>
+  <div>
+    <Snackbar />
+
+    Feha publish
+
+    <div v-show="currentStep === steps.STEP_ONE" class="step-1">
+      Step 1
+
+      <h2>Odaberite kategoriju oglasa</h2>
+      <div>
+        <InputError :error="errors.category" />
+        <Categories @selected-category="handleSelectedCategory" />
+      </div>
+
+      <h2>Odaberite vrstu objave</h2>
+      <div>
+        <InputError :error="errors.listingType" />
+        <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
+      </div>
+
+      <h2>Izaberite lokaciju nekretnine</h2>
+      <div class="grid-filters">
+        <InputError :error="errors.city" />
+        <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
+      </div>
+
+      <div v-if="city !== null">
+        <PublishMap :location="city"></PublishMap>
+      </div>
+
+      <h2>Unesite osnovne informacije</h2>
+      <div class="grid-filters">
+        <InputError :error="errors.title" />
+        <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
+
+        <InputError :error="errors.address" />
+        <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
+
+        <InputError :error="errors.price" />
+        <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
+
+        <InputError :error="errors.description" />
+        <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
       </div>
 
       <div v-show="currentStep === steps.STEP_TWO" class="step-2">
@@ -127,15 +170,15 @@
 <script>
 import { Component, Watch, Vue} from "nuxt-property-decorator";
 import Categories from "@/components/publishInputs/Categories";
-
 import TermsInput from "@/components/inputs/TermsInput"
 import TermInput from "@/components/inputs/TermInput"
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
+import Snackbar from "@/components/global/Snackbar";
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput, InputError
+    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar
   },
   layout() { return "publish" },
   async asyncData(ctx) {
@@ -201,6 +244,14 @@ export default class Publish extends Vue {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  snackbarValidationError() {
+    this.$snackbar.show({
+      text: "Imate greske",
+      timeout: 1000,
+      type: "error"
+    });
+  }
+
   // Stepping logic
   steps = {
     STEP_ONE: 1,
@@ -236,19 +287,24 @@ export default class Publish extends Vue {
 
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
-      // @TODO: Objava
       this.publish();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
-          if(! this.validateStepOne())
+          if(! this.validateStepOne()) {
+            this.snackbarValidationError();
+
             return
+          }
 
           break;
 
         case this.steps.STEP_TWO:
-          if(! this.validateStepTwo())
-            return
+          if(! this.validateStepTwo()) {
+            this.snackbarValidationError();
+
+            return;
+          }
 
           break;
       }
