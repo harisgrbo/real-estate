@@ -1,6 +1,8 @@
 <template>
   <div class="navbar-wrapper">
-    <img src="/logo.svg" alt="">
+    <div class="img-wrapper">
+      <img src="/logo.svg" alt="">
+    </div>
     <div class="input-wrapper"
          @focusin="focused = true"
          @focusout="focused = false"
@@ -119,6 +121,11 @@ export default class Navbar extends Vue{
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
   z-index: 3;
   box-sizing: border-box;
+  .img-wrapper {
+    display: flex;
+    flex: 2;
+    justify-content: flex-start;
+  }
   .input-wrapper {
     height: 48px;
     border: 1px solid #DDDDDD;
@@ -127,7 +134,7 @@ export default class Navbar extends Vue{
     justify-content: space-between;
     border-radius: 8px;
     padding: 0 12px;
-    min-width: 500px;
+    flex: 2;
     position: relative;
     transition: 0.3s all ease;
     &.focused {
@@ -205,6 +212,8 @@ export default class Navbar extends Vue{
     display: flex;
     align-items: center;
     position: relative;
+    flex: 2;
+    justify-content: flex-end;
 
     button {
       height: 40px;

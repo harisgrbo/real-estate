@@ -9,21 +9,21 @@
       <TextField type="text" placeholder="Email" v-model="userPayload.email"></TextField>
       <TextField type="text" placeholder="Korisnicko ime" v-model="userPayload.name"></TextField>
       <TextField type="password" placeholder="Lozinka" v-model="userPayload.password"></TextField>
-      <ActionButton placeholder="Registruj se kao korisnik" @action="handleUserRegistration" :loading="loading"></ActionButton>
+      <ActionButton placeholder="Registruj se kao korisnik" @action="handleUserRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
     </div>
     <!-- Real estate agent registration -->
     <div v-if="currentType === 1">
       <TextField type="text" placeholder="Email" v-model="realEstateAgentPayload.email"></TextField>
       <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgentPayload.name"></TextField>
       <TextField type="password" placeholder="Lozinka" v-model="realEstateAgentPayload.password"></TextField>
-      <ActionButton placeholder="Registruj se kao agent" @action="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
+      <ActionButton placeholder="Registruj se kao agent" @action="handleRealEstateAgentRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
     </div>
     <!-- Real estate agency registration -->
     <div v-if="currentType === 2">
       <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
       <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgencyPayload.name"></TextField>
       <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
-      <ActionButton placeholder="Registruj se kao agencija" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
+      <ActionButton placeholder="Registruj se kao agencija" @action="handleRealEstateAgencyRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
     </div>
     <nuxt-link :to="{ path: '/auth/login' }">Imate nalog? <p>Logujte se</p></nuxt-link>
     <Snackbar />

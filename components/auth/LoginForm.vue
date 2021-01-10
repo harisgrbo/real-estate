@@ -3,7 +3,7 @@
     <h2>Prijava</h2>
     <TextField type="text" placeholder="Email" v-model="payload.username"></TextField>
     <TextField type="password" placeholder="Lozinka" v-model="payload.password"></TextField>
-    <ActionButton placeholder="Prijavi se" @action="handleLogin" :loading="loading"></ActionButton>
+    <ActionButton placeholder="Prijavi se" @action="handleLogin" @keyup.enter="handleLogin" :loading="loading"></ActionButton>
     <nuxt-link :to="{ path: '/auth/register' }">Nemate nalog? <p>Registruj se</p></nuxt-link>
     <Snackbar />
   </div>
