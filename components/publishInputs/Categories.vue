@@ -12,11 +12,8 @@
 <script>
 import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 
-@Component({
-})
-
+@Component({})
 export default class Categories extends Vue {
-
   categories = []
   selectedCategory = null;
 
