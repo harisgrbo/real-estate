@@ -10,24 +10,25 @@
         <i class="material-icons">search</i>
       </button>
       <input type="text"
+             ref="search"
              @keyup.enter="search"
              @input="showSuggests"
       >
-      <button>
-        <i class="material-icons">close</i>
+      <button class="close">
+        <i class="material-icons" @click="clearSearchTerm">close</i>
       </button>
       <!-- Autocomplete dropdown -->
       <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
         <ul>
-          <li v-for="suggest in suggestions" @click="goToSearch(suggest)">
+          <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearch(suggest)">
               {{ suggest }}
           </li>
         </ul>
       </div>
     </div>
     <div class="auth-buttons">
-      <button v-if="!$auth.user" class="register">Registracija</button>
-      <nuxt-link :to="{ path: '/objava'}" class="publish">
+      <button v-if="!$auth.user" class="register" @click="$router.push('/auth/register')">Registracija</button>
+      <nuxt-link :to="{ path: '/publish'}" class="publish">
         <i class="material-icons">add</i>
         Objavi nekretninu
       </nuxt-link>
@@ -37,7 +38,7 @@
       </button>
       <!-- User dropdown -->
       <div class="user-dropdown" v-if="showUserDropdown">
-        <button v-if="!$auth.user">Prijavi se</button>
+        <button v-if="!$auth.user" @click="$router.push('/auth/login')">Prijavi se</button>
         <button v-if="$auth.user" @click="$auth.logout">Odjava</button>
         <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)">Moj profil</button>
         <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
@@ -70,6 +71,10 @@ export default class Navbar extends Vue{
       type: "match",
       value: title
     })
+  }
+
+  clearSearchTerm() {
+    this.$refs.search.value = '';
   }
 
   created() {
@@ -127,7 +132,7 @@ export default class Navbar extends Vue{
     justify-content: space-between;
     border-radius: 8px;
     padding: 0 12px;
-    min-width: 400px;
+    min-width: 500px;
     position: relative;
     transition: 0.3s all ease;
     &.focused {
@@ -144,19 +149,28 @@ export default class Navbar extends Vue{
       }
     }
     button {
-      height: 32px;
-      width: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 13px;
-      background: #757B9A;
-      color: #fff;
+      color: #444;
       border-radius: 16px;
       outline: none;
       border: none;
+      background: none;
       i {
-        font-size: 18px !important;
+        font-size: 22px !important;
+        font-weight: bold;
+      }
+      &.close {
+        background: #f1f1f1;
+        height: 22px;
+        width: 22px;
+        min-width: 22px;
+        i {
+          font-size: 16px !important;
+          font-weight: bold;
+        }
       }
     }
     .autocomplete-dropdown {
@@ -171,6 +185,7 @@ export default class Navbar extends Vue{
       z-index: 3;
       left: 0;
       height: fit-content;
+      box-sizing: border-box;
       ul {
         width: 100%;
         display: flex;
@@ -197,8 +212,8 @@ export default class Navbar extends Vue{
     position: relative;
 
     button {
-      height: 38px;
-      border-radius: 19px;
+      height: 40px;
+      border-radius: 8px;
       border: none;
       background: transparent;
       padding: 0 4px;
@@ -263,14 +278,14 @@ export default class Navbar extends Vue{
   }
 
   .publish {
-    padding: 0 8px;
-    height: 38px;
+    padding: 0 12px;
+    height: 40px;
     width: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 13px;
-    border-radius: 19px;
+    border-radius: 8px;
     outline: none;
     border: none;
     background: #757B9A !important;

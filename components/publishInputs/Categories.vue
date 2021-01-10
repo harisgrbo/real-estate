@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="(cat, index) in categories" @click="selectCategory(cat)">
+    <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)">
       <div class="img-wrapper" :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
         <img :src="cat.icon" alt="cat">
       </div>

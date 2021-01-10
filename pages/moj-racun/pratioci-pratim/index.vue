@@ -2,6 +2,7 @@
   <div class="saved-wrapper">
     <ul>
       <li v-for="(tab, index) in tabs"
+          :key="index"
           @click="activeTab = index"
           :class="activeTab === index? 'active-tab' : ''"
       >

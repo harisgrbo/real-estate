@@ -5,6 +5,7 @@
       <button
         class="select"
         v-for="option in attr.values"
+        :key="option.id"
         :class="[val === option ? 'selected': '']"
         @click.prevent="selectOption(option)"
       >{{ option }}</button>
