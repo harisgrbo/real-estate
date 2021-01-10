@@ -1,7 +1,9 @@
 <template>
   <div class="publish-wrapper-inner">
     <Snackbar />
-      <div class="progress-wrapper">progress bar</div>
+      <div class="progress-wrapper">
+        {{ completion }} %
+      </div>
 
       <div class="content-wrapper">
         <div v-show="currentStep === steps.STEP_ONE" class="step-1">
@@ -175,6 +177,37 @@ import Snackbar from "@/components/global/Snackbar";
   }
 })
 export default class Publish extends Vue {
+  // Completion
+  completedAttributes = 0
+
+  get completion() {
+    const max = this.stepOneValidationProps.length + this.globalAttributes.length + this.categoryAttributes.length + this.listingTypeAttributes.length;
+
+    let real = 0;
+
+    this.stepOneValidationProps.forEach(item => {
+      if (this[item]) {
+        const prop = this[item];
+
+        if (typeof prop === 'string' && prop.length) {
+          real++;
+        }
+
+        if (typeof prop === 'object') {
+          real++;
+        }
+      }
+    })
+
+    real += this.completedAttributes;
+
+    return real/max * 100;
+  }
+
+  get allAttributes() {
+    return this.globalAttributes.merge(this.categoryAttributes).merge(this.listingTypeAttributes);
+  }
+
   // Errors
   errors = {
     'title': {
@@ -333,6 +366,8 @@ export default class Publish extends Vue {
     this.attributePayload[e.id] = e;
 
     if (e) {
+      this.completedAttributes = Object.keys(this.attributePayload).length
+
       this.$set(this.errors.attributes, e.id, {
         error: false
       })
