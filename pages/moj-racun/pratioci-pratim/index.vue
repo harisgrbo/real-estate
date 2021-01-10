@@ -12,7 +12,7 @@
     <div class="saved-content">
       <div v-show="activeTab === 0">
         <div v-if="followers.length">
-          <SavedUserCard v-for="user in followers" :user="user"></SavedUserCard>
+          <UserCard v-for="user in followers" :user="user"></UserCard>
         </div>
         <div v-else>
           Nemate pratilaca
@@ -20,7 +20,7 @@
       </div>
       <div v-show="activeTab === 1">
         <div v-if="followed.length">
-          <SavedUserCard v-for="user in followed" :user="user"></SavedUserCard>
+          <UserCard v-for="user in followed" :user="user"></UserCard>
         </div>
         <div v-else>
           Ne pratite nikoga
@@ -33,11 +33,11 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 
-import SavedUserCard from "@/components/SavedUserCard"
+import UserCard from "@/components/UserCard";
 
 @Component({
   components: {
-    SavedUserCard
+    UserCard,
   },
   layout() { return "account" }
 })

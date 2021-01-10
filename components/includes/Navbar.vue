@@ -41,13 +41,8 @@
         <button v-if="!$auth.user" @click="$router.push('/auth/login')">Prijavi se</button>
         <button v-if="$auth.user" @click="$auth.logout">Odjava</button>
         <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)">Moj profil</button>
-        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
-        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
-        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
-        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)"">Odjava</button>
-
+        <button v-if="$auth.user" @click="$router.push('/moj-racun/')">Moj racun</button>
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -274,6 +269,10 @@ export default class Navbar extends Vue{
       min-width: 280px;
       right: 0;
       box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
     }
   }
 
