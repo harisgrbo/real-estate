@@ -37,6 +37,9 @@
 
         <InputError :error="errors.price" />
         <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
+
+        <InputError :error="errors.description" />
+        <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
       </div>
 
       <button @click="nextStep">Next</button>
@@ -164,6 +167,10 @@ export default class Publish extends Vue {
       'error': false,
       'message': "Title needs to be two words"
     },
+    'description': {
+      'error': false,
+      'message': "required"
+    },
     'address': {
       'error': false,
       'message': "required"
@@ -205,7 +212,7 @@ export default class Publish extends Vue {
   async publish() {
     const payload = {
       title: this.title,
-      description: 'Description',
+      description: this.description,
       address: this.address,
       price: this.price,
       listing_type_id: this.listingType.id,
@@ -397,6 +404,7 @@ export default class Publish extends Vue {
   title = null;
   address = null;
   price = null;
+  description = null;
 
   @Watch('title')
   handleTitleChange(newVal, oldVal) {
@@ -413,21 +421,30 @@ export default class Publish extends Vue {
     this.errors.price.error = false;
   }
 
+  @Watch('description')
+  handleDescriptionChange(newVal, oldVal) {
+    this.errors.description.error = false;
+  }
+
   // Step 1 validation
   stepOneValidationProps = [
-    'title', 'address', 'price', 'city', 'category', 'listingType'
+    'title', 'description', 'address', 'price', 'city', 'category', 'listingType'
   ]
 
   validateTitle() {
-    return this.title !== null;
+    return this.title !== null && this.title !== '';
+  }
+
+  validateDescription() {
+    return this.description !== null && this.description !== '';
   }
 
   validateAddress() {
-    return this.address !== null;
+    return this.address !== null && this.address !== '';
   }
 
   validatePrice() {
-    return this.price !== null;
+    return this.price !== null && this.price !== '';
   }
 
   validateCity() {
