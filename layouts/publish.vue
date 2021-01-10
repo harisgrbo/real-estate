@@ -21,12 +21,13 @@ export default class Publish extends Vue {
 
 <style lang="scss">
 .publish-wrapper {
-  padding-top: 100px !important;
-  height: calc(100vh - 100px);
+  padding-top: 80px !important;
+  height: calc(100vh - 80px);
   background: #fafafa;
   .nuxt-wrap {
-    padding: 0 24px;
+    padding:24px;
     box-sizing: border-box;
+    height: 100%;
   }
 }
 </style>

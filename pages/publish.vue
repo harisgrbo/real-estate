@@ -1,169 +1,138 @@
 <template>
-  <div class="publish-wrapper">
-    <div class="progress-wrapper">
-      progress bar
-    </div>
-    <div class="content-wrapper">
-      <div v-show="currentStep === steps.STEP_ONE" class="step-1">
-        Korak 1 od {{ steps.length }}
-
-        <h2>Odaberite kategoriju oglasa</h2>
-        <div>
-          <InputError :error="errors.category" />
-          <Categories @selected-category="handleSelectedCategory" />
-        </div>
-
-        <h2>Odaberite vrstu objave</h2>
-        <div>
-          <InputError :error="errors.listingType" />
-          <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
-        </div>
-
-        <h2>Izaberite lokaciju nekretnine</h2>
-        <div class="grid-filters">
-          <InputError :error="errors.city" />
-          <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
-        </div>
-
-        <div v-if="city !== null">
-          <PublishMap :location="city"></PublishMap>
-        </div>
-
-        <h2>Unesite osnovne informacije</h2>
-        <div class="grid-filters">
-          <InputError :error="errors.title" />
-          <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
-
-          <InputError :error="errors.address" />
-          <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
-
-          <InputError :error="errors.price" />
-          <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
-
-          <InputError :error="errors.description" />
-          <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
-        </div>
-
-        <button @click="nextStep">Next</button>
-  <div>
+  <div class="publish-wrapper-inner">
     <Snackbar />
+      <div class="progress-wrapper">progress bar</div>
 
-    Feha publish
+      <div class="content-wrapper">
+        <div v-show="currentStep === steps.STEP_ONE" class="step-1">
+          <h1 class="heading">
+            Osnovne informacije o nekretnini
+          </h1>
 
-    <div v-show="currentStep === steps.STEP_ONE" class="step-1">
-      Step 1
+          <h2>Odaberite kategoriju oglasa</h2>
+          <div>
+            <InputError :error="errors.category" />
+            <Categories @selected-category="handleSelectedCategory" />
+          </div>
 
-      <h2>Odaberite kategoriju oglasa</h2>
-      <div>
-        <InputError :error="errors.category" />
-        <Categories @selected-category="handleSelectedCategory" />
-      </div>
+          <h2>Odaberite vrstu objave</h2>
+          <div>
+            <InputError :error="errors.listingType" />
+            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
+          </div>
 
-      <h2>Odaberite vrstu objave</h2>
-      <div>
-        <InputError :error="errors.listingType" />
-        <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
-      </div>
+          <h2>Izaberite lokaciju nekretnine</h2>
+          <div class="grid-filters">
+            <InputError :error="errors.city" />
+            <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
+          </div>
 
-      <h2>Izaberite lokaciju nekretnine</h2>
-      <div class="grid-filters">
-        <InputError :error="errors.city" />
-        <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
-      </div>
+          <div v-if="city !== null">
+            <PublishMap :location="city"></PublishMap>
+          </div>
 
-      <div v-if="city !== null">
-        <PublishMap :location="city"></PublishMap>
-      </div>
+          <h2>Unesite osnovne informacije</h2>
+          <div class="grid-filters">
+            <InputError :error="errors.title" />
+            <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
 
-      <h2>Unesite osnovne informacije</h2>
-      <div class="grid-filters">
-        <InputError :error="errors.title" />
-        <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
+            <InputError :error="errors.address" />
+            <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
 
-        <InputError :error="errors.address" />
-        <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
+            <InputError :error="errors.price" />
+            <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
 
-        <InputError :error="errors.price" />
-        <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
-
-        <InputError :error="errors.description" />
-        <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
-      </div>
-
-      <div v-show="currentStep === steps.STEP_TWO" class="step-2">
-        Step 2
-
-        <p>Globalni obicni attributi</p>
-
-        <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-          <InputError :error="errors.attributes[attr.id]" />
-          <component
-            :attr="attr"
-            :options="attr"
-            :is="filterFor(attr)"
-            @changed="handleChangedAttribute"
-          />
+            <InputError :error="errors.description" />
+            <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
+          </div>
+          <div class="button-wrapper">
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
         </div>
 
-        <p>Globalni cekboxi</p>
-        <TermInput
-          v-for="attr in termGlobalAttributes"
-          @changed="handleChangedAttribute"
-          :attr="attr"
-          :key="attr.id"
-        />
+        <div v-show="currentStep === steps.STEP_TWO" class="step-2">
+          <h1 class="heading">
+            Detaljne informacije o nekretnini
+          </h1>
 
-        <p>Kategorija obicni attributi</p>
-        <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
-          <InputError :error="errors.attributes[attr.id]" />
-          <component
-            :attr="attr"
-            :options="attr"
-            :is="filterFor(attr)"
+          <p>Globalni obicni attributi</p>
+
+          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
+
+          <p>Globalni cekboxi</p>
+          <TermInput
+            v-for="attr in termGlobalAttributes"
             @changed="handleChangedAttribute"
+            :attr="attr"
+            :key="attr.id"
           />
+
+          <p>Kategorija obicni attributi</p>
+          <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
+
+          <p>Kategorija cekboxi</p>
+          <TermInput
+            v-for="attr in termCategoryAttributes"
+            @changed="handleChangedAttribute"
+            :attr="attr"
+            :key="attr.id"
+          />
+
+          <p>Listing tip obicni attributi</p>
+          <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
+
+          <p>Listing tip cekboxi</p>
+          <TermInput
+            v-for="attr in termListingTypeAttributes"
+            @changed="handleChangedAttribute"
+            :attr="attr"
+            :key="attr.id"
+          />
+          <div class="button-wrapper">
+            <button @click="prevStep">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Next
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
         </div>
 
-        <p>Kategorija cekboxi</p>
-        <TermInput
-          v-for="attr in termCategoryAttributes"
-          @changed="handleChangedAttribute"
-          :attr="attr"
-          :key="attr.id"
-        />
+        <div v-show="currentStep === steps.STEP_THREE" class="step-3">
+          Step 3
 
-        <p>Listing tip obicni attributi</p>
-        <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
-          <InputError :error="errors.attributes[attr.id]" />
-          <component
-            :attr="attr"
-            :options="attr"
-            :is="filterFor(attr)"
-            @changed="handleChangedAttribute"
-          />
+          Bice slikica nakon deploya obecavam reha
+
+          <button @click="prevStep">Prev</button>
+          <button @click="nextStep">Submit</button>
         </div>
-
-        <p>Listing tip cekboxi</p>
-        <TermInput
-          v-for="attr in termListingTypeAttributes"
-          @changed="handleChangedAttribute"
-          :attr="attr"
-          :key="attr.id"
-        />
-
-        <button @click="prevStep">Prev</button>
-        <button @click="nextStep">Next</button>
       </div>
-
-      <div v-show="currentStep === steps.STEP_THREE" class="step-3">
-        Step 3
-
-        Bice slikica nakon deploya obecavam reha
-
-        <button @click="prevStep">Prev</button>
-        <button @click="nextStep">Submit</button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -536,9 +505,102 @@ export default class Publish extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .publish-wrapper {
+  .publish-wrapper-inner {
     display: flex;
     justify-content: space-between;
-    height: calc(100vh - 80px);
+    height: 100%;
+
+    .progress-wrapper {
+      display: flex;
+      flex: 2;
+      background: #fff;
+      padding: 24px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06);
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex: 8;
+      padding: 24px;
+      background: #fff;
+      margin-left: 24px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06);
+      position: relative;
+
+      .step-1,
+      .step-2,
+      .step-3 {
+        width: 100%;
+        height: calc(100vh - 152px);
+        overflow-y: scroll;
+        padding-bottom: 84px;
+        box-sizing: border-box;
+
+        .heading {
+          font-size: 20px;
+          font-weight: 400;
+          border-bottom: 1px solid #f1f1f1;
+          padding-bottom: 24px;
+          margin-bottom: 36px;
+        }
+
+        h2 {
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 24px;
+          margin-top: 36px;
+
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+
+        .button-wrapper {
+          height: 60px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          border-top: 1px solid #f1f1f1;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          padding: 0 24px;
+          box-sizing: border-box;
+          background: #fff;
+
+          button {
+            padding: 0 12px;
+            height: 40px;
+            width: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            border-radius: 8px;
+            outline: none;
+            border: none;
+            background: #757B9A !important;
+            color: #fff;
+            font-weight: 500 !important;
+            transition: 0.3s all ease;
+
+            i {
+              margin-left: 12px;
+            }
+
+            &:hover {
+              box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
+            }
+          }
+        }
+      }
+
+    }
   }
 </style>
