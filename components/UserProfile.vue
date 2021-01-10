@@ -41,7 +41,7 @@
     </div>
     <div class="buttons">
       <button>Chat</button>
-      <button @click.stop.preventt="toggleFollow">{{ alreadyFollowed? 'Otprati' : 'Zaprati' }}</button>
+      <button @click.stop.prevent="toggleFollow">{{ alreadyFollowed ? 'Otprati' : 'Zaprati' }}</button>
     </div>
   </div>
 </template>
