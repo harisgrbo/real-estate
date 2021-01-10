@@ -1,5 +1,7 @@
 <template>
   <div>
+    <Snackbar />
+
     Feha publish
 
     <div v-show="currentStep === steps.STEP_ONE" class="step-1">
@@ -125,15 +127,15 @@
 <script>
 import { Component, Watch, Vue} from "nuxt-property-decorator";
 import Categories from "@/components/publishInputs/Categories";
-
 import TermsInput from "@/components/inputs/TermsInput"
 import TermInput from "@/components/inputs/TermInput"
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
+import Snackbar from "@/components/global/Snackbar";
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput, InputError
+    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar
   },
   layout() { return "publish" },
   async asyncData(ctx) {
@@ -199,6 +201,14 @@ export default class Publish extends Vue {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  snackbarValidationError() {
+    this.$snackbar.show({
+      text: "Imate greske",
+      timeout: 1000,
+      type: "error"
+    });
+  }
+
   // Stepping logic
   steps = {
     STEP_ONE: 1,
@@ -234,19 +244,24 @@ export default class Publish extends Vue {
 
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
-      // @TODO: Objava
       this.publish();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
-          if(! this.validateStepOne())
+          if(! this.validateStepOne()) {
+            this.snackbarValidationError();
+
             return
+          }
 
           break;
 
         case this.steps.STEP_TWO:
-          if(! this.validateStepTwo())
-            return
+          if(! this.validateStepTwo()) {
+            this.snackbarValidationError();
+
+            return;
+          }
 
           break;
       }
