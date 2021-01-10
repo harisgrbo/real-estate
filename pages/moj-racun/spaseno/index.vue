@@ -24,7 +24,7 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 
-import SavedUserCard from "@/components/SavedUserCard"
+import SavedUserCard from "@/components/UserCard"
 
 @Component({
   components: {
