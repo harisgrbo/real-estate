@@ -72,6 +72,8 @@ export default class Navbar extends Vue{
 
   clearSearchTerm() {
     this.$refs.search.value = '';
+
+    this.showAutoCompleteDropdown = false;
   }
 
   created() {
@@ -146,6 +148,7 @@ export default class Navbar extends Vue{
       width: 100%;
       border: none;
       height: 40px;
+
       &:focus {
         outline: none;
       }
@@ -160,15 +163,19 @@ export default class Navbar extends Vue{
       outline: none;
       border: none;
       background: none;
+
       i {
         font-size: 22px !important;
         font-weight: bold;
       }
+
       &.close {
         background: #f1f1f1;
         height: 22px;
         width: 22px;
         min-width: 22px;
+        cursor: pointer;
+
         i {
           font-size: 16px !important;
           font-weight: bold;

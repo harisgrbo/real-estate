@@ -19,7 +19,7 @@ export default class Home extends Vue {
 
 <style lang="scss">
 .home-wrapper {
-  padding-top: 100px !important;
+  padding-top: 80px !important;
   height: 100%;
 }
 </style>

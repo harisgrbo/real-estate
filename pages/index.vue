@@ -1,15 +1,23 @@
 <template>
-  <div class="grid-layout">
-    <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+  <div class="homepage-wrap">
+    <div class="categories">
+      <Categories></Categories>
+    </div>
+    <h1>Objavljeno {{ listings.length }} nekretnina</h1>
+    <div class="grid-layout">
+      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+    </div>
   </div>
 </template>
 
 <script>
   import { Component, Vue} from "nuxt-property-decorator";
   import ListingCard from "@/components/listingCard/ListingCard";
+  import Categories from "~/components/publishInputs/Categories";
 
   @Component({
     components: {
+      Categories,
       ListingCard
     },
     layout() { return "home" }
@@ -35,6 +43,37 @@
 </script>
 
 <style lang="scss">
+.homepage-wrap {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    margin: 24px 0;
+    font-size: 23px;
+    font-weight: 400;
+    padding-left: 80px;
+  }
+
+  .categories {
+    width: 100%;
+    padding: 24px 80px;
+    box-sizing: border-box;
+
+    ul {
+      li {
+        display: flex;
+        height: 80px;
+        align-items: center;
+        justify-content: flex-start;
+
+        p {
+          text-align: center;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
 .container {
   background: black;
 }
