@@ -10,7 +10,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600&display=swap' }
     ],
     script: [
       { src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&callback=initMap" }
@@ -29,9 +29,11 @@ export default {
     '~plugins/snackbar/index.js',
     '~plugins/moment.js',
     {
-      src: '~plugins/progress.js', ssr: false
+      src: '~plugins/progress.js', mode: 'client'
     },
     { src: '~plugins/swiper.js', mode: 'client' },
+    { src: '~plugins/modal.js', mode: 'client' },
+
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

@@ -1,8 +1,5 @@
 <template>
   <div class="homepage-wrap">
-    <div class="categories">
-      <Categories></Categories>
-    </div>
     <h1>Objavljeno {{ listings.length }} nekretnina</h1>
     <div class="grid-layout">
       <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
@@ -46,6 +43,7 @@
 .homepage-wrap {
   display: flex;
   flex-direction: column;
+  padding-bottom: 120px;
 
   h1 {
     margin: 24px 0;
@@ -54,25 +52,6 @@
     padding-left: 80px;
   }
 
-  .categories {
-    width: 100%;
-    padding: 24px 80px;
-    box-sizing: border-box;
-
-    ul {
-      li {
-        display: flex;
-        height: 80px;
-        align-items: center;
-        justify-content: flex-start;
-
-        p {
-          text-align: center;
-          font-weight: 500;
-        }
-      }
-    }
-  }
 }
 .container {
   background: black;

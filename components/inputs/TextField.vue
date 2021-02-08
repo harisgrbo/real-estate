@@ -34,7 +34,7 @@ export default class TextField extends Vue{
   flex-direction: column;
   position: relative;
   input {
-    height: 53px;
+    height: 50px;
     background: #F5F5F5;
     border-radius: 4px;
     border: none;

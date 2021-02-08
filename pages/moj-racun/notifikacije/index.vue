@@ -1,5 +1,9 @@
 <template>
-  <div>notifikacije</div>
+  <div class="w-full">
+    <h1 class="heading">
+      Notifikacije
+    </h1>
+  </div>
 </template>
 
 <script>

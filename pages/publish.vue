@@ -1,7 +1,7 @@
 <template>
   <div class="publish-wrapper-inner">
     <Snackbar />
-      <div class="progress-wrapper">
+    <div class="progress-wrapper">
         <p>Postotak objave: {{ completion.toFixed() }} %</p>
         <client-only>
           <radial-progress-bar :diameter="200"
@@ -13,40 +13,28 @@
                                :strokeWidth="20"
                                :innerStrokeWidth="20"
                                innerStrokeColor="#f1f1f1"
-          >
-          </radial-progress-bar>
+          />
         </client-only>
       </div>
 
       <div class="content-wrapper">
         <div v-show="currentStep === steps.STEP_ONE" class="step-1">
           <h1 class="heading">
-            Osnovne informacije o nekretnini
+            Osnovne informacije oglasa
           </h1>
 
-          <h2>Odaberite kategoriju oglasa</h2>
+          <h2>Kategorija oglasa*</h2>
           <div>
             <InputError :error="errors.category" />
             <Categories @selected-category="handleSelectedCategory" />
           </div>
 
-          <h2>Odaberite vrstu objave</h2>
-          <div>
+          <h2>Vrsta objave</h2>
+          <div class="publishing-type">
             <InputError :error="errors.listingType" />
             <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
-          <h2>Izaberite lokaciju nekretnine</h2>
-          <div class="grid-filters">
-            <InputError :error="errors.city" />
-            <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
-          </div>
-
-          <div v-if="city !== null">
-            <PublishMap :location="city"></PublishMap>
-          </div>
-
-          <h2>Unesite osnovne informacije</h2>
           <div class="grid-filters">
             <InputError :error="errors.title" />
             <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
@@ -56,9 +44,16 @@
 
             <InputError :error="errors.price" />
             <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
+          </div>
+          <InputError :error="errors.description" />
+          <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
+          <div class="grid-filters location">
+            <InputError :error="errors.city" />
+            <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
+          </div>
 
-            <InputError :error="errors.description" />
-            <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
+          <div v-if="city !== null">
+            <PublishMap :location="city"></PublishMap>
           </div>
           <div class="button-wrapper">
             <button @click="nextStep">Dalje
@@ -69,10 +64,10 @@
 
         <div v-show="currentStep === steps.STEP_TWO" class="step-2">
           <h1 class="heading">
-            Detaljne informacije o nekretnini
+            Detaljne informacije oglasa
           </h1>
 
-          <p>Globalni obicni attributi</p>
+          <p class="global-heading">Globalni obicni attributi</p>
 
           <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
             <InputError :error="errors.attributes[attr.id]" />
@@ -82,17 +77,20 @@
               :is="filterFor(attr)"
               @changed="handleChangedAttribute"
             />
+
           </div>
 
-          <p>Globalni cekboxi</p>
-          <TermInput
-            v-for="attr in termGlobalAttributes"
-            @changed="handleChangedAttribute"
-            :attr="attr"
-            :key="attr.id"
-          />
+          <p class="global-heading">Globalni cekboxi</p>
+          <div class="checkbox-grid">
+            <TermInput
+              v-for="attr in termGlobalAttributes"
+              @changed="handleChangedAttribute"
+              :attr="attr"
+              :key="attr.id"
+            />
+          </div>
 
-          <p>Kategorija obicni attributi</p>
+          <p class="global-heading">Kategorija obicni attributi</p>
           <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
             <InputError :error="errors.attributes[attr.id]" />
             <component
@@ -103,7 +101,7 @@
             />
           </div>
 
-          <p>Kategorija cekboxi</p>
+          <p class="global-heading">Kategorija cekboxi</p>
           <TermInput
             v-for="attr in termCategoryAttributes"
             @changed="handleChangedAttribute"
@@ -111,7 +109,7 @@
             :key="attr.id"
           />
 
-          <p>Listing tip obicni attributi</p>
+          <p class="global-heading">Listing tip obicni attributi</p>
           <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
             <InputError :error="errors.attributes[attr.id]" />
             <component
@@ -122,7 +120,7 @@
             />
           </div>
 
-          <p>Listing tip cekboxi</p>
+          <p class="global-heading">Listing tip cekboxi</p>
           <TermInput
             v-for="attr in termListingTypeAttributes"
             @changed="handleChangedAttribute"
@@ -130,7 +128,7 @@
             :key="attr.id"
           />
           <div class="button-wrapper">
-            <button @click="prevStep">Nazad
+            <button @click="prevStep" class="back">Nazad
               <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep">Next
@@ -159,11 +157,10 @@ import TermInput from "@/components/inputs/TermInput"
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
 import Snackbar from "@/components/global/Snackbar";
-import RadialProgressBar from 'vue-radial-progress'
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, RadialProgressBar
+    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar
   },
   layout() { return "publish" },
   async asyncData(ctx) {
@@ -558,6 +555,8 @@ export default class Publish extends Vue {
     display: flex;
     justify-content: space-between;
     height: 100%;
+    width: 1280px;
+    margin: 0 auto;
 
     .progress-wrapper {
       display: flex;
@@ -612,13 +611,14 @@ export default class Publish extends Vue {
           border-bottom: 1px solid #f1f1f1;
           padding-bottom: 24px;
           margin-bottom: 36px;
+
         }
 
         h2 {
-          font-size: 18px;
-          font-weight: 500;
-          margin-bottom: 24px;
           margin-top: 36px;
+          font-weight: 600;
+          font-size: 16px;
+          margin-bottom: 12px;
 
           &:first-child {
             margin-top: 0;
@@ -630,7 +630,6 @@ export default class Publish extends Vue {
           width: 100%;
           display: flex;
           align-items: center;
-          justify-content: flex-end;
           border-top: 1px solid #f1f1f1;
           position: absolute;
           bottom: 0;
@@ -639,15 +638,17 @@ export default class Publish extends Vue {
           padding: 0 24px;
           box-sizing: border-box;
           background: #fff;
+          justify-content: flex-end;
+
 
           button {
             padding: 0 12px;
-            height: 40px;
+            height: 50px;
             width: fit-content;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 16px;
             border-radius: 8px;
             outline: none;
             border: none;
@@ -656,8 +657,11 @@ export default class Publish extends Vue {
             font-weight: 500 !important;
             transition: 0.3s all ease;
 
+            &.back {
+              margin-right: 24px;
+            }
             i {
-              margin-left: 12px;
+              margin-left: 8px;
             }
 
             &:hover {
@@ -668,5 +672,27 @@ export default class Publish extends Vue {
       }
 
     }
+  }
+
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 24px;
+    grid-column-gap: 24px;
+  }
+
+  .global-heading {
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 12px;
+    margin-top: 24px;
+  }
+
+  .publishing-type {
+    margin-bottom: 32px;
+  }
+
+  .location {
+    margin-top: 32px;
   }
 </style>

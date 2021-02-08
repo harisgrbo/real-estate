@@ -1,7 +1,9 @@
 <template>
   <ul>
-    <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)">
-      <div class="img-wrapper" :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
+    <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"
+        :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
+    >
+      <div class="img-wrapper">
         <img :src="cat.icon" alt="cat">
       </div>
       <p>{{cat.title}}</p>
@@ -30,7 +32,6 @@ export default class Categories extends Vue {
   selectCategory(c) {
     this.selectedCategory = c;
     this.$emit('selected-category', c);
-    console.log(this.selectedCategory)
   }
 
   async created() {
@@ -41,29 +42,38 @@ export default class Categories extends Vue {
 
 <style scoped lang="scss">
   ul {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 16px;
+    grid-row-gap: 32px;
     li {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
+      border: 1px solid #f1f1f1;
+      border-radius: 8px;
+      padding-bottom: 12px;
+
       .img-wrapper {
-        background: #f1f1f1;
-        height: 40px;
-        width: 40px;
+        //background: #f1f1f1;
+        height: 70px;
+        width: 70px;
         margin-bottom: 12px;
         border-radius: 5px;
-        font-size: 18px;
+        font-size: 22px;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        img {
+          height: 40px;
+        }
       }
       p {
         font-size: 14px;
+        font-weight: 500;
       }
     }
     .selected {

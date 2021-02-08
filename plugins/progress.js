@@ -1,4 +1,4 @@
-import VueCircle from 'vue2-circle-progress'
+import RadialProgressBar from 'vue-radial-progress'
 import Vue from 'vue'
 
-Vue.use(VueCircle, 'vue-circle')
+Vue.component('radial-progress-bar', RadialProgressBar)

@@ -1,11 +1,10 @@
 <template>
   <div class="navbar-wrapper">
     <div class="img-wrapper">
-      <img src="/logo.svg" alt="" @click="$router.push('/')">
+      <img src="/logo.png" alt="" @click="$router.push('/')">
     </div>
     <div class="input-wrapper"
          @focusin="focused = true"
-         @focusout="focused = false"
          :class="[ focused? 'focused' : '']"
     >
       <button @click="search">
@@ -16,11 +15,38 @@
              @keyup.enter="search"
              @input="showSuggests"
       >
+      <div class="category" v-if="selectedCategory !== null">{{ selectedCategory.title }}
+        <button class="close">
+          <i class="material-icons" @click="selectedCategory = null">close</i>
+        </button>
+      </div>
+      <div class="category" v-if="selectedType !== null">{{ selectedType.title }}
+        <button class="close">
+          <i class="material-icons" @click="selectedType = null">close</i>
+        </button>
+      </div>
       <button class="close">
         <i class="material-icons" @click="clearSearchTerm">close</i>
       </button>
       <!-- Autocomplete dropdown -->
-      <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
+      <div class="autocomplete-dropdown" v-if="focused === true">
+        <div class="quick-filters">
+          <button @click="toggleCategories">Kategorija</button>
+          <button @click="$modal.show('type')">Vrsta oglasa</button>
+        </div>
+        <p>Posljednje pretrage</p>
+        <ul>
+          <li>
+            Stan sarajevo
+          </li>
+          <li>
+            Sarajevo kuca
+          </li>
+          <li>
+            Banjaluka stanovi
+          </li>
+        </ul>
+        <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
         <ul>
           <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearch(suggest)">
               {{ suggest }}
@@ -29,38 +55,53 @@
       </div>
     </div>
     <div class="auth-buttons">
-      <button v-if="!$auth.user" class="register" @click="$router.push('/auth/register')">Registracija</button>
       <nuxt-link :to="{ path: '/publish'}" class="publish">
         <i class="material-icons">add</i>
-        Objavi nekretninu
+        <p>Objavi</p>
       </nuxt-link>
-      <button class="login" @click="showUserDropdown = !showUserDropdown">
-        <i class="material-icons">menu</i>
-        <i class="material-icons person">person</i>
+      <div v-if="!$auth.user" class="auth-reg">
+        <button class="register" @click="$router.push('/auth/register')">Registracija</button>
+        <button class="register" @click="$router.push('/auth/login')">Prijava</button>
+      </div>
+      <button v-if="$auth.user" class="login">
+        <i class="material-icons">email</i>
+      </button>
+      <button class="login" @click="showUserDropdown = !showUserDropdown" v-if="$auth.user">
+        <i class="material-icons">perm_identity</i>
       </button>
       <!-- User dropdown -->
       <div class="user-dropdown" v-if="showUserDropdown">
-        <button v-if="!$auth.user" @click="$router.push('/auth/login')">Prijavi se</button>
-        <button v-if="$auth.user" @click="$auth.logout">Odjava</button>
-        <button v-if="$auth.user" @click="$router.push('/users/' + $auth.user.data.id)">Moj profil</button>
-        <button v-if="$auth.user" @click="$router.push('/moj-racun/')">Moj racun</button>
+        <sidenav></sidenav>
       </div>
     </div>
+    <modals-container></modals-container>
+    <modal name="type" :adaptive="true" height="100%">
+      <ListingType @selected-type="handleSelectedType" @close="$modal.hide('type')"></ListingType>
+    </modal>
   </div>
 </template>
 
 <script>
 
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import CategoriesList from "@/components/CategoriesList";
+import ListingType from "@/components/ListingType";
+import sidenav from "@/components/sidenav"
 
-@Component({})
+@Component({
+  CategoriesList,
+  ListingType,
+  sidenav
+})
 
 export default class Navbar extends Vue{
 
-  showUserDropdown = false;
-  showAutoCompleteDropdown = false;
-  suggestions = [];
-  focused = false;
+  showUserDropdown = false
+  showAutoCompleteDropdown = false
+  suggestions = []
+  focused = false
+  selectedCategory = null
+  selectedType = null
 
   buildTitle(title) {
     return JSON.stringify({
@@ -70,8 +111,16 @@ export default class Navbar extends Vue{
     })
   }
 
+  handleSelectedType(e) {
+    this.selectedType = e;
+
+    this.$modal.hide('type')
+  }
+
   clearSearchTerm() {
     this.$refs.search.value = '';
+
+    this.focused = false;
 
     this.showAutoCompleteDropdown = false;
   }
@@ -95,6 +144,40 @@ export default class Navbar extends Vue{
     this.showAutoCompleteDropdown = false;
   }
 
+  toggleCategories() {
+    let self = this;
+
+      this.$modal.show(
+        {
+          render(h) {
+
+            return h( CategoriesList, {
+              props: {
+              },
+              on: {
+                selectedCat(e) {
+                  self.selectedCategory = e;
+                  self.closeModal();
+                },
+                close() {
+                  // close event needs to be echoed
+                  self.closeModal();
+                }
+              }
+            });
+          }
+        },
+        {
+        },
+        {
+          'selected-category': this.handleSelectedCategory,
+          adaptive: true,
+          height: "100%",
+        }
+      );
+  }
+
+
   async showSuggests(e) {
     let q = e.target.value;
     if(q.length) {
@@ -104,7 +187,10 @@ export default class Navbar extends Vue{
     } else {
       this.showAutoCompleteDropdown = false;
     }
+  }
 
+  closeModal() {
+    this.$modal.hideAll();
   }
 }
 </script>
@@ -112,7 +198,7 @@ export default class Navbar extends Vue{
 <style scoped lang="scss">
 .navbar-wrapper {
   padding: 0 16px;
-  height: 80px;
+  height: 70px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -127,6 +213,10 @@ export default class Navbar extends Vue{
     display: flex;
     flex: 2;
     justify-content: flex-start;
+
+    img {
+      height: 80px;
+    }
   }
   .input-wrapper {
     height: 48px;
@@ -140,9 +230,34 @@ export default class Navbar extends Vue{
     position: relative;
     transition: 0.3s all ease;
     &.focused {
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.06);
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
       border-radius: 8px;
-      border: 1px solid #f8f8f8;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      border: none;
+    }
+    .category {
+      background: #f1f1f1;
+      border-radius: 3px;
+      height: 30px;
+      width: fit-content;
+      min-width: fit-content;
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+      flex-direction: row;
+      padding: 0 0px 0 8px;
+
+      button {
+        margin-left: 8px;
+
+        i {
+          font-size: 11px;
+        }
+      }
     }
     input {
       width: 100%;
@@ -184,17 +299,63 @@ export default class Navbar extends Vue{
     }
     .autocomplete-dropdown {
       position: absolute;
-      border-radius: 10px;
-      top: 70px;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      top: 49px;
       padding: 12px;
+      padding-top: 16px;
       background: #fff;
       width: 100%;
       right: 0;
-      box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+      box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 12px;
       z-index: 3;
       left: 0;
       height: fit-content;
+      min-height: 0;
       box-sizing: border-box;
+
+      .quick-filters {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #dcdcdc;
+        margin-bottom: 12px;
+
+        button {
+          border-radius: 5px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 8px;
+          font-weight: 600;
+          text-transform: uppercase;
+          font-size: 10px;
+          background: #757B9A;
+          margin-right: 12px;
+          cursor: pointer;
+          color: #fff;
+          transition: 0.3s all ease;
+
+          &:hover {
+            background: #585d79;
+
+          }
+        }
+      }
+
+      p {
+        font-weight: 600 !important;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-bottom: 12px;
+
+        &.last {
+          margin-top: 12px;
+        }
+      }
       ul {
         width: 100%;
         display: flex;
@@ -203,14 +364,26 @@ export default class Navbar extends Vue{
         overflow: scroll;
         li {
           width: 100%;
-          font-size: 14px;
+          font-size: 15px;
           font-weight: 500;
-          color: #434343;
-          background: #F3F5FB;
+          color: #000;
           border-radius: 5px;
-          padding: 8px;
-          margin-bottom: 8px;
+          padding: 0 8px;
+          height: 40px;
+          display: flex;
+          align-items: center;
           cursor: pointer;
+          transition: 0.3s all ease;
+
+          &:last-child {
+            margin-bottom: 0;
+            border-bottom: 0;
+          }
+
+          &:hover {
+            font-weight: 600;
+            padding-left: 12px;
+          }
         }
       }
     }
@@ -221,6 +394,10 @@ export default class Navbar extends Vue{
     position: relative;
     flex: 2;
     justify-content: flex-end;
+
+    .auth-reg {
+      width: fit-content;
+    }
 
     button {
       height: 40px;
@@ -246,11 +423,15 @@ export default class Navbar extends Vue{
 
       &.register {
         padding: 0 24px;
-        margin-right: 12px;
+        border: 1px solid #444;
+        font-weight: 500 !important;
+
+        &:last-child {
+          margin-left: 12px;
+        }
       }
 
       &.login {
-        border: 1px solid #dddddd;
         display: flex;
         align-items: center;
         margin-left: 12px;
@@ -277,18 +458,17 @@ export default class Navbar extends Vue{
 
     .user-dropdown {
       position: absolute;
-      border-radius: 10px;
-      top: 70px;
+      top: 56px;
       padding: 12px;
       background: #fff;
       width: 280px;
       min-width: 280px;
-      right: 0;
-      box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+      right: -14px;
+      box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: flex-end;
+      justify-content: flex-start;
+      height: calc(100vh - 94px);
     }
   }
 
@@ -299,17 +479,14 @@ export default class Navbar extends Vue{
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 600;
     border-radius: 8px;
     outline: none;
-    border: none;
-    background: #757B9A !important;
-    color: #fff;
-    font-weight: 500 !important;
+    border: 1px solid  #757B9A !important;
+    color: #757B9A;
     transition: 0.3s all ease;
-    i {
-      margin-right: 8px;
-    }
+
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
     }

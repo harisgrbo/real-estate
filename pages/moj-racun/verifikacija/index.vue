@@ -1,5 +1,9 @@
 <template>
-  <div>verifikacija</div>
+  <div class="w-full">
+    <h1 class="heading">
+      Verifikacija
+    </h1>
+  </div>
 </template>
 
 <script>

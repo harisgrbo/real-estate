@@ -1,6 +1,8 @@
 <template>
-  <div>
-    promjena sifre
+  <div class="w-full">
+    <h1 class="heading">
+      Promjena šifre
+    </h1>
   </div>
 </template>
 

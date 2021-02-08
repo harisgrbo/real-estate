@@ -47,7 +47,7 @@ $radioActive: #757B9A;
 .radio {
   display: flex;
   flex: 1;
-  height: 60px;
+  height: 50px;
   border: 1px solid #ddd;
   border-radius: 10px;
   align-items: center;
@@ -58,7 +58,7 @@ $radioActive: #757B9A;
   box-sizing: border-box;
   cursor: pointer;
   &.selected {
-    border: 2px solid #757B9A;
+    border: 1px solid #757B9A;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 1px 12px;
     box-sizing: border-box;
     span {

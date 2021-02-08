@@ -58,7 +58,7 @@ export default class PublishDropdown extends Vue{
   display: flex;
   flex-direction: column;
   label {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 16px;
     margin-bottom: 12px;
   }
@@ -67,7 +67,7 @@ export default class PublishDropdown extends Vue{
   display: flex;
   flex-direction: row-reverse;
   width: 100%;
-  height: 60px;
+  height: 50px;
   border: 1px solid #ddd;
   border-radius: 10px;
   align-items: center;
@@ -82,6 +82,8 @@ export default class PublishDropdown extends Vue{
     width: 100%;
     border: none;
     height: 40px;
+    font-size: 14px;
+    font-weight: 500;
     &:focus {
       outline: none;
     }
@@ -110,18 +112,28 @@ export default class PublishDropdown extends Vue{
       flex-direction: column;
       max-height: 400px;
       overflow: scroll;
+
       li {
         width: 100%;
         font-size: 14px;
         font-weight: 500;
-        color: #434343;
+        color: #444;
         background: #F3F5FB;
         border-radius: 5px;
         padding: 8px;
         margin-bottom: 8px;
         cursor: pointer;
+
+        &:last-child {
+          margin-bottom: 0 !important;
+        }
       }
     }
   }
+}
+
+::placeholder {
+  font-size: 14px;
+  font-weight: 500;
 }
 </style>

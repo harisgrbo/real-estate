@@ -1,5 +1,10 @@
 <template>
   <div class="saved-wrapper">
+    <div class="w-full">
+      <h1 class="heading">
+        Pratim/pratioci
+      </h1>
+    </div>
     <ul>
       <li v-for="(tab, index) in tabs"
           :key="index"

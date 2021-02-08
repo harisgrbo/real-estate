@@ -54,8 +54,6 @@ export default class ListingCard extends Vue{
   a {
     position: relative;
     z-index: 1;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.06);
-    border-radius: 10px;
   }
   .listing-card-wrapper {
     display: flex;
@@ -69,7 +67,7 @@ export default class ListingCard extends Vue{
       left: 8px;
       top: 8px;
       border-radius: 5px;
-      background: #757B9A;
+      background: #00000080;
       color: #fff;
       font-weight: 400;
       display: flex;
@@ -78,7 +76,8 @@ export default class ListingCard extends Vue{
       width: fit-content;
       height: 24px;
       padding: 0 8px;
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 500;
       text-transform: capitalize;
       z-index: 2;
 
@@ -94,25 +93,21 @@ export default class ListingCard extends Vue{
     }
 
     img {
-      height: 180px;
+      height: 194px;
       width: 100%;
       border-radius: 10px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
     }
 
     .listing-card-content {
       display: flex;
       flex-direction: column;
-      padding: 8px;
+      padding-top: 8px;
 
       .title-price {
         display: flex;
         align-items: center;
         justify-content: space-between;
         color: #434343;
-        font-weight: 400;
-        font-size: 15px;
         margin-bottom: 10px;
 
         > div {
@@ -122,12 +117,12 @@ export default class ListingCard extends Vue{
         }
 
         .title {
-          font-size: 17px;
-          font-weight: 300;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          max-width: 100%;
+          font-weight: 500 !important;
+          font-size: 16px !important;
+          line-height: 20px !important;
         }
 
       }
@@ -147,14 +142,13 @@ export default class ListingCard extends Vue{
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px solid #e9e9e9;
 
         .price {
           font-weight: 600;
-          font-size: 14px;
+          font-size: 16px;
           color: #444;
+          line-height: 20px;
+          margin-top: 10px;
         }
 
         > div {
@@ -172,9 +166,10 @@ export default class ListingCard extends Vue{
         }
 
         p {
-          font-size: 13px;
+          font-size: 14px;
           color: #434343;
           font-weight: 500;
+          margin-top: 10px;
         }
       }
     }

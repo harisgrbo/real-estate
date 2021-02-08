@@ -23,8 +23,9 @@ export default class PublishDescriptionInput extends Vue {
   display: flex;
   flex-direction: column;
   position: relative;
+  margin-top: 32px;
 label {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   margin-bottom: 12px;
 }
@@ -41,6 +42,8 @@ textarea {
   transition: 0.1s all ease;
   box-sizing: border-box;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
 &:focus {
    outline: none;
  }

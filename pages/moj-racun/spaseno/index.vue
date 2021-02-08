@@ -1,5 +1,10 @@
 <template>
-  <div class="saved-wrapper">
+  <div class="saved-wrapper w-full">
+    <div class="w-full">
+      <h1 class="heading">
+        Spašeno
+      </h1>
+    </div>
     <ul>
       <li v-for="(tab, index) in tabs"
           @click="activeTab = index"

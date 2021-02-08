@@ -1,11 +1,8 @@
 <template>
   <div class="auth-wrapper">
     <div class="form-wrap">
-      <img src="/logo.svg" class="logo" alt="logo">
+      <img src="/logo.png" class="logo" alt="logo" @click="$router.push('/')">
       <nuxt></nuxt>
-    </div>
-    <div class="auth-background">
-      <img src="/bg.png" alt="background">
     </div>
   </div>
 </template>
@@ -30,17 +27,10 @@ export default class Auth extends Vue {
     margin: auto;
     width: 40%;
     .logo {
-      height: 55px;
-      width: auto;
+      width: 300px;
+      margin: 0 auto;
       margin-bottom: 64px;
-    }
-  }
-  .auth-background {
-    width: 60%;
-    display: flex;
-    img {
-      height: 100%;
-      width: 100%;
+      cursor: pointer;
     }
   }
 }

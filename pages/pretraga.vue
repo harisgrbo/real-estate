@@ -1,47 +1,29 @@
 <template>
   <div class="search-wrapper">
-    <div class="filters" :class="showAllFilters? 'stop-scrolling' : ''">
-      <h2>Pronadjeno <b>{{ results.length }}</b> rezultata za vasu pretragu</h2>
-      <div class="quick-filters">
-        <button>Vrsta oglasa</button>
-        <button>Sortiraj</button>
-        <button class="all" @click="showAllFilters = !showAllFilters">Ostali filteri</button>
-      </div>
-      <div class="listing-layout">
-        <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
-        <div v-if="results.length === 0">
-          Nema rezultata
-          <button @click="handleBack()">Nazad</button>
-        </div>
-      </div>
-      <transition name="slide">
-        <div class="all-filters" v-if="showAllFilters">
-          <div class="inner">
-            <div class="all-filters-heading">
-              <p>Ostali filteri</p>
-              <i class="material-icons" @click="showAllFilters = false">close</i>
-            </div>
-            <RangeFilter
-              v-model="queryPayload.price"
-              :attr="false"
-              :filter="{name: 'price', display_name: 'Cijena'}"
-              @input="newSearch"
-            />
-            <component
-              v-for="(attr, i) in meta.attributes"
-              :key="i"
-              :filter="attr"
-              :attr="true"
-              :is="filterFor(attr)"
-              v-model="queryPayload[attr.name]"
-              @clear="queryPayload[attr.name] = null; newSearch()"
-              @input="newSearch"
-            />
-          </div>
-      </div>
-      </transition>
+    <div class="filters">
+      <RangeFilter
+        v-model="queryPayload.price"
+        :attr="false"
+        :filter="{name: 'price', display_name: 'Cijena'}"
+        @input="newSearch"
+      />
+      <component
+        v-for="(attr, i) in meta.attributes"
+        :key="i"
+        :filter="attr"
+        :attr="true"
+        :is="filterFor(attr)"
+        v-model="queryPayload[attr.name]"
+        @clear="queryPayload[attr.name] = null; newSearch()"
+        @input="newSearch"
+      />
     </div>
     <div class="content">
+      <h2>Pronadjeno <b>{{ results.length }}</b> rezultata za vasu pretragu</h2>
+
+      <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
+    </div>
+    <div class="map">
       <SearchMap :locations="results"/>
     </div>
   </div>
@@ -63,7 +45,7 @@ import SearchMap from "@/components/googleMap/SearchMap";
     HorizontalCard,
     RangeFilter
   },
-  layout() { return "search" },
+  layout() { return "home" },
 
   watchQuery: true,
 
@@ -139,12 +121,13 @@ export default class Homepage extends Vue {
   .filters {
     display: flex;
     flex-direction: column;
-    padding: 0px 16px 16px 16px;
-    width: 35%;
+    padding: 24px;
+    width: 20%;
     max-height: calc(100vh - 50px);
     min-height: calc(100vh - 50px);
     overflow-y: scroll;
     box-sizing: border-box;
+    border-right: 1px solid #ddd;
     h2 {
       padding-bottom: 16px;
       font-size: 18px;
@@ -201,72 +184,22 @@ export default class Homepage extends Vue {
       }
     }
   }
-}
 
-.content {
- max-height: calc(100vh - 50px);
-  overflow: hidden;
-  width: 65%;
-}
+  .content {
+    max-height: calc(100vh - 50px);
+    overflow: hidden;
+    width: 45%;
+    padding: 24px;
 
-.all-filters {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  background: #fff;
-  z-index: 4;
-  bottom: 0px;
-  top: 0px;
-  box-sizing: border-box;
-  height: calc(100vh - 50px);
-  width: 35%;
-  background: rgba(0, 0, 0, 0.1);
-  .inner {
-    margin: 12px;
-    padding: 8px;
-    border-radius: 10px;
-    background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-    overflow: scroll;
-    box-sizing: border-box;
-    height: calc(100vh - 70px);
-
-  }
-  .all-filters-heading {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-
-    i {
-      height: 30px;
-      width: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      background: #757B9A;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
+    h2 {
+      font-size: 18px;
+      margin-bottom: 24px;
     }
   }
-}
 
-.slide-leave-active,
-.slide-enter-active {
-  transition: 1s;
+  .map {
+    width: 35%;
+  }
 }
-.slide-enter {
-  transform: translate(-100%);
-}
-.slide-leave-to {
-  transform: translate(-100%, 0);
-}
-
-.stop-scrolling {
-  overflow: hidden !important;
-}
-
 
 </style>

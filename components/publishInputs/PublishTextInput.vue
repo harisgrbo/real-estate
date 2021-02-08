@@ -35,14 +35,14 @@ export default class PublishTextInput extends Vue{
   flex-direction: column;
   position: relative;
   label {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 16px;
     margin-bottom: 12px;
   }
   input {
     display: flex;
     width: 100%;
-    height: 60px;
+    height: 50px;
     border: 1px solid #ddd;
     border-radius: 10px;
     align-items: center;
@@ -52,6 +52,8 @@ export default class PublishTextInput extends Vue{
     transition: 0.1s all ease;
     box-sizing: border-box;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
     &:focus {
       outline: none;
     }

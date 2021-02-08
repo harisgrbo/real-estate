@@ -28,6 +28,20 @@ export default class LoginForm extends Vue{
   }
   loading = false;
 
+  mounted() {
+    window.addEventListener('keyup', this.handleEnter);
+  }
+
+  destroyed() {
+    window.removeEventListener('keyup', this.handleEnter);
+  }
+
+  handleEnter(e) {
+    if (e.code === 'Enter') {
+      this.handleLogin();
+    }
+  }
+
   async handleLogin() {
     this.loading = true;
 
@@ -55,9 +69,10 @@ export default class LoginForm extends Vue{
   flex-direction: column;
   justify-content: space-between;
   h2 {
-    font-weight: 300;
-    margin-bottom: 36px;
-    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 24px;
+    text-align: left;
   }
   a {
     display: flex;
@@ -65,8 +80,10 @@ export default class LoginForm extends Vue{
     text-decoration: none;
     color: #000;
     text-align: center;
-    margin: 0 auto;
-    b {
+    margin: 24px auto 0 auto;
+    font-weight: 500;
+    p {
+      margin-left: 8px;
       color: #F3B86C;
     }
   }

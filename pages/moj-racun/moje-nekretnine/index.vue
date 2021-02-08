@@ -1,6 +1,8 @@
 <template>
-  <div>
-    moje nekretnine
+  <div class="w-full">
+    <h1 class="heading">
+      Moji oglasi
+    </h1>
   </div>
 </template>
 

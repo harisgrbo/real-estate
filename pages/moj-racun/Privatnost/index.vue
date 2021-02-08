@@ -1,5 +1,9 @@
 <template>
-  <div>privatnost</div>
+  <div class="w-full">
+    <h1 class="heading">
+      Privatnost
+    </h1>
+  </div>
 </template>
 
 <script>

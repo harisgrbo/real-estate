@@ -1,7 +1,9 @@
 <template>
-<div>
-  poruke
-</div>
+  <div class="w-full">
+    <h1 class="heading">
+      Poruke
+    </h1>
+  </div>
 </template>
 
 <script>
