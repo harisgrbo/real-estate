@@ -13,10 +13,6 @@
                   <b>50</b>
                 </li>
                 <li>
-                  Pratilaca
-                  <b>500</b>
-                </li>
-                <li>
                   Ocjena
                   <b>8.9</b>
                 </li>
@@ -26,8 +22,8 @@
         </div>
       </div>
     </div>
-    <div class="buttons">
-      <button @click="removeUser">Izbrisi</button>
+    <div class="buttons" v-if="user.id !== $auth.user.data.id">
+      <button @click="removeUser">{{ label }}</button>
     </div>
   </div>
 </template>
@@ -43,6 +39,7 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 export default class UserCard extends Vue {
   @Prop({}) user;
+  @Prop({ type: String }) label;
 
   removeUser(e) {
     this.$emit('remove-user', e)
@@ -54,9 +51,7 @@ export default class UserCard extends Vue {
 .user-profile {
   display: flex;
   flex-direction: column;
-  width: 250px;
-  height: 100%;
-  padding: 24px;
+  padding: 12px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.06);
   border-radius: 10px;
   .avatar {
@@ -68,7 +63,7 @@ export default class UserCard extends Vue {
     }
     .avatar-wrapper {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       width: 100%;
       align-items: center;
       justify-content: center;
@@ -115,14 +110,15 @@ export default class UserCard extends Vue {
     .user-info {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      align-items: flex-start;
+      justify-content: space-between;
       width: 100%;
+      padding-left: 24px;
+      height: 100%;
       p {
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 500;
-        margin-bottom: 0;
-        margin: 16px 0;
+        margin-bottom: 12px;
       }
       span {
         font-size: 13px;

@@ -34,7 +34,7 @@
           </div>
           <div class="detailed-info">
             <span>Vrsta oglasa</span>
-            <span>{{ listingType }}</span>
+            <span>{{ listing.listing_type.title }}</span>
           </div>
           <div class="detailed-info" v-if="listing.brandModel">
             <span>Brend</span>

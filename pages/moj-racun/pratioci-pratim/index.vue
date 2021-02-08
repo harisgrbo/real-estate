@@ -9,15 +9,15 @@
       <li v-for="(tab, index) in tabs"
           :key="index"
           @click="activeTab = index"
-          :class="activeTab === index? 'active-tab' : ''"
+          :class="activeTab === index? 'active' : ''"
       >
         {{ tab }}
       </li>
     </ul>
     <div class="saved-content">
       <div v-show="activeTab === 0">
-        <div v-if="followers.length">
-          <UserCard v-for="user in followers" :user="user"></UserCard>
+        <div v-if="followers.length" class="user-card-grid">
+          <UserCard v-for="user in followers" :user="user" label="Otprati"></UserCard>
         </div>
         <div v-else>
           Nemate pratilaca
@@ -85,19 +85,52 @@ export default class pratioci extends Vue {
 </script>
 
 <style scoped lang="scss">
-  ul {
+ul {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 36px;
+
+  li {
     display: flex;
+    height: 40px;
+    line-height: 40px;
     align-items: center;
-    flex-direction: row;
     justify-content: flex-start;
-    li {
-      margin-right: 36px;
-      &:last-child {
-        margin-right: 0;
-      }
-      &.active-tab {
-        font-weight: bold;
+    font-weight: 500;
+    margin-right: 32px;
+    cursor: pointer;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      font-weight: 600 !important;
+      color: #012F34 !important;
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        border-bottom: 2px solid #54E0C7;
+
       }
     }
   }
+}
+
+.user-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 32px;
+  column-gap: 24px;
+}
 </style>

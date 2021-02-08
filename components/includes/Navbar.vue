@@ -6,6 +6,7 @@
     <div class="input-wrapper"
          @focusin="focused = true"
          :class="[ focused? 'focused' : '']"
+         v-on-clickaway="away"
     >
       <button @click="search">
         <i class="material-icons">search</i>
@@ -87,11 +88,12 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 import CategoriesList from "@/components/CategoriesList";
 import ListingType from "@/components/ListingType";
 import sidenav from "@/components/sidenav"
-
+import { mixin as clickaway } from 'vue-clickaway';
 @Component({
   CategoriesList,
   ListingType,
-  sidenav
+  sidenav,
+  mixins: [ clickaway ],
 })
 
 export default class Navbar extends Vue{
@@ -102,6 +104,10 @@ export default class Navbar extends Vue{
   focused = false
   selectedCategory = null
   selectedType = null
+
+  away() {
+    this.focused = false;
+  }
 
   buildTitle(title) {
     return JSON.stringify({

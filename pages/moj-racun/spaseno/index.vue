@@ -15,7 +15,9 @@
     </ul>
     <div class="saved-content">
       <div v-show="activeTab === 0">
-        <SavedUserCard v-for="user in savedUsers" :user="user"></SavedUserCard>
+        <div>
+          <SavedUserCard v-for="user in savedUsers" :user="user"></SavedUserCard>
+        </div>
       </div>
       <div v-show="activeTab === 1">
         pretrage

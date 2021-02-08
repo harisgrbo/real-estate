@@ -53,8 +53,8 @@ export default class account extends Vue {
       slug: "poruke"
     },
     {
-      name: "Moje nekretnine",
-      slug: 'moje-nekretnine',
+      name: "Moji oglasi",
+      slug: 'moji-oglasi',
     },
     {
       name: "Blokirani korisnici",
@@ -139,6 +139,8 @@ export default class account extends Vue {
       border-radius: 10px;
       box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06);
       position: relative;
+      height: calc(100vh - 117px);
+      overflow: scroll;
     }
   }
 }
