@@ -8,6 +8,7 @@
     <ul>
       <li v-for="(tab, index) in tabs"
           @click="activeTab = index"
+          :class="[activeTab === index? 'active' : '']"
       >
         {{ tab }}
       </li>
@@ -43,9 +44,10 @@ export default class spaseno extends Vue {
   tabs = [
     'Korisnici',
     'Pretrage',
-    'Nekretnine'
+    'Oglasi'
   ]
   savedUsers = [];
+  activeTab = 0;
 
   async created() {
     await this.fetchSavedUsers();
@@ -62,6 +64,48 @@ export default class spaseno extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.saved-wrapper {
+  ul {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 36px;
 
+    li {
+      display: flex;
+      height: 40px;
+      line-height: 40px;
+      align-items: center;
+      justify-content: flex-start;
+      font-weight: 500;
+      margin-right: 32px;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.active {
+        font-weight: 600 !important;
+        color: #012F34 !important;
+        position: relative;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          border-bottom: 2px solid #54E0C7;
+
+        }
+      }
+    }
+  }
+}
 </style>

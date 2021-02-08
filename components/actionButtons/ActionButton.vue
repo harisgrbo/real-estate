@@ -1,10 +1,8 @@
 <template>
-  <div>
     <button @click="action" :style="styleOptions">
       <span v-if="loading === false">{{ placeholder }}</span>
       <img v-else src="/load.svg" alt="">
     </button>
-  </div>
 </template>
 
 <script>

@@ -1,5 +1,6 @@
 <template>
   <div class="input-wrapper">
+    <label>{{ label }}</label>
     <input
       :type="type"
       :placeholder="placeholder"
@@ -20,6 +21,7 @@ export default class TextField extends Vue{
   @Prop({ type: String, required: true}) type;
   @Prop({ type: String, required: true}) placeholder;
   @Prop({ type: String }) error;
+  @Prop({ type: String }) label;
   @Prop({ type: String }) value;
 
   updateValue(value) {
@@ -33,19 +35,26 @@ export default class TextField extends Vue{
   display: flex;
   flex-direction: column;
   position: relative;
-  input {
-    height: 50px;
-    background: #F5F5F5;
-    border-radius: 4px;
-    border: none;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
+  label {
+    font-weight: 600;
+    font-size: 16px;
     margin-bottom: 12px;
-    font-weight: 500;
-    font-size: 14px;
+  }
+  input {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    margin-right: 24px;
+    transition: 0.1s all ease;
     box-sizing: border-box;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
     &:focus {
       outline: none;
     }
@@ -53,13 +62,6 @@ export default class TextField extends Vue{
       border: 1px solid red;
     }
   }
-  label {
-    color: red;
-    font-size: 14px;
-    font-weight: 400;
-    position: absolute;
-    left: 0;
-    top: 60px;
-  }
+
 }
 </style>
