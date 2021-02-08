@@ -1,36 +1,29 @@
 <template>
   <div class="input-wrapper">
-    <label>
-      <p v-if="required">*</p>{{ title }}
-    </label>
-    <input
-      :type="type"
-      :placeholder="placeholder"
-      :class="error && error.length? 'hasError' : ''"
-      :value="value"
-      @input="updateValue($event.target.value)" />
-    <p v-if="error">{{ error }}</p>
+    <label>{{ attr.name }}</label>
+    <input type="number" v-model="val" @input="handleChange" />
   </div>
 </template>
 
 <script>
-import { Component, Vue, Prop} from "nuxt-property-decorator";
-
-@Component({
-})
-
-export default class RangeInput extends Vue{
-  @Prop({ type: String }) type;
-  @Prop({ type: Boolean }) required;
-  @Prop({ type: String }) placeholder;
-  @Prop({ type: String }) title;
-  @Prop({ type: String }) error;
-  @Prop({ type: String }) value;
-
-  updateValue(value) {
-    this.$emit('input', value)
+export default {
+  name: "RangeInput",
+  props: ["attr"],
+  data() {
+    return {
+      val: false
+    };
+  },
+  methods: {
+    handleChange() {
+      this.$emit('changed', {
+        id: this.attr.id,
+        name: this.attr.name,
+        value: this.val
+      })
+    }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
