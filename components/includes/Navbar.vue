@@ -111,6 +111,22 @@ export default class Navbar extends Vue{
     })
   }
 
+  buildType(type) {
+    return JSON.stringify({
+      name: "listing_type_id",
+      type: "term",
+      value: type.id
+    })
+  }
+
+  buildCategory(category) {
+    return JSON.stringify({
+      name: "category_id",
+      type: "term",
+      value: category.id
+    })
+  }
+
   handleSelectedType(e) {
     this.selectedType = e;
 
@@ -125,12 +141,19 @@ export default class Navbar extends Vue{
     this.showAutoCompleteDropdown = false;
   }
 
-  created() {
-    console.log(this.$auth.user)
-  }
   search(e) {
     if (e.target.value.length) {
       let query = this.buildTitle(e.target.value);
+
+      if (this.selectedCategory) {
+        query = query + ',' + this.buildCategory(this.selectedCategory);
+      }
+
+      if  (this.selectedType) {
+        query = query + ',' + this.buildType(this.selectedType);
+      }
+
+      this.focused = false;
 
       this.$router.push(`/pretraga?q=[${query}]`);
     }
