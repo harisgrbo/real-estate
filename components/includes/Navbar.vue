@@ -148,20 +148,26 @@ export default class Navbar extends Vue{
   }
 
   search(e) {
-    if (e.target.value.length) {
-      let query = this.buildTitle(e.target.value);
+    let text = e.target.value.trim();
 
-      if (this.selectedCategory) {
-        query = query + ',' + this.buildCategory(this.selectedCategory);
-      }
+    let filters  = [];
 
-      if  (this.selectedType) {
-        query = query + ',' + this.buildType(this.selectedType);
-      }
+    if (text.length) {
+      filters.push(this.buildTitle(e.target.value));
+    }
 
+    if (this.selectedCategory) {
+      filters.push(this.buildCategory(this.selectedCategory));
+    }
+
+    if  (this.selectedType) {
+      filters.push(this.buildType(this.selectedType));
+    }
+
+    if (filters.length) {
       this.focused = false;
 
-      this.$router.push(`/pretraga?q=[${query}]`);
+      this.$router.push(`/pretraga?q=[${filters.join(',')}]`);
     }
   }
 
