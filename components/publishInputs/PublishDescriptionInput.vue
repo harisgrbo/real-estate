@@ -34,10 +34,10 @@ textarea {
   width: 100%;
   height: 200px;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 4px;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 24px;
   margin-right: 24px;
   transition: 0.1s all ease;
   box-sizing: border-box;

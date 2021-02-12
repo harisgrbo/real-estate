@@ -20,14 +20,14 @@ export default class ActionButton extends Vue {
   }
 }
 </script>
-
+a
 <style scoped lang="scss">
 div {
   width: 100%;
 }
 button {
   height: 53px;
-  background: #1B1C32;
+  background: #D63946;
   border-radius: 4px;
   border: none;
   width: 100%;

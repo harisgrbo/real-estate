@@ -10,7 +10,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600&display=swap' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap'}
     ],
     script: [
       { src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&callback=initMap" }
@@ -33,6 +33,7 @@ export default {
     },
     { src: '~plugins/swiper.js', mode: 'client' },
     { src: '~plugins/modal.js', mode: 'client' },
+    { src: '~plugins/datepicker.js', mode: 'client' },
 
   ],
 
@@ -41,13 +42,19 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
+    ['@nuxtjs/fontawesome']
   ],
 
+  fontawesome: {
+    icons: {
+      solid: ['faAngleRight', 'faImages', 'faEllipsisV', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faCog', 'faBars', 'faUser', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faHeart', 'faCoins', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
+    }
+  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/auth',
     '@nuxtjs/axios',
-    ['nuxt-material-design-icons']
+    ['nuxt-material-design-icons'],
   ],
 
   axios: {

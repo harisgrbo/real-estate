@@ -1,5 +1,9 @@
 <template>
   <div class="homepage-wrap">
+    <h1>Bilo da kupujete, prodajete ili iznajmljujete, mozemo vam pomoci da napravite prvi korak</h1>
+    <div>
+      <PublishShortcut></PublishShortcut>
+    </div>
     <h1>Objavljeno {{ listings.length }} nekretnina</h1>
     <div class="grid-layout">
       <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
@@ -11,11 +15,12 @@
   import { Component, Vue} from "nuxt-property-decorator";
   import ListingCard from "@/components/listingCard/ListingCard";
   import Categories from "~/components/publishInputs/Categories";
-
+  import PublishShortcut from "@/components/publish/PublishShortcut";
   @Component({
     components: {
       Categories,
-      ListingCard
+      ListingCard,
+      PublishShortcut
     },
     layout() { return "home" }
   })
@@ -46,10 +51,14 @@
   padding-bottom: 120px;
 
   h1 {
-    margin: 24px 0;
-    font-size: 23px;
-    font-weight: 400;
-    padding-left: 80px;
+    word-wrap: break-word !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    line-height: 1.125em !important;
+    color: #484848 !important;
+    margin-bottom: 36px !important;
+    margin-left: 80px;
+    margin-top: 32px;
   }
 
 }
@@ -58,6 +67,6 @@
 }
 
 .grid-layout {
-  padding: 16px 80px;
+  padding: 0 80px;
 }
 </style>

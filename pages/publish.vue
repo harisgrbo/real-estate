@@ -564,8 +564,6 @@ export default class Publish extends Vue {
       background: #fff;
       padding: 24px;
       box-sizing: border-box;
-      border-radius: 10px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06);
       flex-direction: column;
 
       p {
@@ -592,9 +590,8 @@ export default class Publish extends Vue {
       background: #fff;
       margin-left: 24px;
       box-sizing: border-box;
-      border-radius: 10px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.06);
       position: relative;
+      border-left: 1px solid #f1f1f1;
 
       .step-1,
       .step-2,

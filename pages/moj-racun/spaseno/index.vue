@@ -1,10 +1,15 @@
 <template>
-  <div class="saved-wrapper w-full">
-    <div class="w-full">
-      <h1 class="heading">
-        Spašeno
-      </h1>
-    </div>
+  <div class="account-wrapper">
+    <ul class="breadcrumbs">
+      <li>
+        <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
+        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <p>Spašeno</p>
+      </li>
+    </ul>
+    <h1 class="heading">
+      Spašeno
+    </h1>
     <ul>
       <li v-for="(tab, index) in tabs"
           @click="activeTab = index"
@@ -38,7 +43,7 @@ import SavedUserCard from "@/components/UserCard"
   components: {
     SavedUserCard
   },
-  layout() { return "account" }
+  layout() { return "home" }
 })
 
 export default class spaseno extends Vue {

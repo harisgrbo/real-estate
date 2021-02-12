@@ -68,8 +68,6 @@ export default class PublishDropdown extends Vue{
   flex-direction: row-reverse;
   width: 100%;
   height: 50px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
   align-items: center;
   justify-content: space-between;
   padding: 0 12px;
@@ -78,6 +76,11 @@ export default class PublishDropdown extends Vue{
   box-sizing: border-box;
   cursor: pointer;
   position: relative;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
   input {
     width: 100%;
     border: none;

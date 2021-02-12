@@ -1,5 +1,12 @@
 <template>
-  <div class="w-full">
+  <div class="account-wrapper">
+    <ul class="breadcrumbs">
+      <li>
+        <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
+        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <p>Privatnost</p>
+      </li>
+    </ul>
     <h1 class="heading">
       Privatnost
     </h1>
@@ -12,7 +19,7 @@ import { Component, Vue} from "nuxt-property-decorator";
 @Component({
   components: {
   },
-  layout() { return "account" }
+  layout() { return "home" }
 })
 
 export default class privatnost extends Vue {

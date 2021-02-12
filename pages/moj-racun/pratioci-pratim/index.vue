@@ -1,10 +1,15 @@
 <template>
-  <div class="saved-wrapper">
-    <div class="w-full">
-      <h1 class="heading">
-        Pratim/pratioci
-      </h1>
-    </div>
+  <div class="account-wrapper">
+    <ul class="breadcrumbs">
+      <li>
+        <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
+        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <p>Pratim/pratioci</p>
+      </li>
+    </ul>
+    <h1 class="heading">
+      Pratim/pratioci
+    </h1>
     <ul>
       <li v-for="(tab, index) in tabs"
           :key="index"
@@ -44,7 +49,7 @@ import UserCard from "@/components/UserCard";
   components: {
     UserCard,
   },
-  layout() { return "account" }
+  layout() { return "home" }
 })
 
 export default class pratioci extends Vue {

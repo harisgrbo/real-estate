@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-wrapper">
     <div class="img-wrapper">
-      <img src="/logo.png" alt="" @click="$router.push('/')">
+      <img src="/new/logo.png" alt="" @click="$router.push('/')">
     </div>
     <div class="input-wrapper"
          @focusin="focused = true"
@@ -57,21 +57,22 @@
     </div>
     <div class="auth-buttons">
       <nuxt-link :to="{ path: '/publish'}" class="publish">
-        <i class="material-icons">add</i>
         <p>Objavi</p>
+        <font-awesome-icon icon="plus"/>
       </nuxt-link>
       <div v-if="!$auth.user" class="auth-reg">
         <button class="register" @click="$router.push('/auth/register')">Registracija</button>
-        <button class="register" @click="$router.push('/auth/login')">Prijava</button>
       </div>
       <button v-if="$auth.user" class="login">
-        <i class="material-icons">email</i>
+        <font-awesome-icon icon="envelope" />
+        <font-awesome-icon icon="bell" />
       </button>
-      <button class="login" @click="showUserDropdown = !showUserDropdown" v-if="$auth.user">
-        <i class="material-icons">perm_identity</i>
+      <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
+        <font-awesome-icon icon="bars"></font-awesome-icon>
+        <font-awesome-icon icon="user-circle"></font-awesome-icon>
       </button>
       <!-- User dropdown -->
-      <div class="user-dropdown" v-if="showUserDropdown">
+      <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
         <sidenav></sidenav>
       </div>
     </div>
@@ -107,6 +108,10 @@ export default class Navbar extends Vue{
 
   away() {
     this.focused = false;
+  }
+
+  closeSidebar() {
+    this.showUserDropdown = false;
   }
 
   buildTitle(title) {
@@ -232,7 +237,7 @@ export default class Navbar extends Vue{
 
 <style scoped lang="scss">
 .navbar-wrapper {
-  padding: 0 16px;
+  padding: 0 80px;
   height: 70px;
   width: 100%;
   display: flex;
@@ -250,7 +255,7 @@ export default class Navbar extends Vue{
     justify-content: flex-start;
 
     img {
-      height: 80px;
+      height: 60px;
     }
   }
   .input-wrapper {
@@ -432,6 +437,40 @@ export default class Navbar extends Vue{
 
     .auth-reg {
       width: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .login-wrapper {
+      width: 76px;
+      border: 1px solid #f1f1f1;
+      border-radius: 8px;
+      padding: 0 12px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #444;
+      margin-left: 16px;
+
+      svg {
+        &:first-child {
+          margin-right: 12px;
+        }
+        &:last-child {
+          font-size: 25px;
+        };
+        transition: 0.3s all ease;
+      }
+
+      &:hover {
+        border: none;
+
+        svg {
+          transform: scale(1.1)
+        }
+      }
     }
 
     button {
@@ -458,8 +497,9 @@ export default class Navbar extends Vue{
 
       &.register {
         padding: 0 24px;
-        border: 1px solid #444;
-        font-weight: 500 !important;
+        border: none;
+        color: #444;
+        font-weight: 600;
 
         &:last-child {
           margin-left: 12px;
@@ -470,60 +510,67 @@ export default class Navbar extends Vue{
         display: flex;
         align-items: center;
         margin-left: 12px;
-        color: #757B9A;
+        color: #444;
+        background: #f7f7f7;
+        border-radius: 8px;
 
-        .person {
-          height: 30px;
-          width: 30px;
-          border-radius: 15px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #757B9A;
-          color: #fff;
-          margin-left: 8px;
+        svg {
+          font-size: 18px;
+          padding: 0 12px;
+          transition: 0.3s all ease;
+
+          &:hover {
+            transform: scale(1.2)
+          }
+
+          &:last-child {
+            border-left: 1px solid #f1f1f1;
+          }
         }
 
-        &:hover {
-          box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-          background: transparent;
-        }
       }
     }
 
     .user-dropdown {
       position: absolute;
-      top: 56px;
+      top: 64px;
       padding: 12px;
       background: #fff;
       width: 280px;
       min-width: 280px;
-      right: -14px;
+      right: 0;
       box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      height: calc(100vh - 94px);
+      height: fit-content;
+      border-radius: 10px;
     }
   }
 
   .publish {
-    padding: 0 12px;
+    padding: 0 24px;
     height: 40px;
     width: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: 8px;
     outline: none;
-    border: 1px solid  #757B9A !important;
-    color: #757B9A;
+    color: #fff;
+    background: #D63946;
     transition: 0.3s all ease;
+    margin-right: 12px;
 
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
+    }
+
+    svg {
+      margin-left: 12px;
+      font-size: 12px;
     }
   }
 }

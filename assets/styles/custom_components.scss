@@ -30,7 +30,7 @@
 .grid-layout {
   display: grid;
   grid-template-columns: repeat( auto-fill, minmax(270px, 1fr) );
-  grid-column-gap: 24px;
+  grid-column-gap: 12px;
   grid-row-gap: 32px;
   width: 100%;
   justify-content: center;
@@ -61,4 +61,39 @@
 
 .w-full {
   width: 100%;
+}
+
+.account-wrapper {
+  display: flex;
+  height: calc(100vh - 80px);
+  width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 12px;
+
+  li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    svg {
+      margin: 0 12px 0 12px;
+    }
+
+    a, p {
+      color: #444;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
 }

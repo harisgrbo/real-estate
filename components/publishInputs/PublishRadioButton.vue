@@ -49,7 +49,7 @@ $radioActive: #757B9A;
   flex: 1;
   height: 50px;
   border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: 4px;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;

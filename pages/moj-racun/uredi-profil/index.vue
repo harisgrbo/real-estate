@@ -1,13 +1,20 @@
 <template>
-  <div class="w-full">
+  <div class="account-wrapper">
+    <ul class="breadcrumbs">
+      <li>
+        <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
+        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <p>Uredi profil</p>
+      </li>
+    </ul>
     <h1 class="heading">
       Uredi profil
     </h1>
     <div class="content">
-      <TextField label="Ime i prezime" v-model="payload.name"></TextField>
-      <TextField label="Email" v-model="payload.email"></TextField>
+      <TextField label="Ime i prezime" v-model="payload.name" type="text"></TextField>
+      <TextField label="Email" v-model="payload.email" type="text"></TextField>
       <TextField label="Sifra" type="password" v-model="payload.password"></TextField>
-      <TextField label="Potvrdi sifru" v-model="user.password"></TextField>
+      <TextField label="Potvrdi sifru" v-model="user.password" type="password"></TextField>
     </div>
     <ActionButton @action="handleAction" placeholder="Spasi izmjene" :loading="loading"></ActionButton>
     <Snackbar></Snackbar>
@@ -26,7 +33,7 @@ import Snackbar from "@/components/global/Snackbar";
     ActionButton,
     Snackbar
   },
-  layout() { return "account" }
+  layout() { return "home" }
 })
 
 export default class urediProfil extends Vue {
@@ -84,6 +91,10 @@ export default class urediProfil extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+.heading {
+  margin-bottom: 36px;
+}
   .w-full {
     display: flex;
     flex-direction: column;
