@@ -64,7 +64,7 @@
         <button class="register" @click="$router.push('/auth/register')">Registracija</button>
       </div>
       <button v-if="$auth.user" class="login">
-        <font-awesome-icon icon="envelope" />
+        <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
         <font-awesome-icon icon="bell" />
       </button>
       <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">

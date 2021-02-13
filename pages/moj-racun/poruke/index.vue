@@ -17,7 +17,7 @@
           <font-awesome-icon icon="search"></font-awesome-icon>
         </div>
         <div class="heading-inner">
-          <h1>Razgovori</h1>
+          <h1>Konverzacije</h1>
           <div class="buttons-wrapper">
             <button>
               <font-awesome-icon icon="plus"></font-awesome-icon>
@@ -27,16 +27,22 @@
             </button>
           </div>
         </div>
-        <div class="conversations-list__inner">
-          <ConversationList :conversations="conversations" v-model="currentConversation" @input="handleSelectedConversation"></ConversationList>
+        <div class="conversation-list inner">
+          <ConversationList v-if="conversationsLoaded" :conversations="conversations" v-model="currentConversation" @input="handleSelectedConversation"></ConversationList>
+          <div v-else class="loading-wrapper">
+            <img src="/load.svg" alt="" class="loading-svg">
+          </div>
         </div>
       </div>
       <div class="conversation">
         <div class="heading-wrapper">
-          <h1>Razgovor sa {{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
+          <h1>Grupna konverzacija sa {{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
         </div>
-        <div>
-          <ConversationContent :messages="messages"></ConversationContent>
+        <div class="messages-wrap">
+          <ConversationContent v-if="messagesLoaded" :messages="messages"></ConversationContent>
+          <div v-else class="loading-wrapper">
+            <img src="/load.svg" alt="" class="loading-svg">
+          </div>
         </div>
         <div class="main-input-wrapper">
           <input type="text" placeholder="Upišite poruku.." v-model="messageContent">
@@ -76,6 +82,8 @@ export default class poruke extends Vue {
   currentConversation = null;
   messages = [];
   messageContent = '';
+  conversationsLoaded = false;
+  messagesLoaded = false;
 
   async sendMessage() {
     try {
@@ -117,24 +125,24 @@ export default class poruke extends Vue {
   }
 
   async fetchConversations() {
+    this.conversationsLoaded = false;
     try {
       let res = await this.$axios.get('/conversations');
 
       this.conversations = res.data.data;
-
-      console.log(this.conversations)
+      this.conversationsLoaded = true;
     } catch(e) {
       console.log(e)
     }
   }
 
   async fetchMessages(id) {
+    this.messagesLoaded = false;
     try {
       let res = await this.$axios.get('/conversations/' + id + '/messages');
 
       this.messages = res.data.data;
-
-      console.log(this.messages, 'poruke')
+      this.messagesLoaded = true;
     } catch(e) {
       console.log(e)
     }
@@ -232,9 +240,11 @@ export default class poruke extends Vue {
         }
       }
 
-      &__inner {
+      &.inner {
         display: flex;
         flex-direction: column;
+        height: 100%;
+        padding: 0;
       }
     }
 
@@ -315,7 +325,23 @@ export default class poruke extends Vue {
       flex-direction: column;
       padding: 0 24px;
 
-
     }
+  }
+
+  .loading-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+
+    img {
+      height: 40px;
+    }
+  }
+
+  .messages-wrap {
+    height: 100%;
+
   }
 </style>

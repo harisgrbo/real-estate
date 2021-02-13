@@ -14,6 +14,7 @@
           </div>
           <b>{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</b>
         </div>
+        <p class="type">GRUPNI RAZGOVOR</p>
         <p>{{ conversation.last_message.content }}.</p>
       </div>
     </div>
@@ -82,6 +83,11 @@ export default class ConversationList extends Vue {
       margin-left: 12px;
       justify-content: space-between;
       width: 100%;
+
+      .type {
+        font-weight: 600 !important;
+        font-size: 12px;
+      }
 
       .inner-wrap {
         display: flex;

@@ -4,7 +4,7 @@
     <div class="account-wrapper-inner">
       <div class="sidenav">
         <h1 class="heading-account">Moj račun</h1>
-        <div class="info">
+        <div class="info" v-if="$auth.user.data">
           <p>{{ $auth.user.data.name }},</p>
           <p>{{ $auth.user.data.email }}</p>
           <nuxt-link :to="/users/ + $auth.user.data.id">Idi na profil</nuxt-link>

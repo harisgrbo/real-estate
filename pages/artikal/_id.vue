@@ -5,7 +5,6 @@
         <div class="img-counter">
           <font-awesome-icon icon="images">
           </font-awesome-icon>
-
           <p>12</p>
         </div>
         <div :class="'item' + img.id" v-for="img in images">
@@ -64,45 +63,10 @@
           <div class="separator"></div>
           <h2 class="heading">Pitanja</h2>
         </div>
-        <div class="user-content-wrapper">
-          <div class="user-info">
-            <img src="/test/img1.jpg" alt="">
-            <div class="username-wrapper">
-              <div class="rating">
-                <p>{{ listing.user.name }}</p>
-
-                <div class="stars">
-                  <font-awesome-icon icon="star"></font-awesome-icon>
-                  4.9
-                </div>
-              </div>
-              <div class="buttons">
-                <span>Agencija</span>
-                <span>Korisnik</span>
-              </div>
-            </div>
-          </div>
-          <div class="contact-buttons">
-            <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka"></ActionButton>
-            <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="handleFollow"></ActionButton>
-          </div>
-          <div class="separator"></div>
-          <h2>Želite rezervisati odmah?</h2>
-          <date-picker :show-date-picker="true" :displayClearButton="true"></date-picker>
+        <div class="user-wrap">
+          <UserProfile :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent"></UserProfile>
         </div>
       </div>
-      <modal name="contact-user" :adaptive="true" height="100%">
-        <div class="modal-inner">
-          <div class="modal-header">
-            <h2>Poruka za {{ listing.user.name }}</h2>
-            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
-          </div>
-          <div class="modal-content">
-            <textarea v-model="message"></textarea>
-            <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
-          </div>
-        </div>
-      </modal>
     </div>
     <Snackbar></Snackbar>
   </div>
@@ -112,11 +76,13 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "@/components/actionButtons/ActionButton";
 import Snackbar from "@/components/global/Snackbar";
+import UserProfile from "@/components/UserProfile"
 
 @Component({
   components: {
     ActionButton,
-    Snackbar
+    Snackbar,
+    UserProfile
   },
   layout() { return "home" },
   async asyncData(ctx) {
@@ -150,7 +116,6 @@ export default class Artikal extends Vue {
     buy: 'Potraznja'
   }
   loading = false;
-  message = '';
   isUserFollowed = false;
   images = [
     {
@@ -206,50 +171,9 @@ export default class Artikal extends Vue {
 
   }
 
-  async sendMessage() {
-    if(this.message.length === 0) {
-      this.$snackbar.show({
-        text: "Morate upisati poruku",
-        timeout: 1000,
-        type: "danger"
-      });
-
-      return
-    }
-
-    this.loading = true;
-    try {
-      let res = await this.$axios.post('/conversations', {
-        users: [this.listing.user.id],
-      })
-
-      let conversation = res.data.data;
-
-      await this.$axios.post('/conversations/' + conversation.id + '/messages', {
-        content: this.message
-      });
-
-      this.$modal.hide('contact-user');
-
-      this.loading = false;
-
-      this.$snackbar.show({
-        text: "Uspjšsno ste poslali poruku korisniku " + this.user.name,
-        timeout: 1000,
-        type: "success"
-      });
-
-
-      this.message = '';
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
   created() {
     console.log(this.$auth)
     this.isUserFollowed = this.isFollowed;
-    console.log(this.isFollowed, this.isSaved)
   }
 
   get listingType() {
@@ -346,94 +270,6 @@ export default class Artikal extends Vue {
       width: 100%;
       padding-top: 24px;
       position: relative;
-      .user-content-wrapper {
-        position: sticky;
-        top: 84px;
-        width: 33%;
-        display: flex;
-        flex-direction: column;
-        margin-left: 24px;
-        //border: 1px solid rgb(221, 221, 221);
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
-        height: fit-content;
-
-        .user-info {
-          display: flex;
-          width: 100%;
-          align-items: flex-start;
-          justify-content: flex-start;
-          box-sizing: border-box;
-          height: fit-content;
-
-          img {
-            height: 56px;
-            width: 56px;
-            border-radius: 50%;
-            object-fit: cover;
-          }
-
-          .username-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            margin-left: 12px;
-            height: 56px;
-            width: 100%;
-
-            .rating {
-              display: flex;
-              width: 100%;
-              justify-content: space-between;
-
-              p {
-                font-size: 16px;
-                font-weight: 500;
-              }
-
-              .stars {
-                svg {
-                  color: #1B1C32;
-                }
-              }
-            }
-
-
-            .buttons {
-              display: flex;
-
-              span {
-                margin-right: 8px;
-                display: flex;
-                align-items: center;
-                font-size: 14px;
-                padding: 6px 12px;
-                border-radius: 5px;
-                background: none;
-                border: none;
-                cursor: pointer;
-                background: rgb(247, 247, 247) !important;
-              }
-            }
-          }
-        }
-
-        .contact-buttons {
-          display: flex;
-          flex-direction: row;
-          margin-top: 12px;
-
-          button {
-            &:first-child {
-              margin-right: 8px;
-            }
-            &:last-child {
-              margin-left: 8px;
-            }
-          }
-        }
-      }
       .listing-content-wrapper {
         display: flex;
         flex-direction: column;
@@ -667,6 +503,11 @@ export default class Artikal extends Vue {
   overflow: hidden;
   right: 0 !important;
   border-radius: 10px !important;
+}
+
+.user-wrap {
+  width: 33%;
+  margin-left: 24px;
 }
 </style>
 

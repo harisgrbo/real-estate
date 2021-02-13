@@ -1,69 +1,109 @@
 <template>
-  <div class="user-profile">
-    <div class="avatar">
-      <div>
-        <div class="avatar-wrapper">
-          <img src="/avatar.jpg" alt="" @click="$router.push('/users/' + user.id)">
-          <div class="user-info">
-            <p>{{ user.name }}</p>
-            <span>{{ user.user_type }}</span>
-            <div class="stats">
-              <ul>
-                <li>
-                  Artikala
-                  <b>50</b>
-                </li>
-                <li>
-                  Pratilaca
-                  <b>500</b>
-                </li>
-                <li>
-                  Ocjena
-                  <b>8.9</b>
-                </li>
-              </ul>
-            </div>
+  <div class="user-content-wrapper">
+    <div class="user-info">
+      <img src="/test/img1.jpg" alt="" @click="$router.push('/users/' + user.id)">
+      <div class="username-wrapper">
+        <div class="rating">
+          <p @click="$router.push('/users/' + user.id)">{{ user.name }}</p>
+
+          <div class="stars">
+            <font-awesome-icon icon="star"></font-awesome-icon>
+            4.9
           </div>
         </div>
-      </div>
-      <span @click="showMoreInfo = !showMoreInfo" class="more-info">
-        Vise informacija
-        <i class="material-icons" :class="showMoreInfo ? 'rotate' : ''">keyboard_arrow_down</i>
-      </span>
-      <transition name="slide">
-        <div v-show="showMoreInfo" class="more-info-dropdown">
-          <ul>
-            <li>Adresa: Alojza Benca 2</li>
-            <li>Sarajevo</li>
-          </ul>
+        <div class="buttons">
+          <span>Agencija</span>
+          <span>Korisnik</span>
         </div>
-      </transition>
+      </div>
     </div>
-    <div class="buttons">
-      <button>Chat</button>
-      <button @click.stop.prevent="toggleFollow">{{ alreadyFollowed ? 'Otprati' : 'Zaprati' }}</button>
+    <div class="contact-buttons">
+      <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka"></ActionButton>
+      <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="toggleFollow"></ActionButton>
     </div>
+    <div v-if="isRent">
+      <div class="separator"></div>
+      <h2>Želite rezervisati odmah?</h2>
+      <date-picker :show-date-picker="true" :displayClearButton="true"></date-picker>
+    </div>
+    <modal name="contact-user" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <h2>Poruka za {{ user.name }}</h2>
+          <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
+        </div>
+        <div class="modal-content">
+          <textarea v-model="message"></textarea>
+          <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+        </div>
+      </div>
+    </modal>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import Snackbar from "@/components/global/Snackbar";
 
 @Component({
   components: {
+    Snackbar
   },
 })
 
 export default class UserProfile extends Vue {
   @Prop({}) user;
   @Prop({}) followed;
+  @Prop({}) isRent;
 
-  showMoreInfo = false;
   alreadyFollowed = false;
+  message = '';
+  loading = false;
 
   async created() {
     this.alreadyFollowed = this.followed;
     console.log(this.followed, 'jel followan')
+  }
+
+  async sendMessage() {
+    if(this.message.length === 0) {
+      this.$snackbar.show({
+        text: "Morate upisati poruku",
+        timeout: 1000,
+        type: "danger"
+      });
+
+      return
+    }
+
+    this.loading = true;
+    try {
+      let res = await this.$axios.post('/conversations', {
+        users: [this.user.id],
+      })
+
+      let conversation = res.data.data;
+
+      await this.$axios.post('/conversations/' + conversation.id + '/messages', {
+        content: this.message
+      });
+
+      this.$modal.hide('contact-user');
+
+      this.loading = false;
+
+      this.$snackbar.show({
+        text: "Uspjšsno ste poslali poruku korisniku " + this.user.name,
+        timeout: 1000,
+        type: "success"
+      });
+
+
+      this.message = '';
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   toggleFollow() {
@@ -91,177 +131,150 @@ export default class UserProfile extends Vue {
 </script>
 
 <style scoped lang="scss">
-  .user-profile {
+.user-content-wrapper {
+  position: sticky;
+  top: 84px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 24px;
+  //border: 1px solid rgb(221, 221, 221);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+  height: fit-content;
+
+  .user-info {
     display: flex;
-    flex-direction: column;
-    width: 350px;
-    min-width: 350px;
-    max-width: 350px;
-    height: 100%;
-    padding-right: 24px;
-    margin-right: 24px;
-    border-right: 1px solid #f1f1f1;
-    .avatar {
+    width: 100%;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    height: fit-content;
+
+    img {
+      height: 56px;
+      width: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .username-wrapper {
       display: flex;
       flex-direction: column;
-      > div {
-        display: flex;
-        justify-content: space-between;
-      }
-      .avatar-wrapper {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-      }
-      .more-info {
-        font-size: 13px;
-        font-weight: 500;
-        color: #8d8d8d;
-        margin-top: 16px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        i {
-          transition: 0.3s all ease;
-          &.rotate {
-            transform: rotate(180deg);
-          }
-        }
-      }
-      .more-info-dropdown {
-        padding: 16px 0 0 0;
-        width: 100%;
-        ul {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          li {
-            font-size: 13px;
-            font-weight: 500;
-            color: #8d8d8d;
-            background: #F3F5FB;
-            border-radius: 5px;
-            padding: 8px 8px;
-            margin-bottom: 8px;
-          }
-        }
-      }
-      img {
-        width: 100px;
-        height: 100px;
-        border-radius: 10px;
-        object-fit: cover;
-      }
-      .user-info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: space-between;
-        width: 100%;
-        padding-left: 16px;
-        p {
-          font-size: 18px;
-          font-weight: 500;
-          margin-bottom: 0;
-        }
-        span {
-          font-size: 13px;
-          font-weight: 500;
-          color: #8d8d8d;
-          background: #F3F5FB;
-          border-radius: 5px;
-          padding: 3px 8px;
-        }
-        .stats {
-          display: flex;
-          width: 100%;
-          ul {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            background: #F3F5FB;
-            border-radius: 5px;
-            padding: 8px;
-            li {
-              display: flex;
-              flex: 1;
-              align-items: center;
-              flex-direction: column;
-              justify-content: center;
-              font-size: 12px;
-              font-weight: 400;
-              color: #8d8d8d;
-              b {
-                margin-top: 5px;
-                font-size: 16px;
-                color: #434343;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .buttons {
-      display: flex;
+      justify-content: space-between;
+      margin-left: 12px;
+      height: 56px;
       width: 100%;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid #ddd;
-      button {
-        height: 50px;
+
+      .rating {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #dddddd;
-        flex: 1;
-        background: transparent;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 500;
-        &:first-child {
-          margin-right: 8px;
+        width: 100%;
+        justify-content: space-between;
+
+        p {
+          font-size: 16px;
+          font-weight: 500;
+          cursor: pointer;
         }
-        &:last-child {
-          margin-left: 8px;
-          background: #757B9A;
-          color: #fff;
+
+        .stars {
+          svg {
+            color: #1B1C32;
+          }
+        }
+      }
+
+
+      .buttons {
+        display: flex;
+
+        span {
+          margin-right: 8px;
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          padding: 6px 12px;
+          border-radius: 5px;
+          background: none;
           border: none;
+          cursor: pointer;
+          background: rgb(247, 247, 247) !important;
         }
       }
     }
   }
 
-  .slide-enter-active {
-    -moz-transition-duration: 0.3s;
-    -webkit-transition-duration: 0.3s;
-    -o-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -moz-transition-timing-function: ease-in;
-    -webkit-transition-timing-function: ease-in;
-    -o-transition-timing-function: ease-in;
-    transition-timing-function: ease-in;
+  .contact-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 12px;
+
+    button {
+      &:first-child {
+        margin-right: 8px;
+      }
+      &:last-child {
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
+.separator {
+  margin: 24px 0;
+  border-bottom: 1px solid #f7f7f7;
+}
+
+h2 {
+  color: rgb(34, 34, 34) !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  line-height: 26px !important;
+  margin-bottom: 12px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  border-bottom: 1px solid #dcdcdc;
+  justify-content: space-between;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
   }
 
-  .slide-leave-active {
-    -moz-transition-duration: 0.3s;
-    -webkit-transition-duration: 0.3s;
-    -o-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-    -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-    -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  svg {
+    cursor: pointer;
   }
+}
 
-  .slide-enter-to, .slide-leave {
-    max-height: 100px;
-    overflow: hidden;
-  }
+.modal-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
 
-  .slide-enter, .slide-leave-to {
-    overflow: hidden;
-    max-height: 0;
+  .modal-content {
+    padding: 24px 0;
+    textarea {
+      height: 200px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 21px;
+      box-sizing: border-box;
+      padding: 24px;
+
+      &:focus {
+        outline: none;
+
+      }
+    }
   }
+}
+
 </style>

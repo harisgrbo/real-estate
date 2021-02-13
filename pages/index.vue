@@ -8,6 +8,9 @@
     <div class="grid-layout">
       <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
     </div>
+    <client-only>
+      <infinite-loading spinner="circles" direction="bottom" @infinite="infiniteHandler"></infinite-loading>
+    </client-only>
   </div>
 </template>
 
@@ -27,20 +30,38 @@
 
   export default class Homepage extends Vue {
     listings = [];
+    page = 1;
+    meta = {}
 
-    async fetchListings() {
+    async fetchListings(page) {
       try {
-        let response = await this.$axios.get('/listings/home');
+        let response = await this.$axios.get('/listings/home?page=' + page);
         this.listings = response.data.data;
+        this.meta = response.data.meta;
       } catch(e) {
         console.log(e)
       }
     }
 
     async created() {
-      console.log(this.$auth.user, 'auth')
-      await this.fetchListings();
+      await this.fetchListings(1);
     }
+
+    // infiniteHandler($state) {
+    //   this.$axios.get('/listings/home', {
+    //     params: {
+    //       page: this.page,
+    //     },
+    //   }).then(({ data }) => {
+    //     if (data.length >= this.meta.total) {
+    //       $state.complete();
+    //     } else {
+    //       this.page += 1;
+    //       this.listings.concat(data)
+    //       $state.loaded();
+    //     }
+    //   });
+    // }
   }
 </script>
 

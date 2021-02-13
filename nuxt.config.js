@@ -34,6 +34,7 @@ export default {
     { src: '~plugins/swiper.js', mode: 'client' },
     { src: '~plugins/modal.js', mode: 'client' },
     { src: '~plugins/datepicker.js', mode: 'client' },
+    { src: '~plugins/infiniteloading.js', mode: 'client' },
 
   ],
 
@@ -47,7 +48,7 @@ export default {
 
   fontawesome: {
     icons: {
-      solid: ['faAngleRight', 'faImages', 'faEllipsisV', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faCog', 'faBars', 'faUser', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faHeart', 'faCoins', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
+      solid: ['faAngleRight', 'faImages', 'faEllipsisV', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faCog', 'faBars', 'faUser', 'faUserPlus', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faHeart', 'faCoins', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
     }
   },
   // Modules (https://go.nuxtjs.dev/config-modules)
