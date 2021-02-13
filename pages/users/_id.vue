@@ -41,17 +41,16 @@
       </div>
       <div class="contact-buttons">
         <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" icon="paper-plane"></ActionButton>
-        <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>
+        <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>
       </div>
-      <div v-if="isRent">
-        <div class="separator"></div>
-        <h2>Želite rezervisati odmah?</h2>
-        <date-picker :show-date-picker="true" :displayClearButton="true"></date-picker>
-      </div>
+      <button class="save">
+        <font-awesome-icon icon="heart"></font-awesome-icon>
+        Spasi korisnika
+      </button>
     </div>
     <div class="content-wrapper">
       <ul>
-        <li v-for="(tab, index) in tabs" @click="activeTab = index">{{ tab }}</li>
+        <li v-for="(tab, index) in tabs" @click="activeTab = index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
       </ul>
       <div>
         <div v-if="activeTab === 0" class="grid-layout">
@@ -59,16 +58,29 @@
         </div>
       </div>
     </div>
+    <modal name="contact-user" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <h2>Poruka za {{ user.name }}</h2>
+          <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
+        </div>
+        <div class="modal-content">
+          <textarea v-model="message"></textarea>
+          <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+        </div>
+      </div>
+    </modal>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import UserProfile from "@/components/UserProfile";
 import ListingCard from "@/components/listingCard/ListingCard";
+import Snackbar from "@/components/global/Snackbar";
 
 @Component({
-  components: {ListingCard, UserProfile},
+  components: {ListingCard, Snackbar},
   layout() { return "home" }
 })
 
@@ -76,6 +88,10 @@ export default class Users extends Vue {
 
   activeTab = 0
   user = {}
+  isFollowed = ''
+  message = '';
+  loading = false;
+  followLoading = false;
   listings = []
   tabs = [
     "Aktivni oglasi",
@@ -85,13 +101,87 @@ export default class Users extends Vue {
 
   async created() {
     await this.fetchUser(this.$route.params.id)
+    this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
+  }
+
+  async sendMessage() {
+    if(this.message.length === 0) {
+      this.$snackbar.show({
+        text: "Morate upisati poruku",
+        timeout: 1000,
+        type: "danger"
+      });
+
+      return
+    }
+
+    this.loading = true;
+    try {
+      let res = await this.$axios.post('/conversations', {
+        users: [this.user.id],
+      })
+
+      let conversation = res.data.data;
+
+      await this.$axios.post('/conversations/' + conversation.id + '/messages', {
+        content: this.message
+      });
+
+      this.$modal.hide('contact-user');
+
+      this.loading = false;
+
+      this.$snackbar.show({
+        text: "Uspjšsno ste poslali poruku korisniku " + this.user.name,
+        timeout: 1000,
+        type: "success"
+      });
+
+
+      this.message = '';
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  toggleFollow() {
+    if (this.isFollowed === false) {
+      try {
+        this.$axios.post('/users/' + this.user.id + '/follow');
+
+        this.$snackbar.show({
+          text: "Uspjšsno ste zapratili korisnika " + this.user.name,
+          timeout: 1000,
+          type: "success"
+        });
+
+        this.isFollowed = true;
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      try {
+        this.$axios.delete('/users/' + this.user.id + '/follow');
+
+        this.$snackbar.show({
+          text: "Uspjšsno ste otpratili korisnika " + this.user.name,
+          timeout: 1000,
+          type: "success"
+        });
+
+        this.isFollowed = false;
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 
   async fetchUser(id) {
     try {
       let response = await this.$axios.get('/users/' + id)
       this.user = response.data.data;
+      this.meta = response.data.meta;
     } catch(e) {
       console.log(e)
     }
@@ -248,12 +338,27 @@ export default class Users extends Vue {
       margin-bottom: 36px;
 
       li {
-        font-size: 22px !important;
+        font-size: 16px !important;
         line-height: 26px !important;
         margin-right: 24px;
+        padding-bottom: 8px;
+        position: relative;
+        cursor: pointer;
 
         &:last-child {
           margin-right: 0;
+        }
+
+        &.active {
+          font-weight: 600;
+          &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-bottom: 1px solid #D63946;
+          }
         }
       }
     }
@@ -262,6 +367,75 @@ export default class Users extends Vue {
       grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) );
       padding: 0;
     }
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  border-bottom: 1px solid #dcdcdc;
+  justify-content: space-between;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  svg {
+    cursor: pointer;
+  }
+}
+
+.modal-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+
+  .modal-content {
+    padding: 24px 0;
+    textarea {
+      height: 200px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 21px;
+      box-sizing: border-box;
+      padding: 24px;
+
+      &:focus {
+        outline: none;
+
+      }
+    }
+  }
+}
+
+.save {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  justify-content: center;
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 24px;
+
+  svg {
+    color: #444;
+    height: 16px;
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background: rgb(247, 247, 247) !important;
+    text-decoration: underline;
   }
 }
 </style>

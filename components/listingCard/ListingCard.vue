@@ -128,7 +128,7 @@ export default class ListingCard extends Vue{
           overflow: hidden;
           text-overflow: ellipsis;
           font-weight: 500 !important;
-          font-size: 18px !important;
+          font-size: 16px !important;
           line-height: 20px !important;
 
           &::after {
@@ -158,7 +158,7 @@ export default class ListingCard extends Vue{
         overflow: hidden;
         text-overflow: ellipsis;
         max-width: 100%;
-        font-size: 16px;
+        font-size: 14px;
         color: #434343;
         font-weight: 400;
       }
@@ -171,7 +171,7 @@ export default class ListingCard extends Vue{
 
         .price {
           font-weight: 600;
-          font-size: 16px;
+          font-size: 15px;
           color: #444;
           line-height: 20px;
           margin-top: 10px;

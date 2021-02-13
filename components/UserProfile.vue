@@ -19,7 +19,7 @@
     </div>
     <div class="contact-buttons">
       <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka"></ActionButton>
-      <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="toggleFollow"></ActionButton>
+      <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="handleFollow"></ActionButton>
     </div>
     <div v-if="isRent">
       <div class="separator"></div>
@@ -57,7 +57,6 @@ export default class UserProfile extends Vue {
   @Prop({}) followed;
   @Prop({}) isRent;
 
-  alreadyFollowed = false;
   message = '';
   loading = false;
 
@@ -106,24 +105,34 @@ export default class UserProfile extends Vue {
     }
   }
 
-  toggleFollow() {
-    if (this.alreadyFollowed === false) {
-      try {
-        this.$axios.post('/users/' + this.user.id + '/follow');
+  async handleFollow() {
+    try {
+      if(this.isFollowed) {
+        await this.$axios.delete('/users/' + this.user.id + '/follow');
 
-        this.alreadyFollowed = true;
-      } catch (e) {
-        console.log(e)
-      }
-    } else {
-      try {
-        this.$axios.delete('/users/' + this.user.id + '/follow');
+        this.$snackbar.show({
+          text: "Uspjšsno ste otpratili " + this.user.name,
+          timeout: 1000,
+          type: "success"
+        });
 
-        this.alreadyFollowed = false;
-      } catch (e) {
-        console.log(e)
+        this.isFollowed = false;
+      } else {
+        await this.$axios.post('/users/' + this.user.id + '/follow');
+
+        this.$snackbar.show({
+          text: "Uspješno ste zapratili " + this.user.name,
+          timeout: 1000,
+          type: "success"
+        });
+
+        this.isFollowed = true;
       }
+
+    } catch(e)  {
+      console.log(e)
     }
+
   }
 
 }

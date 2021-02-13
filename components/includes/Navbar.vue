@@ -1,80 +1,92 @@
 <template>
   <div class="navbar-wrapper">
-    <div class="img-wrapper">
-      <img src="/new/logo.png" alt="" @click="$router.push('/')">
-    </div>
-    <div class="input-wrapper"
-         @focusin="focused = true"
-         :class="[ focused? 'focused' : '']"
-         v-on-clickaway="away"
-    >
-      <button @click="search">
-        <i class="material-icons">search</i>
-      </button>
-      <input type="text"
-             ref="search"
-             @keyup.enter="search"
-             @input="showSuggests"
-      >
-      <div class="category" v-if="selectedCategory !== null">{{ selectedCategory.title }}
-        <button class="close">
-          <i class="material-icons" @click="selectedCategory = null">close</i>
-        </button>
+    <div class="first-row">
+      <div>
+        <ul>
+          <li>agencije</li>
+          <li>novogradnja</li>
+          <li>marketing</li>
+          <li>o nama</li>
+        </ul>
       </div>
-      <div class="category" v-if="selectedType !== null">{{ selectedType.title }}
-        <button class="close">
-          <i class="material-icons" @click="selectedType = null">close</i>
-        </button>
-      </div>
-      <button class="close">
-        <i class="material-icons" @click="clearSearchTerm">close</i>
-      </button>
-      <!-- Autocomplete dropdown -->
-      <div class="autocomplete-dropdown" v-if="focused === true">
-        <div class="quick-filters">
-          <button @click="toggleCategories">Kategorija</button>
-          <button @click="$modal.show('type')">Vrsta oglasa</button>
+      <div class="auth-buttons">
+        <div v-if="!$auth.user" class="auth-reg">
+          <button class="register" @click="$router.push('/auth/register')">Registracija</button>
         </div>
-        <p>Posljednje pretrage</p>
-        <ul>
-          <li>
-            Stan sarajevo
-          </li>
-          <li>
-            Sarajevo kuca
-          </li>
-          <li>
-            Banjaluka stanovi
-          </li>
-        </ul>
-        <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
-        <ul>
-          <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearch(suggest)">
-              {{ suggest }}
-          </li>
-        </ul>
+        <button v-if="$auth.user" class="login">
+          <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
+          <font-awesome-icon icon="bell" />
+        </button>
+        <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
+          <font-awesome-icon icon="bars"></font-awesome-icon>
+          <font-awesome-icon icon="user-circle"></font-awesome-icon>
+        </button>
+        <!-- User dropdown -->
+        <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
+          <sidenav></sidenav>
+        </div>
       </div>
     </div>
-    <div class="auth-buttons">
+    <div class="second-row">
+      <div class="img-wrapper">
+        <img src="/logo.png" alt="" @click="$router.push('/')">
+      </div>
+      <div class="input-wrapper"
+           @focusin="focused = true"
+           :class="[ focused? 'focused' : '']"
+           v-on-clickaway="away"
+      >
+        <button @click="search">
+          <i class="material-icons">search</i>
+        </button>
+        <input type="text"
+               ref="search"
+               @keyup.enter="search"
+               @input="showSuggests"
+        >
+        <div class="category" v-if="selectedCategory !== null">{{ selectedCategory.title }}
+          <button class="close">
+            <i class="material-icons" @click="selectedCategory = null">close</i>
+          </button>
+        </div>
+        <div class="category" v-if="selectedType !== null">{{ selectedType.title }}
+          <button class="close">
+            <i class="material-icons" @click="selectedType = null">close</i>
+          </button>
+        </div>
+        <button class="close">
+          <i class="material-icons" @click="clearSearchTerm">close</i>
+        </button>
+        <!-- Autocomplete dropdown -->
+        <div class="autocomplete-dropdown" v-if="focused === true">
+          <div class="quick-filters">
+            <button @click="toggleCategories">Kategorija</button>
+            <button @click="$modal.show('type')">Vrsta oglasa</button>
+          </div>
+          <p>Posljednje pretrage</p>
+          <ul>
+            <li>
+              Stan sarajevo
+            </li>
+            <li>
+              Sarajevo kuca
+            </li>
+            <li>
+              Banjaluka stanovi
+            </li>
+          </ul>
+          <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
+          <ul>
+            <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearch(suggest)">
+              {{ suggest }}
+            </li>
+          </ul>
+        </div>
+      </div>
       <nuxt-link :to="{ path: '/publish'}" class="publish">
         <p>Objavi</p>
         <font-awesome-icon icon="plus"/>
       </nuxt-link>
-      <div v-if="!$auth.user" class="auth-reg">
-        <button class="register" @click="$router.push('/auth/register')">Registracija</button>
-      </div>
-      <button v-if="$auth.user" class="login">
-        <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
-        <font-awesome-icon icon="bell" />
-      </button>
-      <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
-        <font-awesome-icon icon="bars"></font-awesome-icon>
-        <font-awesome-icon icon="user-circle"></font-awesome-icon>
-      </button>
-      <!-- User dropdown -->
-      <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
-        <sidenav></sidenav>
-      </div>
     </div>
     <modals-container></modals-container>
     <modal name="type" :adaptive="true" height="100%">
@@ -238,9 +250,10 @@ export default class Navbar extends Vue{
 <style scoped lang="scss">
 .navbar-wrapper {
   padding: 0 80px;
-  height: 70px;
+  height: 120px;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   position: fixed;
@@ -249,13 +262,43 @@ export default class Navbar extends Vue{
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
   z-index: 3;
   box-sizing: border-box;
+  padding: 8px 80px;
+
+  .first-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      li {
+        margin-right: 24px;
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .second-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .img-wrapper {
     display: flex;
     flex: 2;
     justify-content: flex-start;
 
     img {
-      height: 60px;
+      height: 80px;
     }
   }
   .input-wrapper {
@@ -550,7 +593,7 @@ export default class Navbar extends Vue{
 
   .publish {
     padding: 0 24px;
-    height: 40px;
+    height: 48px;
     width: fit-content;
     display: flex;
     align-items: center;
@@ -562,7 +605,7 @@ export default class Navbar extends Vue{
     color: #fff;
     background: #D63946;
     transition: 0.3s all ease;
-    margin-right: 12px;
+    margin-left: 12px;
 
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;

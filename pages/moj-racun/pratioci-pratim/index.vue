@@ -21,8 +21,8 @@
     </ul>
     <div class="saved-content">
       <div v-show="activeTab === 0">
-        <div v-if="followers.length" class="user-card-grid">
-          <UserCard v-for="user in followers" :user="user" label="Otprati"></UserCard>
+        <div v-if="followers.length" class="grid-layout">
+          <UserCard v-for="user in followers" :user="user"></UserCard>
         </div>
         <div v-else>
           Nemate pratilaca

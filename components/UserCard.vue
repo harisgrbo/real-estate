@@ -23,23 +23,24 @@
       </div>
     </div>
     <div class="buttons" v-if="user.id !== $auth.user.data.id">
-      <button @click="removeUser">{{ label }}</button>
+      <ActionButton placeholder="Otprati" @action="removeUser"></ActionButton>
     </div>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import ActionButton from "@/components/actionButtons/ActionButton"
 
 @Component({
   components: {
+    ActionButton
   },
   layout() { return "account" }
 })
 
 export default class UserCard extends Vue {
   @Prop({}) user;
-  @Prop({ type: String }) label;
 
   removeUser(e) {
     this.$emit('remove-user', e)
@@ -104,7 +105,7 @@ export default class UserCard extends Vue {
     img {
       width: 100px;
       height: 100px;
-      border-radius: 10px;
+      border-radius: 50px;
       object-fit: cover;
     }
     .user-info {
@@ -136,7 +137,7 @@ export default class UserCard extends Vue {
           align-items: center;
           justify-content: space-between;
           width: 100%;
-          background: #F3F5FB;
+          background: #f1f1f1;
           border-radius: 5px;
           padding: 8px;
           li {

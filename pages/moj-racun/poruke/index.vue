@@ -36,7 +36,7 @@
       </div>
       <div class="conversation">
         <div class="heading-wrapper">
-          <h1>Grupna konverzacija sa {{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
+          <h1>{{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
         </div>
         <div class="messages-wrap">
           <ConversationContent v-if="messagesLoaded" :messages="messages"></ConversationContent>

@@ -14,7 +14,7 @@
           </div>
           <b>{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</b>
         </div>
-        <p class="type">GRUPNI RAZGOVOR</p>
+        <p class="type">{{ others(conversation).length > 2? 'GRUPNI RAZGOVOR' : '' }}</p>
         <p>{{ conversation.last_message.content }}.</p>
       </div>
     </div>

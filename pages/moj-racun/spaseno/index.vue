@@ -20,7 +20,7 @@
     </ul>
     <div class="saved-content">
       <div v-show="activeTab === 0">
-        <div>
+        <div class="grid-layout">
           <SavedUserCard v-for="user in savedUsers" :user="user"></SavedUserCard>
         </div>
       </div>
@@ -114,5 +114,9 @@ export default class spaseno extends Vue {
       }
     }
   }
+}
+
+.grid-layout {
+  padding: 0;
 }
 </style>
