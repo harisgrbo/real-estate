@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="buttons" v-if="user.id !== $auth.user.data.id">
+    <div class="buttons" v-if="user.id !== $auth.user.id">
       <ActionButton placeholder="Otprati" @action="removeUser"></ActionButton>
     </div>
   </div>

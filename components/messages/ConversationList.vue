@@ -35,7 +35,7 @@ export default class ConversationList extends Vue {
   @Prop() value;
 
   others(conversation) {
-    return conversation.users.filter( item => item.id !== this.$auth.user.data.id);
+    return conversation.users.filter( item => item.id !== this.$auth.user.id);
   }
 
   setSelectedConversation(c) {

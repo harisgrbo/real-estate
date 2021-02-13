@@ -11,7 +11,7 @@
       </div>
       <div class="auth-buttons">
         <div v-if="!$auth.user" class="auth-reg">
-          <button class="register" @click="$router.push('/auth/register')">Registracija</button>
+          <button class="register" @click="$router.push('/auth/register')">REGISTRACIJA</button>
         </div>
         <button v-if="$auth.user" class="login">
           <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
@@ -31,6 +31,10 @@
       <div class="img-wrapper">
         <img src="/logo.png" alt="" @click="$router.push('/')">
       </div>
+      <button class="categories" @click="toggleCategories">
+        KATEGORIJE
+        <font-awesome-icon icon="th-large"></font-awesome-icon>
+      </button>
       <div class="input-wrapper"
            @focusin="focused = true"
            :class="[ focused? 'focused' : '']"
@@ -249,8 +253,7 @@ export default class Navbar extends Vue{
 
 <style scoped lang="scss">
 .navbar-wrapper {
-  padding: 0 80px;
-  height: 120px;
+  height: fit-content;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -258,17 +261,22 @@ export default class Navbar extends Vue{
   align-items: center;
   position: fixed;
   top: 0;
-  background: #fff;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
   z-index: 3;
   box-sizing: border-box;
-  padding: 8px 80px;
+  padding: 0px 80px 8px 80px;
 
   .first-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    background: #1B1D32;
+    color: #fff !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding: 0 80px;
+
 
     ul {
       display: flex;
@@ -278,7 +286,7 @@ export default class Navbar extends Vue{
       li {
         margin-right: 24px;
         text-transform: uppercase;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
         cursor: pointer;
       }
@@ -290,6 +298,29 @@ export default class Navbar extends Vue{
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding: 0 80px;
+
+    .categories {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      margin-right: 24px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 0 12px;
+      cursor: pointer;
+      transition: 0.3s all ease;
+      font-weight: 600;
+      font-size: 13px;
+
+      svg {
+        text-transform: uppercase;
+        margin-left: 12px;
+      }
+    }
   }
 
   .img-wrapper {
@@ -541,8 +572,9 @@ export default class Navbar extends Vue{
       &.register {
         padding: 0 24px;
         border: none;
-        color: #444;
+        color: #fff;
         font-weight: 600;
+        font-size: 12px;
 
         &:last-child {
           margin-left: 12px;

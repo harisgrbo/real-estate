@@ -23,7 +23,7 @@ export default class ConversationContent extends Vue {
   @Prop({ type: Array }) messages;
 
   isMe(message) {
-    return message.sender.id === this.$auth.user.data.id;
+    return message.sender.id === this.$auth.user.id;
   }
 }
 </script>

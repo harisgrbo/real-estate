@@ -53,7 +53,7 @@ export default class urediProfil extends Vue {
   }
 
   async fetchUser() {
-    let user = this.$auth.user.data.id;
+    let user = this.$auth.user.id;
     try {
       let res = await this.$axios.get('/me');
 

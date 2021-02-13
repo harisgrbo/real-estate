@@ -58,7 +58,7 @@ export default {
 
   fontawesome: {
     icons: {
-      solid: ['faAngleRight', 'faImages', 'faEllipsisV', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faCog', 'faBars', 'faUser', 'faUserPlus', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faHeart', 'faCoins', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
+      solid: ['faAngleRight', 'faImages', 'faEllipsisV', 'faThLarge', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faCog', 'faBars', 'faUser', 'faUserPlus', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faHeart', 'faCoins', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
     }
   },
   // Modules (https://go.nuxtjs.dev/config-modules)
