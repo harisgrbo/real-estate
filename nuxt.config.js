@@ -81,11 +81,11 @@ export default {
         endpoints: {
           login: { url: '/oauth/token', method: 'post', propertyName: 'access_token' },
           logout: false,
-          user: { url: '/me', method: 'get', propertyName: false }
+          user: { url: '/me', method: 'get', propertyName: 'data' }
         },
         // tokenRequired: true,
         // tokenType: 'bearer'
-        autoFetchUser: true
+        // autoFetchUser: true
       }
     }
   },

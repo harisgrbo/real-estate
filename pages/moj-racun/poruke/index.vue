@@ -75,6 +75,7 @@ import { v4 as uuidv4 } from 'uuid';
     ConversationList,
     ConversationContent,
   },
+  middleware: ['auth'],
   layout() { return "home" }
 })
 
@@ -83,8 +84,18 @@ export default class poruke extends Vue {
   currentConversation = null;
   messages = [];
   messageContent = '';
-  conversationsLoaded = false;
-  messagesLoaded = false;
+  conversationsLoaded = true;
+  messagesLoaded = true;
+
+  mounted() {
+    this.$echo.private(`App.User.${this.$auth.user.id}`).notification(n => {
+      if (n.type === 'App\\Notifications\\NewMessage') {
+        if (n.message.conversation_id === this.currentConversation.id && n.message.sender.id !== this.$auth.user.id) {
+          this.messages.push(n.message)
+        }
+      }
+    })
+  }
 
   async sendMessage() {
     if (this.messageContent.length === 0)
@@ -94,7 +105,7 @@ export default class poruke extends Vue {
 
     try {
       this.messages.push({
-        sender: this.$auth.user.data,
+        sender: this.$auth.user,
         content: this.messageContent,
         id: key,
         delivered: false
@@ -129,7 +140,7 @@ export default class poruke extends Vue {
   }
 
   others(conversation) {
-    return conversation.users.filter( item => item.id !== this.$auth.user.data.id);
+    return conversation.users.filter( item => item.id !== this.$auth.user.id);
   }
 
   async created() {
@@ -137,10 +148,8 @@ export default class poruke extends Vue {
 
     if(this.conversations.length) {
       this.currentConversation = this.conversations[0];
+      await this.fetchMessages(this.currentConversation.id);
     }
-
-    await this.fetchMessages(this.currentConversation.id);
-
   }
 
   async fetchConversations() {
