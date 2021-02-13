@@ -15,7 +15,7 @@
       </li>
 
       <li class="logout" v-if="$auth.user">
-        <a @click="$auth.logout">Odjavi se</a>
+        <a @click="logout()">Odjavi se</a>
       </li>
     </ul>
   </div>
@@ -28,8 +28,8 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 })
 
 export default class sidenav extends Vue{
-  created() {
-    console.log(this.$auth.user)
+  logout() {
+    this.$auth.logout();
   }
 }
 </script>

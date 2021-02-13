@@ -43,7 +43,17 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-    ['@nuxtjs/fontawesome']
+    ['@nuxtjs/fontawesome'],
+    ['@nuxtjs/laravel-echo', {
+      broadcaster: 'pusher',
+      authEndpoint: 'https://polar-cove-31327.herokuapp.com/broadcasting/auth',
+      key: '273b7047e16aaf0ad6e0',
+      cluster: 'eu',
+      encrypted: true,
+      authModule: true,
+      connectOnLogin: true,
+      disconnectOnLogout: true,
+    }]
   ],
 
   fontawesome: {
@@ -71,11 +81,11 @@ export default {
         endpoints: {
           login: { url: '/oauth/token', method: 'post', propertyName: 'access_token' },
           logout: false,
-          user: { url: '/me', method: 'get', propertyName: false }
+          user: { url: '/me', method: 'get', propertyName: 'data' }
         },
         // tokenRequired: true,
         // tokenType: 'bearer'
-        autoFetchUser: true
+        // autoFetchUser: true
       }
     }
   },
