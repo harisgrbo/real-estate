@@ -5,6 +5,7 @@
       <div class="bubble">
         <p>{{ message.content }}</p>
       </div>
+      <p>{{ message.delivered ? 'delivered': 'sent' }}</p>
     </div>
   </div>
 </template>

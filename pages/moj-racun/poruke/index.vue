@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="main-input-wrapper">
-          <input type="text" placeholder="Upišite poruku.." v-model="messageContent">
+          <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
           <div class="buttons">
             <font-awesome-icon icon="grin"></font-awesome-icon>
             <font-awesome-icon icon="paperclip"></font-awesome-icon>
@@ -68,6 +68,7 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import ConversationList from "@/components/messages/ConversationList"
 import ConversationContent from "@/components/messages/ConversationContent"
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   components: {
@@ -86,18 +87,36 @@ export default class poruke extends Vue {
   messagesLoaded = false;
 
   async sendMessage() {
-    try {
-      let res = await this.$axios.post('/conversations/' + this.currentConversation.id + '/messages', {
-        content: this.messageContent
-      });
+    if (this.messageContent.length === 0)
+      return;
 
+    let key = uuidv4();
+
+    try {
       this.messages.push({
         sender: this.$auth.user.data,
         content: this.messageContent,
-        id: Math.random()
+        id: key,
+        delivered: false
       })
 
+      let content = this.messageContent;
       this.messageContent = '';
+
+      let res = await this.$axios.post('/conversations/' + this.currentConversation.id + '/messages', {
+        initial_key: key,
+        content: content
+      });
+
+      let messageId = res.data.data.id;
+      key = res.data.meta;
+
+      let message = this.messages.find(item => item.id === key);
+
+      if (message) {
+        message.id = messageId;
+        message.delivered = true;
+      }
     } catch(e) {
       console.log(e)
     }
