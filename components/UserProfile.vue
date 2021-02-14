@@ -1,10 +1,10 @@
 <template>
   <div class="user-content-wrapper">
     <div class="user-info">
-      <img src="/test/img1.jpg" alt="" @click="$router.push('/users/' + user.id)">
+      <img src="/test/img1.jpg" alt="" @click="goToUser">
       <div class="username-wrapper">
         <div class="rating">
-          <p @click="$router.push('/users/' + user.id)">{{ user.name }}</p>
+          <p @click="goToUser">{{ user.name }}</p>
 
           <div class="stars">
             <font-awesome-icon icon="star"></font-awesome-icon>
@@ -12,16 +12,47 @@
           </div>
         </div>
         <div class="buttons">
-          <span>Agencija</span>
-          <span>Korisnik</span>
+          <span v-if="type === 'agency'">
+            Agencija
+          </span>
+          <span v-else>
+            Fizicko lice
+          </span>
         </div>
       </div>
     </div>
-    <div class="contact-buttons">
+    <div class="separator"></div>
+    <ul v-if="type === 'agency'">
+      <li>
+        <p>Broj telefona</p>
+        <b>061559944</b>
+      </li>
+      <li>
+        <p>Email</p>
+        <b>{{ user.email }}</b>
+      </li>
+      <li>
+        <p>Web</p>
+        <b>wwww.agencija.ba</b>
+      </li>
+      <li>
+        <p>ID agencije</p>
+        <b>{{ user.id }}</b>
+      </li>
+    </ul>
+    <div class="contact-buttons" v-if="isMe">
+      <ActionButton @action="$modal.show('contact-user')" placeholder="Uredi oglas"></ActionButton>
+      <ActionButton placeholder="Izdvoji" @action="handleFollow"></ActionButton>
+    </div>
+    <div class="contact-buttons" v-else>
       <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka"></ActionButton>
       <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="handleFollow"></ActionButton>
     </div>
-    <div v-if="isRent">
+    <button class="report-user" v-if="!isMe">
+      <font-awesome-icon icon="user-slash"></font-awesome-icon>
+      {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}
+    </button>
+    <div v-if="isRent && !isMe">
       <div class="separator"></div>
       <h2>Želite rezervisati odmah?</h2>
       <date-picker :show-date-picker="true" :displayClearButton="true"></date-picker>
@@ -56,13 +87,20 @@ export default class UserProfile extends Vue {
   @Prop({}) user;
   @Prop({}) followed;
   @Prop({}) isRent;
+  @Prop({}) type;
 
   message = '';
   loading = false;
 
   async created() {
     this.alreadyFollowed = this.followed;
-    console.log(this.followed, 'jel followan')
+    console.log(this.user, 'svirajte mi')
+  }
+
+  get isMe() {
+    if(this.$auth.user) {
+      return this.$auth.user.id === this.user.id;
+    }
   }
 
   async sendMessage() {
@@ -85,7 +123,8 @@ export default class UserProfile extends Vue {
       let conversation = res.data.data;
 
       await this.$axios.post('/conversations/' + conversation.id + '/messages', {
-        content: this.message
+        content: this.message,
+        initial_key: Math.floor(Math.random() * 100).toString()
       });
 
       this.$modal.hide('contact-user');
@@ -102,6 +141,14 @@ export default class UserProfile extends Vue {
       this.message = '';
     } catch(e) {
       console.log(e)
+    }
+  }
+
+  goToUser() {
+    if(this.type === 'agency') {
+      this.$router.push('/agency/' + this.user.id)
+    } else {
+      this.$router.push('/users/' + this.user.id)
     }
   }
 
@@ -142,7 +189,7 @@ export default class UserProfile extends Vue {
 <style scoped lang="scss">
 .user-content-wrapper {
   position: sticky;
-  top: 84px;
+  top: 144px;
   display: flex;
   flex-direction: column;
   margin-left: 24px;
@@ -214,12 +261,26 @@ export default class UserProfile extends Vue {
     }
   }
 
+  ul {
+    margin-bottom: 24px;
+    li {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 15px;
+
+      b {
+        font-weight: 500;
+      }
+    }
+  }
+
   .contact-buttons {
     display: flex;
     flex-direction: row;
-    margin-top: 12px;
-
     button {
+      margin-top: 0;
       &:first-child {
         margin-right: 8px;
       }
@@ -231,7 +292,7 @@ export default class UserProfile extends Vue {
 }
 
 .separator {
-  margin: 24px 0;
+  margin: 16px 0;
   border-bottom: 1px solid #f7f7f7;
 }
 
@@ -283,6 +344,35 @@ h2 {
 
       }
     }
+  }
+}
+
+.report-user {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 16px;
+  justify-content: center;
+  width: fit-content;
+
+  svg {
+    color: #444;
+    height: 16px;
+    margin-right: 8px;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background: rgb(247, 247, 247) !important;
+
+    text-decoration: underline;
   }
 }
 

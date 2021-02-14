@@ -54,6 +54,7 @@ export default class PublishTextInput extends Vue{
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
     &:focus {
       outline: none;
     }

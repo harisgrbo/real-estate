@@ -10,8 +10,8 @@
       <li v-if="$auth.user">
         <nuxt-link to="/moj-racun/">Postavke</nuxt-link>
       </li>
-      <li v-if="$auth.user">
-        <nuxt-link :to="/users/ + $auth.user.id">Moj profil</nuxt-link>
+      <li v-if="$auth.user" @click="goToUSer">
+        Moj profil
       </li>
 
       <li class="logout" v-if="$auth.user">
@@ -31,6 +31,20 @@ export default class sidenav extends Vue{
   logout() {
     this.$auth.logout();
   }
+
+  created() {
+    console.log(this.$auth.user)
+  }
+
+  goToUSer() {
+   if(this.$auth.user) {
+     if(this.$auth.user.user_type === 'agency') {
+       this.$router.push('/agency/' + this.$auth.user.id)
+     } else {
+       this.$router.push('/users/' + this.$auth.user.id)
+     }
+   }
+  }
 }
 </script>
 
@@ -47,6 +61,7 @@ export default class sidenav extends Vue{
       justify-content: flex-start;
       cursor: pointer;
       border-radius: 5px;
+      color: #444;
 
       &.login {
         font-weight: 600;

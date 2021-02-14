@@ -1,59 +1,65 @@
 <template>
   <div class="user-profile-wrapper">
     <div class="user-content-wrapper">
-      <div class="user-info">
-        <img src="/test/img1.jpg" alt="" @click="$router.push('/users/' + user.id)">
-        <div class="username-wrapper">
-          <div class="rating">
-            <p @click="$router.push('/users/' + user.id)">{{ user.name }}</p>
-          </div>
-          <div class="buttons">
-            <span>Fizicko lice</span>
+      <div class="first-col">
+        <div class="upper">
+          <h2>{{ user.name }}</h2>
+          <div class="separator"></div>
+          <div class="user-info">
+            <img src="/test/img1.jpg" alt="">
           </div>
         </div>
+        <div class="contact-buttons" v-if="isMe">
+          <ActionButton @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane"></ActionButton>
+        </div>
+        <div class="contact-buttons" v-else>
+          <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" icon="paper-plane"></ActionButton>
+          <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>
+          <button class="save">
+            <font-awesome-icon icon="heart"></font-awesome-icon>
+            Spasi agenciju
+          </button>
+        </div>
+
       </div>
-      <div class="separator"></div>
-      <ul class="user-information">
-        <li>
-          <p>Ocjena</p>
-          <div>
-            <font-awesome-icon icon="star"></font-awesome-icon>
-            4.9
-          </div>
-        </li>
-        <li>
-          <p>Broj telefona</p>
-          <b>061559944</b>
-        </li>
-        <li>
-          <p>Registrovan</p>
-          <b>{{ $moment(user.created_at).format("DD.MM.YYYY") }}</b>
-        </li>
-        <li>
-          <p>Email</p>
-          <b>{{ user.email }}</b>
-        </li>
-        <li>
-          <p>ID</p>
-          <b>{{ user.id }}</b>
-        </li>
-        <li>
-          <p>Verifikovan</p>
-          <b>Da</b>
-        </li>
-      </ul>
-      <div class="contact-buttons" v-if="isMe">
-        <ActionButton @action="$modal.show('contact-user')" placeholder="Uredi" icon="paper-plane"></ActionButton>
-        <ActionButton placeholder="Izbrisi" @action="toggleFollow" icon="user-plus"></ActionButton>
+      <div class="second-col">
+        <h2>Lokacija</h2>
+        <div class="separator"></div>
+        <PublishMap :location="city"></PublishMap>
       </div>
-      <div class="contact-buttons" v-else>
-        <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" icon="paper-plane"></ActionButton>
-        <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>
+      <div class="third-col">
+        <h2>Informacije o agenciji</h2>
+        <div class="separator"></div>
+        <ul class="user-information">
+          <li>
+            <p>Ocjena</p>
+            <div>
+              <font-awesome-icon icon="star"></font-awesome-icon>
+              4.9
+            </div>
+          </li>
+          <li>
+            <p>Broj telefona</p>
+            <b>061559944</b>
+          </li>
+          <li>
+            <p>Registrovan</p>
+            <b>{{ $moment(user.created_at).format("DD.MM.YYYY") }}</b>
+          </li>
+          <li>
+            <p>Email</p>
+            <b>{{ user.email }}</b>
+          </li>
+          <li>
+            <p>ID</p>
+            <b>{{ user.id }}</b>
+          </li>
+          <li>
+            <p>Web</p>
+            <b>www.agencija.ba</b>
+          </li>
+        </ul>
       </div>
-      <button class="save" v-if="!isMe">
-        <font-awesome-icon icon="heart"></font-awesome-icon>
-        Spasi korisnika
-      </button>
     </div>
     <div class="content-wrapper">
       <ul>
@@ -85,13 +91,14 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import Snackbar from "@/components/global/Snackbar";
+import PublishMap from "@/components/publish/PublishMap";
 
 @Component({
-  components: {ListingCard, Snackbar},
+  components: {ListingCard, Snackbar, PublishMap},
   layout() { return "home" }
 })
 
-export default class Users extends Vue {
+export default class Agencies extends Vue {
 
   activeTab = 0
   user = {}
@@ -105,10 +112,10 @@ export default class Users extends Vue {
     "Zavrseni oglasi",
     "Dojmovi"
   ]
-
-  get isMe() {
-    if(this.$auth.user) {
-      return this.$auth.user.id === this.user.id;
+  city = {
+    location: {
+      lat: parseFloat("43.8575641"),
+      lng: parseFloat("18.4149369")
     }
   }
 
@@ -116,6 +123,14 @@ export default class Users extends Vue {
     await this.fetchUser(this.$route.params.id)
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
+
+    console.log(this.user, 'usercina')
+  }
+
+  get isMe() {
+    if(this.$auth.user) {
+      return this.$auth.user.id === this.user.id;
+    }
   }
 
   async sendMessage() {
@@ -138,7 +153,8 @@ export default class Users extends Vue {
       let conversation = res.data.data;
 
       await this.$axios.post('/conversations/' + conversation.id + '/messages', {
-        content: this.message
+        content: this.message,
+        initial_key: Math.floor(Math.random() * 100).toString()
       });
 
       this.$modal.hide('contact-user');
@@ -215,7 +231,7 @@ export default class Users extends Vue {
 <style scoped lang="scss">
 .user-profile-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding: 24px;
   height: 100%;
@@ -224,109 +240,153 @@ export default class Users extends Vue {
   box-sizing: border-box;
 
   .user-content-wrapper {
-    position: sticky;
-    top: 84px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     //border: 1px solid rgb(221, 221, 221);
     border-radius: 12px;
+    justify-content: space-between;
     padding: 24px;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     height: fit-content;
-    min-width: 24%;
+    width: 100%;
+    box-sizing: border-box;
 
-    .user-info {
+    .first-col {
       display: flex;
-      width: 100%;
-      align-items: flex-start;
-      justify-content: flex-start;
-      box-sizing: border-box;
-      height: fit-content;
+      flex: 2;
+      flex-direction: column;
+      justify-content: space-between;
 
-      img {
-        height: 56px;
-        width: 56px;
-        border-radius: 50%;
-        object-fit: cover;
-        cursor: pointer;
+      h2 {
+        font-size: 18px;
+        font-weight: 500;
       }
 
-      .username-wrapper {
+      .user-info {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        margin-left: 12px;
-        height: 56px;
-        width: 100%;
+        align-items: flex-start;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        height: fit-content;
 
-        .rating {
-          display: flex;
+        img {
+          height: 100px;
           width: 100%;
-          justify-content: space-between;
-
-          p {
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-          }
-
+          border-radius: 8px;
+          object-fit: cover;
+          cursor: pointer;
         }
 
-
-        .buttons {
+        .username-wrapper {
           display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-left: 12px;
+          height: 56px;
 
-          span {
-            margin-right: 8px;
+          .rating {
             display: flex;
-            align-items: center;
-            font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            background: rgb(247, 247, 247) !important;
+            justify-content: space-between;
+
+            p {
+              font-size: 16px;
+              font-weight: 500;
+              cursor: pointer;
+            }
+
+          }
+
+
+          .buttons {
+            display: flex;
+
+            span {
+              margin-right: 8px;
+              display: flex;
+              align-items: center;
+              font-size: 14px;
+              padding: 6px 12px;
+              border-radius: 5px;
+              background: none;
+              border: none;
+              cursor: pointer;
+              background: rgb(247, 247, 247) !important;
+            }
+          }
+        }
+      }
+
+      .contact-buttons {
+        display: flex;
+        flex-direction: column;
+
+        button {
+          margin-top: 12px !important;
+
+          &:first-child {
+            background: transparent;
+            border: 1px solid #D63946;
+            color: #D63946;
           }
         }
       }
     }
-
-    .stars {
+    .second-col {
       display: flex;
-      margin-bottom: 12px;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
+      flex: 4;
+      padding: 0 36px;
+      box-sizing: border-box;
+      flex-direction: column;
 
-      svg {
-        color: #1B1C32;
-      }
-
-      div {
+      h2 {
+        font-size: 18px;
         font-weight: 500;
       }
     }
-
-    .contact-buttons {
+    .third-col {
       display: flex;
+      flex: 2;
+      justify-content: flex-end;
+      min-height: 100%;
       flex-direction: column;
 
-      button {
-        margin-top: 12px !important;
+      h2 {
+        font-size: 18px;
+        font-weight: 500;
+      }
 
-        &:first-child {
-          background: transparent;
-          border: 1px solid #D63946;
-          color: #D63946;
+      ul.user-information {
+        margin-bottom: 12px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        li {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-size: 15px;
+
+          div {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+
+            svg {
+              margin-right: 8px;
+            }
+          }
+
+          b {
+            font-weight: 500;
+          }
         }
       }
-    }
-  }
 
-  .separator {
-    margin: 24px 0;
-    border-bottom: 1px solid #f7f7f7;
+    }
+
+
   }
 
   h2 {
@@ -334,15 +394,14 @@ export default class Users extends Vue {
     font-weight: 500 !important;
     font-size: 18px !important;
     line-height: 26px !important;
-    margin-bottom: 12px;
   }
 
   .content-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0px 24px 24px 36px;
     box-sizing: border-box;
+    margin-top: 36px;
 
     ul {
       width: 100%;
@@ -453,28 +512,13 @@ export default class Users extends Vue {
   }
 }
 
-ul.user-information {
-  margin-bottom: 12px;
-  li {
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 15px;
+::v-deep #map {
+  margin-top: 0;
+  height: 270px;
+}
 
-    div {
-      display: flex;
-      align-items: center;
-      font-weight: 500;
-
-      svg {
-        margin-right: 8px;
-      }
-    }
-
-    b {
-      font-weight: 500;
-    }
-  }
+.separator {
+  margin: 16px 0;
+  border-bottom: 1px solid #f7f7f7;
 }
 </style>

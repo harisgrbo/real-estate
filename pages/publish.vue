@@ -80,7 +80,7 @@
 
           </div>
 
-          <p class="global-heading">Globalni cekboxi</p>
+          <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
           <div class="checkbox-grid">
             <TermInput
               v-for="attr in termGlobalAttributes"
@@ -469,6 +469,7 @@ export default class Publish extends Vue {
 
   handleSelectedCity(f) {
     this.city = f;
+    console.log(this.city, 'hahaha')
 
     this.errors.city.error = false;
   }
@@ -692,4 +693,16 @@ export default class Publish extends Vue {
   .location {
     margin-top: 32px;
   }
+
+  ::v-deep .categories-list-wrap {
+      height: fit-content !important;
+  }
+
+  .heading-checkbox {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 12px;
+    margin-top: 24px;
+  }
+
 </style>

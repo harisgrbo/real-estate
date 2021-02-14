@@ -5,6 +5,7 @@
       <i class="material-icons" @click="$emit('close')">close</i>
     </div>
     <div class="content">
+
       <Categories @selected-category="handleSelectedCat"></Categories>
     </div>
   </div>
@@ -19,20 +20,6 @@ import Categories from "@/components/publishInputs/Categories";
 })
 
 export default class CategoriesList extends Vue{
-  categories = [];
-
-  async created() {
-    await this.fetchCategories();
-  }
-
-  async fetchCategories() {
-    try {
-      let res = await this.$axios.get
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
   handleSelectedCat(e) {
     this.$emit('selectedCat', e);
   }
@@ -51,6 +38,10 @@ export default class CategoriesList extends Vue{
     height: 70px;
     border-bottom: 1px solid #dcdcdc;
     justify-content: space-between;
+
+    i {
+      cursor: pointer;
+    }
 
     h2 {
       font-size: 20px;

@@ -1,27 +1,18 @@
 <template>
   <div class="search-wrapper">
-    <div class="filters">
-      <RangeFilter
-        v-model="queryPayload.price"
-        :attr="false"
-        :filter="{name: 'price', display_name: 'Cijena'}"
-        @input="newSearch"
-      />
-      <component
-        v-for="(attr, i) in meta.attributes"
-        :key="i"
-        :filter="attr"
-        :attr="true"
-        :is="filterFor(attr)"
-        v-model="queryPayload[attr.name]"
-        @clear="queryPayload[attr.name] = null; newSearch()"
-        @input="newSearch"
-      />
-    </div>
     <div class="content">
-      <h2>Pronadjeno <b>{{ results.length }}</b> rezultata za vasu pretragu</h2>
-
-      <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
+      <div class="search-heading">
+        <h2>Pronadjeno <b>{{ results.length }}</b> rezultata za vasu pretragu</h2>
+        <div class="filter-buttons">
+          <button>Sortiraj</button>
+          <button>Vrsta oglasa</button>
+          <button>Stanje oglasa</button>
+          <button>Filteri</button>
+        </div>
+      </div>
+      <div class="results">
+        <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
+      </div>
     </div>
     <div class="map">
       <SearchMap :locations="results"/>
@@ -45,7 +36,7 @@ import SearchMap from "@/components/googleMap/SearchMap";
     HorizontalCard,
     RangeFilter
   },
-  layout() { return "home" },
+  layout() { return "search" },
 
   watchQuery: true,
 
@@ -69,6 +60,8 @@ import SearchMap from "@/components/googleMap/SearchMap";
         query.forEach(item => {
           queryPayload[item.name] = Object.assign({}, item);
         });
+
+        console.log(results, 'adsadasd')
 
       } catch (e) {
         console.log(e)
@@ -115,9 +108,10 @@ export default class Homepage extends Vue {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 100%;
-  max-height: calc(100vh - 50px);
+  height: calc(100vh - 120px);
   position: relative;
+  padding-top: 120px;
+  overflow: hidden;
   .filters {
     display: flex;
     flex-direction: column;
@@ -188,8 +182,61 @@ export default class Homepage extends Vue {
   .content {
     max-height: calc(100vh - 50px);
     overflow: hidden;
-    width: 45%;
+    width: 52%;
     padding: 24px;
+    padding-top: 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow-y: scroll;
+
+    .search-heading {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 2;
+      padding-top: 24px;
+    }
+
+    h2 {
+      font-size: 22px !important;
+      font-weight: 500 !important;
+      line-height: 1.125em !important;
+      color: #484848 !important;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #f1f1f1;
+
+      button {
+        height: 40px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+        font-size: 15px;
+        font-weight: 500;
+        margin-right: 12px;
+        border: 1px solid #c1c1c1;
+        background: transparent;
+        cursor: pointer;
+        transition: 0.3s all ease;
+        font-family: 'Montserrat', sans-serif;
+
+        &:hover {
+          border: 1px solid #444;
+        }
+      }
+    }
+
+    .results {
+      display: flex;
+      flex-direction: column;
+    }
 
     h2 {
       font-size: 18px;
@@ -198,7 +245,7 @@ export default class Homepage extends Vue {
   }
 
   .map {
-    width: 35%;
+    width: 48%;
   }
 }
 

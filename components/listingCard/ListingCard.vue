@@ -1,7 +1,7 @@
 <template>
     <div class="listing-card-wrapper">
-      <label class="type">{{ listingType }}</label>
-      <label class="rating">4.9
+      <label class="type" v-if="listingType">{{ listingType }}</label>
+      <label class="rating" v-if="listing.is_rent">4.9
         <i class="material-icons">star</i>
       </label>
       <nuxt-link :to="{ path: '/artikal/' + listing.id }">

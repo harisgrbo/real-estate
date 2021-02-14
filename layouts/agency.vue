@@ -1,9 +1,7 @@
 <template>
-  <div class="publish-wrapper">
+  <div class="agency-wrapper">
     <Navbar></Navbar>
-    <div class="nuxt-wrap">
-      <Nuxt />
-    </div>
+    <Nuxt />
   </div>
 </template>
 
@@ -15,18 +13,13 @@ import Navbar from "@/components/includes/Navbar";
   components: {Navbar}
 })
 
-export default class Publish extends Vue {
+export default class Agency extends Vue {
 }
 </script>
 
 <style lang="scss">
-.publish-wrapper {
+.agency-wrapper {
   padding-top: 120px !important;
-  height: calc(100vh - 70px);
-  .nuxt-wrap {
-    box-sizing: border-box;
-    height: 100%;
-  }
 }
 </style>
 

@@ -8,9 +8,10 @@
     <div class="grid-layout">
       <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
     </div>
-    <client-only>
-      <infinite-loading spinner="circles" direction="bottom" @infinite="infiniteHandler"></infinite-loading>
-    </client-only>
+    <button @click="loadMore">Ucitaj jos</button>
+<!--    <client-only>-->
+<!--      <infinite-loading spinner="circles" direction="bottom" @infinite="infiniteHandler"></infinite-loading>-->
+<!--    </client-only>-->
   </div>
 </template>
 
@@ -33,9 +34,9 @@
     page = 1;
     meta = {}
 
-    async fetchListings(page) {
+    async fetchListings() {
       try {
-        let response = await this.$axios.get('/listings/home?page=' + page);
+        let response = await this.$axios.get('/listings/home');
         this.listings = response.data.data;
         this.meta = response.data.meta;
       } catch(e) {
@@ -43,8 +44,19 @@
       }
     }
 
+    async addMoreListings(page) {
+      let res = await this.$axios.get('/listings/home?page=' + page);
+      this.listings.concat(res.data.data);
+
+      console.log(this.listings, 'listings')
+    }
+
+    async loadMore() {
+      await this.addMoreListings(this.page++)
+    }
+
     async created() {
-      await this.fetchListings(1);
+      await this.fetchListings();
     }
 
     // infiniteHandler($state) {

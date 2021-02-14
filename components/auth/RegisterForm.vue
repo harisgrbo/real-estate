@@ -10,7 +10,7 @@
         <TextField type="text" placeholder="Email" v-model="userPayload.email"></TextField>
         <TextField type="text" placeholder="Korisnicko ime" v-model="userPayload.name"></TextField>
         <TextField type="password" placeholder="Lozinka" v-model="userPayload.password"></TextField>
-        <ActionButton placeholder="Registruj se kao korisnik" @action="handleUserRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
+        <ActionButton placeholder="Registruj se kao fizičko lice" @action="handleUserRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
       </form>
     </div>
     <!-- Real estate agency registration -->
@@ -19,7 +19,7 @@
         <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
         <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgencyPayload.name"></TextField>
         <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
-        <ActionButton placeholder="Registruj se kao agencija" @action="handleRealEstateAgencyRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
+        <ActionButton placeholder="Registruj se kao pravno lice (agencija)" @action="handleRealEstateAgencyRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
       </form>
     </div>
     <nuxt-link :to="{ path: '/auth/login' }">Imate nalog? <p>Logujte se</p></nuxt-link>
@@ -50,8 +50,8 @@ export default class RegisterForm extends Vue{
     password: '',
   }
   registrationTypes = [
-    'Korisnik',
-    'Agencija'
+    'Fizičko lice',
+    'Pravno lice (agencija)'
   ]
   currentType = 0;
   loading = false;

@@ -17,6 +17,10 @@
             <h2>{{ listing.title }}</h2>
             <div class="buttons">
               <button>
+                <font-awesome-icon icon="minus-circle"></font-awesome-icon>
+                Prijavi oglas
+              </button>
+              <button>
                 <font-awesome-icon icon="heart"></font-awesome-icon>
                 Snimi
               </button>
@@ -26,7 +30,7 @@
               </button>
             </div>
           </div>
-          <div class="detailed-informations">
+          <div class="grid-layout">
             <div class="detailed-info" v-if="listing.city">
               <span>Lokacija</span>
               <span>{{ listing.city.name }}</span>
@@ -39,19 +43,25 @@
               <span>Brend</span>
               <span>{{ listing.brandModel }}</span>
             </div>
+            <div class="detailed-info" v-if="listing.address">
+              <span>Adresa</span>
+              <span>{{ listing.address }}</span>
+            </div>
             <div class="detailed-info">
               <span>Datum objave</span>
               <span>{{ $moment(listing.createdAt).format('LL') }}</span>
             </div>
             <div class="detailed-info price">
-              <font-awesome-icon icon="coins"></font-awesome-icon>
-              <span>Cijena</span>
+              <div>
+                <font-awesome-icon icon="coins"></font-awesome-icon>
+                <span>Cijena</span>
+              </div>
               <span>{{ listing.price }} KM</span>
             </div>
           </div>
           <div class="separator"></div>
           <h2 class="heading">Detaljne informacije</h2>
-          <div class="detailed-informations">
+          <div class="grid-layout">
             <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
               <span>{{ info.name }}</span>
               <span>{{ info.value }}</span>
@@ -64,7 +74,7 @@
           <h2 class="heading">Pitanja</h2>
         </div>
         <div class="user-wrap">
-          <UserProfile :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent"></UserProfile>
+          <UserProfile :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
         </div>
       </div>
     </div>
@@ -172,7 +182,7 @@ export default class Artikal extends Vue {
   }
 
   created() {
-    console.log(this.$auth)
+    console.log(this.listing)
     this.isUserFollowed = this.isFollowed;
   }
 
@@ -319,66 +329,6 @@ export default class Artikal extends Vue {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        .detailed-info {
-          padding: 0 8px;
-          border-radius: 5px;
-          display: flex;
-          flex-direction: column;
-          background: rgb(241 239 239 / 53%);
-          margin-right: 8px;
-          margin-bottom: 8px;
-          box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
-          span {
-            font-size: 14px;
-            margin: 5px 0;
-            &:last-child {
-              font-weight: 500;
-              font-size: 16px;
-            }
-          }
-          &.exchange {
-            font-weight: 600;
-            font-size: 16px;
-            display: flex;
-            justify-content: center;
-            span {
-              margin: 0;
-              display: flex;
-              align-items: center;
-            }
-          }
-          &.price {
-            background: #151b38 !important;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            justify-self: flex-end;
-            span {
-              color: #fff;
-              font-size: 16px;
-              &:last-child {
-                margin-left: 16px;
-              }
-            }
-          }
-          &.exchange-for {
-            background: #757B9A !important;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            span {
-              color: #fff;
-              font-size: 16px;
-              display: flex;
-              align-items: center;
-              i {
-                margin-left: 8px;
-              }
-            }
-          }
-        }
       }
       .description {
         line-height: 21px;
@@ -508,6 +458,79 @@ export default class Artikal extends Vue {
 .user-wrap {
   width: 33%;
   margin-left: 24px;
+}
+
+.detailed-info {
+  padding: 0 8px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  background: rgb(241 239 239 / 53%);
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  span {
+    font-size: 14px;
+    margin: 5px 0;
+    &:last-child {
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+  &.exchange {
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    span {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+  &.price {
+    background: #151b38 !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    font-weight: 600;
+    font-size: 18px !important;
+    div {
+      display: flex;
+      align-items: center;
+    }
+    svg {
+      color: #fff;
+    }
+    span {
+      color: #fff;
+      &:last-child {
+        margin-left: 12px;
+      }
+    }
+  }
+  &.exchange-for {
+    background: #757B9A !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      i {
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
+.grid-layout {
+  padding: 0;
+  grid-template-columns: repeat( auto-fill, minmax(220px, 1fr) );
+  grid-row-gap: 12px;
 }
 </style>
 

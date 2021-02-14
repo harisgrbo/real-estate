@@ -1,25 +1,22 @@
 <template>
   <div class="listing-card-wrapper">
-    <label class="type">{{ listingType }}</label>
+<!--    <label class="type">{{ listing.user.user_type }}</label>-->
     <nuxt-link :to="{ path: '/artikal/' + listing.id }">
       <img src="/stan.jpg" alt="">
       <div class="listing-card-content">
         <div class="column">
           <div class="title-price">
             <p class="title">{{ listing.title }}</p>
-            <div>
-              <p class="price">{{ listing.price }} KM</p>
-              <p v-if="listing.listing_type === 'rent'">/ mj</p>
-            </div>
+            <font-awesome-icon icon="heart"></font-awesome-icon>
           </div>
           <p class="address">{{ listing.address }}</p>
         </div>
-        <div class="icons-date">
-          <div>
-            <i class="material-icons">hotel</i>
-            2
-          </div>
-          <p>{{ $moment(listing.created_at).startOf('hour').fromNow() }}</p>
+        <div class="description">
+          {{ listing.description }}
+        </div>
+        <div class="price">
+          <p class="price">{{ listing.price }} KM</p>
+          <p v-if="listing.listing_type === 'rent'">/ mj</p>
         </div>
       </div>
     </nuxt-link>
@@ -79,14 +76,10 @@ a {
   z-index: 1;
   display: flex;
   flex-direction: row;
-  margin-bottom: 24px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+  padding: 24px 0;
   transition: 0.3s all ease;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.18) 0px 1px 12px;
-  }
+  border-bottom: 1px solid #f1f1f1;
+  height: 200px;
 }
 .listing-card-wrapper {
   display: flex;
@@ -98,7 +91,7 @@ a {
   label {
     position: absolute;
     left: 8px;
-    top: 8px;
+    top: 32px;
     border-radius: 5px;
     background: #757B9A;
     color: #fff;
@@ -115,10 +108,10 @@ a {
   }
 
   img {
-    height: 160px;
-    width: 240px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    height: 200px;
+    width: 300px;
+    min-width: 300px;
+    border-radius: 10px;
   }
   .column {
     display: flex;
@@ -131,7 +124,23 @@ a {
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    padding: 12px;
+    padding: 0 16px;
+
+    .description {
+      font-size: 14px;
+      line-height: 21px;
+      padding: 8px 0;
+    }
+
+    .price {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+
+      p {
+        font-weight: 600;
+      }
+    }
 
     .title-price {
       display: flex;
@@ -142,6 +151,11 @@ a {
       font-size: 15px;
       margin-bottom: 10px;
 
+      svg {
+        font-size: 22px;
+        color: #dcdcdc;
+      }
+
       > div {
         display: flex;
         flex-direction: row;
@@ -149,12 +163,12 @@ a {
       }
 
       .title {
-        font-size: 17px;
-        font-weight: 300;
+        font-size: 20px;
+        font-weight: 400;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 50%;
+        margin-bottom: 8px;
       }
 
       .price {
@@ -170,6 +184,17 @@ a {
       font-size: 13px;
       color: #434343;
       font-weight: 400;
+      position: relative;
+      padding-bottom: 12px;
+
+      &::after {
+        position: absolute;
+        content: "";
+        bottom: 0;
+        width: 100px;
+        border-bottom: 1px solid #ddd;
+        left: 0;
+      }
     }
 
     .icons-date {
