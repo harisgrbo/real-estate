@@ -6,7 +6,7 @@
         <h1>Izdvojene agencije</h1>
         <div class="swiper-container-main">
           <swiper class="swiper" :options="swiperOption">
-            <swiper-slide v-for="item in 10">
+            <swiper-slide v-for="item in 10" :key="item">
               <div>
                 <AgencyCard></AgencyCard>
               </div>
@@ -18,7 +18,7 @@
 
 
          <div class="grid-layout">
-         <AgencyCard v-for="card in 16" />
+         <AgencyCard v-for="card in 16" :key="card" />
        </div>
       </div>
     </div>

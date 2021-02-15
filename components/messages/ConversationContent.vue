@@ -25,8 +25,9 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 export default class ConversationContent extends Vue {
   @Prop({ type: Array }) messages;
+
   created() {
-    console.log(this.messages)
+
   }
 
   isMe(message) {

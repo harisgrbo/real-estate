@@ -58,8 +58,6 @@ export default class urediProfil extends Vue {
       let res = await this.$axios.get('/me');
 
       this.user = res.data.data;
-
-      console.log(this.user, 'me')
     } catch(e) {
       console.log(e)
     }

@@ -67,7 +67,7 @@
       </ul>
       <div>
         <div v-if="activeTab === 0" class="grid-layout">
-          <ListingCard v-for="listing in listings" :listing="listing"></ListingCard>
+          <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
         </div>
       </div>
     </div>
@@ -123,8 +123,6 @@ export default class Agencies extends Vue {
     await this.fetchUser(this.$route.params.id)
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
-
-    console.log(this.user, 'usercina')
   }
 
   get isMe() {
@@ -220,7 +218,6 @@ export default class Agencies extends Vue {
     try {
       let response = await this.$axios.get('/users/' + id + '/listings')
       this.listings = response.data.data;
-      console.log(this.listings)
     } catch(e) {
       console.log(e)
     }

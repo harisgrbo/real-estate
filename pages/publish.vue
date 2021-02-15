@@ -469,7 +469,6 @@ export default class Publish extends Vue {
 
   handleSelectedCity(f) {
     this.city = f;
-    console.log(this.city, 'hahaha')
 
     this.errors.city.error = false;
   }

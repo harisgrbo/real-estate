@@ -71,9 +71,6 @@ import SearchMap from "@/components/googleMap/SearchMap";
         query.forEach(item => {
           queryPayload[item.name] = Object.assign({}, item);
         });
-
-        console.log(results, 'adsadasd')
-
       } catch (e) {
         console.log(e)
         // @TODO: Error handling

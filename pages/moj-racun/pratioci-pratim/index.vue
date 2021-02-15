@@ -22,7 +22,7 @@
     <div class="saved-content">
       <div v-show="activeTab === 0">
         <div v-if="followers.length" class="grid-layout">
-          <UserCard v-for="user in followers" :user="user"></UserCard>
+          <UserCard v-for="user in followers" :user="user" :key="user.id"></UserCard>
         </div>
         <div v-else>
           Nemate pratilaca
@@ -30,7 +30,7 @@
       </div>
       <div v-show="activeTab === 1">
         <div v-if="followed.length">
-          <UserCard v-for="user in followed" :user="user"></UserCard>
+          <UserCard v-for="user in followed" :user="user" :key="user.id"></UserCard>
         </div>
         <div v-else>
           Ne pratite nikoga
@@ -71,7 +71,6 @@ export default class pratioci extends Vue {
     try {
       let response = await this.$axios.get('/profile/followed');
       this.followed = response.data.data;
-      console.log(this.followed)
     } catch(e) {
       console.log(e)
     }
@@ -81,7 +80,6 @@ export default class pratioci extends Vue {
     try {
       let response = await this.$axios.get('/profile/followed');
       this.followers = response.data.data;
-      console.log(this.followers)
     } catch(e) {
       console.log(e)
     }

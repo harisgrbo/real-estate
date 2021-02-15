@@ -47,8 +47,6 @@
     async addMoreListings(page) {
       let res = await this.$axios.get('/listings/home?page=' + page);
       this.listings.concat(res.data.data);
-
-      console.log(this.listings, 'listings')
     }
 
     async loadMore() {

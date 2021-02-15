@@ -48,13 +48,11 @@ export default class LoginForm extends Vue{
     try {
       await this.$auth.loginWith("local", { data: this.payload });
       this.$auth.setUser(this.payload)
-      // this.$auth.$storage.setUniversal('user', this.payload, true)
-      this.loading = false
       this.$router.push('/')
-
     } catch(e) {
-      this.loading = false
       console.log(e)
+    } finally {
+      this.loading = false;
     }
   }
 }

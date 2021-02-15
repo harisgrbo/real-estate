@@ -27,13 +27,10 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 @Component({
 })
 
-export default class sidenav extends Vue{
+export default class sidenav extends Vue {
+
   logout() {
     this.$auth.logout();
-  }
-
-  created() {
-    console.log(this.$auth.user)
   }
 
   goToUSer() {
