@@ -13,7 +13,7 @@
 <!--      />-->
 
       <div class="inputGroup">
-        <input :id="attr.name" name="option1" type="checkbox"/>
+        <input :id="attr.name" name="option1" type="checkbox" @click="checkedOption"/>
         <label :for="attr.name">{{ attr.name }}</label>
       </div>
     </div>
