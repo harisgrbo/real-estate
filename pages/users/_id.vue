@@ -61,7 +61,7 @@
       </ul>
       <div>
         <div v-if="activeTab === 0" class="grid-layout">
-          <ListingCard v-for="listing in listings" :listing="listing"></ListingCard>
+          <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
         </div>
       </div>
     </div>

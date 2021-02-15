@@ -21,7 +21,7 @@
     <div class="saved-content">
       <div v-show="activeTab === 0">
         <div class="grid-layout">
-          <SavedUserCard v-for="user in savedUsers" :user="user"></SavedUserCard>
+          <SavedUserCard v-for="user in savedUsers" :user="user" :key="user.id"></SavedUserCard>
         </div>
       </div>
       <div v-show="activeTab === 1">

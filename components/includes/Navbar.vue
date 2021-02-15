@@ -168,7 +168,13 @@ export default class Navbar extends Vue{
   }
 
   search(e) {
-    let text = e.target.value.trim();
+    let text = ''
+
+    if (e.target.value) {
+      text = e.target.value.trim();
+    } else {
+      text = this.$refs.search.value.trim();
+    }
 
     let filters  = [];
 
