@@ -1,23 +1,25 @@
 <template>
-  <div class="agency-wrapper">
+  <div class="home-wrapper">
     <Navbar></Navbar>
     <Nuxt />
+    <MobileBottomNavbar></MobileBottomNavbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
+import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
 
 @Component({
-  components: {Navbar}
+  components: {Navbar, MobileBottomNavbar}
 })
 
-export default class Agency extends Vue {
+export default class Mobile extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @mixin for-laptop {
   @media (min-width: 768px) and (max-width: 1023px) {
     @content;
@@ -39,8 +41,8 @@ export default class Agency extends Vue {
   }
 }
 
-.agency-wrapper {
-  padding-top: 120px !important;
+.home-wrapper {
+  padding-top: 62px !important;
 }
 </style>
 

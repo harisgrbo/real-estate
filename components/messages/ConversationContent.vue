@@ -39,7 +39,7 @@ export default class ConversationContent extends Vue {
 .conversation-list-wrapper {
   display: flex;
   padding: 12px;
-  height: calc(100vh - 421px);
+  height: calc(100vh - 458px);
   overflow-y: scroll;
   flex-direction: column;
 }
@@ -55,17 +55,16 @@ export default class ConversationContent extends Vue {
     flex-direction: row-reverse;
 
     .bubble {
-      background: #D63946;
+      background: #1B1E31;
       border-radius: 10px;
       border-top-right-radius: 0;
-      margin-bottom: 8px;
 
       .message-info {
         display: flex;
         align-items: center;
         font-size: 12px !important;
         margin-top: 12px;
-        justify-content: flex-end;
+        justify-content: flex-start;
         p {
           font-size: 12px;
         }
@@ -75,10 +74,14 @@ export default class ConversationContent extends Vue {
         color: #fff;
       }
 
+      svg {
+        display: flex;
+      }
+
       .status-icon {
         font-size: 13px;
         color: #fff;
-        margin-left: 12px;
+        margin-right: 12px;
       }
     }
 
@@ -107,6 +110,8 @@ export default class ConversationContent extends Vue {
     border-top-left-radius: 0;
     max-width: 50%;
     box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
+    margin-bottom: 8px;
+
     .message-info {
       display: flex;
       flex-direction: row-reverse;
@@ -117,6 +122,10 @@ export default class ConversationContent extends Vue {
       p {
         font-size: 12px;
       }
+    }
+
+    svg {
+      display: none;
     }
     p {
       line-height: 21px;

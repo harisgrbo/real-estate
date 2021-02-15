@@ -1,6 +1,6 @@
 <template>
   <div class="listing-card-wrapper">
-<!--    <label class="type">{{ listing.user.user_type }}</label>-->
+    <label class="type">{{ listing.listing_type.title }}</label>
     <nuxt-link :to="{ path: '/artikal/' + listing.id }">
       <img src="/stan.jpg" alt="">
       <div class="listing-card-content">
@@ -9,14 +9,23 @@
             <p class="title">{{ listing.title }}</p>
             <font-awesome-icon icon="heart"></font-awesome-icon>
           </div>
-          <p class="address">{{ listing.address }}</p>
+
+          <!-- Potrebno u responsu vratitit ime grada, category slug i korisnika -->
+          <div class="address">
+            <p>{{ sliceAddress(listing.address) }}</p>
+            <p>Sarajevo</p>
+            <p>stanovi</p>
+          </div>
         </div>
         <div class="description">
           {{ listing.description }}
         </div>
         <div class="price">
-          <p class="price">{{ listing.price }} KM</p>
-          <p v-if="listing.listing_type === 'rent'">/ mj</p>
+            <h1>REMAX nekretnine</h1>
+          <div>
+            <p class="price-label">{{ listing.price }} KM</p>
+            <p v-if="listing.listing_type === 'rent'">/ mj</p>
+          </div>
         </div>
       </div>
     </nuxt-link>
@@ -67,6 +76,10 @@ export default class HorizontalCard extends Vue{
         });
       })
   }
+
+  sliceAddress(address) {
+    return address.slice(0, 10) + '...'
+  }
 }
 </script>
 
@@ -93,17 +106,17 @@ a {
     left: 8px;
     top: 32px;
     border-radius: 5px;
-    background: #757B9A;
+    background: #00000080;
     color: #fff;
-    font-weight: 400;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
     width: fit-content;
     height: 24px;
     padding: 0 8px;
-    font-size: 13px;
-    text-transform: capitalize;
+    font-size: 12px;
+    text-transform: none;
     z-index: 2;
   }
 
@@ -135,7 +148,13 @@ a {
     .price {
       display: flex;
       width: 100%;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
+
+      h1 {
+        font-size: 16px;
+        font-weight: 600;
+      }
 
       p {
         font-weight: 600;
@@ -176,26 +195,48 @@ a {
       }
     }
 
-    .address {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 250px;
-      font-size: 13px;
-      color: #434343;
-      font-weight: 400;
-      position: relative;
-      padding-bottom: 12px;
+      .address {
+        max-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
 
-      &::after {
-        position: absolute;
-        content: "";
-        bottom: 0;
-        width: 100px;
-        border-bottom: 1px solid #ddd;
-        left: 0;
+        &::after {
+          position: absolute;
+          content: "";
+          bottom: -16px;
+          width: 100px;
+          border-bottom: 1px solid #ddd;
+          left: 0;
+        }
+
+        p {
+          position: relative;
+          padding: 0 8px;
+          color: #434343;
+          font-weight: 500;
+          font-size: 15px;
+
+          &:first-child {
+            padding-left: 0;
+            &::after {
+              display: none;
+            }
+          }
+
+          &::after {
+            position: absolute;
+            content: "";
+            height: 4px;
+            width: 4px;
+            border-radius: 2px;
+            background: #444;
+            top: 6px;
+            left: -1px
+          }
+        }
       }
-    }
 
     .icons-date {
       display: flex;

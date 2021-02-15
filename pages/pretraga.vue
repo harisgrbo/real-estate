@@ -7,7 +7,7 @@
           <button>Sortiraj</button>
           <button>Vrsta oglasa</button>
           <button>Stanje oglasa</button>
-          <button>Filteri</button>
+          <button @click="toggleFiltersModal">Filteri</button>
         </div>
       </div>
       <div class="results">
@@ -17,6 +17,17 @@
     <div class="map">
       <SearchMap :locations="results"/>
     </div>
+    <modal name="filters" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <h2>Filteri</h2>
+          <i class="material-icons" @click="$modal.hide('filters')">close</i>
+        </div>
+        <div class="modal-content">
+          Filteri
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -82,6 +93,10 @@ export default class Homepage extends Vue {
 
   showAllFilters = false;
 
+  toggleFiltersModal() {
+    this.$modal.show('filters');
+  }
+
   getResultKey(listing) {
     return `${listing.id}-${this.$route.query.q}`
   }
@@ -110,7 +125,7 @@ export default class Homepage extends Vue {
   justify-content: space-between;
   height: calc(100vh - 120px);
   position: relative;
-  padding-top: 120px;
+  padding-top: 107px;
   overflow: hidden;
   .filters {
     display: flex;
@@ -193,7 +208,7 @@ export default class Homepage extends Vue {
       position: sticky;
       top: 0;
       background: #fff;
-      z-index: 2;
+      z-index: 3;
       padding-top: 24px;
     }
 
@@ -248,5 +263,48 @@ export default class Homepage extends Vue {
     width: 48%;
   }
 }
+
+.modal-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    border-bottom: 1px solid #dcdcdc;
+    justify-content: space-between;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    i {
+      cursor: pointer;
+    }
+  }
+  .modal-content {
+    padding: 24px 0;
+    textarea {
+      height: 200px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 21px;
+      box-sizing: border-box;
+      padding: 24px;
+
+      &:focus {
+        outline: none;
+
+      }
+    }
+  }
+}
+
 
 </style>

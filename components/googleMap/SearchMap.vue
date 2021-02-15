@@ -31,29 +31,37 @@ export default class SearchMap extends Vue{
   lastOpenedInfoWindow = null;
 
   mounted() {
-    console.log(this.locations)
-    let zoom = 6;
+    this.initMap();
+  }
 
-    this.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: zoom,
-      center: this.center,
-      strictBounds: true,
-      // minZoom: 8,
-      // maxZoom: 8,
-      // restriction: {
-      //   latLngBounds: {
-      //     north: 15.75,
-      //     south: 42.65,
-      //     east: 19.6,
-      //     west: 45.233,
-      //   },
-      // },
+  initMap() {
+    // The location of Uluru
+    const uluru = { lat: 43.8563, lng: 18.4131 };
+    // The map, centered at Uluru
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 14,
+      center: uluru,
+      mapId: '90b8b95b1bbd0bc9'
     });
 
-    this.map.addListener("dragend", this.setLocation)
-    this.map.addListener("zoom_changed", this.setLocation)
+    const svgMarker = {
+      path:
+        "M12 0c-4.198 0-8 3.403-8 7.602 0 6.243 6.377 6.903 8 16.398 1.623-9.495 8-10.155 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.342-3 3-3 3 1.343 3 3-1.343 3-3 3z",
+      fillColor: "#D63946",
+      fillOpacity: 1,
+      strokeColor: "#D63946",
+      strokeWeight: 3,
+      rotation: 0,
+      scale: 2,
+      anchor: new google.maps.Point(15, 30),
+    };
+    // The marker, positioned at Uluru
+    const marker = new google.maps.Marker({
+      position: uluru,
+      map: map,
+      icon: svgMarker
+    });
 
-    this.initMarkers();
 
   }
 

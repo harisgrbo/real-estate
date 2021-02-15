@@ -1,4 +1,9 @@
 import Vue from 'vue'
-import VueAwesomeSwiper from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import 'swiper/css/swiper.css'
+// import style (>= Swiper 6.x)
 
-Vue.use(VueAwesomeSwiper)
+// import style (<= Swiper 5.x)
+import 'swiper/css/swiper.css'
+Vue.component('swiper', Swiper)
+Vue.component('swiper-slide', SwiperSlide)

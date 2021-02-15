@@ -1,14 +1,14 @@
 <template>
   <div class="homepage-wrap">
-    <h1>Bilo da kupujete, prodajete ili iznajmljujete, mozemo vam pomoci da napravite prvi korak</h1>
-    <div>
-      <PublishShortcut></PublishShortcut>
-    </div>
+<!--    <h1>Bilo da kupujete, prodajete ili iznajmljujete, mozemo vam pomoci da napravite prvi korak</h1>-->
+<!--    <div>-->
+<!--      <PublishShortcut></PublishShortcut>-->
+<!--    </div>-->
     <h1>Objavljeno {{ listings.length }} nekretnina</h1>
     <div class="grid-layout">
       <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
     </div>
-    <button @click="loadMore">Ucitaj jos</button>
+<!--    <button @click="loadMore">Ucitaj jos</button>-->
 <!--    <client-only>-->
 <!--      <infinite-loading spinner="circles" direction="bottom" @infinite="infiniteHandler"></infinite-loading>-->
 <!--    </client-only>-->
@@ -26,7 +26,7 @@
       ListingCard,
       PublishShortcut
     },
-    layout() { return "home" }
+    layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home'
   })
 
   export default class Homepage extends Vue {
@@ -78,10 +78,35 @@
 </script>
 
 <style lang="scss">
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .homepage-wrap {
   display: flex;
   flex-direction: column;
   padding-bottom: 120px;
+
+  @include for-phone-only {
+    padding-bottom: 90px;
+  }
 
   h1 {
     word-wrap: break-word !important;
@@ -92,6 +117,11 @@
     margin-bottom: 36px !important;
     margin-left: 80px;
     margin-top: 32px;
+
+    @include for-phone-only {
+      margin-left: 12px;
+      margin-top: 24px;
+    }
   }
 
 }
@@ -101,5 +131,9 @@
 
 .grid-layout {
   padding: 0 80px;
+
+  @include for-phone-only {
+    padding: 0 12px;
+  }
 }
 </style>

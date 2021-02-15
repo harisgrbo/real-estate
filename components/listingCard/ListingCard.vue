@@ -1,17 +1,38 @@
 <template>
     <div class="listing-card-wrapper">
-      <label class="type" v-if="listingType">{{ listingType }}</label>
+      <label class="publisher">
+        <font-awesome-icon icon="bullhorn"></font-awesome-icon>
+        <span>Agencija</span>
+      </label>
+      <label class="type" v-if="listingType">
+        <button>
+          {{ listingType }}
+        </button>
+        <button>
+          <font-awesome-icon icon="vector-square"></font-awesome-icon>
+          <span>22 m2</span>
+        </button>
+        <button>
+          <font-awesome-icon icon="door-closed"></font-awesome-icon>
+          <span>4</span>
+        </button>
+      </label>
       <label class="rating" v-if="listing.is_rent">4.9
         <i class="material-icons">star</i>
       </label>
+
+
       <nuxt-link :to="{ path: '/artikal/' + listing.id }">
         <img src="/stan.jpg" alt="">
         <div class="listing-card-content">
-          <div class="title-price">
-            <p class="title">{{ listing.category.title }}</p>
-            <p class="title">{{ listing.city.name }}</p>
+          <div class="address title">
+            <p>stan</p>
+            <p>{{ listing.city.name }}</p>
+            <p>Dolac Malta</p>
           </div>
-          <p class="address">{{ listing.address }}</p>
+          <div class="address">
+            <p>{{ sliceAddress(listing.address) }}</p>
+          </div>
           <div class="icons-date">
             <div>
               <p class="price">{{ listing.price }} KM</p>
@@ -50,6 +71,10 @@ export default class ListingCard extends Vue{
     return this.types[this.listing.listing_type.shortname];
   }
 
+  sliceAddress(address) {
+    return address.slice(0, 20) + '...'
+  }
+
   created() {
     console.log(this.listing)
   }
@@ -75,7 +100,6 @@ export default class ListingCard extends Vue{
       border-radius: 5px;
       background: #00000080;
       color: #fff;
-      font-weight: 400;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -87,6 +111,37 @@ export default class ListingCard extends Vue{
       text-transform: capitalize;
       z-index: 2;
 
+      &.type {
+        background: none;
+        top: 162px;
+        left: 0px;
+
+        button {
+          border: none;
+          margin-right: 8px;
+          border-radius: 5px;
+          background: #00000080;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: fit-content;
+          height: 24px;
+          padding: 0 8px;
+          font-size: 12px;
+          font-weight: 500;
+          text-transform: capitalize;
+
+          span {
+            text-transform: none;
+          }
+
+          svg {
+            margin-right: 8px;
+          }
+        }
+      }
+
       &.rating {
         right: 8px !important;
         left: inherit;
@@ -94,6 +149,14 @@ export default class ListingCard extends Vue{
         i {
           font-size: 13px;
           margin-left: 5px;
+        }
+      }
+
+      &.publisher {
+        top: 8px;
+
+        svg {
+          margin-right: 8px;
         }
       }
     }
@@ -141,26 +204,55 @@ export default class ListingCard extends Vue{
             margin: 0 8px;
             background: #444;
           }
-
-          &:last-child {
-            margin-left: 17px;
-
-            &::after {
-              display: none;
-            }
-          }
         }
 
       }
 
       .address {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         max-width: 100%;
-        font-size: 14px;
-        color: #434343;
-        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+
+        &.title {
+         p {
+           white-space: nowrap;
+           overflow: hidden;
+           text-overflow: ellipsis;
+           font-weight: 600 !important;
+           font-size: 16px !important;
+           line-height: 20px !important;
+           margin-bottom: 8px;
+         }
+        }
+
+        p {
+          position: relative;
+          padding: 0 8px;
+          color: #434343;
+          font-weight: 500;
+          font-size: 15px;
+          padding-left: 11px;
+
+          &:first-child {
+            padding-left: 0;
+            &::before {
+              display: none;
+            }
+          }
+
+          &::before {
+            position: absolute;
+            content: "";
+            height: 4px;
+            width: 4px;
+            border-radius: 2px;
+            background: #444;
+            top: 8px;
+            left: 0px;
+          }
+        }
       }
 
       .icons-date {
@@ -171,7 +263,7 @@ export default class ListingCard extends Vue{
 
         .price {
           font-weight: 600;
-          font-size: 15px;
+          font-size: 17px;
           color: #444;
           line-height: 20px;
           margin-top: 10px;

@@ -5,11 +5,23 @@
         <div class="img-counter">
           <font-awesome-icon icon="images">
           </font-awesome-icon>
-          <p>12</p>
+          <p>{{ images.length }}</p>
         </div>
-        <div :class="'item' + img.id" v-for="img in images">
-          <img :src="[ '/test' + img.name ]" alt="">
+<!--        <div class="img-counter show-more">-->
+<!--          <font-awesome-icon icon="images">-->
+<!--          </font-awesome-icon>-->
+<!--          <p>Pogledaj sve slike</p>-->
+<!--        </div>-->
+        <div :class="'item' + img.id" v-for="(img, index) in images">
+          <img :src="img.name" alt="" @click="openGallery(index)">
         </div>
+        <light-box
+          ref="lightbox"
+          :media="lightboxImages"
+          :show-light-box="false"
+          :show-thumbs="true"
+          :close-text="closeText"
+        />
       </div>
       <div class="listing-content-inner">
         <div class="listing-content-wrapper">
@@ -45,7 +57,7 @@
             </div>
             <div class="detailed-info" v-if="listing.address">
               <span>Adresa</span>
-              <span>{{ listing.address }}</span>
+              <span>{{ sliceAddress(listing.address) }}</span>
             </div>
             <div class="detailed-info">
               <span>Datum objave</span>
@@ -61,6 +73,14 @@
           </div>
           <div class="separator"></div>
           <h2 class="heading">Detaljne informacije</h2>
+          <div class="grid-layout">
+            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
+              <span>{{ info.name }}</span>
+              <span>{{ info.value }}</span>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <h2 class="heading">U blizini nekretnine</h2>
           <div class="grid-layout">
             <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
               <span>{{ info.name }}</span>
@@ -129,27 +149,48 @@ export default class Artikal extends Vue {
   isUserFollowed = false;
   images = [
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 1,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 2,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 3,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 4,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 5,
     },
 
   ]
+
+  get lightboxImages() {
+    return this.images.map((item) => {
+      return {
+        src: item.name,
+        thumb: item.name,
+      };
+    });
+  }
+
+  closeText() {
+    return 'Zatvori galeriju'
+  }
+
+  sliceAddress(address) {
+    return address.slice(0,20)
+  }
+
+  openGallery(index) {
+    this.$refs.lightbox.showImage(index);
+  }
 
   async handleFollow() {
     try {
@@ -251,6 +292,12 @@ export default class Artikal extends Vue {
 
     svg {
       margin-right: 8px;
+    }
+
+    &.show-more {
+      bottom: 23px;
+      top: inherit;
+      cursor: pointer;
     }
   }
 
@@ -531,6 +578,21 @@ export default class Artikal extends Vue {
   padding: 0;
   grid-template-columns: repeat( auto-fill, minmax(220px, 1fr) );
   grid-row-gap: 12px;
+}
+
+::v-deep img.vue-lb-modal-image {
+  border-radius: 10px !important;
+}
+
+::v-deep .vue-lb-arrow {
+  width: 60px !important;
+  border-radius: 30px!important;
+  border: 1px solid #fff!important;
+  height: 60px!important;
+
+  ::v-deep svg {
+    color: #444!important;
+  }
 }
 </style>
 
