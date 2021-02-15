@@ -2,18 +2,20 @@
   <div class="home-wrapper">
     <Navbar></Navbar>
     <Nuxt />
+    <MobileBottomNavbar></MobileBottomNavbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
+import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
 
 @Component({
-  components: {Navbar}
+  components: {Navbar, MobileBottomNavbar}
 })
 
-export default class Home extends Vue {
+export default class Mobile extends Vue {
 }
 </script>
 
@@ -40,7 +42,7 @@ export default class Home extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 126px !important;
+  padding-top: 62px !important;
 }
 </style>
 

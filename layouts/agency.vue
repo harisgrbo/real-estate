@@ -1,5 +1,5 @@
 <template>
-  <div class="home-wrapper">
+  <div class="agency-wrapper">
     <Navbar></Navbar>
     <Nuxt />
   </div>
@@ -13,11 +13,11 @@ import Navbar from "@/components/includes/Navbar";
   components: {Navbar}
 })
 
-export default class Home extends Vue {
+export default class Agency extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @mixin for-laptop {
   @media (min-width: 768px) and (max-width: 1023px) {
     @content;
@@ -39,8 +39,8 @@ export default class Home extends Vue {
   }
 }
 
-.home-wrapper {
-  padding-top: 126px !important;
+.agency-wrapper {
+  padding-top: 120px !important;
 }
 </style>
 

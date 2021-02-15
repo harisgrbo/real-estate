@@ -51,11 +51,14 @@ export default class PublishShortcut extends Vue {
       margin-right: 24px;
       align-items: center;
       justify-content: center;
-      border-radius: 10px;
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15) !important;
+      border-right: 1px solid #dcdcdc;
       width: 100%;
       cursor: pointer;
       padding: 0 24px;
+
+      &:last-child {
+        border-right: none;
+      }
 
       img {
         transition: 0.3s all ease;

@@ -3,29 +3,23 @@
     <Navbar></Navbar>
     <div class="account-wrapper-inner">
       <div class="sidenav">
-        <h1 class="heading-account">Moj račun</h1>
-        <div class="info" v-if="$auth.user">
-          <p>{{ $auth.user.name }},</p>
-          <p>{{ $auth.user.email }}</p>
-          <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id">Idi na profil</nuxt-link>
+        <h1>Izdvojene agencije</h1>
+        <div class="swiper-container-main">
+          <swiper class="swiper" :options="swiperOption">
+            <swiper-slide v-for="item in 10">
+              <div>
+                <AgencyCard></AgencyCard>
+              </div>
+            </swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
+          </swiper>
         </div>
-        <ul>
-          <li
-            v-for="(tab, index) in tabs"
-            :key="index"
-          >
-            <nuxt-link
-              :to="{ path: '/moj-racun/' + tab.slug }"
+        <h1 class="heading-account">56 agencija za nekretnine</h1>
 
-            >
-              <img :src="'/settings/' + tab.icon" alt="">
-              <h4>{{ tab.name }}</h4>
-              <p>
-                {{ tab.desc }}
-              </p>
-            </nuxt-link>
-          </li>
-        </ul>
+
+         <div class="grid-layout">
+         <AgencyCard v-for="card in 16" />
+       </div>
       </div>
     </div>
   </div>
@@ -34,82 +28,39 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
+import AgencyCard from "@/components/AgencyCard"
 
 @Component({
-  components: { Navbar }
+  components: { Navbar, AgencyCard }
 })
 
-export default class accountpage extends Vue {
-
-  tabs = [
-    {
-      name: "Uredi profil",
-      slug: "uredi-profil",
-      icon: "010-technical-support.svg",
-      desc: 'Uređivanje ličnih podataka'
+export default class Agencies extends Vue {
+  swiperOption = {
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
     },
-    {
-      name: "Spašeno",
-      slug: 'spaseno',
-      icon: '013-help.svg',
-      desc: 'Spašeni korisnici, pretrage i oglasi'
+    setWrapperSize: true,
+    spaceBetween: 14,
+    slidesPerColumnFill: 'row',
+    // centeredSlides: true,
+    // slidesOffsetBefore: '100px',
+    // slidesOffsetAfter: '100px',
+    // slidesOffsetBefore: '0px',
+    loop: true,
+    autoplay: {
+      delay: 2500,
     },
-    {
-      name: "Pratioci/Pratim",
-      slug: 'pratioci-pratim',
-      icon: '034-rating-2.svg',
-      desc: 'Lista korisnika koje pratite i koji Vas prate'
-    },
-    {
-      name: "Poruke",
-      slug: "poruke",
-      icon: '023-conversation.svg',
-      desc: 'Poruke i konverzacije'
-    },
-    {
-      name: "Moji oglasi",
-      slug: 'moji-oglasi',
-      icon: '016-toolbox.svg',
-      desc: 'Lista Vaših objavljenih oglasa'
-    },
-    {
-      name: "Blokirani korisnici",
-      slug: "blokirani-korisnici",
-      icon: '033-laptop-5.svg',
-      desc: 'Lista blokiranih korisnika'
-    },
-    {
-      name: "Verifikacija",
-      slug: "verifikacija",
-      icon: '004-server.svg',
-      desc: 'Verifikacija email-a i broja telefona'
-    },
-    {
-      name: "Obavijesti",
-      slug: "notifikacije",
-      icon: '049-laptop.svg',
-      desc: 'Upravljanje obavijestima'
-    },
-    {
-      name: "Privatnost",
-      slug: "privatnost",
-      icon: '025-laptop-6.svg',
-      desc: 'Postavke privatnosti'
-    },
-    {
-      name: "Promjena šifre",
-      slug: "promjena-sifre",
-      icon: '043-settings.svg',
-      desc: 'Promjena trenutne šifre'
-    },
-  ]
-
-  created() {
-    console.log(this.$auth.user)
+    slidesPerGroup: 4,
+    slidesPerView: 4,
+    touchRatio: 0.2,
+    slideToClickedSlide: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    }
   }
 }
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -134,6 +85,13 @@ export default class accountpage extends Vue {
       border-radius: 10px;
       flex-direction: column;
 
+      h1 {
+        font-size: 22px !important;
+        font-weight: 500;
+        margin-bottom: 24px;
+
+      }
+
       .info {
         display: flex;
         align-items: center;
@@ -155,15 +113,6 @@ export default class accountpage extends Vue {
         }
       }
 
-      .heading-account {
-        overflow-wrap: break-word !important;
-        //font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
-        font-size: 32px !important;
-        font-weight: 600 !important;
-        line-height: 1.125em !important;
-        color: rgb(72, 72, 72) !important;
-        margin-top: 39px;
-      }
 
       h2 {
         //font-family: 'Roboto', sans-serif;
@@ -255,7 +204,28 @@ a {
   color: #9BAABD;
 }
 
+.swiper-container {
+  //padding: 0 0 24px 0;
+  padding: 8px 8px;
+  width: 1324px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-bottom: 36px;
 
+}
+
+
+.grid-layout {
+  padding: 0 !important
+}
+
+.swiper-wrapper {
+  box-sizing: border-box;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: #d63946 !important;
+}
 
 </style>
 

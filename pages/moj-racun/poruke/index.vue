@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper">
+  <div class="message-wrapper">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="conversation">
-        <div class="heading-wrapper">
+        <div class="heading-wrapper center">
           <h1>{{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
         </div>
         <div class="messages-wrap">
@@ -179,6 +179,16 @@ export default class poruke extends Vue {
 </script>
 
 <style scoped lang="scss">
+  .message-wrapper {
+    display: flex;
+    height: calc(100vh - 126px);
+    width: 100%;
+    box-sizing: border-box;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0 80px;
+    padding-top: 24px;
+  }
   .content {
     display: flex;
     flex-direction: row;
@@ -186,10 +196,15 @@ export default class poruke extends Vue {
 
     .heading-wrapper {
       height: 80px;
+      min-height: 80px;
       display: flex;
       align-items: center;
       border-bottom: 1px solid #ddd;
       margin-bottom: 24px;
+
+      &.center {
+        margin-bottom: 0;
+      }
 
       img {
         height: 60px;
@@ -284,6 +299,7 @@ export default class poruke extends Vue {
       flex-direction: column;
       position: relative;
       box-shadow: rgb(0 0 0 / 8%) 0px 6px 12px;
+      height: calc(100vh - 270px);
 
 
       .main-input-wrapper {
@@ -371,5 +387,15 @@ export default class poruke extends Vue {
   .messages-wrap {
     height: 100%;
 
+  }
+
+
+  h1.heading {
+    font-size: 32px !important;
+    font-weight: 600 !important;
+    line-height: 1.125em !important;
+    color: #484848 !important;
+    margin-top: 12px;
+    margin-bottom: 24px;
   }
 </style>

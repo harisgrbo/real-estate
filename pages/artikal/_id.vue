@@ -5,17 +5,33 @@
         <div class="img-counter">
           <font-awesome-icon icon="images">
           </font-awesome-icon>
-          <p>12</p>
+          <p>{{ images.length }}</p>
         </div>
-        <div :class="'item' + img.id" v-for="img in images">
-          <img :src="[ '/test' + img.name ]" alt="">
+<!--        <div class="img-counter show-more">-->
+<!--          <font-awesome-icon icon="images">-->
+<!--          </font-awesome-icon>-->
+<!--          <p>Pogledaj sve slike</p>-->
+<!--        </div>-->
+        <div :class="'item' + img.id" v-for="(img, index) in images">
+          <img :src="img.name" alt="" @click="openGallery(index)">
         </div>
+        <light-box
+          ref="lightbox"
+          :media="lightboxImages"
+          :show-light-box="false"
+          :show-thumbs="true"
+          :close-text="closeText"
+        />
       </div>
       <div class="listing-content-inner">
         <div class="listing-content-wrapper">
           <div class="article-title">
             <h2>{{ listing.title }}</h2>
             <div class="buttons">
+              <button>
+                <font-awesome-icon icon="minus-circle"></font-awesome-icon>
+                Prijavi oglas
+              </button>
               <button>
                 <font-awesome-icon icon="heart"></font-awesome-icon>
                 Snimi
@@ -26,7 +42,7 @@
               </button>
             </div>
           </div>
-          <div class="detailed-informations">
+          <div class="grid-layout">
             <div class="detailed-info" v-if="listing.city">
               <span>Lokacija</span>
               <span>{{ listing.city.name }}</span>
@@ -39,19 +55,33 @@
               <span>Brend</span>
               <span>{{ listing.brandModel }}</span>
             </div>
+            <div class="detailed-info" v-if="listing.address">
+              <span>Adresa</span>
+              <span>{{ sliceAddress(listing.address) }}</span>
+            </div>
             <div class="detailed-info">
               <span>Datum objave</span>
               <span>{{ $moment(listing.createdAt).format('LL') }}</span>
             </div>
             <div class="detailed-info price">
-              <font-awesome-icon icon="coins"></font-awesome-icon>
-              <span>Cijena</span>
+              <div>
+                <font-awesome-icon icon="coins"></font-awesome-icon>
+                <span>Cijena</span>
+              </div>
               <span>{{ listing.price }} KM</span>
             </div>
           </div>
           <div class="separator"></div>
           <h2 class="heading">Detaljne informacije</h2>
-          <div class="detailed-informations">
+          <div class="grid-layout">
+            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
+              <span>{{ info.name }}</span>
+              <span>{{ info.value }}</span>
+            </div>
+          </div>
+          <div class="separator"></div>
+          <h2 class="heading">U blizini nekretnine</h2>
+          <div class="grid-layout">
             <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
               <span>{{ info.name }}</span>
               <span>{{ info.value }}</span>
@@ -64,7 +94,7 @@
           <h2 class="heading">Pitanja</h2>
         </div>
         <div class="user-wrap">
-          <UserProfile :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent"></UserProfile>
+          <UserProfile :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
         </div>
       </div>
     </div>
@@ -119,27 +149,48 @@ export default class Artikal extends Vue {
   isUserFollowed = false;
   images = [
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 1,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 2,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 3,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 4,
     },
     {
-      name: '/img1.jpg',
+      name: '/test/img1.jpg',
       id: 5,
     },
 
   ]
+
+  get lightboxImages() {
+    return this.images.map((item) => {
+      return {
+        src: item.name,
+        thumb: item.name,
+      };
+    });
+  }
+
+  closeText() {
+    return 'Zatvori galeriju'
+  }
+
+  sliceAddress(address) {
+    return address.slice(0,20)
+  }
+
+  openGallery(index) {
+    this.$refs.lightbox.showImage(index);
+  }
 
   async handleFollow() {
     try {
@@ -172,7 +223,7 @@ export default class Artikal extends Vue {
   }
 
   created() {
-    console.log(this.$auth)
+    console.log(this.listing)
     this.isUserFollowed = this.isFollowed;
   }
 
@@ -241,6 +292,12 @@ export default class Artikal extends Vue {
 
     svg {
       margin-right: 8px;
+    }
+
+    &.show-more {
+      bottom: 23px;
+      top: inherit;
+      cursor: pointer;
     }
   }
 
@@ -319,66 +376,6 @@ export default class Artikal extends Vue {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        .detailed-info {
-          padding: 0 8px;
-          border-radius: 5px;
-          display: flex;
-          flex-direction: column;
-          background: rgb(241 239 239 / 53%);
-          margin-right: 8px;
-          margin-bottom: 8px;
-          box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
-          span {
-            font-size: 14px;
-            margin: 5px 0;
-            &:last-child {
-              font-weight: 500;
-              font-size: 16px;
-            }
-          }
-          &.exchange {
-            font-weight: 600;
-            font-size: 16px;
-            display: flex;
-            justify-content: center;
-            span {
-              margin: 0;
-              display: flex;
-              align-items: center;
-            }
-          }
-          &.price {
-            background: #151b38 !important;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            justify-self: flex-end;
-            span {
-              color: #fff;
-              font-size: 16px;
-              &:last-child {
-                margin-left: 16px;
-              }
-            }
-          }
-          &.exchange-for {
-            background: #757B9A !important;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            span {
-              color: #fff;
-              font-size: 16px;
-              display: flex;
-              align-items: center;
-              i {
-                margin-left: 8px;
-              }
-            }
-          }
-        }
       }
       .description {
         line-height: 21px;
@@ -508,6 +505,94 @@ export default class Artikal extends Vue {
 .user-wrap {
   width: 33%;
   margin-left: 24px;
+}
+
+.detailed-info {
+  padding: 0 8px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  background: rgb(241 239 239 / 53%);
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  span {
+    font-size: 14px;
+    margin: 5px 0;
+    &:last-child {
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+  &.exchange {
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    span {
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+  &.price {
+    background: #151b38 !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+    font-weight: 600;
+    font-size: 18px !important;
+    div {
+      display: flex;
+      align-items: center;
+    }
+    svg {
+      color: #fff;
+    }
+    span {
+      color: #fff;
+      &:last-child {
+        margin-left: 12px;
+      }
+    }
+  }
+  &.exchange-for {
+    background: #757B9A !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      color: #fff;
+      display: flex;
+      align-items: center;
+      i {
+        margin-left: 8px;
+      }
+    }
+  }
+}
+
+.grid-layout {
+  padding: 0;
+  grid-template-columns: repeat( auto-fill, minmax(220px, 1fr) );
+  grid-row-gap: 12px;
+}
+
+::v-deep img.vue-lb-modal-image {
+  border-radius: 10px !important;
+}
+
+::v-deep .vue-lb-arrow {
+  width: 60px !important;
+  border-radius: 30px!important;
+  border: 1px solid #fff!important;
+  height: 60px!important;
+
+  ::v-deep svg {
+    color: #444!important;
+  }
 }
 </style>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="navbar-wrapper">
-    <div class="first-row">
+    <div class="first-row" v-if="!$device.isMobile">
       <div>
         <ul>
-          <li>agencije</li>
+          <li @click="$router.push('/agencies')">agencije</li>
           <li>novogradnja</li>
           <li>marketing</li>
           <li>o nama</li>
@@ -29,9 +29,9 @@
     </div>
     <div class="second-row">
       <div class="img-wrapper">
-        <img src="/logo.png" alt="" @click="$router.push('/')">
+        <img :src="[ $device.isMobile ? '/logo-single.png' : '/logo1.png']" class="main-logo" alt="" @click="$router.push('/')">
       </div>
-      <button class="categories" @click="toggleCategories">
+      <button v-if="!$device.isMobile" class="categories" @click="toggleCategories">
         KATEGORIJE
         <font-awesome-icon icon="th-large"></font-awesome-icon>
       </button>
@@ -87,9 +87,8 @@
           </ul>
         </div>
       </div>
-      <nuxt-link :to="{ path: '/publish'}" class="publish">
+      <nuxt-link :to="{ path: '/publish'}" class="publish" v-if="!$device.isMobile">
         <p>Objavi</p>
-        <font-awesome-icon icon="plus"/>
       </nuxt-link>
     </div>
     <modals-container></modals-container>
@@ -252,6 +251,26 @@ export default class Navbar extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .navbar-wrapper {
   height: fit-content;
   width: 100%;
@@ -262,9 +281,14 @@ export default class Navbar extends Vue{
   position: fixed;
   top: 0;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-  z-index: 3;
+  z-index: 5;
+  background: #fff;
   box-sizing: border-box;
-  padding: 0px 80px 8px 80px;
+  padding: 0px 80px 0px 80px;
+
+  @include for-phone-only {
+    padding: 0 12px 0 12px;
+  }
 
   .first-row {
     display: flex;
@@ -289,6 +313,11 @@ export default class Navbar extends Vue{
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
+        transition: 0.3s all ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
       }
     }
   }
@@ -298,9 +327,10 @@ export default class Navbar extends Vue{
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    padding: 0 80px;
     padding-top: 8px;
     padding-bottom: 8px;
-    padding: 0 80px;
+    background: #fff;
 
     .categories {
       height: 48px;
@@ -325,11 +355,25 @@ export default class Navbar extends Vue{
 
   .img-wrapper {
     display: flex;
-    flex: 2;
+    flex: 1;
     justify-content: flex-start;
+    cursor: pointer;
+    align-items: center;
+
+    @include for-phone-only {
+      width: fit-content;
+      flex: 0;
+      margin-right: 12px;
+    }
 
     img {
-      height: 80px;
+      height: 30px;
+      max-height: 30px;
+
+      @include for-phone-only {
+        height: 30px;
+        padding: 16px 0;
+      }
     }
   }
   .input-wrapper {
@@ -447,14 +491,14 @@ export default class Navbar extends Vue{
           font-weight: 600;
           text-transform: uppercase;
           font-size: 10px;
-          background: #757B9A;
+          background: #D63946;
           margin-right: 12px;
           cursor: pointer;
           color: #fff;
           transition: 0.3s all ease;
 
           &:hover {
-            background: #585d79;
+            background: #b32e3b;
 
           }
         }
@@ -518,14 +562,13 @@ export default class Navbar extends Vue{
 
     .login-wrapper {
       width: 76px;
-      border: 1px solid #f1f1f1;
       border-radius: 8px;
       padding: 0 12px;
       height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #444;
+      color: #fff;
       margin-left: 16px;
 
       svg {
@@ -539,8 +582,6 @@ export default class Navbar extends Vue{
       }
 
       &:hover {
-        border: none;
-
         svg {
           transform: scale(1.1)
         }
@@ -553,16 +594,17 @@ export default class Navbar extends Vue{
       border: none;
       background: transparent;
       padding: 0 4px;
-      font-weight: 500;
-      font-size: 14px;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
+      transition: 0.3s all ease;
 
       &:last-child {
         margin-left: 16px;
       }
 
       &:hover {
-        background: #F7F7F7;
+        transform: scale(1.1);
       }
 
       &:focus {
@@ -585,8 +627,7 @@ export default class Navbar extends Vue{
         display: flex;
         align-items: center;
         margin-left: 12px;
-        color: #444;
-        background: #f7f7f7;
+        color: #fff;
         border-radius: 8px;
 
         svg {
@@ -595,7 +636,7 @@ export default class Navbar extends Vue{
           transition: 0.3s all ease;
 
           &:hover {
-            transform: scale(1.2)
+            transform: scale(1.2);
           }
 
           &:last-child {
@@ -608,7 +649,7 @@ export default class Navbar extends Vue{
 
     .user-dropdown {
       position: absolute;
-      top: 64px;
+      top: 44px;
       padding: 12px;
       background: #fff;
       width: 280px;
@@ -620,6 +661,7 @@ export default class Navbar extends Vue{
       justify-content: flex-start;
       height: fit-content;
       border-radius: 10px;
+      z-index: 4;
     }
   }
 

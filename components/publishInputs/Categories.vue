@@ -1,14 +1,17 @@
 <template>
-  <ul>
-    <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"
-        :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
-    >
-      <div class="img-wrapper">
-        <img :src="cat.icon" alt="cat">
-      </div>
-      <p>{{cat.title}}</p>
-    </li>
-  </ul>
+  <div class="categories-list-wrap">
+    <ul v-if="loading === false">
+      <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"
+          :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
+      >
+        <div class="img-wrapper">
+          <img :src="cat.icon" alt="cat">
+        </div>
+        <p>{{cat.title}}</p>
+      </li>
+    </ul>
+    <img v-else src="/load.svg" class="loading" alt="">
+  </div>
 </template>
 
 <script>
@@ -18,12 +21,15 @@ import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 export default class Categories extends Vue {
   categories = []
   selectedCategory = null;
+  loading = false;
 
   async fetchCategories() {
+    this.loading = true;
     try {
       let response = await this.$axios.get('/categories');
       this.categories = response.data.data;
-      console.log(this.categories)
+
+      this.loading = false;
     } catch(e) {
       console.log(e)
     }
@@ -41,8 +47,21 @@ export default class Categories extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+.categories-list-wrap {
+  height: 490px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loading {
+    height: 40px;
+  }
+}
   ul {
     display: grid;
+    width: 100%;
     grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 16px;
     grid-row-gap: 32px;

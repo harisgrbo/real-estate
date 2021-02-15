@@ -1,6 +1,6 @@
 <template>
-  <div class="search-wrapper">
-    <SearchNavbar></SearchNavbar>
+  <div class="search-wrapp">
+    <Navbar></Navbar>
     <Nuxt />
   </div>
 </template>
@@ -17,9 +17,12 @@ export default class Search extends Vue {
 }
 </script>
 
-<style lang="scss">
-.search-wrapper {
-  padding-top: 0;
+<style lang="scss" scoped>
+.search-wrapp {
+
+  ::v-deep .navbar-wrapper {
+    padding: 0 24px 0 24px !important;
+  }
 }
 </style>
 
