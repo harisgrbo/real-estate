@@ -94,7 +94,6 @@ export default class UserProfile extends Vue {
 
   async created() {
     this.alreadyFollowed = this.followed;
-    console.log(this.user, 'svirajte mi')
   }
 
   get isMe() {

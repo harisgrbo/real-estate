@@ -204,7 +204,6 @@ export default class Users extends Vue {
     try {
       let response = await this.$axios.get('/users/' + id + '/listings')
       this.listings = response.data.data;
-      console.log(this.listings)
     } catch(e) {
       console.log(e)
     }

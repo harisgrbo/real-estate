@@ -1,6 +1,6 @@
 <template>
   <div class="navbar-wrapper">
-    <div class="first-row" v-if="!$device.isMobile">
+    <div class="first-row" v-if="! $device.isMobile">
       <div>
         <ul>
           <li @click="$router.push('/agencies')">agencije</li>
@@ -10,7 +10,7 @@
         </ul>
       </div>
       <div class="auth-buttons">
-        <div v-if="!$auth.user" class="auth-reg">
+        <div v-if="! $auth.user" class="auth-reg">
           <button class="register" @click="$router.push('/auth/register')">REGISTRACIJA</button>
         </div>
         <button v-if="$auth.user" class="login">
@@ -91,10 +91,11 @@
         <p>Objavi</p>
       </nuxt-link>
     </div>
-    <modals-container></modals-container>
-    <modal name="type" :adaptive="true" height="100%">
-      <ListingType @selected-type="handleSelectedType" @close="$modal.hide('type')"></ListingType>
-    </modal>
+    <client-only>
+      <modal name="type" :adaptive="true" height="100%">
+        <ListingType @selected-type="handleSelectedType" @close="$modal.hide('type')"></ListingType>
+      </modal>
+    </client-only>
   </div>
 </template>
 

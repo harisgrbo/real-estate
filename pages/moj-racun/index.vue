@@ -103,10 +103,6 @@ export default class accountpage extends Vue {
       desc: 'Promjena trenutne šifre'
     },
   ]
-
-  created() {
-    console.log(this.$auth.user)
-  }
 }
 
 

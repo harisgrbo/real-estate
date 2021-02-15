@@ -66,7 +66,7 @@ export default class SearchMap extends Vue{
   }
 
   openInfo() {
-    console.log('test')
+
   }
 
   // renderListingCard(listing) {

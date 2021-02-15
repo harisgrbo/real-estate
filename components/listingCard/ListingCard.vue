@@ -74,11 +74,6 @@ export default class ListingCard extends Vue{
   sliceAddress(address) {
     return address.slice(0, 20) + '...'
   }
-
-  created() {
-    console.log(this.listing)
-  }
-
 }
 </script>
 

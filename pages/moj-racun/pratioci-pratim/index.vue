@@ -71,7 +71,6 @@ export default class pratioci extends Vue {
     try {
       let response = await this.$axios.get('/profile/followed');
       this.followed = response.data.data;
-      console.log(this.followed)
     } catch(e) {
       console.log(e)
     }
@@ -81,7 +80,6 @@ export default class pratioci extends Vue {
     try {
       let response = await this.$axios.get('/profile/followed');
       this.followers = response.data.data;
-      console.log(this.followers)
     } catch(e) {
       console.log(e)
     }
