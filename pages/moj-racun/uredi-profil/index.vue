@@ -11,10 +11,10 @@
       Uredi profil
     </h1>
     <div class="content">
-      <TextField label="Ime i prezime" v-model="payload.name" type="text"></TextField>
-      <TextField label="Email" v-model="payload.email" type="text"></TextField>
-      <TextField label="Sifra" type="password" v-model="payload.password"></TextField>
-      <TextField label="Potvrdi sifru" v-model="user.password" type="password"></TextField>
+      <TextField label="Ime i prezime" v-model="name" type="text"></TextField>
+      <TextField label="Email" v-model="email" type="text"></TextField>
+      <TextField label="Sifra" type="password" v-model="password"></TextField>
+      <TextField label="Potvrdi sifru" v-model="passwordConfirm" type="password"></TextField>
     </div>
     <ActionButton @action="handleAction" placeholder="Spasi izmjene" :loading="loading"></ActionButton>
     <Snackbar></Snackbar>
@@ -33,40 +33,46 @@ import Snackbar from "@/components/global/Snackbar";
     ActionButton,
     Snackbar
   },
+  middleware: ['auth'],
   layout() { return "home" }
 })
 
 export default class urediProfil extends Vue {
   user = {}
-  payload = {
-    name: '',
-    email: '',
-    password: ''
-  }
+  name = '';
+  email = '';
+  password = '';
+  passwordConfirm = '';
   loading = false;
 
   async created() {
-    await this.fetchUser();
-
-    this.payload.name = this.user.name;
-    this.payload.email = this.user.email;
+    this.setInputs();
   }
 
-  async fetchUser() {
-    let user = this.$auth.user.id;
-    try {
-      let res = await this.$axios.get('/me');
-
-      this.user = res.data.data;
-    } catch(e) {
-      console.log(e)
-    }
+  setInputs() {
+    this.name = this.$auth.user.name;
+    this.email = this.$auth.user.email;
   }
 
   async updateProfileInfo() {
     this.loading = true;
     try {
-      await this.$axios.put('/profile/update', this.payload)
+      let payload = {};
+
+      if (this.name !== this.$auth.user.name) {
+        payload.name = this.name
+      }
+
+      if (this.email !== this.$auth.user.email) {
+        payload.email = this.email;
+      }
+
+      if (this.password.length) {
+        payload.password = this.password;
+      }
+
+      await this.$axios.put('/profile/update', payload)
+      await this.$auth.fetchUser();
 
       this.$snackbar.show({
         text: "Uspjesno ste se spasili izmjene!",
