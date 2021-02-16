@@ -5,13 +5,14 @@
 <!--      <PublishShortcut></PublishShortcut>-->
 <!--    </div>-->
     <h1>Objavljeno {{ listings.length }} nekretnina</h1>
+
     <div class="grid-layout">
       <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
     </div>
-<!--    <button @click="loadMore">Ucitaj jos</button>-->
-<!--    <client-only>-->
-<!--      <infinite-loading spinner="circles" direction="bottom" @infinite="infiniteHandler"></infinite-loading>-->
-<!--    </client-only>-->
+
+    <client-only>
+      <infinite-loading spinner="circles" direction="bottom" @infinite="infiniteHandler"></infinite-loading>
+    </client-only>
   </div>
 </template>
 
@@ -26,52 +27,45 @@
       ListingCard,
       PublishShortcut
     },
-    layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home'
+    layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+    async asyncData(ctx) {
+      let listings = []
+      let meta = null
+      let page = 1
+
+      try {
+        let res = await ctx.app.$axios.get('/listings/home')
+        listings = res.data.data
+        meta = res.data.meta
+        page = 2
+      } catch (e) {
+        console.log(e)
+      }
+
+      return {
+        listings,
+        meta,
+        page
+      }
+    }
   })
 
   export default class Homepage extends Vue {
-    listings = [];
-    page = 1;
-    meta = {}
-
-    async fetchListings() {
-      try {
-        let response = await this.$axios.get('/listings/home');
-        this.listings = response.data.data;
-        this.meta = response.data.meta;
-      } catch(e) {
-        console.log(e)
-      }
+    infiniteHandler($state) {
+      this.$axios.get('/listings/home', {
+        params: {
+          page: this.page,
+        },
+      }).then(({ data }) => {
+        if (data.data.length) {
+          this.page++;
+          this.listings = this.listings.concat(data.data)
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      });
     }
-
-    async addMoreListings(page) {
-      let res = await this.$axios.get('/listings/home?page=' + page);
-      this.listings.concat(res.data.data);
-    }
-
-    async loadMore() {
-      await this.addMoreListings(this.page++)
-    }
-
-    async created() {
-      await this.fetchListings();
-    }
-
-    // infiniteHandler($state) {
-    //   this.$axios.get('/listings/home', {
-    //     params: {
-    //       page: this.page,
-    //     },
-    //   }).then(({ data }) => {
-    //     if (data.length >= this.meta.total) {
-    //       $state.complete();
-    //     } else {
-    //       this.page += 1;
-    //       this.listings.concat(data)
-    //       $state.loaded();
-    //     }
-    //   });
-    // }
   }
 </script>
 
