@@ -88,12 +88,8 @@ export default class poruke extends Vue {
   messagesLoaded = true;
 
   mounted() {
-    this.$echo.private(`App.User.${this.$auth.user.id}`).notification(n => {
-      if (n.type === 'App\\Notifications\\NewMessage') {
-        if (n.message.conversation_id === this.currentConversation.id && n.message.sender.id !== this.$auth.user.id) {
-          this.messages.push(n.message)
-        }
-      }
+    this.$echo.private(`messaging.1`).listen('.NewMessage', n => {
+
     })
   }
 
@@ -145,6 +141,8 @@ export default class poruke extends Vue {
 
   async created() {
     await this.fetchConversations();
+
+    console.log(this.conversations);
 
     if(this.conversations.length) {
       this.currentConversation = this.conversations[0];
