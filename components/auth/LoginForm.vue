@@ -1,9 +1,11 @@
 <template>
   <div class="form-wrapper">
     <h2>Prijava</h2>
-    <TextField type="text" placeholder="Email" v-model="payload.username"></TextField>
-    <TextField type="password" placeholder="Lozinka" v-model="payload.password"></TextField>
-    <ActionButton placeholder="Prijavi se" @action="handleLogin" @keyup.enter="handleLogin" :loading="loading"></ActionButton>
+    <form @submit.prevent="handleLogin">
+      <TextField type="text" placeholder="Email" v-model="payload.username"></TextField>
+      <TextField type="password" placeholder="Lozinka" v-model="payload.password"></TextField>
+      <ActionButton placeholder="Prijavi se" :loading="loading"></ActionButton>
+    </form>
     <nuxt-link :to="{ path: '/auth/register' }">Nemate nalog? <p>Registruj se</p></nuxt-link>
     <Snackbar />
   </div>
@@ -28,14 +30,6 @@ export default class LoginForm extends Vue{
   }
   loading = false;
 
-  mounted() {
-    window.addEventListener('keyup', this.handleEnter);
-  }
-
-  destroyed() {
-    window.removeEventListener('keyup', this.handleEnter);
-  }
-
   handleEnter(e) {
     if (e.code === 'Enter') {
       this.handleLogin();
@@ -47,10 +41,16 @@ export default class LoginForm extends Vue{
 
     try {
       await this.$auth.loginWith("local", { data: this.payload });
-      this.$auth.setUser(this.payload)
+      // this.$auth.setUser(this.payload)
       this.$router.push('/')
     } catch(e) {
-      console.log(e)
+      if (e.response.status === 400) {
+        this.$snackbar.show({
+          text: "Pogresni podaci",
+          timeout: 1000,
+          type: 'danger'
+        })
+      }
     } finally {
       this.loading = false;
     }

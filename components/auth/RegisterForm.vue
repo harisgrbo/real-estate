@@ -78,12 +78,13 @@ export default class RegisterForm extends Vue{
       })
       .catch(error => {
         this.loading = false;
-        console.log(error)
-        this.$snackbar.show({
-          text: "Unijeli ste pogresne informacije!",
-          timeout: 3000,
-          type: "danger"
-        });
+        if (error.response.status === 422) {
+          this.$snackbar.show({
+            text: "Unijeli ste pogresne informacije!",
+            timeout: 3000,
+            type: "danger"
+          });
+        }
       })
   }
 
@@ -104,12 +105,13 @@ export default class RegisterForm extends Vue{
       })
       .catch(error => {
         this.loading = false;
-        console.log(error)
-        this.$snackbar.show({
-          text: "Unijeli ste pogresne informacije!",
-          timeout: 3000,
-          type: "danger"
-        });
+        if (error.response.status === 422) {
+          this.$snackbar.show({
+            text: "Unijeli ste pogresne informacije!",
+            timeout: 3000,
+            type: "danger"
+          });
+        }
       })
   }
 

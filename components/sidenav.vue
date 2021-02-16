@@ -31,6 +31,7 @@ export default class sidenav extends Vue {
 
   logout() {
     this.$auth.logout();
+    this.$router.push('/auth/login');
   }
 
   goToUSer() {
