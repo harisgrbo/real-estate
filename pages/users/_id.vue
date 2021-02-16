@@ -65,18 +65,20 @@
         </div>
       </div>
     </div>
-    <modal name="contact-user" :adaptive="true" height="100%">
-      <div class="modal-inner">
-        <div class="modal-header">
-          <h2>Poruka za {{ user.name }}</h2>
-          <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
+    <client-only>
+      <modal name="contact-user" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Poruka za {{ user.name }}</h2>
+            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
+          </div>
+          <div class="modal-content">
+            <textarea v-model="message"></textarea>
+            <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+          </div>
         </div>
-        <div class="modal-content">
-          <textarea v-model="message"></textarea>
-          <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
-        </div>
-      </div>
-    </modal>
+      </modal>
+    </client-only>
     <Snackbar></Snackbar>
   </div>
 </template>
@@ -88,13 +90,29 @@ import Snackbar from "@/components/global/Snackbar";
 
 @Component({
   components: {ListingCard, Snackbar},
-  layout() { return "home" }
+  layout() { return "home" },
+  async asyncData(ctx) {
+    let user = null
+    let meta = null
+
+    try {
+      let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
+      user = response.data.data;
+      meta = response.data.meta;
+    } catch(e) {
+      console.log(e)
+    }
+
+    return {
+      user,
+      meta
+    }
+  }
 })
 
 export default class Users extends Vue {
 
   activeTab = 0
-  user = {}
   isFollowed = ''
   message = '';
   loading = false;
@@ -113,7 +131,6 @@ export default class Users extends Vue {
   }
 
   async created() {
-    await this.fetchUser(this.$route.params.id)
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
   }
