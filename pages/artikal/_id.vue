@@ -15,13 +15,17 @@
         <div :class="'item' + img.id" v-for="(img, index) in images">
           <img :src="img.name" alt="" @click="openGallery(index)">
         </div>
-        <light-box
+        <client-only>
+          <light-box
           ref="lightbox"
           :media="lightboxImages"
           :show-light-box="false"
           :show-thumbs="true"
-          :close-text="closeText"
-        />
+          close-text="function() {
+          return 'Zatvori galeriju'
+          }"
+          />
+        </client-only>
       </div>
       <div class="listing-content-inner">
         <div class="listing-content-wrapper">
@@ -178,10 +182,6 @@ export default class Artikal extends Vue {
         thumb: item.name,
       };
     });
-  }
-
-  closeText() {
-    return 'Zatvori galeriju'
   }
 
   sliceAddress(address) {

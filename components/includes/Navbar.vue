@@ -45,6 +45,7 @@
         </button>
         <input type="text"
                ref="search"
+               v-model="searchInput"
                @keyup.enter="search"
                @input="showSuggests"
         >
@@ -58,7 +59,7 @@
             <i class="material-icons" @click="selectedType = null">close</i>
           </button>
         </div>
-        <button class="close">
+        <button v-show="searchInput.length" class="close">
           <i class="material-icons" @click="clearSearchTerm">close</i>
         </button>
         <!-- Autocomplete dropdown -->
@@ -121,6 +122,7 @@ export default class Navbar extends Vue{
   focused = false
   selectedCategory = null
   selectedType = null
+  searchInput = ""
 
   away() {
     this.focused = false;
@@ -161,7 +163,7 @@ export default class Navbar extends Vue{
   }
 
   clearSearchTerm() {
-    this.$refs.search.value = '';
+    this.searchInput = '';
 
     this.focused = false;
 
@@ -169,13 +171,7 @@ export default class Navbar extends Vue{
   }
 
   search(e) {
-    let text = ''
-
-    if (e.target.value) {
-      text = e.target.value.trim();
-    } else {
-      text = this.$refs.search.value.trim();
-    }
+    let text = this.searchInput.trim();
 
     let filters  = [];
 
@@ -240,12 +236,17 @@ export default class Navbar extends Vue{
   }
 
 
-  async showSuggests(e) {
-    let q = e.target.value;
-    if(q.length) {
+  async showSuggests() {
+    let q = this.searchInput.trim();
+
+    if(q.length > 3) {
       this.showAutoCompleteDropdown = true;
-      let res = await this.$axios.get('/listings/completion?q=' + q);
-      this.suggestions = res.data;
+      try {
+        let res = await this.$axios.get('/listings/completion?q=' + q);
+        this.suggestions = res.data;
+      } catch (e) {
+        console.log(e)
+      }
     } else {
       this.showAutoCompleteDropdown = false;
     }

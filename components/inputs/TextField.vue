@@ -19,7 +19,7 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 export default class TextField extends Vue{
   @Prop({ type: String, required: true}) type;
-  @Prop({ type: String, required: true}) placeholder;
+  @Prop({ type: String, default: ""}) placeholder;
   @Prop({ type: String }) error;
   @Prop({ type: String }) label;
   @Prop({ type: String }) value;

@@ -166,6 +166,7 @@ import Snackbar from "@/components/global/Snackbar";
   components: {
     Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar
   },
+  middleware: ['auth'],
   layout() { return "publish" },
   async asyncData(ctx) {
     let attributes = [];

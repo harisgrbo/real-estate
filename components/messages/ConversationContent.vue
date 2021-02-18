@@ -37,6 +37,10 @@ export default class ConversationContent extends Vue {
 </script>
 
 <style scoped lang="scss">
+.no-image {
+  opacity: 0 !important;
+}
+
 .conversation-list-wrapper {
   display: flex;
   padding: 12px;
@@ -89,10 +93,6 @@ export default class ConversationContent extends Vue {
     img {
       margin-right: 0;
       margin-left: 12px;
-
-      &.no-image {
-        opacity: 0;
-      }
     }
   }
 

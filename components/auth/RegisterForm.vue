@@ -6,20 +6,20 @@
     </ul>
     <!-- User registration -->
     <div v-if="currentType === 0">
-      <form @keyup.enter="handleUserRegistration">
+      <form @submit.prevent="handleUserRegistration">
         <TextField type="text" placeholder="Email" v-model="userPayload.email"></TextField>
         <TextField type="text" placeholder="Korisnicko ime" v-model="userPayload.name"></TextField>
         <TextField type="password" placeholder="Lozinka" v-model="userPayload.password"></TextField>
-        <ActionButton placeholder="Registruj se kao fizičko lice" @action="handleUserRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
+        <ActionButton placeholder="Registruj se kao fizičko lice" @action="handleUserRegistration" :loading="loading"></ActionButton>
       </form>
     </div>
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
-      <form @keyup.enter="handleRealEstateAgencyRegistration">
+      <form @submit.prevent="handleRealEstateAgencyRegistration">
         <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
         <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgencyPayload.name"></TextField>
         <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
-        <ActionButton placeholder="Registruj se kao pravno lice (agencija)" @action="handleRealEstateAgencyRegistration" @keyup.enter.prevent="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
+        <ActionButton placeholder="Registruj se kao pravno lice (agencija)" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
       </form>
     </div>
     <nuxt-link :to="{ path: '/auth/login' }">Imate nalog? <p>Logujte se</p></nuxt-link>
@@ -58,7 +58,7 @@ export default class RegisterForm extends Vue{
 
   config = {
     headers: { 'Content-Type': 'application/json' },
-    responseType: 'blob',
+    // responseType: 'blob',
   };
 
   // User registration
@@ -78,12 +78,13 @@ export default class RegisterForm extends Vue{
       })
       .catch(error => {
         this.loading = false;
-        console.log(error)
-        this.$snackbar.show({
-          text: "Unijeli ste pogresne informacije!",
-          timeout: 3000,
-          type: "danger"
-        });
+        if (error.response.status === 422) {
+          this.$snackbar.show({
+            text: "Unijeli ste pogresne informacije!",
+            timeout: 3000,
+            type: "danger"
+          });
+        }
       })
   }
 
@@ -104,12 +105,13 @@ export default class RegisterForm extends Vue{
       })
       .catch(error => {
         this.loading = false;
-        console.log(error)
-        this.$snackbar.show({
-          text: "Unijeli ste pogresne informacije!",
-          timeout: 3000,
-          type: "danger"
-        });
+        if (error.response.status === 422) {
+          this.$snackbar.show({
+            text: "Unijeli ste pogresne informacije!",
+            timeout: 3000,
+            type: "danger"
+          });
+        }
       })
   }
 
