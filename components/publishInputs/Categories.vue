@@ -47,7 +47,26 @@ export default class Categories extends Vue {
 </script>
 
 <style scoped lang="scss">
-
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .categories-list-wrap {
   height: 490px;
   width: 100%;
@@ -65,6 +84,13 @@ export default class Categories extends Vue {
     grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 16px;
     grid-row-gap: 32px;
+
+    @include for-phone-only {
+      grid-template-columns: repeat(2, 1fr) !important;
+      grid-column-gap: 12px !important;
+      grid-row-gap: 12px !important;
+      margin-top: 32px;
+    }
     li {
       display: flex;
       flex-direction: column;

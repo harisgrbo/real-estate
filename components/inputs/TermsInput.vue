@@ -38,6 +38,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .button-wrap {
   display: flex;
   flex-direction: column;
@@ -55,6 +75,13 @@ export default {
     height: fit-content;
     flex-wrap: wrap;
 
+    @include for-phone-only {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 12px;
+      column-gap: 12px;
+    }
+
     button {
       margin-right: 12px;
       margin-bottom: 12px;
@@ -71,6 +98,12 @@ export default {
       border: none;
       padding: 0 12px;
       cursor: pointer;
+
+      @include for-phone-only {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 100%;
+      }
 
       &.selected {
         background: #757B9A !important;

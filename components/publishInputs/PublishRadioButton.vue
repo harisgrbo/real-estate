@@ -28,6 +28,28 @@ export default class PublishRadioButton extends Vue{
 </script>
 
 <style scoped lang="scss">
+
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -36,6 +58,9 @@ export default class PublishRadioButton extends Vue{
   display: flex;
   flex-direction: row;
 
+  @include for-phone-only {
+    flex-direction: column;
+  }
 }
 
 
@@ -57,6 +82,12 @@ $radioActive: #757B9A;
   transition: 0.1s all ease;
   box-sizing: border-box;
   cursor: pointer;
+  @include for-phone-only {
+    height: 50px;
+    min-height: 50px;
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
   &.selected {
     border: 1px solid #757B9A;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 1px 12px;

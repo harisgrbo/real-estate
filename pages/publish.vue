@@ -1,7 +1,11 @@
 <template>
   <div class="publish-wrapper-inner">
+    <p class="progress-title" v-if="$device.isMobile">Progres objave</p>
+    <div class="horizontal-progress" v-if="$device.isMobile">
+      <div class="filler" :style="{ width: completion + '%' }"></div>
+    </div>
     <Snackbar />
-    <div class="progress-wrapper">
+    <div v-if="!$device.isMobile" class="progress-wrapper">
         <p>Postotak objave: {{ completion.toFixed() }} %</p>
         <client-only>
           <radial-progress-bar :diameter="200"
@@ -551,12 +555,67 @@ export default class Publish extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+  .progress-title {
+    padding-bottom: 12px;
+    font-weight: 500;
+    font-size: 17px;
+  }
+
+  .horizontal-progress {
+    background: #f1f1f1;
+    position: relative;
+    height: 10px;
+    width: 100%;
+    border-radius: 5px;
+
+
+
+    .filler {
+      position: absolute;
+      left: 0;
+      background: red;
+      transition: 0.3s all ease;
+      top: 0;
+      bottom: 0;
+      height: 10px;
+      border-radius: 5px;
+    }
+  }
   .publish-wrapper-inner {
     display: flex;
     justify-content: space-between;
     height: 100%;
     width: 1280px;
     margin: 0 auto;
+
+    @include for-phone-only {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
 
     .progress-wrapper {
       display: flex;
@@ -592,6 +651,13 @@ export default class Publish extends Vue {
       box-sizing: border-box;
       position: relative;
       border-left: 1px solid #f1f1f1;
+
+      @include for-phone-only {
+        margin-left: 0;
+        border-left: none;
+        padding: 0;
+        padding-top: 24px;
+      }
 
       .step-1,
       .step-2,
@@ -695,6 +761,39 @@ export default class Publish extends Vue {
 
   ::v-deep .categories-list-wrap {
       height: fit-content !important;
+
+    ul li {
+      @include for-phone-only {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex: 1;
+        padding-bottom: 0;
+        height: 50px;
+        line-height: 21px;
+      }
+
+      .img-wrapper {
+
+        @include for-phone-only {
+          margin-bottom: 0;
+          border-radius: 5px;
+          font-size: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            @include for-phone-only {
+              height: 25px;
+              width: 25px;
+            }
+          }
+        }
+
+      }
+
+    }
   }
 
   .heading-checkbox {

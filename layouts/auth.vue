@@ -47,6 +47,10 @@ export default class Auth extends Vue {
     flex-direction: column;
     margin: auto;
     width: 40%;
+
+    @include for-phone-only {
+      width: 100%;
+    }
     .logo {
       width: 300px;
       margin: 0 auto;

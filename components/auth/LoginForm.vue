@@ -59,6 +59,27 @@ export default class LoginForm extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .form-wrapper {
   width: 70%;
   margin: 0 auto;
@@ -66,6 +87,13 @@ export default class LoginForm extends Vue{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @include for-phone-only {
+    width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
+    height: 100%;
+  }
   h2 {
     font-weight: 500;
     font-size: 20px;

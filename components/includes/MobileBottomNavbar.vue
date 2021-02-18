@@ -1,13 +1,14 @@
 <template>
   <div class="mobile-bottom-navbar">
-<!--      <font-awesome-icon v-for="button in buttons" :icon="button.icon" @action="button.action"></font-awesome-icon>-->
-    <button @click="openSidebarMenu">test</button>
+      <font-awesome-icon icon="th-large" @click="openCategoriesModal"></font-awesome-icon>
+      <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"></font-awesome-icon>
+      <font-awesome-icon icon="plus" @click="$router.push('/publish')"></font-awesome-icon>
+      <font-awesome-icon icon="user" @click="$auth.user? $router.push('/users/' + $auth.user.id) : $router.push('/auth/login')"></font-awesome-icon>
+      <font-awesome-icon icon="bars" @click="openSidebarMenu"></font-awesome-icon>
+
       <client-only>
-<!--        <modal name="type" :adaptive="true" height="100%">-->
-<!--          <ListingType @selected-type="handleSelectedType" @close="$modal.hide('type')"></ListingType>-->
-<!--        </modal>-->
         <modal name="sidebar" :adaptive="true" height="100%">
-          sidebar
+          <sidenav></sidenav>
         </modal>
       </client-only>
   </div>
@@ -17,73 +18,57 @@ b
 import { Component, Vue} from "nuxt-property-decorator";
 import CategoriesList from "@/components/CategoriesList";
 import ListingType from "@/components/ListingType";
+import sidenav from "@/components/sidenav"
+
 
 @Component({
-  components: {
+  categories: {
     ListingType,
-    CategoriesList
+    CategoriesList,
+    sidenav
   }
 })
 
 export default class MobileBottomNavbar extends Vue {
-  /*buttons = [
-    {
-      icon: 'th-large',
-      // action: this.openCategoriesModal()
-    },
-    {
-      icon: 'envelope',
-      action: this.$router.push('/poruke')
-    },
-    {
-      icon: 'plus',
-      action: this.$router.push('/objava')
-    },
-    {
-      icon: 'user',
-      action: this.$router.push('/users/' + this.$auth.user.id)
-    },
-    {
-      icon: 'bars',
-      // action: this.openSidebarMenu()
-    },
-  ]*/
+  openCategoriesModal() {
+    let self = this;
+    this.$modal.show(
+      {
+        render(h) {
+
+          return h( CategoriesList, {
+            props: {
+            },
+            on: {
+              selectedCat(e) {
+                self.selectedCategory = e;
+                self.closeModal();
+              },
+              close() {
+                // close event needs to be echoed
+                self.closeModal();
+              }
+            }
+          });
+        }
+      },
+      {
+      },
+      {
+        'selected-category': this.handleSelectedCategory,
+        adaptive: true,
+        height: "100%",
+      }
+    );
+  }
+
+  closeModal() {
+    this.$modal.hideAll();
+  }
 
   openSidebarMenu() {
     this.$modal.show('sidebar')
   }
-
-  // openCategoriesModal() {
-  //   let self = this;
-  //   this.$modal.show(
-  //     {
-  //       render(h) {
-  //
-  //         return h( CategoriesList, {
-  //           props: {
-  //           },
-  //           on: {
-  //             selectedCat(e) {
-  //               self.selectedCategory = e;
-  //               self.closeModal();
-  //             },
-  //             close() {
-  //               // close event needs to be echoed
-  //               self.closeModal();
-  //             }
-  //           }
-  //         });
-  //       }
-  //     },
-  //     {
-  //     },
-  //     {
-  //       'selected-category': this.handleSelectedCategory,
-  //       adaptive: true,
-  //       height: "100%",
-  //     }
-  //   );
-  // }
 }
 </script>
 
