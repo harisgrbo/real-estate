@@ -7,9 +7,9 @@
         <p>Poruke</p>
       </li>
     </ul>
-    <h1 class="heading">
-      Poruke
-    </h1>
+<!--    <h1 class="heading">-->
+<!--      Poruke-->
+<!--    </h1>-->
     <div class="content">
       <div class="conversation-list">
         <div class="search-wrapper">
@@ -297,7 +297,7 @@ export default class poruke extends Vue {
       flex-direction: column;
       position: relative;
       box-shadow: rgb(0 0 0 / 8%) 0px 6px 12px;
-      height: calc(100vh - 270px);
+      height: calc(100vh - 195px);
 
 
       .main-input-wrapper {

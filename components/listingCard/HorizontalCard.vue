@@ -6,15 +6,17 @@
       <div class="listing-card-content">
         <div class="column">
           <div class="title-price">
-            <p class="title">{{ listing.title }}</p>
+            <div class="title-box">
+              <p>Stan</p>
+              <p>Sarajevo</p>
+              <p>Dolac Malta</p>
+            </div>
             <font-awesome-icon icon="heart"></font-awesome-icon>
           </div>
 
           <!-- Potrebno u responsu vratitit ime grada, category slug i korisnika -->
           <div class="address">
-            <p>{{ sliceAddress(listing.address) }}</p>
-            <p>Sarajevo</p>
-            <p>stanovi</p>
+            <p>{{ listing.address }}</p>
           </div>
         </div>
         <div class="description">
@@ -142,7 +144,8 @@ a {
     .description {
       font-size: 14px;
       line-height: 21px;
-      padding: 8px 0;
+      padding: 29px 0;
+      height: 100%;
     }
 
     .price {
@@ -170,6 +173,41 @@ a {
       font-size: 15px;
       margin-bottom: 10px;
 
+      .title-box {
+        max-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+
+        p {
+          position: relative;
+          padding: 0 8px;
+          color: #434343;
+          font-weight: 400;
+          font-size: 20px;
+          margin-bottom: 8px;
+
+          &:first-child {
+            padding-left: 0;
+            &::after {
+              display: none;
+            }
+          }
+
+          &::after {
+            position: absolute;
+            content: "";
+            height: 4px;
+            width: 4px;
+            border-radius: 2px;
+            background: #444;
+            top: 9px;
+            left: -1px
+          }
+        }
+      }
+
       svg {
         font-size: 22px;
         color: #dcdcdc;
@@ -179,15 +217,6 @@ a {
         display: flex;
         flex-direction: row;
         align-items: center;
-      }
-
-      .title {
-        font-size: 20px;
-        font-weight: 400;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-bottom: 8px;
       }
 
       .price {

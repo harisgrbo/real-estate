@@ -29,11 +29,11 @@
     </div>
     <div class="second-row">
       <div class="img-wrapper">
-        <img :src="[ $device.isMobile ? '/logo-single.png' : '/prozor.png']" class="main-logo" alt="" @click="$router.push('/')">
+        <img :src="[ $device.isMobile ? '/logo-single.png' : '/prozorMargina.png']" class="main-logo" alt="" @click="$router.push('/')">
       </div>
       <button v-if="!$device.isMobile" class="categories" @click="toggleCategories">
         KATEGORIJE
-        <font-awesome-icon icon="th-large"></font-awesome-icon>
+        <font-awesome-icon icon="th"></font-awesome-icon>
       </button>
       <div class="input-wrapper"
            @focusin="focused = true"

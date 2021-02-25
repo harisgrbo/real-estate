@@ -50,6 +50,7 @@ export default class mojiOglasi extends Vue {
 .content {
   display: flex;
   flex-direction: column;
+  margin-top: 36px;
 
   .grid-cards {
     display: grid;

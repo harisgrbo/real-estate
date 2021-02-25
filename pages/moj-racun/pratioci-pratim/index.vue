@@ -10,7 +10,7 @@
     <h1 class="heading">
       Pratim/pratioci
     </h1>
-    <ul>
+    <ul class="navs">
       <li v-for="(tab, index) in tabs"
           :key="index"
           @click="activeTab = index"
@@ -78,7 +78,7 @@ export default class pratioci extends Vue {
 
   async fetchFollowers() {
     try {
-      let response = await this.$axios.get('/profile/followed');
+      let response = await this.$axios.get('/profile/followers');
       this.followers = response.data.data;
     } catch(e) {
       console.log(e)
@@ -88,23 +88,20 @@ export default class pratioci extends Vue {
 </script>
 
 <style scoped lang="scss">
-ul {
-  padding: 0;
+ul.navs {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
   margin-bottom: 36px;
+  margin-top: 36px;
 
   li {
-    display: flex;
-    height: 40px;
-    line-height: 40px;
-    align-items: center;
-    justify-content: flex-start;
-    font-weight: 500;
-    margin-right: 32px;
+    font-size: 16px !important;
+    line-height: 26px !important;
+    margin-right: 24px;
+    padding-bottom: 8px;
+    position: relative;
     cursor: pointer;
 
     &:last-child {
@@ -112,28 +109,28 @@ ul {
     }
 
     &.active {
-      font-weight: 600 !important;
-      color: #012F34 !important;
-      position: relative;
-
+      font-weight: 600;
       &::after {
-        content: "";
+        content: '';
         position: absolute;
-        bottom: 0;
         left: 0;
         right: 0;
-        margin: 0 auto;
-        border-bottom: 2px solid #54E0C7;
-
+        bottom: 0;
+        border-bottom: 1px solid #D63946;
       }
     }
   }
 }
+
 
 .user-card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   row-gap: 32px;
   column-gap: 24px;
+}
+
+.saved-content {
+
 }
 </style>

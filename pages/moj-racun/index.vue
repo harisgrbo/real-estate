@@ -145,6 +145,7 @@ export default class accountpage extends Vue {
         }
 
         a {
+          color: #D63946;
           &:hover {
             text-decoration: underline;
           }
@@ -158,7 +159,7 @@ export default class accountpage extends Vue {
         font-weight: 600 !important;
         line-height: 1.125em !important;
         color: rgb(72, 72, 72) !important;
-        margin-top: 39px;
+        margin-top: 26px;
       }
 
       h2 {

@@ -65,8 +65,8 @@ export default class Agencies extends Vue {
 
 <style lang="scss" scoped>
 .account-wrapper-a {
-  padding-top: 126px !important;
-  height: calc(100vh - 126px);
+  padding-top: 107px !important;
+  height: calc(100vh - 107px);
 
   .account-wrapper-inner {
     display: flex;

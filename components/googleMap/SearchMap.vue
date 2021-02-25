@@ -17,12 +17,6 @@ export default class SearchMap extends Vue{
   }) center;
   @Prop() loaded;
 
-  // @Watch('loaded')
-  // updateOnLoaded(newVal, oldVal) {
-  //   if (newVal && ! oldVal) {
-  //     this.initMarkers()
-  //   }
-  // }
 
   map = null;
   markers = [];
@@ -31,13 +25,12 @@ export default class SearchMap extends Vue{
   lastOpenedInfoWindow = null;
 
   mounted() {
-    this.initMap();
+    this.initMarkers();
   }
 
-  initMap() {
-    // The location of Uluru
+  initMarkers() {
     const uluru = { lat: 43.8563, lng: 18.4131 };
-    // The map, centered at Uluru
+
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: 14,
       center: uluru,
@@ -55,37 +48,6 @@ export default class SearchMap extends Vue{
       scale: 2,
       anchor: new google.maps.Point(15, 30),
     };
-    // The marker, positioned at Uluru
-    const marker = new google.maps.Marker({
-      position: uluru,
-      map: map,
-      icon: svgMarker
-    });
-
-
-  }
-
-  openInfo() {
-
-  }
-
-  // renderListingCard(listing) {
-  //   let className = Vue.extend(InfoWindow)
-  //
-  //   let instance = new className({
-  //     propsData: {
-  //       listing: listing
-  //     },
-  //     $moment: this.$moment
-  //   });
-  //
-  //   instance.$mount();
-  //
-  //   return instance.$el;
-  // }
-
-  initMarkers() {
-    // if (this.markerCluster) this.markerCluster.clearMarkers();
 
     this.markers = this.locations.map(item => {
       let loc = {
@@ -93,76 +55,17 @@ export default class SearchMap extends Vue{
         lng: parseFloat(item.location.lng)
       }
 
-      let marker = new google.maps.Marker({
+      console.log(loc, 'loc na rezultatima')
+
+      const marker = new google.maps.Marker({
         position: loc,
-        clickable: true
-      });
-
-      let self = this;
-      //
-      // marker.info = new google.maps.InfoWindow({
-      //   content: this.renderListingCard(item)
-      // });
-
-      google.maps.event.addListener(marker, 'click', function() {
-        self.closeLastOpenedInfoWindow();
-        marker.info.open(self.map, marker);
-        self.lastOpenedInfoWindow = marker.info;
+        map: map,
+        icon: svgMarker
       });
 
       return marker;
 
     });
-
-    // this.markerCluster = new MarkerClusterer(this.map, this.markers, {
-    //   imagePath:
-    //     "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-    // });
-  }
-
-  repaint() {
-    this.initMarkers()
-  }
-
-  setLocation() {
-    if (! this.map) return;
-
-    let center = {
-      lat: this.map.getCenter().lat(),
-      lng: this.map.getCenter().lng()
-    };
-
-    this.$emit('center', center);
-
-    let aNorth = this.map
-      .getBounds()
-      .getNorthEast()
-      .lat();
-    let aEast = this.map
-      .getBounds()
-      .getNorthEast()
-      .lng();
-    let aSouth = this.map
-      .getBounds()
-      .getSouthWest()
-      .lat();
-    let aWest = this.map
-      .getBounds()
-      .getSouthWest()
-      .lng();
-
-    let br = [aSouth,  aEast];
-    let tl = [aNorth, aWest];
-
-    this.$emit("changed", {
-      br: br,
-      tl: tl
-    });
-  }
-  closeLastOpenedInfoWindow() {
-    if (this.lastOpenedInfoWindow) {
-      this.lastOpenedInfoWindow.close();
-    }
   }
 }
 </script>
@@ -170,8 +73,6 @@ export default class SearchMap extends Vue{
 <style scoped lang="scss">
 #map {
   height: 100vh;
-  /* The height is 400 pixels */
   width: 100%;
-  /* The width is the width of the web page */
 }
 </style>

@@ -88,7 +88,7 @@
           <div class="grid-layout">
             <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
               <span>{{ info.name }}</span>
-              <span>{{ info.value }}</span>
+              <span>{{ attrTranslate(info.value) }}</span>
             </div>
           </div>
           <div class="separator"></div>
@@ -254,8 +254,18 @@ export default class Artikal extends Vue {
     }
   }
 
+  attrTranslate(attr) {
+    if(attr === true) {
+      return 'Da'
+    } else if(attr === false){
+      return 'Ne'
+    } else {
+      return attr;
+    }
+  }
+
   created() {
-    console.log(this.meta, 'metaaa')
+    console.log(this.listing.attributes)
     this.isUserFollowed = this.isFollowed;
   }
 

@@ -49,7 +49,7 @@ export default class ConversationList extends Vue {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 340px);
+  height: calc(100vh - 378px);
   overflow-y: scroll;
 
   .single-conversation {

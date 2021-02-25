@@ -98,6 +98,10 @@ export default class Homepage extends Vue {
     return `${listing.id}-${this.$route.query.q}`
   }
 
+  created() {
+    console.log(this.results, 'rezultati')
+  }
+
   newSearch() {
     let q = buildQuery(this.queryPayload)
 

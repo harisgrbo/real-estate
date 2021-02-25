@@ -20,28 +20,28 @@
         <nuxt-link to="/moj-racun/">Postavke</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <nuxt-link to="/moj-racun/">Poruke</nuxt-link>
+        <nuxt-link to="/moj-racun/poruke">Poruke</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <nuxt-link to="/moj-racun/">Spašeno</nuxt-link>
+        <nuxt-link to="/moj-racun/spaseno">Spašeno</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <nuxt-link to="/moj-racun/">Uredi profil</nuxt-link>
+        <nuxt-link to="/moj-racun/uredi-profil">Uredi profil</nuxt-link>
       </li>
       <li class="links">
         <h2>Ostali linkovi</h2>
       </li>
       <li v-if="$auth.user">
-        <nuxt-link to="/moj-racun/">Agencije</nuxt-link>
+        <nuxt-link to="/agencije">Agencije</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <nuxt-link to="/moj-racun/">Novogradnja</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <nuxt-link to="/moj-racun/">Marketing</nuxt-link>
+        <nuxt-link to="/marketing/">Marketing</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <nuxt-link to="/moj-racun/">O nama</nuxt-link>
+        <nuxt-link to="/o-nama/">O nama</nuxt-link>
       </li>
       <li class="logout" v-if="$auth.user">
         <a @click="logout()">Odjavi se</a>
@@ -113,6 +113,14 @@ export default class sidenav extends Vue {
       cursor: pointer;
       border-radius: 5px;
       color: #444;
+
+      a {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
 
       @include for-phone-only {
         padding: 0;

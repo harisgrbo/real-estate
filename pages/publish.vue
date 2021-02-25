@@ -303,6 +303,10 @@ export default class Publish extends Vue {
     }
   }
 
+  get fullTitle() {
+    return this.city_id + this.category_id + this.neighborhood
+  }
+
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
       this.publish();

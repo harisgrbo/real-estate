@@ -44,7 +44,7 @@ export default class ConversationContent extends Vue {
 .conversation-list-wrapper {
   display: flex;
   padding: 12px;
-  height: calc(100vh - 458px);
+  height: calc(100vh - 378px);
   overflow-y: scroll;
   flex-direction: column;
 }

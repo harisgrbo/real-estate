@@ -78,13 +78,15 @@
 
 .account-wrapper {
   display: flex;
-  height: calc(100vh - 126px);
+  height: calc(100vh - 107px);
   width: 1400px;
   margin: 0 auto;
   padding: 24px;
   box-sizing: border-box;
   flex-direction: column;
-  overflow: hidden;
+  overflow: scroll;
+  padding-bottom: 0;
+
 }
 
 .breadcrumbs {
