@@ -66,8 +66,32 @@
         <li v-for="(tab, index) in tabs" @click="activeTab = index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
       </ul>
       <div>
-        <div v-if="activeTab === 0" class="grid-layout">
-          <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+        <div v-if="activeTab === 0" >
+          <div class="grid-layout" v-if="listings.length">
+            <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+          </div>
+          <div v-else class="no-image">
+            <img src="/noimg.jpg" alt="no-image">
+            <p>{{ $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
+          </div>
+        </div>
+        <div v-if="activeTab === 1" >
+          <div class="grid-layout" v-if="finishedListings.length">
+            zavrseni
+          </div>
+          <div v-else class="no-image">
+            <img src="/noimg.jpg" alt="no-image">
+            <p>{{ $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa' }}</p>
+          </div>
+        </div>
+        <div v-if="activeTab === 2" >
+          <div class="grid-layout" v-if="feedback.length">
+            dojmovi
+          </div>
+          <div v-else class="no-image">
+            <img src="/noimg.jpg" alt="no-image">
+            <p>{{ $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Agencija nema ostavljenih dojmova' }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -107,6 +131,8 @@ export default class Agencies extends Vue {
   loading = false;
   followLoading = false;
   listings = []
+  finishedListings = []
+  feedback = []
   tabs = [
     "Aktivni oglasi",
     "Zavrseni oglasi",
@@ -517,5 +543,22 @@ export default class Agencies extends Vue {
 .separator {
   margin: 16px 0;
   border-bottom: 1px solid #f7f7f7;
+}
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  img {
+    height: 400px;
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 24px;
+  }
 }
 </style>

@@ -31,16 +31,16 @@
         <div class="listing-content-wrapper">
           <div class="article-title">
             <h2>{{ listing.title }}</h2>
-            <div class="buttons">
+            <div class="buttons" v-if="$auth.user">
               <button>
                 <font-awesome-icon icon="minus-circle"></font-awesome-icon>
                 Prijavi oglas
               </button>
-              <button>
+              <button v-if="listing.user.id !== $auth.user.id" @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
                 <font-awesome-icon icon="heart"></font-awesome-icon>
-                Snimi
+                {{ listingSaved? 'Izbriši iz spašenih' : 'Spasi oglas'}}
               </button>
-              <button>
+              <button v-if="listing.user.id !== $auth.user.id">
                 <font-awesome-icon icon="share-square"></font-awesome-icon>
                 Podijeli
               </button>
@@ -124,10 +124,12 @@ import UserProfile from "@/components/UserProfile"
     let user = null
     let isFollowed = false;
     let isSaved = false;
+    let listingSaved = false;
 
     try {
       let response = await ctx.app.$axios.get('/listings/' + ctx.params.id);
       listing = response.data.data;
+      listingSaved = response.data.meta.saved;
       user = listing.user;
       isFollowed = response.data.meta.followed;
       isSaved = response.data.meta.saved;
@@ -139,7 +141,8 @@ import UserProfile from "@/components/UserProfile"
       listing,
       user,
       isFollowed,
-      isSaved
+      isSaved,
+      listingSaved
     }
   }
 })
@@ -192,6 +195,36 @@ export default class Artikal extends Vue {
     this.$refs.lightbox.showImage(index);
   }
 
+  async toggleSaveListing() {
+    try {
+      if(!this.listingSaved) {
+        await this.$axios.post('/listings/' + this.listing.id + '/save');
+
+        this.$snackbar.show({
+          text: "Uspjšsno ste snimili oglas " + this.listing.title,
+          timeout: 1000,
+          type: "success"
+        });
+
+        this.listingSaved = true;
+      } else {
+        await this.$axios.delete('/listings/' + this.listing.id + '/save');
+
+        this.$snackbar.show({
+          text: "Uspješno ste izbrisali oglas " + this.user.name + "iz spasenih",
+          timeout: 1000,
+          type: "success"
+        });
+
+        this.listingSaved = false;
+      }
+
+    } catch(e)  {
+      console.log(e)
+    }
+  }
+
+
   async handleFollow() {
     try {
       if(this.isFollowed) {
@@ -219,10 +252,10 @@ export default class Artikal extends Vue {
     } catch(e)  {
       console.log(e)
     }
-
   }
 
   created() {
+    console.log(this.meta, 'metaaa')
     this.isUserFollowed = this.isFollowed;
   }
 
@@ -408,8 +441,17 @@ export default class Artikal extends Vue {
 
           &:hover {
             background: rgb(247, 247, 247) !important;
-
             text-decoration: underline;
+          }
+
+          &:focus {
+            outline: none;
+          }
+
+          &.listing-saved {
+            svg {
+              color: red;
+            }
           }
         }
       }

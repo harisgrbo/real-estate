@@ -60,8 +60,32 @@
         <li v-for="(tab, index) in tabs" @click="activeTab = index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
       </ul>
       <div>
-        <div v-if="activeTab === 0" class="grid-layout">
-          <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+        <div v-if="activeTab === 0">
+          <div class="grid-layout" v-if="listings.length">
+            <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+          </div>
+          <div v-else class="no-image">
+            <img src="/noimg.jpg" alt="no-image">
+            <p>{{ $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa' }}</p>
+          </div>
+        </div>
+        <div v-if="activeTab === 1">
+          <div class="grid-layout" v-if="finishedListings.length">
+            <ListingCard v-for="listing in finishedListings" :listing="listing" :key="listing.id"></ListingCard>
+          </div>
+          <div v-else class="no-image">
+            <img src="/noimg.jpg" alt="no-image">
+            <p>{{ $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Korisnik nema završenih oglasa' }}</p>
+          </div>
+        </div>
+        <div v-if="activeTab === 2">
+          <div class="grid-layout" v-if="feedback.length">
+            feedback
+          </div>
+          <div v-else class="no-image">
+            <img src="/noimg.jpg" alt="no-image">
+            <p>{{ $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Korisnik nema ostavljenih dojmova' }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -118,6 +142,8 @@ export default class Users extends Vue {
   loading = false;
   followLoading = false;
   listings = []
+  finishedListings = []
+  feedback = []
   tabs = [
     "Aktivni oglasi",
     "Zavrseni oglasi",
@@ -491,6 +517,23 @@ ul.user-information {
     b {
       font-weight: 500;
     }
+  }
+}
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  img {
+    height: 400px;
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 24px;
   }
 }
 </style>

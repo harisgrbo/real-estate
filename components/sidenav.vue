@@ -28,7 +28,9 @@
       <li v-if="$auth.user">
         <nuxt-link to="/moj-racun/">Uredi profil</nuxt-link>
       </li>
-      <h2>Ostali linkovi</h2>
+      <li class="links">
+        <h2>Ostali linkovi</h2>
+      </li>
       <li v-if="$auth.user">
         <nuxt-link to="/moj-racun/">Agencije</nuxt-link>
       </li>
@@ -123,12 +125,27 @@ export default class sidenav extends Vue {
       &.logout {
         border-top: 1px solid #f1f1f1;
       }
-      a {
+      h2 {
         color: #444;
+        text-transform: uppercase;
+        font-size: 14px !important;
+        font-weight: 600;
       }
 
       &:hover {
         background: #f1f1f1;
+      }
+
+      &.links {
+        &:hover {
+          background: none;
+          cursor: default;
+        }
+      }
+
+      h2 {
+        font-size: 16px;
+        color: #444 !important;
       }
     }
   }

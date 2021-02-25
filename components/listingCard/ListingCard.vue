@@ -1,5 +1,5 @@
 <template>
-    <div class="listing-card-wrapper">
+    <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
       <label class="publisher">
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
         <span>Agencija</span>
@@ -20,6 +20,10 @@
       <label class="rating" v-if="listing.is_rent">4.9
         <i class="material-icons">star</i>
       </label>
+
+      <div class="blured-background">
+        <button @click="removeFromSaved(listing.id)">Ukloni iz spašenih</button>
+      </div>
 
 
       <nuxt-link :to="{ path: '/artikal/' + listing.id }">
@@ -58,6 +62,7 @@ import Snackbar from "@/components/global/Snackbar";
 
 export default class ListingCard extends Vue{
   @Prop({ type: Object }) listing
+  @Prop({ type: Boolean, default: false}) from
 
   // Translate listing type
   types = {
@@ -69,6 +74,10 @@ export default class ListingCard extends Vue{
 
   get listingType() {
     return this.types[this.listing.listing_type.shortname];
+  }
+
+  removeFromSaved(id) {
+    this.$emit('remove-from-saved', id)
   }
 
   sliceAddress(address) {
@@ -286,6 +295,8 @@ export default class ListingCard extends Vue{
         }
       }
     }
+
+
   }
 
   .icons {
@@ -300,6 +311,51 @@ export default class ListingCard extends Vue{
       margin-right: 10px;
       margin-top: 0 !important;
       font-weight: 500;
+    }
+  }
+
+  .blured-background {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+    padding: 24px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s all ease;
+
+    button {
+      height: 53px;
+      background: #D63946;
+      border-radius: 4px;
+      border: none;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 0 24px;
+      color: #fff;
+      cursor: pointer;
+      justify-content: center;
+      transition: 0.3s all ease;
+    }
+  }
+
+  @supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em))) {
+    .blur:hover {
+      .blured-background {
+        display: flex;
+        background-color: rgba(255, 255, 255, .5);
+        -webkit-backdrop-filter: blur(2em);
+        backdrop-filter: blur(5px);
+      }
     }
   }
 </style>
