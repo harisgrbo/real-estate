@@ -122,15 +122,10 @@ ul.navs {
   }
 }
 
-
 .user-card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   row-gap: 32px;
   column-gap: 24px;
-}
-
-.saved-content {
-
 }
 </style>
