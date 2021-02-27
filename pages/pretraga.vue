@@ -41,18 +41,7 @@
             />
 
             <component
-              v-for="(attr, i) in globalAttributes"
-              :key="i"
-              :filter="attr"
-              :attr="true"
-              :is="filterFor(attr.attr_type)"
-              v-model="queryPayload[attr.name]"
-              @clear="queryPayload[attr.name] = null; newSearch()"
-              @input="newSearch"
-            />
-
-            <component
-              v-for="(attr, i) in meta.attributes"
+              v-for="(attr, i) in allAttributes"
               :key="i"
               :filter="attr"
               :attr="true"
@@ -132,6 +121,8 @@ export default class Homepage extends Vue {
 
   globalAttributes = [];
 
+  allAttributes = [];
+
   toggleFiltersModal() {
     this.$modal.show('filters');
   }
@@ -142,6 +133,15 @@ export default class Homepage extends Vue {
 
   async created() {
     await this.fetchGlobalAttributes();
+    this.mergeAttributes();
+  }
+
+  mergeAttributes() {
+    this.allAttributes = this.globalAttributes.map(item => {
+      item.type = item.attr_type;
+
+      return item;
+    }).concat(this.meta.attributes)
   }
 
   async fetchGlobalAttributes() {
