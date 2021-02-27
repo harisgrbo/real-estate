@@ -62,6 +62,7 @@
   max-height: 90% !important;
   border-radius: 10px !important;
   height: fit-content !important;
+  overflow: scroll !important;
 
   @include for-phone-only {
     max-height: 100%;

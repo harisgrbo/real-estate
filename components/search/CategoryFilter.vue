@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="category-filter">
     <label>
-      <span>Category</span>
+      Kategorija
     </label>
     <ul>
       <li
@@ -47,7 +47,33 @@ export default class CategoryFilter extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.active {
-  color: red;
+.category-filter {
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  ul {
+    padding: 12px;
+    border-radius: 5px;
+    background: #f8f8f8;
+
+    li {
+      display: flex;
+      height: 30px;
+      align-items: center;
+      justify-content: flex-start;
+
+      &.active {
+        color: #1B1E31;
+        font-weight: 600;
+      }
+    }
+  }
 }
+
 </style>
