@@ -42,11 +42,22 @@
             />
 
             <component
+              v-for="(attr, i) in globalAttributes"
+              :key="i"
+              :filter="attr"
+              :attr="true"
+              :is="filterFor(attr.attr_type)"
+              v-model="queryPayload[attr.name]"
+              @clear="queryPayload[attr.name] = null; newSearch()"
+              @input="newSearch"
+            />
+
+            <component
               v-for="(attr, i) in meta.attributes"
               :key="i"
               :filter="attr"
               :attr="true"
-              :is="filterFor(attr)"
+              :is="filterFor(attr.type)"
               v-model="queryPayload[attr.name]"
               @clear="queryPayload[attr.name] = null; newSearch()"
               @input="newSearch"
@@ -120,7 +131,7 @@ import SearchMap from "@/components/googleMap/SearchMap";
 })
 export default class Homepage extends Vue {
 
-  showAllFilters = false;
+  globalAttributes = [];
 
   toggleFiltersModal() {
     this.$modal.show('filters');
@@ -130,8 +141,20 @@ export default class Homepage extends Vue {
     return `${listing.id}-${this.$route.query.q}`
   }
 
-  created() {
-    console.log(this.meta, 'meta')
+  async created() {
+    await this.fetchGlobalAttributes();
+  }
+
+  async fetchGlobalAttributes() {
+    try {
+      let res = await this.$axios.$get('/attributes');
+
+      console.log(res);
+
+      this.globalAttributes = res.data;
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   newSearch() {
@@ -145,7 +168,7 @@ export default class Homepage extends Vue {
   }
 
   filterFor(attr) {
-    return `${capitalize(attr.type)}Filter`;
+    return `${capitalize(attr)}Filter`;
   }
 }
 </script>
