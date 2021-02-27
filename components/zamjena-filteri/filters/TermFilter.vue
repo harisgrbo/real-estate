@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import FilterMixin from "./FilterMixin";
+  import FilterMixin from "../../search/FilterMixin";
 
   export default {
     name: "TermFilter",

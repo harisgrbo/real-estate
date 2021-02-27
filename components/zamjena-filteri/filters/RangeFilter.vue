@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import FilterMixin from "./FilterMixin.js";
+import FilterMixin from "../../search/FilterMixin.js";
 
 export default {
   name: "RangeFilter",

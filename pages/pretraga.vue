@@ -17,17 +17,25 @@
     <div class="map">
       <SearchMap :locations="results"/>
     </div>
-    <modal name="filters" :adaptive="true" height="100%">
-      <div class="modal-inner">
-        <div class="modal-header">
-          <h2>Filteri</h2>
-          <i class="material-icons" @click="$modal.hide('filters')">close</i>
+    <client-only>
+      <modal name="filters" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Filteri</h2>
+            <i class="material-icons" @click="$modal.hide('filters')">close</i>
+          </div>
+          <div class="modal-content">
+            <CategoryFilter
+              v-model="queryPayload.category_id"
+              :categories="meta.categories"
+              :aggregations="meta.aggregations"
+              :filter="{}"
+              @input="newSearch"
+            />
+          </div>
         </div>
-        <div class="modal-content">
-          Filteri
-        </div>
-      </div>
-    </modal>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -35,9 +43,10 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import HorizontalCard from "@/components/listingCard/HorizontalCard";
 import TextField from "@/components/inputs/TextField";
-import RangeFilter from "@/components/search/RangeFilter"
-import { buildQuery } from "@/util/search"
-import { capitalize } from "@/util/str"
+import RangeFilter from "@/components/search/RangeFilter";
+import CategoryFilter from "@/components/search/CategoryFilter";
+import { buildQuery } from "@/util/search";
+import { capitalize } from "@/util/str";
 import SearchMap from "@/components/googleMap/SearchMap";
 
 @Component({
@@ -45,7 +54,8 @@ import SearchMap from "@/components/googleMap/SearchMap";
     SearchMap,
     TextField,
     HorizontalCard,
-    RangeFilter
+    RangeFilter,
+    CategoryFilter
   },
   layout() { return "search" },
 
@@ -83,9 +93,7 @@ import SearchMap from "@/components/googleMap/SearchMap";
       queryPayload
     }
   },
-
 })
-
 export default class Homepage extends Vue {
 
   showAllFilters = false;
@@ -99,7 +107,7 @@ export default class Homepage extends Vue {
   }
 
   created() {
-    console.log(this.results, 'rezultati')
+    console.log(this.meta, 'meta')
   }
 
   newSearch() {
