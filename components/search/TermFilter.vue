@@ -10,22 +10,21 @@
 </template>
 
 <script>
-  import FilterMixin from "../../search/FilterMixin";
+import FilterMixin from "./FilterMixin.js";
+import { Vue, Component } from "nuxt-property-decorator";
 
-  export default {
-    name: "TermFilter",
-    mixins: [FilterMixin],
-
-    methods: {
-      handleChange(e) {
-        if(e.target.value.length) {
-          this.$emit('input', this.buildValue('term', e.target.value))
-        } else {
-          this.clear()
-        }
-      }
+@Component({
+  mixins: [FilterMixin]
+})
+export default class TermFilter extends Vue {
+  handleChange(e) {
+    if(e.target.value.length) {
+      this.$emit('input', this.buildValue('term', e.target.value))
+    } else {
+      this.clear()
     }
   }
+}
 </script>
 
 <style scoped>

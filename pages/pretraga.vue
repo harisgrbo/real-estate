@@ -39,6 +39,18 @@
               :filter="{name: 'price', display_name: 'Cijena'}"
               @input="newSearch"
             />
+
+            <component
+              v-for="(attr, i) in meta.attributes"
+              :key="i"
+              :filter="attr"
+              :attr="true"
+              :is="filterFor(attr)"
+              v-model="queryPayload[attr.name]"
+              @clear="queryPayload[attr.name] = null; newSearch()"
+              @input="newSearch"
+            />
+
           </div>
         </div>
       </modal>
@@ -52,6 +64,8 @@ import HorizontalCard from "@/components/listingCard/HorizontalCard";
 import TextField from "@/components/inputs/TextField";
 import RangeFilter from "@/components/search/RangeFilter";
 import CategoryFilter from "@/components/search/CategoryFilter";
+import TermFilter from "@/components/search/TermFilter";
+import TermsFilter from "@/components/search/TermsFilter";
 import { buildQuery } from "@/util/search";
 import { capitalize } from "@/util/str";
 import SearchMap from "@/components/googleMap/SearchMap";
@@ -62,7 +76,9 @@ import SearchMap from "@/components/googleMap/SearchMap";
     TextField,
     HorizontalCard,
     RangeFilter,
-    CategoryFilter
+    CategoryFilter,
+    TermFilter,
+    TermsFilter
   },
   layout() { return "search" },
 
