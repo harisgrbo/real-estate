@@ -170,13 +170,13 @@ export default class Navbar extends Vue{
     this.showAutoCompleteDropdown = false;
   }
 
-  search(e) {
+  search() {
     let text = this.searchInput.trim();
 
     let filters  = [];
 
     if (text.length) {
-      filters.push(this.buildTitle(e.target.value));
+      filters.push(this.buildTitle(text));
     }
 
     if (this.selectedCategory) {
