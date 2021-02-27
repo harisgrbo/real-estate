@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="terms-filter">
     <label>
       <span>{{ displayName }}</span>
     </label>
-    <div v-if="filter.values" class="flex justify-between">
+    <div v-if="filter.values" class="options-wrap">
       <button
         v-for="option in filter.values"
         :class="options.indexOf(option) >= 0 ? 'active': ''"
@@ -64,4 +64,45 @@ export default class TermsFilter extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.terms-filter {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+
+  label {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .options-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 12px;
+    grid-column-gap: 12px;
+
+    button {
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      height: 40px;
+      border: none;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+      }
+
+      &.active {
+        background: #D63946;
+        color: #fff;
+      }
+    }
+  }
+}
 </style>

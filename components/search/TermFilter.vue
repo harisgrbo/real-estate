@@ -1,6 +1,6 @@
 <template>
-    <div>
-        {{ displayName }}
+    <div class="term-wrapper">
+      <label>{{ displayName }}</label>
         <select v-if="filter.values" @change="handleChange">
             <option value="">...</option>
             <option v-for="option in filter.values" :value="option">{{ option }}</option>
@@ -27,6 +27,18 @@ export default class TermFilter extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.term-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
 
+  label {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+}
 </style>

@@ -18,7 +18,7 @@
       <SearchMap :locations="results"/>
     </div>
     <client-only>
-      <modal name="filters" :adaptive="true" height="100%">
+      <modal name="filters" :adaptive="true" height="100%" width="40%">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Filteri</h2>
@@ -38,6 +38,7 @@
               :attr="false"
               :filter="{name: 'price', display_name: 'Cijena'}"
               @input="newSearch"
+              :avg-price="meta.price"
             />
 
             <component
@@ -323,6 +324,7 @@ export default class Homepage extends Vue {
   display: flex;
   flex-direction: column;
   padding: 0 24px;
+  position: relative;
 
   .modal-header {
     display: flex;
@@ -330,6 +332,12 @@ export default class Homepage extends Vue {
     height: 70px;
     border-bottom: 1px solid #dcdcdc;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #fff;
 
     h2 {
       font-size: 20px;
@@ -360,6 +368,5 @@ export default class Homepage extends Vue {
     }
   }
 }
-
 
 </style>

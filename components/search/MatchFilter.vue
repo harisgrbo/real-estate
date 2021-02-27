@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="match-wrapper">
     <label>{{ displayName }}</label>
     <input :value="set ? value.value: null" @keyup.prevent="handleChange" />
   </div>
@@ -24,4 +24,17 @@ export default class MatchFilter extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.match-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+
+  label {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+}
 </style>
