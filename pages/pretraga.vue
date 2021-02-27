@@ -32,6 +32,13 @@
               :filter="{}"
               @input="newSearch"
             />
+
+            <RangeFilter
+              v-model="queryPayload.price"
+              :attr="false"
+              :filter="{name: 'price', display_name: 'Cijena'}"
+              @input="newSearch"
+            />
           </div>
         </div>
       </modal>
