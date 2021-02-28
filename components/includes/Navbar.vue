@@ -40,8 +40,9 @@
            :class="[ focused? 'focused' : '']"
            v-on-clickaway="away"
       >
-        <button @click="search">
+        <button @click="search" :class="[ 'search-btn', searchInput.length? 'expanded' : '']">
           <i class="material-icons">search</i>
+          <p>Pretrazi</p>
         </button>
         <input type="text"
                ref="search"
@@ -696,6 +697,38 @@ export default class Navbar extends Vue{
     svg {
       margin-left: 12px;
       font-size: 12px;
+    }
+  }
+}
+
+.search-btn {
+  width: aut;
+  transition: 0.3s all ease;
+  p {
+    display: none;
+  }
+
+  &.expanded {
+    width: fit-content;
+    padding: 0 12px;
+    border-radius: 5px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 10px;
+    background: #D63946 !important;
+    margin-right: 12px;
+    cursor: pointer;
+    color: #fff !important;
+    border-radius: 5px !important;
+
+    p {
+      display: flex;
+      margin-left: 12px;
+      font-size: 11px !important;
     }
   }
 }

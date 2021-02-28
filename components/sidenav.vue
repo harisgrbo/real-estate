@@ -7,6 +7,13 @@
       </div>
     </div>
     <ul>
+      <li v-if="$auth.user" class="user-label">
+        <img src="/avatar.jpg" alt="">
+        <div class="user-wrap">
+          <label for="">{{ $auth.user.name }}</label>
+          <p>{{ transformType($auth.user.user_type) }}</p>
+        </div>
+      </li>
       <li class="login" v-if="!$auth.user">
         <nuxt-link to="/auth/login">Prijavi se</nuxt-link>
       </li>
@@ -14,36 +21,45 @@
         <nuxt-link to="/auth/register">Registruj se</nuxt-link>
       </li>
       <li v-if="$auth.user" @click="goToUSer">
+        <img src="/037-user.svg" alt="">
         Moj profil
       </li>
       <li v-if="$auth.user">
+        <img src="/094-settings.svg" alt="">
         <nuxt-link to="/moj-racun/">Postavke</nuxt-link>
       </li>
       <li v-if="$auth.user">
+        <img src="/087-mail.svg" alt="">
         <nuxt-link to="/moj-racun/poruke">Poruke</nuxt-link>
       </li>
       <li v-if="$auth.user">
+        <img src="/016-folder.svg" alt="">
         <nuxt-link to="/moj-racun/spaseno">Spašeno</nuxt-link>
       </li>
       <li v-if="$auth.user">
+        <img src="/049-user.svg" alt="">
         <nuxt-link to="/moj-racun/uredi-profil">Uredi profil</nuxt-link>
       </li>
       <li class="links">
         <h2>Ostali linkovi</h2>
       </li>
       <li v-if="$auth.user">
+        <img src="/095-store.svg" alt="">
         <nuxt-link to="/agencije">Agencije</nuxt-link>
       </li>
       <li v-if="$auth.user">
+        <img src="/029-home.svg" alt="">
         <nuxt-link to="/moj-racun/">Novogradnja</nuxt-link>
       </li>
       <li v-if="$auth.user">
+        <img src="/096-target.svg" alt="">
         <nuxt-link to="/marketing/">Marketing</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <nuxt-link to="/o-nama/">O nama</nuxt-link>
       </li>
       <li class="logout" v-if="$auth.user">
+        <img src="/009-logout.svg" alt="">
         <a @click="logout()">Odjavi se</a>
       </li>
     </ul>
@@ -61,6 +77,14 @@ export default class sidenav extends Vue {
   logout() {
     this.$auth.logout();
     this.$router.push('/auth/login');
+  }
+
+  transformType() {
+    if(this.$auth.user.user_type === 'user') {
+      return 'Fizicko lice'
+    } else {
+      return 'Agencija'
+    }
   }
 
   goToUSer() {
@@ -155,6 +179,36 @@ export default class sidenav extends Vue {
         font-size: 16px;
         color: #444 !important;
       }
+
+      &.user-label {
+        padding: 8px 8px 8px 8px;
+        background: #f1f1f1;
+        margin-bottom: 12px;
+        img {
+          height: 40px;
+          width: 40px;
+          border-radius: 20px;
+          margin-right: 12px;
+          object-fit: cover;
+        }
+
+        .user-wrap {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+
+          label {
+            font-size: 15px;
+          }
+
+          p {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 600;
+          }
+        }
+      }
     }
   }
 
@@ -199,5 +253,11 @@ export default class sidenav extends Vue {
       }
     }
   }
+}
+
+img {
+  height: 20px;
+  color: #4AAE9B;
+  margin-right: 12px;
 }
 </style>
