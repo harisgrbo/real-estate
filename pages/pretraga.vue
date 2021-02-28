@@ -42,18 +42,7 @@
             />
 
             <component
-              v-for="(attr, i) in globalAttributes"
-              :key="i"
-              :filter="attr"
-              :attr="true"
-              :is="filterFor(attr.attr_type)"
-              v-model="queryPayload[attr.name]"
-              @clear="queryPayload[attr.name] = null; newSearch()"
-              @input="newSearch"
-            />
-
-            <component
-              v-for="(attr, i) in meta.attributes"
+              v-for="(attr, i) in allAttributes"
               :key="i"
               :filter="attr"
               :attr="true"
@@ -102,20 +91,33 @@ import SearchMap from "@/components/googleMap/SearchMap";
       categories: [],
       aggregations: []
     };
-    let query = [];
-    let queryPayload = {}
+    let allAttributes = [];
+    let queryPayload = {};
 
     if (ctx.route.query.q) {
       let query = decodeURIComponent(ctx.route.query.q)
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}`)
         results = response.data.data;
+        console.log(response.data.data)
         meta = response.data.meta;
         query = JSON.parse(query)
 
         query.forEach(item => {
           queryPayload[item.name] = Object.assign({}, item);
         });
+
+        try {
+          let res = await ctx.app.$axios.get('/attributes');
+
+          allAttributes = res.data.data.map(item => {
+            item.type = item.attr_type;
+
+            return item;
+          }).concat(meta.attributes)
+        } catch (e) {
+          console.log(e);
+        }
       } catch (e) {
         console.log(e)
         // @TODO: Error handling
@@ -123,6 +125,7 @@ import SearchMap from "@/components/googleMap/SearchMap";
     }
 
     return {
+      allAttributes,
       results,
       meta,
       queryPayload
@@ -130,31 +133,12 @@ import SearchMap from "@/components/googleMap/SearchMap";
   },
 })
 export default class Homepage extends Vue {
-
-  globalAttributes = [];
-
   toggleFiltersModal() {
     this.$modal.show('filters');
   }
 
   getResultKey(listing) {
     return `${listing.id}-${this.$route.query.q}`
-  }
-
-  async created() {
-    await this.fetchGlobalAttributes();
-  }
-
-  async fetchGlobalAttributes() {
-    try {
-      let res = await this.$axios.$get('/attributes');
-
-      console.log(res);
-
-      this.globalAttributes = res.data;
-    } catch (e) {
-      console.log(e);
-    }
   }
 
   newSearch() {
