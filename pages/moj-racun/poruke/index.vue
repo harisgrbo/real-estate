@@ -88,7 +88,7 @@ export default class poruke extends Vue {
   messagesLoaded = true;
 
   mounted() {
-    this.$echo.private(`messaging.1`).listen('.NewMessage', n => {
+    this.$echo.private(`messaging.2`).listen('.message', n => {
 
     })
   }
