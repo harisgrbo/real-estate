@@ -3,20 +3,7 @@
     <Navbar></Navbar>
     <div class="account-wrapper-inner">
       <div class="sidenav">
-<!--        <h1>Izdvojene agencije</h1>-->
-<!--        <div class="swiper-container-main">-->
-<!--          <swiper class="swiper" :options="swiperOption">-->
-<!--            <swiper-slide v-for="item in 10" :key="item">-->
-<!--              <div>-->
-<!--                <UserCard></UserCard>-->
-<!--              </div>-->
-<!--            </swiper-slide>-->
-<!--            <div class="swiper-pagination" slot="pagination"></div>-->
-<!--          </swiper>-->
-<!--        </div>-->
         <h1 class="heading-account">56 agencija za nekretnine</h1>
-
-
          <div class="grid-layout">
          <UserCard v-for="card in 16" :key="card" />
        </div>
