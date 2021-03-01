@@ -12,8 +12,8 @@
                                :animateSpeed="300"
                                :completed-steps="completion"
                                :total-steps="100"
-                               startColor="#757B9A"
-                               endColor="#757B9A"
+                               startColor="#D63946"
+                               endColor="#1B1E31"
                                :strokeWidth="20"
                                :innerStrokeWidth="20"
                                innerStrokeColor="#f1f1f1"
@@ -746,7 +746,7 @@ export default class Publish extends Vue {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-row-gap: 24px;
-    grid-column-gap: 24px;
+    grid-column-gap: 46px;
   }
 
   .global-heading {
