@@ -2,12 +2,14 @@
   <div class="main-wrapper">
     <label>{{ title }}</label>
     <div class="input-wrapper">
-      <input type="text"
-             :placeholder="placeholder"
-             @input="showSuggests"
-             v-model="selectedCity"
-      >
-      <i class="material-icons">room</i>
+      <div>
+        <input type="text"
+               :placeholder="placeholder"
+               @input="showSuggests"
+               v-model="selectedCity"
+        >
+        <i class="material-icons">room</i>
+      </div>
       <!-- Autocomplete dropdown -->
       <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
         <ul>
@@ -57,6 +59,7 @@ export default class PublishDropdown extends Vue{
 .main-wrapper {
   display: flex;
   flex-direction: column;
+  width: 100%;
   label {
     font-weight: 600;
     font-size: 16px;
@@ -65,7 +68,7 @@ export default class PublishDropdown extends Vue{
 }
 .input-wrapper {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
   width: 100%;
   height: 50px;
   align-items: center;
@@ -75,12 +78,21 @@ export default class PublishDropdown extends Vue{
   transition: 0.1s all ease;
   box-sizing: border-box;
   cursor: pointer;
-  position: relative;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
+  min-height: fit-content;
+  height: fit-content;
+
+  div {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+  }
   input {
     width: 100%;
     border: none;
@@ -98,23 +110,19 @@ export default class PublishDropdown extends Vue{
   }
 
   .autocomplete-dropdown {
-    position: absolute;
     border-radius: 10px;
-    top: 70px;
     padding: 12px;
     background: #fff;
     width: 100%;
-    right: 0;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-    z-index: 3;
-    left: 0;
     height: fit-content;
     ul {
       width: 100%;
       display: flex;
       flex-direction: column;
-      max-height: 400px;
+      max-height: 300px;
       overflow: scroll;
+      margin-top: 15px;
 
       li {
         width: 100%;

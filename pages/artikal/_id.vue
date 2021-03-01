@@ -96,6 +96,14 @@
           <p class="description">{{ listing.description }}</p>
           <div class="separator"></div>
           <h2 class="heading">Pitanja</h2>
+          <div v-if="listing.questions_disabled === true">
+            Korisniik je zabranio javna pitanja
+          </div>
+          <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :id="question.id"></SingleQuestion>
+          <div class="question-create" v-if="$auth.user && listing.questions_disabled === false">
+            <textarea v-model="questionTerm"></textarea>
+            <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>
+          </div>
         </div>
         <div class="user-wrap">
           <UserProfile :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
@@ -111,12 +119,14 @@ import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "@/components/actionButtons/ActionButton";
 import Snackbar from "@/components/global/Snackbar";
 import UserProfile from "@/components/UserProfile"
+import SingleQuestion from "@/components/SingleQuestion"
 
 @Component({
   components: {
     ActionButton,
     Snackbar,
-    UserProfile
+    UserProfile,
+    SingleQuestion,
   },
   layout() { return "home" },
   async asyncData(ctx) {
@@ -153,6 +163,8 @@ export default class Artikal extends Vue {
     buy: 'Potraznja'
   }
   loading = false;
+  questionTerm = '';
+  questions = [];
   isUserFollowed = false;
   images = [
     {
@@ -185,6 +197,18 @@ export default class Artikal extends Vue {
         thumb: item.name,
       };
     });
+  }
+
+  async getQuestions() {
+    try {
+      let res = await this.$axios.get('/listings/' + this.$route.params.id + '/questions');
+      this.questions = res.data.data;
+
+      console.log(this.questions)
+
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   sliceAddress(address) {
@@ -264,7 +288,20 @@ export default class Artikal extends Vue {
     }
   }
 
-  created() {
+  async askQuestion() {
+    try {
+      let question = await this.$axios.post('/listings/' + this.$route.params.id + '/questions', {
+        question: this.questionTerm
+      });
+
+      this.questions.push(question);
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  async created() {
+    await this.getQuestions();
     console.log(this.listing.attributes)
     this.isUserFollowed = this.isFollowed;
   }
@@ -643,6 +680,30 @@ export default class Artikal extends Vue {
 
   ::v-deep svg {
     color: #444!important;
+  }
+}
+
+.question-create {
+  display: flex;
+  flex-direction: column;
+  background: #f1f1f1;
+  padding: 12px;
+  border-radius: 10px;
+
+  ::v-deep button {
+    margin-top: 12px;
+  }
+
+  textarea {
+    background: #fff;
+    border: none;
+    height: 100px;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    &:focus {
+      outline: none;
+    }
   }
 }
 </style>

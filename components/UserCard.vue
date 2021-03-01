@@ -1,29 +1,33 @@
 <template>
   <div class="user-profile">
-    <div class="avatar">
-      <div>
-        <div class="avatar-wrapper">
-          <img src="/avatar.jpg" alt="" @click="$router.push('/users/' + user.id)">
-          <div class="user-info">
-            <p>{{ user.name }}</p>
-            <div class="stats">
-              <ul>
-                <li>
-                  Artikala
-                  <b>50</b>
-                </li>
-                <li>
-                  Ocjena
-                  <b>8.9</b>
-                </li>
-              </ul>
-            </div>
+      <div class="avatar-wrapper">
+        <div class="user-info">
+          <img src="/avatar.jpg" alt="" @click="$router.push('/users/' + 1)">
+          <div>
+            <p>Sigex doo</p>
+            <p>Sarajevo, Dolac malta</p>
           </div>
         </div>
+        <ul>
+          <li>
+            <b>50</b>
+            Oglasa
+          </li>
+          <li>
+            <b>8.9</b>
+            Ocjena
+          </li>
+          <li>
+            <b>102</b>
+            Pratilaca
+          </li>
+        </ul>
       </div>
-    </div>
-    <div class="buttons" v-if="user.id !== $auth.user.id">
-      <ActionButton placeholder="Otprati" @action="removeUser"></ActionButton>
+    <div class="buttons">
+      <button class="save">
+        <font-awesome-icon icon="heart"></font-awesome-icon>
+        Zaprati agenciju
+      </button>
     </div>
   </div>
 </template>
@@ -53,172 +57,76 @@ export default class UserCard extends Vue {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.06);
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
   border-radius: 10px;
-  .avatar {
+
+  .user-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+
+    img {
+      height: 80px;
+      width: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-right: 24px;
+    }
+
     > div {
       display: flex;
-      justify-content: space-between;
-    }
-    .avatar-wrapper {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-    }
-    .more-info {
-      font-size: 13px;
-      font-weight: 500;
-      color: #8d8d8d;
-      margin-top: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      i {
-        transition: 0.3s all ease;
-        &.rotate {
-          transform: rotate(180deg);
-        }
-      }
-    }
-    .more-info-dropdown {
-      padding: 16px 0 0 0;
-      width: 100%;
-      ul {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        li {
-          font-size: 13px;
-          font-weight: 500;
-          color: #8d8d8d;
-          background: #F3F5FB;
-          border-radius: 5px;
-          padding: 8px 8px;
-          margin-bottom: 8px;
-        }
-      }
-    }
-    img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50px;
-      object-fit: cover;
-    }
-    .user-info {
-      display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-between;
-      width: 100%;
-      padding-left: 24px;
-      height: 100%;
+
       p {
-        font-size: 17px;
-        font-weight: 500;
-        margin-bottom: 12px;
-      }
-      span {
-        font-size: 13px;
-        font-weight: 500;
-        color: #8d8d8d;
-        background: #F3F5FB;
-        border-radius: 5px;
-        padding: 3px 8px;
-      }
-      .stats {
-        display: flex;
-        width: 100%;
-        ul {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          background: #f1f1f1;
-          border-radius: 5px;
-          padding: 8px;
-          li {
-            display: flex;
-            flex: 1;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 400;
-            color: #8d8d8d;
-            b {
-              margin-top: 5px;
-              font-size: 16px;
-              color: #434343;
-            }
-          }
+        font-size: 16px;
+
+        &:first-child {
+          margin-bottom: 12px;
+          font-weight: 600;
         }
       }
     }
   }
 
-  .buttons {
-    display: flex;
+  ul {
     width: 100%;
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid #ddd;
-    button {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #dddddd;
-      flex: 1;
-      background: transparent;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 500;
-      &:first-child {
-        margin-right: 8px;
-      }
-      &:last-child {
-        margin-left: 8px;
-        background: #757B9A;
-        color: #fff;
-        border: none;
-      }
+    padding: 12px;
+    background: #f1f1f1;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin-top: 12px;
+    margin-bottom: 12px;
+
+    li {
+      font-size: 14px;
     }
   }
-}
 
-.slide-enter-active {
-  -moz-transition-duration: 0.3s;
-  -webkit-transition-duration: 0.3s;
-  -o-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -moz-transition-timing-function: ease-in;
-  -webkit-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
-}
+  .save {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    justify-content: flex-start;
+    width: fit-content;
 
-.slide-leave-active {
-  -moz-transition-duration: 0.3s;
-  -webkit-transition-duration: 0.3s;
-  -o-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-}
+    svg {
+      color: #444;
+      height: 16px;
+      margin-right: 8px;
+    }
 
-.slide-enter-to, .slide-leave {
-  max-height: 100px;
-  overflow: hidden;
-}
+    &:hover {
+      background: rgb(247, 247, 247) !important;
+      text-decoration: underline;
+    }
+  }
 
-.slide-enter, .slide-leave-to {
-  overflow: hidden;
-  max-height: 0;
 }
 </style>

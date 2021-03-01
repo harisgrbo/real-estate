@@ -12,10 +12,10 @@
                                :animateSpeed="300"
                                :completed-steps="completion"
                                :total-steps="100"
-                               startColor="#757B9A"
-                               endColor="#757B9A"
-                               :strokeWidth="20"
-                               :innerStrokeWidth="20"
+                               startColor="#D63946"
+                               endColor="#1B1E31"
+                               :strokeWidth="10"
+                               :innerStrokeWidth="10"
                                innerStrokeColor="#f1f1f1"
           />
         </client-only>
@@ -39,9 +39,11 @@
             <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
+          <ActionButton @action="showModal" placeholder="Izaberite lokaciju"></ActionButton>
+
           <div class="grid-filters">
-            <InputError :error="errors.title" />
-            <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
+            <InputError :error="errors.neighbourhood" />
+            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
 
             <InputError :error="errors.address" />
             <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
@@ -51,14 +53,7 @@
           </div>
           <InputError :error="errors.description" />
           <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
-          <div class="grid-filters location">
-            <InputError :error="errors.city" />
-            <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
-          </div>
 
-          <div v-if="city !== null">
-            <PublishMap :location="city"></PublishMap>
-          </div>
           <div class="button-wrapper">
             <button @click="nextStep">Dalje
               <i class="material-icons">chevron_right</i>
@@ -81,7 +76,6 @@
               :is="filterFor(attr)"
               @changed="handleChangedAttribute"
             />
-
           </div>
 
           <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
@@ -150,6 +144,23 @@
           <button @click="nextStep">Submit</button>
         </div>
       </div>
+    <client-only>
+      <modal name="location" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Izaberite lokaciju</h2>
+            <i class="material-icons" @click="$modal.hide('location')">close</i>
+          </div>
+          <div class="modal-content">
+              <div v-if="city !== null" class="map-wrapper">
+                <PublishMap :location="city"></PublishMap>
+              </div>
+              <InputError :error="errors.city" />
+              <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
+          </div>
+        </div>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -161,10 +172,11 @@ import TermInput from "@/components/inputs/TermInput"
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
 import Snackbar from "@/components/global/Snackbar";
+import ActionButton from "@/components/actionButtons/ActionButton"
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar
+    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton
   },
   middleware: ['auth'],
   layout() { return "publish" },
@@ -226,9 +238,9 @@ export default class Publish extends Vue {
 
   // Errors
   errors = {
-    'title': {
+    'neighbourhood': {
       'error': false,
-      'message': "Title needs to be two words"
+      'message': "neighbourhood needs to be two words"
     },
     'description': {
       'error': false,
@@ -262,6 +274,10 @@ export default class Publish extends Vue {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  showModal() {
+    this.$modal.show('location');
+  }
+
   snackbarValidationError() {
     this.$snackbar.show({
       text: "Imate greske",
@@ -282,7 +298,7 @@ export default class Publish extends Vue {
 
   async publish() {
     const payload = {
-      title: this.title,
+      neighbourhood: this.neighbourhood,
       description: this.description,
       address: this.address,
       price: this.price,
@@ -480,17 +496,18 @@ export default class Publish extends Vue {
     this.city = f;
 
     this.errors.city.error = false;
+
   }
 
   // Basic info
-  title = null;
+  neighbourhood = null;
   address = null;
   price = null;
   description = null;
 
-  @Watch('title')
+  @Watch('neighbourhood')
   handleTitleChange(newVal, oldVal) {
-    this.errors.title.error = false;
+    this.errors.neighbourhood.error = false;
   }
 
   @Watch('address')
@@ -746,7 +763,7 @@ export default class Publish extends Vue {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-row-gap: 24px;
-    grid-column-gap: 24px;
+    grid-column-gap: 46px;
   }
 
   .global-heading {
@@ -758,10 +775,6 @@ export default class Publish extends Vue {
 
   .publishing-type {
     margin-bottom: 32px;
-  }
-
-  .location {
-    margin-top: 32px;
   }
 
   ::v-deep .categories-list-wrap {
@@ -808,4 +821,59 @@ export default class Publish extends Vue {
     margin-top: 24px;
   }
 
+.modal-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  height: fit-content;
+  .modal-header {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    border-bottom: 1px solid #dcdcdc;
+    justify-content: space-between;
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  .modal-content {
+    padding: 24px 0;
+    textarea {
+      height: 200px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 21px;
+      box-sizing: border-box;
+      padding: 24px;
+
+      &:focus {
+        outline: none;
+
+      }
+    }
+  }
+}
+
+::v-deep button {
+  margin-bottom: 24px;
+  width: fit-content;
+}
+
+.map-wrapper {
+  margin-bottom: 24px;
+
+  ::v-deep #map {
+    margin-top: 0;
+  }
+}
 </style>

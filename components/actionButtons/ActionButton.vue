@@ -29,6 +29,7 @@ div {
   width: 100%;
 }
 button {
+  font-family: 'Montserrat', sans-serif;
   height: 53px;
   background: #D63946;
   border-radius: 4px;

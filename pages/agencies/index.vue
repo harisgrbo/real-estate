@@ -3,22 +3,9 @@
     <Navbar></Navbar>
     <div class="account-wrapper-inner">
       <div class="sidenav">
-        <h1>Izdvojene agencije</h1>
-        <div class="swiper-container-main">
-          <swiper class="swiper" :options="swiperOption">
-            <swiper-slide v-for="item in 10" :key="item">
-              <div>
-                <AgencyCard></AgencyCard>
-              </div>
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
-        </div>
         <h1 class="heading-account">56 agencija za nekretnine</h1>
-
-
          <div class="grid-layout">
-         <AgencyCard v-for="card in 16" :key="card" />
+         <UserCard v-for="card in 16" :key="card" />
        </div>
       </div>
     </div>
@@ -29,9 +16,10 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import AgencyCard from "@/components/AgencyCard"
+import UserCard from "@/components/UserCard"
 
 @Component({
-  components: { Navbar, AgencyCard }
+  components: { Navbar, AgencyCard, UserCard }
 })
 
 export default class Agencies extends Vue {
@@ -217,6 +205,10 @@ a {
 
 .grid-layout {
   padding: 0 !important
+}
+
+.swiper {
+  box-sizing: border-box;
 }
 
 .swiper-wrapper {

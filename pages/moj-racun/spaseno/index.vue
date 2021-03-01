@@ -21,15 +21,6 @@
       </ul>
       <div class="saved-content">
         <div v-show="activeTab === 0">
-          <div class="grid-layout" v-if="savedUsers.length">
-            <SavedUserCard v-for="user in savedUsers" :user="user" :key="user.id"></SavedUserCard>
-          </div>
-          <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
-            <p>Nemate spšenih korisnika</p>
-          </div>
-        </div>
-        <div v-show="activeTab === 1">
           <div class="grid-layout" v-if="savedSearches.length">
             pretrage
           </div>
@@ -38,7 +29,7 @@
             <p>Nemate spšenih pretraga</p>
           </div>
         </div>
-        <div v-show="activeTab === 2">
+        <div v-show="activeTab === 1">
           <div class="grid-layout" v-if="savedListings.length">
             <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id" :from="true" @remove-from-saved="handleRemoveListing"></ListingCard>
           </div>
@@ -71,7 +62,6 @@ import Snackbar from "@/components/global/Snackbar";
 export default class spaseno extends Vue {
 
   tabs = [
-    'Korisnici',
     'Pretrage',
     'Oglasi'
   ]

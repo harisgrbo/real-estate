@@ -1,22 +1,9 @@
 <template>
-  <div class="w-full">
-    <div class="w-full flex justify-start flex-wrap">
-<!--      <label :for="attr.name">-->
-<!--        <div id="tick_mark">{{ attr.name }}</div>-->
-<!--      </label>-->
-<!--      <input-->
-<!--        :id="attr.name"-->
-<!--        class="checkbox"-->
-<!--        type="checkbox"-->
-<!--        v-model="checked"-->
-<!--        @input="checkedOption"-->
-<!--      />-->
-
-      <div class="inputGroup">
-        <input :id="attr.name" name="option1" type="checkbox" @click="checkedOption"/>
-        <label :for="attr.name">{{ attr.name }}</label>
-      </div>
+  <div class="checkbox-wrap">
+    <div>
+      <input type="checkbox" :id="attr.name" name="option1" @click="checkedOption"/><label :for="attr.name"></label>
     </div>
+    <p>{{ attr.name }}</p>
   </div>
 </template>
 
@@ -43,89 +30,60 @@ export default {
 
 <style scoped lang="scss">
 
-.inputGroup {
-  background-color: #fff;
+.checkbox-wrap {
   display: flex;
-  position: relative;
-
-  label {
-    padding: 0 24px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    display: flex;
-    text-align: left;
-    color: #3C454C;
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
-    transition: color 200ms ease-in;
-    overflow: hidden;
-    border-radius: 4px;
-    background: #f1f1f1;
-
-    &:before {
-      width: 10px;
-      height: 10px;
-      content: '';
-      background-color: #757B9A;
-      border-radius: 4px;
-      border: none;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) scale3d(1, 1, 1);
-      transition: all 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
-      opacity: 0;
-      z-index: -1;
-    }
-
-    &:after {
-      width: 22px;
-      height: 22px;
-      content: '';
-      border: 2px solid #757B9A;
-      background-color: #fff;
-      background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.414 11L4 12.414l5.414 5.414L20.828 6.414 19.414 5l-10 10z' fill='%23fff' fill-rule='nonzero'/%3E%3C/svg%3E ");
-      background-repeat: no-repeat;
-      background-position: -2px 0px;
-      border-radius: 50%;
-      z-index: 2;
-      position: absolute;
-      right: 30px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      transition: all 200ms ease-in;
-    }
-  }
-
-  input:checked ~ label {
-    color: #fff;
-
-    &:before {
-      transform: translate(-50%, -50%) scale3d(56, 56, 1);
-      opacity: 1;
-    }
-
-    &:after {
-      background-color: #54E0C7;
-      border-color: #54E0C7;
-    }
-  }
-
-  input {
-    width: 26px;
-    height: 26px;
-    order: 1;
-    z-index: 2;
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    visibility: hidden;
-  }
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
+
+input[type=checkbox]{
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  display: none;
+}
+
+label {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  background: #f1f1f1;
+  display: flex;
+  border-radius: 100px;
+  position: relative;
+  transition: 0.3s;
+
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 15px;
+  transition: 0.3s;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+
+}
+
+input:checked + label {
+  background: #ddd;
+}
+
+input:checked + label:after {
+  left: 100%;
+  transform: translateX(-100%);
+  background: #D63946;
+}
+
+label:active:after {
+  width: 90px;
+}
+
 </style>

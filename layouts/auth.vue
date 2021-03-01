@@ -1,7 +1,7 @@
 <template>
   <div class="auth-wrapper">
     <div class="form-wrap">
-      <img src="/logo.png" class="logo" alt="logo" @click="$router.push('/')">
+      <img src="/prozorMargina.png" class="logo" alt="logo" @click="$router.push('/')">
       <nuxt></nuxt>
     </div>
   </div>
