@@ -20,8 +20,8 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    '~assets/styles/global.scss',
-    '~assets/styles/custom_components.scss',
+    '@/assets/styles/global.scss',
+    '@/assets/styles/custom_components.scss',
     'swiper/css/swiper.css'
   ],
 
@@ -37,6 +37,7 @@ export default {
     { src: '~plugins/datepicker.js', mode: 'client' },
     { src: '~plugins/infiniteloading.js', mode: 'client' },
     { src: '~plugins/vue-lightbox.js', mode: 'client' },
+    { src: '~plugins/security-code.js', mode: 'client' },
 
   ],
 

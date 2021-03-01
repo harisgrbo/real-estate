@@ -48,5 +48,34 @@ export default {
     margin-bottom: 16px;
   }
 
+  .option-wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-row-gap: 12px;
+    grid-column-gap: 12px;
+
+    button {
+      height: 48px;
+      border-radius: 5px;
+      background: #f1f1f1;
+      border: none;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+
+      &.selected {
+        background: #D63946;
+        font-weight: 600;
+        color: #fff;
+
+      }
+    }
+  }
+
 }
 </style>

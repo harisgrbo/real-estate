@@ -29,7 +29,7 @@
         </div>
       </div>
       <div v-show="activeTab === 1">
-        <div v-if="followed.length">
+        <div v-if="followed.length" class="grid-layout">
           <UserCard v-for="user in followed" :user="user" :key="user.id"></UserCard>
         </div>
         <div v-else>

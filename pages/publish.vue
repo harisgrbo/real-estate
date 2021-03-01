@@ -40,8 +40,8 @@
           </div>
 
           <div class="grid-filters">
-            <InputError :error="errors.title" />
-            <PublishTextInput type="text" title="Naslov" v-model="title"></PublishTextInput>
+            <InputError :error="errors.neighbourhood" />
+            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
 
             <InputError :error="errors.address" />
             <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
@@ -226,9 +226,9 @@ export default class Publish extends Vue {
 
   // Errors
   errors = {
-    'title': {
+    'neighbourhood': {
       'error': false,
-      'message': "Title needs to be two words"
+      'message': "neighbourhood needs to be two words"
     },
     'description': {
       'error': false,
@@ -282,7 +282,7 @@ export default class Publish extends Vue {
 
   async publish() {
     const payload = {
-      title: this.title,
+      neighbourhood: this.neighbourhood,
       description: this.description,
       address: this.address,
       price: this.price,
@@ -483,14 +483,14 @@ export default class Publish extends Vue {
   }
 
   // Basic info
-  title = null;
+  neighbourhood = null;
   address = null;
   price = null;
   description = null;
 
-  @Watch('title')
+  @Watch('neighbourhood')
   handleTitleChange(newVal, oldVal) {
-    this.errors.title.error = false;
+    this.errors.neighbourhood.error = false;
   }
 
   @Watch('address')
