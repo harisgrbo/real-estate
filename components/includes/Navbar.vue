@@ -124,6 +124,29 @@ export default class Navbar extends Vue{
   selectedType = null
   searchInput = ""
 
+  notificationHandlers = {
+    'broadcast.listing_question': this.listingQuestionNotification
+  }
+
+  mounted() {
+    if (this.$auth.user) {
+      this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
+        this.notificationHandlers[notification.type](notification)
+      })
+    }
+  }
+
+  listingQuestionNotification(notification) {
+    let name = notification.user.name;
+    let id = notification.listing_id;
+
+    this.$snackbar.show({
+      text: `Dobili ste novo pitanje od ${name} za artikal broj: ${id}`,
+      timeout: 1000,
+      type: "success"
+    })
+  }
+
   away() {
     this.focused = false;
   }
