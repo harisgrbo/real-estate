@@ -10,7 +10,15 @@
     <div class="content">
       <p>{{ message.question }}</p>
     </div>
-    <ActionButton placeholder="Odgovori na pitanje" v-if="message.user.id === $auth.user.id"></ActionButton>
+    <div v-if="replies.length">
+      <div class="box" v-for="reply in replies">
+        <p>{{ reply.question }}</p>
+      </div>
+    </div>
+    <div v-if="owner" class="reply-wrapper">
+      <textarea v-model="replyTerm"></textarea>
+      <ActionButton placeholder="Odgovori na pitanje" @action="replyToQuestion"></ActionButton>
+    </div>
   </div>
 </template>
 
@@ -26,6 +34,21 @@ import ActionButton from "@/components/actionButtons/ActionButton"
 
 export default class SingleQuestion extends Vue {
   @Prop({}) message
+  @Prop({}) owner
+
+  replies = [];
+  replyTerm = '';
+
+  async replyToQuestion() {
+    try {
+      let res = await this.$axios.post('/listing_questions/' + this.message.id + '/replies', {
+        question: this.replyTerm
+      });
+      this.replies.push(res.data.data)
+    } catch(e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 
@@ -70,6 +93,29 @@ export default class SingleQuestion extends Vue {
       padding-top: 12px;
       border-top: 1px solid #dcdcdc;
       margin-bottom: 12px;
+    }
+  }
+
+  .box {
+    background: #f1f1f1;
+    padding: 12px;
+    border-radius: 5px;
+    margin-top: 12px;
+  }
+
+  .reply-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #ddd;
+    textarea {
+      border: 1px solid #dcdcdc;
+      border-radius: 5px;
+      height: 50px;
+      font-family: 'Montserrat', sans-serif;
+      padding: 12px;
+      box-sizing: border-box;
     }
   }
 </style>

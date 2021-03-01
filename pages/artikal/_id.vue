@@ -99,8 +99,8 @@
           <div v-if="listing.questions_disabled === true">
             Korisniik je zabranio javna pitanja
           </div>
-          <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :id="question.id"></SingleQuestion>
-          <div class="question-create" v-if="$auth.user && listing.questions_disabled === false">
+          <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :id="question.id" :owner="owner"></SingleQuestion>
+          <div class="question-create" v-if="$auth.user && listing.questions_disabled === false && owner === false">
             <textarea v-model="questionTerm"></textarea>
             <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>
           </div>
@@ -275,6 +275,12 @@ export default class Artikal extends Vue {
 
     } catch(e)  {
       console.log(e)
+    }
+  }
+
+  get owner() {
+    if(this.$auth.user) {
+      return this.listing.user.id === this.$auth.user.id;
     }
   }
 
