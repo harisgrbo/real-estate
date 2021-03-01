@@ -10,8 +10,9 @@
     <div class="content">
       <p>{{ message.question }}</p>
     </div>
-    <div v-if="replies.length">
-      <div class="box" v-for="reply in replies">
+    <div v-if="message.children.length">
+      <div class="box" v-for="reply in message.children">
+        <font-awesome-icon icon="reply"></font-awesome-icon>
         <p>{{ reply.question }}</p>
       </div>
     </div>
@@ -44,7 +45,7 @@ export default class SingleQuestion extends Vue {
       let res = await this.$axios.post('/listing_questions/' + this.message.id + '/replies', {
         question: this.replyTerm
       });
-      this.replies.push(res.data.data)
+      this.message[this.message.id].children.push(res.data.data)
     } catch(e) {
       console.log(e)
     }
@@ -97,10 +98,25 @@ export default class SingleQuestion extends Vue {
   }
 
   .box {
-    background: #f1f1f1;
-    padding: 12px;
-    border-radius: 5px;
     margin-top: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+
+    svg {
+      width: 30px;
+      color: #ddd;
+      transform: rotate(180deg);
+    }
+
+    p {
+      background: #f1f1f1;
+      padding: 12px;
+      border-radius: 5px;
+      width: 100%;
+    }
   }
 
   .reply-wrapper {
@@ -116,6 +132,15 @@ export default class SingleQuestion extends Vue {
       font-family: 'Montserrat', sans-serif;
       padding: 12px;
       box-sizing: border-box;
+    }
+  }
+
+  .reply-icon {
+    display: flex;
+    flex-direction: row;
+
+    svg {
+      margin-right: 12px;
     }
   }
 </style>
