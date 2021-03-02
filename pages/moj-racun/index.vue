@@ -43,8 +43,8 @@ export default class accountpage extends Vue {
 
   tabs = [
     {
-      name: "Postavke agencije",
-      slug: "postavke-agencije",
+      name: "Dashboard",
+      slug: "dashboard",
       icon: "032-online-support.svg",
       desc: 'Uređivanje postavki agencije'
     },
@@ -103,10 +103,10 @@ export default class accountpage extends Vue {
       desc: 'Postavke privatnosti'
     },
     {
-      name: "Promjena šifre",
-      slug: "promjena-sifre",
-      icon: '043-settings.svg',
-      desc: 'Promjena trenutne šifre'
+      name: "Statistika",
+      slug: "statistika",
+      icon: '014-browser-6.svg',
+      desc: 'Statistika Vaše agencije i oglasa'
     },
   ]
 }

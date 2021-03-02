@@ -38,7 +38,7 @@ export default {
     { src: '~plugins/infiniteloading.js', mode: 'client' },
     { src: '~plugins/vue-lightbox.js', mode: 'client' },
     { src: '~plugins/security-code.js', mode: 'client' },
-
+    { src: '~plugins/apex-charts.js', mode: 'client' },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

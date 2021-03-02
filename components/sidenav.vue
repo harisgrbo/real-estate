@@ -7,12 +7,16 @@
       </div>
     </div>
     <ul>
-      <li v-if="$auth.user" class="user-label">
+      <li v-if="$auth.user" class="user-label" @click="goToUSer">
         <img src="/avatar.jpg" alt="">
         <div class="user-wrap">
           <label for="">{{ $auth.user.name }}</label>
           <p>{{ transformType($auth.user.user_type) }}</p>
         </div>
+      </li>
+      <li v-if="$auth.user && $auth.user.user_type === 'agency'" @click="goToUSer" class="dashboard">
+        <img src="/052-presentation.svg" alt="">
+        <nuxt-link to="/moj-racun/dashboard">Glavni dashboard</nuxt-link>
       </li>
       <li class="login" v-if="!$auth.user">
         <nuxt-link to="/auth/login">Prijavi se</nuxt-link>
@@ -21,8 +25,8 @@
         <nuxt-link to="/auth/register">Registruj se</nuxt-link>
       </li>
       <li v-if="$auth.user" @click="goToUSer">
-        <img src="/037-user.svg" alt="">
-        Moj profil
+        <img src="/091-credit%20card.svg" alt="">
+        <nuxt-link to="/moj-racun/moji-oglasi">Moji oglasi</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <img src="/094-settings.svg" alt="">
@@ -259,5 +263,13 @@ img {
   height: 20px;
   color: #4AAE9B;
   margin-right: 12px;
+}
+
+li.dashboard {
+  background: #e5e5fd;
+
+  &:hover {
+    background: #dcdcfd !important;
+  }
 }
 </style>

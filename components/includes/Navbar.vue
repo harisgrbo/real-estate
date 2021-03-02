@@ -131,11 +131,11 @@ export default class Navbar extends Vue{
 
   mounted() {
     if (this.$auth.user) {
-      if (this.notificationHandlers[notification.type]) {
         this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
-          this.notificationHandlers[notification.type](notification)
+          if (this.notificationHandlers[notification.type]) {
+            this.notificationHandlers[notification.type](notification)
+          }
         })
-      }
     }
   }
 

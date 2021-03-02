@@ -4,11 +4,11 @@
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
         <font-awesome-icon icon="angle-right"></font-awesome-icon>
-        <p>Promjena šifre</p>
+        <p>Statistika</p>
       </li>
     </ul>
     <h1 class="heading">
-      Promjena šifre
+      Statistika
     </h1>
   </div>
 </template>
