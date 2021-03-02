@@ -76,8 +76,8 @@ export default class Dashboard extends Vue {
     flex-direction: column;
     flex: 2;
     height: 100%;
-    padding: 8px 24px;
-    background: #f8f8f8;
+    padding: 8px;
+    border-right: 1px solid #f1f1f1;
     border-radius: 10px;
     box-sizing: border-box;
 

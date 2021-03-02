@@ -13,6 +13,7 @@
           <li
             v-for="(tab, index) in tabs"
             :key="index"
+            :class="[ tab.slug === 'dashboard'? 'dashboard-class' : '' ]"
           >
             <nuxt-link
               :to="{ path: '/moj-racun/' + tab.slug }"
@@ -45,7 +46,7 @@ export default class accountpage extends Vue {
     {
       name: "Dashboard",
       slug: "dashboard",
-      icon: "032-online-support.svg",
+      icon: "014-browser-6.svg",
       desc: 'Uređivanje postavki agencije'
     },
     {
@@ -258,7 +259,9 @@ a {
   color: #9BAABD;
 }
 
-
+.dashboard-class {
+  background: #F7F9FF;
+}
 
 </style>
 

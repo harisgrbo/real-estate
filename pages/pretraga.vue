@@ -8,6 +8,10 @@
           <button>Vrsta oglasa</button>
           <button>Stanje oglasa</button>
           <button @click="toggleFiltersModal">Filteri</button>
+          <button class="save" @click="saveSearch">
+            <font-awesome-icon icon="heart"></font-awesome-icon>
+            Spasi pretragu
+          </button>
         </div>
       </div>
       <div class="results">
@@ -55,6 +59,7 @@
           </div>
         </div>
       </modal>
+      <Snackbar></Snackbar>
     </client-only>
   </div>
 </template>
@@ -70,6 +75,7 @@ import TermsFilter from "@/components/search/TermsFilter";
 import { buildQuery } from "@/util/search";
 import { capitalize } from "@/util/str";
 import SearchMap from "@/components/googleMap/SearchMap";
+import Snackbar from "@/components/global/Snackbar";
 
 @Component({
   components: {
@@ -79,7 +85,8 @@ import SearchMap from "@/components/googleMap/SearchMap";
     RangeFilter,
     CategoryFilter,
     TermFilter,
-    TermsFilter
+    TermsFilter,
+    Snackbar
   },
   layout() { return "search" },
 
@@ -153,6 +160,25 @@ export default class Homepage extends Vue {
 
   filterFor(attr) {
     return `${capitalize(attr)}Filter`;
+  }
+
+  async saveSearch() {
+    try {
+      let res = await this.$axios.post('/profile/saved/searches', {
+        query: JSON.stringify(this.$route.query),
+        description: 'Test'
+      });
+
+      this.$snackbar.show({
+        text: "Uspjesno ste spasili pretragu",
+        timeout: 1000,
+        type: "danger"
+      });
+
+      console.log(res)
+    } catch(e) {
+      console.log(e)
+    }
   }
 }
 </script>
@@ -352,5 +378,31 @@ export default class Homepage extends Vue {
     }
   }
 }
+
+.save {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  justify-content: center;
+  width: fit-content;
+  align-self: flex-end;
+
+  svg {
+    color: #444;
+    height: 16px;
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background: rgb(247, 247, 247) !important;
+    text-decoration: underline;
+  }
+}
+
 
 </style>

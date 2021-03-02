@@ -14,7 +14,7 @@
           <p>{{ transformType($auth.user.user_type) }}</p>
         </div>
       </li>
-      <li v-if="$auth.user && $auth.user.user_type === 'agency'" @click="goToUSer" class="dashboard">
+      <li v-if="$auth.user && $auth.user.user_type === 'agency'" class="dashboard">
         <img src="/052-presentation.svg" alt="">
         <nuxt-link to="/moj-racun/dashboard">Glavni dashboard</nuxt-link>
       </li>
