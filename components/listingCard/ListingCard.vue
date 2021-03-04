@@ -6,7 +6,7 @@
       </label>
       <label class="type" v-if="listingType">
         <button>
-          {{ listingType }}
+          Novogradnja
         </button>
         <button>
           <font-awesome-icon icon="vector-square"></font-awesome-icon>
@@ -26,13 +26,13 @@
       </div>
 
 
-      <nuxt-link :to="{ path: '/artikal/' + listing.id }">
-        <img src="/stan.jpg" alt="">
+      <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
+        <img src="/hotel.webp" alt="">
         <div class="listing-card-content">
           <div class="address title">
-            <p>stan</p>
-            <p>{{ listing.city.name }}</p>
-            <p>Dolac Malta</p>
+            <p>
+              {{ listing.title }}
+            </p>
           </div>
           <div class="address">
             <p>{{ sliceAddress(listing.address) }}</p>
@@ -42,8 +42,8 @@
               <p class="price">{{ listing.price }} KM</p>
               <p v-if="listingType === 'rent'">/ nocenje</p>
             </div>
-            <div class="icons">
-              <p>{{ listing.created_at }}</p>
+            <div>
+              <p class="time">{{ this.$moment(listing.published_at).fromNow() }}</p>
             </div>
           </div>
         </div>
@@ -83,6 +83,10 @@ export default class ListingCard extends Vue{
   sliceAddress(address) {
     return address.slice(0, 20) + '...'
   }
+
+  created() {
+    console.log(this.listing)
+  }
 }
 </script>
 
@@ -102,8 +106,8 @@ export default class ListingCard extends Vue{
       left: 8px;
       top: 8px;
       border-radius: 5px;
-      background: #00000028;
-      color: #fff;
+      background: #fff;
+      color: #444;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -113,6 +117,8 @@ export default class ListingCard extends Vue{
       font-size: 12px;
       font-weight: 500;
       text-transform: capitalize;
+      box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+
       z-index: 2;
 
       &.type {
@@ -125,8 +131,9 @@ export default class ListingCard extends Vue{
           border: none;
           margin-right: 8px;
           border-radius: 5px;
-          background: #00000028;
-          color: #fff;
+          background: #fff;
+          box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+          color: #444;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -198,17 +205,6 @@ export default class ListingCard extends Vue{
           font-weight: 500 !important;
           font-size: 16px !important;
           line-height: 20px !important;
-
-          &::after {
-            content: "";
-            height: 2px;
-            width: 2px;
-            border-radius: 50%;
-            position: absolute;
-            top: 10px;
-            margin: 0 8px;
-            background: #444;
-          }
         }
 
       }
@@ -224,7 +220,7 @@ export default class ListingCard extends Vue{
            white-space: nowrap;
            overflow: hidden;
            text-overflow: ellipsis;
-           font-weight: 600 !important;
+           font-weight: 500 !important;
            font-size: 16px !important;
            line-height: 20px !important;
            margin-bottom: 8px;
@@ -235,8 +231,8 @@ export default class ListingCard extends Vue{
           position: relative;
           padding: 0 8px;
           color: #434343;
-          font-weight: 500;
-          font-size: 15px;
+          font-weight: 400;
+          font-size: 14px;
           padding-left: 11px;
 
           &:first-child {
@@ -264,6 +260,11 @@ export default class ListingCard extends Vue{
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+
+        .icons {
+          display:flex;
+          align-items: center;
+        }
 
         .price {
           font-weight: 600;
@@ -353,9 +354,14 @@ export default class ListingCard extends Vue{
       .blured-background {
         display: flex;
         background-color: rgba(255, 255, 255, .5);
-        -webkit-backdrop-filter: blur(2em);
-        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(0.2em);
+        backdrop-filter: blur(2px);
       }
     }
+  }
+
+  .time {
+    font-size: 12px !important;
+    font-weight: 400;
   }
 </style>

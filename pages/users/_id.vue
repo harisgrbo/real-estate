@@ -50,10 +50,16 @@
         <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" icon="paper-plane"></ActionButton>
         <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>
       </div>
-      <button class="save" v-if="!isMe">
-        <font-awesome-icon icon="heart"></font-awesome-icon>
-        Spasi korisnika
-      </button>
+      <div class="reporting-system">
+        <button class="save" v-if="!isMe">
+          <font-awesome-icon icon="heart"></font-awesome-icon>
+          Spasi korisnika
+        </button>
+        <button class="save" v-if="!isMe">
+          <font-awesome-icon icon="user-slash"></font-awesome-icon>
+          Prijavi korisnika
+        </button>
+      </div>
     </div>
     <div class="content-wrapper">
       <ul>
@@ -267,13 +273,13 @@ export default class Users extends Vue {
 
   .user-content-wrapper {
     position: sticky;
-    top: 84px;
+    top: 130px;
     display: flex;
     flex-direction: column;
-    //border: 1px solid rgb(221, 221, 221);
+    border: 1px solid #f1f1f1;
     border-radius: 12px;
     padding: 24px;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     height: fit-content;
     min-width: 24%;
 
@@ -392,28 +398,32 @@ export default class Users extends Vue {
       flex-direction: row;
       align-items: center;
       margin-bottom: 36px;
+      border-bottom: 1px solid #EBEBEB !important;
 
       li {
-        font-size: 16px !important;
+        font-size: 14px !important;
         line-height: 26px !important;
         margin-right: 24px;
         padding-bottom: 8px;
+        height: 40px;
         position: relative;
         cursor: pointer;
+        text-transform: uppercase;
+        font-weight:500 !important;
 
         &:last-child {
           margin-right: 0;
         }
 
         &.active {
-          font-weight: 600;
+          color: #0B8489;
           &::after {
             content: '';
             position: absolute;
             left: 0;
             right: 0;
             bottom: 0;
-            border-bottom: 1px solid #D63946;
+            border-bottom: 1px solid #0B8489;
           }
         }
       }
@@ -535,5 +545,11 @@ ul.user-information {
     font-weight: 500;
     margin-top: 24px;
   }
+}
+
+.reporting-system {
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

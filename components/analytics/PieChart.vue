@@ -1,6 +1,6 @@
 <template>
   <div id="chart">
-    <apexchart type="donut" width="380" :options="chartOptions" :series="series"></apexchart>
+    <apexchart type="donut" height="300" :options="chartOptions" :series="series"></apexchart>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default class PieChart extends Vue {
   series = [44, 55, 41, 17, 15]
   chartOptions = {
     chart: {
-      width: 380,
+      width: '100%',
       type: 'donut',
     },
     plotOptions: {
@@ -49,7 +49,8 @@ export default class PieChart extends Vue {
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
   border-radius: 10px;
   padding-top: 12px;
-  margin-top: 24px;
-  width: fit-content;
+  margin-top: 36px;
+  width: 100%;
+  box-sizing: border-box;
 }
 </style>

@@ -7,21 +7,21 @@
           </font-awesome-icon>
           <p>{{ images.length }}</p>
         </div>
-<!--        <div class="img-counter show-more">-->
-<!--          <font-awesome-icon icon="images">-->
-<!--          </font-awesome-icon>-->
-<!--          <p>Pogledaj sve slike</p>-->
-<!--        </div>-->
+        <!--        <div class="img-counter show-more">-->
+        <!--          <font-awesome-icon icon="images">-->
+        <!--          </font-awesome-icon>-->
+        <!--          <p>Pogledaj sve slike</p>-->
+        <!--        </div>-->
         <div :class="'item' + img.id" v-for="(img, index) in images">
           <img :src="img.name" alt="" @click="openGallery(index)">
         </div>
         <client-only>
           <light-box
-          ref="lightbox"
-          :media="lightboxImages"
-          :show-light-box="false"
-          :show-thumbs="true"
-          close-text="function() {
+            ref="lightbox"
+            :media="lightboxImages"
+            :show-light-box="false"
+            :show-thumbs="true"
+            close-text="function() {
           return 'Zatvori galeriju'
           }"
           />
@@ -46,59 +46,59 @@
               </button>
             </div>
           </div>
-          <div class="grid-layout">
-            <div class="detailed-info" v-if="listing.city">
-              <span>Lokacija</span>
-              <span>{{ listing.city.name }}</span>
-            </div>
-            <div class="detailed-info">
-              <span>Vrsta oglasa</span>
-              <span>{{ listing.listing_type.title }}</span>
-            </div>
-            <div class="detailed-info" v-if="listing.brandModel">
-              <span>Brend</span>
-              <span>{{ listing.brandModel }}</span>
-            </div>
-            <div class="detailed-info" v-if="listing.address">
-              <span>Adresa</span>
-              <span>{{ sliceAddress(listing.address) }}</span>
-            </div>
-            <div class="detailed-info">
-              <span>Datum objave</span>
-              <span>{{ $moment(listing.createdAt).format('LL') }}</span>
-            </div>
-            <div class="detailed-info price">
-              <div>
-                <font-awesome-icon icon="coins"></font-awesome-icon>
-                <span>Cijena</span>
-              </div>
-              <span>{{ listing.price }} KM</span>
-            </div>
-          </div>
-          <div class="separator"></div>
-          <h2 class="heading">Detaljne informacije</h2>
-          <div class="grid-layout">
-            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
-              <span>{{ info.name }}</span>
-              <span>{{ info.value }}</span>
-            </div>
-          </div>
-          <div class="separator"></div>
-          <h2 class="heading">U blizini nekretnine</h2>
-          <div class="grid-layout">
-            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
-              <span>{{ info.name }}</span>
-              <span>{{ attrTranslate(info.value) }}</span>
-            </div>
-          </div>
-          <div class="separator"></div>
-          <h2 class="heading">Detaljni opis</h2>
-          <p class="description">{{ listing.description }}</p>
-          <div class="separator"></div>
-          <h2 class="heading">Pitanja</h2>
-          <div v-if="listing.questions_disabled === true">
-            Korisniik je zabranio javna pitanja
-          </div>
+<!--          <div class="grid-layout">-->
+<!--            <div class="detailed-info" v-if="listing.city">-->
+<!--              <span>Lokacija</span>-->
+<!--              <span>{{ listing.city.name }}</span>-->
+<!--            </div>-->
+<!--            <div class="detailed-info">-->
+<!--              <span>Vrsta oglasa</span>-->
+<!--              <span>{{ listing.listing_type.title }}</span>-->
+<!--            </div>-->
+<!--            <div class="detailed-info" v-if="listing.brandModel">-->
+<!--              <span>Brend</span>-->
+<!--              <span>{{ listing.brandModel }}</span>-->
+<!--            </div>-->
+<!--            <div class="detailed-info" v-if="listing.address">-->
+<!--              <span>Adresa</span>-->
+<!--              <span>{{ sliceAddress(listing.address) }}</span>-->
+<!--            </div>-->
+<!--            <div class="detailed-info">-->
+<!--              <span>Datum objave</span>-->
+<!--              <span>{{ $moment(listing.createdAt).format('LL') }}</span>-->
+<!--            </div>-->
+<!--            <div class="detailed-info price">-->
+<!--              <div>-->
+<!--                <font-awesome-icon icon="coins"></font-awesome-icon>-->
+<!--                <span>Cijena</span>-->
+<!--              </div>-->
+<!--              <span>{{ listing.price }} KM</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="separator"></div>-->
+<!--          <h2 class="heading">Detaljne informacije</h2>-->
+<!--          <div class="grid-layout">-->
+<!--            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">-->
+<!--              <span>{{ info.name }}</span>-->
+<!--              <span>{{ info.value }}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="separator"></div>-->
+<!--          <h2 class="heading">U blizini nekretnine</h2>-->
+<!--          <div class="grid-layout">-->
+<!--            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">-->
+<!--              <span>{{ info.name }}</span>-->
+<!--              <span>{{ attrTranslate(info.value) }}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="separator"></div>-->
+<!--          <h2 class="heading">Detaljni opis</h2>-->
+<!--          <p class="description">{{ listing.description }}</p>-->
+<!--          <div class="separator"></div>-->
+<!--          <h2 class="heading">Pitanja</h2>-->
+<!--          <div v-if="listing.questions_disabled === true">-->
+<!--            Korisniik je zabranio javna pitanja-->
+<!--          </div>-->
           <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :id="question.id" :owner="owner"></SingleQuestion>
           <div class="question-create" v-if="$auth.user && listing.questions_disabled === false && owner === false">
             <textarea v-model="questionTerm"></textarea>
@@ -307,8 +307,6 @@ export default class Artikal extends Vue {
   }
 
   async created() {
-
-    console.log(this.listing)
     await this.getQuestions();
     console.log(this.listing.attributes)
     this.isUserFollowed = this.isFollowed;

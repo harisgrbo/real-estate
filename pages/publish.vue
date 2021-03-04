@@ -39,7 +39,13 @@
             <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
-          <ActionButton @action="showModal" placeholder="Izaberite lokaciju"></ActionButton>
+          <h2>Lokacija</h2>
+
+          <div v-if="city !== null">
+            <p>{{ city.name }}</p>
+          </div>
+
+          <ActionButton @action="showModal" :placeholder="city === null? 'Izaberite lokaciju' : 'Promijenite lokaciju'"></ActionButton>
 
           <div class="grid-filters">
             <InputError :error="errors.neighbourhood" />
@@ -505,7 +511,7 @@ export default class Publish extends Vue {
   price = null;
   description = null;
 
-  @Watch('neighbourhood')
+  @Watch('neighbourhood')l
   handleTitleChange(newVal, oldVal) {
     this.errors.neighbourhood.error = false;
   }

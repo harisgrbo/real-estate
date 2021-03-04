@@ -45,7 +45,7 @@ export default class accountpage extends Vue {
   tabs = [
     {
       name: "Dashboard",
-      slug: "dashboard",
+      slug: "dashboard/analitika",
       icon: "014-browser-6.svg",
       desc: 'Uređivanje postavki agencije'
     },
@@ -166,7 +166,6 @@ export default class accountpage extends Vue {
         font-weight: 600 !important;
         line-height: 1.125em !important;
         color: rgb(72, 72, 72) !important;
-        margin-top: 26px;
       }
 
       h2 {
@@ -237,15 +236,6 @@ export default class accountpage extends Vue {
       overflow: scroll;
     }
   }
-}
-
-.heading {
-  word-wrap: break-word !important;
-  font-size: 32px !important;
-  font-weight: 600 !important;
-  line-height: 1.125em !important;
-  color: #484848 !important;
-  margin-bottom: 36px !important;
 }
 
 a {

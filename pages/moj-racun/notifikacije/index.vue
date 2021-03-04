@@ -4,11 +4,11 @@
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
         <font-awesome-icon icon="angle-right"></font-awesome-icon>
-        <p>Notifikacije</p>
+        <p>Obavijesti</p>
       </li>
     </ul>
     <h1 class="heading">
-      Notifikacije
+      Obavijesti
     </h1>
   </div>
 </template>
@@ -26,6 +26,8 @@ export default class notifikacije extends Vue {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+h1 {
+  color: rgb(72, 72, 72) !important;
+}
 </style>

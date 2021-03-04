@@ -150,4 +150,8 @@ export default class BlokiraniKorisnici extends Vue {
     }
   }
 }
+
+h1 {
+  color: rgb(72, 72, 72) !important;
+}
 </style>

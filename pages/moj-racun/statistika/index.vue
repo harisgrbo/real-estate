@@ -26,6 +26,8 @@ export default class promjenaSifre extends Vue {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+h1 {
+  color: rgb(72, 72, 72) !important;
+}
 </style>

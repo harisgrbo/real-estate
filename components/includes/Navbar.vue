@@ -5,8 +5,9 @@
         <ul>
           <li @click="$router.push('/agencies')">agencije</li>
           <li>novogradnja</li>
-          <li>marketing</li>
+          <li>oglašavanje</li>
           <li>o nama</li>
+          <li>zašto registrovati agenciju?</li>
         </ul>
       </div>
       <div class="auth-buttons">
@@ -29,7 +30,7 @@
     </div>
     <div class="second-row">
       <div class="img-wrapper">
-        <img :src="[ $device.isMobile ? '/logo-single.png' : '/prozorMargina.png']" class="main-logo" alt="" @click="$router.push('/')">
+        <img :src="[ $device.isMobile ? '/logo-single.png' : '/newlogo.png']" class="main-logo" alt="" @click="$router.push('/')">
       </div>
       <button v-if="!$device.isMobile" class="categories" @click="toggleCategories">
         KATEGORIJE
@@ -40,7 +41,7 @@
            :class="[ focused? 'focused' : '']"
            v-on-clickaway="away"
       >
-        <button @click="search" :class="[ 'search-btn', searchInput.length? 'expanded' : '']">
+        <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']">
           <i class="material-icons">search</i>
           <p>Pretrazi</p>
         </button>
@@ -69,16 +70,11 @@
             <button @click="toggleCategories">Kategorija</button>
             <button @click="$modal.show('type')">Vrsta oglasa</button>
           </div>
-          <p>Posljednje pretrage</p>
-          <ul>
-            <li>
-              Stan sarajevo
-            </li>
-            <li>
-              Sarajevo kuca
-            </li>
-            <li>
-              Banjaluka stanovi
+          <p v-if="savedSearches.length" class="saved-title">Snimljene pretrage</p>
+          <ul v-if="savedSearches.length" class="saved-searches">
+            <li v-for="search in savedSearches" :id="search.id" @click="goToSearch(search)">
+              <p>{{ search.description }}</p>
+              <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
             </li>
           </ul>
           <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
@@ -103,11 +99,12 @@
 
 <script>
 
-import { Component, Vue, Prop} from "nuxt-property-decorator";
+import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 import CategoriesList from "@/components/CategoriesList";
 import ListingType from "@/components/ListingType";
 import sidenav from "@/components/sidenav"
 import { mixin as clickaway } from 'vue-clickaway';
+
 @Component({
   CategoriesList,
   ListingType,
@@ -124,7 +121,7 @@ export default class Navbar extends Vue{
   selectedCategory = null
   selectedType = null
   searchInput = ""
-
+  savedSearches = []
   notificationHandlers = {
     'broadcast.listing_question': this.listingQuestionNotification
   }
@@ -136,6 +133,30 @@ export default class Navbar extends Vue{
             this.notificationHandlers[notification.type](notification)
           }
         })
+    }
+  }
+
+  @Watch('$route', { immediate: true, deep: true })
+  onUrlChange() {
+    this.closeSidebar();
+    this.away();
+  }
+
+  async created() {
+    await this.getSearches()
+  }
+
+  goToSearch(s) {
+    this.$router.push('/pretraga?q=' + s.query);
+  }
+
+  async getSearches() {
+    try {
+      let res = await this.$axios.get('/profile/saved/searches');
+      this.savedSearches = res.data.data;
+
+    } catch(e) {
+      console.log(e)
     }
   }
 
@@ -220,13 +241,13 @@ export default class Navbar extends Vue{
     }
   }
 
-  goToSearch(term) {
-    let query = this.buildTitle(term);
-
-    this.$router.push(`/pretraga?q=[${query}]`);
-
-    this.showAutoCompleteDropdown = false;
-  }
+  // goToSearch(term) {
+  //   let query = this.buildTitle(term);
+  //
+  //   this.$router.push(`/pretraga?q=[${query}]`);
+  //
+  //   this.showAutoCompleteDropdown = false;
+  // }
 
   toggleCategories() {
     let self = this;
@@ -511,9 +532,6 @@ export default class Navbar extends Vue{
         align-items: center;
         justify-content: flex-start;
         width: 100%;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #dcdcdc;
-        margin-bottom: 12px;
 
         button {
           border-radius: 5px;
@@ -756,5 +774,34 @@ export default class Navbar extends Vue{
       font-size: 11px !important;
     }
   }
+}
+
+.saved-searches {
+  box-sizing: border-box;
+  li {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+
+    p {
+      margin: 0;
+      margin-bottom: 0 !important;
+    }
+
+    svg {
+      margin: 0;
+      margin-right: 12px;
+      color: #ddd;
+    }
+  }
+}
+
+.saved-title {
+  padding-top: 12px;
+  border-top: 1px solid #dcdcdc;
+  margin-top: 12px;
 }
 </style>

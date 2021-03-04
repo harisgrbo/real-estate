@@ -94,7 +94,7 @@ export default class Verifikacija extends Vue {
     border-radius: 10px;
     flex-direction: column;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
-    border: 1px solid red;
+    border: 1px solid #0B8489;
     padding: 24px;
     height: fit-content;
 
@@ -163,6 +163,7 @@ export default class Verifikacija extends Vue {
 
     ::v-deep button {
       margin-top: 0;
+      background: #0B8489;
     }
 
 
@@ -303,4 +304,7 @@ export default class Verifikacija extends Vue {
   width: calc(100% / 6) !important;
 }
 
+h1 {
+  color: rgb(72, 72, 72) !important;
+}
 </style>

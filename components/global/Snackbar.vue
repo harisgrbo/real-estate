@@ -52,11 +52,14 @@ export default {
   position: fixed;
   z-index: 9999;
   left: 30px;
-  top: 30px;
+  top: inherit;
+  bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
 }
 
 .snackbar.success {
-  background-color: #757B9A;
+  background-color: #0B8489;
 }
 
 .snackbar.danger {
@@ -91,10 +94,7 @@ export default {
 }
 
 .box-shadow {
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
-  0 0 40px rgba(0, 0, 0, 0.1) inset;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: rgb(0 0 0 / 6%) 0px 3px 5px;
+
 }
 </style>

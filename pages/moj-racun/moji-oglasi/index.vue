@@ -50,7 +50,6 @@ export default class mojiOglasi extends Vue {
 .content {
   display: flex;
   flex-direction: column;
-  margin-top: 36px;
 
   .grid-cards {
     display: grid;
@@ -59,5 +58,9 @@ export default class mojiOglasi extends Vue {
     row-gap: 32px;
     padding-bottom: 36px;
   }
+}
+
+h1 {
+  color: rgb(72, 72, 72) !important;
 }
 </style>

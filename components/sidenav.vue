@@ -16,7 +16,7 @@
       </li>
       <li v-if="$auth.user && $auth.user.user_type === 'agency'" class="dashboard">
         <img src="/052-presentation.svg" alt="">
-        <nuxt-link to="/moj-racun/dashboard">Glavni dashboard</nuxt-link>
+        <nuxt-link to="/moj-racun/dashboard/analitika">Glavni dashboard</nuxt-link>
       </li>
       <li class="login" v-if="!$auth.user">
         <nuxt-link to="/auth/login">Prijavi se</nuxt-link>
@@ -57,7 +57,7 @@
       </li>
       <li v-if="$auth.user">
         <img src="/096-target.svg" alt="">
-        <nuxt-link to="/marketing/">Marketing</nuxt-link>
+        <nuxt-link to="/marketing/">Oglašavanje na enekretnine.ba</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <nuxt-link to="/o-nama/">O nama</nuxt-link>
@@ -266,10 +266,10 @@ img {
 }
 
 li.dashboard {
-  background: #e5e5fd;
+  background: #EBEBEB;
 
   &:hover {
-    background: #dcdcfd !important;
+    background: #ebebeb !important;
   }
 }
 </style>

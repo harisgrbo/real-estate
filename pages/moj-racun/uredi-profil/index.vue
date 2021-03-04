@@ -114,4 +114,8 @@ export default class urediProfil extends Vue {
       width: 150px;
     }
   }
+
+h1 {
+  color: rgb(72, 72, 72) !important;
+}
 </style>

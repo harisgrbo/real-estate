@@ -8,11 +8,23 @@
           <button>Vrsta oglasa</button>
           <button>Stanje oglasa</button>
           <button @click="toggleFiltersModal">Filteri</button>
-          <button class="save" @click="saveSearch">
+          <button class="save" @click="openSearchSaveModal">
             <font-awesome-icon icon="heart"></font-awesome-icon>
             Spasi pretragu
           </button>
         </div>
+        <modal name="save-search" :adaptive="true" height="100%">
+          <div class="modal-inner">
+            <div class="modal-header">
+              <h2>Snimanje pretrage - unesite naziv</h2>
+              <i class="material-icons" @click="$modal.hide('save-search')">close</i>
+            </div>
+            <div class="modal-content save-search-modal">
+              <input type="text" v-model="searchName">
+              <ActionButton placeholder="Snimi pretragu" @action="saveSearch"></ActionButton>
+            </div>
+          </div>
+        </modal>
       </div>
       <div class="results">
         <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
@@ -140,8 +152,14 @@ import Snackbar from "@/components/global/Snackbar";
   },
 })
 export default class Homepage extends Vue {
+  searchName = '';
+
   toggleFiltersModal() {
     this.$modal.show('filters');
+  }
+
+  openSearchSaveModal() {
+    this.$modal.show('save-search');
   }
 
   getResultKey(listing) {
@@ -166,8 +184,18 @@ export default class Homepage extends Vue {
     try {
       let res = await this.$axios.post('/profile/saved/searches', {
         query: JSON.stringify(this.$route.query),
-        description: 'Test'
+        description: this.searchName
       });
+
+      this.$snackbar.show({
+        text: "Uspješno ste snimili pretragu",
+        timeout: 1000,
+        type: "success"
+      });
+
+      this.searchName = '';
+
+      this.modal.hide('save-search')
 
       this.$snackbar.show({
         text: "Uspjesno ste spasili pretragu",
@@ -352,6 +380,7 @@ export default class Homepage extends Vue {
     h2 {
       font-size: 20px;
       font-weight: 500;
+      margin-bottom: 0;
     }
 
     i {
@@ -404,5 +433,22 @@ export default class Homepage extends Vue {
   }
 }
 
+.save-search-modal {
+  input {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 24px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
 
 </style>

@@ -21,12 +21,12 @@
       </ul>
       <div class="saved-content">
         <div v-show="activeTab === 0">
-          <div v-if="searchesLoaded" class="searches-wrap">
-            <ul class="top-list">
-              <li>Naziv pretrage</li>
-              <li>Filteri</li>
-              <li>Datum sacuvane pretrage</li>
-            </ul>
+          <div v-if="searches.length" class="searches-wrap">
+<!--            <ul class="top-list">-->
+<!--              <li>Naziv pretrage</li>-->
+<!--              <li>Filteri</li>-->
+<!--              <li>Datum sacuvane pretrage</li>-->
+<!--            </ul>-->
             <ul class="searches">
               <li v-for="search in searches">
                 <div class="description">
@@ -49,7 +49,7 @@
                   <button>Novogradnja</button>
                   <button>Novogradnja</button>
                 </div>
-                <div class="time"><p>{{ search.created_at }}</p></div>
+                <div class="time"><p>{{ $moment(search.created_at).format('DD.MM.YYYY u HH:MM') }}</p></div>
               </li>
             </ul>
           </div>
@@ -131,7 +131,7 @@ export default class spaseno extends Vue {
   goToSearch(s) {
     console.log('radi', s)
 
-    this.$router.push('/pretraga?q=' + s.query);
+    this.$router.push('/pretraga' + s.query);
     console.log('radi', s)
   }
 
@@ -235,7 +235,7 @@ export default class spaseno extends Vue {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 36px 0px 24px 0px;
+  padding: 0px 0px 24px 0px;
   box-sizing: border-box;
 
   .no-image {
@@ -260,28 +260,32 @@ export default class spaseno extends Vue {
     flex-direction: row;
     align-items: center;
     margin-bottom: 36px;
+    border-bottom: 1px solid #EBEBEB !important;
 
     li {
-      font-size: 16px !important;
+      font-size: 14px !important;
       line-height: 26px !important;
       margin-right: 24px;
       padding-bottom: 8px;
+      height: 40px;
       position: relative;
       cursor: pointer;
+      text-transform: uppercase;
+      font-weight:500;
 
       &:last-child {
         margin-right: 0;
       }
 
       &.active {
-        font-weight: 600;
+        color: #0B8489;
         &::after {
           content: '';
           position: absolute;
           left: 0;
           right: 0;
           bottom: 0;
-          border-bottom: 1px solid #D63946;
+          border-bottom: 1px solid #0B8489;
         }
       }
     }
@@ -309,6 +313,7 @@ export default class spaseno extends Vue {
 
       &:last-child {
         flex: 1;
+        border-right: none;
       }
     }
   }
@@ -327,36 +332,36 @@ export default class spaseno extends Vue {
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+      border: 1px solid #e6dada;
       box-sizing: border-box;
       position: relative;
       border-radius: 10px;
-      height: 140px;
-      padding: 24px;
-      min-height: 140px;
+      height: 100px;
+      padding: 12px 0;
+      min-height: 100px;
       margin-bottom: 24px;
 
-      &::before {
-        position: absolute;
-        left: 0;
-        width: 20px;
-        height: 100%;
-        background: #f1f1f1;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-        content: "";
-      }
-
-      &::after {
-        position: absolute;
-        right: 0;
-        width: 20px;
-        height: 100%;
-        background: #f1f1f1;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-        content: "";
-      }
+      //&::before {
+      //  position: absolute;
+      //  left: 0;
+      //  width: 20px;
+      //  height: 100%;
+      //  background: #f1f1f1;
+      //  border-top-left-radius: 10px;
+      //  border-bottom-left-radius: 10px;
+      //  content: "";
+      //}
+      //
+      //&::after {
+      //  position: absolute;
+      //  right: 0;
+      //  width: 20px;
+      //  height: 100%;
+      //  background: #f1f1f1;
+      //  border-top-right-radius: 10px;
+      //  border-bottom-right-radius: 10px;
+      //  content: "";
+      //}
 
       &:last-child {
         margin-bottom: 0;
@@ -370,6 +375,10 @@ export default class spaseno extends Vue {
         flex-direction: column;
         justify-content: space-between;
         height: 100%;
+
+        &:last-child {
+          border-right: none;
+        }
 
         &.description {
           padding: 0 24px;
@@ -445,6 +454,10 @@ export default class spaseno extends Vue {
       }
     }
   }
+}
+
+h1 {
+  color: rgb(72, 72, 72) !important;
 }
 
 </style>

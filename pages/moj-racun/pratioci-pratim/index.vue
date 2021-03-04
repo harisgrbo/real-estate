@@ -94,29 +94,32 @@ ul.navs {
   flex-direction: row;
   align-items: center;
   margin-bottom: 36px;
-  margin-top: 36px;
+  border-bottom: 1px solid #EBEBEB !important;
 
   li {
-    font-size: 16px !important;
+    font-size: 14px !important;
     line-height: 26px !important;
     margin-right: 24px;
     padding-bottom: 8px;
+    height: 40px;
     position: relative;
     cursor: pointer;
+    text-transform: uppercase;
+    font-weight:500;
 
     &:last-child {
       margin-right: 0;
     }
 
     &.active {
-      font-weight: 600;
+      color: #0B8489;
       &::after {
         content: '';
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
-        border-bottom: 1px solid #D63946;
+        border-bottom: 1px solid #0B8489;
       }
     }
   }
@@ -127,5 +130,9 @@ ul.navs {
   grid-template-columns: repeat(3, 1fr);
   row-gap: 32px;
   column-gap: 24px;
+}
+
+h1 {
+  color: rgb(72, 72, 72) !important;
 }
 </style>
