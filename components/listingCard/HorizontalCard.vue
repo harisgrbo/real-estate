@@ -9,7 +9,6 @@
             <div class="title-box">
               <p>{{ listing.title }}</p>
             </div>
-            <font-awesome-icon icon="heart"></font-awesome-icon>
           </div>
 
           <!-- Potrebno u responsu vratitit ime grada, category slug i korisnika -->
@@ -21,7 +20,7 @@
           {{ listing.description }}
         </div>
         <div class="price">
-            <h1>REMAX nekretnine</h1>
+            <h1>{{ listing.user.name }}</h1>
           <div class="price-div">
             <p class="price-label">{{ listing.price }} KM</p>
             <b>{{ listing.is_rent? '/mj' : '' }}</b>
