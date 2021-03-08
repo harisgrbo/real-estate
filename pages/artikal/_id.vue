@@ -45,7 +45,7 @@
               </button>
               <button v-if="listing.user.id !== $auth.user.id" @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
                 <font-awesome-icon icon="heart"></font-awesome-icon>
-                {{ listingSaved? 'Izbriši iz spašenih' : 'Spasi oglas'}}
+                {{ listingSaved ? 'Izbriši iz spašenih' : 'Spasi oglas'}}
               </button>
               <button v-if="listing.user.id !== $auth.user.id">
                 <font-awesome-icon icon="share-square"></font-awesome-icon>
@@ -85,9 +85,13 @@
           <div class="separator"></div>
           <h2 class="heading">Detaljne informacije</h2>
           <div class="grid-layout">
-            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
+            <div class="detailed-info" v-for="info in normalAttributes">
               <span>{{ info.name }}</span>
               <span>{{ info.value }}</span>
+            </div>
+            <div class="detailed-info" v-for="info in checkboxAttributes">
+              <span>{{ info.name }}</span>
+              <span>{{ attrTranslate(info.value) }}</span>
             </div>
           </div>
           <div class="separator"></div>
@@ -196,6 +200,14 @@ export default class Artikal extends Vue {
     },
 
   ]
+
+  get normalAttributes() {
+    return this.listing.attributes.filter(item => item.value !== true && item.value !== false);
+  }
+
+  get checkboxAttributes() {
+    return this.listing.attributes.filter(item => ! (item.value !== true && item.value !== false));
+  }
 
   get lightboxImages() {
     return this.images.map((item) => {
