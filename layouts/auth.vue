@@ -1,11 +1,8 @@
 <template>
   <div class="auth-wrapper">
     <div class="form-wrap">
-      <img src="/logo.svg" class="logo" alt="logo">
+      <img src="/prozorMargina.png" class="logo" alt="logo" @click="$router.push('/')">
       <nuxt></nuxt>
-    </div>
-    <div class="auth-background">
-      <img src="/bg.png" alt="background">
     </div>
   </div>
 </template>
@@ -18,6 +15,27 @@ export default class Auth extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .auth-wrapper {
   display: flex;
   flex-direction: row;
@@ -29,18 +47,15 @@ export default class Auth extends Vue {
     flex-direction: column;
     margin: auto;
     width: 40%;
-    .logo {
-      height: 55px;
-      width: auto;
-      margin-bottom: 64px;
-    }
-  }
-  .auth-background {
-    width: 60%;
-    display: flex;
-    img {
-      height: 100%;
+
+    @include for-phone-only {
       width: 100%;
+    }
+    .logo {
+      width: 300px;
+      margin: 0 auto;
+      margin-bottom: 64px;
+      cursor: pointer;
     }
   }
 }

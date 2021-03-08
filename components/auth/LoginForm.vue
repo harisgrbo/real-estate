@@ -1,9 +1,11 @@
 <template>
   <div class="form-wrapper">
     <h2>Prijava</h2>
-    <TextField type="text" placeholder="Email" v-model="payload.username"></TextField>
-    <TextField type="password" placeholder="Lozinka" v-model="payload.password"></TextField>
-    <ActionButton placeholder="Prijavi se" @action="handleLogin" :loading="loading"></ActionButton>
+    <form @submit.prevent="handleLogin">
+      <TextField type="text" placeholder="Email" v-model="payload.username"></TextField>
+      <TextField type="password" placeholder="Lozinka" v-model="payload.password"></TextField>
+      <ActionButton placeholder="Prijavi se" :loading="loading"></ActionButton>
+    </form>
     <nuxt-link :to="{ path: '/auth/register' }">Nemate nalog? <p>Registruj se</p></nuxt-link>
     <Snackbar />
   </div>
@@ -28,25 +30,56 @@ export default class LoginForm extends Vue{
   }
   loading = false;
 
+  handleEnter(e) {
+    if (e.code === 'Enter') {
+      this.handleLogin();
+    }
+  }
+
   async handleLogin() {
     this.loading = true;
 
     try {
       await this.$auth.loginWith("local", { data: this.payload });
-      this.$auth.setUser(this.payload)
-      // this.$auth.$storage.setUniversal('user', this.payload, true)
-      this.loading = false
+      // this.$auth.setUser(this.payload)
       this.$router.push('/')
-
     } catch(e) {
-      this.loading = false
-      console.log(e)
+      if (e.response.status === 400) {
+        this.$snackbar.show({
+          text: "Pogresni podaci",
+          timeout: 1000,
+          type: 'danger'
+        })
+      }
+    } finally {
+      this.loading = false;
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .form-wrapper {
   width: 70%;
   margin: 0 auto;
@@ -54,10 +87,18 @@ export default class LoginForm extends Vue{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @include for-phone-only {
+    width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
+    height: 100%;
+  }
   h2 {
-    font-weight: 300;
-    margin-bottom: 36px;
-    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 24px;
+    text-align: left;
   }
   a {
     display: flex;
@@ -65,8 +106,10 @@ export default class LoginForm extends Vue{
     text-decoration: none;
     color: #000;
     text-align: center;
-    margin: 0 auto;
-    b {
+    margin: 24px auto 0 auto;
+    font-weight: 500;
+    p {
+      margin-left: 8px;
       color: #F3B86C;
     }
   }

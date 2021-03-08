@@ -2,28 +2,25 @@
   <div class="form-wrapper">
     <h2>Registracija</h2>
     <ul>
-      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :class="[ currentType === index ? 'active' : '' ]">{{ type }}</li>
+      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :id="index" :class="[ currentType === index ? 'active' : '' ]">{{ type }}</li>
     </ul>
     <!-- User registration -->
     <div v-if="currentType === 0">
-      <TextField type="text" placeholder="Email" v-model="userPayload.email"></TextField>
-      <TextField type="text" placeholder="Korisnicko ime" v-model="userPayload.name"></TextField>
-      <TextField type="password" placeholder="Lozinka" v-model="userPayload.password"></TextField>
-      <ActionButton placeholder="Registruj se kao korisnik" @action="handleUserRegistration" :loading="loading"></ActionButton>
-    </div>
-    <!-- Real estate agent registration -->
-    <div v-if="currentType === 1">
-      <TextField type="text" placeholder="Email" v-model="realEstateAgentPayload.email"></TextField>
-      <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgentPayload.name"></TextField>
-      <TextField type="password" placeholder="Lozinka" v-model="realEstateAgentPayload.password"></TextField>
-      <ActionButton placeholder="Registruj se kao agent" @action="handleRealEstateAgentRegistration" :loading="loading"></ActionButton>
+      <form @submit.prevent="handleUserRegistration">
+        <TextField type="text" placeholder="Email" v-model="userPayload.email"></TextField>
+        <TextField type="text" placeholder="Korisnicko ime" v-model="userPayload.name"></TextField>
+        <TextField type="password" placeholder="Lozinka" v-model="userPayload.password"></TextField>
+        <ActionButton placeholder="Registruj se kao fizičko lice" @action="handleUserRegistration" :loading="loading"></ActionButton>
+      </form>
     </div>
     <!-- Real estate agency registration -->
-    <div v-if="currentType === 2">
-      <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
-      <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgencyPayload.name"></TextField>
-      <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
-      <ActionButton placeholder="Registruj se kao agencija" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
+    <div v-if="currentType === 1">
+      <form @submit.prevent="handleRealEstateAgencyRegistration">
+        <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
+        <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgencyPayload.name"></TextField>
+        <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
+        <ActionButton placeholder="Registruj se kao pravno lice (agencija)" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
+      </form>
     </div>
     <nuxt-link :to="{ path: '/auth/login' }">Imate nalog? <p>Logujte se</p></nuxt-link>
     <Snackbar />
@@ -47,29 +44,22 @@ export default class RegisterForm extends Vue{
     email: '',
     password: '',
   }
-  realEstateAgentPayload = {
-    name: '',
-    email: '',
-    password: '',
-  }
   realEstateAgencyPayload = {
     name: '',
     email: '',
     password: '',
   }
   registrationTypes = [
-    'Korisnik',
-    'Agent za nekretnine',
-    'Agencija'
+    'Fizičko lice',
+    'Pravno lice (agencija)'
   ]
   currentType = 0;
   loading = false;
 
   config = {
     headers: { 'Content-Type': 'application/json' },
-    responseType: 'blob',
+    // responseType: 'blob',
   };
-
 
   // User registration
   handleUserRegistration() {
@@ -88,38 +78,13 @@ export default class RegisterForm extends Vue{
       })
       .catch(error => {
         this.loading = false;
-        console.log(error)
-        this.$snackbar.show({
-          text: "Unijeli ste pogresne informacije!",
-          timeout: 3000,
-          type: "danger"
-        });
-      })
-  }
-
-  // Real estate agent registration
-  handleRealEstateAgentRegistration() {
-    this.loading = true;
-
-    this.$axios
-      .post('/agents/register', this.realEstateAgentPayload, this.config)
-      .then(() => {
-        this.$auth.loggedIn;
-        this.loading = false;
-        this.$snackbar.show({
-          text: "Uspjesno ste se registrovali!",
-          timeout: 3000,
-          type: "success"
-        });
-      })
-      .catch(error => {
-        this.loading = false;
-        console.log(error)
-        this.$snackbar.show({
-          text: "Unijeli ste pogresne informacije!",
-          timeout: 3000,
-          type: "danger"
-        });
+        if (error.response.status === 422) {
+          this.$snackbar.show({
+            text: "Unijeli ste pogresne informacije!",
+            timeout: 3000,
+            type: "danger"
+          });
+        }
       })
   }
 
@@ -140,12 +105,13 @@ export default class RegisterForm extends Vue{
       })
       .catch(error => {
         this.loading = false;
-        console.log(error)
-        this.$snackbar.show({
-          text: "Unijeli ste pogresne informacije!",
-          timeout: 3000,
-          type: "danger"
-        });
+        if (error.response.status === 422) {
+          this.$snackbar.show({
+            text: "Unijeli ste pogresne informacije!",
+            timeout: 3000,
+            type: "danger"
+          });
+        }
       })
   }
 
@@ -153,6 +119,27 @@ export default class RegisterForm extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .form-wrapper {
   width: 70%;
   margin: 0 auto;
@@ -160,6 +147,13 @@ export default class RegisterForm extends Vue{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @include for-phone-only {
+    width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
+    height: 100%;
+  }
   div {
     display: flex;
     flex-direction: column;
@@ -167,15 +161,16 @@ export default class RegisterForm extends Vue{
     width: 100%;
   }
   h2 {
-    font-weight: 300;
-    margin-bottom: 36px;
-    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 24px;
+    text-align: left;
   }
   ul {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 64px;
+    margin-bottom: 32px;
     width: 100%;
     li {
       display: flex;
