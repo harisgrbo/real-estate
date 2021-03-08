@@ -93,7 +93,7 @@
 
           <p class="global-heading">Globalni obicni attributi</p>
 
-          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id" class="grid-filters">
+          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
             <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]" />
             <component
               :attr="attr"

@@ -5,9 +5,23 @@
         <div class="left">
           <h2>Zašto registrovati agenciju?</h2>
           <p>Komercijalni profil sa promocijom, izvještajima, statistikom i još mnogo toga. Idealno za sva pravna lica koja se bave trgovinom nekretninama. Prvih 30 dana korištenja je potpuno besplatno!</p>
+          <div class="button-wrapper">
+            <ActionButton placeholder="Registruj agenciju"></ActionButton>
+            <ActionButton placeholder="Objavi prvu nekretninu"></ActionButton>
+          </div>
+          <ul>
+            <li>
+              <img src="/check.svg" alt="">
+              <p>Prvi mjesec potpuno besplatno!</p>
+            </li>
+            <li>
+              <img src="/check.svg" alt="">
+              <p>Dodatni popust na pretplatu od 3, 6 i 12 mjeseci</p>
+            </li>
+          </ul>
         </div>
         <div class="right">
-          <img src="/grupisana.png" alt="">
+          <img src="/grafika.png" alt="">
         </div>
       </div>
     </div>
@@ -16,9 +30,12 @@
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import ActionButton from "@/components/actionButtons/ActionButton";
 
 @Component({
-  components: {},
+  components: {
+    ActionButton
+  },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home'
 })
 export default class ZastoRegistrovatiAgenciju extends Vue {
@@ -64,6 +81,39 @@ export default class ZastoRegistrovatiAgenciju extends Vue {
             font-size: 20px;
             line-height: 30px;
             padding-top: 36px;
+          }
+
+          .button-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            button:first-child {
+              margin-right: 8px;
+            }
+
+            button:last-child {
+              margin-left: 8px;
+            }
+          }
+
+          ul {
+            li {
+              height:30px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+
+              img {
+                margin-right: 24px;
+              }
+
+              p {
+                line-height: 24px;
+                font-size: 20px;
+                margin-top: 0;
+              }
+            }
           }
         }
 
