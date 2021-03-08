@@ -1,11 +1,11 @@
 <template>
     <div class="term-wrapper">
-      <label>{{ displayName }}</label>
+      <label>{{ displayName }} </label>
         <select v-if="filter.values" @change="handleChange">
             <option value="">...</option>
             <option v-for="option in filter.values" :value="option">{{ option }}</option>
         </select>
-        <input v-else :value="set ? value.value: null" @keyup.prevent="handleChange" />
+        <input v-else v-model="checked" type="checkbox" @input="handleChange" />
     </div>
 </template>
 
@@ -17,9 +17,15 @@ import { Vue, Component } from "nuxt-property-decorator";
   mixins: [FilterMixin]
 })
 export default class TermFilter extends Vue {
+  checked = false
+
+  created() {
+    this.checked = this.set ? this.value.value: false;
+  }
+
   handleChange(e) {
-    if(e.target.value.length) {
-      this.$emit('input', this.buildValue('term', e.target.value))
+    if(this.checked === false) {
+      this.$emit('input', this.buildValue('term', (! this.checked) + ''))
     } else {
       this.clear()
     }
@@ -39,6 +45,18 @@ export default class TermFilter extends Vue {
     text-transform: uppercase;
     margin-bottom: 16px;
   }
+
+}
+
+label {
+  cursor: pointer;
+  width: 80px;
+  height: 30px;
+  background: #f1f1f1;
+  display: flex;
+  border-radius: 100px;
+  position: relative;
+  transition: 0.3s;
 
 }
 </style>
