@@ -28,6 +28,11 @@ export default class PremiumAgency extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .most-visited-card {
   display: flex;
   box-sizing: border-box;
@@ -35,6 +40,10 @@ export default class PremiumAgency extends Vue {
   box-shadow: rgb(0 0 0 / 12%) 0px 3px 9px;
   border-radius: 10px;
   padding: 12px;
+
+  @include for-phone-only {
+    flex-direction: column;
+  }
 
   img {
     height: 120px;
@@ -44,6 +53,10 @@ export default class PremiumAgency extends Vue {
     object-fit: contain;
     padding: 12px;
     box-sizing: border-box;
+
+    @include for-phone-only {
+      width: 100%;
+    }
   }
 
   .info-wrap {

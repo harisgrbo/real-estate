@@ -2,7 +2,7 @@
   <div class="mobile-bottom-navbar">
       <font-awesome-icon icon="th-large" @click="openCategoriesModal"></font-awesome-icon>
       <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"></font-awesome-icon>
-      <font-awesome-icon icon="plus" @click="$router.push('/publish')"></font-awesome-icon>
+      <font-awesome-icon icon="plus" @click="$router.push('/publish')" class="publish-btn"></font-awesome-icon>
       <font-awesome-icon icon="user" @click="$auth.user? $router.push('/users/' + $auth.user.id) : $router.push('/auth/login')"></font-awesome-icon>
       <font-awesome-icon icon="bars" @click="openSidebarMenu"></font-awesome-icon>
 
@@ -75,17 +75,20 @@ export default class MobileBottomNavbar extends Vue {
 <style scoped lang="scss">
   .mobile-bottom-navbar {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 12px;
+    left: 12px;
+    box-sizing: border-box;
+    right: 12px;
     height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
+    border-radius:10px;
     z-index: 5;
     padding: 0 24px;
-    box-shadow: rgb(0 0 0 / 8%) 12px -1px 12px;
+    -webkit-box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
+    box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
 
     svg {
       font-size: 20px;
@@ -94,6 +97,13 @@ export default class MobileBottomNavbar extends Vue {
       &.fa-plus {
         color: #D63946;
       }
+    }
+
+    .publish-btn {
+      background-color: #D63946;
+      color: #fff !important;
+      border-radius:10px;
+      padding: 8px;
     }
   }
 </style>

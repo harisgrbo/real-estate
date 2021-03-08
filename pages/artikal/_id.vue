@@ -1,5 +1,12 @@
 <template>
   <div class="listing-wrapper">
+    <div v-if="$device.isMobile" class="mobile-topbar">
+      <font-awesome-icon icon="angle-left"></font-awesome-icon>
+      <div>
+        <font-awesome-icon icon="heart"></font-awesome-icon>
+        <font-awesome-icon icon="heart"></font-awesome-icon>
+      </div>
+    </div>
     <div class="listing-content">
       <div class="grid-container">
         <div class="img-counter">
@@ -31,7 +38,7 @@
         <div class="listing-content-wrapper">
           <div class="article-title">
             <h2>{{ listing.title }}</h2>
-            <div class="buttons" v-if="$auth.user">
+            <div class="buttons" v-if="$auth.user && $device.isMobile === false">
               <button>
                 <font-awesome-icon icon="minus-circle"></font-awesome-icon>
                 Prijavi oglas
@@ -128,7 +135,7 @@ import SingleQuestion from "@/components/SingleQuestion"
     UserProfile,
     SingleQuestion,
   },
-  layout() { return "home" },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
   async asyncData(ctx) {
     let listing = null;
     let user = null
@@ -308,9 +315,7 @@ export default class Artikal extends Vue {
 
   async created() {
 
-    console.log(this.listing)
     await this.getQuestions();
-    console.log(this.listing.attributes)
     this.isUserFollowed = this.isFollowed;
   }
 
@@ -322,6 +327,12 @@ export default class Artikal extends Vue {
 
 <style scoped lang="scss">
 
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .item1 {
   grid-area: main;
 
@@ -329,29 +340,45 @@ export default class Artikal extends Vue {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     min-height: 100%;
+
+    @include for-phone-only {
+      border-radius: 0;
+    }
   }
 }
 .item2 {
   grid-area: small1;
   img {
     border-top-right-radius: 10px;
+    @include for-phone-only {
+      border-radius: 0;
+    }
   }
 }
 .item3 {
   grid-area: small1;
   img {
     border-top-right-radius: 10px;
+    @include for-phone-only {
+      border-radius: 0;
+    }
   }
 }
 .item4 {
   grid-area: small3;
   border-bottom-right-radius: 10px;
+  @include for-phone-only {
+    border-radius: 0;
+  }
 }
 
 .item4 {
   grid-area: small4;
   img {
     border-bottom-right-radius: 10px;
+    @include for-phone-only {
+      border-radius: 0;
+    }
   }
 }
 
@@ -362,6 +389,10 @@ export default class Artikal extends Vue {
   'main main main small1 small1'
   'main main main small3 small4';
   grid-gap: 12px;
+
+  @include for-phone-only {
+    grid-gap: 1px;
+  }
 
   .img-counter {
     position: absolute;
@@ -376,6 +407,14 @@ export default class Artikal extends Vue {
     color: #fff;
     background: #000;
     align-items: center;
+
+    @include for-phone-only {
+      bottom: 12px;
+      top: inherit;
+      background: #0006;
+      font-size: 13px;
+      padding: 0 8px;
+    }
 
     svg {
       margin-right: 8px;
@@ -401,6 +440,11 @@ export default class Artikal extends Vue {
   flex-direction: row;
   height: calc(100vh - 100px);
   padding-top: 36px;
+
+  @include for-phone-only {
+    height: calc(100vh - 78px);
+    padding-top: 0;
+  }
   .profile-content {
     width: 20%;
     height: fit-content;
@@ -408,17 +452,33 @@ export default class Artikal extends Vue {
   .listing-content {
     width: 70%;
     margin: 0 auto;
+
+    @include for-phone-only {
+      width: 100%;
+    }
+
     .listing-content-inner {
       display: flex;
       flex-direction: row;
       width: 100%;
       padding-top: 24px;
       position: relative;
+
+      @include for-phone-only {
+        flex-direction: column;
+        padding: 0 12px;
+        box-sizing: border-box;
+        padding-bottom: 120px;
+      }
       .listing-content-wrapper {
         display: flex;
         flex-direction: column;
         width: 67%;
         padding-bottom: 32px;
+
+        @include for-phone-only {
+          width: 100%;
+        }
       }
       .article-title {
         display: flex;
@@ -548,6 +608,7 @@ export default class Artikal extends Vue {
   flex-direction: column;
   padding: 0 24px;
 
+
   .modal-content {
     padding: 24px 0;
     textarea {
@@ -601,6 +662,17 @@ export default class Artikal extends Vue {
 .user-wrap {
   width: 33%;
   margin-left: 24px;
+
+  @include for-phone-only {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  ::v-deep .user-content-wrapper{
+    @include for-phone-only {
+      marign-left: 0 !important;
+    }
+  }
 }
 
 .detailed-info {
@@ -674,6 +746,11 @@ export default class Artikal extends Vue {
   padding: 0;
   grid-template-columns: repeat( auto-fill, minmax(220px, 1fr) );
   grid-row-gap: 12px;
+
+  @include for-phone-only {
+    grid-template-columns: repeat( 2, 1fr);
+
+  }
 }
 
 ::v-deep img.vue-lb-modal-image {
@@ -711,6 +788,35 @@ export default class Artikal extends Vue {
     font-family: 'Montserrat', sans-serif;
     &:focus {
       outline: none;
+    }
+  }
+}
+
+.mobile-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff4f;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  height: 60px;
+  z-index: 3;
+
+
+  svg {
+    font-size: 22px;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+
+    svg:last-child {
+      margin-left: 24px;
     }
   }
 }

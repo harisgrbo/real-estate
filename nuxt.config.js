@@ -62,7 +62,7 @@ export default {
 
   fontawesome: {
     icons: {
-      solid: ['faAngleRight', 'faAngleLeft', 'faArrowCircleRight', 'faImages', 'faReply', 'faTrashAlt', 'faMinusCircle', 'faUserSlash', 'faReplyAll', 'faEllipsisV', 'faThLarge', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faTh', 'faCog', 'faBars', 'faUser', 'faUserPlus', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faHome', 'faBullhorn', 'faDoorClosed', 'faVectorSquare', 'faHeart', 'faCoins', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faCheckSquare', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
+      solid: ['faAngleRight', 'faAngleLeft', 'faArrowCircleRight', 'faImages', 'faReply', 'faTrashAlt', 'faMinusCircle', 'faUserSlash', 'faReplyAll', 'faEllipsisV', 'faThLarge', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faTh', 'faCog', 'faBars', 'faUser', 'faUserPlus', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faHome', 'faBullhorn', 'faDoorClosed', 'faVectorSquare', 'faHeart', 'faCoins', 'faFileUpload', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faCheckSquare', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
     }
   },
   // Modules (https://go.nuxtjs.dev/config-modules)

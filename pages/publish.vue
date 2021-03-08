@@ -5,8 +5,8 @@
       <div class="filler" :style="{ width: completion + '%' }"></div>
     </div>
     <Snackbar />
-    <div v-if="!$device.isMobile" class="progress-wrapper">
-        <p>Postotak objave: {{ completion.toFixed() }} %</p>
+      <div v-if="!$device.isMobile" class="progress-wrapper">
+        <h1 class="heading">Postotak objave: {{ completion.toFixed() }} %</h1>
         <client-only>
           <radial-progress-bar :diameter="200"
                                :animateSpeed="300"
@@ -19,6 +19,23 @@
                                innerStrokeColor="#f1f1f1"
           />
         </client-only>
+        <div class="radial-steps">
+          <p>
+            Unošenjem što više informacija o Vašem oglasu, omogućujete da on bude vidljiviji većem broju korisnika. Oglasi sa preko 80% popunjenih informacija ulaze u listu najpregledavanijih na sajtu.
+          </p>
+          <h1 class="heading">Koraci:</h1>
+          <ul class="steps-main">
+            <li :class="[currentStep === steps.STEP_ONE? 'active' : '']">
+              Osnovne informacije
+            </li>
+            <li :class="[currentStep === steps.STEP_TWO? 'active' : '']">
+              Obavezne informacije
+            </li>
+            <li :class="[currentStep === steps.STEP_THREE? 'active' : '']">
+              Slike
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="content-wrapper">
@@ -650,15 +667,30 @@ export default class Publish extends Vue {
       flex: 2;
       background: #fff;
       padding: 24px;
+      padding-top: 0;
       box-sizing: border-box;
       flex-direction: column;
+      padding-right: 0;
 
-      p {
+      p.main {
         font-weight: 500;
         font-size: 18px;
         border-bottom: 1px solid #f1f1f1;
         padding-bottom: 24px;
         margin-bottom: 24px;
+
+        position: relative;
+        border-bottom: 1px solid #f1f1f1;
+        padding-bottom: 24px;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 50px;
+          border-bottom: 1px solid #0B8489;
+        }
       }
 
       ::v-deep .radial-progress-container {
@@ -673,9 +705,9 @@ export default class Publish extends Vue {
     .content-wrapper {
       display: flex;
       flex: 8;
-      padding: 24px;
+      padding: 0 24px;
       background: #fff;
-      margin-left: 24px;
+      margin-left: 32px;
       box-sizing: border-box;
       position: relative;
       border-left: 1px solid #f1f1f1;
@@ -717,7 +749,7 @@ export default class Publish extends Vue {
         }
 
         .button-wrapper {
-          height: 60px;
+          height: 80px;
           width: 100%;
           display: flex;
           align-items: center;
@@ -733,20 +765,22 @@ export default class Publish extends Vue {
 
 
           button {
-            padding: 0 12px;
+            padding: 0 24px;
             height: 50px;
             width: fit-content;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
-            border-radius: 8px;
+            border-radius: 4px;
             outline: none;
             border: none;
-            background: #757b9a !important;
+            background: #D63946 !important;
             color: #fff;
             font-weight: 500 !important;
             transition: 0.3s all ease;
+            margin-bottom: 0;
+            font-family: 'Montserrat', sans-serif;
 
             &.back {
               margin-right: 24px;
@@ -880,6 +914,77 @@ export default class Publish extends Vue {
 
   ::v-deep #map {
     margin-top: 0;
+  }
+}
+
+.steps-main li {
+  &.active {
+    font-weight: 600;
+  }
+}
+
+.radial-steps {
+  p {
+    padding-top: 24px;
+    margin-top: 24px;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 22px !important;
+    margin-bottom: 24px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    padding: 16px;
+    box-sizing: border-box;
+    border-top: none;
+  }
+
+  h1 {
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 24px;
+    position: relative;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 24px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      border-bottom: 1px solid #0B8489;
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    li {
+      height: 40px;
+      display: flex;
+      align-items: center
+    }
+  }
+}
+
+h1.heading {
+  color: #484848 !important;
+  font-weight: 500 !important;
+  padding-bottom: 24px;
+  font-size: 22px !important;
+  border-bottom: 1px solid #EBEBEB !important;
+  position: relative;
+  margin-top: 24px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 80px;
+    height: 1px;
+    background: #0B8489;
   }
 }
 </style>

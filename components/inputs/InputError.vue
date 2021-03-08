@@ -18,5 +18,9 @@ export default class InputError extends Vue {
 <style scoped>
   .error {
     color: red;
+    position: absolute;
+    top: -10px;
+    left: 0;
+    z-index: 3;
   }
 </style>

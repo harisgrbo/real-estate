@@ -30,7 +30,7 @@
     </div>
     <div class="second-row">
       <div class="img-wrapper">
-        <img :src="[ $device.isMobile ? '/logo-single.png' : '/newlogo.png']" class="main-logo" alt="" @click="$router.push('/')">
+        <img :src="[ $device.isMobile ? '/mobile1.png' : '/desktop.png']" class="main-logo" alt="" @click="$router.push('/')">
       </div>
       <button v-if="!$device.isMobile" class="categories" @click="toggleCategories">
         KATEGORIJE
@@ -43,7 +43,7 @@
       >
         <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']">
           <i class="material-icons">search</i>
-          <p>Pretrazi</p>
+          <p>Pretraži</p>
         </button>
         <input type="text"
                ref="search"
@@ -86,7 +86,7 @@
         </div>
       </div>
       <nuxt-link :to="{ path: '/publish'}" class="publish" v-if="!$device.isMobile">
-        <p>Objavi</p>
+        <p>Objavi oglas</p>
       </nuxt-link>
     </div>
     <client-only>
@@ -422,12 +422,10 @@ export default class Navbar extends Vue{
     }
 
     img {
-      height: 30px;
-      max-height: 30px;
+      height: 41px;
 
       @include for-phone-only {
-        height: 30px;
-        padding: 16px 0;
+        height: 48px;
       }
     }
   }
@@ -726,7 +724,7 @@ export default class Navbar extends Vue{
     justify-content: center;
     font-size: 14px;
     font-weight: 500;
-    border-radius: 8px;
+    border-radius: 4px;
     outline: none;
     color: #fff;
     background: #D63946;

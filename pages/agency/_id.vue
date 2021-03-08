@@ -12,15 +12,14 @@
         <div class="contact-buttons" v-if="isMe">
           <ActionButton @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane"></ActionButton>
         </div>
-        <div class="contact-buttons" v-else>
+        <div class="contact-buttons grid" v-else>
           <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" icon="paper-plane"></ActionButton>
           <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>
-          <button class="save">
-            <font-awesome-icon icon="heart"></font-awesome-icon>
-            Spasi agenciju
-          </button>
         </div>
-
+        <button class="save">
+          <font-awesome-icon icon="heart"></font-awesome-icon>
+          Spasi agenciju
+        </button>
       </div>
       <div class="second-col">
         <h2>Lokacija</h2>
@@ -52,11 +51,14 @@
           </li>
           <li>
             <p>ID</p>
-            <b>{{ user.id }}</b>
+<!--            <b>{{ user.id }}</b>-->
           </li>
           <li>
             <p>Web</p>
             <b>www.agencija.ba</b>
+          </li>
+          <li>
+            <UserMedals></UserMedals>
           </li>
         </ul>
       </div>
@@ -72,7 +74,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
+            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
           </div>
         </div>
         <div v-if="activeTab === 1" >
@@ -81,7 +83,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa' }}</p>
+            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa' }}</p>
           </div>
         </div>
         <div v-if="activeTab === 2" >
@@ -90,7 +92,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Agencija nema ostavljenih dojmova' }}</p>
+            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Agencija nema ostavljenih dojmova' }}</p>
           </div>
         </div>
       </div>
@@ -116,9 +118,10 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import Snackbar from "@/components/global/Snackbar";
 import PublishMap from "@/components/publish/PublishMap";
+import UserMedals from "@/components/UserMedals"
 
 @Component({
-  components: {ListingCard, Snackbar, PublishMap},
+  components: {ListingCard, Snackbar, PublishMap, UserMedals},
   layout() { return "home" }
 })
 
@@ -146,6 +149,7 @@ export default class Agencies extends Vue {
   }
 
   async created() {
+    console.log(this.$route.params.id)
     await this.fetchUser(this.$route.params.id)
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
@@ -269,10 +273,11 @@ export default class Agencies extends Vue {
     border-radius: 12px;
     justify-content: space-between;
     padding: 24px;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     height: fit-content;
     width: 100%;
     box-sizing: border-box;
+    border: 1px solid #efefef;
 
     .first-col {
       display: flex;
@@ -294,7 +299,7 @@ export default class Agencies extends Vue {
         height: fit-content;
 
         img {
-          height: 100px;
+          height: 153px;
           width: 100%;
           border-radius: 8px;
           object-fit: cover;
@@ -351,6 +356,19 @@ export default class Agencies extends Vue {
             background: transparent;
             border: 1px solid #D63946;
             color: #D63946;
+          }
+        }
+
+        &.grid {
+          display: flex;
+          flex-direction: row;
+
+          button:first-child {
+            margin-right: 8px;
+          }
+
+          button:last-child {
+            margin-left: 8px;
           }
         }
       }
@@ -478,6 +496,10 @@ export default class Agencies extends Vue {
     font-weight: 500;
   }
 
+  i {
+    cursor: pointer;
+  }
+
   svg {
     cursor: pointer;
   }
@@ -520,8 +542,7 @@ export default class Agencies extends Vue {
   cursor: pointer;
   justify-content: center;
   width: fit-content;
-  margin: 0 auto;
-  margin-top: 24px;
+  margin-top: 8px;
 
   svg {
     color: #444;

@@ -72,7 +72,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa' }}</p>
+            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa' }}</p>
           </div>
         </div>
         <div v-if="activeTab === 1">
@@ -81,7 +81,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Korisnik nema završenih oglasa' }}</p>
+            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Korisnik nema završenih oglasa' }}</p>
           </div>
         </div>
         <div v-if="activeTab === 2">
@@ -90,7 +90,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Korisnik nema ostavljenih dojmova' }}</p>
+            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Korisnik nema ostavljenih dojmova' }}</p>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@ import Snackbar from "@/components/global/Snackbar";
 
 @Component({
   components: {ListingCard, Snackbar},
-  layout() { return "home" },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
   async asyncData(ctx) {
     let user = null
     let meta = null
@@ -163,6 +163,7 @@ export default class Users extends Vue {
   }
 
   async created() {
+    console.log(this.$route)
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
   }
@@ -261,6 +262,12 @@ export default class Users extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .user-profile-wrapper {
   display: flex;
   flex-direction: row;
@@ -270,6 +277,12 @@ export default class Users extends Vue {
   width: 1280px;
   margin: 0 auto;
   box-sizing: border-box;
+
+  @include for-phone-only {
+    flex-direction: column;
+    width: 100%;
+    padding: 12px;
+  }
 
   .user-content-wrapper {
     position: sticky;
@@ -282,6 +295,10 @@ export default class Users extends Vue {
     //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     height: fit-content;
     min-width: 24%;
+
+    @include for-phone-only {
+      position: static;
+    }
 
     .user-info {
       display: flex;
@@ -391,6 +408,12 @@ export default class Users extends Vue {
     width: 100%;
     padding: 0px 24px 24px 36px;
     box-sizing: border-box;
+
+    @include for-phone-only {
+      padding: 0px;
+      padding-top: 36px;
+      padding-bottom: 120px;
+    }
 
     ul {
       width: 100%;

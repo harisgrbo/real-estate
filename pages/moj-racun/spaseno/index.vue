@@ -36,7 +36,7 @@
                       <font-awesome-icon icon="search"></font-awesome-icon>
                       Idi na pretragu
                     </button>
-                    <button class="save" @click="deleteSingleSearch(search.id)">
+                    <button class="save delete" @click="deleteSingleSearch(search.id)">
                       <font-awesome-icon icon="trash-alt"></font-awesome-icon>
                       Izbrisi pretragu
                     </button>
@@ -403,7 +403,7 @@ export default class spaseno extends Vue {
               justify-content: center;
               width: fit-content;
               svg {
-                color: #444;
+                color: #0B8489;
                 height: 16px;
                 margin-right: 8px;
               }
@@ -411,6 +411,13 @@ export default class spaseno extends Vue {
               &:hover {
                 background: rgb(247, 247, 247) !important;
                 text-decoration: underline;
+              }
+
+              &.delete {
+
+                svg {
+                   color: red;
+                }
               }
             }
 

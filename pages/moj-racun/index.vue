@@ -116,9 +116,21 @@ export default class accountpage extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .account-wrapper-a {
   padding-top: 126px !important;
   height: calc(100vh - 126px);
+
+  @include for-phone-only {
+    padding-top: 78px !important;
+    height: calc(100vh - 78px);
+  }
 
   .account-wrapper-inner {
     display: flex;
@@ -128,6 +140,10 @@ export default class accountpage extends Vue {
     margin: 0 auto;
     box-sizing: border-box;
 
+    @include for-phone-only {
+      width: 100%;
+    }
+
     .sidenav {
       display: flex;
       flex: 2;
@@ -136,6 +152,11 @@ export default class accountpage extends Vue {
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;
+
+      @include for-phone-only {
+        padding: 12px;
+      }
+
 
       .info {
         display: flex;
@@ -183,6 +204,10 @@ export default class accountpage extends Vue {
         grid-gap: 12px;
         row-gap: 12px;
 
+        @include for-phone-only {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
         li {
           display: flex;
           height: fit-content;
@@ -193,6 +218,10 @@ export default class accountpage extends Vue {
           border-radius: 8px;
           box-sizing: border-box;
           cursor: pointer;
+
+          @include for-phone-only {
+            padding: 12px;
+          }
 
           a {
             display: flex;
@@ -210,6 +239,12 @@ export default class accountpage extends Vue {
             color:rgb(72, 72, 72) !important;
             margin-top: 12px;
             font-weight: 600;
+
+            @include for-phone-only {
+              font-size: 16px;
+              font-weight: 600;
+              margin-top: 0;
+            }
           }
 
           p {
@@ -218,6 +253,10 @@ export default class accountpage extends Vue {
             line-height: 1.375em !important;
             height: 50px;
             color:rgb(72, 72, 72) !important;
+
+            @include for-phone-only {
+              font-size: 14px;
+            }
           }
         }
       }

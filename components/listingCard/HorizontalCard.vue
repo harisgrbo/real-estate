@@ -7,9 +7,7 @@
         <div class="column">
           <div class="title-price">
             <div class="title-box">
-              <p>Stan</p>
-              <p>Sarajevo</p>
-              <p>Dolac Malta</p>
+              <p>{{ listing.title }}</p>
             </div>
             <font-awesome-icon icon="heart"></font-awesome-icon>
           </div>
@@ -24,9 +22,9 @@
         </div>
         <div class="price">
             <h1>REMAX nekretnine</h1>
-          <div>
+          <div class="price-div">
             <p class="price-label">{{ listing.price }} KM</p>
-            <p v-if="listing.listing_type === 'rent'">/ mj</p>
+            <b>{{ listing.is_rent? '/mj' : '' }}</b>
           </div>
         </div>
       </div>
@@ -108,8 +106,8 @@ a {
     left: 8px;
     top: 32px;
     border-radius: 5px;
-    background: #00000080;
-    color: #fff;
+    background: #fff;
+    color: #000;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -120,6 +118,7 @@ a {
     font-size: 12px;
     text-transform: none;
     z-index: 2;
+    box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
   }
 
   img {
@@ -159,8 +158,17 @@ a {
         font-weight: 600;
       }
 
-      p {
-        font-weight: 600;
+      .price-div {
+        display: flex;
+        align-items: center;
+        p {
+          font-weight: 500;
+        }
+
+        b {
+          margin-left: 12px;
+
+        }
       }
     }
 

@@ -19,6 +19,7 @@
             Fizicko lice
           </span>
         </div>
+        <UserMedals></UserMedals>
       </div>
     </div>
     <div class="separator"></div>
@@ -78,10 +79,12 @@
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import Snackbar from "@/components/global/Snackbar";
+import UserMedals from "@/components/UserMedals";
 
 @Component({
   components: {
-    Snackbar
+    Snackbar,
+    UserMedals
   },
 })
 
@@ -188,6 +191,11 @@ export default class UserProfile extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .user-content-wrapper {
   position: sticky;
   top: 144px;
@@ -199,6 +207,10 @@ export default class UserProfile extends Vue {
   padding: 24px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
   height: fit-content;
+
+  @include for-phone-only {
+    margin-left: 0 !important;
+  }
 
   .user-info {
     display: flex;
@@ -221,7 +233,7 @@ export default class UserProfile extends Vue {
       flex-direction: column;
       justify-content: space-between;
       margin-left: 12px;
-      height: 56px;
+      height: fit-content;
       width: 100%;
 
       .rating {
@@ -245,6 +257,7 @@ export default class UserProfile extends Vue {
 
       .buttons {
         display: flex;
+        padding-top: 8px;
 
         span {
           margin-right: 8px;

@@ -1,8 +1,8 @@
 <template>
   <div class="upravljanje-wrapper">
-    <h2>Izaberite oglase koje želite grupisati</h2>
     <div class="grouped-inner">
       <div class="left">
+        <h2 class="heading">Izaberite oglase koje želite grupisati</h2>
         <div class="grid-layout">
           <div v-for="listing in listings" @click.stop.prevent="addToSelected(listing)" class="overlay">
             <div :class="['blur', selectedListings.includes(listing) ? 'blured' : '']">
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="right" v-if="selectedListings.length">
-        <h2>Odabrani oglasi:</h2>
+        <h2 class="heading">Odabrani oglasi:</h2>
 
         <div class="mini-wrapper">
           <div v-for="listing in selectedListings" :listing="listing" :key="listing.id" class="mini-card">
@@ -144,6 +144,7 @@ export default class GrupisanjeOglasa extends Vue {
       padding-bottom: 78px;
       position: relative;
       display:flex;
+      flex-direction: column;
       flex: 4;
       .fixed-btn {
         position: fixed;
@@ -255,5 +256,25 @@ export default class GrupisanjeOglasa extends Vue {
     }
   }
 
+}
+
+.heading {
+  color: rgb(72, 72, 72) !important;
+  font-weight: 500 !important;
+  padding-bottom: 24px;
+  font-size: 22px !important;
+  border-bottom: 1px solid #EBEBEB !important;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 80px;
+    height: 1px;
+    background: #0B8489;
+  }
 }
 </style>

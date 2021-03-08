@@ -73,6 +73,7 @@ export default class Categories extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   .loading {
     height: 40px;

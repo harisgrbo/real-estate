@@ -182,6 +182,7 @@
 
   @include for-phone-only {
     padding-bottom: 90px;
+    padding: 0 12px;
   }
 
   h1 {
@@ -209,7 +210,7 @@
   grid-column-gap: 16px !important;
 
   @include for-phone-only {
-    padding: 0 12px;
+    padding: 0px;
   }
 }
 
@@ -221,6 +222,11 @@
   margin: 42px 0 36px 0;
   border-bottom: 1px solid #EBEBEB !important;
 
+  @include for-phone-only {
+    min-width: 100%;
+    overflow-x: scroll;
+  }
+
   li {
     font-size: 14px !important;
     line-height: 26px !important;
@@ -231,6 +237,10 @@
     cursor: pointer;
     text-transform: uppercase;
     font-weight:500;
+
+    @include for-phone-only {
+      min-width: fit-content;
+    }
 
     &:last-child {
       margin-right: 0;
@@ -261,7 +271,15 @@
 
   &.agencies {
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-column-gap: 24px;
     grid-row-gap: 24px;
+
+    @include for-phone-only {
+      grid-template-columns: repeat(2, 1fr);
+      box-sizing: border-box;
+      grid-column-gap: 12px;
+      grid-row-gap: 12px;
+    }
   }
 }
 

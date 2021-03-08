@@ -1,6 +1,6 @@
 <template>
-  <div class="home-wrapper">
-    <Navbar></Navbar>
+  <div class="home-wrapper" :class="[ $route.name === 'artikal-id'? 'artikal-page' : '' ]">
+    <Navbar v-if="$route.name !== 'artikal-id'"></Navbar>
     <Nuxt />
     <MobileBottomNavbar></MobileBottomNavbar>
   </div>
@@ -43,6 +43,9 @@ export default class Mobile extends Vue {
 
 .home-wrapper {
   padding-top: 62px !important;
+  &.artikal-page {
+    padding-top: 0 !important;
+  }
 }
 </style>
 

@@ -162,6 +162,10 @@ export default class Homepage extends Vue {
     this.$modal.show('save-search');
   }
 
+  created() {
+    console.log(this.results)
+  }
+
   getResultKey(listing) {
     return `${listing.id}-${this.$route.query.q}`
   }
@@ -217,7 +221,7 @@ export default class Homepage extends Vue {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 107px);
   position: relative;
   padding-top: 107px;
   overflow: hidden;

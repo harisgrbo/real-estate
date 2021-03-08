@@ -79,10 +79,8 @@
 
 .account-wrapper {
   display: flex;
-  height: calc(100vh - 107px);
   width: 1400px;
   margin: 0 auto;
-  padding: 24px;
   box-sizing: border-box;
   flex-direction: column;
   overflow: scroll;
@@ -120,4 +118,8 @@
   font-weight: 600 !important;
   line-height: 1.125em !important;
   margin-bottom: 36px !important;
+}
+
+#__nuxt {
+  overflow-x: hidden;
 }

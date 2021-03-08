@@ -15,7 +15,7 @@
         <h2>Verifikacija e-mail adrese</h2>
         <small>Nakon što kliknete dugme "pošaljite verifikacijski e-mail" na vašu e-mail adresu će biti dostavljen e-mail sa linkom koji trebate kliknuti kako bi izvršili i finalizirali verifikaciju Vašega profila putem e-maila. Ako verifikacijski e-mail ne možete pronaći u Vašem inboxu, pogledajte u folderima Junk ili Spam.</small>
         <div class="verify-info">
-          <img src="/notverified.svg" alt="">
+          <img src="/neverifikovan.svg" alt="">
           <p>Email nije verifikovan</p>
         </div>
         <ActionButton placeholder="Pošalji verifikacijski e-mail"></ActionButton>
@@ -24,7 +24,7 @@
         <h2>Verifikacija broja telefona</h2>
         <small>Nakon što kliknete dugme "pošaljite verifikacijski e-mail" na vašu e-mail adresu će biti dostavljen e-mail sa linkom koji trebate kliknuti kako bi izvršili i finalizirali verifikaciju Vašega profila putem e-maila. Ako verifikacijski e-mail ne možete pronaći u Vašem inboxu, pogledajte u folderima Junk ili Spam.</small>
         <div class="verify-info">
-          <img src="/notverified.svg" alt="">
+          <img src="/verifikovan.svg" alt="">
           <p>Broj telefona nije verifikovan</p>
         </div>
         <h3>Molimo Vas da unesete Vaš broj telefona</h3>
@@ -90,13 +90,18 @@ export default class Verifikacija extends Vue {
   .verify-box {
     display: flex;
     //border: 3px solid #d1d1d1;
-    width: 100%;
-    border-radius: 10px;
+    flex: 1;
     flex-direction: column;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
-    border: 1px solid #0B8489;
-    padding: 24px;
-    height: fit-content;
+    //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    //border: 1px solid #0B8489;
+    height: 100%;
+
+
+    &:first-child {
+      margin-right: 32px;
+      padding-right: 32px;
+      border-right: 1px solid #ebebeb;
+    }
 
     h2 {
       font-weight: 500;
@@ -164,16 +169,6 @@ export default class Verifikacija extends Vue {
     ::v-deep button {
       margin-top: 0;
       background: #0B8489;
-    }
-
-
-
-    &:first-child {
-      margin-right: 12px;
-    }
-
-    &:last-child {
-      margin-left: 12px;
     }
   }
 }

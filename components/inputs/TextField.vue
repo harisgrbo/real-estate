@@ -48,7 +48,8 @@ export default class TextField extends Vue{
     border-radius: 4px;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
+    font-family: 'Montserrat', sans-serif;
+    padding: 0 12px;
     margin-right: 24px;
     transition: 0.1s all ease;
     box-sizing: border-box;
