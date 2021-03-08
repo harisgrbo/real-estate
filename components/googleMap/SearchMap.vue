@@ -4,6 +4,7 @@
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import InfoWindow from '@/components/InfoWindow'
 
 @Component({
 })
@@ -17,7 +18,6 @@ export default class SearchMap extends Vue{
   }) center;
   @Prop() loaded;
 
-
   map = null;
   markers = [];
   markerCluster = null;
@@ -26,6 +26,27 @@ export default class SearchMap extends Vue{
 
   mounted() {
     this.initMarkers();
+  }
+
+  renderListingCard(listing) {
+    let className = Vue.extend(InfoWindow)
+
+    let instance = new className({
+      propsData: {
+        listing: listing
+      },
+      $moment: this.$moment
+    });
+
+    instance.$mount();
+
+    return instance.$el;
+  }
+
+  closeLastOpenedInfoWindow() {
+    if (this.lastOpenedInfoWindow) {
+      this.lastOpenedInfoWindow.close();
+    }
   }
 
   initMarkers() {
@@ -49,21 +70,35 @@ export default class SearchMap extends Vue{
       anchor: new google.maps.Point(15, 30),
     };
 
+
     this.markers = this.locations.map(item => {
       let loc = {
         lat: parseFloat(item.location.lat),
         lng: parseFloat(item.location.lng)
       }
 
-      console.log(loc, 'loc na rezultatima')
-
-      const marker = new google.maps.Marker({
+      let marker = new google.maps.Marker({
         position: loc,
         map: map,
-        icon: svgMarker
+        icon: svgMarker,
+        clickable: true,
+
+      });
+
+      let self = this;
+
+      marker.info = new google.maps.InfoWindow({
+        content: this.renderListingCard(item)
+      });
+
+      google.maps.event.addListener(marker, 'click', function() {
+        self.closeLastOpenedInfoWindow();
+        marker.info.open(map, marker);
+        self.lastOpenedInfoWindow = marker.info;
       });
 
       return marker;
+
 
     });
   }
@@ -74,5 +109,28 @@ export default class SearchMap extends Vue{
 #map {
   height: 100vh;
   width: 100%;
+}
+
+::v-deep .gm-style-iw {
+  padding-right: 0px;
+  padding-bottom: 0px;
+  max-width: 270px !important;
+  max-height: 356px;
+  min-width: 0px;
+  padding: 0 !important;
+}
+
+::v-deep .gm-ui-hover-effect {
+  z-index: 9999 !important;
+  background: #fff !important;
+  border-raidus: 5px!important;
+  height: 20px!important;
+  width: 20px!important;
+  right: 8px!important;
+  top: 8px!important;
+  display: flex!important;
+  align-items: center!important;
+  justify-content: center!important;
+  font-weight: bold !important;
 }
 </style>

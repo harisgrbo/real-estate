@@ -455,4 +455,13 @@ export default class Homepage extends Vue {
   }
 }
 
+::v-deep .gm-style.gm-style-iw-c {
+  padding-right: 0px;
+  padding-bottom: 0px;
+  max-width: 270px !important;
+  max-height: 356px;
+  min-width: 0px;
+  padding: 0 !important;
+}
+
 </style>

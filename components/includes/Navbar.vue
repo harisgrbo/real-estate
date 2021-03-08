@@ -7,7 +7,7 @@
           <li>novogradnja</li>
           <li>oglašavanje</li>
           <li>o nama</li>
-          <li>zašto registrovati agenciju?</li>
+          <li @click="$router.push('/zasto-registrovati-agenciju')">zašto registrovati agenciju?</li>
         </ul>
       </div>
       <div class="auth-buttons">
