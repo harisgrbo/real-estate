@@ -17,10 +17,6 @@
             <b>8.9</b>
             Ocjena
           </li>
-          <li>
-            <b>102</b>
-            Pratilaca
-          </li>
         </ul>
       </div>
     <div class="buttons">
@@ -57,8 +53,10 @@ export default class UserCard extends Vue {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+  //box-shadow: rgb(0 0 0 / 7%) 0px 0px 8px;
   border-radius: 10px;
+  border: 1px solid #ebebeb;
+
 
   .user-info {
     display: flex;
@@ -90,7 +88,7 @@ export default class UserCard extends Vue {
   ul {
     width: 100%;
     padding: 12px;
-    background: #f1f1f1;
+    border: 1px solid #ebebeb;
     border-radius: 5px;
     display: flex;
     align-items: center;

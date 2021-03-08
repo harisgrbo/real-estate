@@ -63,6 +63,7 @@ export default class Agencies extends Vue {
     width: 1280px;
     margin: 0 auto;
     box-sizing: border-box;
+    padding-bottom: 100px;
 
     .sidenav {
       display: flex;
@@ -204,7 +205,10 @@ a {
 
 
 .grid-layout {
-  padding: 0 !important
+  padding: 0 !important;
+  grid-row-gap: 24px;
+  grid-column-gap: 24px;
+  padding-bottom: 100px;
 }
 
 .swiper {

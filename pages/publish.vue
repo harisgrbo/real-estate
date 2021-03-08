@@ -6,18 +6,20 @@
     </div>
     <Snackbar />
       <div v-if="!$device.isMobile" class="progress-wrapper">
-        <h1 class="heading">Postotak objave: {{ completion.toFixed() }} %</h1>
+        <h1 class="heading">Postotak objave:</h1>
         <client-only>
           <radial-progress-bar :diameter="200"
                                :animateSpeed="300"
                                :completed-steps="completion"
                                :total-steps="100"
-                               startColor="#D63946"
+                               startColor="#0B8489"
                                endColor="#1B1E31"
                                :strokeWidth="10"
                                :innerStrokeWidth="10"
                                innerStrokeColor="#f1f1f1"
-          />
+          >
+            <p class="centered">{{ completion.toFixed() }} %</p>
+          </radial-progress-bar>
         </client-only>
         <div class="radial-steps">
           <p>
@@ -91,8 +93,8 @@
 
           <p class="global-heading">Globalni obicni attributi</p>
 
-          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-            <InputError :error="errors.attributes[attr.id]" />
+          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id" class="grid-filters">
+            <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]" />
             <component
               :attr="attr"
               :options="attr"
@@ -986,5 +988,15 @@ h1.heading {
     height: 1px;
     background: #0B8489;
   }
+}
+
+::v-deep .terms-wrapper .option-wrapper button {
+  width: 100% !important;
+  margin-bottom: 0;
+}
+
+.centered {
+  font-weight: 500;
+  font-size: 22px;
 }
 </style>
