@@ -528,8 +528,8 @@ export default class Publish extends Vue {
   price = null;
   description = null;
 
-  @Watch('neighbourhood')l
-  handleTitleChange(newVal, oldVal) {
+  @Watch('neighbourhood')
+  handleNeighbourhoodChange(newVal, oldVal) {
     this.errors.neighbourhood.error = false;
   }
 
@@ -550,11 +550,11 @@ export default class Publish extends Vue {
 
   // Step 1 validation
   stepOneValidationProps = [
-    'title', 'description', 'address', 'price', 'city', 'category', 'listingType'
+    'neighbourhood', 'description', 'address', 'price', 'city', 'category', 'listingType'
   ]
 
-  validateTitle() {
-    return this.title !== null && this.title !== '';
+  validateNeighbourhood() {
+    return this.neighbourhood !== null && this.neighbourhood !== '';
   }
 
   validateDescription() {
