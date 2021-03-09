@@ -97,10 +97,7 @@
           <div class="separator"></div>
           <h2 class="heading">U blizini nekretnine</h2>
           <div class="grid-layout">
-            <div class="detailed-info" v-for="info in listing.attributes" v-if="info">
-              <span>{{ info.name }}</span>
-              <span>{{ attrTranslate(info.value) }}</span>
-            </div>
+            <div>{{ JSON.stringify(nearPlaces) }}</div>
           </div>
           <div class="separator"></div>
           <h2 class="heading">Detaljni opis</h2>
@@ -200,6 +197,23 @@ export default class Artikal extends Vue {
     },
 
   ]
+
+  nearPlaces = [];
+
+  mounted() {
+    this.findNearPlaces();
+  }
+
+  async findNearPlaces() {
+    let address = this.listing.address;
+
+    try {
+      const res = await this.$axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/output?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9=&input=${address}&inputtype=textquery`);
+      console.log(res)
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   get normalAttributes() {
     return this.listing.attributes.filter(item => item.value !== true && item.value !== false);

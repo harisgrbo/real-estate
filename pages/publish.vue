@@ -461,8 +461,9 @@ export default class Publish extends Vue {
 
   async fetchAttributesByCategory() {
     try {
-      let response = await this.$axios.get('/category/' + this.category.id + '/attributes');
+      let response = await this.$axios.get('/categories/' + this.category.id + '/attributes');
       this.categoryAttributes = response.data.data;
+      console.log(response)
     } catch(e) {
       console.log(e)
     }
@@ -470,8 +471,9 @@ export default class Publish extends Vue {
 
   async fetchAttributesByListingType() {
     try {
-      let response = await this.$axios.get('/listing_type/' + this.listingType.id + '/attributes')
+      let response = await this.$axios.get('/listing_types/' + this.listingType.id + '/attributes')
       this.listingTypeAttributes = response.data.data;
+      console.log(response)
     } catch(e) {
       console.log(e)
     }
