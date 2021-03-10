@@ -36,12 +36,14 @@
         </client-only>
       </div>
       <div v-else class="mobile-img">
-        <swiper class="swiper" height="400px" :options="swiperOption">
-          <swiper-slide v-for="(img, index) in images">
-            <img :src="img.name" alt="" @click="openGallery(index)">
-          </swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
-        </swiper>
+        <client-only>
+          <swiper class="swiper" height="400px" :options="swiperOption">
+            <swiper-slide v-for="(img, index) in images">
+              <img :src="img.name" alt="" @click="openGallery(index)">
+            </swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
+          </swiper>
+        </client-only>
         <client-only>
           <light-box
             ref="lightbox"
