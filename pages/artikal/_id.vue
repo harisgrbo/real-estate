@@ -1,24 +1,25 @@
 <template>
   <div class="listing-wrapper">
     <div v-if="$device.isMobile" class="mobile-topbar">
-      <font-awesome-icon icon="angle-left"></font-awesome-icon>
-      <div>
-        <font-awesome-icon icon="heart"></font-awesome-icon>
-        <font-awesome-icon icon="heart"></font-awesome-icon>
+      <font-awesome-icon icon="angle-left" @click="$router.go(-1)"></font-awesome-icon>
+      <div class="buttons">
+        <button v-if="listing.user.id !== $auth.user.id" @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
+          <font-awesome-icon icon="heart"></font-awesome-icon>
+          {{ listingSaved ? 'Izbriši iz spašenih' : 'Spasi oglas'}}
+        </button>
+        <button v-if="listing.user.id !== $auth.user.id">
+          <font-awesome-icon icon="share-square"></font-awesome-icon>
+          Podijeli
+        </button>
       </div>
     </div>
     <div class="listing-content">
-      <div class="grid-container">
+      <div v-if="!$device.isMobile" class="grid-container">
         <div class="img-counter">
           <font-awesome-icon icon="images">
           </font-awesome-icon>
           <p>{{ images.length }}</p>
         </div>
-<!--        <div class="img-counter show-more">-->
-<!--          <font-awesome-icon icon="images">-->
-<!--          </font-awesome-icon>-->
-<!--          <p>Pogledaj sve slike</p>-->
-<!--        </div>-->
         <div :class="'item' + img.id" v-for="(img, index) in images">
           <img :src="img.name" alt="" @click="openGallery(index)">
         </div>
@@ -29,6 +30,25 @@
           :show-light-box="false"
           :show-thumbs="true"
           close-text="function() {
+          return 'Zatvori galeriju'
+          }"
+          />
+        </client-only>
+      </div>
+      <div v-else class="mobile-img">
+        <swiper class="swiper" height="400px" :options="swiperOption">
+          <swiper-slide v-for="(img, index) in images">
+            <img :src="img.name" alt="" @click="openGallery(index)">
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+        <client-only>
+          <light-box
+            ref="lightbox"
+            :media="lightboxImages"
+            :show-light-box="false"
+            :show-thumbs="true"
+            close-text="function() {
           return 'Zatvori galeriju'
           }"
           />
@@ -76,10 +96,9 @@
             </div>
             <div class="detailed-info price">
               <div>
-                <font-awesome-icon icon="coins"></font-awesome-icon>
                 <span>Cijena</span>
               </div>
-              <span>{{ listing.price }} KM</span>
+              <span>{{ parseInt(listing.price) }} KM</span>
             </div>
           </div>
           <div class="separator"></div>
@@ -189,6 +208,12 @@ export default class Artikal extends Vue {
   questions = [];
   isUserFollowed = false;
   places = [];
+  swiperOption = {
+    pagination: {
+      el: '.swiper-pagination',
+      dynamicBullets: true
+    }
+  }
   images = [
     {
       name: '/test/img1.jpg',
@@ -210,9 +235,7 @@ export default class Artikal extends Vue {
       name: '/test/img1.jpg',
       id: 5,
     },
-
   ]
-
 
   async fetchPlaces() {
     try {
@@ -245,8 +268,6 @@ export default class Artikal extends Vue {
     try {
       let res = await this.$axios.get('/listings/' + this.$route.params.id + '/questions');
       this.questions = res.data.data;
-
-      console.log(this.questions)
 
     } catch(e) {
       console.log(e)
@@ -428,6 +449,8 @@ export default class Artikal extends Vue {
 
   @include for-phone-only {
     grid-gap: 1px;
+    max-height: 400px;
+    height: 400px;
   }
 
   .img-counter {
@@ -478,8 +501,9 @@ export default class Artikal extends Vue {
   padding-top: 36px;
 
   @include for-phone-only {
-    height: calc(100vh - 78px);
+    height: 100%;
     padding-top: 0;
+    flex-direction: column;
   }
   .profile-content {
     width: 20%;
@@ -746,6 +770,7 @@ export default class Artikal extends Vue {
     padding: 0 12px;
     font-weight: 600;
     font-size: 18px !important;
+    height: 50px;
     div {
       display: flex;
       align-items: center;
@@ -791,6 +816,10 @@ export default class Artikal extends Vue {
 
 ::v-deep img.vue-lb-modal-image {
   border-radius: 10px !important;
+
+  @include for-phone-only {
+    border-radius: 0 !important;
+  }
 }
 
 ::v-deep .vue-lb-arrow {
@@ -801,6 +830,18 @@ export default class Artikal extends Vue {
 
   ::v-deep svg {
     color: #444!important;
+  }
+
+  @include for-phone-only {
+    width: 25px !important;
+    height: 25px !important;
+    padding: 0 !important;
+    top: 53% !important;
+
+    ::v-deep svg {
+      color: #444!important;
+      font-size: 20px !important;
+    }
   }
 }
 
@@ -828,32 +869,98 @@ export default class Artikal extends Vue {
 }
 
 .mobile-topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #ffffff4f;
+  background: #fff;
   display: flex;
+  position: sticky;
+  top: 0;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 0 12px;
   height: 60px;
+  min-height: 60px;
   z-index: 3;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
 
-
-  svg {
-    font-size: 22px;
-  }
-
-  > div {
+  .buttons {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    width: fit-content;
 
-    svg:last-child {
-      margin-left: 24px;
+    button {
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      svg {
+        color: #444;
+        height: 16px;
+        margin-right: 8px;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        background: rgb(247, 247, 247) !important;
+        text-decoration: underline;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &.listing-saved {
+        svg {
+          color: red;
+        }
+      }
     }
   }
 }
+
+@include for-phone-only {
+  .mobile-img {
+    height: 400px;
+    max-height: 400px;
+  }
+
+  .swiper-container {
+    max-height: 400px;
+  }
+
+  .swiper-slide {
+    max-height: 400px;
+  }
+
+  .swiper-slide img {
+    max-height: 400px;
+  }
+
+  ::v-deep button svg {
+    height:15px !important;
+  }
+}
+
+::v-deep .vue-lb-container {
+  @include for-phone-only {
+    padding: 0 !important;
+  }
+}
+
+.scroller-position {
+  height: 60px;
+}
+
+
 </style>
 

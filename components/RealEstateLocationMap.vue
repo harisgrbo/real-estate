@@ -260,11 +260,20 @@ export default class RealEstateLocationMap extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 #map {
   border-radius: 10px;
   height: 400px;
   /* The height is 400 pixels */
   width: 100%;
   /* The width is the width of the web page */
+
+  @include for-phone-only {
+    height: 200px;
+  }
 }
 </style>

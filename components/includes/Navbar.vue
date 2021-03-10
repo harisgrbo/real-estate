@@ -69,7 +69,7 @@
             <i class="material-icons" @click="selectedType = null">close</i>
           </button>
         </div>
-        <button v-show="searchInput.length" class="close">
+        <button v-if="focused === true" class="close">
           <i class="material-icons" @click="clearSearchTerm">close</i>
         </button>
         <!-- Autocomplete dropdown -->
@@ -357,6 +357,7 @@ export default class Navbar extends Vue{
     box-sizing: border-box;
     right: 12px;
     top: 12px;
+    width: auto;
     height: 60px;
     display: flex;
     justify-content: space-between;
@@ -489,10 +490,10 @@ export default class Navbar extends Vue{
 
       @include for-phone-only {
         position: absolute;
-        left: 8px;
-        right: 8px;
+        left: 0px;
+        right: 0px;
         background: #fff;
-        top: 8px;
+        top: 0px;
       }
     }
     .category {
