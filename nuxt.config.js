@@ -1,7 +1,7 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'real-estate',
+    title: 'eNekretnine.ba - sve nekretnine na jednom mjestu!',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -60,6 +60,11 @@ export default {
       disconnectOnLogout: true,
     }]
   ],
+
+  moment: {
+    defaultLocale: 'bs',
+    locales: ['bs']
+  },
 
   fontawesome: {
     icons: {

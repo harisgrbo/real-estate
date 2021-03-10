@@ -3,7 +3,7 @@
     <div class="modal-inner" v-if="$device.isMobile">
       <div class="modal-header">
         <h2>{{ $auth.user.name }}</h2>
-        <i class="material-icons" @click="$modal.hideAll">close</i>
+        <i class="material-icons" @click="$modal.hide('sidebar')">close</i>
       </div>
     </div>
     <ul>

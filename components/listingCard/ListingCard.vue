@@ -105,6 +105,11 @@ export default class ListingCard extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
   a {
     position: relative;
     z-index: 1;
@@ -141,6 +146,10 @@ export default class ListingCard extends Vue{
         left: 0px;
         box-shadow: none;
         border-radius: 0px;
+
+        @include for-phone-only {
+          top: 122px;
+        }
 
         button {
           font-family: 'Montserrat', sans-serif;
@@ -193,6 +202,10 @@ export default class ListingCard extends Vue{
       height: 194px;
       width: 100%;
       border-radius: 10px;
+
+      @include for-phone-only {
+        height: 154px;
+      }
     }
 
     .listing-card-content {
