@@ -86,7 +86,7 @@ export default class Dashboard extends Vue {
   box-sizing: border-box;
   flex-direction: column;
   //overflow: hidden;
-  padding: 24px 80px;
+  padding: 0px 80px 24px 80px;
 }
 .content {
   display: flex;

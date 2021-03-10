@@ -37,7 +37,7 @@ export default class PremiumAgency extends Vue {
   display: flex;
   box-sizing: border-box;
   height: 100%;
-  box-shadow: rgb(0 0 0 / 12%) 0px 3px 9px;
+  border: 1px solid #dcdcdc;
   border-radius: 10px;
   padding: 12px;
 

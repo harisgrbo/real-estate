@@ -169,23 +169,29 @@ export default class RegisterForm extends Vue{
   ul {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 32px;
+    justify-content: flex-start;
+    margin-bottom: 24px;
     width: 100%;
     li {
-      display: flex;
-      font-size: 14px;
-      color: #444444;
-      font-weight: 500;
-      flex: 1;
-      justify-content: center;
-      align-items: center;
-      line-height: 40px;
+      font-size: 14px !important;
+      line-height: 26px !important;
+      margin-right: 24px;
+      padding-bottom: 8px;
+      height: 30px;
+      position: relative;
       cursor: pointer;
+      text-transform: uppercase;
+      font-weight:500;
       &.active {
-        background: #f1f1f1;
-        border-radius: 5px;
-        font-weight: 600;
+        color: #0B8489;
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-bottom: 1px solid #0B8489;
+        }
       }
     }
   }
@@ -199,8 +205,11 @@ export default class RegisterForm extends Vue{
     font-weight: 500;
     p {
       margin-left: 8px;
-      color: #F3B86C;
+      color: #0B8489;
     }
+  }
+  button {
+    background:#0B8489;
   }
 }
 </style>

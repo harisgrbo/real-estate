@@ -91,10 +91,18 @@
             Detaljne informacije oglasa
           </h1>
 
-          <p class="global-heading">Globalni obicni attributi</p>
-
           <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
             <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
+
+          <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
             <component
               :attr="attr"
               :options="attr"
@@ -111,45 +119,34 @@
               :attr="attr"
               :key="attr.id"
             />
-          </div>
-
-          <p class="global-heading">Kategorija obicni attributi</p>
-          <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
-            <InputError :error="errors.attributes[attr.id]" />
-            <component
-              :attr="attr"
-              :options="attr"
-              :is="filterFor(attr)"
+            <TermInput
+              v-for="attr in termCategoryAttributes"
               @changed="handleChangedAttribute"
+              :attr="attr"
+              :key="attr.id"
             />
           </div>
 
-          <p class="global-heading">Kategorija cekboxi</p>
-          <TermInput
-            v-for="attr in termCategoryAttributes"
-            @changed="handleChangedAttribute"
-            :attr="attr"
-            :key="attr.id"
-          />
 
-          <p class="global-heading">Listing tip obicni attributi</p>
-          <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
-            <InputError :error="errors.attributes[attr.id]" />
-            <component
-              :attr="attr"
-              :options="attr"
-              :is="filterFor(attr)"
-              @changed="handleChangedAttribute"
-            />
-          </div>
 
-          <p class="global-heading">Listing tip cekboxi</p>
-          <TermInput
-            v-for="attr in termListingTypeAttributes"
-            @changed="handleChangedAttribute"
-            :attr="attr"
-            :key="attr.id"
-          />
+<!--          <p class="global-heading">Listing tip obicni attributi</p>-->
+<!--          <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">-->
+<!--            <InputError :error="errors.attributes[attr.id]" />-->
+<!--            <component-->
+<!--              :attr="attr"-->
+<!--              :options="attr"-->
+<!--              :is="filterFor(attr)"-->
+<!--              @changed="handleChangedAttribute"-->
+<!--            />-->
+<!--          </div>-->
+
+<!--          <h2>Nekretnina posjeduje</h2>-->
+<!--          <TermInput-->
+<!--            v-for="attr in termListingTypeAttributes"-->
+<!--            @changed="handleChangedAttribute"-->
+<!--            :attr="attr"-->
+<!--            :key="attr.id"-->
+<!--          />-->
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
               <i class="material-icons">chevron_left</i>
@@ -463,7 +460,7 @@ export default class Publish extends Vue {
     try {
       let response = await this.$axios.get('/categories/' + this.category.id + '/attributes');
       this.categoryAttributes = response.data.data;
-      console.log(response)
+      console.log(response, 'atributi kategorije')
     } catch(e) {
       console.log(e)
     }
@@ -649,6 +646,7 @@ export default class Publish extends Vue {
       bottom: 0;
       height: 10px;
       border-radius: 5px;
+      z-index:5;
     }
   }
   .publish-wrapper-inner {

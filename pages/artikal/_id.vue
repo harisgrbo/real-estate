@@ -101,11 +101,19 @@
           <div class="separator"></div>
           <h2 class="heading">U blizini nekretnine</h2>
           <div class="grid-layout">
-            <div>{{ JSON.stringify(nearPlaces) }}</div>
+<!--            <ul>-->
+<!--              <li v-for="place in places">-->
+<!--                {{ place.name }}-->
+<!--              </li>-->
+<!--            </ul>-->
           </div>
           <div class="separator"></div>
           <h2 class="heading">Detaljni opis</h2>
           <p class="description">{{ listing.description }}</p>
+          <div class="UserProfile"></div>
+          <div class="separator"></div>
+          <h2 class="heading">Lokacija nekretnine</h2>
+          <RealEstateLocationMap v-if="listing" :location="listing.city"></RealEstateLocationMap>
           <div class="separator"></div>
           <h2 class="heading">Pitanja</h2>
           <div v-if="listing.questions_disabled === true">
@@ -132,6 +140,7 @@ import ActionButton from "@/components/actionButtons/ActionButton";
 import Snackbar from "@/components/global/Snackbar";
 import UserProfile from "@/components/UserProfile"
 import SingleQuestion from "@/components/SingleQuestion"
+import RealEstateLocationMap from "@/components/RealEstateLocationMap";
 
 @Component({
   components: {
@@ -139,6 +148,7 @@ import SingleQuestion from "@/components/SingleQuestion"
     Snackbar,
     UserProfile,
     SingleQuestion,
+    RealEstateLocationMap
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
   async asyncData(ctx) {
@@ -178,6 +188,7 @@ export default class Artikal extends Vue {
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
+  places = [];
   images = [
     {
       name: '/test/img1.jpg',
@@ -202,20 +213,14 @@ export default class Artikal extends Vue {
 
   ]
 
-  nearPlaces = [];
 
-  mounted() {
-    this.findNearPlaces();
-  }
-
-  async findNearPlaces() {
-    let address = this.listing.address;
-
+  async fetchPlaces() {
     try {
-      const res = await this.$axios.get(`https://maps.googleapis.com/maps/api/place/findplacefromtext/output?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9=&input=${address}&inputtype=textquery`);
-      console.log(res)
-    } catch (e) {
-      console.log(e);
+      let res = await this.$axios.get('/listings/' + this.listing.id + '/places');
+      this.places = res.data.results;
+      console.log(this.places, 'places')
+    } catch(e) {
+      console.log(e)
     }
   }
 
@@ -344,7 +349,8 @@ export default class Artikal extends Vue {
   }
 
   async created() {
-
+    console.log(this.listing)
+    // await this.fetchPlaces();
     await this.getQuestions();
     this.isUserFollowed = this.isFollowed;
   }
@@ -801,17 +807,16 @@ export default class Artikal extends Vue {
 .question-create {
   display: flex;
   flex-direction: column;
-  background: #f1f1f1;
-  padding: 12px;
   border-radius: 10px;
 
   ::v-deep button {
     margin-top: 12px;
+    background: #0B8489;
   }
 
   textarea {
     background: #fff;
-    border: none;
+    border: 1px solid #dcdcdc;
     height: 100px;
     padding: 12px;
     border-radius: 5px;

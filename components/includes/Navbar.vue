@@ -15,8 +15,16 @@
           <button class="register" @click="$router.push('/auth/register')">REGISTRACIJA</button>
         </div>
         <button v-if="$auth.user" class="login">
+          <font-awesome-icon icon="coins" @click="$router.push('/moj-racun/poruke')"/>
+          <p>650</p>
+        </button>
+        <button v-if="$auth.user" class="login">
           <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
-          <font-awesome-icon icon="bell" />
+          <p class="notify">4</p>
+        </button>
+        <button v-if="$auth.user" class="login">
+          <font-awesome-icon icon="bell" @click="$router.push('/moj-racun/poruke')"/>
+          <p class="notify">2</p>
         </button>
         <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
           <font-awesome-icon icon="bars"></font-awesome-icon>
@@ -29,7 +37,7 @@
       </div>
     </div>
     <div class="second-row">
-      <div class="img-wrapper">
+      <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <img :src="[ $device.isMobile ? '/mobile1.png' : '/desktop.png']" class="main-logo" alt="" @click="$router.push('/')">
       </div>
       <button v-if="!$device.isMobile" class="categories" @click="toggleCategories">
@@ -342,7 +350,22 @@ export default class Navbar extends Vue{
   padding: 0px 80px 0px 80px;
 
   @include for-phone-only {
-    padding: 0 12px 0 12px;
+    padding: 0 12px 0 12px !important;
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    box-sizing: border-box;
+    right: 12px;
+    top: 12px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border-radius:10px;
+    z-index: 10;
+    -webkit-box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
+    box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
   }
 
   .first-row {
@@ -387,6 +410,12 @@ export default class Navbar extends Vue{
     padding-bottom: 8px;
     background: #fff;
 
+    @include for-phone-only {
+      padding: 0 !important;
+      background: transparent !important;
+      height: 100%;
+    }
+
     .categories {
       height: 48px;
       display: flex;
@@ -421,6 +450,12 @@ export default class Navbar extends Vue{
       margin-right: 12px;
     }
 
+    &.hide {
+      @include for-phone-only {
+        display: none;
+      }
+    }
+
     img {
       height: 41px;
 
@@ -440,12 +475,25 @@ export default class Navbar extends Vue{
     flex: 2;
     position: relative;
     transition: 0.3s all ease;
+
+    @include for-phone-only {
+      box-sizing: border-box;
+    }
+
     &.focused {
       box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
       border-radius: 8px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       border: none;
+
+      @include for-phone-only {
+        position: absolute;
+        left: 8px;
+        right: 8px;
+        background: #fff;
+        top: 8px;
+      }
     }
     .category {
       background: #f1f1f1;
@@ -620,6 +668,7 @@ export default class Navbar extends Vue{
       justify-content: center;
       color: #fff;
       margin-left: 16px;
+      background: none;
 
       svg {
         &:first-child {
@@ -639,8 +688,8 @@ export default class Navbar extends Vue{
     }
 
     button {
-      height: 40px;
-      border-radius: 8px;
+      height: 30px;
+      border-radius: 4px;
       border: none;
       background: transparent;
       padding: 0 4px;
@@ -648,6 +697,7 @@ export default class Navbar extends Vue{
       font-weight: 600;
       cursor: pointer;
       transition: 0.3s all ease;
+      background: #31335d9c;
 
       &:last-child {
         margin-left: 16px;
@@ -680,18 +730,24 @@ export default class Navbar extends Vue{
         color: #fff;
         border-radius: 8px;
 
+        &:hover {
+          cursor: pointer;
+        }
+
+        p {
+          padding: 0 4px;
+          margin-rigth: 4px;
+
+          &.notify {
+            color: #D63946;
+          }
+        }
+
         svg {
           font-size: 18px;
-          padding: 0 12px;
+          padding: 0 8px;
           transition: 0.3s all ease;
 
-          &:hover {
-            transform: scale(1.2);
-          }
-
-          &:last-child {
-            border-left: 1px solid #f1f1f1;
-          }
         }
 
       }

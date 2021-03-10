@@ -110,8 +110,12 @@ export default class LoginForm extends Vue{
     font-weight: 500;
     p {
       margin-left: 8px;
-      color: #F3B86C;
+      color: #0B8489;
     }
+  }
+
+  button {
+    background:#0B8489;
   }
 }
 </style>
