@@ -1,11 +1,11 @@
 <template>
     <div class="term-wrapper">
       <label>{{ displayName }} </label>
-        <select v-if="filter.values" @change="handleChange">
-            <option value="">...</option>
-            <option v-for="option in filter.values" :value="option">{{ option }}</option>
-        </select>
-        <input v-else v-model="checked" type="checkbox" @input="handleChange" />
+      <select v-if="filter.values" @change="handleChange">
+          <option value="">...</option>
+          <option v-for="option in filter.values" :value="option">{{ option }}</option>
+      </select>
+      <input v-else v-model="checked" type="checkbox" @input="handleChange" />
     </div>
 </template>
 
@@ -36,27 +36,16 @@ export default class TermFilter extends Vue {
 <style scoped lang="scss">
 .term-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-top: 24px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 
   label {
     font-size: 15px;
     font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 16px;
   }
-
-}
-
-label {
-  cursor: pointer;
-  width: 80px;
-  height: 30px;
-  background: #f1f1f1;
-  display: flex;
-  border-radius: 100px;
-  position: relative;
-  transition: 0.3s;
 
 }
 </style>

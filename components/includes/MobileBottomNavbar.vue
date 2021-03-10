@@ -1,6 +1,6 @@
 <template>
   <div class="mobile-bottom-navbar">
-      <font-awesome-icon icon="th-large" @click="openCategoriesModal"></font-awesome-icon>
+      <font-awesome-icon icon="home" @click="$router.push('/')"></font-awesome-icon>
       <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"></font-awesome-icon>
       <font-awesome-icon icon="plus" @click="$router.push('/publish')" class="publish-btn"></font-awesome-icon>
       <font-awesome-icon icon="user" @click="$auth.user? $router.push('/users/' + $auth.user.id) : $router.push('/auth/login')"></font-awesome-icon>

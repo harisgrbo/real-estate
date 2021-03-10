@@ -1,5 +1,5 @@
 <template>
-  <div class="single-question-wrapper">
+  <div class="single-question-wrapper" v-if="message">
     <div class="user-info">
       <div>
         <img src="/avatar.jpg" alt="">
@@ -58,7 +58,8 @@ export default class SingleQuestion extends Vue {
     padding: 12px;
     display: flex;
     flex-direction: column;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    border: 1px solid #dcdcdc;
     height: fit-content;
     border-radius: 10px;
     margin-bottom: 24px;
@@ -93,7 +94,11 @@ export default class SingleQuestion extends Vue {
       margin-top: 12px;
       padding-top: 12px;
       border-top: 1px solid #dcdcdc;
-      margin-bottom: 12px;
+
+      p {
+        padding: 12px 0;
+
+      }
     }
   }
 

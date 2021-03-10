@@ -1,21 +1,20 @@
 <template>
     <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
-      <label class="publisher">
+      <label class="publisher" v-if="listing.user ? listing.user.user_type === 'agency' : ''">
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
         <span>Agencija</span>
       </label>
-      <label class="type" v-if="listingType">
-        <button>
-          Novogradnja
+      <label class="type">
+        <button
+          v-for="(attr, index) in specialAttributes"
+          :key="index"
+          class="standard-tag"
+        >
+          {{ attr.value }}
+          <p v-if="attr.name === 'Kvadratura'"> m²</p>
+          <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
         </button>
-        <button>
-          <font-awesome-icon icon="vector-square"></font-awesome-icon>
-          <span>22 m2</span>
-        </button>
-        <button>
-          <font-awesome-icon icon="door-closed"></font-awesome-icon>
-          <span>4</span>
-        </button>
+
       </label>
       <label class="rating" v-if="listing.is_rent">4.9
         <i class="material-icons">star</i>
@@ -71,6 +70,20 @@ export default class ListingCard extends Vue{
     buy: 'Potraznja'
   }
   saved = false;
+  specialAttributes = [];
+  specialAttributesKeys = [
+    "Kvadratura",
+    "Broj soba",
+    "Godina izgradnje"
+  ];
+
+  getSpecialAttributes() {
+    if (!this.listing.attributes) return [];
+    return this.listing.attributes.filter((item) => {
+      return this.specialAttributesKeys.indexOf(item.name) !== -1;
+    });
+  }
+
 
   get listingType() {
     return this.types[this.listing.listing_type.shortname];
@@ -86,6 +99,7 @@ export default class ListingCard extends Vue{
 
   created() {
     console.log(this.listing)
+    this.specialAttributes = this.getSpecialAttributes().slice();
   }
 }
 </script>
@@ -141,10 +155,9 @@ export default class ListingCard extends Vue{
           justify-content: center;
           width: fit-content;
           height: 24px;
-          padding: 0 8px;
+          padding: 0 4px;
           font-size: 12px;
           font-weight: 500;
-          text-transform: capitalize;
           box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
 
           span {
@@ -152,7 +165,7 @@ export default class ListingCard extends Vue{
           }
 
           svg {
-            margin-right: 8px;
+            margin-left: 4px;
           }
         }
       }

@@ -53,25 +53,25 @@
       <font-awesome-icon icon="user-slash"></font-awesome-icon>
       {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}
     </button>
-    <div v-if="isRent && !isMe">
-      <div class="separator"></div>
-      <h2>Želite rezervisati odmah?</h2>
-      <date-picker :show-date-picker="true" :displayClearButton="true"></date-picker>
-    </div>
-    <client-only>
-      <modal name="contact-user" :adaptive="true" height="100%">
-        <div class="modal-inner">
-          <div class="modal-header">
-            <h2>Poruka za {{ user.name }}</h2>
-            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
-          </div>
-          <div class="modal-content">
-            <textarea v-model="message"></textarea>
-            <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
-          </div>
-        </div>
-      </modal>
-    </client-only>
+<!--    <div v-if="isRent && !isMe">-->
+<!--      <div class="separator"></div>-->
+<!--      <h2>Želite rezervisati odmah?</h2>-->
+<!--      <date-picker :show-date-picker="true" :displayClearButton="true"></date-picker>-->
+<!--    </div>-->
+<!--    <client-only>-->
+<!--      <modal name="contact-user" :adaptive="true" height="100%">-->
+<!--        <div class="modal-inner">-->
+<!--          <div class="modal-header">-->
+<!--            <h2>Poruka za {{ user.name }}</h2>-->
+<!--            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>-->
+<!--          </div>-->
+<!--          <div class="modal-content">-->
+<!--            <textarea v-model="message"></textarea>-->
+<!--            <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </modal>-->
+<!--    </client-only>-->
     <Snackbar></Snackbar>
   </div>
 </template>

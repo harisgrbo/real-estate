@@ -36,6 +36,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .terms-wrapper {
   display: flex;
   flex-direction: column;
@@ -53,6 +58,11 @@ export default {
     grid-template-columns: repeat(5, 1fr);
     grid-row-gap: 12px;
     grid-column-gap: 12px;
+
+    @include for-phone-only {
+      grid-template-columns: repeat(2, 1fr);
+
+    }
 
     button {
       height: 48px;

@@ -289,7 +289,7 @@ export default class Users extends Vue {
     top: 130px;
     display: flex;
     flex-direction: column;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #dcdcdc;
     border-radius: 12px;
     padding: 24px;
     //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;

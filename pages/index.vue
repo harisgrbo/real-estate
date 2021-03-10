@@ -122,10 +122,6 @@
         img: '/landscape/home-1.svg'
       },
       {
-        city: 'Bjelašnica',
-        img: '/landscape/mountains.svg'
-      },
-      {
         city: 'Travnik',
         img: '/landscape/mill.svg'
       },
