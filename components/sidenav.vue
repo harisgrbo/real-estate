@@ -24,7 +24,7 @@
       <li v-if="!$auth.user">
         <nuxt-link to="/auth/register">Registruj se</nuxt-link>
       </li>
-      <li v-if="$auth.user" @click="goToUSer">
+      <li v-if="$auth.user">
         <img src="/091-credit%20card.svg" alt="">
         <nuxt-link to="/moj-racun/moji-oglasi">Moji oglasi</nuxt-link>
       </li>
@@ -49,7 +49,7 @@
       </li>
       <li>
         <img src="/095-store.svg" alt="">
-        <nuxt-link to="/agencije">Agencije</nuxt-link>
+        <nuxt-link to="/agencies">Agencije</nuxt-link>
       </li>
       <li>
         <img src="/029-home.svg" alt="">
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { Component, Vue, Prop} from "nuxt-property-decorator";
+import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 
 @Component({
 })
@@ -142,6 +142,10 @@ export default class sidenav extends Vue {
       cursor: pointer;
       border-radius: 5px;
       color: #444;
+
+      @include for-phone-only {
+        height: 50px;
+      }
 
       a {
         height: 100%;

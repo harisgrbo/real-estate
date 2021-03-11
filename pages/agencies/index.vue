@@ -19,7 +19,9 @@ import AgencyCard from "@/components/AgencyCard"
 import UserCard from "@/components/UserCard"
 
 @Component({
-  components: { Navbar, AgencyCard, UserCard }
+  components: { Navbar, AgencyCard, UserCard },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : '',
+
 })
 
 export default class Agencies extends Vue {
@@ -52,9 +54,21 @@ export default class Agencies extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .account-wrapper-a {
   padding-top: 107px !important;
   height: calc(100vh - 107px);
+
+  @include for-phone-only {
+    padding: 32px 0!important;
+    height: 100%;
+    overflow: scroll;
+  }
 
   .account-wrapper-inner {
     display: flex;
@@ -65,6 +79,11 @@ export default class Agencies extends Vue {
     box-sizing: border-box;
     padding-bottom: 100px;
 
+    @include for-phone-only {
+      width: 100%;
+      padding-bottom: 70px;
+    }
+
     .sidenav {
       display: flex;
       flex: 2;
@@ -73,6 +92,10 @@ export default class Agencies extends Vue {
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;
+
+      @include for-phone-only {
+        padding: 12px;
+      }
 
       h1 {
         font-size: 22px !important;
@@ -117,6 +140,10 @@ export default class Agencies extends Vue {
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 12px;
         row-gap: 12px;
+
+        @include for-phone-only {
+          grid-template-columns: repeat(1, 1fr);
+        }
 
         li {
           display: flex;

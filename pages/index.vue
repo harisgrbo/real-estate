@@ -207,6 +207,8 @@
 
   @include for-phone-only {
     padding: 0px;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-column-gap: 12px !important;
   }
 }
 

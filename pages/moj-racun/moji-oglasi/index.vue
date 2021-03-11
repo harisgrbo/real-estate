@@ -24,7 +24,7 @@ import { Component, Vue} from "nuxt-property-decorator";
 @Component({
   components: {
   },
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class mojiOglasi extends Vue {
@@ -47,6 +47,19 @@ export default class mojiOglasi extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.account-wrapper {
+  @include for-phone-only {
+    padding: 0 12px 120px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -57,6 +70,11 @@ export default class mojiOglasi extends Vue {
     column-gap: 24px;
     row-gap: 32px;
     padding-bottom: 36px;
+
+    @include for-phone-only {
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      grid-column-gap: 12px;
+    }
   }
 }
 

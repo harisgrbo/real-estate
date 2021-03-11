@@ -6,7 +6,7 @@
         <h1 class="heading-account">Moj račun</h1>
         <div class="info" v-if="$auth.user">
           <p>{{ $auth.user.name }},</p>
-          <p>{{ $auth.user.email }}</p>
+          <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
           <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id">Idi na profil</nuxt-link>
         </div>
         <ul>
@@ -37,7 +37,8 @@ import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 
 @Component({
-  components: { Navbar }
+  components: { Navbar },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : '',
 })
 
 export default class accountpage extends Vue {
@@ -128,8 +129,9 @@ export default class accountpage extends Vue {
   height: calc(100vh - 126px);
 
   @include for-phone-only {
-    padding-top: 78px !important;
-    height: calc(100vh - 78px);
+    padding: 32px 0!important;
+    height: 100%;
+    overflow: scroll;
   }
 
   .account-wrapper-inner {
@@ -142,6 +144,7 @@ export default class accountpage extends Vue {
 
     @include for-phone-only {
       width: 100%;
+      padding-bottom: 70px;
     }
 
     .sidenav {

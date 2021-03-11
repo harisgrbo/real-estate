@@ -4,7 +4,7 @@
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
         <span>{{ translateType() }}</span>
       </label>
-      <label class="type">
+      <label class="type" v-if="!$device.isMobile">
         <button
           v-for="(attr, index) in specialAttributes"
           :key="index"
@@ -16,7 +16,7 @@
         </button>
 
       </label>
-      <label class="rating">
+      <label class="rating" v-if="!$device.isMobile">
         <i class="material-icons">star</i>
         Agencija
       </label>
@@ -39,7 +39,7 @@
           </div>
           <div class="icons-date">
             <div>
-              <p class="price">{{ listing.price }} KM</p>
+              <p class="price">{{ parseInt(listing.price) }} KM</p>
               <p v-if="listingType === 'rent'">/ nocenje</p>
             </div>
             <div>
@@ -216,7 +216,7 @@ export default class ListingCard extends Vue{
       border-radius: 10px;
 
       @include for-phone-only {
-        height: 194px;
+        height: 154px;
       }
     }
 

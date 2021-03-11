@@ -31,7 +31,7 @@
               <li v-for="search in searches">
                 <div class="description">
                   <p>{{ search.description }}</p>
-                  <span>
+                  <span v-if="!$device.isMobile">
                     <button class="save" @click="goToSearch(search)">
                       <font-awesome-icon icon="search"></font-awesome-icon>
                       Idi na pretragu
@@ -50,6 +50,16 @@
                   <button>Novogradnja</button>
                 </div>
                 <div class="time"><p>{{ $moment(search.created_at).format('DD.MM.YYYY u HH:MM') }}</p></div>
+                <span v-if="$device.isMobile" class="mobile-buttons">
+                    <button class="save" @click="goToSearch(search)">
+                      <font-awesome-icon icon="search"></font-awesome-icon>
+                      Idi na pretragu
+                    </button>
+                    <button class="save delete" @click="deleteSingleSearch(search.id)">
+                      <font-awesome-icon icon="trash-alt"></font-awesome-icon>
+                      Izbrisi pretragu
+                    </button>
+                  </span>
               </li>
             </ul>
           </div>
@@ -85,7 +95,7 @@ import Snackbar from "@/components/global/Snackbar";
     ListingCard,
     Snackbar
   },
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class spaseno extends Vue {
@@ -183,6 +193,19 @@ export default class spaseno extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.account-wrapper {
+  @include for-phone-only {
+    padding: 0 12px 120px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
 .saved-wrapper {
   ul {
     padding: 0;
@@ -229,6 +252,11 @@ export default class spaseno extends Vue {
 
 .grid-layout {
   padding: 0;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-column-gap: 12px;
+  }
 }
 
 .content-wrapper {
@@ -246,6 +274,10 @@ export default class spaseno extends Vue {
 
     img {
       height: 400px;
+
+      @include for-phone-only {
+        height: 250px;
+      }
     }
 
     p {
@@ -341,6 +373,13 @@ export default class spaseno extends Vue {
       min-height: 100px;
       margin-bottom: 24px;
 
+      @include for-phone-only {
+        flex-direction: column;
+        height: fit-content;
+        min-height: fit-content;
+        margin-bottom: 12px;
+      }
+
       //&::before {
       //  position: absolute;
       //  left: 0;
@@ -376,6 +415,11 @@ export default class spaseno extends Vue {
         justify-content: space-between;
         height: 100%;
 
+        @include for-phone-only {
+          width: 100%;
+          padding: 12px !important;
+        }
+
         &:last-child {
           border-right: none;
         }
@@ -389,6 +433,10 @@ export default class spaseno extends Vue {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+
+            @include for-phone-only {
+              padding-top: 12px;
+            }
 
             .save {
               display: flex;
@@ -427,6 +475,10 @@ export default class spaseno extends Vue {
         &.time {
           padding: 0 24px;
           box-sizing: border-box;
+
+          @include for-phone-only {
+            font-size: 14px !important;
+          }
         }
 
         &.filters {
@@ -436,6 +488,11 @@ export default class spaseno extends Vue {
           grid-column-gap: 12px;
           padding: 0 24px;
           box-sizing: border-box;
+
+          @include for-phone-only {
+            grid-template-columns: repeat(2, 1fr);
+
+          }
 
           button {
             font-family: 'Montserrat', sans-serif;
@@ -448,6 +505,10 @@ export default class spaseno extends Vue {
             background: #f1f1f1;
             font-weight: 500;
             border: none;
+
+            @include for-phone-only {
+              height: 30px;
+            }
 
             &:focus {
               outline: none;
@@ -465,6 +526,33 @@ export default class spaseno extends Vue {
 
 h1 {
   color: rgb(72, 72, 72) !important;
+}
+
+.mobile-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+  button {
+    height: 40px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+    &:first-child {
+      margin-right: 6px;
+      background: #0B8489;
+      color: #fff;
+    }
+    &:last-child {
+      margin-left: 6px;
+      color: #fff;
+      background: #D63946;
+    }
+  }
 }
 
 </style>
