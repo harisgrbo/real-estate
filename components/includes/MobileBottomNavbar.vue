@@ -35,7 +35,6 @@ export default class MobileBottomNavbar extends Vue {
     this.$modal.show(
       {
         render(h) {
-
           return h( CategoriesList, {
             props: {
             },

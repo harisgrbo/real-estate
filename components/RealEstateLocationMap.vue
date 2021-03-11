@@ -219,6 +219,7 @@ export default class RealEstateLocationMap extends Vue{
           lat: parseFloat(self.location.location.lat),
           lng: parseFloat(self.location.location.lng)
         },
+        disableDefaultUI: true,
         mapId: '90b8b95b1bbd0bc9'
       });
       const svgMarker = {

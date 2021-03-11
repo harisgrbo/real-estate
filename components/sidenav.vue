@@ -2,7 +2,7 @@
   <div class="sidenav-wrapper">
     <div class="modal-inner" v-if="$device.isMobile">
       <div class="modal-header">
-        <h2>{{ $auth.user.name }}</h2>
+        <h2 v-if="$auth.user">{{ $auth.user.name }}</h2>
         <i class="material-icons" @click="$modal.hide('sidebar')">close</i>
       </div>
     </div>
@@ -47,19 +47,20 @@
       <li class="links">
         <h2>Ostali linkovi</h2>
       </li>
-      <li v-if="$auth.user">
+      <li>
         <img src="/095-store.svg" alt="">
         <nuxt-link to="/agencije">Agencije</nuxt-link>
       </li>
-      <li v-if="$auth.user">
+      <li>
         <img src="/029-home.svg" alt="">
         <nuxt-link to="/moj-racun/">Novogradnja</nuxt-link>
       </li>
-      <li v-if="$auth.user">
+      <li>
         <img src="/096-target.svg" alt="">
         <nuxt-link to="/marketing/">Oglašavanje na enekretnine.ba</nuxt-link>
       </li>
-      <li v-if="$auth.user">
+      <li>
+        <img src="/063-profile.svg" alt="">
         <nuxt-link to="/o-nama/">O nama</nuxt-link>
       </li>
       <li class="logout" v-if="$auth.user">

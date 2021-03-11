@@ -56,6 +56,10 @@ export default class Auth extends Vue {
       margin: 0 auto;
       margin-bottom: 64px;
       cursor: pointer;
+
+      @include for-phone-only {
+        width: 210px;
+      }
     }
   }
 }
