@@ -343,6 +343,9 @@
     flex-direction: row;
     width: 100%;
     overflow-x: scroll;
+    height: fit-content;
+    padding: 8px 0;
+    overflow-y: hidden;
 
     ::v-deep .most-visited-card {
       min-width: 280px;

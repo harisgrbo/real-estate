@@ -356,7 +356,7 @@ export default class Navbar extends Vue{
   padding: 0px 80px 0px 80px;
 
   @include for-phone-only {
-    padding: 0 12px 0 12px !important;
+    padding: 0 8px 0 8px !important;
     position: fixed;
     bottom: 12px;
     left: 12px;
@@ -454,7 +454,7 @@ export default class Navbar extends Vue{
     @include for-phone-only {
       width: fit-content;
       flex: 0;
-      margin-right: 12px;
+      margin-right: 8px;
     }
 
     &.hide {
@@ -532,6 +532,11 @@ export default class Navbar extends Vue{
       height: 40px;
       font-size: 17px;
 
+      @include for-phone-only {
+        height: 35px;
+        background: transparent;
+      }
+
       &:focus {
         outline: none;
       }
@@ -581,6 +586,11 @@ export default class Navbar extends Vue{
       height: fit-content;
       min-height: 0;
       box-sizing: border-box;
+
+      @include for-phone-only {
+        padding: 8px;
+        padding-top: 8px;
+      }
 
       .quick-filters {
         display: flex;
@@ -883,6 +893,8 @@ export default class Navbar extends Vue{
   @include for-phone-only {
     font-weight: 500;
     font-size: 13px !important;
+    padding-top: 8px;
+    margin-top: 8px;
   }
 }
 </style>
