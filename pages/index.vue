@@ -1,15 +1,45 @@
 <template>
   <div class="homepage-wrap">
+    <h2 class="heading" v-if="$device.isMobile">
+      Kategorije
+    </h2>
+    <ul class="categories-mobile" v-if="$device.isMobile">
+      <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"
+          :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
+      >
+        <div class="img-wrapper">
+          <img :src="cat.icon" alt="cat">
+        </div>
+        <p>{{cat.title}}</p>
+      </li>
+    </ul>
     <h2 class="heading">
       Premium agencije
     </h2>
-    <div class="most-visited-grid agencies">
-      <PremiumAgency v-for="city in 6"></PremiumAgency>
+    <div v-if="!$device.isMobile">
+      <client-only>
+        <swiper class="swiper" height="400px" :options="agencyOptions">
+          <swiper-slide v-for="city in 6">
+            <PremiumAgency></PremiumAgency>
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </client-only>
+    </div>
+    <div v-if="$device.isMobile">
+      <client-only>
+        <swiper class="swiper" height="400px" :options="swiperOption">
+          <swiper-slide v-for="city in 6">
+            <PremiumAgency></PremiumAgency>
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </client-only>
     </div>
     <h2 class="heading">
       Najtraženije lokacije
     </h2>
-    <div class="most-visited-grid">
+    <div :class="[$device.isMobile ? 'mobile-grid-most' : 'most-visited-grid']">
       <MostVisitedCard v-for="city in most_visited_cities" :img="city.img" :city="city.city"></MostVisitedCard>
     </div>
 
@@ -92,6 +122,8 @@
       'Novogradnja'
     ]
     activeTab = 0;
+    categories = []
+    selectedCategory = null;
     most_visited_cities = [
       {
         city: 'Sarajevo',
@@ -128,6 +160,31 @@
 
 
     ]
+    agencyOptions = {
+      loop: true,
+      autoplay: {
+        delay: 1500,
+        disableOnInteraction: false,
+      },
+      slidesPerView: 4,
+      spaceBetween: 12,
+      pagination: {
+        el: '.swiper-pagination',
+        dynamicBullets: true
+      }
+    }
+    swiperOption = {
+      loop: true,
+      autoplay: {
+        delay: 1500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        dynamicBullets: true
+      }
+    }
+
     infiniteHandler($state) {
       this.$axios.get('/listings/home', {
         params: {
@@ -142,6 +199,27 @@
           $state.complete();
         }
       });
+    }
+
+    async fetchCategories() {
+      this.loading = true;
+      try {
+        let response = await this.$axios.get('/categories');
+        this.categories = response.data.data;
+
+        this.loading = false;
+      } catch(e) {
+        console.log(e)
+      }
+    }
+
+    selectCategory(c) {
+      this.selectedCategory = c;
+      this.$emit('selected-category', c);
+    }
+
+    async created() {
+      await this.fetchCategories()
     }
   }
 </script>
@@ -209,6 +287,7 @@
     padding: 0px;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     grid-column-gap: 12px !important;
+
   }
 }
 
@@ -258,6 +337,20 @@
   }
 }
 
+.mobile-grid-most {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow-x: scroll;
+
+    ::v-deep .most-visited-card {
+      min-width: 280px;
+      width: 280px;
+    }
+  }
+}
+
 .most-visited-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -300,6 +393,17 @@ h2.heading {
     height: 1px;
     background: #0B8489;
   }
+
+  @include for-phone-only {
+    margin-top: 32px;
+    color: #484848 !important;
+    font-weight: 500 !important;
+    padding-bottom: 13px;
+    font-size: 18px !important;
+    border-bottom: 1px solid #EBEBEB !important;
+    position: relative;
+    margin-bottom: 26px !important;
+  }
 }
 
 .loader-index {
@@ -313,5 +417,33 @@ h2.heading {
   font-weight: 400;
 }
 
+.categories-mobile {
+  display: grid;
+  flex-direction: row;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 12px;
+  grid-row-gap: 12px;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 8px;
+    border-radius: 8px;
+    height: 100px;
+    padding: 12px;
+    box-sizing: border-box;
+
+    img {
+      height: 45px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+}
 
 </style>

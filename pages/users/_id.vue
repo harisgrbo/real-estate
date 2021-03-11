@@ -282,6 +282,7 @@ export default class Users extends Vue {
     flex-direction: column;
     width: 100%;
     padding: 12px;
+    padding-top: 36px;
   }
 
   .user-content-wrapper {
@@ -423,6 +424,10 @@ export default class Users extends Vue {
       margin-bottom: 36px;
       border-bottom: 1px solid #EBEBEB !important;
 
+      @include for-phone-only {
+        overflow-x: scroll ;
+      }
+
       li {
         font-size: 14px !important;
         line-height: 26px !important;
@@ -433,6 +438,10 @@ export default class Users extends Vue {
         cursor: pointer;
         text-transform: uppercase;
         font-weight:500 !important;
+
+        @include for-phone-only {
+          min-width: fit-content;
+        }
 
         &:last-child {
           margin-right: 0;
@@ -455,6 +464,11 @@ export default class Users extends Vue {
     .grid-layout {
       grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) );
       padding: 0;
+
+      @include for-phone-only {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        grid-column-gap: 12px !important;
+      }
     }
   }
 }

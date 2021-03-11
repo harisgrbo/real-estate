@@ -5,7 +5,7 @@
     <div class="info-wrap">
       <p>{{ city }}</p>
       <span>
-        <small>prosječna cijena nekretnine</small>
+        <small>prosj. cijena nekretnine</small>
         <b>200000 KM</b>
       </span>
     </div>

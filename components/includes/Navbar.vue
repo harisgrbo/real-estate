@@ -49,9 +49,12 @@
            :class="[ focused? 'focused' : '']"
            v-on-clickaway="away"
       >
-        <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']">
+        <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']" v-if="!$device.isMobile">
           <i class="material-icons">search</i>
           <p>Pretraži</p>
+        </button>
+        <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']" v-if="$device.isMobile">
+          <i class="material-icons">search</i>
         </button>
         <input type="text"
                ref="search"
@@ -482,6 +485,7 @@ export default class Navbar extends Vue{
 
     @include for-phone-only {
       box-sizing: border-box;
+      padding: 0 8px;
     }
 
     &.focused {
@@ -526,6 +530,7 @@ export default class Navbar extends Vue{
       width: 100%;
       border: none;
       height: 40px;
+      font-size: 17px;
 
       &:focus {
         outline: none;
@@ -803,7 +808,7 @@ export default class Navbar extends Vue{
 }
 
 .search-btn {
-  width: aut;
+  width: auto;
   transition: 0.3s all ease;
   p {
     display: none;
@@ -826,6 +831,13 @@ export default class Navbar extends Vue{
     color: #fff !important;
     border-radius: 5px !important;
 
+    @include for-phone-only {
+      padding: 0 8px;
+      height: 30px;
+      width: 30px;
+      margin-right: 8px;
+    }
+
     p {
       display: flex;
       margin-left: 12px;
@@ -844,9 +856,15 @@ export default class Navbar extends Vue{
     justify-content: flex-end;
     flex-direction: row-reverse;
 
+    @include for-phone-only {
+      height: 30px !important;
+      padding: 0 !important;
+    }
+
     p {
       margin: 0;
       margin-bottom: 0 !important;
+      text-transform: none !important;
     }
 
     svg {
@@ -861,5 +879,10 @@ export default class Navbar extends Vue{
   padding-top: 12px;
   border-top: 1px solid #dcdcdc;
   margin-top: 12px;
+
+  @include for-phone-only {
+    font-weight: 500;
+    font-size: 13px !important;
+  }
 }
 </style>
