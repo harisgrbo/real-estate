@@ -56,6 +56,7 @@
 .vm--container {
   display: flex;
   align-items: center !important;
+  z-index: 9999 !important;
 }
 
 .vm--modal {

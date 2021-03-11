@@ -4,6 +4,7 @@
       <div class="search-heading">
         <h2>Pronadjeno <b>{{ results.length }}</b> rezultata za vasu pretragu</h2>
         <div class="filter-buttons">
+          <button v-if="$device.isMobile" @click="$modal.show('map-modal')">Mapa</button>
           <button>Sortiraj</button>
           <button>Vrsta oglasa</button>
           <button>Stanje oglasa</button>
@@ -30,7 +31,7 @@
         <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
       </div>
     </div>
-    <div class="map">
+    <div class="map" v-if="!$device.isMobile">
       <SearchMap :locations="results"/>
     </div>
     <client-only>
@@ -72,6 +73,19 @@
         </div>
       </modal>
       <Snackbar></Snackbar>
+      <client-only>
+        <modal name="map-modal" :adaptive="true" height="100%">
+          <div class="modal-inner">
+            <div class="modal-header">
+              <h2>Mapa</h2>
+              <i class="material-icons" @click="$modal.hide('map-modal')">close</i>
+            </div>
+            <div class="modal-content">
+              <SearchMap :locations="results"/>
+            </div>
+          </div>
+        </modal>
+      </client-only>
     </client-only>
   </div>
 </template>
@@ -100,7 +114,7 @@ import Snackbar from "@/components/global/Snackbar";
     TermsFilter,
     Snackbar
   },
-  layout() { return "search" },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 
   watchQuery: true,
 
@@ -216,15 +230,22 @@ export default class Homepage extends Vue {
 </script>
 
 <style scoped lang="scss">
-
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .search-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   height: calc(100vh - 107px);
   position: relative;
-  padding-top: 107px;
   overflow: hidden;
+
+  @include for-phone-only {
+    height: 100%;
+  }
   .filters {
     display: flex;
     flex-direction: column;
@@ -302,12 +323,22 @@ export default class Homepage extends Vue {
     position: relative;
     overflow-y: scroll;
 
+    @include for-phone-only {
+      max-height: 100%;
+      width: 100%;
+      padding: 12px;
+    }
+
     .search-heading {
       position: sticky;
       top: 0;
       background: #fff;
       z-index: 3;
       padding-top: 24px;
+
+      @include for-phone-only {
+        z-index: 2;
+      }
     }
 
     h2 {
@@ -315,6 +346,10 @@ export default class Homepage extends Vue {
       font-weight: 500 !important;
       line-height: 1.125em !important;
       color: #484848 !important;
+
+      @include for-phone-only {
+        font-size: 17px !important;
+      }
     }
 
     .filter-buttons {
@@ -323,6 +358,11 @@ export default class Homepage extends Vue {
       align-items: center;
       padding-bottom: 24px;
       border-bottom: 1px solid #f1f1f1;
+
+      @include for-phone-only {
+        max-width: 100%;
+        overflow-x: scroll;
+      }
 
       button {
         height: 40px;
@@ -339,6 +379,10 @@ export default class Homepage extends Vue {
         cursor: pointer;
         transition: 0.3s all ease;
         font-family: 'Montserrat', sans-serif;
+
+        @include for-phone-only {
+          min-width: fit-content;
+        }
 
         &:hover {
           border: 1px solid #444;
@@ -368,6 +412,10 @@ export default class Homepage extends Vue {
   padding: 0 24px;
   position: relative;
 
+  @include for-phone-only {
+    padding: 0;
+  }
+
   .modal-header {
     display: flex;
     align-items: center;
@@ -381,6 +429,11 @@ export default class Homepage extends Vue {
     width: 100%;
     background: #fff;
 
+    @include for-phone-only {
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+
     h2 {
       font-size: 20px;
       font-weight: 500;
@@ -393,6 +446,10 @@ export default class Homepage extends Vue {
   }
   .modal-content {
     padding: 24px 0;
+
+    @include for-phone-only {
+      padding: 0;
+    }
     textarea {
       height: 200px;
       width: 100%;
