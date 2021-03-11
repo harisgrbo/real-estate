@@ -1,8 +1,8 @@
 <template>
     <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
-      <label class="publisher" v-if="listing.user ? listing.user.user_type === 'agency' : ''">
+      <label class="publisher">
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
-        <span>Agencija</span>
+        <span>{{ translateType() }}</span>
       </label>
       <label class="type">
         <button
@@ -16,8 +16,9 @@
         </button>
 
       </label>
-      <label class="rating" v-if="listing.is_rent">4.9
+      <label class="rating">
         <i class="material-icons">star</i>
+        Agencija
       </label>
 
       <div class="blured-background">
@@ -76,6 +77,18 @@ export default class ListingCard extends Vue{
     "Broj soba",
     "Godina izgradnje"
   ];
+
+  translateType() {
+    if(this.listing.listing_type.shortname === 'buy') {
+      return 'Potražnja'
+    } else if(this.listing.listing_type.shortname === 'sell') {
+      return 'Prodaja'
+    } else if(this.listing.listing_type.shortname === 'rent-for-a-day'){
+      return 'Stan na dan'
+    } else if(this.listing.listing_type.shortname === 'rent') {
+      return 'Iznajmljivanje'
+    }
+  }
 
   getSpecialAttributes() {
     if (!this.listing.attributes) return [];
@@ -148,7 +161,6 @@ export default class ListingCard extends Vue{
         border-radius: 0px;
 
         @include for-phone-only {
-          top: 122px;
         }
 
         button {
@@ -185,7 +197,7 @@ export default class ListingCard extends Vue{
 
         i {
           font-size: 13px;
-          margin-left: 5px;
+          margin-right: 5px;
         }
       }
 
@@ -204,7 +216,7 @@ export default class ListingCard extends Vue{
       border-radius: 10px;
 
       @include for-phone-only {
-        height: 154px;
+        height: 194px;
       }
     }
 

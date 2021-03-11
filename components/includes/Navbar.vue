@@ -78,8 +78,8 @@
             <button @click="toggleCategories">Kategorija</button>
             <button @click="$modal.show('type')">Vrsta oglasa</button>
           </div>
-          <p v-if="savedSearches.length" class="saved-title">Snimljene pretrage</p>
-          <ul v-if="savedSearches.length" class="saved-searches">
+          <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>
+          <ul v-if="$auth.user && savedSearches.length" class="saved-searches">
             <li v-for="search in savedSearches" :id="search.id" @click="goToSearch(search)">
               <p>{{ search.description }}</p>
               <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
@@ -159,12 +159,14 @@ export default class Navbar extends Vue{
   }
 
   async getSearches() {
-    try {
-      let res = await this.$axios.get('/profile/saved/searches');
-      this.savedSearches = res.data.data;
+    if(this.$auth.user) {
+      try {
+        let res = await this.$axios.get('/profile/saved/searches');
+        this.savedSearches = res.data.data;
 
-    } catch(e) {
-      console.log(e)
+      } catch(e) {
+        console.log(e)
+      }
     }
   }
 
@@ -260,34 +262,34 @@ export default class Navbar extends Vue{
   toggleCategories() {
     let self = this;
 
-      this.$modal.show(
-        {
-          render(h) {
+    this.$modal.show(
+      {
+        render(h) {
 
-            return h( CategoriesList, {
-              props: {
+          return h( CategoriesList, {
+            props: {
+            },
+            on: {
+              selectedCat(e) {
+                self.selectedCategory = e;
+                self.closeModal();
               },
-              on: {
-                selectedCat(e) {
-                  self.selectedCategory = e;
-                  self.closeModal();
-                },
-                close() {
-                  // close event needs to be echoed
-                  self.closeModal();
-                }
+              close() {
+                // close event needs to be echoed
+                self.closeModal();
               }
-            });
-          }
-        },
-        {
-        },
-        {
-          'selected-category': this.handleSelectedCategory,
-          adaptive: true,
-          height: "100%",
+            }
+          });
         }
-      );
+      },
+      {
+      },
+      {
+        'selected-category': this.handleSelectedCategory,
+        adaptive: true,
+        height: "100%",
+      }
+    );
   }
 
 
@@ -299,6 +301,7 @@ export default class Navbar extends Vue{
       try {
         let res = await this.$axios.get('/listings/completion?q=' + q);
         this.suggestions = res.data;
+        console.log(res)
       } catch (e) {
         console.log(e)
       }
@@ -364,7 +367,7 @@ export default class Navbar extends Vue{
     align-items: center;
     background: white;
     border-radius:10px;
-    z-index: 10;
+    z-index: 5;
     -webkit-box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
     box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
   }

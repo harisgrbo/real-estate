@@ -3,11 +3,11 @@
     <div v-if="$device.isMobile" class="mobile-topbar">
       <font-awesome-icon icon="angle-left" @click="$router.go(-1)"></font-awesome-icon>
       <div class="buttons">
-        <button v-if="listing.user.id !== $auth.user.id" @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
+        <button @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
           <font-awesome-icon icon="heart"></font-awesome-icon>
           {{ listingSaved ? 'Izbriši iz spašenih' : 'Spasi oglas'}}
         </button>
-        <button v-if="listing.user.id !== $auth.user.id">
+        <button>
           <font-awesome-icon icon="share-square"></font-awesome-icon>
           Podijeli
         </button>
@@ -119,15 +119,9 @@
               <span>{{ attrTranslate(info.value) }}</span>
             </div>
           </div>
-          <div class="separator"></div>
-          <h2 class="heading">U blizini nekretnine</h2>
-          <div class="grid-layout">
-<!--            <ul>-->
-<!--              <li v-for="place in places">-->
-<!--                {{ place.name }}-->
-<!--              </li>-->
-<!--            </ul>-->
-          </div>
+          <div class="separator"v-if="places.length"></div>
+          <h2 class="heading" v-if="places.length">U blizini nekretnine</h2>
+
           <div class="separator"></div>
           <h2 class="heading">Detaljni opis</h2>
           <p class="description">{{ listing.description }}</p>
@@ -135,8 +129,8 @@
           <div class="separator"></div>
           <h2 class="heading">Lokacija nekretnine</h2>
           <RealEstateLocationMap v-if="listing" :location="listing.city"></RealEstateLocationMap>
-          <div class="separator"></div>
-          <h2 class="heading">Pitanja</h2>
+          <div class="separator" v-if="questions.length"></div>
+          <h2 class="heading" v-if="questions.length">Pitanja</h2>
           <div v-if="listing.questions_disabled === true">
             Korisniik je zabranio javna pitanja
           </div>
@@ -733,6 +727,8 @@ export default class Artikal extends Vue {
   ::v-deep .user-content-wrapper{
     @include for-phone-only {
       marign-left: 0 !important;
+      box-shadow: none;
+      border: 1px solid #dcdcdc;
     }
   }
 }
