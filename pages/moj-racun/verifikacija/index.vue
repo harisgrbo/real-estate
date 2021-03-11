@@ -57,7 +57,7 @@ import ActionButton from "@/components/actionButtons/ActionButton";
   components: {
     ActionButton
   },
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class Verifikacija extends Vue {
@@ -81,11 +81,29 @@ export default class Verifikacija extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.account-wrapper {
+  @include for-phone-only {
+    padding: 0 12px 120px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
 .verify-content {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 36px;
+
+  @include for-phone-only {
+    flex-direction: column;
+    margin-top: 0;
+  }
 
   .verify-box {
     display: flex;
@@ -101,6 +119,15 @@ export default class Verifikacija extends Vue {
       margin-right: 32px;
       padding-right: 32px;
       border-right: 1px solid #ebebeb;
+
+      @include for-phone-only {
+        margin-right: 0;
+        padding-right: 0;
+        border-right: none;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #ebebeb;
+      }
     }
 
     h2 {

@@ -72,7 +72,7 @@ import Snackbar from "@/components/global/Snackbar";
     Snackbar
   },
   middleware: ['auth'],
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class urediProfil extends Vue {
@@ -134,6 +134,20 @@ export default class urediProfil extends Vue {
 
 <style scoped lang="scss">
 
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.account-wrapper {
+  @include for-phone-only {
+    padding: 0 12px 120px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
 .heading {
   margin-bottom: 36px;
 }
@@ -179,6 +193,11 @@ h2.heading {
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 24px;
   grid-column-gap: 24px;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(1, 1fr);
+
+  }
 }
 
 .info-wrapper {
@@ -187,10 +206,18 @@ h2.heading {
   justify-content: space-between;
   width: 100%;
 
+  @include for-phone-only {
+    flex-direction: column;
+  }
+
   .field-wrapper {
     display: flex;
     flex-direction: column;
     flex: 6;
+
+    @include for-phone-only {
+      width: 100%;
+    }
   }
 
   .img-upload {
@@ -199,6 +226,11 @@ h2.heading {
     flex: 2;
     box-sizing: border-box;
     margin-left: 48px;
+
+    @include for-phone-only {
+      width: 100%;
+      margin-left: 0;
+    }
 
     .avatar-wrapper {
       border-radius: 10px;

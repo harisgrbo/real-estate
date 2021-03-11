@@ -5,7 +5,7 @@
         <img src="/avatar.jpg" alt="">
         <p>{{ message.user.name }}</p>
       </div>
-      <small>{{ message.created_at }}</small>
+      <small>{{ $moment(message.created_at).fromNow() }} u {{$moment(message.created_at).format('HH:MM')  }}</small>
     </div>
     <div class="content">
       <p>{{ message.question }}</p>
@@ -45,7 +45,7 @@ export default class SingleQuestion extends Vue {
       let res = await this.$axios.post('/listing_questions/' + this.message.id + '/replies', {
         question: this.replyTerm
       });
-      this.message[this.message.id].children.push(res.data.data)
+      this.message[this.message.id].children.push(res.data.data);
     } catch(e) {
       console.log(e)
     }

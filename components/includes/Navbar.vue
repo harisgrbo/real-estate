@@ -347,7 +347,7 @@ export default class Navbar extends Vue{
   position: fixed;
   top: 0;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-  z-index: 5;
+  z-index: 3;
   background: #fff;
   box-sizing: border-box;
   padding: 0px 80px 0px 80px;

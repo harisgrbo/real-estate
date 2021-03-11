@@ -18,6 +18,7 @@
     "@nuxtjs/axios": "^5.12.3",
     "apexcharts": "^3.25.0",
     "core-js": "^3.6.5",
+    "fusioncharts": "^3.16.0",
     "less": "^4.1.1",
     "less-loader": "^8.0.0",
     "moment": "^2.29.1",
