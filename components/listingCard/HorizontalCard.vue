@@ -16,13 +16,13 @@
             <p>{{ listing.address }}</p>
           </div>
         </div>
-        <div class="description">
+        <div class="description" v-if="!$device.isMobile">
           {{ listing.description }}
         </div>
         <div class="price">
             <h1>{{ listing.user.name }}</h1>
           <div class="price-div">
-            <p class="price-label">{{ listing.price }} KM</p>
+            <p class="price-label">{{ parseInt(listing.price) }} KM</p>
             <b>{{ listing.is_rent? '/mj' : '' }}</b>
           </div>
         </div>
@@ -83,6 +83,11 @@ export default class HorizontalCard extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 a {
   position: relative;
   z-index: 1;
@@ -92,6 +97,11 @@ a {
   transition: 0.3s all ease;
   border-bottom: 1px solid #f1f1f1;
   height: 200px;
+
+  @include for-phone-only {
+    height: fit-content;
+    flex-direction: column;
+  }
 }
 .listing-card-wrapper {
   display: flex;
@@ -125,6 +135,14 @@ a {
     width: 300px;
     min-width: 300px;
     border-radius: 10px;
+
+    @include for-phone-only {
+      height: 194px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 100%;
+      margin-bottom: 16px;
+    }
   }
   .column {
     display: flex;
@@ -138,6 +156,10 @@ a {
     justify-content: space-between;
     width: 100%;
     padding: 0 16px;
+
+    @include for-phone-only {
+      padding: 0;
+    }
 
     .description {
       font-size: 14px;
@@ -155,6 +177,7 @@ a {
       h1 {
         font-size: 16px;
         font-weight: 600;
+
       }
 
       .price-div {
@@ -194,6 +217,11 @@ a {
           font-weight: 400;
           font-size: 20px;
           margin-bottom: 8px;
+
+          @include for-phone-only {
+            font-size: 16px;
+            font-weight: 500;
+          }
 
           &:first-child {
             padding-left: 0;
@@ -245,6 +273,10 @@ a {
           width: 100px;
           border-bottom: 1px solid #ddd;
           left: 0;
+
+          @include for-phone-only {
+            display: none
+          }
         }
 
         p {
@@ -253,6 +285,11 @@ a {
           color: #434343;
           font-weight: 500;
           font-size: 15px;
+
+          @include for-phone-only {
+            font-weight: 400;
+            margin-bottom: 12px;
+          }
 
           &:first-child {
             padding-left: 0;
@@ -269,7 +306,8 @@ a {
             border-radius: 2px;
             background: #444;
             top: 6px;
-            left: -1px
+            left: -1px;
+
           }
         }
       }

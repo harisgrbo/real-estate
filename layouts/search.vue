@@ -18,10 +18,19 @@ export default class Search extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .search-wrapp {
 
   ::v-deep .navbar-wrapper {
     padding: 0 24px 0 24px !important;
+
+    @include for-phone-only {
+      padding: 0 !important;
+    }
   }
 }
 </style>

@@ -367,7 +367,7 @@ export default class Navbar extends Vue{
     align-items: center;
     background: white;
     border-radius:10px;
-    z-index: 5;
+    z-index: 3;
     -webkit-box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
     box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
   }
