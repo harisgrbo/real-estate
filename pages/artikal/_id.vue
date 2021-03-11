@@ -355,11 +355,11 @@ export default class Artikal extends Vue {
 
   async askQuestion() {
     try {
-      let question = await this.$axios.post('/listings/' + this.$route.params.id + '/questions', {
+      let response = await this.$axios.post('/listings/' + this.$route.params.id + '/questions', {
         question: this.questionTerm
       });
 
-      this.questions.push(question);
+      this.questions.push(response.data.data);
     } catch(e) {
       console.log(e)
     }
