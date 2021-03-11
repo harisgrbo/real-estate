@@ -53,11 +53,11 @@
     </ul>
 
     <div class="grid-layout" v-if="activeTab === 0">
-      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id" :type="listing.user.user_type"/>
     </div>
 
     <div class="grid-layout" v-if="activeTab === 1">
-      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id" :type="listing.user.user_type"/>
     </div>
 
     <div class="grid-layout" v-if="activeTab === 2">

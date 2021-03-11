@@ -393,15 +393,20 @@ export default class Navbar extends Vue{
       justify-content: space-between;
 
       li {
-        margin-right: 24px;
+        margin-right: 12px;
         text-transform: uppercase;
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
         transition: 0.3s all ease;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
 
         &:hover {
-          transform: scale(1.1);
+          background: rgba(49,51,93,0.61176);
+          border-radius: 5px;
         }
       }
     }
