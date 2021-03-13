@@ -5,7 +5,7 @@
         <img src="/avatar.jpg" alt="">
         <p>{{ message.user.name }}</p>
       </div>
-      <small>{{ $moment(message.created_at).fromNow() }} u {{$moment(message.created_at).format('HH:MM')  }}</small>
+      <small>{{ $moment(message.created_at).format('DD.MM.YYYY') }} u {{$moment(message.created_at).format('HH:MM')  }}</small>
     </div>
     <div class="content">
       <p>{{ message.question }}</p>

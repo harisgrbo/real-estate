@@ -360,6 +360,8 @@ export default class Artikal extends Vue {
       });
 
       this.questions.push(response.data.data);
+
+      this.questionTerm = ''
     } catch(e) {
       console.log(e)
     }

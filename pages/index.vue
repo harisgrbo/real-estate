@@ -16,7 +16,7 @@
     <h2 class="heading">
       Premium agencije
     </h2>
-    <div v-if="!$device.isMobile">
+    <div v-if="!$device.isMobile" class="agencije">
       <client-only>
         <swiper class="swiper" height="400px" :options="agencyOptions">
           <swiper-slide v-for="city in 6">
@@ -53,11 +53,11 @@
     </ul>
 
     <div class="grid-layout" v-if="activeTab === 0">
-      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id" :type="listing.user.user_type"/>
     </div>
 
     <div class="grid-layout" v-if="activeTab === 1">
-      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id" :type="listing.user.user_type"/>
     </div>
 
     <div class="grid-layout" v-if="activeTab === 2">
@@ -448,5 +448,14 @@ h2.heading {
     }
   }
 }
+
+.agencije ::v-deep .swiper-container {
+  padding: 24px 0 !important;
+}
+
+::v-deep .swiper-pagination {
+  bottom: 0px !important;
+}
+
 
 </style>

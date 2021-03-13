@@ -23,7 +23,8 @@
             <h1>{{ listing.user.name }}</h1>
           <div class="price-div">
             <p class="price-label">{{ parseInt(listing.price) }} KM</p>
-            <b>{{ listing.is_rent? '/mj' : '' }}</b>
+            <b v-if="listing.listing_type.shortname === 'rent-for-a-day'">/dan</b>
+            <b v-if="listing.listing_type.shortname === 'rent'">/mj</b>
           </div>
         </div>
       </div>
@@ -50,6 +51,9 @@ export default class HorizontalCard extends Vue{
     buy: 'Potraznja'
   }
   saved = false;
+
+  created() {
+  }
 
   get listingType() {
     return this.types[this.listing.listing_type];
