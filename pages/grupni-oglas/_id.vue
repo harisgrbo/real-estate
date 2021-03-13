@@ -300,6 +300,8 @@ export default class Artikal extends Vue {
         question: this.questionTerm
       });
 
+      this.questionTerm = ''
+
       this.questions.push(question);
     } catch(e) {
       console.log(e)

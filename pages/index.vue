@@ -16,7 +16,7 @@
     <h2 class="heading">
       Premium agencije
     </h2>
-    <div v-if="!$device.isMobile">
+    <div v-if="!$device.isMobile" class="agencije">
       <client-only>
         <swiper class="swiper" height="400px" :options="agencyOptions">
           <swiper-slide v-for="city in 6">
@@ -448,5 +448,14 @@ h2.heading {
     }
   }
 }
+
+.agencije ::v-deep .swiper-container {
+  padding: 24px 0 !important;
+}
+
+::v-deep .swiper-pagination {
+  bottom: 0px !important;
+}
+
 
 </style>

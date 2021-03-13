@@ -163,7 +163,7 @@ export default class Users extends Vue {
   }
 
   async created() {
-    console.log(this.$route)
+    console.log(this.user, 'user')
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
   }
