@@ -43,6 +43,7 @@ export default class NotificationsDropdown extends Vue{
 
     h2 {
       font-weight: 500;
+      font-size: 17px;
     }
   }
 

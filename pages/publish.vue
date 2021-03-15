@@ -319,6 +319,7 @@ export default class Publish extends Vue {
   currentStep = this.steps.STEP_ONE;
 
   async publish() {
+
     const payload = {
       neighbourhood: this.neighbourhood,
       description: this.description,
@@ -331,6 +332,8 @@ export default class Publish extends Vue {
       lng: 43,
       attributes: this.prepareAttributes()
     }
+
+    console.log(payload, 'pejload')
 
     try {
       let response = await this.$axios.post('/listings', payload);

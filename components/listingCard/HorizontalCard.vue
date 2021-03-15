@@ -1,6 +1,7 @@
 <template>
   <div class="listing-card-wrapper">
     <label class="type">{{ listing.listing_type.title }}</label>
+    <label class="type" v-show="this.listing.price < this.avgPrice">{{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}</label>
     <nuxt-link :to="{ path: '/artikal/' + listing.id }">
       <img src="/stan.jpg" alt="">
       <div class="listing-card-content">
@@ -43,6 +44,7 @@ import Snackbar from "@/components/global/Snackbar";
 
 export default class HorizontalCard extends Vue{
   @Prop({ type: Object }) listing
+  @Prop({}) avgPrice
 
   // Translate listing type
   types = {
@@ -52,7 +54,9 @@ export default class HorizontalCard extends Vue{
   }
   saved = false;
 
-  created() {
+  differenceInPrice(a, b) {
+    let diff = 100 * ((a - b) / a );
+    return parseInt(diff) + '% jeftinije';
   }
 
   get listingType() {

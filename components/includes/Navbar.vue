@@ -12,7 +12,7 @@
       </div>
       <div class="auth-buttons">
         <div v-if="! $auth.user" class="auth-reg">
-          <button class="register" @click="$router.push('/auth/register')">REGISTRACIJA</button>
+          <button class="register" @click="$router.push('/auth/register')">Registracija</button>
         </div>
         <button v-if="$auth.user" class="login">
           <font-awesome-icon icon="coins" @click="$router.push('/moj-racun/poruke')"/>
@@ -25,11 +25,6 @@
         <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
           <font-awesome-icon icon="bell"/>
           <p class="notify">2</p>
-
-          <!-- notifications dropdown -->
-          <div class="notification" v-show="showNotifications === true">
-            <NotificationsDropdown @close-notifications="handleCloseNotifications"></NotificationsDropdown>
-          </div>
         </button>
         <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
           <font-awesome-icon icon="bars"></font-awesome-icon>
@@ -38,6 +33,9 @@
         <!-- User dropdown -->
         <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
           <sidenav></sidenav>
+        </div>
+        <div class="notification" v-show="showNotifications === true">
+          <NotificationsDropdown @close-notifications="handleCloseNotifications"></NotificationsDropdown>
         </div>
       </div>
     </div>
@@ -170,6 +168,7 @@ export default class Navbar extends Vue{
   }
 
   handleCloseNotifications() {
+    console.log('radil')
     this.showNotifications = false;
   }
 
@@ -743,6 +742,7 @@ export default class Navbar extends Vue{
         color: #fff;
         font-weight: 600;
         font-size: 12px;
+        text-transform: capitalize !important;
 
         &:last-child {
           margin-left: 12px;
@@ -914,7 +914,7 @@ export default class Navbar extends Vue{
   width: 400px;
   height: fit-content;
   border-radius: 10px;
-  top: 35px;
+  top: 44px;
   right: 0;
   z-index: 4;
   background: #fff;

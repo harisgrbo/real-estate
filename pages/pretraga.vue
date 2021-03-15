@@ -28,7 +28,7 @@
         </modal>
       </div>
       <div class="results">
-        <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
+        <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
         <client-only>
           <Pagination
             ref="pagination"
@@ -207,7 +207,7 @@ export default class Homepage extends Vue {
   created() {
     this.calculateNumOfPages()
 
-    console.log(this.$route, 'last=page')
+    console.log(this.meta.categories, 'last=page')
   }
 
   getResultKey(listing) {
