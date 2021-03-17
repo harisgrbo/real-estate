@@ -31,7 +31,6 @@ export default class TermsFilter extends Vue {
 
   handleChange(e, option) {
     this.toggleOption(option);
-    console.log(this.buildValue("terms", this.options), "clclclclc");
 
     if (this.options.length) {
       this.$emit("input", this.buildValue("terms", this.options));
