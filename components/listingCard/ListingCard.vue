@@ -16,9 +16,9 @@
         </button>
 
       </label>
-      <label class="rating" v-if="!$device.isMobile">
+      <label class="rating" v-if="!$device.isMobile && type === 'agency'">
         <i class="material-icons">star</i>
-        Agencija
+        agencija
       </label>
 
       <div class="blured-background">
@@ -63,6 +63,7 @@ import Snackbar from "@/components/global/Snackbar";
 export default class ListingCard extends Vue{
   @Prop({ type: Object }) listing
   @Prop({ type: Boolean, default: false}) from
+  @Prop({}) type
 
   // Translate listing type
   types = {

@@ -22,9 +22,14 @@
           <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
           <p class="notify">4</p>
         </button>
-        <button v-if="$auth.user" class="login">
-          <font-awesome-icon icon="bell" @click="$router.push('/moj-racun/poruke')"/>
+        <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
+          <font-awesome-icon icon="bell"/>
           <p class="notify">2</p>
+
+          <!-- notifications dropdown -->
+          <div class="notification" v-show="showNotifications === true">
+            <NotificationsDropdown @close-notifications="handleCloseNotifications"></NotificationsDropdown>
+          </div>
         </button>
         <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
           <font-awesome-icon icon="bars"></font-awesome-icon>
@@ -115,10 +120,12 @@ import CategoriesList from "@/components/CategoriesList";
 import ListingType from "@/components/ListingType";
 import sidenav from "@/components/sidenav"
 import { mixin as clickaway } from 'vue-clickaway';
+import NotificationsDropdown from "@/components/NotificationsDropdown"
 
 @Component({
   CategoriesList,
   ListingType,
+  NotificationsDropdown,
   sidenav,
   mixins: [ clickaway ],
 })
@@ -133,6 +140,7 @@ export default class Navbar extends Vue{
   selectedType = null
   searchInput = ""
   savedSearches = []
+  showNotifications = false;
   notificationHandlers = {
     'broadcast.listing_question': this.listingQuestionNotification
   }
@@ -159,6 +167,10 @@ export default class Navbar extends Vue{
 
   goToSearch(s) {
     this.$router.push('/pretraga?q=' + s.query);
+  }
+
+  handleCloseNotifications() {
+    this.showNotifications = false;
   }
 
   async getSearches() {
@@ -393,15 +405,20 @@ export default class Navbar extends Vue{
       justify-content: space-between;
 
       li {
-        margin-right: 24px;
+        margin-right: 12px;
         text-transform: uppercase;
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
         transition: 0.3s all ease;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
 
         &:hover {
-          transform: scale(1.1);
+          background: rgba(49,51,93,0.61176);
+          border-radius: 5px;
         }
       }
     }
@@ -698,12 +715,6 @@ export default class Navbar extends Vue{
         };
         transition: 0.3s all ease;
       }
-
-      &:hover {
-        svg {
-          transform: scale(1.1)
-        }
-      }
     }
 
     button {
@@ -720,10 +731,6 @@ export default class Navbar extends Vue{
 
       &:last-child {
         margin-left: 16px;
-      }
-
-      &:hover {
-        transform: scale(1.1);
       }
 
       &:focus {
@@ -748,6 +755,10 @@ export default class Navbar extends Vue{
         margin-left: 12px;
         color: #fff;
         border-radius: 8px;
+
+        &.notify {
+          position: relative;
+        }
 
         &:hover {
           cursor: pointer;
@@ -896,5 +907,18 @@ export default class Navbar extends Vue{
     padding-top: 8px;
     margin-top: 8px;
   }
+}
+
+.notification {
+  position: absolute;
+  width: 400px;
+  height: fit-content;
+  border-radius: 10px;
+  top: 35px;
+  right: 0;
+  z-index: 4;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+
 }
 </style>

@@ -29,6 +29,14 @@
       </div>
       <div class="results">
         <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
+        <client-only>
+          <Pagination
+            ref="pagination"
+            v-show="meta.total > 20"
+            :current-page="currentPage"
+            :total-pages="last_page"
+            @page-change="pageChangeHandler" />
+        </client-only>
       </div>
     </div>
     <div class="map" v-if="!$device.isMobile">
@@ -102,6 +110,7 @@ import { buildQuery } from "@/util/search";
 import { capitalize } from "@/util/str";
 import SearchMap from "@/components/googleMap/SearchMap";
 import Snackbar from "@/components/global/Snackbar";
+import Pagination from "@/components/pagination";
 
 @Component({
   components: {
@@ -110,6 +119,7 @@ import Snackbar from "@/components/global/Snackbar";
     HorizontalCard,
     RangeFilter,
     CategoryFilter,
+    Pagination,
     TermFilter,
     TermsFilter,
     Snackbar
@@ -132,7 +142,6 @@ import Snackbar from "@/components/global/Snackbar";
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}`)
         results = response.data.data;
-        console.log(response.data.data)
         meta = response.data.meta;
         query = JSON.parse(query)
 
@@ -167,6 +176,8 @@ import Snackbar from "@/components/global/Snackbar";
 })
 export default class Homepage extends Vue {
   searchName = '';
+  currentPage = 1;
+  last_page = 0;
 
   toggleFiltersModal() {
     this.$modal.show('filters');
@@ -176,8 +187,27 @@ export default class Homepage extends Vue {
     this.$modal.show('save-search');
   }
 
+  pageChangeHandler(selectedPage) {
+    this.currentPage = selectedPage;
+    this.$router.push({ query: Object.assign({}, this.$route.query, { page: this.currentPage }) });
+  }
+
+  calculateNumOfPages() {
+    let lp = this.meta.total / this.meta.perPage;
+
+    if(!Number.isInteger(lp)) {
+      lp += 1;
+    }
+
+    this.last_page = parseInt(lp);
+
+    return this.last_page;
+  }
+
   created() {
-    console.log(this.results)
+    this.calculateNumOfPages()
+
+    console.log(this.$route, 'last=page')
   }
 
   getResultKey(listing) {
