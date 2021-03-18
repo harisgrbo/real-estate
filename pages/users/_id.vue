@@ -63,7 +63,7 @@
     </div>
     <div class="content-wrapper">
       <ul>
-        <li v-for="(tab, index) in tabs" @click="activeTab = index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
+        <li v-for="(tab, index) in tabs" @click="activeTab = index" :key="index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
       </ul>
       <div>
         <div v-if="activeTab === 0">

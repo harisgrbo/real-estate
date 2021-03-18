@@ -115,7 +115,7 @@
           <div class="separator" v-if="checkboxAttributes.length"></div>
           <h2 class="heading" v-if="checkboxAttributes.length">Nekretnina posjeduje</h2>
           <div class="grid-layout" v-if="checkboxAttributes.length">
-            <div class="detailed-info" v-for="info in checkboxAttributes">
+            <div class="detailed-info" v-for="(info, index) in checkboxAttributes" :key="index">
               <span>{{ info.name }}</span>
               <span>{{ attrTranslate(info.value) }}</span>
             </div>

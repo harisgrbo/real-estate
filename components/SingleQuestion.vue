@@ -11,7 +11,7 @@
       <p>{{ message.question }}</p>
     </div>
     <div v-if="message.children.length">
-      <div class="box" v-for="reply in message.children">
+      <div class="box" v-for="reply in message.children" :key="reply.id">
         <font-awesome-icon icon="reply"></font-awesome-icon>
         <p>{{ reply.question }}</p>
       </div>

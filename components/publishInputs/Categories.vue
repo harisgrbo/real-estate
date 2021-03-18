@@ -1,7 +1,7 @@
 <template>
   <div class="categories-list-wrap">
     <ul v-if="loading === false">
-      <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"
+      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)"
           :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
       >
         <div class="img-wrapper">
