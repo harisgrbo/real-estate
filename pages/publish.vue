@@ -520,6 +520,7 @@ export default class Publish extends Vue {
     Object.values(this.attributePayload).forEach(item => {
       result.push({
         id: item.id,
+        name: item.name,
         value: item.value
       })
     })
