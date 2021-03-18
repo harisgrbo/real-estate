@@ -14,8 +14,7 @@ export default {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap'}
     ],
     script: [
-      { src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9&callback=initMap"}
-
+      { src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9&callback=initMap"},
     ]
   },
 
@@ -68,7 +67,7 @@ export default {
 
   fontawesome: {
     icons: {
-      solid: ['faAngleRight', 'faAngleLeft', 'faHome', 'faArrowCircleRight', 'faImages', 'faReply', 'faTrashAlt', 'faMinusCircle', 'faUserSlash', 'faReplyAll', 'faEllipsisV', 'faThLarge', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faTh', 'faCog', 'faBars', 'faUser', 'faUserPlus', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faBullhorn', 'faDoorClosed', 'faVectorSquare', 'faHeart', 'faCoins', 'faFileUpload', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faCheckSquare', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
+      solid: ['faAngleRight', 'faAngleLeft', 'faSortDown', 'faHome', 'faChartLine', 'faArrowCircleRight', 'faImages', 'faReply', 'faTrashAlt', 'faMinusCircle', 'faUserSlash', 'faReplyAll', 'faEllipsisV', 'faThLarge', 'faSearch', 'faStar', 'faGrin', 'faPaperclip', 'faPaperPlane', 'faBell', 'faTh', 'faCog', 'faBars', 'faUser', 'faUserPlus', 'faEnvelope', 'faPlus', 'faUserCircle', 'faUserCog', 'faBullhorn', 'faDoorClosed', 'faVectorSquare', 'faHeart', 'faCoins', 'faFileUpload', 'faShareSquare', 'faThumbsUp', 'faEnvelopeOpenText', 'faHouseUser', 'faUserTimes', 'faCheckSquare', 'faUserCheck', 'faFlag', 'faUserSecret', 'faKey', 'faBed', 'faBuilding', 'faRulerCombined'],
     }
   },
   // Modules (https://go.nuxtjs.dev/config-modules)

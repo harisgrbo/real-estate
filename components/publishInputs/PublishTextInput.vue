@@ -30,6 +30,11 @@ export default class PublishTextInput extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -55,6 +60,9 @@ export default class PublishTextInput extends Vue{
     font-size: 14px;
     font-weight: 500;
     font-family: 'Montserrat', sans-serif;
+    @include for-phone-only {
+      padding: 0 12px;
+    }
     &:focus {
       outline: none;
     }

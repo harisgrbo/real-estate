@@ -31,6 +31,11 @@ export default class TextField extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -56,6 +61,9 @@ export default class TextField extends Vue{
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
+
+    @include for-phone-only {
+    }
     &:focus {
       outline: none;
     }

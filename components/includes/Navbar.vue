@@ -164,7 +164,8 @@ export default class Navbar extends Vue{
   }
 
   goToSearch(s) {
-    this.$router.push('/pretraga?q=' + s.query);
+    let q = this.buildTitle(s)
+    this.$router.push('/pretraga?q=[' + q + ']');
   }
 
   handleCloseNotifications() {
@@ -704,6 +705,7 @@ export default class Navbar extends Vue{
       color: #fff;
       margin-left: 16px;
       background: none;
+      padding-right: 0;
 
       svg {
         &:first-child {

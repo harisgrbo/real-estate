@@ -71,7 +71,12 @@
             <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
 
             <InputError :error="errors.address" />
-            <PublishTextInput type="text" title="Adresa" v-model="address"></PublishTextInput>
+            <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+            <ul v-if="recommendedAddresses.length">
+              <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
+                {{ item.description }}
+              </li>
+            </ul>
 
             <InputError :error="errors.price" />
             <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
@@ -317,6 +322,7 @@ export default class Publish extends Vue {
   }
 
   currentStep = this.steps.STEP_ONE;
+  recommendedAddresses = []
 
   async publish() {
 
@@ -403,6 +409,17 @@ export default class Publish extends Vue {
   // Attribute Logic
   filterFor(attr) {
     return `${this.capitalize(attr.attr_type)}Input`;
+  }
+
+  async showAddressAutocomplete() {
+    try {
+      let res = await this.$axios.get('/address/autocomplete/' + this.address);
+      this.recommendedAddresses = res.data.predictions;
+
+      console.log(this.recommendedAddresses)
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   categoryAttributes = []
@@ -879,7 +896,7 @@ export default class Publish extends Vue {
     justify-content: space-between;
 
     h2 {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 500;
     }
 
