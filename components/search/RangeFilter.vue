@@ -3,7 +3,7 @@
     <label>
       {{ displayName }}
     </label>
-    <small v-if="avgPrice">Prosječna cijena nekretnine za izabranu kategoriju je {{ avgPrice.toLocaleString() }}</small>
+    <small v-if="avgPrice">Prosječna cijena nekretnine za izabranu kategoriju je {{ parseInt(avgPrice).toLocaleString() }}</small>
     <div class="input-wrapper">
       <div>
         <label>min cijena</label>

@@ -1,8 +1,5 @@
 <template>
   <div class="homepage-wrap">
-    <h2 class="heading" v-if="$device.isMobile">
-      Kategorije
-    </h2>
     <ul class="categories-mobile" v-if="$device.isMobile">
       <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"
           :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
@@ -421,25 +418,30 @@ h2.heading {
 }
 
 .categories-mobile {
-  display: grid;
+  margin-top: 12px;
+  display: flex;
   flex-direction: row;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 12px;
-  grid-row-gap: 12px;
+  max-width: 100%;
+  overflow-x: scroll;
+  padding: 12px 8px;
+  height: fit-content;
+  box-sizing: border-box;
 
   li {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 8px;
     border-radius: 8px;
-    height: 100px;
+    margin-right: 12px;
+    height: 70px;
+    min-width: 80px;
     padding: 12px;
     box-sizing: border-box;
 
     img {
-      height: 45px;
+      height: 25px;
     }
 
     p {
@@ -451,6 +453,13 @@ h2.heading {
 
 .agencije ::v-deep .swiper-container {
   padding: 24px 0 !important;
+
+}
+
+@include for-phone-only {
+  ::v-deep .swiper-container {
+    padding-bottom: 24px !important;
+  }
 }
 
 ::v-deep .swiper-pagination {

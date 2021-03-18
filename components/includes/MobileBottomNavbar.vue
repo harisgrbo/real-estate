@@ -1,16 +1,25 @@
 <template>
   <div class="mobile-bottom-navbar">
-      <font-awesome-icon icon="home" @click="$router.push('/')"></font-awesome-icon>
-      <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"></font-awesome-icon>
-      <font-awesome-icon icon="plus" @click="$router.push('/publish')" class="publish-btn"></font-awesome-icon>
-      <font-awesome-icon icon="user" @click="$auth.user? $router.push('/users/' + $auth.user.id) : $router.push('/auth/login')"></font-awesome-icon>
+    <nuxt-link :to="{ path: '/' }">
+      <font-awesome-icon icon="home"></font-awesome-icon>
+    </nuxt-link>
+    <nuxt-link to="/moj-racun/poruke">
+      <font-awesome-icon icon="envelope"></font-awesome-icon>
+    </nuxt-link>
+    <nuxt-link to="/publish">
+      <font-awesome-icon icon="plus" class="publish-btn"></font-awesome-icon>
+    </nuxt-link>
+    <nuxt-link :to="goToUser()">
+      <font-awesome-icon icon="user" @click=""></font-awesome-icon>
+    </nuxt-link>
+    <nuxt-link to="#">
       <font-awesome-icon icon="bars" @click="openSidebarMenu"></font-awesome-icon>
-
-      <client-only>
-        <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
-          <sidenav></sidenav>
-        </modal>
-      </client-only>
+    </nuxt-link>
+    <client-only>
+      <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
+        <sidenav></sidenav>
+      </modal>
+    </client-only>
   </div>
 </template>
 b
@@ -61,6 +70,14 @@ export default class MobileBottomNavbar extends Vue {
     );
   }
 
+  goToUser() {
+    if(this.$auth.user) {
+      return '/users/' + this.$auth.user.id
+    } else {
+      return '/auth/login'
+    }
+  }
+
   closeModal() {
     this.$modal.hide('sidebar')
   }
@@ -103,6 +120,14 @@ export default class MobileBottomNavbar extends Vue {
       color: #fff !important;
       border-radius:10px;
       padding: 8px;
+    }
+  }
+
+  a {
+    &.nuxt-link-exact-active {
+      svg {
+        color: red !important;
+      }
     }
   }
 </style>

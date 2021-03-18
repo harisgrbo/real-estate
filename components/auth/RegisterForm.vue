@@ -8,7 +8,7 @@
     <div v-if="currentType === 0">
       <form @submit.prevent="handleUserRegistration">
         <TextField type="text" placeholder="Email" v-model="userPayload.email"></TextField>
-        <TextField type="text" placeholder="Korisnicko ime" v-model="userPayload.name"></TextField>
+        <TextField type="text" placeholder="Korisničko ime" v-model="userPayload.name"></TextField>
         <TextField type="password" placeholder="Lozinka" v-model="userPayload.password"></TextField>
         <ActionButton placeholder="Registruj se kao fizičko lice" @action="handleUserRegistration" :loading="loading"></ActionButton>
       </form>
@@ -16,9 +16,13 @@
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
+        <TextField type="text" placeholder="Naziv agencije" v-model="realEstateAgencyPayload.agency_name"></TextField>
+        <TextField type="text" placeholder="Sjedište agencije" v-model="realEstateAgencyPayload.agency_name"></TextField>
+        <TextField type="number" placeholder="ID broj" v-model="realEstateAgencyPayload.id_number"></TextField>
         <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
-        <TextField type="text" placeholder="Korisnicko ime" v-model="realEstateAgencyPayload.name"></TextField>
+        <TextField type="text" placeholder="Korisničko ime" v-model="realEstateAgencyPayload.name"></TextField>
         <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
+        <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
         <ActionButton placeholder="Registruj se kao pravno lice (agencija)" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
       </form>
     </div>
@@ -32,9 +36,10 @@ import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton";
 import Snackbar from "@/components/global/Snackbar";
+import PublishDropdown from "@/components/publishInputs/PublishDropdown"
 
 @Component({
-  components: {ActionButton, TextField, Snackbar}
+  components: {ActionButton, TextField, Snackbar, PublishDropdown}
 })
 
 export default class RegisterForm extends Vue{
@@ -55,6 +60,7 @@ export default class RegisterForm extends Vue{
   ]
   currentType = 0;
   loading = false;
+  city = null
 
   config = {
     headers: { 'Content-Type': 'application/json' },
@@ -86,6 +92,11 @@ export default class RegisterForm extends Vue{
           });
         }
       })
+  }
+
+  handleSelectedCity(f) {
+    this.city = f;
+
   }
 
   // Real estate agency registration

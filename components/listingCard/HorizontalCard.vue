@@ -1,6 +1,10 @@
 <template>
   <div class="listing-card-wrapper">
     <label class="type">{{ listing.listing_type.title }}</label>
+    <label class="type down" v-show="this.listing.price < this.avgPrice">
+      {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}
+      <font-awesome-icon icon="sort-down"></font-awesome-icon>
+    </label>
     <nuxt-link :to="{ path: '/artikal/' + listing.id }">
       <img src="/stan.jpg" alt="">
       <div class="listing-card-content">
@@ -13,14 +17,15 @@
 
           <!-- Potrebno u responsu vratitit ime grada, category slug i korisnika -->
           <div class="address">
-            <p>{{ listing.address }}</p>
+            <p>Alojza Benca 12, Novo Sarajevo</p>
           </div>
         </div>
         <div class="description" v-if="!$device.isMobile">
           {{ listing.description }}
         </div>
         <div class="price">
-            <h1>{{ listing.user.name }}</h1>
+<!--            <h1>{{ listing.user.name }}</h1>-->
+          <h1>eNekretnine</h1>
           <div class="price-div">
             <p class="price-label">{{ parseInt(listing.price) }} KM</p>
             <b v-if="listing.listing_type.shortname === 'rent-for-a-day'">/dan</b>
@@ -43,6 +48,7 @@ import Snackbar from "@/components/global/Snackbar";
 
 export default class HorizontalCard extends Vue{
   @Prop({ type: Object }) listing
+  @Prop({}) avgPrice
 
   // Translate listing type
   types = {
@@ -52,7 +58,9 @@ export default class HorizontalCard extends Vue{
   }
   saved = false;
 
-  created() {
+  differenceInPrice(a, b) {
+    let diff = 100 * ((a - b) / a );
+    return parseInt(diff) + '%';
   }
 
   get listingType() {
@@ -103,8 +111,13 @@ a {
   height: 200px;
 
   @include for-phone-only {
-    height: fit-content;
-    flex-direction: column;
+    height: 100%;
+    flex-direction: row;
+    padding: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #dcdcdc;
+    box-sizing: border-box;
+
   }
 }
 .listing-card-wrapper {
@@ -113,6 +126,12 @@ a {
   height: 100%;
   width: 100%;
   position: relative;
+
+  @include for-phone-only {
+    flex-direction: row;
+    height: 120px;
+    margin-bottom: 12px;
+  }
 
   label {
     position: absolute;
@@ -132,219 +151,258 @@ a {
     text-transform: none;
     z-index: 2;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-  }
-
-  img {
-    height: 200px;
-    width: 300px;
-    min-width: 300px;
-    border-radius: 10px;
 
     @include for-phone-only {
-      height: 194px;
-      width: 100%;
-      max-width: 100%;
-      min-width: 100%;
-      margin-bottom: 16px;
-    }
-  }
-  .column {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-  }
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      border-radius: 3px;
+      background: #fff;
+      color: #000;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      height: 9px;
+      padding: 4px;
+      font-size: 10px;
+      text-transform: uppercase;
+      z-index: 2;
+      box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+      font-weight: 600;
+        }
 
-  .listing-card-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 16px;
+        &.down {
+          display: flex;
+          background: #0B8489;
+          color: #fff;
+          top: 85px;
+          svg {
+            color: #fff;
+            margin-left: 8px;
+          }
+        }
+}
+
+img {
+height: 200px;
+width: 300px;
+min-width: 300px;
+border-radius: 10px;
+
+@include for-phone-only {
+  height: 100%;
+  width: 120px;
+  max-width: 120px;
+  min-width: 120px;
+  margin-right: 12px;
+  border-radius: 5px;
+}
+}
+.column {
+display: flex;
+width: 100%;
+flex-direction: column;
+}
+
+.listing-card-content {
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+width: 100%;
+padding: 0 16px;
+
+@include for-phone-only {
+  padding: 0;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 21px;
+  padding: 29px 0;
+  height: 100%;
+}
+
+.price {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+
+
+  h1 {
+    font-size: 16px;
+    font-weight: 600;
 
     @include for-phone-only {
-      padding: 0;
-    }
-
-    .description {
       font-size: 14px;
-      line-height: 21px;
-      padding: 29px 0;
-      height: 100%;
+    }
+  }
+
+  .price-div {
+    display: flex;
+    align-items: center;
+    p {
+      font-weight: 500;
     }
 
-    .price {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
+    b {
+      margin-left: 12px;
 
-      h1 {
-        font-size: 16px;
-        font-weight: 600;
-
-      }
-
-      .price-div {
-        display: flex;
-        align-items: center;
-        p {
-          font-weight: 500;
-        }
-
-        b {
-          margin-left: 12px;
-
-        }
-      }
     }
+  }
+}
 
-    .title-price {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+.title-price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #434343;
+  font-weight: 400;
+  font-size: 15px;
+  margin-bottom: 10px;
+
+  .title-box {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+
+    p {
+      position: relative;
+      padding: 0 8px;
       color: #434343;
       font-weight: 400;
-      font-size: 15px;
-      margin-bottom: 10px;
+      font-size: 20px;
+      margin-bottom: 8px;
 
-      .title-box {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        position: relative;
-
-        p {
-          position: relative;
-          padding: 0 8px;
-          color: #434343;
-          font-weight: 400;
-          font-size: 20px;
-          margin-bottom: 8px;
-
-          @include for-phone-only {
-            font-size: 16px;
-            font-weight: 500;
-          }
-
-          &:first-child {
-            padding-left: 0;
-            &::after {
-              display: none;
-            }
-          }
-
-          &::after {
-            position: absolute;
-            content: "";
-            height: 4px;
-            width: 4px;
-            border-radius: 2px;
-            background: #444;
-            top: 9px;
-            left: -1px
-          }
-        }
+      @include for-phone-only {
+        font-size: 16px;
+        font-weight: 500;
       }
 
-      svg {
-        font-size: 22px;
-        color: #dcdcdc;
-      }
-
-      > div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-
-      .price {
-        font-weight: 600;
-      }
-    }
-
-      .address {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        position: relative;
-
+      &:first-child {
+        padding-left: 0;
         &::after {
-          position: absolute;
-          content: "";
-          bottom: -16px;
-          width: 100px;
-          border-bottom: 1px solid #ddd;
-          left: 0;
-
-          @include for-phone-only {
-            display: none
-          }
-        }
-
-        p {
-          position: relative;
-          padding: 0 8px;
-          color: #434343;
-          font-weight: 500;
-          font-size: 15px;
-
-          @include for-phone-only {
-            font-weight: 400;
-            margin-bottom: 12px;
-          }
-
-          &:first-child {
-            padding-left: 0;
-            &::after {
-              display: none;
-            }
-          }
-
-          &::after {
-            position: absolute;
-            content: "";
-            height: 4px;
-            width: 4px;
-            border-radius: 2px;
-            background: #444;
-            top: 6px;
-            left: -1px;
-
-          }
+          display: none;
         }
       }
 
-    .icons-date {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #e9e9e9;
-
-      > div {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        justify-content: flex-start;
-        font-size: 13px;
-        font-weight: 500;
-
-        i {
-          color: #757B9A;
-          margin-right: 8px;
-        }
-      }
-
-      p {
-        font-size: 13px;
-        color: #434343;
-        font-weight: 500;
+      &::after {
+        position: absolute;
+        content: "";
+        height: 4px;
+        width: 4px;
+        border-radius: 2px;
+        background: #444;
+        top: 9px;
+        left: -1px
       }
     }
   }
+
+  svg {
+    font-size: 22px;
+    color: #dcdcdc;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .price {
+    font-weight: 600;
+  }
+}
+
+  .address {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+
+    &::after {
+      position: absolute;
+      content: "";
+      bottom: -16px;
+      width: 100px;
+      border-bottom: 1px solid #ddd;
+      left: 0;
+
+      @include for-phone-only {
+        display: none
+      }
+    }
+
+    p {
+      position: relative;
+      padding: 0 8px;
+      color: #434343;
+      font-weight: 500;
+      font-size: 15px;
+
+      @include for-phone-only {
+        font-weight: 400;
+        margin-bottom: 12px;
+      }
+
+      &:first-child {
+        padding-left: 0;
+        &::after {
+          display: none;
+        }
+      }
+
+      &::after {
+        position: absolute;
+        content: "";
+        height: 4px;
+        width: 4px;
+        border-radius: 2px;
+        background: #444;
+        top: 6px;
+        left: -1px;
+
+      }
+    }
+  }
+
+.icons-date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e9e9e9;
+
+  > div {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-size: 13px;
+    font-weight: 500;
+
+    i {
+      color: #757B9A;
+      margin-right: 8px;
+    }
+  }
+
+  p {
+    font-size: 13px;
+    color: #434343;
+    font-weight: 500;
+  }
+}
+}
 }
 </style>

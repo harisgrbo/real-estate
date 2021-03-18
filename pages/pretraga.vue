@@ -14,21 +14,11 @@
             Spasi pretragu
           </button>
         </div>
-        <modal name="save-search" :adaptive="true" height="100%">
-          <div class="modal-inner">
-            <div class="modal-header">
-              <h2>Snimanje pretrage - unesite naziv</h2>
-              <i class="material-icons" @click="$modal.hide('save-search')">close</i>
-            </div>
-            <div class="modal-content save-search-modal">
-              <input type="text" v-model="searchName">
-              <ActionButton placeholder="Snimi pretragu" @action="saveSearch"></ActionButton>
-            </div>
-          </div>
-        </modal>
       </div>
       <div class="results">
-        <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" />
+        <div class="grid-search">
+          <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+        </div>
         <client-only>
           <Pagination
             ref="pagination"
@@ -43,7 +33,20 @@
       <SearchMap :locations="results"/>
     </div>
     <client-only>
-      <modal name="filters" :adaptive="true" height="100%" width="40%">
+      <modal name="save-search" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Snimanje pretrage</h2>
+            <i class="material-icons" @click="$modal.hide('save-search')">close</i>
+          </div>
+          <div class="modal-content save-search-modal">
+            <h4>Unesite naziv pretrage</h4>
+            <input type="text" v-model="searchName">
+            <ActionButton placeholder="Snimi pretragu" @action="saveSearch"></ActionButton>
+          </div>
+        </div>
+      </modal>
+      <modal name="filters" :adaptive="true" height="100%" :width="[$device.isMobile ? '100%' : '40$']">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Filteri</h2>
@@ -88,7 +91,7 @@
               <h2>Mapa</h2>
               <i class="material-icons" @click="$modal.hide('map-modal')">close</i>
             </div>
-            <div class="modal-content">
+            <div class="modal-content mapa">
               <SearchMap :locations="results"/>
             </div>
           </div>
@@ -207,7 +210,7 @@ export default class Homepage extends Vue {
   created() {
     this.calculateNumOfPages()
 
-    console.log(this.$route, 'last=page')
+    console.log(this.meta.categories, 'last=page')
   }
 
   getResultKey(listing) {
@@ -357,6 +360,7 @@ export default class Homepage extends Vue {
       max-height: 100%;
       width: 100%;
       padding: 12px;
+      padding-bottom: 100px;
     }
 
     .search-heading {
@@ -368,6 +372,11 @@ export default class Homepage extends Vue {
 
       @include for-phone-only {
         z-index: 2;
+
+        h2 {
+          font-size: 15px !important;
+          margin-bottom: 12px !important;
+        }
       }
     }
 
@@ -412,6 +421,8 @@ export default class Homepage extends Vue {
 
         @include for-phone-only {
           min-width: fit-content;
+          padding: 0 12px;
+          border-radius: 10px;
         }
 
         &:hover {
@@ -478,7 +489,13 @@ export default class Homepage extends Vue {
     padding: 24px 0;
 
     @include for-phone-only {
-      padding: 0;
+      padding: 12px;
+    }
+
+    &.mapa {
+      @include for-phone-only {
+        padding: 0px;
+      }
     }
     textarea {
       height: 200px;
@@ -525,6 +542,11 @@ export default class Homepage extends Vue {
 }
 
 .save-search-modal {
+  h4 {
+    margin: 24px 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
   input {
     height: 50px;
     display: flex;
@@ -549,6 +571,11 @@ export default class Homepage extends Vue {
   max-height: 356px;
   min-width: 0px;
   padding: 0 !important;
+}
+
+.grid-search {
+  display: flex;
+  flex-direction: column;
 }
 
 </style>

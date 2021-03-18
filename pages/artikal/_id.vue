@@ -109,6 +109,7 @@
             <div class="detailed-info" v-for="info in normalAttributes">
               <span>{{ info.name }}</span>
               <span>{{ info.value }}</span>
+              {{ info }}
             </div>
           </div>
           <div class="separator" v-if="checkboxAttributes.length"></div>
@@ -119,8 +120,8 @@
               <span>{{ attrTranslate(info.value) }}</span>
             </div>
           </div>
-          <div class="separator"v-if="places.length"></div>
-          <h2 class="heading" v-if="places.length">U blizini nekretnine</h2>
+          <div class="separator"v-if="places"></div>
+          <h2 class="heading" v-if="places">U blizini nekretnine</h2>
 
           <div class="separator"></div>
           <h2 class="heading">Detaljni opis</h2>
@@ -236,7 +237,7 @@ export default class Artikal extends Vue {
   async fetchPlaces() {
     try {
       let res = await this.$axios.get('/listings/' + this.listing.id + '/places');
-      this.places = res.data.results;
+      this.places = res.data;
       console.log(this.places, 'places')
     } catch(e) {
       console.log(e)
@@ -369,7 +370,7 @@ export default class Artikal extends Vue {
 
   async created() {
     console.log(this.listing)
-    // await this.fetchPlaces();
+    await this.fetchPlaces();
     await this.getQuestions();
     this.isUserFollowed = this.isFollowed;
   }
@@ -652,7 +653,7 @@ export default class Artikal extends Vue {
   justify-content: space-between;
 
   h2 {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 500;
   }
 

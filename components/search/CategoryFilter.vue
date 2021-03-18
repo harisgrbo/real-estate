@@ -8,7 +8,8 @@
         v-for="category in categories"
         :class="[value && category.id === value.value ? 'active' : '']"
         @click="handleChange($event, category.id)"
-      >{{ category.title }}</li>
+      >{{ category.title }}
+      </li>
     </ul>
   </div>
 </template>

@@ -63,6 +63,12 @@ export default class TermsFilter extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .terms-filter {
   display: flex;
   flex-direction: column;
@@ -80,6 +86,10 @@ export default class TermsFilter extends Vue {
     grid-template-columns: repeat(3, 1fr);
     grid-row-gap: 12px;
     grid-column-gap: 12px;
+
+    @include for-phone-only {
+      grid-template-columns: repeat(2, 1fr);
+    }
 
     button {
       font-family: 'Montserrat', sans-serif;

@@ -68,7 +68,7 @@ export default class CategoriesList extends Vue{
     }
 
     h2 {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 500;
     }
   }
