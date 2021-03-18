@@ -34,7 +34,7 @@ export default class FilterMixin extends Vue {
 
   buildValue(type, value, name = null) {
     return {
-      name: name || this.filter.name,
+      name: name || (this.attr ? this.filter.id + '': this.filter.name),
       attr: this.attr,
       value: value,
       type: type

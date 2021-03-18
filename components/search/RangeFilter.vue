@@ -19,7 +19,7 @@
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import FilterMixin from "@/components/mixins/FilterMixin.js";
+import FilterMixin from "./FilterMixin.js";
 
 @Component({
   mixins: [FilterMixin]
@@ -35,6 +35,7 @@ export default class RangeFilter extends Vue {
   }
 
   handleChange(e) {
+    console.log(this.filter, 'exexexe');
     this.$emit(
       "input",
       this.buildValue("range", [parseFloat(this.from), parseFloat(this.to)])
