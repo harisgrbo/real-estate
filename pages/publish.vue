@@ -193,20 +193,27 @@
         <!-- izdvajanje -->
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-3">
-          <h2 class="info">Izdvajanje</h2>
-          <div class="img-upload-wrapper">
-            <div class="upload-btn">
-              <font-awesome-icon icon="cloud-upload-alt"></font-awesome-icon>
-              <p>ili</p>
-              <ActionButton placeholder="Dodaj slike"></ActionButton>
+          <h1 class="heading">
+            Promocija oglasa
+          </h1>
+          <div class="advertising-options-wrapper">
+            <div class="advertising-options">
+              <ul>
+                <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
+                  <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
+                  <img :src="option.img" alt="mainoption" class="main">
+                  <div class="text-wrapper">
+                    <p>{{ option.text }}</p>
+                    <p>{{ option.description }}</p>
+                  </div>
+                </li>
+              </ul>
             </div>
-            <div class="uploaded-images">
-              <div class="uploaded-grid">
-                <img src="/stan.jpg" alt="">
-                <img src="/stan.jpg" alt="">
-                <img src="/stan.jpg" alt="">
-                <img src="/stan.jpg" alt="">
+            <div class="advertising-calculator">
+              <div class="inner">
+                test
               </div>
+              <ActionButton placeholder="Dopuni kredit"></ActionButton>
             </div>
           </div>
 
@@ -255,7 +262,8 @@ import ActionButton from "@/components/actionButtons/ActionButton"
     Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton
   },
   middleware: ['auth'],
-  layout() { return "publish" },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'publish',
+
   async asyncData(ctx) {
     let attributes = [];
     let listingTypes = [];
@@ -283,6 +291,31 @@ import ActionButton from "@/components/actionButtons/ActionButton"
 export default class Publish extends Vue {
   // Completion
   completedAttributes = 0
+  selectedAdvertisment = 1;
+  advertising_options = [
+    {
+      id: 1,
+      text: 'Standardna vidljivost',
+      description: 'Oglas nije promovisan',
+      img: '/StandardnaObjava.svg',
+    },
+    {
+      id: 2,
+      text: 'Promocija u kategoriji oglasa',
+      description: 'Oglas promovisan na pretrazi u kategoriji oglasa',
+      img: '/IzdvojenaKategorija.svg'
+    },
+    {
+      id: 3,
+      text: 'Promovisanje u kategoriji oglasa i na početnoj stranici',
+      description: 'Oglas promovisan na pretrazi u kategoriji oglasa i na početnoj stranici sa drugom bojom',
+      img: '/IzdvojenaKategorijaNaslovna.svg'
+    },
+  ]
+
+  selectAdvertisment(o) {
+    this.selectedAdvertisment = o.id;
+  }
 
   get completion() {
     const max = this.stepOneValidationProps.length + this.globalAttributes.length + this.categoryAttributes.length + this.listingTypeAttributes.length;
@@ -311,6 +344,8 @@ export default class Publish extends Vue {
   get allAttributes() {
     return this.globalAttributes.merge(this.categoryAttributes).merge(this.listingTypeAttributes);
   }
+
+
 
   // Errors
   errors = {
@@ -698,6 +733,11 @@ export default class Publish extends Vue {
     padding-bottom: 12px;
     font-weight: 500;
     font-size: 17px;
+
+    @include for-phone-only {
+      padding-top: 12px;
+      box-sizing: border-box;
+    }
   }
 
   .horizontal-progress {
@@ -801,6 +841,11 @@ export default class Publish extends Vue {
         overflow-y: scroll;
         padding-bottom: 84px;
         box-sizing: border-box;
+
+        @include for-phone-only {
+          height: calc(100vh - 75px);
+
+        }
 
         .heading {
           font-size: 20px;
@@ -1077,6 +1122,10 @@ h1.heading {
   justify-content: space-between;
   padding: 36px 0;
 
+  @include for-phone-only {
+    flex-direction: column;
+  }
+
   .upload-btn {
     display: flex;
     flex: 1;
@@ -1105,12 +1154,22 @@ h1.heading {
     margin-left: 24px;
     box-sizing: border-box;
 
+    @include for-phone-only {
+      margin-left: 0;
+      margin-top: 24px;
+    }
+
 
     .uploaded-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-column-gap: 12px;
       grid-row-gap: 12px;
+
+      @include for-phone-only {
+        grid-template-columns: repeat(3, 1fr);
+
+      }
 
       img {
         border-radius: 10px;
@@ -1130,5 +1189,159 @@ h2.info {
   margin-top: 36px !important;
   font-weight: 500 !important;
   line-height: 22px;
+}
+
+.advertising-options-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  @include for-phone-only {
+    flex-direction: column;
+  }
+
+  .advertising-options {
+    display: flex;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    padding: 0px 0 48px 0;
+
+    ul {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+
+      @include for-phone-only {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 12px;
+        grid-row-gap: 12px;
+      }
+
+      li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100px;
+        cursor: pointer;
+        padding: 12px;
+
+        @include for-phone-only {
+          height: fit-content;
+          flex-direction: column;
+        }
+
+        img {
+          margin-right: 24px;
+          height: 30px;
+          margin-bottom: 12px;
+
+          @include for-phone-only {
+            margin-right: 0;
+          }
+
+          &.main {
+            height: 100px;
+
+            @include for-phone-only {
+              height: 60px;
+              margin-bottom: 0;
+            }
+          }
+
+        }
+
+        &.selected {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+      }
+    }
+
+    svg {
+      font-size: 56px;
+      color: #dcdcdc;
+    }
+    .text-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: flex-start;
+
+      @include for-phone-only {
+        align-items: center;
+      }
+
+      p {
+        &:first-child {
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 12px;
+
+          @include for-phone-only {
+            font-size: 16px;
+            text-align: left;
+            margin-bottom: 12px;
+            margin-top: 12px;
+            line-height: 20px;
+            text-align: center;
+          }
+        }
+
+        &:last-child {
+          font-size: 15px;
+          font-weight: 400;
+
+          @include for-phone-only {
+            font-size: 14px;
+            line-height: 20px;
+            text-align: center;
+
+          }
+        }
+      }
+    }
+  }
+
+  .advertising-calculator {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: fit-content;
+    margin-left: 24px;
+
+    @include for-phone-only {
+      margin-left: 0;
+    }
+
+    .inner {
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+
+    ::v-deep button{
+      width: 100%;
+    }
+
+  }
+}
+
+h2.info {
+  background-color: #f1f1f1;
+  color: #444;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 36px !important;
+  font-weight: 500 !important;
+  line-height: 22px;
+}
+
+::v-deep body {
+  height: 100%;
 }
 </style>

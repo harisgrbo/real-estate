@@ -16,7 +16,7 @@
     <div v-if="!$device.isMobile" class="agencije">
       <client-only>
         <swiper class="swiper" height="400px" :options="agencyOptions">
-          <swiper-slide v-for="city in 6">
+          <swiper-slide v-for="(city, index) in 6" :key="index">
             <PremiumAgency></PremiumAgency>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
@@ -26,7 +26,7 @@
     <div v-if="$device.isMobile">
       <client-only>
         <swiper class="swiper" height="400px" :options="swiperOption">
-          <swiper-slide v-for="city in 6">
+          <swiper-slide v-for="(city, index) in 6" :key="index">
             <PremiumAgency></PremiumAgency>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>

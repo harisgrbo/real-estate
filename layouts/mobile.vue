@@ -1,15 +1,17 @@
 <template>
-  <div ref="home" class="home-wrapper">
+  <div ref="home" :class="['home-wrapper', $route.name === 'publish' || $route.name === 'artikal-id' ? 'publish' : '']">
     <div
       class="header"
       :class="{ 'navbar--hidden': !showNavbar }"
+      v-if="$route.name !== 'artikal-id' && $route.name !== 'publish'"
     >
-      <Navbar v-if="$route.name !== 'artikal-id'"></Navbar>
+      <Navbar></Navbar>
     </div>
       <Nuxt />
     <div
       class="navbar"
       :class="{ 'bottom--hidden': !showBottom }"
+      v-if="$route.name !== 'publish'"
     >
       <MobileBottomNavbar></MobileBottomNavbar>
     </div>
@@ -30,7 +32,9 @@ export default class Mobile extends Vue {
   lastScrollPosition = 0
   showBottom = true;
 
-
+  created() {
+    console.log(this.$route.name)
+  }
   mounted() {
     window.addEventListener('scroll', this.handleScroll, true)
   }
@@ -91,6 +95,10 @@ export default class Mobile extends Vue {
 .home-wrapper {
   padding-top: 62px !important;
   &.artikal-page {
+    padding-top: 0 !important;
+  }
+
+  &.publish {
     padding-top: 0 !important;
   }
 }

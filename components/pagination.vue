@@ -4,7 +4,7 @@
       <font-awesome-icon icon="angle-left"/>
     </button>
     <ul>
-      <li v-for="page in computedPages" :class="[page === currentPage ? 'active': '']" @click="handlePageClick(page)">{{ page }}</li>
+      <li v-for="(page, index) in computedPages" :key="index" :class="[page === currentPage ? 'active': '']" @click="handlePageClick(page)">{{ page }}</li>
     </ul>
     <button @click="handlePageClick(currentPage + 1)">
       <font-awesome-icon icon="angle-right"/>

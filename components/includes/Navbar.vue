@@ -86,7 +86,7 @@
           </div>
           <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>
           <ul v-if="$auth.user && savedSearches.length" class="saved-searches">
-            <li v-for="search in savedSearches" :id="search.id" @click="goToSearch(search)">
+            <li v-for="search in savedSearches" :key="search.id" @click="goToSearch(search)">
               <p>{{ search.description }}</p>
               <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
             </li>
