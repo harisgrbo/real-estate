@@ -109,6 +109,7 @@
             <div class="detailed-info" v-for="info in normalAttributes">
               <span>{{ info.name }}</span>
               <span>{{ info.value }}</span>
+              {{ info }}
             </div>
           </div>
           <div class="separator" v-if="checkboxAttributes.length"></div>

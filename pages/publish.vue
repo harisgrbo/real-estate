@@ -79,7 +79,7 @@
             </ul>
 
             <InputError :error="errors.price" />
-            <PublishTextInput type="number" title="Cijena" v-model="price"></PublishTextInput>
+            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
           </div>
           <InputError :error="errors.description" />
           <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
@@ -163,12 +163,61 @@
         </div>
 
         <div v-show="currentStep === steps.STEP_THREE" class="step-3">
-          Step 3
+          <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
+          <div class="img-upload-wrapper">
+            <div class="upload-btn">
+              <font-awesome-icon icon="cloud-upload-alt"></font-awesome-icon>
+              <p>ili</p>
+              <ActionButton placeholder="Dodaj slike"></ActionButton>
+            </div>
+            <div class="uploaded-images">
+              <div class="uploaded-grid">
+                <img src="/stan.jpg" alt="">
+                <img src="/stan.jpg" alt="">
+                <img src="/stan.jpg" alt="">
+                <img src="/stan.jpg" alt="">
+              </div>
+            </div>
+          </div>
 
-          Bice slikica nakon deploya obecavam reha
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
 
-          <button @click="prevStep">Prev</button>
-          <button @click="nextStep">Submit</button>
+        <!-- izdvajanje -->
+
+        <div v-show="currentStep === steps.STEP_FOUR" class="step-3">
+          <h2 class="info">Izdvajanje</h2>
+          <div class="img-upload-wrapper">
+            <div class="upload-btn">
+              <font-awesome-icon icon="cloud-upload-alt"></font-awesome-icon>
+              <p>ili</p>
+              <ActionButton placeholder="Dodaj slike"></ActionButton>
+            </div>
+            <div class="uploaded-images">
+              <div class="uploaded-grid">
+                <img src="/stan.jpg" alt="">
+                <img src="/stan.jpg" alt="">
+                <img src="/stan.jpg" alt="">
+                <img src="/stan.jpg" alt="">
+              </div>
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Završi
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
         </div>
       </div>
     <client-only>
@@ -318,7 +367,8 @@ export default class Publish extends Vue {
     STEP_ONE: 1,
     STEP_TWO: 2,
     STEP_THREE: 3,
-    TOTAL_STEPS: 3
+    STEP_FOUR: 4,
+    TOTAL_STEPS: 4
   }
 
   currentStep = this.steps.STEP_ONE;
@@ -415,6 +465,8 @@ export default class Publish extends Vue {
     try {
       let res = await this.$axios.get('/address/autocomplete/' + this.address);
       this.recommendedAddresses = res.data.predictions;
+
+      console.log(res)
 
       console.log(this.recommendedAddresses)
     } catch(e) {
@@ -1018,5 +1070,65 @@ h1.heading {
 .centered {
   font-weight: 500;
   font-size: 22px;
+}
+
+.img-upload-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 36px 0;
+
+  .upload-btn {
+    display: flex;
+    flex: 1;
+    border: 2px dashed #dcdcdc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    height: fit-content;
+    flex-direction: column;
+    padding: 48px 0;
+
+    svg {
+      font-size: 56px;
+      color: #dcdcdc;
+    }
+    p {
+      margin-top: 24px;
+    }
+  }
+
+  .uploaded-images {
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    margin-left: 24px;
+    box-sizing: border-box;
+
+
+    .uploaded-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-column-gap: 12px;
+      grid-row-gap: 12px;
+
+      img {
+        border-radius: 10px;
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}
+
+h2.info {
+  background-color: #f1f1f1;
+  color: #444;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 36px !important;
+  font-weight: 500 !important;
+  line-height: 22px;
 }
 </style>

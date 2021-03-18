@@ -1,16 +1,15 @@
 <template>
   <div ref="home" class="home-wrapper">
     <div
-        ref="header"
-      :class="['header', hide ? 'hideTop' : '', shader ? 'shader' : '', sticky ? '' : 'not-sticky']"
-      class="md:p-md md:pt-0 lg:p-md xl:p-md up:p-md"
+      class="header"
+      :class="{ 'navbar--hidden': !showNavbar }"
     >
       <Navbar v-if="$route.name !== 'artikal-id'"></Navbar>
     </div>
       <Nuxt />
     <div
-      :class="[hide ? 'hideBot' : '', 'botnav', shader ? 'shader' : '']"
-      class="md:hidden g:hidden xl:hidden up:hidden"
+      class="navbar"
+      :class="{ 'bottom--hidden': !showBottom }"
     >
       <MobileBottomNavbar></MobileBottomNavbar>
     </div>
@@ -27,44 +26,42 @@ import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
 })
 
 export default class Mobile extends Vue {
-  hide = false;
-  lastScrollPosition = 0;
-  shader = false;
-  toggleHideBottomNavbar = false;
-  headerHeight = 0;
-  windowWidth = null;
-  notSticky = false;
-  scrollToTop = false;
-  sticky = false;
+  showNavbar = true
+  lastScrollPosition = 0
+  showBottom = true;
+
 
   mounted() {
-    document.addEventListener('scroll', this.onScroll, true)
+    window.addEventListener('scroll', this.handleScroll, true)
   }
 
-  onScroll(e) {
-    console.log('sadasdasd')
-    this.headerHeight = this.$refs.header.offsetHeight || this.headerHeight;
-    let h = this.$refs.home.offsetHeight;
-    const currentScrollPosition =
-      window.pageYOffset || document.documentElement.scrollTop;
+  getBodyScrollTop() {
+    const el = document.scrollingElement || document.documentElement
+    console.log(el.scrollTop)
 
-    if (currentScrollPosition <= 0) {
-      this.shader = false;
-      return;
-    } else {
-      this.shader = true;
+    return el.scrollTop
+  }
+
+  handleScroll(e) {
+
+
+    let currentScrollPosition = (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop;
+    // console.log(currentScrollPosition, 'csp')
+    if (currentScrollPosition < 0) {
+      return
     }
-    if (
-      Math.abs(currentScrollPosition - this.lastScrollPosition) <
-      this.headerHeight
-    ) {
-      return;
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 100) {
+      return
     }
-    this.hide = currentScrollPosition > this.lastScrollPosition;
-    this.lastScrollPosition = currentScrollPosition;
-    if (h - currentScrollPosition <= 500) {
-      this.hide = true;
-    }
+    this.showNavbar = currentScrollPosition < this.lastScrollPosition
+    this.showBottom = currentScrollPosition < this.lastScrollPosition
+    this.lastScrollPosition = currentScrollPosition
+  }
+
+
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.onScroll)
   }
 }
 </script>
@@ -93,8 +90,6 @@ export default class Mobile extends Vue {
 
 .home-wrapper {
   padding-top: 62px !important;
-  height: 100%;
-  overflow: scroll;
   &.artikal-page {
     padding-top: 0 !important;
   }
@@ -121,53 +116,35 @@ export default class Mobile extends Vue {
   }
 }
 .header {
-  z-index: 1;
-  position: sticky;
-  background-color: #fff;
-  top: 0;
-  right: 0;
-  left: 0;
-  transition: 0.2s all ease-in-out;
-}
-
-.hideTop {
-  top: -66px;
-  z-index: 0;
-  @include for-desktop-up {
-    top: 0;
-  }
-  @include for-laptop {
-    top: 0;
-  }
-}
-
-.shader {
-  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
-  z-index: 4;
-  @include for-desktop-up {
-    background-color: #fff;
-  }
-  @include for-laptop {
-    background-color: #fff;
-  }
-}
-.not-sticky {
-  position: static;
-}
-
-.botnav {
+  height: 60px;
+  width: 100vw;
   position: fixed;
-  bottom: 0;
-  height: 70px;
-  bottom: 0;
-  transition: 0.2s all ease-in-out;
-  width: 100%;
+  z-index: 10;
+  transform: translate3d(0, 0, 0);
+  top: 0px;
+  transition: 0.1s all ease-out;
+
+  &.navbar--hidden {
+    box-shadow: none;
+    transform: translate3d(0, -140%, 0);
+  }
 }
 
-.botnav.hideBot {
-  bottom: -70px;
+.navbar {
+  height: 60px;
+  width: 100vw;
+  position: fixed;
+  z-index: 10;
+  transform: translate3d(0, 0, 0);
+  bottom: 0px;
+  transition: 0.1s all ease-out;
+
+  &.bottom--hidden {
+    box-shadow: none;
+    transform: translate3d(0, 140%, 0);
+  }
 }
+
+
 </style>
 
