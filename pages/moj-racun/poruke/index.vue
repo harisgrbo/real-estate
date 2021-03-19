@@ -213,6 +213,8 @@ export default class poruke extends Vue {
   handleSelectedConversation(e) {
     this.currentConversation = e;
 
+    this.conversations[e.index].unread = 0;
+
     this.fetchMessages(e.id);
 
     if(this.$device.isMobile) {
@@ -227,6 +229,7 @@ export default class poruke extends Vue {
   async created() {
     if(this.conversations.length) {
       this.currentConversation = this.conversations[0];
+      this.conversations[0].unread = 0;
       await this.fetchMessages(this.currentConversation.id);
     }
   }
