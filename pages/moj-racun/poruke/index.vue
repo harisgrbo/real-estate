@@ -28,10 +28,7 @@
           </div>
         </div>
         <div class="conversation-list inner">
-          <ConversationList v-if="conversationsLoaded" :conversations="conversations" v-model="currentConversation" @input="handleSelectedConversation"></ConversationList>
-          <div v-else class="loading-wrapper">
-            <img src="/load.svg" alt="" class="loading-svg">
-          </div>
+          <ConversationList :conversations="conversations" v-model="currentConversation" @input="handleSelectedConversation"></ConversationList>
         </div>
       </div>
       <div class="conversation">
@@ -76,21 +73,34 @@ import { v4 as uuidv4 } from 'uuid';
     ConversationContent,
   },
   middleware: ['auth'],
-  layout() { return "home" }
-})
+  layout() { return "home" },
+  async asyncData(ctx) {
+    let conversations = [];
 
+    try {
+      let res = await ctx.app.$axios.get('/conversations');
+      conversations = res.data.data;
+    } catch(e) {
+      console.log(e)
+    }
+
+    return {
+      conversations
+    }
+  }
+})
 export default class poruke extends Vue {
-  conversations = [];
   currentConversation = null;
   messages = [];
   messageContent = '';
-  conversationsLoaded = true;
   messagesLoaded = true;
 
   mounted() {
 
     this.conversations.forEach((conversation, index) => {
+      console.log(conversation);
       this.$echo.private(`messaging.${conversation.id}`).listen('.message', event => {
+        console.log(event)
         let message = event.message;
         let conversation = message.conversation;
 
@@ -150,25 +160,9 @@ export default class poruke extends Vue {
   }
 
   async created() {
-    await this.fetchConversations();
-
-    console.log(this.conversations);
-
     if(this.conversations.length) {
       this.currentConversation = this.conversations[0];
       await this.fetchMessages(this.currentConversation.id);
-    }
-  }
-
-  async fetchConversations() {
-    this.conversationsLoaded = false;
-    try {
-      let res = await this.$axios.get('/conversations');
-
-      this.conversations = res.data.data;
-      this.conversationsLoaded = true;
-    } catch(e) {
-      console.log(e)
     }
   }
 
