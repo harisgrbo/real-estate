@@ -143,19 +143,31 @@ export default class Navbar extends Vue {
   savedSearches = []
   showNotifications = false;
   notificationTransformers = {
-    'broadcast.listing_question': this.listingQuestionNotificationTransformer,
-    'broadcast.message': this.messageNotificationTransformer()
+    'App\\Notifications\\ListingQuestionNotification': this.listingQuestionNotificationTransformer,
+    'App\\Notifications\\NewMessageNotification': this.messageNotificationTransformer
   }
 
   mounted() {
-    if (this.$auth.user) {
-        this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
-          if (this.notificationTransformers[notification.type]) {
-            let result = this.notificationTransformers[notification.type](notification)
+    this.realtime();
+  }
 
-            this.snackbarNotification(result.text)
+  realtime() {
+    if (this.$auth.user) {
+      this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
+        if (this.notificationTransformers[notification.type]) {
+          let result = this.notificationTransformers[notification.type](notification)
+
+          if (notification.type === 'App\\Notifications\\NewMessageNotification') {
+            if (this.$route.fullPath !== '/moj-racun/poruke') {
+              this.messagesCount++;
+            }
+          } else {
+            this.notifications.unshift(result)
           }
-        })
+
+          this.snackbarNotification(result.text)
+        }
+      })
     }
   }
 
@@ -186,7 +198,18 @@ export default class Navbar extends Vue {
     try {
       let res = await this.$axios.get('/profile/notifications');
 
-      this.notifications = res.data.data.map(item => notificationNormalize(item))
+      console.log(res.data.data);
+
+      this.notifications = res.data.data.map(notification => {
+        if (this.notificationTransformers[notification.type]) {
+          return this.notificationTransformers[notification.type](notification.data)
+        }
+
+        return {
+          text: "Unsupported",
+          action: '/404'
+        }
+      })
     } catch (e) {
       console.log(e)
     }
@@ -232,10 +255,6 @@ export default class Navbar extends Vue {
   }
 
   messageNotificationTransformer(notification) {
-    if (this.$route.fullPath !== '/moj-racun/poruke') {
-      this.messagesCount++;
-    }
-
     let text = `Dobili ste novu poruku od ${notification.message.sender.name}`
 
     return {
