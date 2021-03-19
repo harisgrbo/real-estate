@@ -96,6 +96,25 @@ export default class poruke extends Vue {
   messagesLoaded = true;
 
   mounted() {
+    this.realtime();
+  }
+
+  realtime() {
+    this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
+      if (notification.type === 'broadcast.message') {
+        let message = notification.message;
+        let conversation = message.conversation;
+
+        let index = this.conversations.findIndex(item => item.id === conversation.id)
+
+        if (index === -1) {
+          conversation.unread = 1;
+
+          this.conversations.unshift(conversation);
+        }
+      }
+    })
+
     this.conversations.forEach(conversation => {
       this.$echo.private(`messaging.${conversation.id}`).listen('.message', event => {
         let message = event.message;
