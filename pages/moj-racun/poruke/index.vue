@@ -125,7 +125,7 @@ export default class poruke extends Vue {
         conversation.unread = this.conversations[index].unread;
 
         if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
-          this.messages.push(message)
+          this.messages.unshift(message)
         } else if (this.currentConversation.id !== conversation.id) {
           conversation.unread++;
         }
@@ -143,7 +143,7 @@ export default class poruke extends Vue {
     let key = uuidv4();
 
     try {
-      this.messages.push({
+      this.messages.unshift({
         sender: this.$auth.user,
         content: this.messageContent,
         id: key,
