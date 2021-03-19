@@ -108,6 +108,11 @@ export default class poruke extends Vue {
         }
 
         let tmpConversation = this.conversations[index];
+
+        if (this.currentConversation.id === tmpConversation) {
+          this.currentConversation = tmpConversation;
+        }
+
         this.conversations.splice(index, 1);
         this.conversations.unshift(tmpConversation);
       })
