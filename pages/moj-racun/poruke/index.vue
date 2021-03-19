@@ -103,8 +103,12 @@ export default class poruke extends Vue {
 
         let index = this.conversations.findIndex(item => item.id === conversation.id)
 
+        conversation.unread = this.conversations[index].unread;
+
         if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
           this.messages.push(message)
+        } else if (this.currentConversation.id !== conversation.id) {
+          conversation.unread++;
         }
 
         this.conversations.splice(index, 1);
