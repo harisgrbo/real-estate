@@ -89,7 +89,20 @@ export default class poruke extends Vue {
 
   mounted() {
     this.$echo.private(`messaging.${this.$auth.user.id}`).listen('.message', event => {
-      console.log(event)
+      let message = event.message;
+      let conversation = message.conversation;
+
+      let existingConversation = this.conversations.findIndex(item => item.id === conversation.id)
+
+      if (existingConversation !== -1) {
+        this.conversations[existingConversation] = conversation;
+
+        if (this.currentConversation.id === conversation.id) {
+          this.messages.push(message)
+        }
+      } else {
+        this.conversations.unshift(conversation);
+      }
     })
   }
 
