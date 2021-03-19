@@ -201,13 +201,15 @@ export default class Navbar extends Vue {
   }
 
   messageNotification(notification) {
-    this.messagesCount++;
+    if (this.$route.fullPath !== '/moj-racun/poruke') {
+      this.messagesCount++;
 
-    this.$snackbar.show({
-      text: `Dobili ste novu poruku od ${notification.message.sender.name}`,
-      timeout: 1000,
-      type: "success"
-    })
+      this.$snackbar.show({
+        text: `Dobili ste novu poruku od ${notification.message.sender.name}`,
+        timeout: 1000,
+        type: "success"
+      })
+    }
   }
 
   listingQuestionNotification(notification) {
