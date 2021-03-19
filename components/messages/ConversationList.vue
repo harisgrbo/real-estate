@@ -1,8 +1,8 @@
 <template>
   <div class="conversation-list-wrapper">
     <div class="single-conversation"
-         v-for="conversation in conversations"
-         @click="setSelectedConversation(conversation)"
+         v-for="(conversation, index) in conversations"
+         @click="setSelectedConversation(conversation, index)"
          :class="[ (conversation.id === (value ? value.id: null)) ? 'active' : '']"
     >
       <img src="/avatar.jpg" alt="">
@@ -39,11 +39,8 @@ export default class ConversationList extends Vue {
     return conversation.users.filter( item => item.id !== this.$auth.user.id);
   }
 
-  created() {
-    console.log(this.conversations, 'konz')
-  }
-
-  setSelectedConversation(c) {
+  setSelectedConversation(c, index) {
+    c.index = index;
     this.$emit('input', c);
   }
 }

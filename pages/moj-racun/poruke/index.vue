@@ -187,6 +187,8 @@ export default class poruke extends Vue {
   handleSelectedConversation(e) {
     this.currentConversation = e;
 
+    this.conversations[e.index].unread = 0;
+
     this.fetchMessages(e.id);
   }
 
