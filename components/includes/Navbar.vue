@@ -142,18 +142,32 @@ export default class Navbar extends Vue {
   searchInput = ""
   savedSearches = []
   showNotifications = false;
-  notificationHandlers = {
-    'broadcast.listing_question': this.listingQuestionNotification,
-    'broadcast.message': this.messageNotification
+  notificationTransformers = {
+    'App\\Notifications\\ListingQuestionNotification': this.listingQuestionNotificationTransformer,
+    'App\\Notifications\\NewMessageNotification': this.messageNotificationTransformer
   }
 
   mounted() {
+    this.realtime();
+  }
+
+  realtime() {
     if (this.$auth.user) {
-        this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
-          if (this.notificationHandlers[notification.type]) {
-            this.notificationHandlers[notification.type](notification)
+      this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
+        if (this.notificationTransformers[notification.type]) {
+          let result = this.notificationTransformers[notification.type](notification)
+
+          if (notification.type === 'App\\Notifications\\NewMessageNotification') {
+            if (this.$route.fullPath !== '/moj-racun/poruke') {
+              this.messagesCount++;
+            }
+          } else {
+            this.notifications.unshift(result)
           }
-        })
+
+          this.snackbarNotification(result.text)
+        }
+      })
     }
   }
 
@@ -184,7 +198,18 @@ export default class Navbar extends Vue {
     try {
       let res = await this.$axios.get('/profile/notifications');
 
-      this.notifications = res.data.data
+      console.log(res.data.data);
+
+      this.notifications = res.data.data.map(notification => {
+        if (this.notificationTransformers[notification.type]) {
+          return this.notificationTransformers[notification.type](notification.data)
+        }
+
+        return {
+          text: "Unsupported",
+          action: '/404'
+        }
+      })
     } catch (e) {
       console.log(e)
     }
@@ -229,29 +254,28 @@ export default class Navbar extends Vue {
     }
   }
 
-  messageNotification(notification) {
-    if (this.$route.fullPath !== '/moj-racun/poruke') {
-      this.messagesCount++;
+  messageNotificationTransformer(notification) {
+    let text = `Dobili ste novu poruku od ${notification.message.sender.name}`
 
-      this.$snackbar.show({
-        text: `Dobili ste novu poruku od ${notification.message.sender.name}`,
-        timeout: 1000,
-        type: "success"
-      })
+    return {
+      text: text,
+      action: '/moj-racun/poruke'
     }
   }
 
-  listingQuestionNotification(notification) {
+  listingQuestionNotificationTransformer(notification) {
     let name = notification.user.name;
     let id = notification.listing_id;
 
     let text = `Dobili ste novo pitanje od ${name} za artikal broj: ${id}`
 
-    this.notifications.unshift({
+    return {
       text: text,
       action: `/artikal/${id}`
-    });
+    }
+  }
 
+  snackbarNotification(text) {
     this.$snackbar.show({
       text: text,
       timeout: 1000,
