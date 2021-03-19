@@ -20,11 +20,11 @@
         </button>
         <button v-if="$auth.user" class="login">
           <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
-          <p class="notify">4</p>
+          <p class="notify">{{ messagesCount }}</p>
         </button>
         <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
           <font-awesome-icon icon="bell"/>
-          <p class="notify">2</p>
+          <p class="notify">{{ notifications.length }}</p>
         </button>
         <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
           <font-awesome-icon icon="bars"></font-awesome-icon>
@@ -35,7 +35,7 @@
           <sidenav></sidenav>
         </div>
         <div class="notification" v-show="showNotifications === true">
-          <NotificationsDropdown @close-notifications="handleCloseNotifications"></NotificationsDropdown>
+          <NotificationsDropdown :notifications="notifications" @close-notifications="handleCloseNotifications"></NotificationsDropdown>
         </div>
       </div>
     </div>
@@ -130,8 +130,10 @@ import NotificationsDropdown from "@/components/NotificationsDropdown"
   mixins: [ clickaway ],
 })
 
-export default class Navbar extends Vue{
+export default class Navbar extends Vue {
+  messagesCount = 0;
   showUserDropdown = false
+  notifications = []
   showAutoCompleteDropdown = false
   suggestions = []
   focused = false
@@ -141,7 +143,8 @@ export default class Navbar extends Vue{
   savedSearches = []
   showNotifications = false;
   notificationHandlers = {
-    'broadcast.listing_question': this.listingQuestionNotification
+    'broadcast.listing_question': this.listingQuestionNotification,
+    'broadcast.message': this.messageNotification
   }
 
   mounted() {
@@ -162,6 +165,17 @@ export default class Navbar extends Vue{
 
   async created() {
     await this.getSearches()
+    await this.getNotifications()
+  }
+
+  async getNotifications() {
+    try {
+      let res = this.$axios.get('/profile/notifications');
+
+      this.notifications = res.data.data
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   goToSearch(s) {
@@ -186,9 +200,21 @@ export default class Navbar extends Vue{
     }
   }
 
+  messageNotification(notification) {
+    this.messagesCount++;
+
+    this.$snackbar.show({
+      text: `Dobili ste novu poruku od ${notification.message.sender.name}`,
+      timeout: 1000,
+      type: "success"
+    })
+  }
+
   listingQuestionNotification(notification) {
     let name = notification.user.name;
     let id = notification.listing_id;
+
+    this.notifications.unshift(notification);
 
     this.$snackbar.show({
       text: `Dobili ste novo pitanje od ${name} za artikal broj: ${id}`,
