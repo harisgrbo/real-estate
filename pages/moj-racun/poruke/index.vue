@@ -199,6 +199,7 @@ export default class poruke extends Vue {
   async created() {
     if(this.conversations.length) {
       this.currentConversation = this.conversations[0];
+      this.conversations[0].unread = 0;
       await this.fetchMessages(this.currentConversation.id);
     }
   }
