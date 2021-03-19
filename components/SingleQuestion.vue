@@ -45,7 +45,8 @@ export default class SingleQuestion extends Vue {
       let res = await this.$axios.post('/listing_questions/' + this.message.id + '/replies', {
         question: this.replyTerm
       });
-      this.message[this.message.id].children.push(res.data.data);
+      this.message.children.push(res.data.data);
+      this.replyTerm = ''
     } catch(e) {
       console.log(e)
     }
