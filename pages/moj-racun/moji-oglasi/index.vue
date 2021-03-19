@@ -7,12 +7,16 @@
         <p>Moji oglasi</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Moji oglasi
     </h1>
     <div class="content">
-      <div class="grid-cards">
+      <div v-if="listings.length" class="grid-cards">
         <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+      </div>
+      <div v-else class="no-image">
+        <img src="/noimg.jpg" alt="no-image">
+        <p>Nemate spšenih pretraga</p>
       </div>
     </div>
   </div>
@@ -80,5 +84,26 @@ export default class mojiOglasi extends Vue {
 
 h1 {
   color: rgb(72, 72, 72) !important;
+}
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  img {
+    height: 400px;
+
+    @include for-phone-only {
+      height: 250px;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 24px;
+  }
 }
 </style>

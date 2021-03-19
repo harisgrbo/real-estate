@@ -15,16 +15,14 @@
     >
       <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>
-    <client-only>
-      <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
-        <sidenav></sidenav>
-      </modal>
-    </client-only>
+    <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
+      <sidenav ref="side"></sidenav>
+    </modal>
   </div>
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import {Component, Vue, Watch} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
 import sidenav from "@/components/sidenav"
@@ -38,8 +36,6 @@ export default class Mobile extends Vue {
   lastScrollPosition = 0
   showBottom = true;
 
-  created() {
-  }
   mounted() {
     window.addEventListener('scroll', this.handleScroll, true)
   }
@@ -51,7 +47,6 @@ export default class Mobile extends Vue {
   handleScroll(e) {
     let currentScrollPosition = (document.documentElement && document.documentElement.scrollTop) ||
       document.body.scrollTop;
-    // console.log(currentScrollPosition, 'csp')
     if (currentScrollPosition < 0) {
       return
     }
@@ -62,7 +57,6 @@ export default class Mobile extends Vue {
     this.showBottom = currentScrollPosition < this.lastScrollPosition
     this.lastScrollPosition = currentScrollPosition
   }
-
 
   beforeDestroy () {
     window.removeEventListener('scroll', this.onScroll)

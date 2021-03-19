@@ -206,15 +206,15 @@ export default class RealEstateLocationMap extends Vue{
     if(location !== null) {
       let self = this;
       let center = {
-        lat: parseFloat(self.location.location.lat),
-        lng: parseFloat(self.location.location.lng)
+        lat: parseFloat(self.location.lat),
+        lng: parseFloat(self.location.lng)
       };
       // The map, centered at Uluru
       this.map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 15,
+        zoom: 17,
         center: {
-          lat: parseFloat(self.location.location.lat),
-          lng: parseFloat(self.location.location.lng)
+          lat: parseFloat(self.location.lat),
+          lng: parseFloat(self.location.lng)
         },
         disableDefaultUI: true,
         mapId: '90b8b95b1bbd0bc9'
@@ -233,8 +233,8 @@ export default class RealEstateLocationMap extends Vue{
       // The marker, positioned at Uluru
       this.marker = new google.maps.Marker({
         position: {
-          lat: parseFloat(self.location.location.lat),
-          lng: parseFloat(self.location.location.lng)
+          lat: parseFloat(self.location.lat),
+          lng: parseFloat(self.location.lng)
         },
         map: this.map,
         icon: svgMarker
@@ -245,14 +245,14 @@ export default class RealEstateLocationMap extends Vue{
 
   @Watch('location', { deep: true })
   onLocationChanged(val, oldVal) {
-    this.map.setCenter({ lng: parseFloat(this.location.location.lng), lat: parseFloat(this.location.location.lat) })
+    this.map.setCenter({ lng: parseFloat(this.location.lng), lat: parseFloat(this.location.lat) })
 
     this.moveBus(this.map, this.marker);
   }
 
   moveBus( map, marker ) {
-    this.marker.setPosition( new google.maps.LatLng( this.location.location.lat, this.location.location.lng ) );
-    this.map.panTo( new google.maps.LatLng( this.location.location.lat, this.location.location.lng ) );
+    this.marker.setPosition( new google.maps.LatLng( this.location.lat, this.location.lng ) );
+    this.map.panTo( new google.maps.LatLng( this.location.lat, this.location.lng ) );
   };
 }
 </script>

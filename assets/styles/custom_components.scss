@@ -127,4 +127,8 @@
 
 .breadcrumbs {
   margin-top: 36px;
+
+  @include for-phone-only {
+    margin-bottom: 32px;
+  }
 }

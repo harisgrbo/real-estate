@@ -372,10 +372,10 @@ export default class Navbar extends Vue{
     padding: 0 8px 0 8px !important;
     position: fixed;
     bottom: 12px;
-    left: 12px;
+    left: 4px;
     box-sizing: border-box;
-    right: 12px;
-    top: 12px;
+    right: 4px;
+    top: 4px;
     width: auto;
     height: 60px;
     display: flex;

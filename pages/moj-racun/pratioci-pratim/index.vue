@@ -7,7 +7,7 @@
         <p>Pratim/pratioci</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Pratim/pratioci
     </h1>
     <ul class="navs">
@@ -24,16 +24,18 @@
         <div v-if="followers.length" class="grid-layout">
           <UserCard v-for="user in followers" :user="user" :key="user.id"></UserCard>
         </div>
-        <div v-else>
-          Nemate pratilaca
+        <div v-else class="no-image">
+          <img src="/noimg.jpg" alt="no-image">
+          <p>Nemate pratilaca</p>
         </div>
       </div>
       <div v-show="activeTab === 1">
         <div v-if="followed.length" class="grid-layout">
           <UserCard v-for="user in followed" :user="user" :key="user.id"></UserCard>
         </div>
-        <div v-else>
-          Ne pratite nikoga
+        <div v-else class="no-image">
+          <img src="/noimg.jpg" alt="no-image">
+          <p>Ne pratite nikoga</p>
         </div>
       </div>
     </div>
@@ -49,7 +51,7 @@ import UserCard from "@/components/UserCard";
   components: {
     UserCard,
   },
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class pratioci extends Vue {
@@ -88,6 +90,19 @@ export default class pratioci extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.account-wrapper {
+  @include for-phone-only {
+    padding: 0 12px 120px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
 ul.navs {
   width: 100%;
   display: flex;
@@ -135,4 +150,26 @@ ul.navs {
 h1 {
   color: rgb(72, 72, 72) !important;
 }
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  img {
+    height: 400px;
+
+    @include for-phone-only {
+      height: 250px;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 24px;
+  }
+}
+
 </style>

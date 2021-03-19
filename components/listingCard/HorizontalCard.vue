@@ -1,6 +1,21 @@
 <template>
   <div class="listing-card-wrapper">
     <label class="type" v-if="!$device.isMobile">{{ listing.listing_type.title }}</label>
+    <label class="publisher" v-if="!$device.isMobile">
+      <font-awesome-icon icon="bullhorn"></font-awesome-icon>
+      <span>{{ translateType() }}</span>
+    </label>
+    <label class="type" v-if="!$device.isMobile">
+      <button
+        v-for="(attr, index) in specialAttributes"
+        :key="index"
+        class="standard-tag"
+      >
+        {{ attr.value }}
+        <p v-if="attr.name === 'Kvadratura'"> m²</p>
+        <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
+      </button>
+    </label>
     <nuxt-link :to="{ path: '/artikal/' + listing.id }">
       <img src="/stan.jpg" alt="">
       <div class="listing-card-content">
@@ -79,7 +94,6 @@ export default class HorizontalCard extends Vue{
   specialAttributesKeys = [
     "Kvadratura",
     "Broj soba",
-    "Godina izgradnje"
   ];
 
   created() {
@@ -102,6 +116,19 @@ export default class HorizontalCard extends Vue{
 
   get listingType() {
     return this.types[this.listing.listing_type];
+  }
+
+
+  translateType() {
+    if(this.listing.listing_type.shortname === 'buy') {
+      return 'Potražnja'
+    } else if(this.listing.listing_type.shortname === 'sell') {
+      return 'Prodaja'
+    } else if(this.listing.listing_type.shortname === 'rent-for-a-day'){
+      return 'Stan na dan'
+    } else if(this.listing.listing_type.shortname === 'rent') {
+      return 'Iznajmljivanje'
+    }
   }
 
   saveListing() {
@@ -174,11 +201,10 @@ a {
   label {
     position: absolute;
     left: 8px;
-    top: 32px;
+    top: 24px;
     border-radius: 5px;
     background: #fff;
-    color: #000;
-    font-weight: 500;
+    color: #444;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,44 +212,69 @@ a {
     height: 24px;
     padding: 0 8px;
     font-size: 12px;
-    text-transform: none;
-    z-index: 2;
+    font-weight: 500;
+    text-transform: capitalize;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
 
-    @include for-phone-only {
-      position: absolute;
-      left: 4px;
-      top: 4px;
-      border-radius: 3px;
-      background: #fff;
-      color: #000;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: -webkit-fit-content;
-      width: -moz-fit-content;
-      width: fit-content;
-      height: 9px;
-      padding: 4px;
-      font-size: 10px;
-      text-transform: uppercase;
-      z-index: 2;
-      box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-      font-weight: 600;
+    z-index: 2;
+
+    &.type {
+      background: none;
+      top: 190px;
+      left: 0px;
+      box-shadow: none;
+      border-radius: 0px;
+
+      @include for-phone-only {
+      }
+
+      button {
+        font-family: 'Montserrat', sans-serif;
+        border: none;
+        margin-right: 8px;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+        color: #444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        height: 24px;
+        padding: 0 4px;
+        font-size: 12px;
+        font-weight: 500;
+        box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+
+        span {
+          text-transform: none;
         }
 
-        &.down {
-          display: flex;
-          background: #0B8489;
-          color: #fff;
-          top: 85px;
-          svg {
-            color: #fff;
-            margin-left: 8px;
-          }
+        svg {
+          margin-left: 4px;
         }
-}
+      }
+    }
+
+    &.rating {
+      right: 8px !important;
+      left: inherit;
+
+      i {
+        font-size: 13px;
+        margin-right: 5px;
+      }
+    }
+
+    &.publisher {
+      top: 32px;
+
+      svg {
+        margin-right: 8px;
+      }
+    }
+  }
+
 
 img {
 height: 200px;

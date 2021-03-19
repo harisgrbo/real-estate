@@ -7,7 +7,7 @@
         <p>Privatnost</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Privatnost
     </h1>
   </div>
