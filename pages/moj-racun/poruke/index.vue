@@ -44,9 +44,10 @@
         <div class="main-input-wrapper">
           <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
           <div class="buttons">
-            <font-awesome-icon icon="grin"></font-awesome-icon>
+            <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
             <font-awesome-icon icon="paperclip"></font-awesome-icon>
-            <font-awesome-icon icon="paper-plane" @click="sendMessage"></font-awesome-icon>
+            <font-awesome-icon icon="paper-plane" class="last" @click="sendMessage"></font-awesome-icon>
+            <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
           </div>
         </div>
       </div>
@@ -66,12 +67,14 @@ import { Component, Vue} from "nuxt-property-decorator";
 import ConversationList from "@/components/messages/ConversationList"
 import ConversationContent from "@/components/messages/ConversationContent"
 import { v4 as uuidv4 } from 'uuid';
+import { mixin as clickaway } from 'vue-clickaway';
 
 @Component({
   components: {
     ConversationList,
     ConversationContent,
   },
+  mixins: [ clickaway ],
   middleware: ['auth'],
   layout() { return "home" },
   async asyncData(ctx) {
@@ -92,11 +95,20 @@ import { v4 as uuidv4 } from 'uuid';
 export default class poruke extends Vue {
   currentConversation = null;
   messages = [];
+  showEmoji = false;
   messageContent = '';
   messagesLoaded = true;
 
   mounted() {
     this.realtime();
+  }
+
+  selectEmoji(emoji) {
+    this.messageContent = emoji.data;
+  }
+
+  away() {
+    this.showEmoji = false;
   }
 
   realtime() {
@@ -125,7 +137,7 @@ export default class poruke extends Vue {
         conversation.unread = this.conversations[index].unread;
 
         if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
-          this.messages.push(message)
+          this.messages.unshift(message)
         } else if (this.currentConversation.id !== conversation.id) {
           conversation.unread++;
         }
@@ -143,7 +155,7 @@ export default class poruke extends Vue {
     let key = uuidv4();
 
     try {
-      this.messages.push({
+      this.messages.unshift({
         sender: this.$auth.user,
         content: this.messageContent,
         id: key,
@@ -354,8 +366,9 @@ export default class poruke extends Vue {
             background: #f7f7f7;
             color: #444;
             border-radius: 8px;
+            cursor: pointer;
 
-            &:last-child {
+            &.last {
               margin-right: 0;
               background: #D63946;
               padding: 16px;
@@ -422,5 +435,12 @@ export default class poruke extends Vue {
     color: #484848 !important;
     margin-top: 12px;
     margin-bottom: 24px;
+  }
+
+  .emoji-picker {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: #ffff;
   }
 </style>

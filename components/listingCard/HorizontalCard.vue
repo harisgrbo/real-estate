@@ -1,11 +1,11 @@
 <template>
   <div class="listing-card-wrapper">
-    <label class="type" v-if="!$device.isMobile">{{ listing.listing_type.title }}</label>
+    <label class="type" v-if="$device.isMobile">{{ listing.listing_type.title }}</label>
     <label class="publisher" v-if="!$device.isMobile">
       <font-awesome-icon icon="bullhorn"></font-awesome-icon>
       <span>{{ translateType() }}</span>
     </label>
-    <label class="type" v-if="!$device.isMobile">
+    <label class="bottom" v-if="!$device.isMobile">
       <button
         v-for="(attr, index) in specialAttributes"
         :key="index"
@@ -23,21 +23,20 @@
           <div class="title-price">
             <div class="title-box">
               <p>{{ listing.title }}</p>
+              <div v-if="!$device.isMobile" class="aprox">
+                {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }} ispod prosječne cijene
+              </div>
             </div>
           </div>
 
           <!-- Potrebno u responsu vratitit ime grada, category slug i korisnika -->
           <div class="address">
-            <p>Alojza Benca 12, Novo Sarajevo</p>
+            <p>{{ listing.address }}</p>
           </div>
           <div class="main-options" v-if="$device.isMobile">
-            <label class="first">{{ listing.listing_type.title }}</label>
             <label v-show="this.listing.price < this.avgPrice" @click.stop.prevent="showTooltip = true">
               {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}
               <font-awesome-icon icon="sort-down"></font-awesome-icon>
-              <div class="tooltip" v-if="showTooltip">
-                Oglas je jeftiniji {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }} od prosječne cijene nekretnine u ovoj kategoriji
-              </div>
             </label>
             <label
               v-for="(attr, index) in specialAttributes"
@@ -47,21 +46,17 @@
                 <p v-if="attr.name === 'Kvadratura'">m²</p>
                 <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
             </label>
-            <label>
-              Dvosoban
-            </label>
           </div>
         </div>
         <div class="description" v-if="!$device.isMobile">
           {{ listing.description }}
         </div>
         <div class="price">
-<!--            <h1>{{ listing.user.name }}</h1>-->
-          <h1>eNekretnine</h1>
+          <h1>{{ this.$moment(listing.published_at).fromNow() }}</h1>
           <div class="price-div">
             <p class="price-label">{{ parseInt(listing.price) }} KM</p>
-            <b v-if="listing.listing_type.shortname === 'rent-for-a-day'">/dan</b>
-            <b v-if="listing.listing_type.shortname === 'rent'">/mj</b>
+            <b v-if="listing.listing_type.shortname === 'rent-for-a-day'">dan</b>
+            <b v-if="listing.listing_type.shortname === 'rent'">mj</b>
           </div>
         </div>
       </div>
@@ -215,18 +210,43 @@ a {
     font-weight: 500;
     text-transform: capitalize;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-
     z-index: 2;
 
     &.type {
-      background: none;
-      top: 190px;
-      left: 0px;
-      box-shadow: none;
-      border-radius: 0px;
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      border-radius: 3px;
+      background: #fff;
+      color: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      height: 18px;
+      padding: 0 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: capitalize;
+      box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+      z-index: 2;
 
       @include for-phone-only {
       }
+
+    }
+
+    &.bottom {
+      top: 191px;
+      display: flex;
+      left: 0px;
+      width: fit-content;
+      justify-content: flex-start;
+      min-width: fit-content;
+      background: transparent;
+      box-shadow: none;
 
       button {
         font-family: 'Montserrat', sans-serif;
@@ -254,6 +274,7 @@ a {
           margin-left: 4px;
         }
       }
+
     }
 
     &.rating {
@@ -314,6 +335,7 @@ padding: 0 16px;
   line-height: 21px;
   padding: 29px 0;
   height: 100%;
+  padding-bottom: 12px;
 
   @include for-phone-only {
     padding-bottom: 12px;
@@ -326,33 +348,45 @@ padding: 0 16px;
   justify-content: space-between;
   align-items: center;
 
+  @include for-phone-only {
+    flex-direction: row-reverse;
+  }
 
   h1 {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
 
     @include for-phone-only {
-      font-size: 14px;
+      font-size: 10px;
+      font-weight: 500
     }
   }
 
   .price-div {
     display: flex;
     align-items: center;
+    border: 1px solid #4444;
+    border-radius: 5px;
+    padding: 8px 12px;
     @include for-phone-only {
-
-      p {
-        font-weight: 600 !important;
-      }
+      padding: 4px 8px;
     }
     p {
       font-weight: 500;
+      font-size: 18px;
 
+      @include for-phone-only {
+        font-weight: 600 !important;
+        font-size: 14px;
+      }
     }
 
     b {
-      margin-left: 12px;
-
+      font-weight: 500;
+      font-size: 14px;
+      border-left: 1px solid #444;
+      padding-left: 8px;
+      margin-left: 8px;
     }
   }
 }
@@ -374,8 +408,9 @@ padding: 0 16px;
     max-width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     position: relative;
+    width: 100%;
 
     p {
       position: relative;
@@ -485,8 +520,10 @@ padding: 0 16px;
     display: flex;
     flex-direction: row;
     height: fit-content;
+    flex-wrap: wrap;
 
     label {
+      margin-bottom: 4px;
       margin-right: 8px;
       height: 20px;
       border: none;
@@ -498,25 +535,11 @@ padding: 0 16px;
       padding: 0 4px;
       box-shadow: none;
       box-sizing: border-box;
-      position: relative;
       text-transform: none;
+      position: static;
 
-      .tooltip {
-        display: none;
-        position: absolute;
-        top: 0px;
-        left: 0;
-        right: 0;
-        width: 100%;
-        z-index: 10;
-        background: #000000ab;
-        border-radius: 8px;
-        padding: 4px;
-        width: 200px;
-        text-transform: capitalize;
-        color: #fff;
-        line-height: 20px;
-        display: flex;
+      &:last-child {
+        margin-right: 0;
       }
 
       &.first {
@@ -561,5 +584,19 @@ padding: 0 16px;
   }
 }
 }
+}
+
+.aprox {
+  min-height: 30px;
+  padding: 0 8px;
+  font-size: 13px;
+  background: #f1f1f1;
+  font-weight: 600;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
 }
 </style>
