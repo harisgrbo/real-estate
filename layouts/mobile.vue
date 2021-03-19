@@ -48,7 +48,7 @@ export default class Mobile extends Vue {
 
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange() {
-    this.$refs.hide('sidebar');
+    this.$refs.side.closeSidebar();
   }
 
   handleScroll(e) {
