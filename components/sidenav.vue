@@ -3,7 +3,7 @@
     <div class="modal-inner" v-if="$device.isMobile">
       <div class="modal-header">
         <h2 v-if="$auth.user">{{ $auth.user.name }}</h2>
-        <i class="material-icons" @click="$modal.hide('sidebar')">close</i>
+        <i class="material-icons" @click="closeSidebar">close</i>
       </div>
     </div>
     <ul>
@@ -93,13 +93,17 @@ export default class sidenav extends Vue {
   }
 
   goToUSer() {
-   if(this.$auth.user) {
-     if(this.$auth.user.user_type === 'agency') {
-       this.$router.push('/agency/' + this.$auth.user.id)
-     } else {
-       this.$router.push('/users/' + this.$auth.user.id)
+     if(this.$auth.user) {
+       if(this.$auth.user.user_type === 'agency') {
+         this.$router.push('/agency/' + this.$auth.user.id)
+       } else {
+         this.$router.push('/users/' + this.$auth.user.id)
+       }
      }
-   }
+  }
+
+  closeSidebar() {
+    this.$modal.hide('sidebar')
   }
 }
 </script>

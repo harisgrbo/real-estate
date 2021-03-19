@@ -7,7 +7,7 @@
         <p>Spašeno</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Spašeno
     </h1>
     <div class="content-wrapper">
@@ -22,11 +22,6 @@
       <div class="saved-content">
         <div v-show="activeTab === 0">
           <div v-if="searches.length" class="searches-wrap">
-<!--            <ul class="top-list">-->
-<!--              <li>Naziv pretrage</li>-->
-<!--              <li>Filteri</li>-->
-<!--              <li>Datum sacuvane pretrage</li>-->
-<!--            </ul>-->
             <ul class="searches">
               <li v-for="search in searches">
                 <div class="description">

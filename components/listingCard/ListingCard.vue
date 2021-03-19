@@ -31,7 +31,7 @@
             </p>
           </div>
           <div class="address">
-            <p>{{ sliceAddress(listing.address) }}</p>
+            <p>{{ listing.address }}</p>
           </div>
           <div class="icons-date">
             <div>
@@ -103,9 +103,6 @@ export default class ListingCard extends Vue{
     this.$emit('remove-from-saved', id)
   }
 
-  sliceAddress(address) {
-    return address.slice(0, 15) + '...'
-  }
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
@@ -271,6 +268,10 @@ export default class ListingCard extends Vue{
           font-weight: 400;
           font-size: 14px;
           padding-left: 11px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
 
           &:first-child {
             padding-left: 0;
@@ -309,6 +310,10 @@ export default class ListingCard extends Vue{
           color: #444;
           line-height: 20px;
           margin-top: 10px;
+
+          @include for-phone-only {
+            font-size: 13px;
+          }
         }
 
         > div {
@@ -400,5 +405,9 @@ export default class ListingCard extends Vue{
   .time {
     font-size: 12px !important;
     font-weight: 400;
+
+    @include for-phone-only {
+      font-size: 11px !important;
+    }
   }
 </style>

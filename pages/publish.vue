@@ -58,14 +58,6 @@
             <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
-          <h2>Lokacija</h2>
-
-          <div v-if="city !== null">
-            <p>{{ city.name }}</p>
-          </div>
-
-          <ActionButton @action="showModal" :placeholder="city === null? 'Izaberite lokaciju' : 'Promijenite lokaciju'"></ActionButton>
-
           <div class="grid-filters">
             <InputError :error="errors.neighbourhood" />
             <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
@@ -81,6 +73,18 @@
             <InputError :error="errors.price" />
             <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
           </div>
+          <h2>Lokacija</h2>
+
+          <div v-if="city !== null">
+            <p>{{ city.name }}</p>
+          </div>
+
+          <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
+
+          <div v-if="city !== null" class="map-wrapper">
+            <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
+          </div>
+          <InputError :error="errors.city" />
           <InputError :error="errors.description" />
           <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
 
@@ -132,31 +136,11 @@
             />
           </div>
 
-
-
-<!--          <p class="global-heading">Listing tip obicni attributi</p>-->
-<!--          <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">-->
-<!--            <InputError :error="errors.attributes[attr.id]" />-->
-<!--            <component-->
-<!--              :attr="attr"-->
-<!--              :options="attr"-->
-<!--              :is="filterFor(attr)"-->
-<!--              @changed="handleChangedAttribute"-->
-<!--            />-->
-<!--          </div>-->
-
-<!--          <h2>Nekretnina posjeduje</h2>-->
-<!--          <TermInput-->
-<!--            v-for="attr in termListingTypeAttributes"-->
-<!--            @changed="handleChangedAttribute"-->
-<!--            :attr="attr"-->
-<!--            :key="attr.id"-->
-<!--          />-->
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
               <i class="material-icons">chevron_left</i>
             </button>
-            <button @click="nextStep">Next
+            <button @click="nextStep">Dalje
               <i class="material-icons">chevron_right</i>
             </button>
           </div>
@@ -227,23 +211,6 @@
           </div>
         </div>
       </div>
-    <client-only>
-      <modal name="location" :adaptive="true" height="100%">
-        <div class="modal-inner">
-          <div class="modal-header">
-            <h2>Izaberite lokaciju</h2>
-            <i class="material-icons" @click="$modal.hide('location')">close</i>
-          </div>
-          <div class="modal-content">
-              <div v-if="city !== null" class="map-wrapper">
-                <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
-              </div>
-              <InputError :error="errors.city" />
-              <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
-          </div>
-        </div>
-      </modal>
-    </client-only>
   </div>
 </template>
 
@@ -856,7 +823,7 @@ export default class Publish extends Vue {
 
         @include for-phone-only {
           height: calc(100vh - 75px);
-
+          padding-bottom: 120px;
         }
 
         .heading {
@@ -892,7 +859,12 @@ export default class Publish extends Vue {
           padding: 0 24px;
           box-sizing: border-box;
           background: #fff;
-          justify-content: flex-end;
+          justify-content: space-between;
+
+          @include for-phone-only {
+            padding: 0;
+            justify-content: space-between;
+          }
 
 
           button {
@@ -912,6 +884,7 @@ export default class Publish extends Vue {
             transition: 0.3s all ease;
             margin-bottom: 0;
             font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
 
             &.back {
               margin-right: 24px;
@@ -935,6 +908,11 @@ export default class Publish extends Vue {
     grid-template-columns: repeat(3, 1fr);
     grid-row-gap: 24px;
     grid-column-gap: 46px;
+
+    @include for-phone-only {
+      grid-template-columns: repeat(2, 1fr);
+
+    }
   }
 
   .global-heading {
@@ -1042,6 +1020,7 @@ export default class Publish extends Vue {
 
 .map-wrapper {
   margin-bottom: 24px;
+  margin-top: 24px;
 
   ::v-deep #map {
     margin-top: 0;
@@ -1106,6 +1085,13 @@ h1.heading {
   border-bottom: 1px solid #EBEBEB !important;
   position: relative;
   margin-top: 24px;
+
+  @include for-phone-only {
+    font-size: 18px !important;
+    padding-bottom: 12px !important;
+    margin-top: 12px !important;
+    margin-bottom: 12px !important;
+  }
 
   &::after {
     content: '';
@@ -1248,7 +1234,6 @@ h2.info {
         img {
           margin-right: 24px;
           height: 30px;
-          margin-bottom: 12px;
 
           @include for-phone-only {
             margin-right: 0;

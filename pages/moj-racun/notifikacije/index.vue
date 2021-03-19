@@ -7,7 +7,7 @@
         <p>Obavijesti</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Obavijesti
     </h1>
   </div>

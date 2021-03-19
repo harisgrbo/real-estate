@@ -87,10 +87,10 @@ export default class Categories extends Vue {
     grid-row-gap: 32px;
 
     @include for-phone-only {
-      grid-template-columns: repeat(2, 1fr) !important;
+      grid-template-columns: repeat(1, 1fr) !important;
       grid-column-gap: 12px !important;
       grid-row-gap: 12px !important;
-      margin-top: 32px;
+      margin-top: 0px;
     }
     li {
       display: flex;
@@ -125,6 +125,13 @@ export default class Categories extends Vue {
     .selected {
       border: 1px solid #757B9A;
       box-shadow: rgba(0, 0, 0, 0.19) 0px 1px 12px;
+
+      @include for-phone-only {
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 4px 5px;
+        border: none;
+        background: #f1f1f1;
+        color: #444;
+      }
     }
   }
 

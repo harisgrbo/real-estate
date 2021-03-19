@@ -44,6 +44,10 @@ export default class TextField extends Vue{
     font-weight: 600;
     font-size: 16px;
     margin-bottom: 12px;
+    @include for-phone-only {
+      font-size: 14px;
+      font-weight: 500;
+    }
   }
   input {
     display: flex;
@@ -62,8 +66,6 @@ export default class TextField extends Vue{
     font-size: 14px;
     font-weight: 500;
 
-    @include for-phone-only {
-    }
     &:focus {
       outline: none;
     }

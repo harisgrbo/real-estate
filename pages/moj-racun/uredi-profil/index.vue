@@ -176,6 +176,13 @@ h2.heading {
   border-bottom: 1px solid #EBEBEB !important;
   position: relative;
 
+  @include for-phone-only {
+    margin-top: 24px;
+    padding-bottom: 12px !important;
+    margin-bottom: 36px !important;
+    font-size: 18px !important;
+  }
+
   &::after {
     content: '';
     position: absolute;
