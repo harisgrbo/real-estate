@@ -28,7 +28,7 @@
           <ConversationList :conversations="conversations" v-model="currentConversation" @input="handleSelectedConversation"></ConversationList>
         </div>
       </div>
-      <div class="conversation">
+      <div class="conversation" v-if="!$device.isMobile">
         <div class="heading-wrapper center">
           <h1>{{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
         </div>
@@ -58,23 +58,28 @@
     </div>
     <client-only>
       <modal name="poruke" :adaptive="true" height="100%" @closed="closeModal">
-        <div class="conversation">
-          <div class="heading-wrapper center">
-            <h1>{{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Razgovor sa {{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h2>
+            <i class="material-icons" @click="$modal.hide('filters')">close</i>
           </div>
-          <div class="messages-wrap">
-            <ConversationContent v-if="messagesLoaded" :messages="messages"></ConversationContent>
-            <div v-else class="loading-wrapper">
-              <img src="/load.svg" alt="" class="loading-svg">
-            </div>
-          </div>
-          <div class="main-input-wrapper">
-            <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
-            <div class="buttons">
-              <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
-              <font-awesome-icon icon="paperclip"></font-awesome-icon>
-              <font-awesome-icon icon="paper-plane" class="last" @click="sendMessage"></font-awesome-icon>
-              <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
+          <div class="modal-content">
+            <div class="conversation">
+              <div class="messages-wrap">
+                <ConversationContent v-if="messagesLoaded" :messages="messages"></ConversationContent>
+                <div v-else class="loading-wrapper">
+                  <img src="/load.svg" alt="" class="loading-svg">
+                </div>
+              </div>
+              <div class="main-input-wrapper">
+                <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
+                <div class="buttons">
+                  <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
+                  <font-awesome-icon icon="paperclip"></font-awesome-icon>
+                  <font-awesome-icon icon="paper-plane" class="last" @click="sendMessage"></font-awesome-icon>
+                  <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -370,82 +375,6 @@ export default class poruke extends Vue {
       }
     }
 
-    .conversation {
-      display: flex;
-      flex: 6;
-      background: #f7f7f7;
-      border-radius: 15px;
-      flex-direction: column;
-      position: relative;
-      box-shadow: rgb(0 0 0 / 8%) 0px 6px 12px;
-      height: calc(100vh - 195px);
-
-      @include for-phone-only {
-        display: none;
-      }
-
-
-      .main-input-wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
-        padding: 0 12px;
-        box-sizing: border-box;
-        height: 70px;
-        position: absolute;
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
-
-        .buttons {
-          width: fit-content;
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-
-          svg {
-            margin-right: 12px;
-            padding: 12px;
-            background: #f7f7f7;
-            color: #444;
-            border-radius: 8px;
-            cursor: pointer;
-
-            &.last {
-              margin-right: 0;
-              background: #D63946;
-              padding: 16px;
-              color: #fff;
-            }
-          }
-        }
-
-        input {
-          width: 100%;
-          height: 100%;
-          border: none;
-          background: transparent;
-          padding: 0 12px;
-          font-size: 16px;
-
-          &::placeholder {
-            color: #444;
-          }
-
-          &:focus {
-            border: none;
-            outline: none;
-          }
-        }
-      }
-
-      .heading-wrapper {
-        padding-left: 24px;
-      }
-    }
 
     .user-info {
       display: flex;
@@ -500,4 +429,147 @@ export default class poruke extends Vue {
       margin-bottom: 12px !important;
     }
   }
+
+.conversation {
+  display: flex;
+  flex: 6;
+  background: #f7f7f7;
+  border-radius: 15px;
+  flex-direction: column;
+  position: relative;
+  box-shadow: rgb(0 0 0 / 8%) 0px 6px 12px;
+  height: calc(100vh - 195px);
+
+  .main-input-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    height: 70px;
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+
+    .buttons {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      svg {
+        margin-right: 12px;
+        padding: 12px;
+        background: #f7f7f7;
+        color: #444;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &.last {
+          margin-right: 0;
+          background: #D63946;
+          padding: 16px;
+          color: #fff;
+        }
+      }
+    }
+
+    input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      padding: 0 12px;
+      font-size: 16px;
+
+      &::placeholder {
+        color: #444;
+      }
+
+      &:focus {
+        border: none;
+        outline: none;
+      }
+    }
+  }
+
+  .heading-wrapper {
+    padding-left: 24px;
+  }
+}
+
+.modal-inner {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  position: relative;
+
+  @include for-phone-only {
+    padding: 0;
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    border-bottom: 1px solid #dcdcdc;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #fff;
+
+    @include for-phone-only {
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+
+    i {
+      cursor: pointer;
+    }
+  }
+  .modal-content {
+    padding: 24px 0;
+
+    @include for-phone-only {
+      padding: 0px;
+    }
+
+    &.mapa {
+      @include for-phone-only {
+        padding: 0px;
+      }
+    }
+    textarea {
+      height: 200px;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      line-height: 21px;
+      box-sizing: border-box;
+      padding: 24px;
+
+      &:focus {
+        outline: none;
+
+      }
+    }
+  }
+}
+
+
 </style>
