@@ -15,7 +15,8 @@
           <b>{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</b>
         </div>
         <p class="type">{{ others(conversation).length > 2? 'GRUPNI RAZGOVOR' : '' }}</p>
-        <p>{{ conversation.last_message.content }}.</p>
+        <p>{{ conversation.last_message.content }}</p>
+        <div class="unread" v-if="conversation.unread !== 0"><b>{{ conversation.unread }}</b> nove poruke</div>
       </div>
     </div>
   </div>
@@ -36,6 +37,10 @@ export default class ConversationList extends Vue {
 
   others(conversation) {
     return conversation.users.filter( item => item.id !== this.$auth.user.id);
+  }
+
+  created() {
+    console.log(this.conversations, 'konz')
   }
 
   setSelectedConversation(c) {
@@ -115,10 +120,6 @@ export default class ConversationList extends Vue {
         p {
           font-weight: 500;
           font-size: 16px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 116px;
         }
 
         span {
@@ -130,6 +131,29 @@ export default class ConversationList extends Vue {
         }
       }
     }
+  }
+}
+
+.unread {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  b {
+    background: #D63946;
+    min-height: 16px;
+    width: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: #fff;
+    margin-right: 4px;
   }
 }
 </style>

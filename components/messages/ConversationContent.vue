@@ -46,7 +46,8 @@ export default class ConversationContent extends Vue {
   padding: 12px;
   height: calc(100vh - 378px);
   overflow-y: scroll;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  overflow: auto;
 }
 .conversation-wrapper {
   display: flex;
