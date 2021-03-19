@@ -1,7 +1,7 @@
 <template>
   <div class="listing-wrapper">
     <div v-if="$device.isMobile" class="mobile-topbar">
-      <font-awesome-icon icon="angle-left" @click="$router.go(-1)"></font-awesome-icon>
+      <font-awesome-icon icon="angle-left" class="back" @click="$router.go(-1)"></font-awesome-icon>
       <div class="buttons">
         <button @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
           <font-awesome-icon icon="heart"></font-awesome-icon>
@@ -113,7 +113,7 @@
           </div>
           <div class="separator" v-if="checkboxAttributes.length"></div>
           <h2 class="heading" v-if="checkboxAttributes.length">Nekretnina posjeduje</h2>
-          <div class="grid-layout" v-if="checkboxAttributes.length">
+          <div class="grid-layout detailed" v-if="checkboxAttributes.length">
             <div class="detailed-info" v-for="(info, index) in checkboxAttributes" :key="index">
               <span>{{ info.name }}</span>
               <span>{{ attrTranslate(info.value) }}</span>
@@ -127,55 +127,60 @@
                 <font-awesome-icon icon="coffee"></font-awesome-icon>
                 <h1>Kafići</h1>
               </div>
-              <ul>
+              <ul :class="[showMoreCafes ? 'extend' : '']">
                 <li v-for="(cafe, index) in cafes" :key="index">
                   <p>{{ cafe.name }}</p>
                 </li>
               </ul>
+              <button @click="showMoreCafes = !showMoreCafes">{{ showMoreCafes ? 'Prikaži manje' : 'Prikaži više' }}</button>
             </div>
             <div class="places-grid" v-if="restaurants.length">
               <div class="places-heading">
                 <font-awesome-icon icon="utensils"></font-awesome-icon>
                 <h1>Restorani</h1>
               </div>
-              <ul>
+              <ul :class="[ showMoreRestaurants ? 'extend' : '']">
                 <li v-for="(restaurant, index) in restaurants" :key="index">
                   <p>{{ restaurant.name }}</p>
                 </li>
               </ul>
+              <button @click="showMoreRestaurants = !showMoreRestaurants">{{ showMoreRestaurants ? 'Prikaži manje' : 'Prikaži više' }}</button>
             </div>
             <div class="places-grid" v-if="schools.length">
               <div class="places-heading">
                 <font-awesome-icon icon="graduation-cap"></font-awesome-icon>
                 <h1>Škole i vrtići</h1>
               </div>
-              <ul >
+              <ul :class="[ showMoreSchools ? 'extend' : '']">
                 <li v-for="(school, index) in schools" :key="index">
                   <p>{{ translateSchool(school.name, 'school') }}</p>
                 </li>
               </ul>
+              <button @click="showMoreSchools = !showMoreSchools">{{ showMoreSchools ? 'Prikaži manje' : 'Prikaži više' }}</button>
             </div>
             <div class="places-grid" v-if="atms.length">
               <div class="places-heading">
                 <font-awesome-icon icon="receipt"></font-awesome-icon>
                 <h1>Banke i bankomati</h1>
               </div>
-              <ul>
+              <ul :class="[ showMoreAtms ? 'extend' : '']">
                 <li v-for="(atm, index) in atms" :key="index">
                   <p>{{ translateSchool(atm.name, 'atm') }}</p>
                 </li>
               </ul>
+              <button @click="showMoreAtms = !showMoreAtms">{{ showMoreAtms ? 'Prikaži manje' : 'Prikaži više' }}</button>
             </div>
             <div class="places-grid" v-if="malls.length">
               <div class="places-heading">
                 <font-awesome-icon icon="shopping-cart"></font-awesome-icon>
                 <h1>Šoping centri</h1>
               </div>
-              <ul>
+              <ul :class="[ showMoreMalls ? 'extend' : '']>
                 <li v-for="(mall, index) in malls" :key="index">
                   <p>{{ mall.name }}</p>
                 </li>
               </ul>
+              <button @click="showMoreMalls = !showMoreMalls">{{ showMoreMalls ? 'Prikaži manje' : 'Prikaži više' }}</button>
             </div>
           </div>
           <div class="separator"></div>
@@ -256,6 +261,11 @@ export default class Artikal extends Vue {
     sell: 'Prodaja',
     buy: 'Potraznja'
   }
+  showMoreCafes = false;
+  showMoreRestaurants = false;
+  showMoreMalls = false;
+  showMoreSchools = false;
+  showMoreAtms = false;
   loading = false;
   questionTerm = '';
   questions = [];
@@ -638,6 +648,10 @@ export default class Artikal extends Vue {
           font-size: 22px !important;
           line-height: 26px !important;
           margin-bottom: 0;
+
+          @include for-phone-only {
+            font-size: 18px;
+          }
         }
       }
       h2 {
@@ -828,12 +842,27 @@ export default class Artikal extends Vue {
   flex-direction: column;
   background: rgb(241 239 239 / 53%);
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+
+  @include for-phone-only {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+  }
   span {
     font-size: 14px;
     margin: 5px 0;
+
+    @include for-phone-only {
+      font-size: 13px;
+    }
     &:last-child {
       font-weight: 500;
       font-size: 16px;
+
+      @include for-phone-only {
+        font-size: 14px;
+      }
     }
   }
   &.exchange {
@@ -901,8 +930,11 @@ export default class Artikal extends Vue {
   @include for-phone-only {
     &.important {
       grid-template-columns: repeat( 1, 1fr);
-
     }
+  }
+
+  &.detailed {
+    grid-template-columns: repeat( 2, 1fr);
   }
 }
 
@@ -976,6 +1008,10 @@ export default class Artikal extends Vue {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+
+  svg.back {
+    font-size: 22px;
+  }
 
   .buttons {
     display: flex;
@@ -1092,6 +1128,12 @@ export default class Artikal extends Vue {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     grid-column-gap: 12px;
     margin-bottom: 24px;
+    max-height: 150px;
+    overflow: hidden;
+
+    &.extend {
+      max-height: fit-content;
+    }
     li {
       height: fit-content;
       padding: 12px 8px;
@@ -1128,6 +1170,24 @@ export default class Artikal extends Vue {
           box-sizing: border-box;
         }
       }
+    }
+  }
+
+  button {
+    border: 1px solid #444;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    background: transparent;
+
+    &:focus {
+      outline: none;
     }
   }
 }

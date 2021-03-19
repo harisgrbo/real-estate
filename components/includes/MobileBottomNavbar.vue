@@ -84,10 +84,10 @@ export default class MobileBottomNavbar extends Vue {
 <style scoped lang="scss">
   .mobile-bottom-navbar {
     position: fixed;
-    bottom: 12px;
-    left: 12px;
+    bottom: 4px;
+    left: 4px;
     box-sizing: border-box;
-    right: 12px;
+    right: 4px;
     min-height: 60px;
     height: fit-content;
     display: flex;

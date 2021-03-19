@@ -424,6 +424,7 @@ export default class Homepage extends Vue {
           min-width: fit-content;
           padding: 0 12px;
           border-radius: 10px;
+          height: 32px;
         }
 
         &:hover {

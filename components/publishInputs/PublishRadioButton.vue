@@ -98,7 +98,7 @@ $radioActive: #757B9A;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 1px 12px;
     box-sizing: border-box;
     span {
-      color: #757B9A;
+      color: #444;
       font-weight: 500;
     }
   }

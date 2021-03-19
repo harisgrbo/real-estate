@@ -47,10 +47,10 @@ export default {
   margin-top: 24px;
 
   label {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 16px;
+    text-transform: capitalize;
+    margin-bottom: 12px;
   }
 
   .option-wrapper {
