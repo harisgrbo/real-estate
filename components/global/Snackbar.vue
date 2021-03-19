@@ -57,9 +57,9 @@ export default {
   padding: 16px;
   position: fixed;
   z-index: 9999;
-  left: 30px;
-  top: inherit;
-  bottom: 30px;
+  right: 30px;
+  top: 154px;
+  bottom: inherit;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
 

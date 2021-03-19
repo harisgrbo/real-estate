@@ -7,9 +7,6 @@
         <p>Poruke</p>
       </li>
     </ul>
-<!--    <h1 class="heading">-->
-<!--      Poruke-->
-<!--    </h1>-->
     <div class="content">
       <div class="conversation-list">
         <div class="search-wrapper">
@@ -59,6 +56,30 @@
         info
       </div>
     </div>
+    <client-only>
+      <modal name="poruke" :adaptive="true" height="100%" @closed="closeModal">
+        <div class="conversation">
+          <div class="heading-wrapper center">
+            <h1>{{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
+          </div>
+          <div class="messages-wrap">
+            <ConversationContent v-if="messagesLoaded" :messages="messages"></ConversationContent>
+            <div v-else class="loading-wrapper">
+              <img src="/load.svg" alt="" class="loading-svg">
+            </div>
+          </div>
+          <div class="main-input-wrapper">
+            <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
+            <div class="buttons">
+              <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
+              <font-awesome-icon icon="paperclip"></font-awesome-icon>
+              <font-awesome-icon icon="paper-plane" class="last" @click="sendMessage"></font-awesome-icon>
+              <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
+            </div>
+          </div>
+        </div>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -104,7 +125,7 @@ export default class poruke extends Vue {
   }
 
   selectEmoji(emoji) {
-    this.messageContent = emoji.data;
+    this.messageContent += emoji.data;
   }
 
   away() {
@@ -188,6 +209,10 @@ export default class poruke extends Vue {
     this.currentConversation = e;
 
     this.fetchMessages(e.id);
+
+    if(this.$device.isMobile) {
+      this.$modal.show('poruke');
+    }
   }
 
   others(conversation) {
@@ -216,6 +241,12 @@ export default class poruke extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
   .message-wrapper {
     display: flex;
     height: calc(100vh - 126px);
@@ -225,6 +256,11 @@ export default class poruke extends Vue {
     overflow: hidden;
     padding: 0 80px;
     padding-top: 24px;
+
+    @include for-phone-only {
+      padding: 12px;
+      height: calc(100vh - 76px);
+    }
   }
   .content {
     display: flex;
@@ -262,6 +298,12 @@ export default class poruke extends Vue {
       flex: 3;
       flex-direction: column;
       padding: 0 24px 0 0;
+
+      @include for-phone-only {
+        width: 100%;
+        flex: auto;
+        padding: 0;
+      }
 
       .search-wrapper {
         display: flex;
@@ -338,6 +380,10 @@ export default class poruke extends Vue {
       box-shadow: rgb(0 0 0 / 8%) 0px 6px 12px;
       height: calc(100vh - 195px);
 
+      @include for-phone-only {
+        display: none;
+      }
+
 
       .main-input-wrapper {
         display: flex;
@@ -407,6 +453,10 @@ export default class poruke extends Vue {
       flex-direction: column;
       padding: 0 24px;
 
+      @include for-phone-only {
+        display: none;
+      }
+
     }
   }
 
@@ -442,5 +492,12 @@ export default class poruke extends Vue {
     bottom: 70px;
     right: 0;
     background: #ffff;
+  }
+
+  .breadcrumbs {
+    @include for-phone-only {
+      margin-top: 0 !important;
+      margin-bottom: 12px !important;
+    }
   }
 </style>
