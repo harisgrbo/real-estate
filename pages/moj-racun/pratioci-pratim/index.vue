@@ -49,7 +49,7 @@ import UserCard from "@/components/UserCard";
   components: {
     UserCard,
   },
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class pratioci extends Vue {
@@ -88,6 +88,19 @@ export default class pratioci extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.account-wrapper {
+  @include for-phone-only {
+    padding: 0 12px 120px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
 ul.navs {
   width: 100%;
   display: flex;
