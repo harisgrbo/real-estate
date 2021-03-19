@@ -166,6 +166,18 @@ export default class Navbar extends Vue {
   async created() {
     await this.getSearches()
     await this.getNotifications()
+    await this.getUnreadMessagesCount()
+  }
+
+  async getUnreadMessagesCount()
+  {
+    try {
+      let res = await this.$axios.get('/profile/messages/count');
+
+      this.messagesCount = res.data.data
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async getNotifications() {
@@ -179,8 +191,14 @@ export default class Navbar extends Vue {
   }
 
   goToMessages() {
-    this.messagesCount = 0;
-    this.$router.push('/moj-racun/poruke');
+    try {
+      this.$axios.post('/profile/messages/read');
+      this.messagesCount = 0;
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.$router.push('/moj-racun/poruke');
+    }
   }
 
   goToSearch(s) {
@@ -188,9 +206,15 @@ export default class Navbar extends Vue {
     this.$router.push('/pretraga?q=[' + q + ']');
   }
 
-  handleCloseNotifications() {
-    console.log('radil')
-    this.showNotifications = false;
+  async handleCloseNotifications() {
+    try {
+      await this.$axios.post('/profile/notifications/read');
+      this.notifications = [];
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.showNotifications = false;
+    }
   }
 
   async getSearches() {
@@ -221,10 +245,15 @@ export default class Navbar extends Vue {
     let name = notification.user.name;
     let id = notification.listing_id;
 
-    this.notifications.unshift(notification);
+    let text = `Dobili ste novo pitanje od ${name} za artikal broj: ${id}`
+
+    this.notifications.unshift({
+      text: text,
+      action: `/artikal/${id}`
+    });
 
     this.$snackbar.show({
-      text: `Dobili ste novo pitanje od ${name} za artikal broj: ${id}`,
+      text: text,
       timeout: 1000,
       type: "success"
     })
