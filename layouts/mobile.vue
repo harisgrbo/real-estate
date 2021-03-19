@@ -58,7 +58,6 @@ export default class Mobile extends Vue {
   handleScroll(e) {
     let currentScrollPosition = (document.documentElement && document.documentElement.scrollTop) ||
       document.body.scrollTop;
-    // console.log(currentScrollPosition, 'csp')
     if (currentScrollPosition < 0) {
       return
     }
@@ -69,7 +68,6 @@ export default class Mobile extends Vue {
     this.showBottom = currentScrollPosition < this.lastScrollPosition
     this.lastScrollPosition = currentScrollPosition
   }
-
 
   beforeDestroy () {
     window.removeEventListener('scroll', this.onScroll)
