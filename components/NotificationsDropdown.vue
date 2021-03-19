@@ -5,11 +5,8 @@
       <i class="material-icons" @click="$emit('close-notifications')">close</i>
     </div>
     <ul>
-      <li>
-        <nuxt-link to="#">
-          <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
-          <p>Haris vam je poslao privatnu poruku</p>
-        </nuxt-link>
+      <li v-for="notification in notifications">
+        {{ notification.type }}
       </li>
     </ul>
   </div>
@@ -22,7 +19,11 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
   components: {}
 })
 
-export default class NotificationsDropdown extends Vue{
+export default class NotificationsDropdown extends Vue {
+  @Prop({
+    type: Array,
+    required: true
+  }) notifications;
 }
 </script>
 
