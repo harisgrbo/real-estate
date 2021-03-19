@@ -71,10 +71,6 @@ export default class MobileBottomNavbar extends Vue {
     }
   }
 
-  closeModal() {
-    this.$modal.hide('sidebar')
-  }
-
   openSidebarMenu() {
     this.$emit('open-sidenav')
   }

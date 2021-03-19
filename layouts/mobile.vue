@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import {Component, Vue, Watch} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
 import sidenav from "@/components/sidenav"
@@ -38,14 +38,21 @@ export default class Mobile extends Vue {
   lastScrollPosition = 0
   showBottom = true;
 
-  created() {
-  }
   mounted() {
     window.addEventListener('scroll', this.handleScroll, true)
   }
 
   handleOpenSidebar() {
     this.$modal.show('sidebar')
+  }
+
+  closeModal() {
+    this.$modal.hide('sidebar')
+  }
+
+  @Watch('$route', { immediate: true, deep: true })
+  onUrlChange() {
+    this.closeModal();
   }
 
   handleScroll(e) {
