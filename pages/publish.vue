@@ -236,7 +236,7 @@
           </div>
           <div class="modal-content">
               <div v-if="city !== null" class="map-wrapper">
-                <PublishMap :location="city"></PublishMap>
+                <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
               </div>
               <InputError :error="errors.city" />
               <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
@@ -289,6 +289,9 @@ import ActionButton from "@/components/actionButtons/ActionButton"
   }
 })
 export default class Publish extends Vue {
+  lat = 43;
+  lng = 42;
+
   // Completion
   completedAttributes = 0
   selectedAdvertisment = 1;
@@ -419,8 +422,8 @@ export default class Publish extends Vue {
       listing_type_id: this.listingType.id,
       category_id: this.category.id,
       city_id: this.city.id,
-      lat: 42,
-      lng: 43,
+      lat: this.lat,
+      lng: this.lng,
       attributes: this.prepareAttributes()
     }
 
@@ -528,6 +531,11 @@ export default class Publish extends Vue {
     return result;
   }
 
+  handleLatLng(e) {
+    this.lat = e.lat
+    this.lng = e.lng;
+  }
+
   handleChangedAttribute(e) {
     this.attributePayload[e.id] = e;
 
@@ -626,6 +634,9 @@ export default class Publish extends Vue {
 
   handleSelectedCity(f) {
     this.city = f;
+
+    this.lat = f.location.lat;
+    this.lng = f.location.lng;
 
     this.errors.city.error = false;
 

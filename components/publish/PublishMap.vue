@@ -230,8 +230,16 @@ export default class PublishMap extends Vue{
       this.marker = new google.maps.Marker({
         position: center,
         map: this.map,
-        icon: svgMarker
+        icon: svgMarker,
+        draggable: true
       });
+
+      google.maps.event.addListener(this.marker, 'dragend', function (e) {
+        self.$emit('latlng', {
+          lat: e.latLng.lat(),
+          lng: e.latLng.lng()
+        })
+      })
 
     }
 
