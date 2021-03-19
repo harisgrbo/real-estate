@@ -88,8 +88,8 @@ export default class poruke extends Vue {
   messagesLoaded = true;
 
   mounted() {
-    this.$echo.private(`messaging.${this.auth.user.id}`).listen('.message', n => {
-
+    this.$echo.private(`messaging.${this.$auth.user.id}`).listen('.message', event => {
+      console.log(event)
     })
   }
 
