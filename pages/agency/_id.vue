@@ -272,7 +272,7 @@ export default class Agencies extends Vue {
     //border: 1px solid rgb(221, 221, 221);
     border-radius: 12px;
     justify-content: space-between;
-    padding: 24px;
+    padding: 12px;
     //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     height: fit-content;
     width: 100%;

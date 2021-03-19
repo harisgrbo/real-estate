@@ -58,14 +58,6 @@
             <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
-          <h2>Lokacija</h2>
-
-          <div v-if="city !== null">
-            <p>{{ city.name }}</p>
-          </div>
-
-          <ActionButton @action="showModal" :placeholder="city === null? 'Izaberite lokaciju' : 'Promijenite lokaciju'"></ActionButton>
-
           <div class="grid-filters">
             <InputError :error="errors.neighbourhood" />
             <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
@@ -81,6 +73,18 @@
             <InputError :error="errors.price" />
             <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
           </div>
+          <h2>Lokacija</h2>
+
+          <div v-if="city !== null">
+            <p>{{ city.name }}</p>
+          </div>
+
+          <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
+
+          <div v-if="city !== null" class="map-wrapper">
+            <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
+          </div>
+          <InputError :error="errors.city" />
           <InputError :error="errors.description" />
           <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
 
@@ -132,26 +136,6 @@
             />
           </div>
 
-
-
-<!--          <p class="global-heading">Listing tip obicni attributi</p>-->
-<!--          <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">-->
-<!--            <InputError :error="errors.attributes[attr.id]" />-->
-<!--            <component-->
-<!--              :attr="attr"-->
-<!--              :options="attr"-->
-<!--              :is="filterFor(attr)"-->
-<!--              @changed="handleChangedAttribute"-->
-<!--            />-->
-<!--          </div>-->
-
-<!--          <h2>Nekretnina posjeduje</h2>-->
-<!--          <TermInput-->
-<!--            v-for="attr in termListingTypeAttributes"-->
-<!--            @changed="handleChangedAttribute"-->
-<!--            :attr="attr"-->
-<!--            :key="attr.id"-->
-<!--          />-->
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
               <i class="material-icons">chevron_left</i>
@@ -227,23 +211,6 @@
           </div>
         </div>
       </div>
-    <client-only>
-      <modal name="location" :adaptive="true" height="100%">
-        <div class="modal-inner">
-          <div class="modal-header">
-            <h2>Izaberite lokaciju</h2>
-            <i class="material-icons" @click="$modal.hide('location')">close</i>
-          </div>
-          <div class="modal-content">
-              <div v-if="city !== null" class="map-wrapper">
-                <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
-              </div>
-              <InputError :error="errors.city" />
-              <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" @select-option="handleSelectedCity"></PublishDropdown>
-          </div>
-        </div>
-      </modal>
-    </client-only>
   </div>
 </template>
 

@@ -184,9 +184,9 @@
           <div class="UserProfile"></div>
           <div class="separator"></div>
           <h2 class="heading">Lokacija nekretnine</h2>
-          <RealEstateLocationMap v-if="listing" :location="listing.city"></RealEstateLocationMap>
+          <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
           <div class="separator" v-if="questions.length"></div>
-          <h2 class="heading" v-if="questions.length">Pitanja</h2>
+          <h2 class="heading question" v-if="questions.length">Pitanja</h2>
           <div class="separator" v-if="questions.length"></div>
           <h2 class="heading" v-if="listing.questions_disabled === true">
             Korisnik je zabranio javna pitanja
@@ -656,6 +656,10 @@ export default class Artikal extends Vue {
         font-size: 20px;
         font-weight: 600;
         margin-bottom: 32px;
+
+        &.question {
+          margin-bottom: 0 !important;
+        }
       }
       .detailed-informations {
         width: 100%;
@@ -937,6 +941,7 @@ export default class Artikal extends Vue {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  margin-top: 24px;
 
   ::v-deep button {
     margin-top: 12px;
