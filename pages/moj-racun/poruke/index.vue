@@ -96,17 +96,14 @@ export default class poruke extends Vue {
   messagesLoaded = true;
 
   mounted() {
-
     this.conversations.forEach((conversation, index) => {
-      console.log(conversation);
       this.$echo.private(`messaging.${conversation.id}`).listen('.message', event => {
-        console.log(event)
         let message = event.message;
         let conversation = message.conversation;
 
         this.conversations[index] = conversation;
 
-        if (this.currentConversation.id === conversation.id) {
+        if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
           this.messages.push(message)
         }
       })
