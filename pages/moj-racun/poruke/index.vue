@@ -101,11 +101,15 @@ export default class poruke extends Vue {
         let message = event.message;
         let conversation = message.conversation;
 
-        this.conversations[index] = conversation;
+        this.conversations[index]['last_message'] = conversation.last_message;
 
         if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
           this.messages.push(message)
         }
+
+        let tmpConversation = this.conversations[index];
+        this.conversations.splice(index, 1);
+        this.conversations.unshift(tmpConversation);
       })
     })
   }
