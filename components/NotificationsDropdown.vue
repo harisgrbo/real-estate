@@ -6,9 +6,9 @@
     </div>
     <ul>
       <li v-for="notification in notifications">
-        <nuxt-link :to="notification.action" @click.native="$emit('close-notifications')">
-          {{ notification.text }}
-        </nuxt-link>
+<!--        <nuxt-link :to="notification.action" @click.native="$emit('close-notifications')">-->
+<!--          {{ notification.text }}-->
+<!--        </nuxt-link>-->
       </li>
     </ul>
   </div>
