@@ -19,7 +19,7 @@
           <p>650</p>
         </button>
         <button v-if="$auth.user" class="login">
-          <font-awesome-icon icon="envelope" @click="$router.push('/moj-racun/poruke')"/>
+          <font-awesome-icon icon="envelope" @click="goToMessages()"/>
           <p class="notify">{{ messagesCount }}</p>
         </button>
         <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
@@ -176,6 +176,11 @@ export default class Navbar extends Vue {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  goToMessages() {
+    this.messagesCount = 0;
+    this.$router.push('/moj-racun/poruke');
   }
 
   goToSearch(s) {
