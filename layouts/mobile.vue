@@ -17,7 +17,7 @@
     </div>
     <client-only>
       <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
-        <sidenav></sidenav>
+        <sidenav ref="side"></sidenav>
       </modal>
     </client-only>
   </div>
@@ -46,13 +46,9 @@ export default class Mobile extends Vue {
     this.$modal.show('sidebar')
   }
 
-  closeModal() {
-    this.$modal.hide('sidebar')
-  }
-
   @Watch('$route', { immediate: true, deep: true })
   onUrlChange() {
-    this.closeModal();
+    this.$refs.hide('sidebar');
   }
 
   handleScroll(e) {
