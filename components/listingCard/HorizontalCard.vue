@@ -498,26 +498,8 @@ padding: 0 16px;
       padding: 0 4px;
       box-shadow: none;
       box-sizing: border-box;
-      position: relative;
       text-transform: none;
-
-      .tooltip {
-        display: none;
-        position: absolute;
-        top: 0px;
-        left: 0;
-        right: 0;
-        width: 100%;
-        z-index: 10;
-        background: #000000ab;
-        border-radius: 8px;
-        padding: 4px;
-        width: 200px;
-        text-transform: capitalize;
-        color: #fff;
-        line-height: 20px;
-        display: flex;
-      }
+      position: static;
 
       &.first {
         background: #0B8489;
