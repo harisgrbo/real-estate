@@ -37,7 +37,7 @@
       Najtraženije lokacije
     </h2>
     <div :class="[$device.isMobile ? 'mobile-grid-most' : 'most-visited-grid']">
-      <MostVisitedCard v-for="city in most_visited_cities" :img="city.img" :city="city.city"></MostVisitedCard>
+      <MostVisitedCard v-for="(city, index) in most_visited_cities" :img="city.img" :key="index" :city="city.city"></MostVisitedCard>
     </div>
 
     <ul class="cw-ul">

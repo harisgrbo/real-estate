@@ -14,18 +14,14 @@
           <p v-if="attr.name === 'Kvadratura'"> m²</p>
           <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
         </button>
-
       </label>
       <label class="rating" v-if="!$device.isMobile && type === 'agency'">
         <i class="material-icons">star</i>
         agencija
       </label>
-
       <div class="blured-background">
         <button @click="removeFromSaved(listing.id)">Ukloni iz spašenih</button>
       </div>
-
-
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <img src="/hotel.webp" alt="">
         <div class="listing-card-content">

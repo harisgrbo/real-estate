@@ -13,8 +13,13 @@
       :class="{ 'bottom--hidden': !showBottom }"
       v-if="$route.name !== 'publish'"
     >
-      <MobileBottomNavbar></MobileBottomNavbar>
+      <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>
+    <client-only>
+      <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
+        <sidenav></sidenav>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -22,9 +27,10 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
+import sidenav from "@/components/sidenav"
 
 @Component({
-  components: {Navbar, MobileBottomNavbar}
+  components: {Navbar, MobileBottomNavbar, sidenav}
 })
 
 export default class Mobile extends Vue {
@@ -33,22 +39,16 @@ export default class Mobile extends Vue {
   showBottom = true;
 
   created() {
-    console.log(this.$route.name)
   }
   mounted() {
     window.addEventListener('scroll', this.handleScroll, true)
   }
 
-  getBodyScrollTop() {
-    const el = document.scrollingElement || document.documentElement
-    console.log(el.scrollTop)
-
-    return el.scrollTop
+  handleOpenSidebar() {
+    this.$modal.show('sidebar')
   }
 
   handleScroll(e) {
-
-
     let currentScrollPosition = (document.documentElement && document.documentElement.scrollTop) ||
       document.body.scrollTop;
     // console.log(currentScrollPosition, 'csp')

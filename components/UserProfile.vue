@@ -198,7 +198,7 @@ export default class UserProfile extends Vue {
 }
 .user-content-wrapper {
   position: sticky;
-  top: 144px;
+  top: 174px;
   display: flex;
   flex-direction: column;
   margin-left: 24px;
