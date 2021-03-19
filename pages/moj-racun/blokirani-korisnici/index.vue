@@ -7,7 +7,7 @@
         <p>Blokirani korisnici</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Blokirani korisnici
     </h1>
     <div class="content-wrapper">

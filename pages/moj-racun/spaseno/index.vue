@@ -7,7 +7,7 @@
         <p>Spašeno</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Spašeno
     </h1>
     <div class="content-wrapper">

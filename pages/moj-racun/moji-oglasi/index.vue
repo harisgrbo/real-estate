@@ -7,7 +7,7 @@
         <p>Moji oglasi</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Moji oglasi
     </h1>
     <div class="content">

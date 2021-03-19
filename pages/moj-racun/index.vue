@@ -1,6 +1,5 @@
 <template>
   <div class="account-wrapper-a">
-    <Navbar></Navbar>
     <div class="account-wrapper-inner">
       <div class="sidenav">
         <h1 class="heading-account">Moj račun</h1>
@@ -129,9 +128,10 @@ export default class accountpage extends Vue {
   height: calc(100vh - 126px);
 
   @include for-phone-only {
-    padding: 32px 0!important;
+    padding:12px 0 0 0!important;
     height: 100%;
     overflow: scroll;
+
   }
 
   .account-wrapper-inner {
@@ -167,6 +167,10 @@ export default class accountpage extends Vue {
         height: 60px;
         justify-content: flex-start;
         margin-bottom: 32px;
+
+        @include for-phone-only {
+          margin-bottom: 12px;
+        }
         p {
           margin-right: 12px;
 
@@ -224,6 +228,7 @@ export default class accountpage extends Vue {
 
           @include for-phone-only {
             padding: 12px;
+            height: 100%;
           }
 
           a {
@@ -244,7 +249,7 @@ export default class accountpage extends Vue {
             font-weight: 600;
 
             @include for-phone-only {
-              font-size: 16px;
+              font-size: 14px;
               font-weight: 600;
               margin-top: 0;
             }

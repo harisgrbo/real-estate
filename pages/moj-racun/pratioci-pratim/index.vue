@@ -7,7 +7,7 @@
         <p>Pratim/pratioci</p>
       </li>
     </ul>
-    <h1 class="heading">
+    <h1 class="heading" v-if="!$device.isMobile">
       Pratim/pratioci
     </h1>
     <ul class="navs">
