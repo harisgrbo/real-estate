@@ -38,7 +38,7 @@
       <div v-else class="mobile-img">
         <client-only>
           <swiper class="swiper" height="400px" :options="swiperOption">
-            <swiper-slide v-for="(img, index) in images">
+            <swiper-slide v-for="(img, index) in images" :key="index">
               <img :src="img.name" alt="" @click="openGallery(index)">
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
@@ -59,7 +59,7 @@
       <div class="listing-content-inner">
         <div class="listing-content-wrapper">
           <div class="article-title">
-            <h2>{{ listing.title }}</h2>
+            <h2 v-if="listing">{{ listing.title }}</h2>
             <div class="buttons" v-if="$auth.user && $device.isMobile === false">
               <button>
                 <font-awesome-icon icon="minus-circle"></font-awesome-icon>
@@ -75,7 +75,7 @@
               </button>
             </div>
           </div>
-          <div class="grid-layout">
+          <div class="grid-layout important">
             <div class="detailed-info" v-if="listing.city">
               <span>Lokacija</span>
               <span>{{ listing.city.name }}</span>
@@ -120,9 +120,65 @@
               <span>{{ attrTranslate(info.value) }}</span>
             </div>
           </div>
-          <div class="separator"v-if="places"></div>
-          <h2 class="heading" v-if="places">U blizini nekretnine</h2>
-
+          <div class="separator"></div>
+          <h2 class="heading">U blizini nekretnine</h2>
+          <div class="places">
+            <div class="places-grid" v-if="cafes.length">
+              <div class="places-heading">
+                <font-awesome-icon icon="coffee"></font-awesome-icon>
+                <h1>Kafići</h1>
+              </div>
+              <ul>
+                <li v-for="(cafe, index) in cafes" :key="index">
+                  <p>{{ cafe.name }}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="places-grid" v-if="restaurants.length">
+              <div class="places-heading">
+                <font-awesome-icon icon="utensils"></font-awesome-icon>
+                <h1>Restorani</h1>
+              </div>
+              <ul>
+                <li v-for="(restaurant, index) in restaurants" :key="index">
+                  <p>{{ restaurant.name }}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="places-grid" v-if="schools.length">
+              <div class="places-heading">
+                <font-awesome-icon icon="graduation-cap"></font-awesome-icon>
+                <h1>Škole i vrtići</h1>
+              </div>
+              <ul >
+                <li v-for="(school, index) in schools" :key="index">
+                  <p>{{ translateSchool(school.name, 'school') }}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="places-grid" v-if="atms.length">
+              <div class="places-heading">
+                <font-awesome-icon icon="receipt"></font-awesome-icon>
+                <h1>Banke i bankomati</h1>
+              </div>
+              <ul>
+                <li v-for="(atm, index) in atms" :key="index">
+                  <p>{{ translateSchool(atm.name, 'atm') }}</p>
+                </li>
+              </ul>
+            </div>
+            <div class="places-grid" v-if="malls.length">
+              <div class="places-heading">
+                <font-awesome-icon icon="shopping-cart"></font-awesome-icon>
+                <h1>Šoping centri</h1>
+              </div>
+              <ul>
+                <li v-for="(mall, index) in malls" :key="index">
+                  <p>{{ mall.name }}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
           <div class="separator"></div>
           <h2 class="heading">Detaljni opis</h2>
           <p class="description">{{ listing.description }}</p>
@@ -132,10 +188,11 @@
           <RealEstateLocationMap v-if="listing" :location="listing.city"></RealEstateLocationMap>
           <div class="separator" v-if="questions.length"></div>
           <h2 class="heading" v-if="questions.length">Pitanja</h2>
-          <div v-if="listing.questions_disabled === true">
-            Korisniik je zabranio javna pitanja
-          </div>
-          <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :id="question.id" :owner="owner"></SingleQuestion>
+          <div class="separator" v-if="questions.length"></div>
+          <h2 class="heading" v-if="listing.questions_disabled === true">
+            Korisnik je zabranio javna pitanja
+          </h2>
+          <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :key="question.id" :owner="owner"></SingleQuestion>
           <div class="question-create" v-if="$auth.user && listing.questions_disabled === false && owner === false">
             <textarea v-model="questionTerm"></textarea>
             <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>
@@ -204,7 +261,6 @@ export default class Artikal extends Vue {
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
-  places = [];
   swiperOption = {
     pagination: {
       el: '.swiper-pagination',
@@ -233,14 +289,39 @@ export default class Artikal extends Vue {
       id: 5,
     },
   ]
+  cafes = [];
+  atms = [];
+  malls = [];
+  schools = [];
+  restaurants = [];
 
   async fetchPlaces() {
     try {
       let res = await this.$axios.get('/listings/' + this.listing.id + '/places');
-      this.places = res.data;
-      console.log(this.places, 'places')
+      this.cafes = res.data.cafe.results;
+      this.atms = res.data.atm.results;
+      this.malls = res.data.shopping_mall.results;
+      this.schools = res.data.school.results;
+      this.restaurants = res.data.restaurant.results;
+
+      console.log(this.cafes)
+
     } catch(e) {
       console.log(e)
+    }
+  }
+
+  translateSchool(n, type) {
+    if(type === 'school') {
+      let str = n;
+      let res = str.replace('Elementary School', 'Osnovna škola')
+
+      return res;
+    } else if(type === 'atm') {
+      let str = n;
+      let res = str.replace('ATM', 'Bankomat')
+
+      return res;
     }
   }
 
@@ -253,12 +334,14 @@ export default class Artikal extends Vue {
   }
 
   get lightboxImages() {
-    return this.images.map((item) => {
-      return {
-        src: item.name,
-        thumb: item.name,
-      };
-    });
+    if(this.images.length) {
+      return this.images.map((item) => {
+        return {
+          src: item.name,
+          thumb: item.name,
+        };
+      });
+    }
   }
 
   async getQuestions() {
@@ -285,7 +368,7 @@ export default class Artikal extends Vue {
         await this.$axios.post('/listings/' + this.listing.id + '/save');
 
         this.$snackbar.show({
-          text: "Uspjšsno ste snimili oglas " + this.listing.title,
+          text: "Uspješno ste spasili oglas " + this.listing.title,
           timeout: 1000,
           type: "success"
         });
@@ -295,7 +378,7 @@ export default class Artikal extends Vue {
         await this.$axios.delete('/listings/' + this.listing.id + '/save');
 
         this.$snackbar.show({
-          text: "Uspješno ste izbrisali oglas " + this.user.name + "iz spasenih",
+          text: "Uspješno ste izbrisali oglas " + this.listing.title + " iz spašenih",
           timeout: 1000,
           type: "success"
         });
@@ -369,7 +452,6 @@ export default class Artikal extends Vue {
   }
 
   async created() {
-    console.log(this.listing)
     await this.fetchPlaces();
     await this.getQuestions();
     this.isUserFollowed = this.isFollowed;
@@ -783,6 +865,10 @@ export default class Artikal extends Vue {
       color: #fff;
       &:last-child {
         margin-left: 12px;
+
+        @include for-phone-only {
+          margin-left: 0;
+        }
       }
     }
   }
@@ -810,8 +896,10 @@ export default class Artikal extends Vue {
   grid-row-gap: 12px;
 
   @include for-phone-only {
-    grid-template-columns: repeat( 2, 1fr);
+    &.important {
+      grid-template-columns: repeat( 1, 1fr);
 
+    }
   }
 }
 
@@ -962,6 +1050,83 @@ export default class Artikal extends Vue {
   height: 60px;
 }
 
+.places {
+  display: flex;
+  flex-direction: column;
+
+  .places-grid {
+    display: flex;
+    flex-direction: column;
+
+    .places-heading {
+      display: flex;
+      align-items: center;
+      justfiy-content: flex-start;
+      margin-bottom: 12px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #f1f1f1;
+
+      h1 {
+        margin-left: 12px;
+        font-size: 17px;
+        font-weight: 500;
+        color: #444;
+      }
+
+      svg {
+        font-sizee: 20px;
+        color: #444;
+        padding: 12px;
+        background: #f1f1f1;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-column-gap: 12px;
+    margin-bottom: 24px;
+    li {
+      height: fit-content;
+      padding: 12px 8px;
+      transition: 0.3s all ease;
+      border-radius: 10px;
+
+      p {
+        white-space: nowrap;
+        width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        position: relative;
+        cursor: pointer;
+        p {
+          position: absolute;
+          overflow: visible;
+          box-shadow: 0 0px 12px 0 rgba(0, 0, 0, 0.1);
+          z-index: 10;
+          background: #fff;
+          min-width: fit-content;
+          width: fit-content;
+          height: fit-content;
+          border-radius: 8px;
+          padding: 12px 8px;
+          top: 0;
+          left: 0;
+          right: inherit;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
+}
 
 </style>
 

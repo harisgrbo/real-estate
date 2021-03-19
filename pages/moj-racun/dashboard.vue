@@ -9,9 +9,8 @@
     </ul>
     <div class="content">
       <ul class="expanded"">
-      <nuxt-link class="inner" :to="{ path: `/moj-racun/dashboard/${link.slug}`}" v-for="(link, index) in links">
+      <nuxt-link class="inner" :to="{ path: `/moj-racun/dashboard/${link.slug}`}" v-for="(link, index) in links" :key="index">
         <li>
-<!--            <img :src="link.icon" alt="">-->
             <p>{{ link.name }}</p>
         </li>
       </nuxt-link>

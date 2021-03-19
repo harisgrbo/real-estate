@@ -15,7 +15,9 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 import Categories from "@/components/publishInputs/Categories";
 
 @Component({
-  Categories
+  components: {
+    Categories
+  }
 })
 
 export default class CategoriesList extends Vue{

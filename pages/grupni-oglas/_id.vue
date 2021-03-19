@@ -99,7 +99,7 @@
 <!--          <div v-if="listing.questions_disabled === true">-->
 <!--            Korisniik je zabranio javna pitanja-->
 <!--          </div>-->
-          <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :id="question.id" :owner="owner"></SingleQuestion>
+          <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :key="question.id" :owner="owner"></SingleQuestion>
           <div class="question-create" v-if="$auth.user && listing.questions_disabled === false && owner === false">
             <textarea v-model="questionTerm"></textarea>
             <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>

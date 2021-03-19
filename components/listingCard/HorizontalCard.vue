@@ -1,10 +1,6 @@
 <template>
   <div class="listing-card-wrapper">
-    <label class="type">{{ listing.listing_type.title }}</label>
-    <label class="type down" v-show="this.listing.price < this.avgPrice">
-      {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}
-      <font-awesome-icon icon="sort-down"></font-awesome-icon>
-    </label>
+    <label class="type" v-if="!$device.isMobile">{{ listing.listing_type.title }}</label>
     <nuxt-link :to="{ path: '/artikal/' + listing.id }">
       <img src="/stan.jpg" alt="">
       <div class="listing-card-content">
@@ -18,6 +14,27 @@
           <!-- Potrebno u responsu vratitit ime grada, category slug i korisnika -->
           <div class="address">
             <p>Alojza Benca 12, Novo Sarajevo</p>
+          </div>
+          <div class="main-options" v-if="$device.isMobile">
+            <label class="first">{{ listing.listing_type.title }}</label>
+            <label v-show="this.listing.price < this.avgPrice" @click.stop.prevent="showTooltip = true">
+              {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}
+              <font-awesome-icon icon="sort-down"></font-awesome-icon>
+              <div class="tooltip" v-if="showTooltip">
+                Oglas je jeftiniji {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }} od prosječne cijene nekretnine u ovoj kategoriji
+              </div>
+            </label>
+            <label
+              v-for="(attr, index) in specialAttributes"
+              :key="index"
+              >
+                {{ attr.value }}
+                <p v-if="attr.name === 'Kvadratura'">m²</p>
+                <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
+            </label>
+            <label>
+              Dvosoban
+            </label>
           </div>
         </div>
         <div class="description" v-if="!$device.isMobile">
@@ -57,10 +74,30 @@ export default class HorizontalCard extends Vue{
     buy: 'Potraznja'
   }
   saved = false;
+  showTooltip = false;
+  specialAttributes = [];
+  specialAttributesKeys = [
+    "Kvadratura",
+    "Broj soba",
+    "Godina izgradnje"
+  ];
+
+  created() {
+    this.specialAttributes = this.getSpecialAttributes().slice();
+  }
 
   differenceInPrice(a, b) {
     let diff = 100 * ((a - b) / a );
     return parseInt(diff) + '%';
+  }
+
+  getSpecialAttributes() {
+    if (!this.listing.attributes) return [];
+    return this.listing.attributes.filter((item) => {
+      return this.specialAttributesKeys.indexOf(item.name) !== -1;
+    });
+
+    console.log(this.specialAttributes)
   }
 
   get listingType() {
@@ -111,11 +148,12 @@ a {
   height: 200px;
 
   @include for-phone-only {
+    width: 100%;
     height: 100%;
     flex-direction: row;
     padding: 0;
     padding-bottom: 12px;
-    border-bottom: 1px solid #dcdcdc;
+    border-bottom: 1px solid #f1f1f1;
     box-sizing: border-box;
 
   }
@@ -206,6 +244,7 @@ border-radius: 10px;
 display: flex;
 width: 100%;
 flex-direction: column;
+  height: 100%;
 }
 
 .listing-card-content {
@@ -224,6 +263,10 @@ padding: 0 16px;
   line-height: 21px;
   padding: 29px 0;
   height: 100%;
+
+  @include for-phone-only {
+    padding-bottom: 12px;
+  }
 }
 
 .price {
@@ -245,8 +288,15 @@ padding: 0 16px;
   .price-div {
     display: flex;
     align-items: center;
+    @include for-phone-only {
+
+      p {
+        font-weight: 600 !important;
+      }
+    }
     p {
       font-weight: 500;
+
     }
 
     b {
@@ -265,6 +315,10 @@ padding: 0 16px;
   font-size: 15px;
   margin-bottom: 10px;
 
+  @include for-phone-only {
+    margin-bottom: 8px;
+  }
+
   .title-box {
     max-width: 100%;
     display: flex;
@@ -281,8 +335,9 @@ padding: 0 16px;
       margin-bottom: 8px;
 
       @include for-phone-only {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 500;
+        margin-bottom: 0;
       }
 
       &:first-child {
@@ -350,7 +405,8 @@ padding: 0 16px;
 
       @include for-phone-only {
         font-weight: 400;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
       }
 
       &:first-child {
@@ -370,6 +426,56 @@ padding: 0 16px;
         top: 6px;
         left: -1px;
 
+      }
+    }
+  }
+
+  .main-options {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+
+    label {
+      margin-right: 8px;
+      height: 20px;
+      border: none;
+      background: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      padding: 0 4px;
+      box-shadow: none;
+      box-sizing: border-box;
+      position: relative;
+      text-transform: none;
+
+      .tooltip {
+        display: none;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 10;
+        background: #000000ab;
+        border-radius: 8px;
+        padding: 4px;
+        width: 200px;
+        text-transform: capitalize;
+        color: #fff;
+        line-height: 20px;
+        display: flex;
+      }
+
+      &.first {
+        background: #0B8489;
+        color: #fff;
+      }
+
+      svg {
+        margin-top: 0;
+        margin-left: 4px;
       }
     }
   }

@@ -204,10 +204,7 @@ export default class RealEstateLocationMap extends Vue{
 
   mounted() {
     if(location !== null) {
-
-      console.log(this.location, 'loc')
       let self = this;
-
       let center = {
         lat: parseFloat(self.location.location.lat),
         lng: parseFloat(self.location.location.lng)

@@ -41,7 +41,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .snackbar {
   min-width: 300px;
   background-color: #F48024;
@@ -56,6 +62,23 @@ export default {
   bottom: 30px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
+
+  @include for-phone-only {
+    min-width: 300px;
+    background-color: #F48024;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px 8px;
+    position: fixed;
+    z-index: 9999;
+    left: 8px;
+    top: inherit;
+    bottom: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    right: 8px;
+  }
 }
 
 .snackbar.success {
@@ -97,4 +120,5 @@ export default {
   box-shadow: rgb(0 0 0 / 6%) 0px 3px 5px;
 
 }
+
 </style>

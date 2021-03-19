@@ -154,8 +154,8 @@ export default class spaseno extends Vue {
       this.searches.splice(index, 1)
 
       this.$snackbar.show({
-        text: "Uspješno ste uklonili pretragu iz spasenih",
-        timeout: 1000,
+        text: "Uspješno ste izbrisali pretragu iz spašenih",
+        closeWait: 100000,
         type: "success"
       });
     } catch(e) {
@@ -172,7 +172,7 @@ export default class spaseno extends Vue {
       this.savedListings.splice(index, 1)
 
       this.$snackbar.show({
-        text: "Uspješno ste uklonili oglas iz spasenih",
+        text: "Uspješno ste izbrisali oglas iz spašenih",
         timeout: 1000,
         type: "success"
       });
@@ -378,6 +378,7 @@ export default class spaseno extends Vue {
         height: fit-content;
         min-height: fit-content;
         margin-bottom: 12px;
+        max-height: fit-content;
       }
 
       //&::before {
@@ -418,6 +419,8 @@ export default class spaseno extends Vue {
         @include for-phone-only {
           width: 100%;
           padding: 12px !important;
+          height: fit-content;
+          max-height: fit-content;
         }
 
         &:last-child {
@@ -491,6 +494,7 @@ export default class spaseno extends Vue {
 
           @include for-phone-only {
             grid-template-columns: repeat(2, 1fr);
+            max-height: fit-content;
 
           }
 

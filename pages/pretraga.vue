@@ -46,7 +46,7 @@
           </div>
         </div>
       </modal>
-      <modal name="filters" :adaptive="true" height="100%" :width="[$device.isMobile ? '100%' : '40$']">
+      <modal name="filters" :adaptive="true" height="100%" :width="$device.isMobile ? '100%' : '40%'">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Filteri</h2>
@@ -360,7 +360,6 @@ export default class Homepage extends Vue {
       max-height: 100%;
       width: 100%;
       padding: 12px;
-      padding-bottom: 100px;
     }
 
     .search-heading {
@@ -401,6 +400,8 @@ export default class Homepage extends Vue {
       @include for-phone-only {
         max-width: 100%;
         overflow-x: scroll;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
       }
 
       button {
@@ -542,6 +543,7 @@ export default class Homepage extends Vue {
 }
 
 .save-search-modal {
+  padding-top: 0!important;
   h4 {
     margin: 24px 0;
     font-size: 16px;

@@ -15,26 +15,19 @@
     <nuxt-link to="#">
       <font-awesome-icon icon="bars" @click="openSidebarMenu"></font-awesome-icon>
     </nuxt-link>
-    <client-only>
-      <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
-        <sidenav></sidenav>
-      </modal>
-    </client-only>
   </div>
 </template>
-b
+
 <script>
 import {Component, Vue, Watch} from "nuxt-property-decorator";
 import CategoriesList from "@/components/CategoriesList";
 import ListingType from "@/components/ListingType";
-import sidenav from "@/components/sidenav"
 
 
 @Component({
   categories: {
     ListingType,
     CategoriesList,
-    sidenav
   }
 })
 
@@ -83,7 +76,7 @@ export default class MobileBottomNavbar extends Vue {
   }
 
   openSidebarMenu() {
-    this.$modal.show('sidebar')
+    this.$emit('open-sidenav')
   }
 }
 </script>
@@ -95,7 +88,8 @@ export default class MobileBottomNavbar extends Vue {
     left: 12px;
     box-sizing: border-box;
     right: 12px;
-    height: 60px;
+    min-height: 60px;
+    height: fit-content;
     display: flex;
     justify-content: space-between;
     align-items: center;

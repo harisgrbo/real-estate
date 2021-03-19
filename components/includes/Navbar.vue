@@ -121,15 +121,16 @@ import { mixin as clickaway } from 'vue-clickaway';
 import NotificationsDropdown from "@/components/NotificationsDropdown"
 
 @Component({
-  CategoriesList,
-  ListingType,
-  NotificationsDropdown,
-  sidenav,
+  components: {
+    CategoriesList,
+    ListingType,
+    NotificationsDropdown,
+    sidenav,
+  },
   mixins: [ clickaway ],
 })
 
 export default class Navbar extends Vue{
-
   showUserDropdown = false
   showAutoCompleteDropdown = false
   suggestions = []
@@ -362,7 +363,7 @@ export default class Navbar extends Vue{
   position: fixed;
   top: 0;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-  z-index: 3;
+  z-index: 5;
   background: #fff;
   box-sizing: border-box;
   padding: 0px 80px 0px 80px;
