@@ -142,10 +142,6 @@ export default class Navbar extends Vue {
   searchInput = ""
   savedSearches = []
   showNotifications = false;
-  notificationTransformers = {
-    'App\\Notifications\\ListingQuestionNotification': this.listingQuestionNotificationTransformer,
-    'App\\Notifications\\NewMessageNotification': this.messageNotificationTransformer
-  }
 
   mounted() {
     this.realtime();
@@ -154,19 +150,15 @@ export default class Navbar extends Vue {
   realtime() {
     if (this.$auth.user) {
       this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
-        if (this.notificationTransformers[notification.type]) {
-          let result = this.notificationTransformers[notification.type](notification)
-
-          if (notification.type === 'App\\Notifications\\NewMessageNotification') {
-            if (this.$route.fullPath !== '/moj-racun/poruke') {
-              this.messagesCount++;
-            }
-          } else {
-            this.notifications.unshift(result)
+        if (notification.type === 'App\\Notifications\\NewMessageNotification') {
+          if (this.$route.fullPath !== '/moj-racun/poruke') {
+            this.messagesCount++;
           }
-
-          this.snackbarNotification(result.text)
+        } else {
+          this.notifications.unshift(notification)
         }
+
+        this.snackbarNotification(notification.text)
       })
     }
   }
@@ -198,17 +190,8 @@ export default class Navbar extends Vue {
     try {
       let res = await this.$axios.get('/profile/notifications');
 
-      console.log(res.data.data);
-
       this.notifications = res.data.data.map(notification => {
-        if (this.notificationTransformers[notification.type]) {
-          return this.notificationTransformers[notification.type](notification.data)
-        }
-
-        return {
-          text: "Unsupported",
-          action: '/404'
-        }
+        return notification.data
       })
     } catch (e) {
       console.log(e)
@@ -251,27 +234,6 @@ export default class Navbar extends Vue {
       } catch(e) {
         console.log(e)
       }
-    }
-  }
-
-  messageNotificationTransformer(notification) {
-    let text = `Dobili ste novu poruku od ${notification.message.sender.name}`
-
-    return {
-      text: text,
-      action: '/moj-racun/poruke'
-    }
-  }
-
-  listingQuestionNotificationTransformer(notification) {
-    let name = notification.user.name;
-    let id = notification.listing_id;
-
-    let text = `Dobili ste novo pitanje od ${name} za artikal broj: ${id}`
-
-    return {
-      text: text,
-      action: `/artikal/${id}`
     }
   }
 
