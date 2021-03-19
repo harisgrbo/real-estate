@@ -13,7 +13,7 @@
     <div class="content-wrapper">
       <div class="saved-content">
         <div>
-          <div class="grid-layout" v-if="blockedUsers.length">
+          <div class="grid-layout" v-if="blockedUsers.length > 0">
            blokirani korisnici
           </div>
           <div v-else class="no-image">
@@ -37,7 +37,7 @@ import Snackbar from "@/components/global/Snackbar";
   components: {
     Snackbar
   },
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class BlokiraniKorisnici extends Vue {
@@ -46,6 +46,20 @@ export default class BlokiraniKorisnici extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.account-wrapper {
+  @include for-phone-only {
+    padding: 0 12px 120px 12px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
+
 .saved-wrapper {
   ul {
     padding: 0;
@@ -101,22 +115,6 @@ export default class BlokiraniKorisnici extends Vue {
   padding: 36px 0px 24px 0px;
   box-sizing: border-box;
 
-  .no-image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    img {
-      height: 400px;
-    }
-
-    p {
-      font-size: 20px;
-      font-weight: 500;
-      margin-top: 24px;
-    }
-  }
   ul {
     width: 100%;
     display: flex;
@@ -154,4 +152,26 @@ export default class BlokiraniKorisnici extends Vue {
 h1 {
   color: rgb(72, 72, 72) !important;
 }
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  img {
+    height: 400px;
+
+    @include for-phone-only {
+      height: 250px;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 24px;
+  }
+}
+
 </style>

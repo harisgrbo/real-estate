@@ -24,16 +24,18 @@
         <div v-if="followers.length" class="grid-layout">
           <UserCard v-for="user in followers" :user="user" :key="user.id"></UserCard>
         </div>
-        <div v-else>
-          Nemate pratilaca
+        <div v-else class="no-image">
+          <img src="/noimg.jpg" alt="no-image">
+          <p>Nemate pratilaca</p>
         </div>
       </div>
       <div v-show="activeTab === 1">
         <div v-if="followed.length" class="grid-layout">
           <UserCard v-for="user in followed" :user="user" :key="user.id"></UserCard>
         </div>
-        <div v-else>
-          Ne pratite nikoga
+        <div v-else class="no-image">
+          <img src="/noimg.jpg" alt="no-image">
+          <p>Ne pratite nikoga</p>
         </div>
       </div>
     </div>
@@ -148,4 +150,26 @@ ul.navs {
 h1 {
   color: rgb(72, 72, 72) !important;
 }
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  img {
+    height: 400px;
+
+    @include for-phone-only {
+      height: 250px;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 24px;
+  }
+}
+
 </style>
