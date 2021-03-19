@@ -88,21 +88,18 @@ export default class poruke extends Vue {
   messagesLoaded = true;
 
   mounted() {
-    this.$echo.private(`messaging.${this.$auth.user.id}`).listen('.message', event => {
-      let message = event.message;
-      let conversation = message.conversation;
 
-      let existingConversation = this.conversations.findIndex(item => item.id === conversation.id)
+    this.conversations.forEach((conversation, index) => {
+      this.$echo.private(`messaging.${conversation.id}`).listen('.message', event => {
+        let message = event.message;
+        let conversation = message.conversation;
 
-      if (existingConversation !== -1) {
-        this.conversations[existingConversation] = conversation;
+        this.conversations[index] = conversation;
 
         if (this.currentConversation.id === conversation.id) {
           this.messages.push(message)
         }
-      } else {
-        this.conversations.unshift(conversation);
-      }
+      })
     })
   }
 
