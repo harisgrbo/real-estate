@@ -188,7 +188,7 @@ export default class Navbar extends Vue {
 
   async getNotifications() {
     try {
-      let res = await this.$axios.get('/profile/notifications');
+      let res = await this.$axios.get('/profile/notifications/unread');
 
       this.notifications = res.data.data.map(notification => {
         return notification.data
