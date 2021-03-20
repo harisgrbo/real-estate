@@ -444,7 +444,7 @@ export default class poruke extends Vue {
   height: calc(100vh - 225px);
 
   @include for-phone-only {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 140px);
     overflow: hidden;
   }
 

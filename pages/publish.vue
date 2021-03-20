@@ -185,9 +185,9 @@
               <ul>
                 <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
                   <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
-                  <img :src="option.img" alt="mainoption" class="main">
+                  <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
                   <div class="text-wrapper">
-                    <p>{{ option.text }}</p>
+                    <p>{{ option.title }}</p>
                     <p>{{ option.description }}</p>
                   </div>
                 </li>
@@ -261,27 +261,31 @@ export default class Publish extends Vue {
 
   // Completion
   completedAttributes = 0
-  selectedAdvertisment = 1;
+  selectedAdvertisment = null;
   advertising_options = [
-    {
-      id: 1,
-      text: 'Standardna vidljivost',
-      description: 'Oglas nije promovisan',
-      img: '/StandardnaObjava.svg',
-    },
-    {
-      id: 2,
-      text: 'Promocija u kategoriji oglasa',
-      description: 'Oglas promovisan na pretrazi u kategoriji oglasa',
-      img: '/IzdvojenaKategorija.svg'
-    },
-    {
-      id: 3,
-      text: 'Promovisanje u kategoriji oglasa i na početnoj stranici',
-      description: 'Oglas promovisan na pretrazi u kategoriji oglasa i na početnoj stranici sa drugom bojom',
-      img: '/IzdvojenaKategorijaNaslovna.svg'
-    },
+    // {
+    //   id: 1,
+    //   text: 'Standardna vidljivost',
+    //   description: 'Oglas nije promovisan',
+    //   img: '/StandardnaObjava.svg',
+    // },
+    // {
+    //   id: 2,
+    //   text: 'Promocija u kategoriji oglasa',
+    //   description: 'Oglas promovisan na pretrazi u kategoriji oglasa',
+    //   img: '/IzdvojenaKategorija.svg'
+    // },
+    // {
+    //   id: 3,
+    //   text: 'Promovisanje u kategoriji oglasa i na početnoj stranici',
+    //   description: 'Oglas promovisan na pretrazi u kategoriji oglasa i na početnoj stranici sa drugom bojom',
+    //   img: '/IzdvojenaKategorijaNaslovna.svg'
+    // },
   ]
+
+  async created() {
+    await this.fetchSponsorship()
+  }
 
   selectAdvertisment(o) {
     this.selectedAdvertisment = o.id;
@@ -391,10 +395,10 @@ export default class Publish extends Vue {
       city_id: this.city.id,
       lat: this.lat,
       lng: this.lng,
-      attributes: this.prepareAttributes()
+      attributes: this.prepareAttributes(),
+      sponsorship_id: this.selectedAdvertisment,
     }
 
-    console.log(payload, 'pejload')
 
     try {
       let response = await this.$axios.post('/listings', payload);
@@ -407,6 +411,17 @@ export default class Publish extends Vue {
 
   get fullTitle() {
     return this.city_id + this.category_id + this.neighborhood
+  }
+
+  async fetchSponsorship() {
+    try {
+      let res = await this.$axios.get('/sponsorship/packages');
+      this.advertising_options = res.data.data;
+
+      console.log(this.advertising_options, 'packages')
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   nextStep() {

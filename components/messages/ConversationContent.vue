@@ -50,13 +50,13 @@ export default class ConversationContent extends Vue {
 .conversation-list-wrapper {
   display: flex;
   padding: 12px;
-  height: calc(100vh - 378px);
+  height: calc(100vh - 413px);
   overflow-y: scroll;
   flex-direction: column-reverse;
   overflow: auto;
 
   @include for-phone-only {
-    height: calc(100vh - 178px);
+    height: calc(100vh - 248px);
   }
 }
 .conversation-wrapper {
