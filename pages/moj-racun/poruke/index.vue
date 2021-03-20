@@ -239,7 +239,7 @@ export default class poruke extends Vue {
     try {
       let res = await this.$axios.get('/conversations/' + id + '/messages');
 
-      this.messages = res.data.data;
+      this.messages = res.data.data.reverse();
       this.messagesLoaded = true;
     } catch(e) {
       console.log(e)
