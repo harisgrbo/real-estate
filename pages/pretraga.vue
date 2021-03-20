@@ -193,7 +193,6 @@ import Pagination from "@/components/pagination";
 })
 export default class Homepage extends Vue {
   searchName = '';
-  last_page = 0;
 
   toggleFiltersModal() {
     this.$modal.show('filters');

@@ -67,11 +67,43 @@
       <div>
         <div v-if="activeTab === 0" class="filters-agency">
           <div class="filters-agency-list">
-            filteri
+            <div class="modal-header">
+              <h2>Filteri</h2>
+              <i class="material-icons" @click="$modal.hide('filters')">close</i>
+            </div>
+            <div class="modal-content">
+              <CategoryFilter
+                v-model="queryPayload.category_id"
+                :categories="searchMeta.categories"
+                :aggregations="searchMeta.aggregations"
+                :filter="{}"
+                @input="newSearch"
+              />
+
+              <RangeFilter
+                v-model="queryPayload.price"
+                :attr="false"
+                :filter="{name: 'price', display_name: 'Cijena'}"
+                @input="newSearch"
+                :avg-price="searchMeta.price"
+              />
+
+              <component
+                v-for="(attr, i) in allAttributes"
+                :key="i"
+                :filter="attr"
+                :attr="true"
+                :is="filterFor(attr.type)"
+                v-model="queryPayload[attr.name]"
+                @clear="queryPayload[attr.name] = null; newSearch()"
+                @input="newSearch"
+              />
+
+            </div>
           </div>
          <div class="content">
-           <div class="grid-layout" v-if="listings.length">
-             <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+           <div v-if="results.length" class="grid-layout">
+             <ListingCard v-for="listing in results" :listing="listing" :key="listing.id"></ListingCard>
            </div>
            <div v-else class="no-image">
              <img src="/noimg.jpg" alt="no-image">
@@ -121,12 +153,121 @@ import ListingCard from "@/components/listingCard/ListingCard";
 import Snackbar from "@/components/global/Snackbar";
 import PublishMap from "@/components/publish/PublishMap";
 import UserMedals from "@/components/UserMedals"
+import TextField from "@/components/inputs/TextField";
+import RangeFilter from "@/components/search/RangeFilter";
+import CategoryFilter from "@/components/search/CategoryFilter";
+import TermFilter from "@/components/search/TermFilter";
+import TermsFilter from "@/components/search/TermsFilter";
+import Pagination from "@/components/pagination";
+import {buildQuery} from "@/util/search";
+import {capitalize} from "@/util/str";
 
 @Component({
-  components: {ListingCard, Snackbar, PublishMap, UserMedals},
-  layout() { return "home" }
-})
+  components: {ListingCard, Snackbar, PublishMap, UserMedals, TextField, RangeFilter, CategoryFilter, TermsFilter, TermFilter, Pagination},
+  layout() { return "home" },
+  watchQuery: true,
 
+  async asyncData(ctx) {
+    let page = 1;
+    let results = [];
+    let searchMeta = {
+      categories: [],
+      aggregations: []
+    };
+    let allAttributes = [];
+    let queryPayload = {};
+
+    let query = `[{"name":"user_id","type":"term","attr":false,"value":${ctx.route.params.id}}]`
+
+    if (ctx.route.query.q) {
+      let tmp = decodeURIComponent(ctx.route.query.q)
+
+      let decoded = JSON.parse(tmp);
+      let invalid = false;
+      let hasUserId = false;
+
+      if (Array.isArray(decoded)) {
+        for(let i = 0; i > decoded.length; ++i) {
+          let item = decoded[i];
+
+          if (typeof item === 'object') {
+            if (item.name === 'user_id') {
+              item.attr = false;
+              item.value = ctx.route.params.id
+              item.type = 'term'
+              hasUserId = true;
+            }
+          } else {
+            invalid = true;
+          }
+        }
+      }
+
+      if (! invalid) {
+        if (! hasUserId) {
+          decoded.push({
+            attr: false,
+            value: ctx.route.params.id,
+            type: 'term',
+            name: "user_id"
+          })
+        }
+
+        query = JSON.stringify(decoded)
+      }
+    }
+
+    console.log(query)
+
+    page = ctx.route.query.page || '1';
+    page = parseInt(page)
+
+    try {
+      let response = await ctx.app.$axios.get(`/listings/search?q=${query}&page=${page}`)
+      results = response.data.data;
+      searchMeta = response.data.meta;
+      query = JSON.parse(query)
+
+      query.forEach(item => {
+        if (item.name !== 'user_id') {
+          queryPayload[item.name] = Object.assign({}, item);
+        }
+      });
+
+      try {
+        let res = await ctx.app.$axios.get('/attributes');
+
+        allAttributes = res.data.data.map(item => {
+          item.type = item.attr_type;
+
+          return item;
+        }).concat(searchMeta.attributes)
+      } catch (e) {
+        console.log(e)
+      }
+    } catch (e) {
+      console.log(e)
+      // @TODO: Error handling
+    }
+
+    let lp = searchMeta.total / searchMeta.perPage;
+
+    if(! Number.isInteger(lp)) {
+      lp += 1;
+    }
+
+    let last_page = parseInt(lp);
+
+    return {
+      allAttributes,
+      results,
+      searchMeta,
+      queryPayload,
+      page,
+      last_page
+    }
+  },
+})
 export default class Agencies extends Vue {
 
   activeTab = 0
@@ -151,11 +292,25 @@ export default class Agencies extends Vue {
   }
   detailedAgencyinfo = {}
 
+  filterFor(attr) {
+    return `${capitalize(attr)}Filter`;
+  }
+
   async created() {
     await this.fetchUser(this.$route.params.id)
     await this.getAgencyDetailedInfo();
     this.isFollowed = this.meta.followed;
-    await this.fetchUserListings(this.$route.params.id)
+    // await this.fetchUserListings(this.$route.params.id)
+  }
+
+  newSearch() {
+    let q = buildQuery(this.queryPayload)
+
+    this.$router.push(this.$route.path + `?q=${q}`)
+  }
+
+  pageChangeHandler(selectedPage) {
+    this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage }) });
   }
 
   async getAgencyDetailedInfo() {
