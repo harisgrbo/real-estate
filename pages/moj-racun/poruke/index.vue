@@ -61,7 +61,7 @@
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Razgovor sa {{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h2>
-            <i class="material-icons" @click="$modal.hide('filters')">close</i>
+            <i class="material-icons" @click="$modal.hide('poruke')">close</i>
           </div>
           <div class="modal-content">
             <div class="conversation">
@@ -441,7 +441,12 @@ export default class poruke extends Vue {
   flex-direction: column;
   position: relative;
   box-shadow: rgb(0 0 0 / 8%) 0px 6px 12px;
-  height: calc(100vh - 195px);
+  height: calc(100vh - 225px);
+
+  @include for-phone-only {
+    height: calc(100vh - 70px);
+    overflow: hidden;
+  }
 
   .main-input-wrapper {
     display: flex;
@@ -472,11 +477,20 @@ export default class poruke extends Vue {
         border-radius: 8px;
         cursor: pointer;
 
+        @include for-phone-only {
+          padding: 6px;
+          margin-right:8px;
+        }
+
         &.last {
           margin-right: 0;
           background: #D63946;
           padding: 16px;
           color: #fff;
+
+          @include for-phone-only {
+            padding: 10px;
+          }
         }
       }
     }
