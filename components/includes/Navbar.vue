@@ -16,7 +16,7 @@
         </div>
         <button v-if="$auth.user" class="login">
           <font-awesome-icon icon="coins" @click="$router.push('/kredit')"/>
-          <p>650</p>
+          <p>{{ $auth.user.credits }}</p>
         </button>
         <button v-if="$auth.user" class="login">
           <font-awesome-icon icon="envelope" @click="goToMessages()"/>
@@ -870,7 +870,7 @@ export default class Navbar extends Vue {
     border-radius: 4px;
     outline: none;
     color: #fff;
-    background: #D63946;
+    background: #1B1E31;
     transition: 0.3s all ease;
     margin-left: 12px;
 

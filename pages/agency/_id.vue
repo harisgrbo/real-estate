@@ -30,13 +30,10 @@
         <h2>Informacije o agenciji</h2>
         <div class="separator"></div>
         <ul class="user-information">
-          <li>
-            <p>Ocjena</p>
-            <div>
-              <font-awesome-icon icon="star"></font-awesome-icon>
-              4.9
-            </div>
-          </li>
+         <li v-if="detailedAgencyinfo && detailedAgencyinfo.location">
+           <p>Sjedište agencije</p>
+           <p>{{ detailedAgencyinfo.location }}</p>
+         </li>
           <li>
             <p>Broj telefona</p>
             <b>061559944</b>
@@ -49,9 +46,9 @@
             <p>Email</p>
             <b>{{ user.email }}</b>
           </li>
-          <li>
+          <li v-if="detailedAgencyinfo && detailedAgencyinfo.external_number">
             <p>ID</p>
-<!--            <b>{{ user.id }}</b>-->
+            <b>{{ detailedAgencyinfo.external_number }}</b>
           </li>
           <li>
             <p>Web</p>
@@ -68,14 +65,19 @@
         <li v-for="(tab, index) in tabs" @click="activeTab = index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
       </ul>
       <div>
-        <div v-if="activeTab === 0" >
-          <div class="grid-layout" v-if="listings.length">
-            <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+        <div v-if="activeTab === 0" class="filters-agency">
+          <div class="filters-agency-list">
+            filteri
           </div>
-          <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
-          </div>
+         <div class="content">
+           <div class="grid-layout" v-if="listings.length">
+             <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+           </div>
+           <div v-else class="no-image">
+             <img src="/noimg.jpg" alt="no-image">
+             <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
+           </div>
+         </div>
         </div>
         <div v-if="activeTab === 1" >
           <div class="grid-layout" v-if="finishedListings.length">
@@ -138,7 +140,7 @@ export default class Agencies extends Vue {
   feedback = []
   tabs = [
     "Aktivni oglasi",
-    "Zavrseni oglasi",
+    "Završeni oglasi",
     "Dojmovi"
   ]
   city = {
@@ -147,12 +149,24 @@ export default class Agencies extends Vue {
       lng: parseFloat("18.4149369")
     }
   }
+  detailedAgencyinfo = {}
 
   async created() {
-    console.log(this.$route.params.id)
     await this.fetchUser(this.$route.params.id)
+    await this.getAgencyDetailedInfo();
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
+  }
+
+  async getAgencyDetailedInfo() {
+    try {
+      let res = await this.$axios.get('/agencies/' + this.user.id);
+      this.detailedAgencyinfo = res.data.data;
+
+      console.log(res, 'ressss')
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   get isMe() {
@@ -580,6 +594,24 @@ export default class Agencies extends Vue {
     font-size: 20px;
     font-weight: 500;
     margin-top: 24px;
+  }
+}
+
+.filters-agency {
+  display: flex;
+  flex-direction: row;
+
+  .filters-agency-list {
+    width: 300px;
+    min-width: 300px;
+    padding-right: 24px;
+    box-sizing: border-box;
+    margin-right: 24px;
+    border-right: 1px solid #dcdcdc;
+  }
+
+  .content {
+    width: 100%;
   }
 }
 </style>

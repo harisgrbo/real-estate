@@ -15,13 +15,6 @@
       <div class="separator"></div>
       <ul class="user-information">
         <li>
-          <p>Ocjena</p>
-          <div>
-            <font-awesome-icon icon="star"></font-awesome-icon>
-            4.9
-          </div>
-        </li>
-        <li>
           <p>Broj telefona</p>
           <b>061559944</b>
         </li>
@@ -152,7 +145,7 @@ export default class Users extends Vue {
   feedback = []
   tabs = [
     "Aktivni oglasi",
-    "Zavrseni oglasi",
+    "Završeni oglasi",
     "Dojmovi"
   ]
 

@@ -4,6 +4,9 @@
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
         <span>{{ translateType() }}</span>
       </label>
+      <label class="sponsored" v-if="listing.sponsored !== 0">
+        <span>Promovisan oglas</span>
+      </label>
       <label class="type" v-if="!$device.isMobile">
         <button
           v-for="(attr, index) in specialAttributes"
@@ -199,6 +202,21 @@ export default class ListingCard extends Vue{
 
         svg {
           margin-right: 8px;
+        }
+      }
+
+      &.sponsored {
+        right: 8px !important;
+        left: inherit;
+        background: #D63946;
+        color: #fff;
+
+        svg {
+          margin-rigth: 4px;
+        }
+
+        span {
+          text-transform: capitalize;
         }
       }
     }

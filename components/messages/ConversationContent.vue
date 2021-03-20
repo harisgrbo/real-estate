@@ -89,6 +89,7 @@ export default class ConversationContent extends Vue {
           font-size: 9px;
           color: #fff;
           margin-right: 8px;
+          display: flex;
         }
       }
 
@@ -157,6 +158,10 @@ export default class ConversationContent extends Vue {
         @include for-phone-only {
           font-size: 10px !important;
         }
+      }
+
+      label {
+        display: none;
       }
     }
 

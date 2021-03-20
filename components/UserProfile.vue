@@ -3,14 +3,6 @@
     <div class="user-info">
       <img src="/test/img1.jpg" alt="" @click="goToUser">
       <div class="username-wrapper">
-        <div class="rating">
-          <p @click="goToUser">{{ user.name }}</p>
-
-          <div class="stars">
-            <font-awesome-icon icon="star"></font-awesome-icon>
-            4.9
-          </div>
-        </div>
         <div class="buttons">
           <span v-if="type === 'agency'">
             Agencija
@@ -53,11 +45,16 @@
       <font-awesome-icon icon="user-slash"></font-awesome-icon>
       {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}
     </button>
-<!--    <div v-if="isRent && !isMe">-->
-<!--      <div class="separator"></div>-->
-<!--      <h2>Želite rezervisati odmah?</h2>-->
-<!--      <date-picker :show-date-picker="true" :displayClearButton="true"></date-picker>-->
-<!--    </div>-->
+
+    <div v-if="type === 'agency' && otherListings.length">
+      <h2 class="rest-articles">Ostali oglasi agencije</h2>
+      <ul class="grid-ul" v-if="otherListingsLoaded">
+        <li v-for="listing in otherListings">
+          <ListingCard :listing="listing" :key="listing.id"/>
+        </li>
+      </ul>
+      <img v-else class="load" src="/load.svg" alt="">
+    </div>
     <client-only>
       <modal name="contact-user" :adaptive="true" height="100%">
         <div class="modal-inner">
@@ -93,12 +90,31 @@ export default class UserProfile extends Vue {
   @Prop({}) followed;
   @Prop({}) isRent;
   @Prop({}) type;
+  @Prop() id;
 
   message = '';
   loading = false;
+  otherListings = [];
+  otherListingsLoaded = false;
+
 
   async created() {
     this.alreadyFollowed = this.followed;
+    if(this.type === 'agency') {
+      await this.getOtherListings();
+    }
+  }
+
+  async getOtherListings() {
+    this.otherListingsLoaded = false;
+    try {
+      let res = await this.$axios.get('/listings/' + this.id + '/other');
+      this.otherListings = res.data.data;
+      console.log(this.otherListings, 'other')
+      this.otherListingsLoaded = true;
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   get isMe() {
@@ -198,14 +214,14 @@ export default class UserProfile extends Vue {
 }
 .user-content-wrapper {
   position: sticky;
-  top: 174px;
+  top: 124px;
   display: flex;
   flex-direction: column;
   margin-left: 24px;
   //border: 1px solid rgb(221, 221, 221);
   border-radius: 12px;
   padding: 12px;
-  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+  border: 1px solid #dcdcdc;
   height: fit-content;
 
   @include for-phone-only {
@@ -316,6 +332,11 @@ h2 {
   font-size: 18px !important;
   line-height: 26px !important;
   margin-bottom: 12px;
+
+  &.rest-articles {
+    margin-top: 24px;
+    margin-bottom: 24px !important;
+  }
 }
 
 .modal-header {
@@ -388,6 +409,52 @@ h2 {
 
     text-decoration: underline;
   }
+}
+
+.grid-ul {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0!important;
+
+  li {
+    display: flex;
+    height: fit-content !important;
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    ::v-deep .listing-card-wrapper{
+      .sponsored, .type {
+        display: none;
+      }
+
+      a {
+        display: flex;
+        flex-direction: row;
+
+        img{
+          height: 100px;
+          width: 120px;
+        }
+
+        .listing-card-content {
+          max-width: 170px;
+          width: 170px;
+          margin-left: 12px;
+          padding-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.load {
+  height: 40px;
+  margin: 24px auto 0 auto;
+  width: fit-content;
+  display: flex;
 }
 
 </style>
