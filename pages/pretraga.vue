@@ -23,7 +23,7 @@
           <Pagination
             ref="pagination"
             v-show="meta.total > 20"
-            :current-page="currentPage"
+            :current-page="page"
             :total-pages="last_page"
             @page-change="pageChangeHandler" />
         </client-only>
@@ -132,6 +132,7 @@ import Pagination from "@/components/pagination";
   watchQuery: true,
 
   async asyncData(ctx) {
+    let page = 1;
     let results = [];
     let meta = {
       categories: [],
@@ -142,8 +143,11 @@ import Pagination from "@/components/pagination";
 
     if (ctx.route.query.q) {
       let query = decodeURIComponent(ctx.route.query.q)
+      page = ctx.route.query.page || '1';
+      page = parseInt(page)
+
       try {
-        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}`)
+        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}`)
         results = response.data.data;
         meta = response.data.meta;
         query = JSON.parse(query)
@@ -169,17 +173,26 @@ import Pagination from "@/components/pagination";
       }
     }
 
+    let lp = meta.total / meta.perPage;
+
+    if(! Number.isInteger(lp)) {
+      lp += 1;
+    }
+
+    let last_page = parseInt(lp);
+
     return {
       allAttributes,
       results,
       meta,
-      queryPayload
+      queryPayload,
+      page,
+      last_page
     }
   },
 })
 export default class Homepage extends Vue {
   searchName = '';
-  currentPage = 1;
   last_page = 0;
 
   toggleFiltersModal() {
@@ -191,26 +204,7 @@ export default class Homepage extends Vue {
   }
 
   pageChangeHandler(selectedPage) {
-    this.currentPage = selectedPage;
-    this.$router.push({ query: Object.assign({}, this.$route.query, { page: this.currentPage }) });
-  }
-
-  calculateNumOfPages() {
-    let lp = this.meta.total / this.meta.perPage;
-
-    if(!Number.isInteger(lp)) {
-      lp += 1;
-    }
-
-    this.last_page = parseInt(lp);
-
-    return this.last_page;
-  }
-
-  created() {
-    this.calculateNumOfPages()
-
-    console.log(this.meta.categories, 'last=page')
+    this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage }) });
   }
 
   getResultKey(listing) {
