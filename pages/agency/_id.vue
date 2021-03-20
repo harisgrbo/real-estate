@@ -30,13 +30,10 @@
         <h2>Informacije o agenciji</h2>
         <div class="separator"></div>
         <ul class="user-information">
-          <li>
-            <p>Ocjena</p>
-            <div>
-              <font-awesome-icon icon="star"></font-awesome-icon>
-              4.9
-            </div>
-          </li>
+         <li v-if="detailedAgencyinfo && detailedAgencyinfo.location">
+           <p>Sjedište agencije</p>
+           <p>{{ detailedAgencyinfo.location }}</p>
+         </li>
           <li>
             <p>Broj telefona</p>
             <b>061559944</b>
@@ -49,9 +46,9 @@
             <p>Email</p>
             <b>{{ user.email }}</b>
           </li>
-          <li>
+          <li v-if="detailedAgencyinfo && detailedAgencyinfo.external_number">
             <p>ID</p>
-<!--            <b>{{ user.id }}</b>-->
+            <b>{{ detailedAgencyinfo.external_number }}</b>
           </li>
           <li>
             <p>Web</p>
@@ -143,7 +140,7 @@ export default class Agencies extends Vue {
   feedback = []
   tabs = [
     "Aktivni oglasi",
-    "Zavrseni oglasi",
+    "Završeni oglasi",
     "Dojmovi"
   ]
   city = {
@@ -152,12 +149,24 @@ export default class Agencies extends Vue {
       lng: parseFloat("18.4149369")
     }
   }
+  detailedAgencyinfo = {}
 
   async created() {
-    console.log(this.$route.params.id)
     await this.fetchUser(this.$route.params.id)
+    await this.getAgencyDetailedInfo();
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
+  }
+
+  async getAgencyDetailedInfo() {
+    try {
+      let res = await this.$axios.get('/agencies/' + this.user.id);
+      this.detailedAgencyinfo = res.data.data;
+
+      console.log(res, 'ressss')
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   get isMe() {

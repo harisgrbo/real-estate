@@ -1128,8 +1128,12 @@ export default class Artikal extends Vue {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     grid-column-gap: 12px;
     margin-bottom: 24px;
-    max-height: 150px;
     overflow: hidden;
+    max-height: 70px;
+
+    @include for-phone-only {
+      max-height: 150px;
+    }
 
     &.extend {
       max-height: fit-content;
