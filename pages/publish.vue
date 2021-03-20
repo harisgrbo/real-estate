@@ -893,7 +893,7 @@ export default class Publish extends Vue {
             border-radius: 4px;
             outline: none;
             border: none;
-            background: #D63946 !important;
+            background: #1B1E31 !important;
             color: #fff;
             font-weight: 500 !important;
             transition: 0.3s all ease;

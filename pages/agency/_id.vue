@@ -68,14 +68,19 @@
         <li v-for="(tab, index) in tabs" @click="activeTab = index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
       </ul>
       <div>
-        <div v-if="activeTab === 0" >
-          <div class="grid-layout" v-if="listings.length">
-            <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+        <div v-if="activeTab === 0" class="filters-agency">
+          <div class="filters-agency-list">
+            filteri
           </div>
-          <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
-          </div>
+         <div class="content">
+           <div class="grid-layout" v-if="listings.length">
+             <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+           </div>
+           <div v-else class="no-image">
+             <img src="/noimg.jpg" alt="no-image">
+             <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
+           </div>
+         </div>
         </div>
         <div v-if="activeTab === 1" >
           <div class="grid-layout" v-if="finishedListings.length">
@@ -580,6 +585,24 @@ export default class Agencies extends Vue {
     font-size: 20px;
     font-weight: 500;
     margin-top: 24px;
+  }
+}
+
+.filters-agency {
+  display: flex;
+  flex-direction: row;
+
+  .filters-agency-list {
+    width: 300px;
+    min-width: 300px;
+    padding-right: 24px;
+    box-sizing: border-box;
+    margin-right: 24px;
+    border-right: 1px solid #dcdcdc;
+  }
+
+  .content {
+    width: 100%;
   }
 }
 </style>

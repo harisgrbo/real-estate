@@ -16,13 +16,11 @@
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
-        <TextField type="text" placeholder="Naziv agencije" v-model="realEstateAgencyPayload.agency_name"></TextField>
-        <TextField type="text" placeholder="Sjedište agencije" v-model="realEstateAgencyPayload.agency_name"></TextField>
-        <TextField type="number" placeholder="ID broj" v-model="realEstateAgencyPayload.id_number"></TextField>
+        <TextField type="text" placeholder="Naziv agencije" v-model="realEstateAgencyPayload.name"></TextField>
+        <TextField type="number" placeholder="ID broj" v-model="realEstateAgencyPayload.external_id"></TextField>
         <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
-        <TextField type="text" placeholder="Korisničko ime" v-model="realEstateAgencyPayload.name"></TextField>
         <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
-        <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
+        <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
         <ActionButton placeholder="Registruj se kao pravno lice (agencija)" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
       </form>
     </div>
@@ -51,8 +49,10 @@ export default class RegisterForm extends Vue{
   }
   realEstateAgencyPayload = {
     name: '',
+    external_id: '',
     email: '',
     password: '',
+    location: ''
   }
   registrationTypes = [
     'Fizičko lice',
@@ -60,7 +60,7 @@ export default class RegisterForm extends Vue{
   ]
   currentType = 0;
   loading = false;
-  city = null
+  city = ''
 
   config = {
     headers: { 'Content-Type': 'application/json' },
@@ -95,8 +95,8 @@ export default class RegisterForm extends Vue{
   }
 
   handleSelectedCity(f) {
-    this.city = f;
-
+    this.realEstateAgencyPayload.location = f.name;
+    console.log(f)
   }
 
   // Real estate agency registration
@@ -222,5 +222,9 @@ export default class RegisterForm extends Vue{
   button {
     background:#0B8489;
   }
+}
+
+.location {
+  margin-top: 12px;
 }
 </style>

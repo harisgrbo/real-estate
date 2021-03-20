@@ -12,12 +12,12 @@
           </li>
           <li class="actual">
             <h2>Trenutno stanje kredita</h2>
-            <b>650</b>
+            <b>{{ $auth.user.credits }}</b>
             <img src="/coinicon.svg" alt="">
           </li>
         </ul>
         <div class="content">
-          <div v-if="currentTab === 0">
+          <div v-if="currentTab === 0" div="buy-options-wrap">
             <h2>Izaberite jednu od ponuđenih opcija za dopunu kredita</h2>
             <div class="buy-options">
               <button v-for="(option, index) in options" :key="index" @click="selectCard(option)" :class="[ selectedCardOption !== null && selectedCardOption.id === option.id ? 'selected' : '' ]">
@@ -59,13 +59,14 @@
               </div>
               <h2>Nakon što pošaljete SMS, u roku od par sekundi ćete dobiti odgovor sa kodom. Unesite ga u polje ispod:</h2>
 
-              <TextField></TextField>
-              <ActionButton placeholder="Dopuni kredit"></ActionButton>
+              <TextField v-model="credits"></TextField>
+              <ActionButton placeholder="Dopuni kredit" @action="handleAction"></ActionButton>
             </div>
           </div>
           <div v-if="currentTab === 2">
             3
           </div>
+          <Snackbar></Snackbar>
         </div>
       </div>
     </div>
@@ -76,10 +77,12 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField"
 import ActionButton from "@/components/actionButtons/ActionButton"
+import Snackbar from "@/components/global/Snackbar"
 
 @Component({
   components: {
     TextField,
+    Snackbar,
     ActionButton
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home'
@@ -204,6 +207,7 @@ export default class Kredit extends Vue {
   selectedCardOption = null;
   selectedSmsOption = null;
   currentOperater = 0;
+  credits = 0;
 
   selectCard(c) {
     this.selectedCardOption = c;
@@ -211,6 +215,26 @@ export default class Kredit extends Vue {
 
   selectSmsOption(c) {
     this.selectedCardOption = c;
+  }
+
+  async handleAction() {
+    try {
+      await this.$axios.post('/profile/credit_top_up', {
+        credits: this.credits
+      });
+
+      let updatedUser = {...this.$auth.user}
+      updatedUser.credits += this.credits;
+      this.$auth.setUser(updatedUser)
+
+      this.$snackbar.show({
+        text: "Uspješno ste dopunili kredit",
+        timeout: 1000,
+        type: "success"
+      });
+    } catch(e) {
+      console.log(e)
+    }
   }
 }
 </script>
@@ -303,6 +327,7 @@ export default class Kredit extends Vue {
 
       > div {
         width: 100%;
+        min-width: 100%;
       }
 
       .buy-options {
@@ -499,5 +524,10 @@ export default class Kredit extends Vue {
 
     }
   }
+}
+
+.buy-options-wrap {
+  width: 100%;
+  min-width: 100%;
 }
 </style>

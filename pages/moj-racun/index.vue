@@ -33,11 +33,9 @@
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
-import Navbar from "@/components/includes/Navbar";
 
 @Component({
-  components: { Navbar },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : '',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
 })
 
 export default class accountpage extends Vue {
@@ -124,7 +122,6 @@ export default class accountpage extends Vue {
 }
 
 .account-wrapper-a {
-  padding-top: 126px !important;
   height: calc(100vh - 126px);
 
   @include for-phone-only {

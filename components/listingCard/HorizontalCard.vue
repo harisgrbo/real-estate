@@ -1,24 +1,29 @@
 <template>
   <div class="listing-card-wrapper">
-    <label class="type" v-if="$device.isMobile">{{ listing.listing_type.title }}</label>
-    <label class="publisher" v-if="!$device.isMobile">
-      <font-awesome-icon icon="bullhorn"></font-awesome-icon>
-      <span>{{ translateType() }}</span>
-    </label>
-    <label class="bottom" v-if="!$device.isMobile">
-      <button
-        v-for="(attr, index) in specialAttributes"
-        :key="index"
-        class="standard-tag"
-      >
-        {{ attr.value }}
-        <p v-if="attr.name === 'Kvadratura'"> m²</p>
-        <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
-      </button>
-    </label>
     <nuxt-link :to="{ path: '/artikal/' + listing.id }">
-      <img src="/stan.jpg" alt="">
-      <div class="listing-card-content">
+      <div class="img-wrapper-main">
+        <label class="type" v-if="$device.isMobile">{{ listing.listing_type.title }}</label>
+        <label class="publisher" v-if="!$device.isMobile">
+          <font-awesome-icon icon="bullhorn"></font-awesome-icon>
+          <span>{{ translateType() }}</span>
+        </label>
+        <label class="sponsored" v-if="!$device.isMobile && listing.sponsored !== 0">
+          <span>Promovisan oglas</span>
+        </label>
+        <label class="bottom" v-if="!$device.isMobile">
+          <button
+            v-for="(attr, index) in specialAttributes"
+            :key="index"
+            class="standard-tag"
+          >
+            {{ attr.value }}
+            <p v-if="attr.name === 'Kvadratura'"> m²</p>
+            <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
+          </button>
+        </label>
+        <img src="/stan.jpg" alt="">
+      </div>
+      <div :class="['listing-card-content', listing.sponsored !== 0 ? 'sponsored' : '']">
         <div class="column">
           <div class="title-price">
             <div class="title-box">
@@ -193,108 +198,6 @@ a {
     margin-bottom: 12px;
   }
 
-  label {
-    position: absolute;
-    left: 8px;
-    top: 24px;
-    border-radius: 5px;
-    background: #fff;
-    color: #444;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    height: 24px;
-    padding: 0 8px;
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: capitalize;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-    z-index: 2;
-
-    &.type {
-      position: absolute;
-      left: 4px;
-      top: 4px;
-      border-radius: 3px;
-      background: #fff;
-      color: #444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: -webkit-fit-content;
-      width: -moz-fit-content;
-      width: fit-content;
-      height: 18px;
-      padding: 0 4px;
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: capitalize;
-      box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-      z-index: 2;
-
-      @include for-phone-only {
-      }
-
-    }
-
-    &.bottom {
-      top: 191px;
-      display: flex;
-      left: 0px;
-      width: fit-content;
-      justify-content: flex-start;
-      min-width: fit-content;
-      background: transparent;
-      box-shadow: none;
-
-      button {
-        font-family: 'Montserrat', sans-serif;
-        border: none;
-        margin-right: 8px;
-        border-radius: 5px;
-        background: #fff;
-        box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-        color: #444;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: fit-content;
-        height: 24px;
-        padding: 0 4px;
-        font-size: 12px;
-        font-weight: 500;
-        box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-
-        span {
-          text-transform: none;
-        }
-
-        svg {
-          margin-left: 4px;
-        }
-      }
-
-    }
-
-    &.rating {
-      right: 8px !important;
-      left: inherit;
-
-      i {
-        font-size: 13px;
-        margin-right: 5px;
-      }
-    }
-
-    &.publisher {
-      top: 32px;
-
-      svg {
-        margin-right: 8px;
-      }
-    }
-  }
 
 
 img {
@@ -325,6 +228,10 @@ flex-direction: column;
 justify-content: space-between;
 width: 100%;
 padding: 0 16px;
+  &.sponsored {
+    background: #ff00000a;
+    border-radius: 10px;
+  }
 
 @include for-phone-only {
   padding: 0;
@@ -377,7 +284,7 @@ padding: 0 16px;
 
       @include for-phone-only {
         font-weight: 600 !important;
-        font-size: 14px;
+        font-size: 12px;
       }
     }
 
@@ -537,6 +444,7 @@ padding: 0 16px;
       box-sizing: border-box;
       text-transform: none;
       position: static;
+      font-size: 12px;
 
       &:last-child {
         margin-right: 0;
@@ -598,5 +506,126 @@ padding: 0 16px;
   display: flex;
   align-items: center;
   border-radius: 4px;
+}
+
+.img-wrapper-main {
+  position: relative;
+
+  label {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    border-radius: 5px;
+    background: #fff;
+    color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: 24px;
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+    box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+    z-index: 2;
+
+    &.type {
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      border-radius: 3px;
+      background: #fff;
+      color: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      height: 18px;
+      padding: 0 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: capitalize;
+      box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+      z-index: 2;
+    }
+
+    &.bottom {
+      bottom: 8px;
+      display: flex;
+      top: inherit !important;
+      left: 0px;
+      width: fit-content;
+      justify-content: flex-start;
+      min-width: fit-content;
+      background: transparent;
+      box-shadow: none;
+
+      button {
+        font-family: 'Montserrat', sans-serif;
+        border: none;
+        margin-right: 8px;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+        color: #444;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        height: 24px;
+        padding: 0 4px;
+        font-size: 12px;
+        font-weight: 500;
+        box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+
+        span {
+          text-transform: none;
+        }
+
+        svg {
+          margin-left: 4px;
+        }
+      }
+
+    }
+
+    &.rating {
+      right: 8px !important;
+      left: inherit;
+
+      i {
+        font-size: 13px;
+        margin-right: 5px;
+      }
+    }
+
+    &.publisher {
+      top: 8px;
+
+      svg {
+        margin-right: 8px;
+      }
+    }
+
+    &.sponsored {
+      right: 8px !important;
+      left: inherit;
+      background: #D63946;
+      color: #fff;
+
+      svg {
+        margin-rigth: 4px;
+      }
+
+      span {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+
 }
 </style>
