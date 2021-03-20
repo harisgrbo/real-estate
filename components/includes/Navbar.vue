@@ -15,7 +15,7 @@
           <button class="register" @click="$router.push('/auth/register')">Registracija</button>
         </div>
         <button v-if="$auth.user" class="login">
-          <font-awesome-icon icon="coins" @click="$router.push('/moj-racun/poruke')"/>
+          <font-awesome-icon icon="coins" @click="$router.push('/kredit')"/>
           <p>650</p>
         </button>
         <button v-if="$auth.user" class="login">
@@ -769,7 +769,7 @@ export default class Navbar extends Vue {
 
     button {
       height: 30px;
-      border-radius: 4px;
+      border-radius: 0px;
       border: none;
       background: transparent;
       padding: 0 4px;
@@ -777,10 +777,11 @@ export default class Navbar extends Vue {
       font-weight: 600;
       cursor: pointer;
       transition: 0.3s all ease;
-      background: #31335d9c;
+      //background: #31335d9c;
 
       &:last-child {
         margin-left: 16px;
+        border-right: none;
       }
 
       &:focus {
@@ -805,7 +806,9 @@ export default class Navbar extends Vue {
         align-items: center;
         margin-left: 12px;
         color: #fff;
-        border-radius: 8px;
+        border-radius: 0px;
+        border-left: 1px solid #31335d9c;
+
 
         &.notify {
           position: relative;
@@ -820,7 +823,10 @@ export default class Navbar extends Vue {
           margin-rigth: 4px;
 
           &.notify {
-            color: #D63946;
+            color: #fff;
+            background: #D63946;
+            border-radius: 3px;
+            margin-right: 4px;
           }
         }
 

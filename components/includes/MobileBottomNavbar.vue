@@ -3,8 +3,9 @@
     <nuxt-link :to="{ path: '/' }">
       <font-awesome-icon icon="home"></font-awesome-icon>
     </nuxt-link>
-    <nuxt-link to="/moj-racun/poruke">
+    <nuxt-link to="/moj-racun/poruke" class="relative">
       <font-awesome-icon icon="envelope"></font-awesome-icon>
+      <p class="notify">{{ messagesCount }}</p>
     </nuxt-link>
     <nuxt-link to="/publish">
       <font-awesome-icon icon="plus" class="publish-btn"></font-awesome-icon>
@@ -12,8 +13,9 @@
     <nuxt-link :to="goToUser()">
       <font-awesome-icon icon="user" @click=""></font-awesome-icon>
     </nuxt-link>
-    <nuxt-link to="#">
+    <nuxt-link to="#" class="relative">
       <font-awesome-icon icon="bars" @click="openSidebarMenu"></font-awesome-icon>
+      <p class="notify">{{ notifications.length }}</p>
     </nuxt-link>
   </div>
 </template>
@@ -32,6 +34,9 @@ import ListingType from "@/components/ListingType";
 })
 
 export default class MobileBottomNavbar extends Vue {
+  messagesCount = 0;
+  notifications = []
+
   openCategoriesModal() {
     let self = this;
     this.$modal.show(
@@ -61,6 +66,54 @@ export default class MobileBottomNavbar extends Vue {
         height: "100%",
       }
     );
+  }
+
+  async created() {
+    await this.getNotifications()
+    await this.getUnreadMessagesCount()
+  }
+
+  async getNotifications() {
+    try {
+      let res = await this.$axios.get('/profile/notifications/unread');
+
+      this.notifications = res.data.data.map(notification => {
+        return notification.data
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async getUnreadMessagesCount()
+  {
+    try {
+      let res = await this.$axios.get('/profile/messages/count');
+
+      this.messagesCount = res.data.data
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  mounted() {
+    this.realtime();
+  }
+
+  realtime() {
+    if (this.$auth.user) {
+      this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
+        if (notification.type === 'App\\Notifications\\NewMessageNotification') {
+          if (this.$route.fullPath !== '/moj-racun/poruke') {
+            this.messagesCount++;
+          }
+        } else {
+          this.notifications.unshift(notification)
+        }
+
+        this.snackbarNotification(notification.text)
+      })
+    }
   }
 
   goToUser() {
@@ -118,6 +171,25 @@ export default class MobileBottomNavbar extends Vue {
       svg {
         color: red !important;
       }
+    }
+  }
+
+  .relative {
+    position: relative;
+
+    .notify {
+      height: 14px;
+      width: 14px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #fff;
+      background: #D63946;
+      position: absolute;
+      font-size: 10px;
+      top: -3px;
+      left: 18px;
+      text-align: center;
+      line-height: 14px;
     }
   }
 </style>

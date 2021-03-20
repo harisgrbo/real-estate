@@ -15,9 +15,6 @@
     >
       <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>
-    <modal name="sidebar" :adaptive="true" height="100%" @closed="closeModal">
-      <sidenav ref="side"></sidenav>
-    </modal>
   </div>
 </template>
 

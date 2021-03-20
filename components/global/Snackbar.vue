@@ -57,9 +57,9 @@ export default {
   padding: 16px;
   position: fixed;
   z-index: 9999;
-  left: 30px;
-  top: inherit;
-  bottom: 30px;
+  right: 30px;
+  top: 154px;
+  bottom: inherit;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
 
@@ -73,8 +73,8 @@ export default {
     position: fixed;
     z-index: 9999;
     left: 8px;
-    top: inherit;
-    bottom: 8px;
+    top: 8px;
+    bottom: inherit;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     right: 8px;
@@ -117,7 +117,7 @@ export default {
 }
 
 .box-shadow {
-  box-shadow: rgb(0 0 0 / 6%) 0px 3px 5px;
+  box-shadow: rgb(0 0 0 / 6%) 0px 14px 5px;
 
 }
 

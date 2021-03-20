@@ -6,8 +6,8 @@
         <p>{{ message.content }}</p>
         <div class="message-info">
           <p>{{ $moment(message.created_at).format('HH:mm') }}</p>
-          <font-awesome-icon v-if="message.delivered" icon="reply-all" class="status-icon delivered"></font-awesome-icon>
-          <font-awesome-icon v-else icon="reply" class="status-icon sent"></font-awesome-icon>
+          <label v-if="message.delivered" >dostavljeno..</label>
+          <label v-else >šalje se..</label>
         </div>
       </div>
     </div>
@@ -37,6 +37,12 @@ export default class ConversationContent extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .no-image {
   opacity: 0 !important;
 }
@@ -44,10 +50,14 @@ export default class ConversationContent extends Vue {
 .conversation-list-wrapper {
   display: flex;
   padding: 12px;
-  height: calc(100vh - 378px);
+  height: calc(100vh - 413px);
   overflow-y: scroll;
   flex-direction: column-reverse;
   overflow: auto;
+
+  @include for-phone-only {
+    height: calc(100vh - 248px);
+  }
 }
 .conversation-wrapper {
   display: flex;
@@ -73,6 +83,12 @@ export default class ConversationContent extends Vue {
         justify-content: flex-start;
         p {
           font-size: 12px;
+        }
+
+        label {
+          font-size: 9px;
+          color: #fff;
+          margin-right: 8px;
         }
       }
 
@@ -103,6 +119,12 @@ export default class ConversationContent extends Vue {
     border-radius: 30px;
     object-fit: cover;
     margin-right: 12px;
+
+    @include for-phone-only {
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+    }
   }
 
   .bubble {
@@ -114,6 +136,10 @@ export default class ConversationContent extends Vue {
     box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
     margin-bottom: 8px;
 
+    @include for-phone-only {
+      padding: 6px;
+    }
+
     .message-info {
       display: flex;
       flex-direction: row-reverse;
@@ -121,8 +147,16 @@ export default class ConversationContent extends Vue {
       font-size: 12px !important;
       margin-top: 12px;
       justify-content: flex-start;
+
+      @include for-phone-only {
+        margin-top: 4px !important;
+      }
       p {
         font-size: 12px;
+
+        @include for-phone-only {
+          font-size: 10px !important;
+        }
       }
     }
 
@@ -134,6 +168,10 @@ export default class ConversationContent extends Vue {
       font-size: 16px;
       font-weight: 500;
       color: #444;
+
+      @include for-phone-only {
+        font-size: 13px;
+      }
     }
   }
 }
