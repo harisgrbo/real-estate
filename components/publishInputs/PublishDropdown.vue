@@ -3,12 +3,15 @@
     <label>{{ title }}</label>
     <div class="input-wrapper">
       <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
         <input type="text"
                :placeholder="placeholder"
                @input="showSuggests"
                v-model="selectedCity"
         >
-        <i class="material-icons">room</i>
       </div>
       <!-- Autocomplete dropdown -->
       <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
@@ -80,11 +83,12 @@ export default class PublishDropdown extends Vue{
   box-sizing: border-box;
   cursor: pointer;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   height: fit-content;
+  position: relative;
 
   div {
     display: flex;
@@ -110,33 +114,38 @@ export default class PublishDropdown extends Vue{
   }
 
   .autocomplete-dropdown {
-    border-radius: 10px;
-    padding: 12px;
     background: #fff;
     width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
     height: fit-content;
+    position: absolute;
+    top: 44px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid #ddd;
     ul {
       width: 100%;
       display: flex;
       flex-direction: column;
       max-height: 300px;
       overflow: scroll;
-      margin-top: 15px;
+      padding: 8px 0;
 
       li {
         width: 100%;
         font-size: 14px;
         font-weight: 500;
         color: #444;
-        background: #F3F5FB;
         border-radius: 5px;
         padding: 8px;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
         cursor: pointer;
 
         &:last-child {
           margin-bottom: 0 !important;
+        }
+
+        &:hover {
+          background: #f9f9f9;
         }
       }
     }

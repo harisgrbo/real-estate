@@ -8,24 +8,36 @@
           <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
           <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id">Idi na profil</nuxt-link>
         </div>
-        <ul>
-          <li
-            v-for="(tab, index) in tabs"
-            :key="index"
-            :class="[ tab.slug === 'dashboard'? 'dashboard-class' : '' ]"
-          >
-            <nuxt-link
-              :to="{ path: '/moj-racun/' + tab.slug }"
-
-            >
-              <img :src="'/settings/' + tab.icon" alt="">
-              <h4>{{ tab.name }}</h4>
-              <p>
-                {{ tab.desc }}
+        <div class="grid grid-cols-3 gap-6 pb-1">
+          <div  v-for="(tab, index) in tabs"
+                :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
+            <div>
+      <span class="flex items-start justify-start">
+        <!-- Heroicon name: outline/clock -->
+         <img class="max-h-12" :src="'/settings/' + tab.icon" alt="">
+      </span>
+            </div>
+            <div class="mt-8">
+              <h3 class="text-lg font-medium">
+                <nuxt-link :to="{ path: '/moj-racun/' + tab.slug }"
+                           class="focus:outline-none">
+                  <span class="absolute inset-0" aria-hidden="true"></span>
+                  {{ tab.name }}
+                </nuxt-link>
+              </h3>
+              <p class="mt-2 text-sm text-gray-500">
+                {{
+                  tab.desc
+                }}
               </p>
-            </nuxt-link>
-          </li>
-        </ul>
+            </div>
+            <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+              </svg>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -42,16 +54,10 @@ export default class accountpage extends Vue {
 
   tabs = [
     {
-      name: "Dashboard",
-      slug: "dashboard/analitika",
-      icon: "014-browser-6.svg",
-      desc: 'Uređivanje postavki agencije'
-    },
-    {
       name: "Uredi profil",
       slug: "uredi-profil",
       icon: "010-technical-support.svg",
-      desc: 'Uređivanje ličnih podataka'
+      desc: 'Uređivanje ličnih podataka i promjena avatara'
     },
     {
       name: "Spašeno",
@@ -84,12 +90,6 @@ export default class accountpage extends Vue {
       desc: 'Lista blokiranih korisnika'
     },
     {
-      name: "Verifikacija",
-      slug: "verifikacija",
-      icon: '004-server.svg',
-      desc: 'Verifikacija email-a i broja telefona'
-    },
-    {
       name: "Obavijesti",
       slug: "notifikacije",
       icon: '049-laptop.svg',
@@ -100,12 +100,6 @@ export default class accountpage extends Vue {
       slug: "privatnost",
       icon: '025-laptop-6.svg',
       desc: 'Postavke privatnosti'
-    },
-    {
-      name: "Statistika",
-      slug: "statistika",
-      icon: '014-browser-6.svg',
-      desc: 'Statistika Vaše agencije i oglasa'
     },
   ]
 }
@@ -122,7 +116,7 @@ export default class accountpage extends Vue {
 }
 
 .account-wrapper-a {
-  height: calc(100vh - 126px);
+  height: fit-content;
 
   @include for-phone-only {
     padding:12px 0 0 0!important;
@@ -148,10 +142,10 @@ export default class accountpage extends Vue {
       display: flex;
       flex: 2;
       background: #fff;
-      padding: 24px;
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;
+      padding-top: 36px;
 
       @include for-phone-only {
         padding: 12px;
@@ -200,71 +194,6 @@ export default class accountpage extends Vue {
         margin-bottom: 36px;
       }
 
-      ul {
-        padding: 0;
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 12px;
-        row-gap: 12px;
-
-        @include for-phone-only {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        li {
-          display: flex;
-          height: fit-content;
-          padding: 24px;
-          line-height: 40px;
-          font-weight: 400;
-          box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
-          border-radius: 8px;
-          box-sizing: border-box;
-          cursor: pointer;
-
-          @include for-phone-only {
-            padding: 12px;
-            height: 100%;
-          }
-
-          a {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-          }
-
-          img {
-            height: 50px;
-          }
-
-          h4 {
-            font-size: 18px;
-            color:rgb(72, 72, 72) !important;
-            margin-top: 12px;
-            font-weight: 600;
-
-            @include for-phone-only {
-              font-size: 14px;
-              font-weight: 600;
-              margin-top: 0;
-            }
-          }
-
-          p {
-            font-size: 17px;
-            font-weight: 300;
-            line-height: 1.375em !important;
-            height: 50px;
-            color:rgb(72, 72, 72) !important;
-
-            @include for-phone-only {
-              font-size: 14px;
-            }
-          }
-        }
-      }
     }
 
     .main-wrapper {
@@ -282,10 +211,6 @@ export default class accountpage extends Vue {
   }
 }
 
-a {
-  transition: 0.3s all ease;
-  color: #9BAABD;
-}
 
 .icon {
   margin-right: 12px;

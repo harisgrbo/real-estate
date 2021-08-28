@@ -1,59 +1,55 @@
 <template>
-  <div class="user-content-wrapper">
-    <div class="user-info">
-      <img src="/test/img1.jpg" alt="" @click="goToUser">
-      <div class="username-wrapper">
-        <div class="buttons">
-          <span v-if="type === 'agency'">
-            Agencija
-          </span>
-          <span v-else>
-            Fizicko lice
-          </span>
+  <aside class="hidden w-96 bg-white p-4 ml-6 border-l border-gray-200 overflow-y-auto lg:block bg-gray-50">
+    <div class="pb-16 space-y-6">
+      <div class="flex flex-row">
+        <div class="block w-24 h-24 rounded-lg overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="object-cover">
         </div>
-        <UserMedals></UserMedals>
+        <div class="flex items-start justify-between mb-4 pl-4">
+          <div>
+            <h2 @click="goToUser()" class="text-lg font-medium text-black">{{ user.name }}</h2>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="separator"></div>
-    <ul v-if="type === 'agency'">
-      <li>
-        <p>Broj telefona</p>
-        <b>061559944</b>
-      </li>
-      <li>
-        <p>Email</p>
-        <b>{{ user.email }}</b>
-      </li>
-      <li>
-        <p>Web</p>
-        <b>wwww.agencija.ba</b>
-      </li>
-      <li>
-        <p>ID agencije</p>
-        <b>{{ user.id }}</b>
-      </li>
-    </ul>
-    <div class="contact-buttons" v-if="isMe">
-      <ActionButton @action="$modal.show('contact-user')" placeholder="Uredi oglas"></ActionButton>
-      <ActionButton placeholder="Izdvoji" @action="handleFollow"></ActionButton>
-    </div>
-    <div class="contact-buttons" v-else>
-      <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka"></ActionButton>
-      <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="handleFollow"></ActionButton>
-    </div>
-    <button class="report-user" v-if="!isMe">
-      <font-awesome-icon icon="user-slash"></font-awesome-icon>
-      {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}
-    </button>
+      <div>
+        <h3 class="font-medium text-gray-900">Informacije</h3>
+        <dl class="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
 
-    <div v-if="type === 'agency' && otherListings.length">
-      <h2 class="rest-articles">Ostali oglasi agencije</h2>
-      <ul class="grid-ul" v-if="otherListingsLoaded">
-        <li v-for="listing in otherListings">
-          <ListingCard :listing="listing" :key="listing.id"/>
-        </li>
-      </ul>
-      <img v-else class="load" src="/load.svg" alt="">
+          <div class="py-3 flex justify-between text-sm font-medium">
+            <dt class="text-gray-500">email</dt>
+            <dd class="text-gray-900">{{ user.email }}</dd>
+          </div>
+
+          <div class="py-3 flex justify-between text-sm font-medium">
+            <dt class="text-gray-500">Last modified</dt>
+            <dd class="text-gray-900">June 8, 2020</dd>
+          </div>
+
+          <div class="py-3 flex justify-between text-sm font-medium">
+            <dt class="text-gray-500">Dimensions</dt>
+            <dd class="text-gray-900">4032 x 3024</dd>
+          </div>
+
+          <div class="py-3 flex justify-between text-sm font-medium">
+            <dt class="text-gray-500">Resolution</dt>
+            <dd class="text-gray-900">72 x 72</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="flex">
+        <div class="contact-buttons" v-if="isMe">
+          <ActionButton @action="handleEditListing" placeholder="Uredi oglas"></ActionButton>
+          <ActionButton placeholder="Izdvoji" @action="handleListingSponsoring"></ActionButton>
+        </div>
+        <div class="contact-buttons" v-else>
+          <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka"></ActionButton>
+          <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="handleFollow"></ActionButton>
+        </div>
+        <button class="report-user" v-if="!isMe">
+          <font-awesome-icon icon="user-slash"></font-awesome-icon>
+          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}
+        </button>
+      </div>
     </div>
     <client-only>
       <modal name="contact-user" :adaptive="true" height="100%">
@@ -70,7 +66,7 @@
       </modal>
     </client-only>
     <Snackbar></Snackbar>
-  </div>
+  </aside>
 </template>
 
 <script>
@@ -121,6 +117,10 @@ export default class UserProfile extends Vue {
     if(this.$auth.user) {
       return this.$auth.user.id === this.user.id;
     }
+  }
+
+  handleEditListing() {
+    this.$router.push('/artikal/uredjivanje/' + this.$route.params.id);
   }
 
   async sendMessage() {

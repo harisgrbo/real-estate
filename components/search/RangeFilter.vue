@@ -3,7 +3,15 @@
     <label>
       {{ displayName }}
     </label>
-    <small v-if="avgPrice">Prosječna cijena nekretnine za izabranu kategoriju je {{ parseInt(avgPrice).toLocaleString() }}</small>
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4" v-if="avgPrice">
+      <div class="flex">
+        <div class="ml-3">
+          <p class="text-sm text-yellow-700">
+            Prosječna cijena nekretnine za izabranu kategoriju je {{ parseInt(avgPrice).toLocaleString() }}
+          </p>
+        </div>
+      </div>
+    </div>
     <div class="input-wrapper">
       <div>
         <label>min cijena</label>
@@ -25,7 +33,6 @@ import FilterMixin from "./FilterMixin.js";
   mixins: [FilterMixin]
 })
 export default class RangeFilter extends Vue {
-  @Prop({}) avgPrice
   from = null
   to = null
 
@@ -51,7 +58,7 @@ export default class RangeFilter extends Vue {
   flex-direction: column;
   margin-top: 24px;
   label {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     margin-bottom: 16px;
@@ -64,26 +71,16 @@ export default class RangeFilter extends Vue {
   }
 
   .input-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 12px;
 
     > div {
       display: flex;
       flex-direction: column;
       padding: 12px;
-      border: 1px solid #dddddd;
       border-radius: 5px;
-      flex: 1;
-
-      &:first-child {
-        margin-right: 8px;
-      }
-
-      &:last-child {
-        margin-left: 8px;
-      }
+      background: #fff;
 
       label {
         font-size: 12px;
@@ -94,6 +91,8 @@ export default class RangeFilter extends Vue {
 
       input {
         border: none;
+        display: flex;
+        width: 100%;
 
         &:focus {
           outline: none;

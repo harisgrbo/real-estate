@@ -10,66 +10,121 @@
         <p>{{cat.title}}</p>
       </li>
     </ul>
-    <h2 class="heading">
-      Premium agencije
-    </h2>
-    <div v-if="!$device.isMobile" class="agencije">
+    <div class="mx-20 publish">
+      <div class="quick-search">
+        <ul class="w-full">
+          <li v-for="(tab, index) in tabs" @click="quickSearchTab = index" :class="quickSearchTab === index ? 'active-quick-tab' : ''">{{ tab }}</li>
+        </ul>
+        <div class="flex flex-row items-center w-full inputs">
+          <input type="text">
+          <input type="text">
+          <input type="text">
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col mx-auto w-full mb-16">
+      <h2 class="section-title ml-20">
+        Najtraženije lokacije
+      </h2>
+      <ul role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-auto">
+          <li class="flow-root justify-between flex flex-col" v-for="(city, index) in most_visited_cities" :key="index"
+              :style="{ backgroundImage: 'url(' + city.img + ')' }"
+          >
+            <div>
+              <h3 class="font-semibold">
+                  {{ city.city }}
+              </h3>
+              <p class="mt-1 text-lg text-white">2000 KM/m2</p>
+            </div>
+            <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Pogledaj više
+            </button>
+          </li>
+
+        </ul>
+    </div>
+    <div class="w-full flex items-center justify-between px-20 mb-4">
+      <h2 class="section-title">Prodaja</h2>
+      <div class="flex flex-row items-center">
+        <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+        <div class="flex flex-row items-center mt-6">
+          <div
+            class="swiper-button-next swiper-button-white mx-4"
+            slot="button-next"
+          ></div>
+          <div
+            class="swiper-button-prev swiper-button-white"
+            slot="button-prev"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-full mx-20 mb-8">
       <client-only>
-        <swiper class="swiper" height="400px" :options="agencyOptions">
-          <swiper-slide v-for="(city, index) in 6" :key="index">
-            <PremiumAgency></PremiumAgency>
+        <swiper class="swiper" :options="swiperOption">
+          <swiper-slide v-for="listing in listings" :key="listing.id">
+            <ListingCard :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </client-only>
     </div>
-    <div v-if="$device.isMobile">
+    <div class="w-full flex items-center justify-between px-20 mb-4">
+      <h2 class="section-title">Izdavanje</h2>
+      <div class="flex flex-row items-center">
+        <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+        <div class="flex flex-row items-center mt-6">
+          <div
+            class="swiper-button-next rent swiper-button-white mx-4"
+            slot="button-next"
+          ></div>
+          <div
+            class="swiper-button-prev rent swiper-button-white"
+            slot="button-prev"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-full mx-20 mb-8">
       <client-only>
-        <swiper class="swiper" height="400px" :options="swiperOption">
-          <swiper-slide v-for="(city, index) in 6" :key="index">
-            <PremiumAgency></PremiumAgency>
+        <swiper class="swiper" :options="swiperOptionRent">
+          <swiper-slide v-for="listing in listings" :key="listing.id">
+            <ListingCard :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
-          <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </client-only>
     </div>
-    <h2 class="heading">
-      Najtraženije lokacije
-    </h2>
-    <div :class="[$device.isMobile ? 'mobile-grid-most' : 'most-visited-grid']">
-      <MostVisitedCard v-for="(city, index) in most_visited_cities" :img="city.img" :key="index" :city="city.city"></MostVisitedCard>
-    </div>
-
-    <ul class="cw-ul">
-      <li v-for="(tab, index) in tabs"
-          @click="activeTab = index"
-          :class="[activeTab === index? 'active' : '']"
-      >
-        {{ tab }}
-      </li>
-    </ul>
-
-    <div class="grid-layout" v-if="activeTab === 0">
-      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id" :type="listing.user.user_type"/>
-    </div>
-
-    <div class="grid-layout" v-if="activeTab === 1">
-      <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id" :type="listing.user.user_type"/>
-    </div>
-
-    <div class="grid-layout" v-if="activeTab === 2">
-    </div>
-
-    <client-only>
-      <infinite-loading direction="bottom" @infinite="infiniteHandler">
-        <div slot="spinner">
-          <img src="/load.svg" alt="" class="loader-index">
+    <div class="w-full flex items-center justify-between px-20 mb-4">
+      <h2 class="section-title">Izdavanje na dan</h2>
+      <div class="flex flex-row items-center">
+        <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+        <div class="flex flex-row items-center mt-6">
+          <div
+            class="swiper-button-next swiper-button-white mx-4"
+            slot="button-next"
+          ></div>
+          <div
+            class="swiper-button-prev swiper-button-white"
+            slot="button-prev"
+          ></div>
         </div>
-        <div slot="no-more">
-          <p class="loader-msg">Nema više rezultata</p>
-        </div>
-      </infinite-loading>
-    </client-only>
+      </div>
+    </div>
+    <div class="max-w-full mx-20 mb-8">
+      <client-only>
+        <swiper class="swiper" :options="swiperOptionRentPerDay">
+          <swiper-slide v-for="listing in listings" :key="listing.id">
+            <ListingCard :listing="listing" :type="listing.user.user_type"/>
+          </swiper-slide>
+        </swiper>
+      </client-only>
+    </div>
+    <div class="w-full flex items-center justify-between px-20 mb-4">
+      <h2 class="section-title">Agencije</h2>
+      <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+    </div>
+    <div class="px-20 flex flex-row overflow-x-scroll gap-4 mb-16">
+      <UserCard v-for="i in 10" />
+    </div>
   </div>
 </template>
 
@@ -80,9 +135,11 @@
   import PublishShortcut from "@/components/publish/PublishShortcut";
   import MostVisitedCard from "@/components/MostVisitedCard"
   import PremiumAgency from "@/components/PremiumAgency"
+  import UserCard from "../components/UserCard";
 
   @Component({
     components: {
+      UserCard,
       Categories,
       ListingCard,
       PublishShortcut,
@@ -92,8 +149,11 @@
     layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
     async asyncData(ctx) {
       let listings = []
+      let agency_listings = []
       let meta = null
       let page = 1
+      let agency_meta = null
+      let agency_page = 1
 
       try {
         let res = await ctx.app.$axios.get('/listings/home')
@@ -104,83 +164,157 @@
         console.log(e)
       }
 
+      try {
+        let res = await ctx.app.$axios.get('/listings/agencies/home')
+        agency_listings = res.data.data
+        agency_meta = res.data.meta
+        agency_page = 2
+      } catch (e) {
+        console.log(e)
+      }
+
       return {
         listings,
         meta,
-        page
+        page,
+        agency_listings,
+        agency_meta,
+        agency_page
       }
     }
   })
 
   export default class Homepage extends Vue {
     tabs = [
-      'Posljednji oglasi',
+      'Najnovije',
       'Oglasi iz agencija',
       'Novogradnja'
     ]
     activeTab = 0;
     categories = []
     selectedCategory = null;
+    custom_categories = [
+      {
+        name: 'Stan',
+        img: 'stan.jpg'
+      },
+      {
+        name: 'Kuća',
+        img: 'kuca.jpg'
+      },
+      {
+        name: 'Garaža',
+        img: 'garaza.jpg'
+      },
+      {
+        name: 'Soba',
+        img: 'apartman.jpg'
+      },
+    ]
     most_visited_cities = [
       {
         city: 'Sarajevo',
-        img: '/landscape/cityscape.svg'
+        img: '/sarajevo.jpeg'
       },
       {
         city: 'Neum',
-        img: '/landscape/island.svg'
+        img: '/neum.jpeg'
       },
       {
         city: 'Mostar',
-        img: '/landscape/cape.svg'
+        img: '/mostar.jpeg'
+
       },
       {
         city: 'Banja Luka',
-        img: '/landscape/hills.svg'
+        img: '/banjaluka.jpeg'
+
       },
       {
         city: 'Bihać',
-        img: '/landscape/waterfall-1.svg'
+        img: '/sarajevo.jpeg'
+
       },
       {
         city: 'Tuzla',
-        img: '/landscape/village.svg'
+        img: '/tuzla.jpeg'
+
       },
       {
         city: 'Zenica',
-        img: '/landscape/home-1.svg'
+        img: '/sarajevo.jpeg'
+
       },
       {
         city: 'Travnik',
-        img: '/landscape/mill.svg'
+        img: '/sarajevo.jpeg'
+
       },
-
-
     ]
-    agencyOptions = {
-      loop: true,
-      autoplay: {
-        delay: 1500,
-        disableOnInteraction: false,
-      },
-      slidesPerView: 4,
-      spaceBetween: 12,
-      pagination: {
-        el: '.swiper-pagination',
-        dynamicBullets: true
-      }
-    }
+
+    tabs = [
+      'Prodaja',
+      'Iznajmljivanje',
+      'Stan na dan'
+    ]
+
     swiperOption = {
-      loop: true,
+      spaceBetween: 16,
+      // centeredSlides: true,
+      // slidesOffsetBefore: '100px',
+      // slidesOffsetAfter: '100px',
+      // slidesOffsetBefore: '0px',
+      loop: false,
       autoplay: {
-        delay: 1500,
-        disableOnInteraction: false,
+        delay: 500000,
       },
-      pagination: {
-        el: '.swiper-pagination',
-        dynamicBullets: true
+      slidesPerView: 6,
+      touchRatio: 0.2,
+      slideToClickedSlide: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
       }
     }
+
+    swiperOptionRent = {
+      spaceBetween: 16,
+      // centeredSlides: true,
+      // slidesOffsetBefore: '100px',
+      // slidesOffsetAfter: '100px',
+      // slidesOffsetBefore: '0px',
+      loop: false,
+      autoplay: {
+        delay: 500000,
+      },
+      slidesPerView: 6,
+      touchRatio: 0.2,
+      slideToClickedSlide: true,
+      navigation: {
+        nextEl: '.swiper-button-next .rent',
+        prevEl: '.swiper-button-prev .rent'
+      }
+    }
+
+    swiperOptionRentPerDay = {
+      spaceBetween: 16,
+      // centeredSlides: true,
+      // slidesOffsetBefore: '100px',
+      // slidesOffsetAfter: '100px',
+      // slidesOffsetBefore: '0px',
+      loop: false,
+      autoplay: {
+        delay: 500000,
+      },
+      slidesPerView: 6,
+      touchRatio: 0.2,
+      slideToClickedSlide: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      }
+    }
+
 
     infiniteHandler($state) {
       this.$axios.get('/listings/home', {
@@ -246,9 +380,7 @@
 .homepage-wrap {
   display: flex;
   flex-direction: column;
-  padding-bottom: 120px;
   width: 100%;
-  padding: 0 80px;
   box-sizing: border-box;
 
   @include for-phone-only {
@@ -285,52 +417,6 @@
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     grid-column-gap: 12px !important;
 
-  }
-}
-
-.cw-ul {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 42px 0 36px 0;
-  border-bottom: 1px solid #EBEBEB !important;
-
-  @include for-phone-only {
-    min-width: 100%;
-    overflow-x: scroll;
-  }
-
-  li {
-    font-size: 14px !important;
-    line-height: 26px !important;
-    margin-right: 24px;
-    padding-bottom: 8px;
-    height: 40px;
-    position: relative;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-weight:500;
-
-    @include for-phone-only {
-      min-width: fit-content;
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &.active {
-      color: #0B8489;
-      &::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-bottom: 1px solid #0B8489;
-      }
-    }
   }
 }
 
@@ -464,6 +550,131 @@ h2.heading {
 
 ::v-deep .swiper-pagination {
   bottom: 0px !important;
+}
+
+.flow-root {
+  min-width: 590px;
+  min-height: 262px;
+  width: 590px;
+  height: 262px;
+  border-radius: 15px;
+  object-fit: cover;
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 16px;
+  font-size: 26px;
+  line-height: 30px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  button {
+    width: fit-content;
+  }
+}
+
+ul.most-visited {
+  width: 100%;
+  padding-right: 80px;
+
+  li {
+    margin-left: 16px;
+    &:first-child {
+      margin-left: 80px;
+    }
+  }
+}
+
+.section-title {
+  font-size: 22px !important;
+  line-height: 26px !important;
+  font-weight: 600 !important;
+}
+
+.more {
+  font-weight: 500;
+  text-decoration: underline;
+  font-size: 14px;
+
+}
+
+.swiper {
+  width: 100% !important;
+
+  .swiper-wrapper {
+    max-width: 1600px !important;
+    margin: 0 80px !important;
+  }
+
+  .swiper-slide {
+    width: fit-content !important;
+  }
+}
+.swiper-button-prev, .swiper-button-next {
+  position: static !important;
+  color: #002F34 !important;
+  height: 30px;
+  max-height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+  z-index: 1;
+
+
+  &::after {
+    font-size: 13px !important;
+    line-height: 13px !important;
+  }
+}
+
+.publish {
+  background-image: url("/luxuries.jpeg");
+  background-repeat: no-repeat;
+  height: 400px;
+  background-size: bottom;
+  border-radius: 20px;
+  position: relative;
+
+  .quick-search {
+    position: absolute;
+    left: 80px;
+    right: 80px;
+    bottom: -50px;
+
+    ul {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      li {
+
+        &:first-child {
+          border-top-left-radius: 10px;
+          background: #fff;
+        }
+
+        &:last-child {
+          border-top-right-radius: 10px;
+          background: #fff;
+        }
+      }
+    }
+
+    .inputs {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      background: #fff;
+      height: 70px;
+    }
+  }
 }
 
 

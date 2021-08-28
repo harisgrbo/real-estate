@@ -79,7 +79,7 @@ export default class CategoriesList extends Vue{
     padding: 24px 0;
 
     ::v-deep ul {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
 
       .img-wrapper {
         margin-bottom: 0;

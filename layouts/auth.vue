@@ -1,8 +1,9 @@
 <template>
   <div class="auth-wrapper">
     <div class="form-wrap">
-      <img src="/desktop.png" class="logo" alt="logo" @click="$router.push('/')">
       <nuxt></nuxt>
+    </div>
+    <div class="bg">
     </div>
   </div>
 </template>
@@ -46,7 +47,7 @@ export default class Auth extends Vue {
     display: flex;
     flex-direction: column;
     margin: auto;
-    width: 40%;
+    width: 700px;
 
     @include for-phone-only {
       width: 100%;
@@ -62,5 +63,14 @@ export default class Auth extends Vue {
       }
     }
   }
+}
+
+.bg {
+  background-image: url("/login2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 50% !important;
+  min-width: 50%;
 }
 </style>

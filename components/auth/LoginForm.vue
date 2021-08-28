@@ -2,11 +2,13 @@
   <div class="form-wrapper">
     <h2>Prijava</h2>
     <form @submit.prevent="handleLogin">
-      <TextField type="text" placeholder="Email" v-model="payload.username"></TextField>
+      <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4"></TextField>
       <TextField type="password" placeholder="Lozinka" v-model="payload.password"></TextField>
-      <ActionButton placeholder="Prijavi se" :loading="loading"></ActionButton>
+      <div class="flex flex-row items-center justify-between mt-8">
+        <nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
+        <ActionButton type="submit" placeholder="Prijavi se" :loading="loading"></ActionButton>
+      </div>
     </form>
-    <nuxt-link :to="{ path: '/auth/register' }">Nemate nalog? <p>Registruj se</p></nuxt-link>
     <Snackbar />
   </div>
 </template>
@@ -101,21 +103,16 @@ export default class LoginForm extends Vue{
     text-align: left;
   }
   a {
-    display: flex;
-    flex-direction: row;
     text-decoration: none;
-    color: #000;
+    color: #434343 !important;
     text-align: center;
-    margin: 24px auto 0 auto;
     font-weight: 500;
-    p {
-      margin-left: 8px;
-      color: #0B8489;
-    }
+    width: fit-content;
+    font-size: 14px;
   }
 
   button {
-    background:#0B8489;
+    background: #0D1F3E;
   }
 }
 </style>

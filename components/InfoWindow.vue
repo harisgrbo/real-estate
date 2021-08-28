@@ -17,9 +17,6 @@
         <span>4</span>
       </button>
     </label>
-    <label class="rating" v-if="listing.is_rent">4.9
-      <i class="material-icons">star</i>
-    </label>
 
     <a @click="$router.push('/artikal/' + listing.id)">
       <img src="/hotel.webp" alt="">

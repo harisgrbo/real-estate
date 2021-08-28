@@ -7,24 +7,29 @@
     <!-- User registration -->
     <div v-if="currentType === 0">
       <form @submit.prevent="handleUserRegistration">
-        <TextField type="text" placeholder="Email" v-model="userPayload.email"></TextField>
-        <TextField type="text" placeholder="Korisničko ime" v-model="userPayload.name"></TextField>
-        <TextField type="password" placeholder="Lozinka" v-model="userPayload.password"></TextField>
-        <ActionButton placeholder="Registruj se kao fizičko lice" @action="handleUserRegistration" :loading="loading"></ActionButton>
+        <TextField type="text" placeholder="Email" v-model="userPayload.email" class="mb-4"></TextField>
+        <TextField type="text" placeholder="Korisničko ime" v-model="userPayload.name" class="mb-4"></TextField>
+        <TextField type="password" placeholder="Lozinka" v-model="userPayload.password" class="mb-4"></TextField>
+        <div class="flex flex-row items-center justify-between mt-8 w-full buttons">
+          <nuxt-link :to="{ path: '/auth/login' }">Logujte se</nuxt-link>
+          <ActionButton placeholder="Registruj se" @action="handleUserRegistration" :loading="loading"></ActionButton>
+        </div>
       </form>
     </div>
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
-        <TextField type="text" placeholder="Naziv agencije" v-model="realEstateAgencyPayload.name"></TextField>
-        <TextField type="number" placeholder="ID broj" v-model="realEstateAgencyPayload.external_id"></TextField>
-        <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email"></TextField>
-        <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password"></TextField>
+        <TextField type="text" placeholder="Naziv agencije" v-model="realEstateAgencyPayload.name" class="mb-4"></TextField>
+        <TextField type="number" placeholder="ID broj" v-model="realEstateAgencyPayload.external_id" class="mb-4"></TextField>
+        <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email" class="mb-4"></TextField>
+        <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password" class="mb-4"></TextField>
         <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
-        <ActionButton placeholder="Registruj se kao pravno lice (agencija)" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
       </form>
+      <div class="flex flex-row items-center justify-between mt-8 buttons">
+        <nuxt-link :to="{ path: '/auth/login' }">Logujte se</nuxt-link>
+        <ActionButton placeholder="Registruj se" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
+      </div>
     </div>
-    <nuxt-link :to="{ path: '/auth/login' }">Imate nalog? <p>Logujte se</p></nuxt-link>
     <Snackbar />
   </div>
 </template>
@@ -191,40 +196,39 @@ export default class RegisterForm extends Vue{
       height: 30px;
       position: relative;
       cursor: pointer;
-      text-transform: uppercase;
       font-weight:500;
       &.active {
-        color: #0B8489;
+        color: #0D1F3E;
         &::after {
           content: '';
           position: absolute;
           left: 0;
           right: 0;
           bottom: 0;
-          border-bottom: 1px solid #0B8489;
+          border-bottom: 1px solid #0D1F3E;
         }
       }
     }
   }
   a {
-    display: flex;
-    flex-direction: row;
     text-decoration: none;
-    color: #000;
+    color: #434343 !important;
     text-align: center;
-    margin: 24px auto 0 auto;
     font-weight: 500;
-    p {
-      margin-left: 8px;
-      color: #0B8489;
-    }
+    width: fit-content;
+    font-size: 14px;
   }
   button {
-    background:#0B8489;
+    background:#0D1F3E;
   }
 }
 
 .location {
   margin-top: 12px;
+}
+
+div.buttons {
+  display: flex;
+  flex-direction: row;
 }
 </style>

@@ -1,13 +1,20 @@
 <template>
-  <div class="input-wrapper">
-    <label>{{ label }}</label>
-    <input
-      :type="type"
-      :placeholder="placeholder"
-      :class="error && error.length? 'hasError' : ''"
-      :value="value"
-      @input="updateValue($event.target.value)" />
-    <label v-if="error">{{ error }}</label>
+  <div class="relative">
+    <label for="price" class="block text-sm font-medium text-gray-700">{{ label }}</label>
+    <div class="mt-1 relative rounded-md">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      </div>
+      <input     :type="type"
+                 :placeholder="placeholder"
+                 :value="value"
+                 @input="updateValue($event.target.value)" id="price" :class="['focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
+      <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+        <span v-if="currency" class="text-gray-500 sm:text-sm" id="price-currency">
+          KM
+        </span>
+      </div>
+    </div>
+    <p v-if="error" class="mt-2 text-sm text-red-600" id="email-error">{{ error }}</p>
   </div>
 </template>
 
@@ -36,43 +43,11 @@ export default class TextField extends Vue{
     @content;
   }
 }
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  label {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 12px;
-    @include for-phone-only {
-      font-size: 14px;
-      font-weight: 500;
-    }
-  }
-  input {
-    display: flex;
-    width: 100%;
-    height: 50px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    align-items: center;
-    justify-content: space-between;
-    font-family: 'Montserrat', sans-serif;
-    padding: 0 12px;
-    margin-right: 24px;
-    transition: 0.1s all ease;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
 
-    &:focus {
-      outline: none;
-    }
-    &.hasError {
-      border: 1px solid red;
-    }
-  }
-
+input {
+  height: 50px;
+  border: 1px solid #dcdcdc;
+  background: transparent;
+  border-radius: 10px;
 }
 </style>

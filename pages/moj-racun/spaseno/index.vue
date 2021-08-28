@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper">
+  <div class="account-wrapper max-w-7xl mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -21,42 +21,61 @@
       </ul>
       <div class="saved-content">
         <div v-show="activeTab === 0">
-          <div v-if="searches.length" class="searches-wrap">
-            <ul class="searches">
-              <li v-for="search in searches">
-                <div class="description">
-                  <p>{{ search.description }}</p>
-                  <span v-if="!$device.isMobile">
-                    <button class="save" @click="goToSearch(search)">
-                      <font-awesome-icon icon="search"></font-awesome-icon>
-                      Idi na pretragu
-                    </button>
-                    <button class="save delete" @click="deleteSingleSearch(search.id)">
-                      <font-awesome-icon icon="trash-alt"></font-awesome-icon>
-                      Izbrisi pretragu
-                    </button>
-                  </span>
+          <div class="flex flex-col" v-if="searches.length">
+            <div class="overflow-x-auto">
+              <div class="py-2 align-middle inline-block min-w-full">
+                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Naziv pretrage
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Title
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Filteri
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Datum
+                      </th>
+                      <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                      </th>
+                      <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tr v-for="search in searches">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ search.description }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        Regional Paradigm Technician
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        Novogradnja
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ $moment(search.created_at).format('DD.MM.YYYY u HH:MM') }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" @click="goToSearch(search)">
+                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Idi na pretragu</a>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" @click="deleteSingleSearch(search.id)">
+                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Izbrisi</a>
+                      </td>
+                    </tr>
+
+                    <!-- More people... -->
+                    </tbody>
+                  </table>
                 </div>
-                <div class="filters">
-                  <button>Novogradnja</button>
-                  <button>Novogradnja</button>
-                  <button>Novogradnja</button>
-                  <button>Novogradnja</button>
-                  <button>Novogradnja</button>
-                </div>
-                <div class="time"><p>{{ $moment(search.created_at).format('DD.MM.YYYY u HH:MM') }}</p></div>
-                <span v-if="$device.isMobile" class="mobile-buttons">
-                    <button class="save" @click="goToSearch(search)">
-                      <font-awesome-icon icon="search"></font-awesome-icon>
-                      Idi na pretragu
-                    </button>
-                    <button class="save delete" @click="deleteSingleSearch(search.id)">
-                      <font-awesome-icon icon="trash-alt"></font-awesome-icon>
-                      Izbrisi pretragu
-                    </button>
-                  </span>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
@@ -118,6 +137,7 @@ export default class spaseno extends Vue {
       let res = await this.$axios.get('/profile/saved/searches');
       this.searches = res.data.data;
 
+      console.log(res)
       this.searchesLoaded = true;
     } catch(e) {
       console.log(e)

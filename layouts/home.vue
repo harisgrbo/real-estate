@@ -2,15 +2,17 @@
   <div class="home-wrapper">
     <Navbar></Navbar>
     <Nuxt />
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
+import Footer from "@/components/Footer"
 
 @Component({
-  components: {Navbar}
+  components: {Navbar, Footer}
 })
 
 export default class Home extends Vue {
@@ -41,8 +43,6 @@ export default class Home extends Vue {
 
 .home-wrapper {
   padding-top: 107px !important;
-  min-height: fit-content;
-  height: fit-content;
 
   @include for-phone-only {
     padding-top: 78px !important;

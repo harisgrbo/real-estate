@@ -1,5 +1,5 @@
 <template>
-  <div class="message-wrapper">
+  <div class="message-wrapper max-w-7xl mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -47,13 +47,6 @@
             <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
           </div>
         </div>
-      </div>
-      <div class="user-info">
-        <div class="heading-wrapper">
-          <img src="/avatar.jpg" alt="">
-          <h1>Haris Grbo</h1>
-        </div>
-        info
       </div>
     </div>
     <client-only>
@@ -262,7 +255,6 @@ export default class poruke extends Vue {
     box-sizing: border-box;
     flex-direction: column;
     overflow: hidden;
-    padding: 0 80px;
     padding-top: 24px;
 
     @include for-phone-only {

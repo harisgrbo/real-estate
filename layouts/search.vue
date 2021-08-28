@@ -1,37 +1,54 @@
 <template>
-  <div class="search-wrapp">
+  <div className="home-wrapper">
     <Navbar></Navbar>
-    <Nuxt />
+    <Nuxt/>
   </div>
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 
 @Component({
-  components: {Navbar}
+  components: { Navbar }
 })
 
-export default class Search extends Vue {
+export default class Home extends Vue {
 }
 </script>
 
 <style lang="scss" scoped>
+@mixin for-laptop {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin for-desktop-up {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin for-big-desktop-up {
+  @media (min-width: 1800px) {
+    @content;
+  }
+}
+
 @mixin for-phone-only {
   @media (max-width: 599px) {
     @content;
   }
 }
-.search-wrapp {
 
-  ::v-deep .navbar-wrapper {
-    padding: 0 24px 0 24px !important;
+.home-wrapper {
+  padding-top: 107px !important;
 
-    @include for-phone-only {
-      padding: 0 !important;
-    }
+  @include for-phone-only {
+    padding-top: 78px !important;
   }
 }
+
 </style>
 

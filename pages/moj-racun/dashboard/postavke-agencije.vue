@@ -139,7 +139,6 @@ export default class urediProfil extends Vue {
 }
 .w-full {
   display: flex;
-  flex-direction: column;
 
   .content {
     display: grid;

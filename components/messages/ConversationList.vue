@@ -1,25 +1,26 @@
 <template>
-  <div class="conversation-list-wrapper">
-    <div class="single-conversation"
-         v-for="(conversation, index) in conversations"
-         @click="setSelectedConversation(conversation, index)"
-         :class="[ (conversation.id === (value ? value.id: null)) ? 'active' : '']"
-    >
-      <img src="/avatar.jpg" alt="">
-      <div class="single-conversation__inner">
-        <div class="inner-wrap">
-          <div class="username">
-            <span></span>
-            <p>{{ others(conversation).map(item => item.name).join(',') }}</p>
-          </div>
-          <b>{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</b>
+  <ul class="border-b border-gray-200 divide-y divide-gray-200">
+    <li v-for="(conversation, index) in conversations"
+        @click="setSelectedConversation(conversation, index)"
+        :class="[ (conversation.id === (value ? value.id: null)) ? 'active' : '']"
+        class="relative bg-white py-5 px-6 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600">
+      <div class="flex justify-between space-x-3">
+        <div class="min-w-0 flex-1">
+          <a href="#" class="block focus:outline-none">
+            <span class="absolute inset-0" aria-hidden="true"></span>
+            <p class="text-sm font-medium text-gray-900 truncate"><p>{{ others(conversation).map(item => item.name).join(',') }}</p></p>
+          </a>
         </div>
-        <p class="type">{{ others(conversation).length > 2? 'GRUPNI RAZGOVOR' : '' }}</p>
-        <p>{{ conversation.last_message.content }}</p>
+        <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</time>
+      </div>
+      <div class="mt-1">
+        <p class="line-clamp-2 text-sm text-gray-600">
+          {{ conversation.last_message.content }}
+        </p>
         <div class="unread" v-if="conversation.unread !== 0"><b>{{ conversation.unread }}</b> nove poruke</div>
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 </template>
 
 <script>

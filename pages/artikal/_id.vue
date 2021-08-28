@@ -1,130 +1,222 @@
 <template>
-  <div class="listing-wrapper">
+  <div class="listing-wrapper max-w-7xl mx-auto w-full py-8"">
     <div v-if="$device.isMobile" class="mobile-topbar">
       <font-awesome-icon icon="angle-left" class="back" @click="$router.go(-1)"></font-awesome-icon>
       <div class="buttons">
-        <button @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
-          <font-awesome-icon icon="heart"></font-awesome-icon>
-          {{ listingSaved ? 'Izbriši iz spašenih' : 'Spasi oglas'}}
-        </button>
-        <button>
-          <font-awesome-icon icon="share-square"></font-awesome-icon>
-          Podijeli
-        </button>
       </div>
     </div>
-    <div class="listing-content">
-      <div v-if="!$device.isMobile" class="grid-container">
-        <div class="img-counter">
-          <font-awesome-icon icon="images">
-          </font-awesome-icon>
-          <p>{{ images.length }}</p>
-        </div>
-        <div :class="'item' + img.id" v-for="(img, index) in images">
-          <img :src="img.name" alt="" @click="openGallery(index)">
-        </div>
-        <client-only>
-          <light-box
-          ref="lightbox"
-          :media="lightboxImages"
-          :show-light-box="false"
-          :show-thumbs="true"
-          close-text="function() {
-          return 'Zatvori galeriju'
-          }"
-          />
-        </client-only>
-      </div>
-      <div v-else class="mobile-img">
-        <client-only>
-          <swiper class="swiper" height="400px" :options="swiperOption">
-            <swiper-slide v-for="(img, index) in images" :key="index">
-              <img :src="img.name" alt="" @click="openGallery(index)">
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
-        </client-only>
-        <client-only>
-          <light-box
-            ref="lightbox"
-            :media="lightboxImages"
-            :show-light-box="false"
-            :show-thumbs="true"
-            close-text="function() {
-          return 'Zatvori galeriju'
-          }"
-          />
-        </client-only>
-      </div>
+    <div class="listing-content max-w-7xl mx-auto w-ful">
       <div class="listing-content-inner">
         <div class="listing-content-wrapper">
+          <div v-if="!$device.isMobile" class="grid-container">
+            <div class="img-counter">
+              <font-awesome-icon icon="images">
+              </font-awesome-icon>
+              <p>{{ images.length }}</p>
+            </div>
+            <div :class="'item' + img.id" v-for="(img, index) in images">
+              <img :src="img.name" alt="" @click="openGallery(index)">
+            </div>
+            <client-only>
+              <light-box
+                ref="lightbox"
+                :media="lightboxImages"
+                :show-light-box="false"
+                :show-thumbs="true"
+                close-text="function() {
+          return 'Zatvori galeriju'
+          }"
+              />
+            </client-only>
+          </div>
+          <div v-else class="mobile-img">
+            <client-only>
+              <swiper class="swiper" height="400px" :options="swiperOption">
+                <swiper-slide v-for="(img, index) in images" :key="index">
+                  <img :src="img.name" alt="" @click="openGallery(index)">
+                </swiper-slide>
+                <div class="swiper-pagination" slot="pagination"></div>
+              </swiper>
+            </client-only>
+            <client-only>
+              <light-box
+                ref="lightbox"
+                :media="lightboxImages"
+                :show-light-box="false"
+                :show-thumbs="true"
+                close-text="function() {
+          return 'Zatvori galeriju'
+          }"
+              />
+            </client-only>
+          </div>
           <div class="article-title">
             <h2 v-if="listing">{{ listing.title }}</h2>
             <div class="buttons" v-if="$auth.user && $device.isMobile === false">
-              <button>
+              <button v-if="listing.user.id !== $auth.user.id">
                 <font-awesome-icon icon="minus-circle"></font-awesome-icon>
                 Prijavi oglas
               </button>
-              <button v-if="listing.user.id !== $auth.user.id" @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
-                <font-awesome-icon icon="heart"></font-awesome-icon>
+              <button v-if="listing.user.id !== $auth.user.id" @click="toggleSaveListing" type="button" class="ml-4 bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <!-- Heroicon name: outline/heart -->
+                <svg :class="['h-6 w-6', listingSaved ? 'red' : 'blue']" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
                 {{ listingSaved ? 'Izbriši iz spašenih' : 'Spasi oglas'}}
               </button>
-              <button v-if="listing.user.id !== $auth.user.id">
-                <font-awesome-icon icon="share-square"></font-awesome-icon>
-                Podijeli
-              </button>
+
             </div>
           </div>
-          <div class="grid-layout important">
-            <div class="detailed-info" v-if="listing.city && listing.city.length">
-              <span>Lokacija</span>
-              <span>{{ listing.city.name }}</span>
-            </div>
-            <div class="detailed-info">
-              <span>Vrsta oglasa</span>
-              <span>{{ listing.listing_type.title }}</span>
-            </div>
-            <div class="detailed-info" v-if="listing.brandModel">
-              <span>Brend</span>
-              <span>{{ listing.brandModel }}</span>
-            </div>
-            <div class="detailed-info" v-if="listing.address">
-              <span>Adresa</span>
-              <span>{{ sliceAddress(listing.address) }}</span>
-            </div>
-            <div class="detailed-info">
-              <span>Datum objave</span>
-              <span>{{ $moment(listing.createdAt).format('LL') }}</span>
-            </div>
-            <div class="detailed-info price">
-              <div>
-                <span>Cijena</span>
+          <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+            <li class="flow-root">
+              <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
+                  <!-- Heroicon name: outline/clock -->
+                  <svg class="h-6 w-6 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900">
+                    <a href="#" class="focus:outline-none">
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                      Lokacija
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ listing.city.name }}</p>
+                </div>
               </div>
-              <span>{{ parseInt(listing.price) }} KM</span>
-            </div>
+            </li>
+            <li class="flow-root">
+              <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
+                  <!-- Heroicon name: outline/clock -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900">
+                    <a href="#" class="focus:outline-none">
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                      Vrsta oglasa
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ listing.listing_type.title}}</p>
+                </div>
+              </div>
+            </li>
+            <li class="flow-root">
+              <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
+                  <!-- Heroicon name: outline/clock -->
+                  <svg class="h-6 w-6 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900">
+                    <a href="#" class="focus:outline-none">
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                      Adresa
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ sliceAddress(listing.address) }}</p>
+                </div>
+              </div>
+            </li>
+            <li class="flow-root">
+              <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
+                  <!-- Heroicon name: outline/clock -->
+                  <svg class="h-6 w-6 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900">
+                    <a href="#" class="focus:outline-none">
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                      Datum objave
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ $moment(listing.createdAt).format('LL') }}</p>
+                </div>
+              </div>
+            </li>
+            <li class="flow-root">
+              <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-800">
+                  <!-- Heroicon name: outline/clock -->
+                  <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-medium text-gray-900">
+                    <a href="#" class="focus:outline-none">
+                      <span class="absolute inset-0" aria-hidden="true"></span>
+                      Cijena
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ parseInt(listing.price) }} KM</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="separator"></div>
+          <div>
+            <h2 class="text-lg font-medium text-gray-900">
+              Detaljne informacije
+            </h2>
+            <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <li class="flow-root" v-for="info in normalAttributes">
+                <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-900">
+                      <a href="#" class="focus:outline-none">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        {{ info.name }}
+                      </a>
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500">{{ info.value }}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6">
+            <h2 class="text-lg font-medium text-gray-900">
+              Nekretnina posjeduje
+            </h2>
+            <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
+                <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-900">
+                      <a href="#" class="focus:outline-none">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        {{ info.name }}
+                      </a>
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500">{{ attrTranslate(info.value) }}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
           <div class="separator"></div>
-          <h2 class="heading">Detaljne informacije</h2>
-          <div class="grid-layout">
-            <div class="detailed-info" v-for="info in normalAttributes">
-              <span>{{ info.name }}</span>
-              <span>{{ info.value }}</span>
-            </div>
-          </div>
-          <div class="separator" v-if="checkboxAttributes.length"></div>
-          <h2 class="heading" v-if="checkboxAttributes.length">Nekretnina posjeduje</h2>
-          <div class="grid-layout detailed" v-if="checkboxAttributes.length">
-            <div class="detailed-info" v-for="(info, index) in checkboxAttributes" :key="index">
-              <span>{{ info.name }}</span>
-              <span>{{ attrTranslate(info.value) }}</span>
-            </div>
-          </div>
-          <div class="separator"></div>
+          <h2 class="heading">Detaljni opis</h2>
+          <p class="description">{{ listing.description }}</p>
           <h2 class="heading">U blizini nekretnine</h2>
           <div class="places">
-            <div class="places-grid" v-if="cafes.length">
+            <ActionButton v-if="cafes.length" placeholder="Prikazi kafice u blizini" @action="showMoreCafes = !showMoreCafes"></ActionButton>
+            <div class="places-grid" v-if="showMoreCafes">
               <div class="places-heading">
-                <font-awesome-icon icon="coffee"></font-awesome-icon>
                 <h1>Kafići</h1>
               </div>
               <ul :class="[showMoreCafes ? 'extend' : '']">
@@ -136,7 +228,6 @@
             </div>
             <div class="places-grid" v-if="restaurants.length">
               <div class="places-heading">
-                <font-awesome-icon icon="utensils"></font-awesome-icon>
                 <h1>Restorani</h1>
               </div>
               <ul :class="[ showMoreRestaurants ? 'extend' : '']">
@@ -148,7 +239,6 @@
             </div>
             <div class="places-grid" v-if="schools.length">
               <div class="places-heading">
-                <font-awesome-icon icon="graduation-cap"></font-awesome-icon>
                 <h1>Škole i vrtići</h1>
               </div>
               <ul :class="[ showMoreSchools ? 'extend' : '']">
@@ -160,7 +250,6 @@
             </div>
             <div class="places-grid" v-if="atms.length">
               <div class="places-heading">
-                <font-awesome-icon icon="receipt"></font-awesome-icon>
                 <h1>Banke i bankomati</h1>
               </div>
               <ul :class="[ showMoreAtms ? 'extend' : '']">
@@ -172,7 +261,6 @@
             </div>
             <div class="places-grid" v-if="malls.length">
               <div class="places-heading">
-                <font-awesome-icon icon="shopping-cart"></font-awesome-icon>
                 <h1>Šoping centri</h1>
               </div>
               <ul :class="[ showMoreMalls ? 'extend' : '']>
@@ -184,8 +272,7 @@
             </div>
           </div>
           <div class="separator"></div>
-          <h2 class="heading">Detaljni opis</h2>
-          <p class="description">{{ listing.description }}</p>
+
           <div class="UserProfile"></div>
           <div class="separator"></div>
           <h2 class="heading">Lokacija nekretnine</h2>
@@ -587,7 +674,6 @@ export default class Artikal extends Vue {
 .listing-wrapper {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 100px);
   padding-top: 36px;
 
   @include for-phone-only {
@@ -600,8 +686,6 @@ export default class Artikal extends Vue {
     height: fit-content;
   }
   .listing-content {
-    width: 70%;
-    margin: 0 auto;
 
     @include for-phone-only {
       width: 100%;
@@ -611,7 +695,6 @@ export default class Artikal extends Vue {
       display: flex;
       flex-direction: row;
       width: 100%;
-      padding-top: 24px;
       position: relative;
 
       @include for-phone-only {
@@ -686,60 +769,7 @@ export default class Artikal extends Vue {
         line-height: 21px;
         line-break: anywhere;
       }
-      .buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: fit-content;
 
-        button {
-          margin-right: 8px;
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          padding: 6px 12px;
-          border-radius: 5px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          svg {
-            color: #444;
-            height: 16px;
-            margin-right: 8px;
-          }
-          &:last-child {
-            margin-right: 0;
-          }
-
-          &:hover {
-            background: rgb(247, 247, 247) !important;
-            text-decoration: underline;
-          }
-
-          &:focus {
-            outline: none;
-          }
-
-          &.listing-saved {
-            svg {
-              color: red;
-            }
-          }
-        }
-      }
-      .save-article {
-        font-weight: 500;
-        margin-left: 16px;
-        width: fit-content;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        i {
-          color: #757B9A;
-          margin-left: 8px;
-        }
-      }
     }
   }
 }
@@ -1194,6 +1224,10 @@ export default class Artikal extends Vue {
       outline: none;
     }
   }
+}
+
+.svg-inline--fa {
+  font-size: 20px;
 }
 
 </style>

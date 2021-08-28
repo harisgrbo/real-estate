@@ -75,7 +75,7 @@ export default class TermsFilter extends Vue {
   margin-top: 24px;
 
   label {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     margin-bottom: 16px;
@@ -83,7 +83,7 @@ export default class TermsFilter extends Vue {
 
   .options-wrap {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-row-gap: 12px;
     grid-column-gap: 12px;
 
@@ -100,16 +100,18 @@ export default class TermsFilter extends Vue {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 500;
-      font-size: 14px;
+      font-weight: 400;
+      font-size: 13px;
+      background: #fff;
 
       &:focus {
         outline: none;
       }
 
       &.active {
-        background: #D63946;
-        color: #fff;
+        border:1px solid #1F2937;
+        color: #1F2937;
+        font-weight: 500;
       }
     }
   }
