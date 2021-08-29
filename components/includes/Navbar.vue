@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar-wrapper w-full px-20">
+  <div :class="['navbar-wrapper w-full px-20', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <img :src="[ $device.isMobile ? '/mobile1.png' : '/desktop.png']" class="main-logo" alt="" @click="$router.push('/')">
@@ -81,13 +81,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            <p class="notify">{{ messagesCount }}</p>
+            <p class="notify" v-if="messagesCount.lenth">{{ messagesCount }}</p>
           </button>
           <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
-            <p class="notify">{{ notifications.length }}</p>
+            <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
           </button>
           <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -406,7 +406,7 @@ export default class Navbar extends Vue {
 .navbar-wrapper {
   height: fit-content;
   width: 100%;
-  height: 80px;
+  height: 60px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -822,6 +822,28 @@ export default class Navbar extends Vue {
       font-size: 12px;
     }
   }
+
+  //&.only-index {
+  //  background: transparent;
+  //  position: static;
+  //  top: 0;
+  //
+  //  .second-row {
+  //    background: transparent;
+  //  }
+  //
+  //  .inner {
+  //    background: transparent;
+  //
+  //    svg {
+  //      color: white;
+  //    }
+  //  }
+  //
+  //  .notify {
+  //    background: transparent !important;
+  //  }
+  //}
 }
 
 .search-btn {

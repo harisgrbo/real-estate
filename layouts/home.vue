@@ -1,5 +1,5 @@
 <template>
-  <div class="home-wrapper">
+  <div :class="['home-wrapper', this.$route.name === 'index' ? 'no-padding' : '']">
     <Navbar></Navbar>
     <Nuxt />
     <Footer></Footer>
@@ -42,7 +42,11 @@ export default class Home extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 79px !important;
+  padding-top: 60px !important;
+
+  &.no-padding {
+    padding-top: 0;
+  }
 
   @include for-phone-only {
     padding-top: 78px !important;

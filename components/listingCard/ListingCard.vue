@@ -154,7 +154,7 @@ export default class ListingCard extends Vue{
         }
 
         button {
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Raleway', sans-serif;
           border: none;
           margin-right: 8px;
           border-radius: 5px;

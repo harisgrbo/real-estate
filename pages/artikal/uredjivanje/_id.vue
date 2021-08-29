@@ -777,7 +777,7 @@ export default class ListingEdit extends Vue {
           font-weight: 500 !important;
           transition: 0.3s all ease;
           margin-bottom: 0;
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Raleway', sans-serif;
           cursor: pointer;
 
           &.back {
@@ -893,7 +893,7 @@ export default class ListingEdit extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Raleway', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;

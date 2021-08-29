@@ -242,7 +242,7 @@ export default class SingleQuestion extends Vue {
       border: 1px solid #dcdcdc;
       border-radius: 5px;
       height: 50px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Raleway', sans-serif;
       padding: 12px;
       box-sizing: border-box;
     }

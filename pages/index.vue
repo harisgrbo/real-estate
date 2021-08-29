@@ -1,5 +1,5 @@
 <template>
-  <div class="homepage-wrap">
+  <div :class="['homepage-wrap', this.$route.name === 'index' ? 'no-padding' : '']">
     <ul class="categories-mobile" v-if="$device.isMobile">
       <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"
           :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
@@ -504,6 +504,7 @@
   flex-direction: column;
   width: 100%;
   box-sizing: border-box;
+
 
   @include for-phone-only {
     padding-bottom: 90px;

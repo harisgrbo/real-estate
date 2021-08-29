@@ -44,7 +44,7 @@ textarea {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif;
 &:focus {
    outline: none;
  }

@@ -29,7 +29,7 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif;
   height: 48px;
   background: #1F2937;
   border-radius: 10px;
