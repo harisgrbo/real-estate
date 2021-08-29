@@ -32,7 +32,7 @@
           <div class="icons-date">
             <div>
               <p class="price">{{ parseInt(listing.price) }} KM</p>
-              <p v-if="listingType === 'rent'">/ nocenje</p>
+              <p v-show="type === 'rent'" class="pl-2">/ noćenje</p>
             </div>
           </div>
         </div>

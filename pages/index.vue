@@ -100,6 +100,31 @@
         </swiper>
       </client-only>
     </div>
+    <div class="flex flex-col mx-auto w-full mb-16 mx-20 mt-8">
+      <div class="w-full flex items-center justify-between px-20 mb-4">
+        <h2 class="section-title">Pretraži kategorije</h2>
+        <div class="flex flex-row items-center">
+          <nuxt-link class="more" to="/">Više</nuxt-link>
+          </div>
+      </div>
+      <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
+        <li class="flow-root justify-between flex flex-col" v-for="(cat, index) in most_visited_cats" :key="index"
+            :style="{ backgroundImage: 'url(' + cat.img + ')' }"
+        >
+          <div>
+            <h3 class="font-semibold">
+              {{ cat.name }}
+            </h3>
+            <p class="mt-1 text-lg text-white">{{ cat.text }}</p>
+          </div>
+          <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Pretraži
+          </button>
+        </li>
+
+      </ul>
+    </div>
+
     <div class="w-full flex items-center justify-between px-20 mb-4">
       <h2 class="section-title">Izdavanje</h2>
       <div class="flex flex-row items-center">
@@ -145,7 +170,7 @@
       <client-only>
         <swiper class="swiper" :options="swiperOptionRentPerDay">
           <swiper-slide v-for="listing in listings" :key="listing.id">
-            <ListingCard :listing="listing" :type="listing.user.user_type"/>
+            <ListingCard :listing="listing" type="rent"/>
           </swiper-slide>
         </swiper>
       </client-only>
@@ -273,6 +298,33 @@
         city: 'Travnik',
         img: '/sarajevo.jpeg'
 
+      },
+    ]
+    most_visited_cats = [
+      {
+        name: 'Stanovi',
+        img: '/flat.jpeg',
+        text: 'Preko 2000 nekretnina'
+      },
+      {
+        name: 'Kuće',
+        img: '/house.jpg',
+        text: 'Preko 2000 nekretnina'
+      },
+      {
+        name: 'Garaže',
+        img: '/garage.jpg',
+        text: 'Preko 2000 nekretnina'
+      },
+      {
+        name: 'Sobe',
+        img: '/rooms.jpg',
+        text: 'Preko 2000 nekretnina'
+      },
+      {
+        name: 'Luksuzne nekretnine',
+        img: '/luxury-villa.jpeg',
+        text: 'Preko 2000 nekretnina'
       },
     ]
 
@@ -649,6 +701,38 @@ ul.most-visited {
     margin-left: 16px;
     &:first-child {
       margin-left: 80px;
+    }
+  }
+}
+
+ul.most-visited-cats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 16px;
+  margin: 0 80px;
+
+  .flow-root {
+    min-width: 100%;
+    min-height: 262px;
+    width: 100%;
+    max-height: 100%;
+    height: 262px;
+    border-radius: 15px;
+    object-fit: cover;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 24px;
+    font-size: 26px;
+    line-height: 30px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    button {
+      width: fit-content;
     }
   }
 }

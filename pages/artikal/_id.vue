@@ -194,9 +194,16 @@
             <div class="separator"></div>
             <h2 class="heading">Detaljni opis</h2>
             <p class="description">{{ listing.description }}</p>
+            <div class="separator"></div>
             <h2 class="heading">U blizini nekretnine</h2>
             <div class="places">
-              <ActionButton v-if="cafes.length" placeholder="Prikazi kafice u blizini" @action="showMoreCafes = !showMoreCafes"></ActionButton>
+              <div class="flex flex-row items-center justify-start">
+                <ActionButton class="mr-4" v-if="cafes.length" placeholder="Kafići" @action="showMoreCafes = !showMoreCafes"></ActionButton>
+                <ActionButton class="mr-4" v-if="restaurants.length" placeholder="Restorani" @action="showMoreRestaurants = !showMoreRestaurants"></ActionButton>
+                <ActionButton class="mr-4" v-if="schools.length" placeholder="Škole i vrtići" @action="showMoreSchools = !showMoreSchools"></ActionButton>
+                <ActionButton class="mr-4" v-if="atms.length" placeholder="Banke i bankomati" @action="showMoreAtms = !showMoreAtms"></ActionButton>
+                <ActionButton class="mr-4" v-if="malls.length" placeholder="Šoping centri" @action="showMoreMalls = !showMoreMalls"></ActionButton>
+              </div>
               <div class="places-grid" v-if="showMoreCafes">
                 <div class="places-heading">
                   <h1>Kafići</h1>
@@ -206,9 +213,8 @@
                     <p>{{ cafe.name }}</p>
                   </li>
                 </ul>
-                <button @click="showMoreCafes = !showMoreCafes">{{ showMoreCafes ? 'Prikaži manje' : 'Prikaži više' }}</button>
               </div>
-              <div class="places-grid" v-if="restaurants.length">
+              <div class="places-grid" v-if="showMoreRestaurants">
                 <div class="places-heading">
                   <h1>Restorani</h1>
                 </div>
@@ -219,7 +225,7 @@
                 </ul>
                 <button @click="showMoreRestaurants = !showMoreRestaurants">{{ showMoreRestaurants ? 'Prikaži manje' : 'Prikaži više' }}</button>
               </div>
-              <div class="places-grid" v-if="schools.length">
+              <div class="places-grid" v-if="showMoreSchools">
                 <div class="places-heading">
                   <h1>Škole i vrtići</h1>
                 </div>
@@ -230,7 +236,7 @@
                 </ul>
                 <button @click="showMoreSchools = !showMoreSchools">{{ showMoreSchools ? 'Prikaži manje' : 'Prikaži više' }}</button>
               </div>
-              <div class="places-grid" v-if="atms.length">
+              <div class="places-grid" v-if="showMoreAtms">
                 <div class="places-heading">
                   <h1>Banke i bankomati</h1>
                 </div>
@@ -241,7 +247,7 @@
                 </ul>
                 <button @click="showMoreAtms = !showMoreAtms">{{ showMoreAtms ? 'Prikaži manje' : 'Prikaži više' }}</button>
               </div>
-              <div class="places-grid" v-if="malls.length">
+              <div class="places-grid" v-if="showMoreMalls">
                 <div class="places-heading">
                   <h1>Šoping centri</h1>
                 </div>
@@ -253,8 +259,6 @@
                 <button @click="showMoreMalls = !showMoreMalls">{{ showMoreMalls ? 'Prikaži manje' : 'Prikaži više' }}</button>
               </div>
             </div>
-            <div class="separator"></div>
-            <div class="UserProfile"></div>
             <div class="separator"></div>
             <h2 class="heading">Lokacija nekretnine</h2>
             <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
@@ -1212,6 +1216,7 @@ export default class Artikal extends Vue {
     font-weight: 500;
     margin-bottom: 24px;
     background: transparent;
+    color: #000 !important;
 
     &:focus {
       outline: none;
