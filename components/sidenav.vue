@@ -11,12 +11,7 @@
         <img src="/avatar.jpg" alt="">
         <div class="user-wrap">
           <label for="">{{ $auth.user.name }}</label>
-          <p>{{ transformType($auth.user.user_type) }}</p>
         </div>
-      </li>
-      <li v-if="$auth.user && $auth.user.user_type === 'agency'" class="dashboard">
-        <img src="/052-presentation.svg" alt="">
-        <nuxt-link to="/moj-racun/dashboard/analitika">Glavni dashboard</nuxt-link>
       </li>
       <li class="login" v-if="!$auth.user">
         <nuxt-link to="/auth/login">Prijavi se</nuxt-link>
@@ -43,25 +38,6 @@
       <li v-if="$auth.user">
         <img src="/049-user.svg" alt="">
         <nuxt-link to="/moj-racun/uredi-profil">Uredi profil</nuxt-link>
-      </li>
-      <li class="links">
-        <h2>Ostali linkovi</h2>
-      </li>
-      <li>
-        <img src="/095-store.svg" alt="">
-        <nuxt-link to="/agencies">Agencije</nuxt-link>
-      </li>
-      <li>
-        <img src="/029-home.svg" alt="">
-        <nuxt-link to="/moj-racun/">Novogradnja</nuxt-link>
-      </li>
-      <li>
-        <img src="/096-target.svg" alt="">
-        <nuxt-link to="/marketing/">Oglašavanje na enekretnine.ba</nuxt-link>
-      </li>
-      <li>
-        <img src="/063-profile.svg" alt="">
-        <nuxt-link to="/o-nama/">O nama</nuxt-link>
       </li>
       <li class="logout" v-if="$auth.user">
         <img src="/009-logout.svg" alt="">
@@ -178,7 +154,7 @@ export default class sidenav extends Vue {
       }
 
       &:hover {
-        background: #f1f1f1;
+        background: #f9f9f9;
       }
 
       &.links {
@@ -195,8 +171,10 @@ export default class sidenav extends Vue {
 
       &.user-label {
         padding: 8px 8px 8px 8px;
-        background: #f1f1f1;
+        background: #f9f9f9;
         margin-bottom: 12px;
+        height: fit-content;
+        cursor: pointer;
         img {
           height: 40px;
           width: 40px;
@@ -254,7 +232,7 @@ export default class sidenav extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Raleway', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -278,7 +256,7 @@ li.dashboard {
   background: #EBEBEB;
 
   &:hover {
-    background: #ebebeb !important;
+    background: #f9f9f9 !important;
   }
 }
 </style>

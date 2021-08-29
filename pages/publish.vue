@@ -1,46 +1,6 @@
 <template>
   <div class="publish-wrapper-inner">
-    <p class="progress-title" v-if="$device.isMobile">Progres objave</p>
-    <div class="horizontal-progress" v-if="$device.isMobile">
-      <div class="filler" :style="{ width: completion + '%' }"></div>
-    </div>
-    <Snackbar />
-      <div v-if="!$device.isMobile" class="progress-wrapper">
-        <h1 class="heading">Postotak objave:</h1>
-        <client-only>
-          <radial-progress-bar :diameter="200"
-                               :animateSpeed="300"
-                               :completed-steps="completion"
-                               :total-steps="100"
-                               startColor="#0B8489"
-                               endColor="#1B1E31"
-                               :strokeWidth="10"
-                               :innerStrokeWidth="10"
-                               innerStrokeColor="#f1f1f1"
-          >
-            <p class="centered">{{ completion.toFixed() }} %</p>
-          </radial-progress-bar>
-        </client-only>
-        <div class="radial-steps">
-          <p>
-            Unošenjem što više informacija o Vašem oglasu, omogućujete da on bude vidljiviji većem broju korisnika. Oglasi sa preko 80% popunjenih informacija ulaze u listu najpregledavanijih na sajtu.
-          </p>
-          <h1 class="heading">Koraci:</h1>
-          <ul class="steps-main">
-            <li :class="[currentStep === steps.STEP_ONE? 'active' : '']">
-              Osnovne informacije
-            </li>
-            <li :class="[currentStep === steps.STEP_TWO? 'active' : '']">
-              Obavezne informacije
-            </li>
-            <li :class="[currentStep === steps.STEP_THREE? 'active' : '']">
-              Slike
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="content-wrapper">
+      <div class="content-wrapper my-6">
         <div v-show="currentStep === steps.STEP_ONE" class="step-1">
           <h1 class="heading">
             Osnovne informacije oglasa
@@ -48,21 +8,17 @@
 
           <h2>Kategorija oglasa*</h2>
           <div>
-            <InputError :error="errors.category" />
             <Categories @selected-category="handleSelectedCategory" />
           </div>
 
           <h2>Vrsta objave</h2>
           <div class="publishing-type">
-            <InputError :error="errors.listingType" />
             <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
           <div class="grid-filters">
-            <InputError :error="errors.neighbourhood" />
             <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
 
-            <InputError :error="errors.address" />
             <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
             <ul v-if="recommendedAddresses.length">
               <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
@@ -70,7 +26,6 @@
               </li>
             </ul>
 
-            <InputError :error="errors.price" />
             <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
           </div>
           <h2>Lokacija</h2>
@@ -84,8 +39,6 @@
           <div v-if="city !== null" class="map-wrapper">
             <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
           </div>
-          <InputError :error="errors.city" />
-          <InputError :error="errors.description" />
           <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
 
           <div class="button-wrapper">
@@ -101,7 +54,6 @@
           </h1>
 
           <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-            <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]" />
             <component
               :attr="attr"
               :options="attr"
@@ -211,6 +163,8 @@
           </div>
         </div>
       </div>
+    <Snackbar />
+
   </div>
 </template>
 
@@ -367,7 +321,7 @@ export default class Publish extends Vue {
     this.$snackbar.show({
       text: "Imate greske",
       timeout: 1000,
-      type: "error"
+      type: "danger"
     });
   }
 
@@ -774,7 +728,6 @@ export default class Publish extends Vue {
       display: flex;
       flex: 2;
       background: #fff;
-      padding: 24px;
       padding-top: 0;
       box-sizing: border-box;
       flex-direction: column;
@@ -814,7 +767,6 @@ export default class Publish extends Vue {
       display: flex;
       flex: 8;
       padding: 0 24px;
-      background: #fff;
       margin-left: 32px;
       box-sizing: border-box;
       position: relative;
@@ -898,7 +850,7 @@ export default class Publish extends Vue {
             font-weight: 500 !important;
             transition: 0.3s all ease;
             margin-bottom: 0;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Raleway', sans-serif;
             cursor: pointer;
 
             &.back {
@@ -1014,7 +966,7 @@ export default class Publish extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Raleway', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -1049,19 +1001,6 @@ export default class Publish extends Vue {
 }
 
 .radial-steps {
-  p {
-    padding-top: 24px;
-    margin-top: 24px;
-    font-size: 14px !important;
-    font-weight: 400 !important;
-    line-height: 22px !important;
-    margin-bottom: 24px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    padding: 16px;
-    box-sizing: border-box;
-    border-top: none;
-  }
 
   h1 {
     font-weight: 500;

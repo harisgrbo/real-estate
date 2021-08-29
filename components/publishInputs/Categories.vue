@@ -1,13 +1,22 @@
 <template>
-  <div class="categories-list-wrap">
-    <ul v-if="loading === false">
-      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)"
-          :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"
-      >
-        <div class="img-wrapper">
-          <img :src="cat.icon" alt="cat">
+  <div class="categories-list-wrap w-full">
+    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-2 gap-6 w-full">
+      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flow-root"
+          :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
+        <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100 p-1">
+            <!-- Heroicon name: outline/clock -->
+            <img :src="cat.icon" alt="">
+          </div>
+          <div>
+            <h3 class="text-sm font-medium text-gray-900">
+              <a href="#" class="focus:outline-none">
+                <span class="absolute inset-0" aria-hidden="true"></span>
+                {{ cat.title }}
+              </a>
+            </h3>
+          </div>
         </div>
-        <p>{{cat.title}}</p>
       </li>
     </ul>
     <img v-else src="/load.svg" class="loading" alt="">
@@ -71,7 +80,6 @@ export default class Categories extends Vue {
   height: 490px;
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
   position: relative;
 
@@ -79,60 +87,17 @@ export default class Categories extends Vue {
     height: 40px;
   }
 }
-  ul {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(5, 1fr);
-    grid-column-gap: 16px;
-    grid-row-gap: 32px;
 
-    @include for-phone-only {
-      grid-template-columns: repeat(1, 1fr) !important;
-      grid-column-gap: 12px !important;
-      grid-row-gap: 12px !important;
-      margin-top: 0px;
-    }
-    li {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      border: 1px solid #f1f1f1;
-      border-radius: 8px;
-      padding-bottom: 12px;
+.selected {
+  border: 1px solid #111827;
+  border-radius: 10px;
+}
 
-      .img-wrapper {
-        //background: #f1f1f1;
-        height: 70px;
-        width: 70px;
-        margin-bottom: 12px;
-        border-radius: 5px;
-        font-size: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        img {
-          height: 40px;
-        }
-      }
-      p {
-        font-size: 14px;
-        font-weight: 500;
-      }
-    }
-    .selected {
-      border: 1px solid #757B9A;
-      box-shadow: rgba(0, 0, 0, 0.19) 0px 1px 12px;
-
-      @include for-phone-only {
-        box-shadow: rgba(0, 0, 0, 0.19) 0px 4px 5px;
-        border: none;
-        background: #f1f1f1;
-        color: #444;
-      }
-    }
+a {
+  &:hover, &:active, &:visited {
+    outline: none;
+    border: none;
   }
+}
 
 </style>

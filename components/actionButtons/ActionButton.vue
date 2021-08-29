@@ -29,25 +29,24 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'Montserrat', sans-serif;
-  height: 53px;
-  background: #D63946;
-  border-radius: 4px;
+  font-family: 'Raleway', sans-serif;
+  height: 48px;
+  background: #1F2937;
+  border-radius: 10px;
   border: none;
-  width: 100%;
+  width: fit-content;
   display: flex;
   align-items: center;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   padding: 0 24px;
   color: #fff;
   cursor: pointer;
   justify-content: center;
-  margin-top: 24px;
   transition: 0.3s all ease;
 
   &:hover {
-    background: #a72f39;
+    background: #171e2a;
   }
 
   svg {

@@ -139,7 +139,6 @@ export default class urediProfil extends Vue {
 }
 .w-full {
   display: flex;
-  flex-direction: column;
 
   .content {
     display: grid;
@@ -247,7 +246,7 @@ h2.heading {
             background: #0B8489;
             border-radius: 5px;
             border: none;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Raleway', sans-serif;
             color: #fff;
             padding: 8px 12px;
             cursor: pointer;
@@ -304,7 +303,7 @@ textarea {
   height: 200px;
   padding: 12px;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif;
   border: 1px solid #ddd;
   border-radius: 5px;
   resize: none;

@@ -1,12 +1,9 @@
 <template>
   <div class="category-filter">
-    <label>
-      Kategorija
-    </label>
-    <ul>
+    <ul class="flex flex-row items-center justify-start w-full pb-4">
       <li
         v-for="category in categories"
-        :class="[value && category.id === value.value ? 'active' : '']"
+        :class="['font-normal text-sm mr-4 cursor-pointer', value && category.id === value.value ? 'rounded-4 p-2 bg-gray-100' : '']"
         @click="handleChange($event, category.id)"
       >{{ category.title }}
       </li>
@@ -26,6 +23,7 @@ export default class CategoryFilter extends Vue {
     required: true,
     type: Array
   }) categories;
+
 
   @Prop({
     required: true,
@@ -48,33 +46,5 @@ export default class CategoryFilter extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.category-filter {
-  display: flex;
-  flex-direction: column;
-  label {
-    font-size: 15px;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  ul {
-    padding: 12px;
-    border-radius: 5px;
-    background: #f8f8f8;
-
-    li {
-      display: flex;
-      height: 30px;
-      align-items: center;
-      justify-content: flex-start;
-
-      &.active {
-        color: #1B1E31;
-        font-weight: 600;
-      }
-    }
-  }
-}
 
 </style>

@@ -107,7 +107,7 @@ export default class SearchMap extends Vue{
 
 <style scoped lang="scss">
 #map {
-  height: 100vh;
+  height: calc(100vh - 155px);
   width: 100%;
 }
 

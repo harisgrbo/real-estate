@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper">
+  <div class="account-wrapper max-w-7xl mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>

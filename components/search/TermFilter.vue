@@ -43,8 +43,8 @@ export default class TermFilter extends Vue {
   justify-content: space-between;
 
   label {
-    font-size: 15px;
-    font-weight: 600;
+    font-weight: 400;
+    font-size: 13px;
   }
 
 }

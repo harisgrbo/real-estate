@@ -1,71 +1,112 @@
 <template>
   <div class="listing-card-wrapper">
-    <nuxt-link :to="{ path: '/artikal/' + listing.id }">
-      <div class="img-wrapper-main">
-        <label class="type" v-if="$device.isMobile">{{ listing.listing_type.title }}</label>
-        <label class="publisher" v-if="!$device.isMobile">
-          <font-awesome-icon icon="bullhorn"></font-awesome-icon>
-          <span>{{ translateType() }}</span>
-        </label>
-        <label class="sponsored" v-if="!$device.isMobile && listing.sponsored !== 0">
-          <span>Promovisan oglas</span>
-        </label>
-        <label class="bottom" v-if="!$device.isMobile">
-          <button
-            v-for="(attr, index) in specialAttributes"
-            :key="index"
-            class="standard-tag"
-          >
-            {{ attr.value }}
-            <p v-if="attr.name === 'Kvadratura'"> m²</p>
-            <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
-          </button>
-        </label>
-        <img src="/stan.jpg" alt="">
-      </div>
-      <div :class="['listing-card-content', listing.sponsored !== 0 ? 'sponsored' : '']">
-        <div class="column">
-          <div class="title-price">
-            <div class="title-box">
-              <p>{{ listing.title }}</p>
-              <div v-if="!$device.isMobile" class="aprox">
-                {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }} ispod prosječne cijene
-              </div>
-            </div>
-          </div>
+<!--    <nuxt-link :to="{ path: '/artikal/' + listing.id }">-->
+<!--      <div class="img-wrapper-main">-->
+<!--        <label class="type" v-if="$device.isMobile">{{ listing.listing_type.title }}</label>-->
 
-          <!-- Potrebno u responsu vratitit ime grada, category slug i korisnika -->
-          <div class="address">
-            <p>{{ listing.address }}</p>
-          </div>
-          <div class="main-options" v-if="$device.isMobile">
-            <label v-show="this.listing.price < this.avgPrice" @click.stop.prevent="showTooltip = true">
-              {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}
-              <font-awesome-icon icon="sort-down"></font-awesome-icon>
-            </label>
-            <label
+<!--        <label class="publisher" v-if="!$device.isMobile">-->
+<!--          <font-awesome-icon icon="bullhorn"></font-awesome-icon>-->
+<!--          <span>{{ translateType() }}</span>-->
+<!--        </label>-->
+<!--        <label class="bottom" v-if="!$device.isMobile">-->
+<!--          <button-->
+<!--            v-for="(attr, index) in specialAttributes"-->
+<!--            :key="index"-->
+<!--            class="standard-tag"-->
+<!--          >-->
+<!--            {{ attr.value }}-->
+<!--            <p v-if="attr.name === 'Kvadratura'"> m²</p>-->
+<!--            <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>-->
+<!--          </button>-->
+<!--        </label>-->
+<!--        <img src="/stan.jpg" alt="">-->
+<!--      </div>-->
+<!--      <div :class="['listing-card-content', listing.sponsored !== 0 ? 'sponsored' : '']">-->
+<!--        <div class="column">-->
+<!--          <div class="title-price">-->
+<!--            <div class="title-box">-->
+<!--              <div class="pb-5 border-b border-gray-200">-->
+<!--                <h3 class="text-lg leading-6 font-medium text-gray-900">-->
+<!--                  {{listing.title }}-->
+<!--                </h3>-->
+<!--              </div>-->
+<!--&lt;!&ndash;              <div v-if="!$device.isMobile" class="aprox">&ndash;&gt;-->
+<!--&lt;!&ndash;                {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }} ispod prosječne cijene&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          &lt;!&ndash; Potrebno u responsu vratitit ime grada, category slug i korisnika &ndash;&gt;-->
+<!--          <div class="address">-->
+<!--            <p>{{ listing.address }}</p>-->
+<!--          </div>-->
+<!--          <div class="main-options" v-if="$device.isMobile">-->
+<!--            <label v-show="this.listing.price < this.avgPrice" @click.stop.prevent="showTooltip = true">-->
+<!--              {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}-->
+<!--              <font-awesome-icon icon="sort-down"></font-awesome-icon>-->
+<!--            </label>-->
+<!--            <label-->
+<!--              v-for="(attr, index) in specialAttributes"-->
+<!--              :key="index"-->
+<!--              >-->
+<!--                {{ attr.value }}-->
+<!--                <p v-if="attr.name === 'Kvadratura'">m²</p>-->
+<!--                <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="price">-->
+<!--          <h1>{{ this.$moment(listing.published_at).fromNow() }}</h1>-->
+<!--          <div class="price-div">-->
+<!--            <p class="price-label">{{ parseInt(listing.price) }} KM</p>-->
+<!--            <b v-if="listing.listing_type.shortname === 'rent-for-a-day'">dan</b>-->
+<!--            <b v-if="listing.listing_type.shortname === 'rent'">mj</b>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </nuxt-link>-->
+    <div class="bg-white cursor-pointer sm:w-full horizontal-card border-black h-36 mb-6 flex flex-col sm:flex-row gap-5 select-none">
+      <img
+        src="/test/img1.jpg"
+        class="min-h-full w-48 rounded-lg bg-gray-100 bg-center object-cover"
+      >
+      <div class="flex sm:flex-1 flex-col gap-2 p-1 justify-between">
+        <h1 class="text-xl font-normal  text-gray-800">
+          {{ listing.title }}
+        </h1>
+        <p class="text-gray-500 text-sm font-light line-clamp-3">
+          {{ listing.description }}
+        </p>
+        <div class="flex  justify-between">
+
+          <div class="flex flex-row items-center">
+            <button
               v-for="(attr, index) in specialAttributes"
               :key="index"
-              >
-                {{ attr.value }}
-                <p v-if="attr.name === 'Kvadratura'">m²</p>
-                <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
-            </label>
+              class='mr-4 flex items-center gap-1 sm:text-md border border-gray-300 px-2 py-1 rounded-md transition-colors'
+            >
+              {{ attr.value }}
+              <p v-if="attr.name === 'Kvadratura'">m²</p>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-if="attr.name === 'Broj soba'">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+              </svg>
+            </button>
           </div>
-        </div>
-        <div class="description" v-if="!$device.isMobile">
-          {{ listing.description }}
-        </div>
-        <div class="price">
-          <h1>{{ this.$moment(listing.published_at).fromNow() }}</h1>
-          <div class="price-div">
-            <p class="price-label">{{ parseInt(listing.price) }} KM</p>
-            <b v-if="listing.listing_type.shortname === 'rent-for-a-day'">dan</b>
-            <b v-if="listing.listing_type.shortname === 'rent'">mj</b>
+          <div class="flex flex-row items-center">
+            <button
+              class='flex items-center gap-1 sm:text-lg border border-gray-300 px-1 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
+            >
+              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z"></path></svg>
+            </button>
+            <button
+              class='ml-4 flex items-center font-medium gap-1 sm:text-md px-2 py-2 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
+            >
+              {{ listing.price }} KM
+            </button>
           </div>
         </div>
       </div>
-    </nuxt-link>
+    </div>
     <Snackbar />
   </div>
 </template>
@@ -169,18 +210,12 @@ a {
   z-index: 1;
   display: flex;
   flex-direction: row;
-  padding: 24px 0;
   transition: 0.3s all ease;
-  border-bottom: 1px solid #f1f1f1;
-  height: 200px;
 
   @include for-phone-only {
     width: 100%;
     height: 100%;
     flex-direction: row;
-    padding: 0;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #f1f1f1;
     box-sizing: border-box;
 
   }
@@ -198,23 +233,6 @@ a {
     margin-bottom: 12px;
   }
 
-
-
-img {
-height: 200px;
-width: 300px;
-min-width: 300px;
-border-radius: 10px;
-
-@include for-phone-only {
-  height: 100%;
-  width: 120px;
-  max-width: 120px;
-  min-width: 120px;
-  margin-right: 12px;
-  border-radius: 5px;
-}
-}
 .column {
 display: flex;
 width: 100%;
@@ -227,11 +245,7 @@ display: flex;
 flex-direction: column;
 justify-content: space-between;
 width: 100%;
-padding: 0 16px;
-  &.sponsored {
-    background: #ff00000a;
-    border-radius: 10px;
-  }
+padding-left: 16px;
 
 @include for-phone-only {
   padding: 0;
@@ -395,6 +409,11 @@ padding: 0 16px;
       color: #434343;
       font-weight: 500;
       font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 200px;
+
 
       @include for-phone-only {
         font-weight: 400;
@@ -564,7 +583,7 @@ padding: 0 16px;
       box-shadow: none;
 
       button {
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Raleway', sans-serif;
         border: none;
         margin-right: 8px;
         border-radius: 5px;
@@ -627,5 +646,11 @@ padding: 0 16px;
   }
 
 
+}
+
+.horizontal-card {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ececec;
 }
 </style>

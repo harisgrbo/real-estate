@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-row">
     <LoginForm></LoginForm>
   </div>
 </template>

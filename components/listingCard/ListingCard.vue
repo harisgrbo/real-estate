@@ -4,24 +4,17 @@
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
         <span>{{ translateType() }}</span>
       </label>
-      <label class="sponsored" v-if="listing.sponsored !== 0">
-        <span>Promovisan oglas</span>
-      </label>
-      <label class="type" v-if="!$device.isMobile">
-        <button
-          v-for="(attr, index) in specialAttributes"
-          :key="index"
-          class="standard-tag"
-        >
-          {{ attr.value }}
-          <p v-if="attr.name === 'Kvadratura'"> m²</p>
-          <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>
-        </button>
-      </label>
-      <label class="rating" v-if="!$device.isMobile && type === 'agency'">
-        <i class="material-icons">star</i>
-        agencija
-      </label>
+<!--      <label v-if="!$device.isMobile" class="type overflow-hidden w-full flex flex-row">-->
+<!--        <button-->
+<!--          v-for="(attr, index) in specialAttributes"-->
+<!--          :key="index"-->
+<!--          class="standard-tag"-->
+<!--        >-->
+<!--          {{ attr.value }}-->
+<!--          <p v-if="attr.name === 'Kvadratura'"> m²</p>-->
+<!--          <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>-->
+<!--        </button>-->
+<!--      </label>-->
       <div class="blured-background">
         <button @click="removeFromSaved(listing.id)">Ukloni iz spašenih</button>
       </div>
@@ -39,10 +32,7 @@
           <div class="icons-date">
             <div>
               <p class="price">{{ parseInt(listing.price) }} KM</p>
-              <p v-if="listingType === 'rent'">/ nocenje</p>
-            </div>
-            <div>
-              <p class="time">{{ this.$moment(listing.published_at).fromNow() }}</p>
+              <p v-show="type === 'rent'" class="pl-2">/ noćenje</p>
             </div>
           </div>
         </div>
@@ -63,6 +53,7 @@ export default class ListingCard extends Vue{
   @Prop({ type: Object }) listing
   @Prop({ type: Boolean, default: false}) from
   @Prop({}) type
+  @Prop({}) listingType
 
   // Translate listing type
   types = {
@@ -122,12 +113,15 @@ export default class ListingCard extends Vue{
   a {
     position: relative;
     z-index: 1;
+    width: 240px;
   }
   .listing-card-wrapper {
     display: flex;
     flex-direction: column;
     height: 100%;
     position: relative;
+    width: fit-content;
+    max-width: fit-content;
 
     label {
       position: absolute;
@@ -160,7 +154,7 @@ export default class ListingCard extends Vue{
         }
 
         button {
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Raleway', sans-serif;
           border: none;
           margin-right: 8px;
           border-radius: 5px;
@@ -222,9 +216,10 @@ export default class ListingCard extends Vue{
     }
 
     img {
-      height: 194px;
+      height: 320px;
       width: 100%;
       border-radius: 10px;
+      object-fit: cover;
 
       @include for-phone-only {
         height: 154px;
@@ -254,7 +249,7 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 500 !important;
+          font-weight: 400 !important;
           font-size: 16px !important;
           line-height: 20px !important;
         }
@@ -272,7 +267,7 @@ export default class ListingCard extends Vue{
            white-space: nowrap;
            overflow: hidden;
            text-overflow: ellipsis;
-           font-weight: 500 !important;
+           font-weight: 400 !important;
            font-size: 16px !important;
            line-height: 20px !important;
            margin-bottom: 8px;
@@ -282,9 +277,9 @@ export default class ListingCard extends Vue{
         p {
           position: relative;
           padding: 0 8px;
-          color: #434343;
+          color: #000;
           font-weight: 400;
-          font-size: 14px;
+          font-size: 13px;
           padding-left: 11px;
           white-space: nowrap;
           overflow: hidden;

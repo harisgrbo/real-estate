@@ -2,15 +2,17 @@
   <div class="agency-wrapper">
     <Navbar></Navbar>
     <Nuxt />
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
+import Footer from "@/components/Footer"
 
 @Component({
-  components: {Navbar}
+  components: {Navbar, Footer}
 })
 
 export default class Agency extends Vue {

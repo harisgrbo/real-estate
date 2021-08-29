@@ -1,5 +1,5 @@
 <template>
-  <div class="home-wrapper">
+  <div :class="['home-wrapper', this.$route.name === 'index' ? 'no-padding' : '']">
     <Navbar></Navbar>
     <Nuxt />
   </div>
@@ -8,9 +8,10 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
+import Footer from "@/components/Footer"
 
 @Component({
-  components: {Navbar}
+  components: {Navbar, Footer}
 })
 
 export default class Home extends Vue {
@@ -40,9 +41,11 @@ export default class Home extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 107px !important;
-  min-height: fit-content;
-  height: fit-content;
+  padding-top: 60px !important;
+
+  &.no-padding {
+    padding-top: 0;
+  }
 
   @include for-phone-only {
     padding-top: 78px !important;

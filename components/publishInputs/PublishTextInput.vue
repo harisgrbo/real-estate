@@ -1,19 +1,19 @@
 <template>
-  <div class="input-wrapper">
-    <label>{{ title }}</label>
-    <div class="input-inner">
-      <input
-        :type="type"
-        :class="error && error.length? 'hasError' : ''"
-        :value="value"
-        @input="updateValue($event.target.value)"  @blur="$emit('blur')"/>
-      <div class="currency" v-if="currency">
-        KM
+  <div class="relative">
+    <label for="price" class="block text-sm font-medium text-gray-700">{{ title }}</label>
+    <div class="mt-1 relative rounded-md">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      </div>
+      <input :type="type"
+             :value="value"
+             @input="updateValue($event.target.value)"  @blur="$emit('blur')" name="price" id="price" :class="['focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
+      <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+        <span v-if="currency" class="text-gray-500 sm:text-sm" id="price-currency">
+          KM
+        </span>
       </div>
     </div>
-
-    <span v-if="error">{{ error }}</span>
-    {{ error }}
+    <p v-if="error" class="mt-2 text-sm text-red-600" id="email-error">{{ error }}</p>
   </div>
 </template>
 
@@ -42,74 +42,9 @@ export default class PublishTextInput extends Vue{
     @content;
   }
 }
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  label {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 12px;
-  }
 
-  .input-inner {
-    display: flex;
-    width: 100%;
-    height: 50px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4px 12px;
-    margin-right: 24px;
-    transition: 0.1s all ease;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    @include for-phone-only {
-      padding: 0 12px;
-    }
-  }
-
-  .currency {
-    height: 100%;
-    border-left: 1px solid #dcdcdc;
-    padding-left: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-  }
-  input {
-    display: flex;
-    border: none;
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    background: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    @include for-phone-only {
-      padding: 0 12px;
-    }
-    &:focus {
-      outline: none;
-    }
-    &.hasError {
-      border: 1px solid red;
-    }
-  }
-  span {
-    color: red;
-    font-size: 14px;
-    font-weight: 400;
-    position: absolute;
-    left: 0;
-    top: 60px;
-  }
+input {
+  height: 48px;
+  border: 1px solid #dcdcdc;
 }
 </style>

@@ -71,7 +71,7 @@ export default {
       border: none;
       font-size: 15px;
       font-weight: 500;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Raleway', sans-serif;
       cursor: pointer;
 
       &:focus {
