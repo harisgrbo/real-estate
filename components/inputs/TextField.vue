@@ -30,6 +30,7 @@ export default class TextField extends Vue{
   @Prop({ type: String }) error;
   @Prop({ type: String }) label;
   @Prop({ type: String }) value;
+  @Prop({type: Boolean}) currency;
 
   updateValue(value) {
     this.$emit('input', value)

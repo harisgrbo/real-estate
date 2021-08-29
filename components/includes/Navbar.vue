@@ -679,6 +679,7 @@ export default class Navbar extends Vue {
       border-radius: 8px;
       display: flex;
       align-items: center;
+      padding-right: 8px;
     }
 
     .auth-reg {
@@ -711,7 +712,6 @@ export default class Navbar extends Vue {
       border-radius: 0px;
       border: none;
       background: transparent;
-      padding: 0 4px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
@@ -742,7 +742,6 @@ export default class Navbar extends Vue {
       &.login {
         display: flex;
         align-items: center;
-        margin-left: 12px;
         border-radius: 0px;
 
 

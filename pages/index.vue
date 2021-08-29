@@ -26,7 +26,11 @@
           </div>
           <div>
             <label>Cijena</label>
-            <TextField type="text" placeholder="Unesite cijenu od - do"></TextField>
+            <div class="w-full flex items-center justify-between">
+              <TextField type="number" :currency="true" placeholder="Od"></TextField>
+              <p>-</p>
+              <TextField type="number" :currency="true" placeholder="Do"></TextField>
+            </div>
           </div>
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
