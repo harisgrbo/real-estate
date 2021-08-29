@@ -13,9 +13,9 @@
     <div class="publish mb-32 p-8">
       <div class="quick-search">
         <ul class="w-full">
-          <li v-for="(tab, index) in tabs" @click="quickSearchTab = index" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
+          <li v-for="(tab, index) in tabs" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
         </ul>
-        <div v-if="quickSearchTab === 0" class="flex flex-row items-center w-full inputs">
+        <div class="flex flex-row items-center w-full inputs">
           <div>
             <label>Lokacija</label>
             <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
@@ -26,12 +26,8 @@
             <fieldset class="w-full">
               <label for="language" class="sr-only">Language</label>
               <div class="relative">
-                <select id="language" name="language" class="appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option selected>English</option>
-                  <option>French</option>
-                  <option>German</option>
-                  <option>Japanese</option>
-                  <option>Spanish</option>
+                <select id="language" name="language" class="appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="selectedCategory">
+                  <option v-for="category in categories" :value="category">{{ category.title }}</option>
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
                   <!-- Heroicon name: solid/chevron-down -->
@@ -45,95 +41,12 @@
           <div>
             <label>Cijena</label>
             <div class="w-full flex items-center justify-between">
-              <TextField type="number" :currency="true" placeholder="Od"></TextField>
+              <TextField type="number" :currency="true" placeholder="Od" v-model="priceFrom"></TextField>
               <p>-</p>
-              <TextField type="number" :currency="true" placeholder="Do"></TextField>
+              <TextField type="number" :currency="true" placeholder="Do" v-model="priceTo"></TextField>
             </div>
           </div>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-        </div>
-        <div v-if="quickSearchTab === 1" class="flex flex-row items-center w-full inputs">
-          <div>
-            <label>Lokacija</label>
-            <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
-          </div>
-          <div>
-            <label>Kategorija</label>
-<!--            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>-->
-            <fieldset class="w-full">
-              <label for="language" class="sr-only">Language</label>
-              <div class="relative">
-                <select id="language" name="language" class="appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option selected>English</option>
-                  <option>French</option>
-                  <option>German</option>
-                  <option>Japanese</option>
-                  <option>Spanish</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
-                  <!-- Heroicon name: solid/chevron-down -->
-                  <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div>
-            <label>Cijena</label>
-            <div class="w-full flex items-center justify-between">
-              <TextField type="number" :currency="true" placeholder="Od"></TextField>
-              <p>-</p>
-              <TextField type="number" :currency="true" placeholder="Do"></TextField>
-            </div>
-          </div>
-          <button>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-        </div>
-        <div v-if="quickSearchTab === 2" class="flex flex-row items-center w-full inputs">
-          <div>
-            <label>Lokacija</label>
-            <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
-          </div>
-          <div>
-            <label>Kategorija</label>
-<!--            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>-->
-            <fieldset class="w-full">
-              <label for="language" class="sr-only">Language</label>
-              <div class="relative">
-                <select id="language" name="language" class="appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option selected>English</option>
-                  <option>French</option>
-                  <option>German</option>
-                  <option>Japanese</option>
-                  <option>Spanish</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
-                  <!-- Heroicon name: solid/chevron-down -->
-                  <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-            </fieldset>
-
-          </div>
-          <div>
-            <label>Cijena</label>
-            <div class="w-full flex items-center justify-between">
-              <TextField type="number" :currency="true" placeholder="Od"></TextField>
-              <p>-</p>
-              <TextField type="number" :currency="true" placeholder="Do"></TextField>
-            </div>
-          </div>
-          <button>
+          <button @click="search">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -256,6 +169,7 @@
   import PremiumAgency from "@/components/PremiumAgency"
   import UserCard from "../components/UserCard";
   import TextField from "@/components/inputs/TextField";
+  import { buildCategory, buildType, buildCity, buildTitle, buildPrice } from "@/util/search";
 
   @Component({
     components: {
@@ -311,28 +225,16 @@
       'Oglasi iz agencija',
       'Novogradnja'
     ]
+    priceFrom = null;
+    priceTo = null;
     activeTab = 0;
     categories = []
+    selectedCity = null;
     selectedCategory = null;
+    selectedType = {
+      id: 1
+    };
     quickSearchTab = 0;
-    custom_categories = [
-      {
-        name: 'Stan',
-        img: 'stan.jpg'
-      },
-      {
-        name: 'Kuća',
-        img: 'kuca.jpg'
-      },
-      {
-        name: 'Garaža',
-        img: 'garaza.jpg'
-      },
-      {
-        name: 'Soba',
-        img: 'apartman.jpg'
-      },
-    ]
     most_visited_cities = [
       {
         city: 'Sarajevo',
@@ -471,8 +373,48 @@
       this.$emit('selected-category', c);
     }
 
+    handleSelectedType(index) {
+      this.quickSearchTab = index;
+
+      this.selectedType = {
+        id: index === 0 ? 1: index + 2
+      }
+    }
+
+    handleSelectedCity(val) {
+      this.selectedCity = val;
+    }
+
     async created() {
       await this.fetchCategories()
+    }
+
+    search() {
+      let filters  = [];
+
+      filters.push(buildTitle(this.selectedCategory ? this.selectedCategory.singular: "Stan"));
+
+      if (this.selectedCategory) {
+        filters.push(buildCategory(this.selectedCategory));
+      }
+
+      if (this.selectedType) {
+        filters.push(buildType(this.selectedType));
+      }
+
+      if (this.selectedCity) {
+        filters.push(buildCity(this.selectedCity))
+      }
+
+      if (this.priceFrom || this.priceTo) {
+        filters.push(buildPrice(this.priceFrom, this.priceTo))
+      }
+
+      if (filters.length) {
+        this.focused = false;
+
+        this.$router.push(`/pretraga?q=[${filters.join(',')}]`);
+      }
     }
   }
 </script>

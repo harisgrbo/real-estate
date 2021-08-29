@@ -120,6 +120,7 @@ import ListingType from "@/components/ListingType";
 import sidenav from "@/components/sidenav"
 import { mixin as clickaway } from 'vue-clickaway';
 import NotificationsDropdown from "@/components/NotificationsDropdown"
+import { buildType, buildCategory, buildTitle } from '@/util/search'
 
 @Component({
   components: {
@@ -171,7 +172,6 @@ export default class Navbar extends Vue {
   }
 
   async created() {
-    console.log(this.$route, 'router')
     await this.getSearches()
     await this.getNotifications()
     await this.getUnreadMessagesCount()
@@ -255,30 +255,6 @@ export default class Navbar extends Vue {
     this.showUserDropdown = false;
   }
 
-  buildTitle(title) {
-    return JSON.stringify({
-      name: "title",
-      type: "match",
-      value: title
-    })
-  }
-
-  buildType(type) {
-    return JSON.stringify({
-      name: "listing_type_id",
-      type: "term",
-      value: type.id
-    })
-  }
-
-  buildCategory(category) {
-    return JSON.stringify({
-      name: "category_id",
-      type: "term",
-      value: category.id
-    })
-  }
-
   handleSelectedType(e) {
     this.selectedType = e;
 
@@ -299,15 +275,15 @@ export default class Navbar extends Vue {
     let filters  = [];
 
     if (text.length) {
-      filters.push(this.buildTitle(text));
+      filters.push(buildTitle(text));
     }
 
     if (this.selectedCategory) {
-      filters.push(this.buildCategory(this.selectedCategory));
+      filters.push(buildCategory(this.selectedCategory));
     }
 
     if  (this.selectedType) {
-      filters.push(this.buildType(this.selectedType));
+      filters.push(buildType(this.selectedType));
     }
 
     if (filters.length) {
