@@ -793,8 +793,8 @@ ul.most-visited-cats {
 
   .quick-search {
     position: absolute;
-    left: 80px;
-    right: 80px;
+    left: 200px;
+    right: 200px;
     bottom: -50px;
     box-shadow: rgb(0 0 0 / 12%) 0px 0px 20px;
     border-radius: 15px;

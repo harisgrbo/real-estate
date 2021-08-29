@@ -31,8 +31,7 @@ export default {
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
     "@/assets/styles/global.scss",
-    "@/assets/styles/custom_components.scss",
-    "swiper/css/swiper.css"
+    "@/assets/styles/custom_components.scss"
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
