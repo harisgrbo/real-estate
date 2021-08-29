@@ -111,7 +111,8 @@
         <li class="flow-root justify-between flex flex-col" v-for="(cat, index) in most_visited_cats" :key="index"
             :style="{ backgroundImage: 'url(' + cat.img + ')' }"
         >
-          <div>
+          <div class="relative overlay-out">
+            <div class="overlay"></div>
             <h3 class="font-semibold">
               {{ cat.name }}
             </h3>
@@ -149,6 +150,13 @@
           </swiper-slide>
         </swiper>
       </client-only>
+    </div>
+    <div class="agency-wrap">
+      <h2>Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
+      <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>
+      <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Lista agencija
+      </button>
     </div>
     <div class="w-full flex items-center justify-between px-20 mb-4">
       <h2 class="section-title">Izdavanje na dan</h2>
@@ -786,15 +794,15 @@ ul.most-visited-cats {
 .publish {
   background-image: url("/luxuries.jpeg");
   background-repeat: no-repeat;
-  height: 600px;
+  height: 410px;
   background-size: cover;
   background-position: bottom;
   position: relative;
 
   .quick-search {
     position: absolute;
-    left: 80px;
-    right: 80px;
+    left: 200px;
+    right: 200px;
     bottom: -50px;
     box-shadow: rgb(0 0 0 / 12%) 0px 0px 20px;
     border-radius: 15px;
@@ -901,6 +909,73 @@ ul.most-visited-cats {
       bottom: 0;
 
     }
+  }
+}
+
+.overlay {
+  background: rgb(0,0,0);
+  background: linear-gradient(180deg, rgba(0,0,0,0.53125) 0%, rgba(255,255,255,0) 100%);
+  position: absolute;
+  top: -24px;
+  left: -24px;
+  right: -24px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 0;
+  height: 160px;
+}
+
+.overlay-out {
+  h3, p {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.agency-wrap {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  background-image: url("/agency-new.jpeg");
+  position: relative;
+  margin: 60px 80px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 80px;
+  border-radius: 15px;
+
+  &::after {
+    position: absolute;
+    content: '';
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.44);
+    backdrop-filter: blur(6px);
+    border-radius: 15px;
+  }
+
+  h2 {
+    font-size: 48px;
+    font-weight: 500;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+
+  p {
+    margin: 32px 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+
+  button {
+    position: relative;
+    z-index: 1;
   }
 }
 

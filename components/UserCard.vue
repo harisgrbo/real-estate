@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile">
-    <img src="/avatar.jpg" alt="" @click="$router.push('/users/' + 1)">
+    <img src="/lokus.jpeg" alt="" @click="$router.push('/users/' + 1)">
     <div class="avatar-wrapper w-full flex flex-col justify-between">
         <div class="user-info">
           <div>
