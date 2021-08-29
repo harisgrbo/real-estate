@@ -4,7 +4,7 @@
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <img :src="[ $device.isMobile ? '/mobile1.png' : '/desktop.png']" class="main-logo" alt="" @click="$router.push('/')">
       </div>
-      <div class="input-wrapper"
+      <div v-if="this.$route.name !== 'index'" class="input-wrapper"
            @focusin="focused = true"
            :class="[ focused? 'focused' : '']"
            v-on-clickaway="away"
@@ -73,32 +73,34 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <div v-if="! $auth.user" class="auth-reg">
-          <button class="register" @click="$router.push('/auth/register')">Registracija</button>
-        </div>
-        <button v-if="$auth.user" class="login">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-          <p class="notify">{{ messagesCount }}</p>
-        </button>
-        <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-          </svg>
-          <p class="notify">{{ notifications.length }}</p>
-        </button>
-        <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </button>
-        <!-- User dropdown -->
-        <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
-          <sidenav></sidenav>
-        </div>
-        <div class="notification" v-show="showNotifications === true">
-          <NotificationsDropdown :notifications="notifications" @close-notifications="handleCloseNotifications"></NotificationsDropdown>
+        <div class="inner">
+          <div v-if="! $auth.user" class="auth-reg">
+            <button class="register" @click="$router.push('/auth/register')">Registracija</button>
+          </div>
+          <button v-if="$auth.user" class="login">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <p class="notify">{{ messagesCount }}</p>
+          </button>
+          <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+            </svg>
+            <p class="notify">{{ notifications.length }}</p>
+          </button>
+          <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
+          <!-- User dropdown -->
+          <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
+            <sidenav></sidenav>
+          </div>
+          <div class="notification" v-show="showNotifications === true">
+            <NotificationsDropdown :notifications="notifications" @close-notifications="handleCloseNotifications"></NotificationsDropdown>
+          </div>
         </div>
       </div>
     </div>
@@ -169,6 +171,7 @@ export default class Navbar extends Vue {
   }
 
   async created() {
+    console.log(this.$route, 'router')
     await this.getSearches()
     await this.getNotifications()
     await this.getUnreadMessagesCount()
@@ -671,6 +674,13 @@ export default class Navbar extends Vue {
     flex: 1;
     justify-content: flex-end;
 
+    .inner {
+      background: #f9f9f9;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+    }
+
     .auth-reg {
       width: fit-content;
       display: flex;
@@ -750,7 +760,7 @@ export default class Navbar extends Vue {
 
           &.notify {
             color: #fff;
-            background: #D63946;
+            background: #0D1F3E;
             height: 18px;
             border-radius: 3px;
             margin-right: 4px;

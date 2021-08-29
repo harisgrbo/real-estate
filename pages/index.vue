@@ -10,15 +10,29 @@
         <p>{{cat.title}}</p>
       </li>
     </ul>
-    <div class="mx-20 publish">
+    <div class="publish mb-32 p-8">
       <div class="quick-search">
         <ul class="w-full">
           <li v-for="(tab, index) in tabs" @click="quickSearchTab = index" :class="quickSearchTab === index ? 'active-quick-tab' : ''">{{ tab }}</li>
         </ul>
         <div class="flex flex-row items-center w-full inputs">
-          <input type="text">
-          <input type="text">
-          <input type="text">
+          <div>
+            <label>Lokacija</label>
+            <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+          </div>
+          <div>
+            <label>Kategorija</label>
+            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>
+          </div>
+          <div>
+            <label>Cijena</label>
+            <TextField type="text" placeholder="Unesite cijenu od - do"></TextField>
+          </div>
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -136,9 +150,11 @@
   import MostVisitedCard from "@/components/MostVisitedCard"
   import PremiumAgency from "@/components/PremiumAgency"
   import UserCard from "../components/UserCard";
+  import TextField from "@/components/inputs/TextField";
 
   @Component({
     components: {
+      TextField,
       UserCard,
       Categories,
       ListingCard,
@@ -563,7 +579,7 @@ h2.heading {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 16px;
+  padding: 24px;
   font-size: 26px;
   line-height: 30px;
   color: #fff;
@@ -637,9 +653,9 @@ ul.most-visited {
 .publish {
   background-image: url("/luxuries.jpeg");
   background-repeat: no-repeat;
-  height: 400px;
-  background-size: bottom;
-  border-radius: 20px;
+  height: 600px;
+  background-size: cover;
+  background-position: bottom;
   position: relative;
 
   .quick-search {
@@ -647,32 +663,89 @@ ul.most-visited {
     left: 80px;
     right: 80px;
     bottom: -50px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 0px 20px;
+    border-radius: 15px;
 
     ul {
       width: fit-content;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      height: 48px;
 
       li {
+        height: 100%;
+        padding: 0 24px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
 
         &:first-child {
-          border-top-left-radius: 10px;
+          border-top-left-radius: 15px;
           background: #fff;
         }
 
         &:last-child {
-          border-top-right-radius: 10px;
+          border-top-right-radius: 15px;
           background: #fff;
         }
       }
     }
 
     .inputs {
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+      border-top-right-radius: 15px;
       background: #fff;
-      height: 70px;
+      height: fit-content;
+      padding: 24px;
+      align-items: flex-end;
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin-right: 24px;
+        border-right: 1px solid #f1f1f1;
+        padding-right: 24px;
+
+        ::v-deep input {
+          border: none;
+          padding: 0;
+        }
+
+        ::v-deep .input-wrapper {
+          border: none;
+          padding: 0;
+        }
+
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        label {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+      }
+    }
+
+    button {
+      height: 50px;
+      width: 50px;
+      min-width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      background: #0D1F3E;
+      border-radius: 10px;
     }
   }
 }
