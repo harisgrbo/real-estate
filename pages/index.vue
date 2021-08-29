@@ -13,9 +13,55 @@
     <div class="publish mb-32 p-8">
       <div class="quick-search">
         <ul class="w-full">
-          <li v-for="(tab, index) in tabs" @click="quickSearchTab = index" :class="quickSearchTab === index ? 'active-quick-tab' : ''">{{ tab }}</li>
+          <li v-for="(tab, index) in tabs" @click="quickSearchTab = index" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
         </ul>
-        <div class="flex flex-row items-center w-full inputs">
+        <div v-if="quickSearchTab === 0" class="flex flex-row items-center w-full inputs">
+          <div>
+            <label>Lokacija</label>
+            <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+          </div>
+          <div>
+            <label>Kategorija</label>
+            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>
+          </div>
+          <div>
+            <label>Cijena</label>
+            <div class="w-full flex items-center justify-between">
+              <TextField type="number" :currency="true" placeholder="Od"></TextField>
+              <p>-</p>
+              <TextField type="number" :currency="true" placeholder="Do"></TextField>
+            </div>
+          </div>
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+        <div v-if="quickSearchTab === 1" class="flex flex-row items-center w-full inputs">
+          <div>
+            <label>Lokacija</label>
+            <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+          </div>
+          <div>
+            <label>Kategorija</label>
+            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>
+          </div>
+          <div>
+            <label>Cijena</label>
+            <div class="w-full flex items-center justify-between">
+              <TextField type="number" :currency="true" placeholder="Od"></TextField>
+              <p>-</p>
+              <TextField type="number" :currency="true" placeholder="Do"></TextField>
+            </div>
+          </div>
+          <button>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
+        <div v-if="quickSearchTab === 2" class="flex flex-row items-center w-full inputs">
           <div>
             <label>Lokacija</label>
             <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
@@ -213,6 +259,7 @@
     activeTab = 0;
     categories = []
     selectedCategory = null;
+    quickSearchTab = 0;
     custom_categories = [
       {
         name: 'Stan',
@@ -754,5 +801,25 @@ ul.most-visited {
   }
 }
 
+.quick-tab {
+  display: flex;
+  position: relative;
+
+  &.active {
+    color: #0D1F3E;
+
+    &::after {
+      position: absolute;
+      content: '';
+      height: 2px;
+      width: 30px;
+      left: auto;
+      right: auto;
+      background: #0D1F3E;
+      bottom: 0;
+
+    }
+  }
+}
 
 </style>
