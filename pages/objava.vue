@@ -2,45 +2,10 @@
   <div class="publish-wrapper-inner">
       <div class="content-wrapper my-6">
         <div v-show="currentStep === steps.STEP_ONE" class="step-1">
-          <h1 class="heading">
-            Osnovne informacije oglasa
-          </h1>
-
           <h2>Kategorija oglasa*</h2>
           <div>
             <Categories @selected-category="handleSelectedCategory" />
           </div>
-
-          <h2>Vrsta objave</h2>
-          <div class="publishing-type">
-            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
-          </div>
-
-          <div class="grid-filters">
-            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
-
-            <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
-            <ul v-if="recommendedAddresses.length">
-              <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
-                {{ item.description }}
-              </li>
-            </ul>
-
-            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
-          </div>
-          <h2>Lokacija</h2>
-
-          <div v-if="city !== null">
-            <p>{{ city.name }}</p>
-          </div>
-
-          <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
-
-          <div v-if="city !== null" class="map-wrapper">
-            <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
-          </div>
-          <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
-
           <div class="button-wrapper">
             <button @click="nextStep">Dalje
               <i class="material-icons">chevron_right</i>
@@ -49,6 +14,90 @@
         </div>
 
         <div v-show="currentStep === steps.STEP_TWO" class="step-2">
+          <h2>Vrsta objave</h2>
+          <div class="publishing-type">
+            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_THREE" class="step-3">
+          <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
+
+          <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+          <ul v-if="recommendedAddresses.length">
+            <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
+              {{ item.description }}
+            </li>
+          </ul>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_FOUR" class="step-4">
+          <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_FIVE" class="step-5">
+          <h2>Lokacija</h2>
+
+          <div v-if="city !== null">
+            <p>{{ city.name }}</p>
+          </div>
+
+          <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
+          <div v-if="city !== null" class="map-wrapper">
+            <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_SIX" class="step-6">
+          <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_SEVEN" class="step-7">
           <h1 class="heading">
             Detaljne informacije oglasa
           </h1>
@@ -98,7 +147,7 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_THREE" class="step-3">
+        <div v-show="currentStep === steps.STEP_EIGHT" class="step-8">
           <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
           <div class="img-upload-wrapper">
             <div class="upload-btn">
@@ -128,7 +177,7 @@
 
         <!-- izdvajanje -->
 
-        <div v-show="currentStep === steps.STEP_FOUR" class="step-3">
+        <div v-show="currentStep === steps.STEP_NINE" class="step-9">
           <h1 class="heading">
             Promocija oglasa
           </h1>
@@ -183,7 +232,7 @@ import ActionButton from "@/components/actionButtons/ActionButton"
     Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton
   },
   middleware: ['auth'],
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'publish',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'objava.vue',
 
   async asyncData(ctx) {
     let attributes = [];
@@ -209,7 +258,7 @@ import ActionButton from "@/components/actionButtons/ActionButton"
     }
   }
 })
-export default class Publish extends Vue {
+export default class Objava extends Vue {
   lat = 43;
   lng = 42;
 
@@ -245,38 +294,16 @@ export default class Publish extends Vue {
     this.selectedAdvertisment = o.id;
   }
 
-  get completion() {
-    const max = this.stepOneValidationProps.length + this.globalAttributes.length + this.categoryAttributes.length + this.listingTypeAttributes.length;
-
-    let real = 0;
-
-    this.stepOneValidationProps.forEach(item => {
-      if (this[item]) {
-        const prop = this[item];
-
-        if (typeof prop === 'string' && prop.length) {
-          real++;
-        }
-
-        if (typeof prop === 'object') {
-          real++;
-        }
-      }
-    })
-
-    real += this.completedAttributes;
-
-    return real/max * 100;
-  }
-
   get allAttributes() {
     return this.globalAttributes.merge(this.categoryAttributes).merge(this.listingTypeAttributes);
   }
 
-
-
   // Errors
   errors = {
+    'sponsorship': {
+      'error': false,
+      'message': "Select sponsorship"
+    },
     'neighbourhood': {
       'error': false,
       'message': "neighbourhood needs to be two words"
@@ -331,7 +358,12 @@ export default class Publish extends Vue {
     STEP_TWO: 2,
     STEP_THREE: 3,
     STEP_FOUR: 4,
-    TOTAL_STEPS: 4
+    STEP_FIVE: 5,
+    STEP_SIX: 6,
+    STEP_SEVEN: 7,
+    STEP_EIGHT: 8,
+    STEP_NINE: 9,
+    TOTAL_STEPS: 9
   }
 
   currentStep = this.steps.STEP_ONE;
@@ -372,7 +404,9 @@ export default class Publish extends Vue {
       let res = await this.$axios.get('/sponsorship/packages');
       this.advertising_options = res.data.data;
 
-      console.log(this.advertising_options, 'packages')
+      if (this.advertising_options.length) {
+        this.selectedAdvertisment = this.advertising_options[0].id;
+      }
     } catch(e) {
       console.log(e)
     }
@@ -380,11 +414,11 @@ export default class Publish extends Vue {
 
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
-      this.publish();
+      this.objava();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
-          if(! this.validateStepOne()) {
+          if(! this.validateMany(['category'])) {
             this.snackbarValidationError();
 
             return
@@ -393,7 +427,60 @@ export default class Publish extends Vue {
           break;
 
         case this.steps.STEP_TWO:
-          if(! this.validateStepTwo()) {
+          if(! this.validateMany(['listingType'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_THREE:
+          if(! this.validateMany(['neighbourhood', 'address'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_FOUR:
+          if(! this.validateMany(['price'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_FIVE:
+          if(! this.validateMany(['city'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_SIX:
+          if(! this.validateMany(['description'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_SEVEN:
+          if(! this.validateAttributes()) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+        case this.steps.STEP_NINE:
+          if(! this.validateMany(['sponsorship'])) {
             this.snackbarValidationError();
 
             return;
@@ -528,13 +615,17 @@ export default class Publish extends Vue {
     }
   }
 
-  validateStepTwo() {
-    let allAttributes = this.ordinaryGlobalAttributes;
+  validateAttributes() {
+    let allAttributes = this.globalAttributes.concat(this.categoryAttributes).concat(this.listingTypeAttributes);
     let flag = true;
 
     allAttributes.forEach(item => {
+      console.log(item)
+
       if (item.required) {
         const val = this.attributePayload[item.id];
+
+        console.log(val)
 
         flag = (val !== null) && (val !== undefined);
 
@@ -604,10 +695,14 @@ export default class Publish extends Vue {
     this.errors.description.error = false;
   }
 
-  // Step 1 validation
-  stepOneValidationProps = [
-    'neighbourhood', 'description', 'address', 'price', 'city', 'category', 'listingType'
-  ]
+  @Watch('selectedAdvertisment')
+  handleSelectedAdvertismentChange(newVal, oldVal) {
+    this.errors.sponsorship.error = false;
+  }
+
+  validateSponsorship() {
+    return this.selectedAdvertisment !== null;
+  }
 
   validateNeighbourhood() {
     return this.neighbourhood !== null && this.neighbourhood !== '';
@@ -637,10 +732,10 @@ export default class Publish extends Vue {
     return this.listingType !== null;
   }
 
-  validateStepOne() {
+  validateMany(props) {
     let flag = true;
 
-    this.stepOneValidationProps.forEach((item) => {
+    props.forEach((item) => {
       const result = this['validate' + this.capitalize(item)]();
 
       if (! result) {

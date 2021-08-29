@@ -1,9 +1,9 @@
 <template>
-  <div ref="home" :class="['home-wrapper', $route.name === 'publish' || $route.name === 'artikal-id' ? 'publish' : '']">
+  <div ref="home" :class="['home-wrapper', $route.name === 'objava.vue' || $route.name === 'artikal-id' ? 'objava.vue' : '']">
     <div
       class="header"
       :class="{ 'navbar--hidden': !showNavbar }"
-      v-if="$route.name !== 'artikal-id' && $route.name !== 'publish'"
+      v-if="$route.name !== 'artikal-id' && $route.name !== 'objava.vue'"
     >
       <Navbar></Navbar>
     </div>
@@ -11,7 +11,7 @@
     <div
       class="navbar"
       :class="{ 'bottom--hidden': !showBottom }"
-      v-if="$route.name !== 'publish'"
+      v-if="$route.name !== 'objava'"
     >
       <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>
