@@ -42,7 +42,6 @@ export default class RangeFilter extends Vue {
   }
 
   handleChange(e) {
-    console.log(this.filter, 'exexexe');
     this.$emit(
       "input",
       this.buildValue("range", [parseFloat(this.from), parseFloat(this.to)])
