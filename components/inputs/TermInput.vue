@@ -42,11 +42,12 @@ export default {
   justify-content: space-between;
   width: 100%;
 
-  @include for-phone-only {
     label {
-      font-size: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      margin-left: 8px;
     }
-  }
+
 }
 
 

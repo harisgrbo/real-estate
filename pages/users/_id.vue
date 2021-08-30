@@ -1,125 +1,5 @@
 <template>
   <div class="user-profile-wrapper max-w-7xl mx-auto w-full py-8">
-<!--    <div class="user-content-wrapper">-->
-<!--      <div class="user-info">-->
-<!--        <img src="/test/img1.jpg" alt="" @click="$router.push('/users/' + user.id)">-->
-<!--        <div class="username-wrapper">-->
-<!--          <div class="rating">-->
-<!--            <p @click="$router.push('/users/' + user.id)">{{ user.name }}</p>-->
-<!--          </div>-->
-<!--          <div class="buttons">-->
-<!--            <span>Fizicko lice</span>-->
-<!--          </div>-->
-<!--          <div class="contact-buttons" v-if="isMe">-->
-<!--            <ActionButton @action="$modal.show('contact-user')" placeholder="Uredi" icon="paper-plane"></ActionButton>-->
-<!--            <ActionButton placeholder="Izbrisi" @action="toggleFollow" icon="user-plus"></ActionButton>-->
-<!--          </div>-->
-<!--          <div class="contact-buttons" v-else>-->
-<!--            <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" icon="paper-plane"></ActionButton>-->
-<!--            <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="separator"></div>-->
-<!--      <ul class="user-information">-->
-<!--        <li>-->
-<!--          <p>Broj telefona</p>-->
-<!--          <b>061559944</b>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p>Registrovan</p>-->
-<!--          <b>{{ $moment(user.created_at).format("DD.MM.YYYY") }}</b>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p>Email</p>-->
-<!--          <b>{{ user.email }}</b>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p>ID</p>-->
-<!--          <b>{{ user.id }}</b>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          <p>Verifikovan</p>-->
-<!--          <b>Da</b>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--      <div class="reporting-system">-->
-<!--        <button class="save" v-if="!isMe">-->
-<!--          <font-awesome-icon icon="heart"></font-awesome-icon>-->
-<!--          Spasi korisnika-->
-<!--        </button>-->
-<!--        <button class="save" v-if="!isMe">-->
-<!--          <font-awesome-icon icon="user-slash"></font-awesome-icon>-->
-<!--          Prijavi korisnika-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="content-wrapper">-->
-<!--      <ul>-->
-<!--        <li v-for="(tab, index) in tabs" @click="activeTab = index" :key="index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>-->
-<!--      </ul>-->
-<!--      <div>-->
-<!--        <div v-if="activeTab === 0">-->
-<!--          <div class="grid-layout" v-if="listings.length">-->
-<!--            <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>-->
-<!--          </div>-->
-<!--          <div v-else class="no-image">-->
-<!--            <img src="/noimg.jpg" alt="no-image">-->
-<!--            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa' }}</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div v-if="activeTab === 1">-->
-<!--          <div class="grid-layout" v-if="finishedListings.length">-->
-<!--            <ListingCard v-for="listing in finishedListings" :listing="listing" :key="listing.id"></ListingCard>-->
-<!--          </div>-->
-<!--          <div v-else class="no-image">-->
-<!--            <img src="/noimg.jpg" alt="no-image">-->
-<!--            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Korisnik nema završenih oglasa' }}</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div v-if="activeTab === 2">-->
-<!--          <div class="grid-layout" v-if="feedback.length">-->
-<!--            feedback-->
-<!--          </div>-->
-<!--          <div v-else class="no-image">-->
-<!--            <img src="/noimg.jpg" alt="no-image">-->
-<!--            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Korisnik nema ostavljenih dojmova' }}</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <client-only>-->
-<!--      <modal name="contact-user" :adaptive="true" height="100%">-->
-<!--        <div class="modal-inner">-->
-<!--          <div class="modal-header">-->
-<!--            <h2>Poruka za {{ user.name }}</h2>-->
-<!--            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>-->
-<!--          </div>-->
-<!--          <div class="modal-content">-->
-<!--            <textarea v-model="message"></textarea>-->
-<!--            <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </modal>-->
-<!--    </client-only>-->
-<!--    <Snackbar></Snackbar>-->
-    <!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-      require('@tailwindcss/aspect-ratio'),
-    ]
-  }
-  ```
--->
     <div class="flex overflow-hidden">
       <!-- Narrow sidebar -->
       <!--
@@ -283,8 +163,8 @@
               <!-- Gallery -->
               <section class="mt-8 pb-16" aria-labelledby="gallery-heading">
                 <h2 id="gallery-heading" class="sr-only">Recently viewed</h2>
-                <ul role="list" class="grid grid-cols-3 sm:grid-cols-3 gap-4">
-                  <li class="relative" v-for="listing in listings">
+                <ul role="list" class="grid grid-cols-3 gap-4 gap-x-6">
+                  <li class="relative listing-card" v-for="listing in listings">
                     <ListingCard :listing="listing" :key="listing.id"></ListingCard>
                   </li>
 
@@ -837,5 +717,17 @@ ul.user-information {
   display:flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.listing-card ::v-deep img {
+  height: 180px;
+}
+
+.listing-card ::v-deep .listing-card-wrapper {
+  width: 100%;
+}
+
+.listing-card ::v-deep a {
+  width: 100%;
 }
 </style>

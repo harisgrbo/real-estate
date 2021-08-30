@@ -1,9 +1,39 @@
 <template>
   <div class="publish-wrapper-inner">
-      <div class="content-wrapper my-6">
-        <div v-show="currentStep === steps.STEP_ONE" class="step-1">
-          <h2>Kategorija oglasa*</h2>
-          <div>
+      <div class="left">
+        <h2 v-if="currentStep === steps.STEP_ONE" class="test">
+          Izaberite kategoriju oglasa
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_TWO">
+          Šta želite uraditi sa vašom nekretninom?
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_THREE">
+          Naselje i adresa nekretnine
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_FOUR">
+          Unesite cijenu nekretnine
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
+          Unesite lokaciju vaše nekretnine, i pomjerite pin na tačnu lokaciju
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_SIX">
+          Opišite vašu nekretninu
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
+          Označite polja koja vaša nekretnina posjeduje
+        </h2>
+      </div>
+      <div class="content-wrapper">
+        <div class="loader-wrapper">
+          <div
+            :style="{ backgroundColor: '#002F34', width: stepPercentage + '%' }"
+            class="loader"
+          >
+            .
+          </div>
+        </div>
+        <div v-show="currentStep === steps.STEP_ONE" class="step-1 test">
+          <div class="inner">
             <Categories @selected-category="handleSelectedCategory" />
           </div>
           <div class="button-wrapper">
@@ -13,9 +43,8 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_TWO" class="step-2">
-          <h2>Vrsta objave</h2>
-          <div class="publishing-type">
+        <div v-show="currentStep === steps.STEP_TWO" class="step-2 test">
+          <div class="inner">
             <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
@@ -29,10 +58,11 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_THREE" class="step-3">
-          <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
-
-          <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+        <div v-show="currentStep === steps.STEP_THREE" class="step-3 test">
+          <div class="inner">
+            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood" class="mb-6"></PublishTextInput>
+            <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+          </div>
           <ul v-if="recommendedAddresses.length">
             <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
               {{ item.description }}
@@ -49,8 +79,10 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_FOUR" class="step-4">
-          <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
+        <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
+          <div class="inner">
+            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
+          </div>
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
@@ -62,14 +94,10 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_FIVE" class="step-5">
-          <h2>Lokacija</h2>
-
-          <div v-if="city !== null">
-            <p>{{ city.name }}</p>
+        <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
+          <div class="inner">
+            <PublishDropdown placeholder="Pretražite lokacije" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
           </div>
-
-          <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
           <div v-if="city !== null" class="map-wrapper">
             <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
           </div>
@@ -84,57 +112,9 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_SIX" class="step-6">
-          <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
-            </button>
-            <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
-            </button>
-          </div>
-        </div>
-
-        <div v-show="currentStep === steps.STEP_SEVEN" class="step-7">
-          <h1 class="heading">
-            Detaljne informacije oglasa
-          </h1>
-
-          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-            <component
-              :attr="attr"
-              :options="attr"
-              :is="filterFor(attr)"
-              @changed="handleChangedAttribute"
-            />
-          </div>
-
-          <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
-            <InputError :error="errors.attributes[attr.id]" />
-            <component
-              :attr="attr"
-              :options="attr"
-              :is="filterFor(attr)"
-              @changed="handleChangedAttribute"
-            />
-          </div>
-
-          <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
-          <div class="checkbox-grid">
-            <TermInput
-              v-for="attr in termGlobalAttributes"
-              @changed="handleChangedAttribute"
-              :attr="attr"
-              :key="attr.id"
-            />
-            <TermInput
-              v-for="attr in termCategoryAttributes"
-              @changed="handleChangedAttribute"
-              :attr="attr"
-              :key="attr.id"
-            />
+        <div v-show="currentStep === steps.STEP_SIX" class="step-6 test">
+          <div class="inner">
+            <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
           </div>
 
           <div class="button-wrapper">
@@ -147,7 +127,55 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_EIGHT" class="step-8">
+        <div v-show="currentStep === steps.STEP_SEVEN" class="step-7 test">
+          <div class="inner pt-20 pb-52">
+            <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+              <component
+                :attr="attr"
+                :options="attr"
+                :is="filterFor(attr)"
+                @changed="handleChangedAttribute"
+              />
+            </div>
+
+            <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+              <InputError :error="errors.attributes[attr.id]" />
+              <component
+                :attr="attr"
+                :options="attr"
+                :is="filterFor(attr)"
+                @changed="handleChangedAttribute"
+              />
+            </div>
+
+            <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
+            <div class="checkbox-grid">
+              <TermInput
+                v-for="attr in termGlobalAttributes"
+                @changed="handleChangedAttribute"
+                :attr="attr"
+                :key="attr.id"
+              />
+              <TermInput
+                v-for="attr in termCategoryAttributes"
+                @changed="handleChangedAttribute"
+                :attr="attr"
+                :key="attr.id"
+              />
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
           <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
           <div class="img-upload-wrapper">
             <div class="upload-btn">
@@ -177,7 +205,7 @@
 
         <!-- izdvajanje -->
 
-        <div v-show="currentStep === steps.STEP_NINE" class="step-9">
+        <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
           <h1 class="heading">
             Promocija oglasa
           </h1>
@@ -213,7 +241,6 @@
         </div>
       </div>
     <Snackbar />
-
   </div>
 </template>
 
@@ -261,6 +288,7 @@ import ActionButton from "@/components/actionButtons/ActionButton"
 export default class Objava extends Vue {
   lat = 43;
   lng = 42;
+  show = false;
 
   // Completion
   completedAttributes = 0
@@ -285,6 +313,10 @@ export default class Objava extends Vue {
     //   img: '/IzdvojenaKategorijaNaslovna.svg'
     // },
   ]
+
+  get stepPercentage() {
+    return (1.0 / 8) * 100 * this.currentStep + 1;
+  }
 
   async created() {
     await this.fetchSponsorship()
@@ -807,9 +839,10 @@ export default class Objava extends Vue {
   .publish-wrapper-inner {
     display: flex;
     justify-content: space-between;
-    height: 100%;
-    width: 1280px;
+    width: 100%;
     margin: 0 auto;
+    flex-direction: row;
+    height: 100vh;
 
     @include for-phone-only {
       display: flex;
@@ -819,69 +852,36 @@ export default class Objava extends Vue {
       box-sizing: border-box;
     }
 
-    .progress-wrapper {
-      display: flex;
-      flex: 2;
-      background: #fff;
-      padding-top: 0;
-      box-sizing: border-box;
-      flex-direction: column;
-      padding-right: 0;
-
-      p.main {
-        font-weight: 500;
-        font-size: 18px;
-        border-bottom: 1px solid #f1f1f1;
-        padding-bottom: 24px;
-        margin-bottom: 24px;
-
-        position: relative;
-        border-bottom: 1px solid #f1f1f1;
-        padding-bottom: 24px;
-
-        &::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 50px;
-          border-bottom: 1px solid #0B8489;
-        }
-      }
-
-      ::v-deep .radial-progress-container {
-        height: 200px;
-        width: 100%;
-        min-width: 100%;
-        display: flex;
-        justify-content: center;
-      }
-    }
-
     .content-wrapper {
       display: flex;
-      flex: 8;
-      padding: 0 24px;
-      margin-left: 32px;
       box-sizing: border-box;
       position: relative;
-      border-left: 1px solid #f1f1f1;
-
-      @include for-phone-only {
-        margin-left: 0;
-        border-left: none;
-        padding: 0;
-        padding-top: 24px;
-      }
+      width: 100%;
 
       .step-1,
       .step-2,
-      .step-3 {
+      .step-3,
+      .step-4,
+      .step-5,
+      .step-6,
+      .step-7,
+      .step-8
+      {
+        min-height: 100%;
         width: 100%;
-        height: calc(100vh - 152px);
+        height: calc(100vh - 80px);
         overflow-y: scroll;
-        padding-bottom: 84px;
         box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .inner {
+          max-width: 600px;
+          margin: auto;
+          width: 600px;
+        }
+
 
         @include for-phone-only {
           height: calc(100vh - 75px);
@@ -967,7 +967,7 @@ export default class Objava extends Vue {
 
   .checkbox-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-row-gap: 24px;
     grid-column-gap: 46px;
 
@@ -1026,10 +1026,10 @@ export default class Objava extends Vue {
   }
 
   .heading-checkbox {
+    font-size: 18px;
     font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 12px;
-    margin-top: 24px;
+    text-transform: capitalize;
+    margin-bottom: 24px;
   }
 
 .modal-inner {
@@ -1083,9 +1083,17 @@ export default class Objava extends Vue {
 .map-wrapper {
   margin-bottom: 24px;
   margin-top: 24px;
+  position: absolute;
+  top: -24px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100vh - 80px);
+
 
   ::v-deep #map {
     margin-top: 0;
+    height: 100% !important;
   }
 }
 
@@ -1152,11 +1160,6 @@ h1.heading {
     height: 1px;
     background: #0B8489;
   }
-}
-
-::v-deep .terms-wrapper .option-wrapper button {
-  width: 100% !important;
-  margin-bottom: 0;
 }
 
 .centered {
@@ -1389,5 +1392,105 @@ h2.info {
 
 ::v-deep body {
   height: 100%;
+}
+
+@keyframes fadein {
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.test {
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+.left {
+  background-image: url("/login2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 50% !important;
+  min-width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-left: 120px;
+
+  &::after {
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,0.53125) 0%, rgba(255,255,255,0) 100%);
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    height: 80%;
+  }
+
+
+  h2 {
+    font-size: 52px;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.loader-wrapper {
+  position: absolute;
+  width: 100%;
+  bottom: 80px;
+  right: 0;
+  z-index: 10;
+  transition: 0.3s all ease;
+  height: 3px;
+  color: transparent;
+
+  .loader {
+    height: 3px;
+  }
+}
+
+.move-top {
+  margin-top: -65%;
+  box-shadow: rgb(0 0 0 / 12%) 0px 0px 0px 8px;
+  border-radius: 10px;
+}
+
+.publish-drop {
+  transition: 0.3s all ease;
+
 }
 </style>

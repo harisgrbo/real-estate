@@ -47,41 +47,40 @@ export default {
   margin-top: 24px;
 
   label {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     text-transform: capitalize;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
   }
 
   .option-wrapper {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-row-gap: 12px;
-    grid-column-gap: 12px;
-
-    @include for-phone-only {
-      grid-template-columns: repeat(2, 1fr);
-
-    }
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 24px;
+    grid-column-gap: 24px;
+    margin-bottom: 24px;
 
     button {
-      height: 48px;
-      border-radius: 5px;
-      background: #f1f1f1;
-      border: none;
+      height: 70px;
+      border-radius: 10px;
+      background: #fff;
       font-size: 15px;
       font-weight: 500;
       font-family: 'Raleway', sans-serif;
       cursor: pointer;
+      border: 1px solid #000;
+      width: 100%;
+      margin-bottom: 0;
 
       &:focus {
         outline: none;
       }
 
       &.selected {
-        background: #D63946;
+        background: #f1f1f1;
         font-weight: 600;
-        color: #fff;
+        border: 2px solid #000;
+        color: #000;
 
       }
     }
