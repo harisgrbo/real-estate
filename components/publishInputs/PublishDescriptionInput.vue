@@ -1,7 +1,6 @@
 <template>
   <div class="input-wrapper">
-    <label>{{ title }}</label>
-    <textarea @input="$emit('input', $event.target.value)">{{ value }}</textarea>
+    <textarea placeholder="Opišite nekretninu" @input="$emit('input', $event.target.value)">{{ value }}</textarea>
   </div>
 </template>
 
@@ -30,24 +29,20 @@ label {
   margin-bottom: 12px;
 }
 textarea {
-  display: flex;
-  width: 100%;
-  height: 200px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px;
-  margin-right: 24px;
-  transition: 0.1s all ease;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  height: 60px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #000;
+  font-size: 18px;
   font-family: 'Raleway', sans-serif;
-&:focus {
-   outline: none;
- }
+  padding: 24px;
+  min-height: 300px;
+
+  &:focus {
+    outline: none;
+  }
+
 &.hasError {
    border: 1px solid red;
  }
@@ -60,6 +55,12 @@ span {
   left: 0;
   top: 60px;
 }
+}
+
+::placeholder {
+  font-weight: 500;
+  color: #000;
+  font-size: 16px;
 }
 
 </style>

@@ -20,7 +20,7 @@
               </div>
               <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
                 <div>
-                  <p class="text-gray-800 font-medium mb-3">{{ notification.user.name }}</p>
+                  <p v-if="notification.user" class="text-gray-800 font-medium mb-3">{{ notification.user.name }}</p>
                   <p class="text-sm text-gray-500">{{
                       notification.text
                     }}</p>

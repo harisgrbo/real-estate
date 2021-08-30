@@ -1,12 +1,12 @@
 <template>
   <div class="relative">
-    <label for="price" class="block text-sm font-medium text-gray-700">{{ title }}</label>
+<!--    <label for="price" class="block text-sm font-medium text-gray-700">{{ title }}</label>-->
     <div class="mt-1 relative rounded-md">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
       </div>
       <input :type="type"
              :value="value"
-             @input="updateValue($event.target.value)"  @blur="$emit('blur')" name="price" id="price" :class="['focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
+             @input="updateValue($event.target.value)"  @blur="$emit('blur')" :placeholder="title" name="price" id="price" :class="['focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <span v-if="currency" class="text-gray-500 sm:text-sm" id="price-currency">
           KM
@@ -44,7 +44,28 @@ export default class PublishTextInput extends Vue{
 }
 
 input {
-  height: 48px;
-  border: 1px solid #dcdcdc;
+  height: 60px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #000;
+  font-size: 18px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+::placeholder {
+  font-weight: 500;
+  color: #000;
+  font-size: 16px;
+}
+
+#price-currency {
+  font-weight: bold;
+  font-size: 18px;
+  color: black !important;
+  padding: 0 24px;
 }
 </style>

@@ -3,7 +3,7 @@
     <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-2 gap-6 w-full">
       <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flow-root"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
-        <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+        <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-900">
           <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100 p-1">
             <!-- Heroicon name: outline/clock -->
             <img :src="cat.icon" alt="">
@@ -89,7 +89,6 @@ export default class Categories extends Vue {
 }
 
 .selected {
-  border: 1px solid #111827;
   border-radius: 10px;
 }
 
@@ -99,5 +98,4 @@ a {
     border: none;
   }
 }
-
 </style>

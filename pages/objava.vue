@@ -1,46 +1,41 @@
 <template>
   <div class="publish-wrapper-inner">
-      <div class="content-wrapper my-6">
-        <div v-show="currentStep === steps.STEP_ONE" class="step-1">
-          <h1 class="heading">
-            Osnovne informacije oglasa
-          </h1>
-
-          <h2>Kategorija oglasa*</h2>
-          <div>
+      <div class="left">
+        <h2 v-if="currentStep === steps.STEP_ONE" class="test">
+          Izaberite kategoriju oglasa
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_TWO">
+          Šta želite uraditi sa vašom nekretninom?
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_THREE">
+          Naselje i adresa nekretnine
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_FOUR">
+          Unesite cijenu nekretnine
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
+          Unesite lokaciju vaše nekretnine, i pomjerite pin na tačnu lokaciju
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_SIX">
+          Opišite vašu nekretninu
+        </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
+          Označite polja koja vaša nekretnina posjeduje
+        </h2>
+      </div>
+      <div class="content-wrapper">
+        <div class="loader-wrapper">
+          <div
+            :style="{ backgroundColor: '#002F34', width: stepPercentage + '%' }"
+            class="loader"
+          >
+            .
+          </div>
+        </div>
+        <div v-show="currentStep === steps.STEP_ONE" class="step-1 test">
+          <div class="inner">
             <Categories @selected-category="handleSelectedCategory" />
           </div>
-
-          <h2>Vrsta objave</h2>
-          <div class="publishing-type">
-            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
-          </div>
-
-          <div class="grid-filters">
-            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood"></PublishTextInput>
-
-            <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
-            <ul v-if="recommendedAddresses.length">
-              <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
-                {{ item.description }}
-              </li>
-            </ul>
-
-            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
-          </div>
-          <h2>Lokacija</h2>
-
-          <div v-if="city !== null">
-            <p>{{ city.name }}</p>
-          </div>
-
-          <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
-
-          <div v-if="city !== null" class="map-wrapper">
-            <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
-          </div>
-          <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
-
           <div class="button-wrapper">
             <button @click="nextStep">Dalje
               <i class="material-icons">chevron_right</i>
@@ -48,44 +43,9 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_TWO" class="step-2">
-          <h1 class="heading">
-            Detaljne informacije oglasa
-          </h1>
-
-          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-            <component
-              :attr="attr"
-              :options="attr"
-              :is="filterFor(attr)"
-              @changed="handleChangedAttribute"
-            />
-          </div>
-
-          <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
-            <InputError :error="errors.attributes[attr.id]" />
-            <component
-              :attr="attr"
-              :options="attr"
-              :is="filterFor(attr)"
-              @changed="handleChangedAttribute"
-            />
-          </div>
-
-          <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
-          <div class="checkbox-grid">
-            <TermInput
-              v-for="attr in termGlobalAttributes"
-              @changed="handleChangedAttribute"
-              :attr="attr"
-              :key="attr.id"
-            />
-            <TermInput
-              v-for="attr in termCategoryAttributes"
-              @changed="handleChangedAttribute"
-              :attr="attr"
-              :key="attr.id"
-            />
+        <div v-show="currentStep === steps.STEP_TWO" class="step-2 test">
+          <div class="inner">
+            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
           </div>
 
           <div class="button-wrapper">
@@ -98,7 +58,124 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_THREE" class="step-3">
+        <div v-show="currentStep === steps.STEP_THREE" class="step-3 test">
+          <div class="inner">
+            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood" class="mb-6"></PublishTextInput>
+            <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+          </div>
+          <ul v-if="recommendedAddresses.length">
+            <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
+              {{ item.description }}
+            </li>
+          </ul>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
+          <div class="inner">
+            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
+          <div class="inner">
+            <PublishDropdown placeholder="Pretražite lokacije" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
+          </div>
+          <div v-if="city !== null" class="map-wrapper">
+            <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_SIX" class="step-6 test">
+          <div class="inner">
+            <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_SEVEN" class="step-7 test">
+          <div class="inner pt-20 pb-52">
+            <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+              <component
+                :attr="attr"
+                :options="attr"
+                :is="filterFor(attr)"
+                @changed="handleChangedAttribute"
+              />
+            </div>
+
+            <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+              <InputError :error="errors.attributes[attr.id]" />
+              <component
+                :attr="attr"
+                :options="attr"
+                :is="filterFor(attr)"
+                @changed="handleChangedAttribute"
+              />
+            </div>
+
+            <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
+            <div class="checkbox-grid">
+              <TermInput
+                v-for="attr in termGlobalAttributes"
+                @changed="handleChangedAttribute"
+                :attr="attr"
+                :key="attr.id"
+              />
+              <TermInput
+                v-for="attr in termCategoryAttributes"
+                @changed="handleChangedAttribute"
+                :attr="attr"
+                :key="attr.id"
+              />
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+              <i class="material-icons">chevron_left</i>
+            </button>
+            <button @click="nextStep">Dalje
+              <i class="material-icons">chevron_right</i>
+            </button>
+          </div>
+        </div>
+
+        <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
           <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
           <div class="img-upload-wrapper">
             <div class="upload-btn">
@@ -128,7 +205,7 @@
 
         <!-- izdvajanje -->
 
-        <div v-show="currentStep === steps.STEP_FOUR" class="step-3">
+        <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
           <h1 class="heading">
             Promocija oglasa
           </h1>
@@ -164,7 +241,6 @@
         </div>
       </div>
     <Snackbar />
-
   </div>
 </template>
 
@@ -183,7 +259,7 @@ import ActionButton from "@/components/actionButtons/ActionButton"
     Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton
   },
   middleware: ['auth'],
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'publish',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'objava.vue',
 
   async asyncData(ctx) {
     let attributes = [];
@@ -209,9 +285,10 @@ import ActionButton from "@/components/actionButtons/ActionButton"
     }
   }
 })
-export default class Publish extends Vue {
+export default class Objava extends Vue {
   lat = 43;
   lng = 42;
+  show = false;
 
   // Completion
   completedAttributes = 0
@@ -237,6 +314,10 @@ export default class Publish extends Vue {
     // },
   ]
 
+  get stepPercentage() {
+    return (1.0 / 8) * 100 * this.currentStep + 1;
+  }
+
   async created() {
     await this.fetchSponsorship()
   }
@@ -245,38 +326,16 @@ export default class Publish extends Vue {
     this.selectedAdvertisment = o.id;
   }
 
-  get completion() {
-    const max = this.stepOneValidationProps.length + this.globalAttributes.length + this.categoryAttributes.length + this.listingTypeAttributes.length;
-
-    let real = 0;
-
-    this.stepOneValidationProps.forEach(item => {
-      if (this[item]) {
-        const prop = this[item];
-
-        if (typeof prop === 'string' && prop.length) {
-          real++;
-        }
-
-        if (typeof prop === 'object') {
-          real++;
-        }
-      }
-    })
-
-    real += this.completedAttributes;
-
-    return real/max * 100;
-  }
-
   get allAttributes() {
     return this.globalAttributes.merge(this.categoryAttributes).merge(this.listingTypeAttributes);
   }
 
-
-
   // Errors
   errors = {
+    'sponsorship': {
+      'error': false,
+      'message': "Select sponsorship"
+    },
     'neighbourhood': {
       'error': false,
       'message': "neighbourhood needs to be two words"
@@ -331,7 +390,12 @@ export default class Publish extends Vue {
     STEP_TWO: 2,
     STEP_THREE: 3,
     STEP_FOUR: 4,
-    TOTAL_STEPS: 4
+    STEP_FIVE: 5,
+    STEP_SIX: 6,
+    STEP_SEVEN: 7,
+    STEP_EIGHT: 8,
+    STEP_NINE: 9,
+    TOTAL_STEPS: 9
   }
 
   currentStep = this.steps.STEP_ONE;
@@ -372,7 +436,9 @@ export default class Publish extends Vue {
       let res = await this.$axios.get('/sponsorship/packages');
       this.advertising_options = res.data.data;
 
-      console.log(this.advertising_options, 'packages')
+      if (this.advertising_options.length) {
+        this.selectedAdvertisment = this.advertising_options[0].id;
+      }
     } catch(e) {
       console.log(e)
     }
@@ -380,11 +446,11 @@ export default class Publish extends Vue {
 
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
-      this.publish();
+      this.objava();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
-          if(! this.validateStepOne()) {
+          if(! this.validateMany(['category'])) {
             this.snackbarValidationError();
 
             return
@@ -393,7 +459,60 @@ export default class Publish extends Vue {
           break;
 
         case this.steps.STEP_TWO:
-          if(! this.validateStepTwo()) {
+          if(! this.validateMany(['listingType'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_THREE:
+          if(! this.validateMany(['neighbourhood', 'address'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_FOUR:
+          if(! this.validateMany(['price'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_FIVE:
+          if(! this.validateMany(['city'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_SIX:
+          if(! this.validateMany(['description'])) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+
+        case this.steps.STEP_SEVEN:
+          if(! this.validateAttributes()) {
+            this.snackbarValidationError();
+
+            return;
+          }
+
+          break;
+        case this.steps.STEP_NINE:
+          if(! this.validateMany(['sponsorship'])) {
             this.snackbarValidationError();
 
             return;
@@ -528,13 +647,17 @@ export default class Publish extends Vue {
     }
   }
 
-  validateStepTwo() {
-    let allAttributes = this.ordinaryGlobalAttributes;
+  validateAttributes() {
+    let allAttributes = this.globalAttributes.concat(this.categoryAttributes).concat(this.listingTypeAttributes);
     let flag = true;
 
     allAttributes.forEach(item => {
+      console.log(item)
+
       if (item.required) {
         const val = this.attributePayload[item.id];
+
+        console.log(val)
 
         flag = (val !== null) && (val !== undefined);
 
@@ -604,10 +727,14 @@ export default class Publish extends Vue {
     this.errors.description.error = false;
   }
 
-  // Step 1 validation
-  stepOneValidationProps = [
-    'neighbourhood', 'description', 'address', 'price', 'city', 'category', 'listingType'
-  ]
+  @Watch('selectedAdvertisment')
+  handleSelectedAdvertismentChange(newVal, oldVal) {
+    this.errors.sponsorship.error = false;
+  }
+
+  validateSponsorship() {
+    return this.selectedAdvertisment !== null;
+  }
 
   validateNeighbourhood() {
     return this.neighbourhood !== null && this.neighbourhood !== '';
@@ -637,10 +764,10 @@ export default class Publish extends Vue {
     return this.listingType !== null;
   }
 
-  validateStepOne() {
+  validateMany(props) {
     let flag = true;
 
-    this.stepOneValidationProps.forEach((item) => {
+    props.forEach((item) => {
       const result = this['validate' + this.capitalize(item)]();
 
       if (! result) {
@@ -712,9 +839,10 @@ export default class Publish extends Vue {
   .publish-wrapper-inner {
     display: flex;
     justify-content: space-between;
-    height: 100%;
-    width: 1280px;
+    width: 100%;
     margin: 0 auto;
+    flex-direction: row;
+    height: 100vh;
 
     @include for-phone-only {
       display: flex;
@@ -724,69 +852,36 @@ export default class Publish extends Vue {
       box-sizing: border-box;
     }
 
-    .progress-wrapper {
-      display: flex;
-      flex: 2;
-      background: #fff;
-      padding-top: 0;
-      box-sizing: border-box;
-      flex-direction: column;
-      padding-right: 0;
-
-      p.main {
-        font-weight: 500;
-        font-size: 18px;
-        border-bottom: 1px solid #f1f1f1;
-        padding-bottom: 24px;
-        margin-bottom: 24px;
-
-        position: relative;
-        border-bottom: 1px solid #f1f1f1;
-        padding-bottom: 24px;
-
-        &::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 50px;
-          border-bottom: 1px solid #0B8489;
-        }
-      }
-
-      ::v-deep .radial-progress-container {
-        height: 200px;
-        width: 100%;
-        min-width: 100%;
-        display: flex;
-        justify-content: center;
-      }
-    }
-
     .content-wrapper {
       display: flex;
-      flex: 8;
-      padding: 0 24px;
-      margin-left: 32px;
       box-sizing: border-box;
       position: relative;
-      border-left: 1px solid #f1f1f1;
-
-      @include for-phone-only {
-        margin-left: 0;
-        border-left: none;
-        padding: 0;
-        padding-top: 24px;
-      }
+      width: 100%;
 
       .step-1,
       .step-2,
-      .step-3 {
+      .step-3,
+      .step-4,
+      .step-5,
+      .step-6,
+      .step-7,
+      .step-8
+      {
+        min-height: 100%;
         width: 100%;
-        height: calc(100vh - 152px);
+        height: calc(100vh - 80px);
         overflow-y: scroll;
-        padding-bottom: 84px;
         box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .inner {
+          max-width: 600px;
+          margin: auto;
+          width: 600px;
+        }
+
 
         @include for-phone-only {
           height: calc(100vh - 75px);
@@ -872,7 +967,7 @@ export default class Publish extends Vue {
 
   .checkbox-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-row-gap: 24px;
     grid-column-gap: 46px;
 
@@ -931,10 +1026,10 @@ export default class Publish extends Vue {
   }
 
   .heading-checkbox {
+    font-size: 18px;
     font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 12px;
-    margin-top: 24px;
+    text-transform: capitalize;
+    margin-bottom: 24px;
   }
 
 .modal-inner {
@@ -988,9 +1083,17 @@ export default class Publish extends Vue {
 .map-wrapper {
   margin-bottom: 24px;
   margin-top: 24px;
+  position: absolute;
+  top: -24px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100vh - 80px);
+
 
   ::v-deep #map {
     margin-top: 0;
+    height: 100% !important;
   }
 }
 
@@ -1057,11 +1160,6 @@ h1.heading {
     height: 1px;
     background: #0B8489;
   }
-}
-
-::v-deep .terms-wrapper .option-wrapper button {
-  width: 100% !important;
-  margin-bottom: 0;
 }
 
 .centered {
@@ -1294,5 +1392,105 @@ h2.info {
 
 ::v-deep body {
   height: 100%;
+}
+
+@keyframes fadein {
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.test {
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+.left {
+  background-image: url("/login2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 50% !important;
+  min-width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-left: 120px;
+
+  &::after {
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,0.53125) 0%, rgba(255,255,255,0) 100%);
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    height: 80%;
+  }
+
+
+  h2 {
+    font-size: 52px;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.loader-wrapper {
+  position: absolute;
+  width: 100%;
+  bottom: 80px;
+  right: 0;
+  z-index: 10;
+  transition: 0.3s all ease;
+  height: 3px;
+  color: transparent;
+
+  .loader {
+    height: 3px;
+  }
+}
+
+.move-top {
+  margin-top: -65%;
+  box-shadow: rgb(0 0 0 / 12%) 0px 0px 0px 8px;
+  border-radius: 10px;
+}
+
+.publish-drop {
+  transition: 0.3s all ease;
+
 }
 </style>

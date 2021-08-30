@@ -75,7 +75,7 @@
       <div class="auth-buttons">
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">
-            <button class="register" @click="$router.push('/auth/register')">Registracija</button>
+            <button class="register" @click="$router.push('/auth/login')">Loguj se</button>
           </div>
           <button v-if="$auth.user" class="login">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">

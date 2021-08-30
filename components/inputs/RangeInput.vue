@@ -31,19 +31,17 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
+  margin-bottom: 36px;
   input {
-    height: 53px;
-    background: #F5F5F5;
-    border-radius: 4px;
-    border: none;
-    width: 100%;
-    display: flex;
-    align-items: center;
+
+    height: 60px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #000;
+    font-size: 18px;
     padding: 0 24px;
-    margin-bottom: 12px;
-    font-weight: 500;
-    font-size: 14px;
-    box-sizing: border-box;
+
     &:focus {
       outline: none;
     }
@@ -52,9 +50,10 @@ export default {
     }
   }
   label {
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 24px;
   }
 }
 </style>
