@@ -34,7 +34,7 @@
               :filter="{}"
               @input="newSearch"
             />
-            <button @click="$modal.hide('search-filters')">Filteri</button>
+            <button @click="$modal.show('search-filters')">Filteri</button>
           </div>
           <div class="mb-3">
             <div class="hidden sm:block">
@@ -202,7 +202,7 @@
           <div class="modal-inner">
             <div class="modal-header">
               <h2>Filteri</h2>
-              <i class="material-icons" @click="$modal.hide('search-filtes')">close</i>
+              <i class="material-icons" @click="$modal.hide('search-filters')">close</i>
             </div>
             <div class="modal-content">
               <div class="filters bg-gray-100 rounded-md p-4">
