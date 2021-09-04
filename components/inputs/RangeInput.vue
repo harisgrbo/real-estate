@@ -33,7 +33,6 @@ export default {
   position: relative;
   margin-bottom: 36px;
   input {
-
     height: 60px;
     border: 1px solid #000;
     border-radius: 10px;

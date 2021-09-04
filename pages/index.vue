@@ -59,14 +59,15 @@
         Najtraženije lokacije
       </h2>
       <ul role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-auto">
-          <li class="flow-root justify-between flex flex-col" v-for="(city, index) in most_visited_cities" :key="index"
+          <li class="flow-root justify-between flex flex-col relative" v-for="(city, index) in most_visited_cities" :key="index"
               :style="{ backgroundImage: 'url(' + city.img + ')' }"
           >
+            <div class="overlay-searched"></div>
             <div>
-              <h3 class="font-semibold">
+              <h3 class="font-semibold searched-h3">
                   {{ city.city }}
               </h3>
-              <p class="mt-1 text-lg text-white">2000 KM/m2</p>
+              <p class="mt-1 text-lg text-white searched-h3">2000 KM/m2</p>
             </div>
             <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Pogledaj više
@@ -289,7 +290,7 @@
       },
       {
         city: 'Bihać',
-        img: '/sarajevo.jpeg'
+        img: '/bihac.jpeg'
 
       },
       {
@@ -299,12 +300,12 @@
       },
       {
         city: 'Zenica',
-        img: '/sarajevo.jpeg'
+        img: '/zenica.png'
 
       },
       {
         city: 'Travnik',
-        img: '/sarajevo.jpeg'
+        img: '/travnik.jpeg'
 
       },
     ]
@@ -977,6 +978,24 @@ ul.most-visited-cats {
     position: relative;
     z-index: 1;
   }
+}
+
+.overlay-searched {
+  background: rgb(0,0,0);
+  background: linear-gradient(180deg, rgba(0,0,0,0.53125) 0%, rgba(255,255,255,0) 100%);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 0;
+  height: 160px;
+}
+
+.searched-h3 {
+  position: relative;
+  z-index: 2;
 }
 
 </style>

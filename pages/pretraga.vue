@@ -137,7 +137,16 @@
             Spasi pretragu
           </button>
         </div>
-        <button @click="mapExpanded = !mapExpanded" class="map-expand">{{ mapExpanded ? 'Smanji mapu' : 'Prosiri mapu' }}</button>
+        <button v-if="mapExpanded" @click="mapExpanded = !mapExpanded" class="map-expand">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </button>
+        <button v-else @click="mapExpanded = !mapExpanded" class="map-expand">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+          </svg>
+        </button>
         <SearchMap :locations="results"/>
       </div>
     </div>
@@ -205,7 +214,7 @@
               <i class="material-icons" @click="$modal.hide('search-filters')">close</i>
             </div>
             <div class="modal-content">
-              <div class="filters bg-gray-100 rounded-md p-4">
+              <div class="filters rounded-md">
 
                 <RangeFilter
                   class="bb-filters"
@@ -484,11 +493,11 @@ export default class Homepage extends Vue {
       top: 16px;
       left: 16px;
       height: 40px;
-      border-radius: 20px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 24px;
+      padding: 0 10px;
       font-size: 15px;
       font-weight: 500;
       margin-right: 12px;
@@ -498,6 +507,10 @@ export default class Homepage extends Vue {
       transition: 0.3s all ease;
       font-family: 'Raleway', sans-serif;
       background: #fff;
+
+      &:hover {
+        background: #f9f9f9;
+      }
     }
   }
 }
@@ -643,20 +656,13 @@ export default class Homepage extends Vue {
   border-bottom: 1px solid #f1f1f1;
   background: transparent;
 
-  @include for-phone-only {
-    max-width: 100%;
-    overflow-x: scroll;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-  }
-
   button {
     height: 40px;
-    border-radius: 20px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 24px;
+    padding: 0 16px;
     font-size: 15px;
     font-weight: 500;
     margin-right: 12px;
@@ -665,13 +671,6 @@ export default class Homepage extends Vue {
     cursor: pointer;
     transition: 0.3s all ease;
     font-family: 'Raleway', sans-serif;
-
-    @include for-phone-only {
-      min-width: fit-content;
-      padding: 0 12px;
-      border-radius: 10px;
-      height: 32px;
-    }
 
     &:hover {
       border: 1px solid #444;
@@ -693,6 +692,12 @@ export default class Homepage extends Vue {
 
 ::v-deep .gmnoprint, .gm-control-active.gm-fullscreen-control {
   display: none !important;
+}
+
+.filters {
+  ::v-deep input, select, text-area {
+    border: 1px solid #000;
+  }
 }
 
 </style>

@@ -78,8 +78,12 @@ export default class RangeFilter extends Vue {
       display: flex;
       flex-direction: column;
       padding: 12px;
-      border-radius: 5px;
       background: #fff;
+      border: 1px solid #000;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #000;
+      font-size: 18px;
 
       label {
         font-size: 12px;
