@@ -50,7 +50,7 @@
 
         <div v-show="currentStep === steps.STEP_TWO" class="step-2 test">
           <div class="inner">
-            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
+            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors" @input="nextStep"></PublishRadioButton>
           </div>
 
           <div class="button-wrapper">
@@ -87,6 +87,12 @@
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner">
             <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
+
+            <label>PDV ukljucen u cijenu</label>
+            <input type="checkbox" v-model="vat_included" />
+
+            <label>Cijena po kvadratu</label>
+            <input type="checkbox" v-model="price_per_square" />
           </div>
 
           <div class="button-wrapper">
@@ -294,6 +300,8 @@ export default class Objava extends Vue {
   lat = 43;
   lng = 42;
   show = false;
+  price_per_square = false;
+  vat_included = false;
 
   // Completion
   completedAttributes = 0
@@ -413,6 +421,8 @@ export default class Objava extends Vue {
       description: this.description,
       address: this.address,
       price: this.price,
+      price_per_square: this.price_per_square,
+      vat_included: this.vat_included,
       listing_type_id: this.listingType.id,
       category_id: this.category.id,
       city_id: this.city.id,
@@ -451,7 +461,7 @@ export default class Objava extends Vue {
 
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
-      this.objava();
+      this.publish();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
@@ -552,6 +562,8 @@ export default class Objava extends Vue {
 
   handleSelectedCategory(e) {
     this.category = e;
+
+    this.nextStep();
   }
 
   // Attribute Logic
@@ -741,7 +753,7 @@ export default class Objava extends Vue {
     return this.selectedAdvertisment !== null;
   }
 
-  validatedistrict() {
+  validateDistrict() {
     return this.district !== null && this.district !== '';
   }
 
