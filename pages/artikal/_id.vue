@@ -1,5 +1,5 @@
 <template>
-  <div class="listing-wrapper max-w-6xl mx-auto w-full py-8"">
+  <div class="listing-wrapper mx-auto w-full">
     <div v-if="$device.isMobile" class="mobile-topbar">
       <font-awesome-icon icon="angle-left" class="back" @click="$router.go(-1)"></font-awesome-icon>
       <div class="buttons">
@@ -49,8 +49,8 @@
         </div>
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col">
-            <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
-              <li class="flow-root">
+            <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 flex flex-col">
+              <li class="flow-root mb-6">
                 <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
                   <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
                     <!-- Heroicon name: outline/clock -->
@@ -300,7 +300,7 @@ import RealEstateLocationMap from "@/components/RealEstateLocationMap";
     SingleQuestion,
     RealEstateLocationMap
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let listing = null;
     let user = null
@@ -534,6 +534,7 @@ export default class Artikal extends Vue {
   }
 
   async created() {
+    console.log(this.listing)
     await this.fetchPlaces();
     await this.getQuestions();
     this.isUserFollowed = this.isFollowed;
@@ -557,7 +558,8 @@ export default class Artikal extends Vue {
   grid-area: main;
 
   img {
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 
     min-height: 100%;
 
@@ -569,7 +571,7 @@ export default class Artikal extends Vue {
 .item2 {
   grid-area: small2;
   img {
-    border-radius: 10px;
+    border-top-right-radius: 10px;
     @include for-phone-only {
       border-radius: 0;
     }
@@ -578,7 +580,7 @@ export default class Artikal extends Vue {
 .item3 {
   grid-area: small1;
   img {
-    border-radius: 10px;
+    border-radius: 0px;
 
     @include for-phone-only {
       border-radius: 0;
@@ -588,7 +590,7 @@ export default class Artikal extends Vue {
 .item4 {
   grid-area: small3;
   img {
-    border-radius: 10px;
+    border-top-right-radius: 0px;
 
   }
 
@@ -600,7 +602,7 @@ export default class Artikal extends Vue {
 .item4 {
   grid-area: small4;
   img {
-    border-radius: 10px;
+    border-bottom-right-radius: 10px;
 
     @include for-phone-only {
       border-radius: 0;
@@ -614,17 +616,8 @@ export default class Artikal extends Vue {
   grid-template-areas:
   'main main main small1 small2'
   'main main main small3 small4';
-  grid-gap: 16px;
-
-  img {
-    border-radius: 10px;
-  }
-
-  @include for-phone-only {
-    grid-gap: 1px;
-    max-height: 400px;
-    height: 400px;
-  }
+  grid-gap: 8px;
+  min-height: 500px;
 
   .img-counter {
     position: absolute;
@@ -670,13 +663,8 @@ export default class Artikal extends Vue {
 .listing-wrapper {
   display: flex;
   flex-direction: row;
-  padding-top: 36px;
+  max-width: 1180px;
 
-  @include for-phone-only {
-    height: 100%;
-    padding-top: 0;
-    flex-direction: column;
-  }
   .profile-content {
     width: 20%;
     height: fit-content;
@@ -714,7 +702,7 @@ export default class Artikal extends Vue {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin: 16px 0;
+        margin-top: 24px;
 
         > div {
           display: flex;
@@ -724,23 +712,11 @@ export default class Artikal extends Vue {
 
         h2 {
           color: #000 !important;
-          font-weight: 400 !important;
-          font-size: 26px !important;
-          line-height: 32px !important;
-          margin-bottom: 0;
-
-          @include for-phone-only {
-            font-size: 18px;
-          }
+          font-size: 25px;
+          font-weight: 600 !important;
+          padding: 0px !important;
+          display: inline !important;
         }
-      }
-      h2 {
-        color: inherit !important;
-        font-size: 19px !important;
-        font-weight: 500 !important;
-        line-height: inherit !important;
-        padding: 0px !important;
-        margin-bottom: 32px;
       }
       h4 {
         font-size: 14px;
