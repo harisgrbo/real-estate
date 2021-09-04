@@ -1,5 +1,5 @@
 <template>
-  <div className="home-wrapper">
+  <div class="search-wrapper">
     <Navbar></Navbar>
     <Nuxt/>
   </div>
@@ -42,12 +42,14 @@ export default class Home extends Vue {
   }
 }
 
-.home-wrapper {
-  padding-top: 107px !important;
+.search-wrapper {
+  margin-top: 60px;
+  min-height: calc(100vh - 60px);
+}
 
-  @include for-phone-only {
-    padding-top: 78px !important;
-  }
+::v-deep .px-20 {
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 </style>

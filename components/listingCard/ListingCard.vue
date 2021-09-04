@@ -1,6 +1,6 @@
 <template>
     <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
-      <label class="publisher">
+      <label class="publisher shadow-sm">
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
         <span>{{ translateType() }}</span>
       </label>
@@ -31,7 +31,7 @@
           </div>
           <div class="icons-date">
             <div>
-              <p class="price">{{ parseInt(listing.price) }} KM</p>
+              <p class="price">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
               <p v-show="type === 'rent'" class="pl-2">/ noćenje</p>
             </div>
           </div>
@@ -159,7 +159,7 @@ export default class ListingCard extends Vue{
           margin-right: 8px;
           border-radius: 5px;
           background: #fff;
-          box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+          //box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
           color: #444;
           display: flex;
           align-items: center;
@@ -169,7 +169,7 @@ export default class ListingCard extends Vue{
           padding: 0 4px;
           font-size: 12px;
           font-weight: 500;
-          box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+          //box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
 
           span {
             text-transform: none;

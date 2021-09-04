@@ -1,41 +1,9 @@
 <template>
-  <div class="search-wrapper max-w-7xl mx-auto w-full py-6 w-2/5">
-    <CategoryFilter
-      class="bb-filters"
-      v-model="queryPayload.category_id"
-      :categories="meta.categories"
-      :aggregations="meta.aggregations"
-      :filter="{}"
-      @input="newSearch"
-    />
-
+  <div class="search-wrapper w-full">
     <div class="inner">
-      <div class="filters bg-gray-100 rounded-md p-4">
-
-        <RangeFilter
-          class="bb-filters"
-          v-model="queryPayload.price"
-          :attr="false"
-          :filter="{name: 'price', display_name: 'Cijena'}"
-          @input="newSearch"
-        />
-
-        <component
-          class="bb-filters"
-          v-for="(attr, i) in allAttributes"
-          :key="i"
-          :filter="attr"
-          :attr="true"
-          :is="filterFor(attr.type)"
-          v-model="queryPayload[attr.name]"
-          @clear="queryPayload[attr.name] = null; newSearch()"
-          @input="newSearch"
-        />
-
-      </div>
       <div class="content">
         <div class="search-heading">
-          <div class="pb-5 border-b border-gray-200">
+          <div class="border-b border-gray-200">
             <div class="rounded-md bg-blue-50 p-4 mb-6" v-if="meta.price">
               <div class="flex">
                 <div class="flex-shrink-0">
@@ -52,17 +20,22 @@
               </div>
             </div>
           </div>
-          <!--        <div class="filter-buttons">-->
-          <!--          <button v-if="$device.isMobile" @click="$modal.show('map-modal')">Mapa</button>-->
-          <!--          <button>Sortiraj</button>-->
-          <!--          <button>Vrsta oglasa</button>-->
-          <!--          <button>Stanje oglasa</button>-->
-          <!--          <button @click="toggleFiltersModal">Filteri</button>-->
-          <!--          <button class="save" @click="openSearchSaveModal">-->
-          <!--            <font-awesome-icon icon="heart"></font-awesome-icon>-->
-          <!--            Spasi pretragu-->
-          <!--          </button>-->
-          <!--        </div>-->
+          <div class="filter-buttons">
+            <button v-if="$device.isMobile" @click="$modal.show('map-modal')">Mapa</button>
+            <button>Sortiraj</button>
+            <button>Vrsta oglasa</button>
+            <button>Stanje oglasa</button>
+<!--            <button @click="toggleFiltersModal">Filteri</button>-->
+            <CategoryFilter
+              class="bb-filters"
+              v-model="queryPayload.category_id"
+              :categories="meta.categories"
+              :aggregations="meta.aggregations"
+              :filter="{}"
+              @input="newSearch"
+            />
+            <button @click="$modal.hide('search-filters')">Filteri</button>
+          </div>
           <div class="mb-3">
             <div class="hidden sm:block">
               <div class="flex items-center border-b border-gray-200">
@@ -141,8 +114,6 @@
             <li v-for="listing in results" class="relative bg-white">
               <HorizontalCard :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
             </li>
-
-            <!-- More messages... -->
           </ul>
           <client-only>
             <Pagination
@@ -154,23 +125,22 @@
           </client-only>
         </div>
       </div>
+      <div :class="['map', mapExpanded ? 'expand' : '']" v-if="!$device.isMobile">
+        <div class="filter-buttons map" v-if="mapExpanded">
+          <button v-if="$device.isMobile" @click="$modal.show('map-modal')">Mapa</button>
+          <button>Sortiraj</button>
+          <button>Vrsta oglasa</button>
+          <button>Stanje oglasa</button>
+          <button @click="toggleFiltersModal">Filteri</button>
+          <button class="save" @click="openSearchSaveModal">
+            <font-awesome-icon icon="heart"></font-awesome-icon>
+            Spasi pretragu
+          </button>
+        </div>
+        <button @click="mapExpanded = !mapExpanded" class="map-expand">{{ mapExpanded ? 'Smanji mapu' : 'Prosiri mapu' }}</button>
+        <SearchMap :locations="results"/>
+      </div>
     </div>
-
-<!--    <div :class="['map', mapExpanded ? 'expand' : '']" v-if="!$device.isMobile">-->
-<!--      <div class="filter-buttons map" v-if="mapExpanded">-->
-<!--        <button v-if="$device.isMobile" @click="$modal.show('map-modal')">Mapa</button>-->
-<!--        <button>Sortiraj</button>-->
-<!--        <button>Vrsta oglasa</button>-->
-<!--        <button>Stanje oglasa</button>-->
-<!--        <button @click="toggleFiltersModal">Filteri</button>-->
-<!--        <button class="save" @click="openSearchSaveModal">-->
-<!--          <font-awesome-icon icon="heart"></font-awesome-icon>-->
-<!--          Spasi pretragu-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <button @click="mapExpanded = !mapExpanded" class="map-expand">{{ mapExpanded ? 'Smanji mapu' : 'Prosiri mapu' }}</button>-->
-<!--      <SearchMap :locations="results"/>-->
-<!--    </div>-->
     <client-only>
       <modal name="save-search" :adaptive="true" height="100%">
         <div class="modal-inner">
@@ -223,6 +193,41 @@
             </div>
             <div class="modal-content mapa">
               <SearchMap :locations="results"/>
+            </div>
+          </div>
+        </modal>
+      </client-only>
+      <client-only>
+        <modal name="search-filters" :adaptive="true" height="100%">
+          <div class="modal-inner">
+            <div class="modal-header">
+              <h2>Filteri</h2>
+              <i class="material-icons" @click="$modal.hide('search-filtes')">close</i>
+            </div>
+            <div class="modal-content">
+              <div class="filters bg-gray-100 rounded-md p-4">
+
+                <RangeFilter
+                  class="bb-filters"
+                  v-model="queryPayload.price"
+                  :attr="false"
+                  :filter="{name: 'price', display_name: 'Cijena'}"
+                  @input="newSearch"
+                />
+
+                <component
+                  class="bb-filters"
+                  v-for="(attr, i) in allAttributes"
+                  :key="i"
+                  :filter="attr"
+                  :attr="true"
+                  :is="filterFor(attr.type)"
+                  v-model="queryPayload[attr.name]"
+                  @clear="queryPayload[attr.name] = null; newSearch()"
+                  @input="newSearch"
+                />
+
+              </div>
             </div>
           </div>
         </modal>
@@ -395,7 +400,7 @@ export default class Homepage extends Vue {
 }
 .search-wrapper {
   display: flex;
-  margin-top: 107px;
+  margin-top: 0px;
   flex-direction: column;
 
   .inner {
@@ -408,74 +413,14 @@ export default class Homepage extends Vue {
   @include for-phone-only {
     height: 100%;
   }
-  .filters {
-    display: flex;
-    flex-direction: column;
-    width: 25%;
-    min-width: 25%;
-    box-sizing: border-box;
-    h2 {
-      padding-bottom: 16px;
-      font-size: 18px;
-      font-weight: 300;
-      padding-top: 16px;
-      border-bottom: 1px solid #ddd;
-    }
-    .listing-layout {
-      display: flex;
-      flex-direction: column;
-    }
-    .quick-filters {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 16px;
-      position: sticky;
-      background: #fff;
-      top: 0;
-      z-index: 4;
-      height: 50px;
-      padding: 16px 0;
-
-      button {
-        height: 38px;
-        border-radius: 19px;
-        background: transparent;
-        padding: 0 12px;
-        font-weight: 500;
-        font-size: 14px;
-        cursor: pointer;
-        margin-right: 12px;
-        border: 1px solid #dddddd;
-
-        &:last-child {
-          margin-right: 0px;
-        }
-
-        &:hover {
-          background: #F7F7F7;
-        }
-
-        &:focus {
-          outline: none;
-        }
-
-        &.all {
-          border: none;
-          display: flex;
-          align-items: center;
-          color: #fff;
-          background: #757B9A;
-        }
-      }
-    }
-  }
-
   .content {
-    width: 100%;
-    margin-left: 36px;
+    width: 50%;
+    min-width: 50%;
     box-sizing: border-box;
     position: relative;
+    padding: 24px;
+    height: calc(100vh - 60px);
+    overflow-y: scroll;
 
     @include for-phone-only {
       max-height: 100%;
@@ -484,10 +429,7 @@ export default class Homepage extends Vue {
     }
 
     .search-heading {
-      position: sticky;
-      top: 0;
       background: #fff;
-      z-index: 3;
 
       @include for-phone-only {
         z-index: 2;
@@ -523,16 +465,17 @@ export default class Homepage extends Vue {
   }
 
   .map {
-    width: 60%;
+    width: 50%;
+    min-width: 50%;
     left: inherit;
     position: relative;
 
     &.expand {
-      transform: translateX(-3%);
-      width: 100%;
-      min-width: 100%;
-      position: relative;
+      width: 100vw;
+      min-width: 100vw;
+      position: absolute;
       z-index: 10;
+
     }
 
     button.map-expand {
@@ -696,6 +639,7 @@ export default class Homepage extends Vue {
   flex-direction: row;
   align-items: center;
   padding-bottom: 24px;
+  margin-bottom: 24px;
   border-bottom: 1px solid #f1f1f1;
   background: transparent;
 
