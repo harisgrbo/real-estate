@@ -49,8 +49,8 @@
         </div>
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col">
-            <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 flex flex-col">
-              <li class="flow-root mb-6">
+            <ul role="list" class="border-b border-gray-200 pb-6 grid grid-cols-2 gap-6">
+              <li class="flow-root">
                 <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
                   <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
                     <!-- Heroicon name: outline/clock -->
@@ -60,13 +60,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Lokacija
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ listing.city.name }}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ listing.city.name }}</p>
                   </div>
                 </div>
               </li>
@@ -79,13 +79,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
-                        Vrsta oglasa
+                        Vsta oglasa
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ listing.listing_type.title}}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ listing.listing_type.title}}</p>
                   </div>
                 </div>
               </li>
@@ -99,13 +99,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Adresa
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ sliceAddress(listing.address) }}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ sliceAddress(listing.address) }}</p>
                   </div>
                 </div>
               </li>
@@ -118,13 +118,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Datum objave
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ $moment(listing.createdAt).format('LL') }}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ $moment(listing.createdAt).format('LL') }}</p>
                   </div>
                 </div>
               </li>
@@ -137,13 +137,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-lg font-medium text-black">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Cijena
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ parseInt(listing.price) }} KM</p>
+                    <p class="mt-1 text-lg text-black font-semibold">{{ parseInt(listing.price) }} KM</p>
                   </div>
                 </div>
               </li>

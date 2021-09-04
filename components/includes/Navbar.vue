@@ -1,5 +1,5 @@
 <template>
-  <div :class="['navbar-wrapper w-full px-20', this.$route.name === 'index' ? 'only-index' : '']">
+  <div :class="['navbar-wrapper w-full px-20 shadow-sm', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <img :src="[ $device.isMobile ? '/mobile1.png' : '/desktop.png']" class="main-logo" alt="" @click="$router.push('/')">
@@ -73,11 +73,11 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objavi nekretninu" :style-options="{ backgroundColor: '#0D1F3E', borderRadius: '8px', height: '40px', marginRight: '24px' }" :loading="loading"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ backgroundColor: '#fff', border: '1px solid #000', color: '#000', borderRadius: '8px', height: '40px', marginRight: '24px' }" :loading="loading"></ActionButton>
 
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">
-            <button class="register" @click="$router.push('/auth/login')">Loguj se</button>
+            <button class="register" @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
           <button v-if="$auth.user" class="login">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
@@ -206,7 +206,7 @@ export default class Navbar extends Vue {
     if(this.$auth.user) {
       this.$router.push('/objava');
     } else {
-      this.$router.push('/login')
+      this.$router.push('/auth/login')
     }
   }
 
@@ -392,7 +392,7 @@ export default class Navbar extends Vue {
 .navbar-wrapper {
   height: fit-content;
   width: 100%;
-  height: 60px;
+  height: 80px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -507,6 +507,9 @@ export default class Navbar extends Vue {
       border-radius: 8px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
+      border-top: 1px solid #000;
+      border-left: 1px solid #000;
+      border-right: 1px solid #000;
       //border: none;
 
       @include for-phone-only {
@@ -572,14 +575,17 @@ export default class Navbar extends Vue {
       padding: 12px;
       padding-top: 16px;
       background: #fff;
-      width: 100%;
-      right: 0;
+      min-width: 100%;
+      right: -1px;
       box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 12px;
       z-index: 3;
-      left: 0;
+      left: -1px;
       height: fit-content;
       min-height: 0;
       box-sizing: border-box;
+      border-left: 1px solid #000;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
 
       @include for-phone-only {
         padding: 8px;
@@ -661,8 +667,6 @@ export default class Navbar extends Vue {
     justify-content: flex-end;
 
     .inner {
-      background: #f9f9f9;
-      border-radius: 8px;
       display: flex;
       align-items: center;
       padding-right: 8px;
@@ -714,11 +718,15 @@ export default class Navbar extends Vue {
       }
 
       &.register {
-        padding: 0 24px;
+        padding: 0 8px;
         border: none;
         font-weight: 600;
         font-size: 12px;
         text-transform: capitalize !important;
+
+        &:hover {
+          text-decoration: underline;
+        }
 
         &:last-child {
           margin-left: 12px;

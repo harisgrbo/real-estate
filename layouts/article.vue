@@ -41,15 +41,12 @@ export default class Article extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 60px !important;
+  padding-top: 80px !important;
 
   &.no-padding {
     padding-top: 0;
   }
 
-  @include for-phone-only {
-    padding-top: 78px !important;
-  }
 }
 
 ::v-deep .second-row {
