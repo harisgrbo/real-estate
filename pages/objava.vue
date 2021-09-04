@@ -1,6 +1,11 @@
 <template>
   <div class="publish-wrapper-inner">
       <div class="left">
+        <nuxt-link class="absolute top-6 z-10 left-6 bg-white cursor-pointer h-10 w-10 rounded-md flex items-center justify-center back-to-index" to="/">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </nuxt-link>
         <h2 v-if="currentStep === steps.STEP_ONE" class="test">
           Izaberite kategoriju oglasa
         </h2>
@@ -60,7 +65,7 @@
 
         <div v-show="currentStep === steps.STEP_THREE" class="step-3 test">
           <div class="inner">
-            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood" class="mb-6"></PublishTextInput>
+            <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
             <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
           </div>
           <ul v-if="recommendedAddresses.length">
@@ -336,9 +341,9 @@ export default class Objava extends Vue {
       'error': false,
       'message': "Select sponsorship"
     },
-    'neighbourhood': {
+    'district': {
       'error': false,
-      'message': "neighbourhood needs to be two words"
+      'message': "district needs to be two words"
     },
     'description': {
       'error': false,
@@ -404,7 +409,7 @@ export default class Objava extends Vue {
   async publish() {
 
     const payload = {
-      neighbourhood: this.neighbourhood,
+      district: this.district,
       description: this.description,
       address: this.address,
       price: this.price,
@@ -468,7 +473,7 @@ export default class Objava extends Vue {
           break;
 
         case this.steps.STEP_THREE:
-          if(! this.validateMany(['neighbourhood', 'address'])) {
+          if(! this.validateMany(['district', 'address'])) {
             this.snackbarValidationError();
 
             return;
@@ -702,14 +707,14 @@ export default class Objava extends Vue {
   }
 
   // Basic info
-  neighbourhood = null;
+  district = null;
   address = null;
   price = null;
   description = null;
 
-  @Watch('neighbourhood')
-  handleNeighbourhoodChange(newVal, oldVal) {
-    this.errors.neighbourhood.error = false;
+  @Watch('district')
+  handledistrictChange(newVal, oldVal) {
+    this.errors.district.error = false;
   }
 
   @Watch('address')
@@ -736,8 +741,8 @@ export default class Objava extends Vue {
     return this.selectedAdvertisment !== null;
   }
 
-  validateNeighbourhood() {
-    return this.neighbourhood !== null && this.neighbourhood !== '';
+  validatedistrict() {
+    return this.district !== null && this.district !== '';
   }
 
   validateDescription() {
@@ -1491,6 +1496,5 @@ h2.info {
 
 .publish-drop {
   transition: 0.3s all ease;
-
 }
 </style>

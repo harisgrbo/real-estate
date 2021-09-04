@@ -73,6 +73,8 @@
         </div>
       </div>
       <div class="auth-buttons">
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objavi nekretninu" :style-options="{ backgroundColor: '#0D1F3E', borderRadius: '8px', height: '40px', marginRight: '24px' }" :loading="loading"></ActionButton>
+
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">
             <button class="register" @click="$router.push('/auth/login')">Loguj se</button>
@@ -197,6 +199,14 @@ export default class Navbar extends Vue {
       })
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  redirectToPublish() {
+    if(this.$auth.user) {
+      this.$router.push('/objava');
+    } else {
+      this.$router.push('/login')
     }
   }
 
@@ -481,7 +491,7 @@ export default class Navbar extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 15px;
+    border-radius: 8px;
     padding: 0 12px;
     flex: 2;
     position: relative;
@@ -494,7 +504,7 @@ export default class Navbar extends Vue {
 
     &.focused {
       box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-      border-radius: 20px;
+      border-radius: 8px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       //border: none;
@@ -556,8 +566,8 @@ export default class Navbar extends Vue {
     }
     .autocomplete-dropdown {
       position: absolute;
-      border-bottom-left-radius: 15px;
-      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
       top: 47px;
       padding: 12px;
       padding-top: 16px;
