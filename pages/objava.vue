@@ -65,14 +65,19 @@
 
         <div v-show="currentStep === steps.STEP_THREE" class="step-3 test">
           <div class="inner">
-            <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
             <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
           </div>
           <ul v-if="recommendedAddresses.length">
-            <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
+            <li v-for="item in recommendedAddresses" @click="handleSelectedAddress(item)">
               {{ item.description }}
             </li>
           </ul>
+
+          <div>
+            <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
+            <PublishDropdown :placeholder="city ? city.name : 'Pretražite lokacije'" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
+            <PublishTextInput type="text" title="ZIP" v-model="zip_code"></PublishTextInput>
+          </div>
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
@@ -106,9 +111,6 @@
         </div>
 
         <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
-          <div class="inner">
-            <PublishDropdown placeholder="Pretražite lokacije" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
-          </div>
           <div v-if="city !== null" class="map-wrapper">
             <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
           </div>
@@ -361,6 +363,10 @@ export default class Objava extends Vue {
       'error': false,
       'message': "required"
     },
+    'zip_code': {
+      'error': false,
+      'message': "required"
+    },
     'price': {
       'error': false,
       'message': "required"
@@ -420,6 +426,7 @@ export default class Objava extends Vue {
       district: this.district,
       description: this.description,
       address: this.address,
+      zip_code: this.zip_code,
       price: this.price,
       price_per_square: this.price_per_square,
       vat_included: this.vat_included,
@@ -483,7 +490,7 @@ export default class Objava extends Vue {
           break;
 
         case this.steps.STEP_THREE:
-          if(! this.validateMany(['district', 'address'])) {
+          if(! this.validateMany(['district', 'address', 'city', 'zipCode'])) {
             this.snackbarValidationError();
 
             return;
@@ -707,6 +714,7 @@ export default class Objava extends Vue {
 
   // City location
   city = null;
+  zip_code = null;
 
   handleSelectedCity(f) {
     this.city = f;
@@ -716,6 +724,22 @@ export default class Objava extends Vue {
 
     this.errors.city.error = false;
 
+  }
+
+  async handleSelectedAddress(item) {
+    console.log(item);
+
+    try {
+      let res = await this.$axios.get('/address/details/' + item.place_id)
+
+      this.address = res.data.address;
+      this.city = res.data.city;
+      this.lat = res.data.location.lat;
+      this.lng = res.data.location.lng;
+      this.zip_code = res.data.zip_code;
+    } catch (e) {
+
+    }
   }
 
   // Basic info
@@ -763,6 +787,10 @@ export default class Objava extends Vue {
 
   validateAddress() {
     return this.address !== null && this.address !== '';
+  }
+
+  validateZipCode() {
+    return this.zip_code !== null && this.zip_code !== '';
   }
 
   validatePrice() {
