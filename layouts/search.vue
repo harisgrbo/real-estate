@@ -47,10 +47,6 @@ export default class Home extends Vue {
   min-height: calc(100vh - 80px);
 }
 
-::v-deep .px-20 {
-  padding-left: 24px;
-  padding-right: 24px;
-}
 
 </style>
 

@@ -50,7 +50,7 @@
         <!-- Autocomplete dropdown -->
         <div class="autocomplete-dropdown" v-if="focused === true">
           <div class="quick-filters">
-            <button @click="toggleCategories" type="button" class="mr-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
               Kategorija
             </button>
             <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ backgroundColor: '#fff', border: '1px solid #000', color: '#000', borderRadius: '8px', height: '48px', marginRight: '24px' }" :loading="loading"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ backgroundImage: 'linear-gradient(to right bottom, #3a326d, #373671, #343b75, #313f79, #2e437c, #2a4078, #263c74, #223970, #1c2e64, #172358, #11194d, #0c0e41)', border: 'none', color: '#fff', borderRadius: '8px', height: '48px', marginRight: '24px' }" :loading="loading"></ActionButton>
 
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">
@@ -507,9 +507,6 @@ export default class Navbar extends Vue {
       border-radius: 8px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
-      border-top: 1px solid #000;
-      border-left: 1px solid #000;
-      border-right: 1px solid #000;
       //border: none;
 
       @include for-phone-only {
@@ -583,9 +580,9 @@ export default class Navbar extends Vue {
       height: fit-content;
       min-height: 0;
       box-sizing: border-box;
-      border-left: 1px solid #000;
-      border-right: 1px solid #000;
-      border-bottom: 1px solid #000;
+      border-left: 1px solid #eaeaea;
+      border-right: 1px solid #eaeaea;
+      border-bottom: 1px solid #eaeaea;
 
       @include for-phone-only {
         padding: 8px;
@@ -598,24 +595,14 @@ export default class Navbar extends Vue {
         justify-content: flex-start;
         width: 100%;
 
-        //button {
-        //  border-radius: 5px;
-        //  height: 30px;
-        //  display: flex;
-        //  align-items: center;
-        //  justify-content: center;
-        //  padding: 0 8px;
-        //  font-weight: 600;
-        //  text-transform: uppercase;
-        //  font-size: 10px;
-        //  background: #D63946;
-        //  margin-right: 12px;
-        //  cursor: pointer;
-        //  &:hover {
-        //    background: #b32e3b;
-        //
-        //  }
-        //}
+        button {
+          border: 1px solid #eaeaea;
+          border-radius: 5px;
+
+          &:hover {
+            background: #f9f9f9;
+          }
+        }
       }
 
       p {
@@ -850,7 +837,7 @@ export default class Navbar extends Vue {
   &.expanded {
     width: fit-content;
     padding: 0 12px;
-    border-radius: 5px;
+    border-radius: 5px !important;
     height: 30px;
     display: flex;
     align-items: center;

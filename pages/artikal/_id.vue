@@ -150,7 +150,7 @@
             </ul>
             <div class="separator"></div>
             <div>
-              <h2 class="text-lg font-medium text-gray-900">
+              <h2 class="text-xl font-medium text-gray-900">
                 Detaljne informacije
               </h2>
               <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
@@ -171,7 +171,7 @@
               </ul>
             </div>
             <div class="mt-6">
-              <h2 class="text-lg font-medium text-gray-900">
+              <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
               <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
@@ -192,75 +192,22 @@
               </ul>
             </div>
             <div class="separator"></div>
-            <h2 class="heading">Detaljni opis</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Detaljni opis</h2>
             <p class="description">{{ listing.description }}</p>
             <div class="separator"></div>
-            <h2 class="heading">U blizini nekretnine</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">U blizini nekretnine</h2>
             <div class="places">
-              <div class="flex flex-row items-center justify-start">
-                <ActionButton class="mr-4" v-if="cafes.length" placeholder="Kafići" @action="showMoreCafes = !showMoreCafes"></ActionButton>
-                <ActionButton class="mr-4" v-if="restaurants.length" placeholder="Restorani" @action="showMoreRestaurants = !showMoreRestaurants"></ActionButton>
-                <ActionButton class="mr-4" v-if="schools.length" placeholder="Škole i vrtići" @action="showMoreSchools = !showMoreSchools"></ActionButton>
-                <ActionButton class="mr-4" v-if="atms.length" placeholder="Banke i bankomati" @action="showMoreAtms = !showMoreAtms"></ActionButton>
-                <ActionButton class="mr-4" v-if="malls.length" placeholder="Šoping centri" @action="showMoreMalls = !showMoreMalls"></ActionButton>
-              </div>
-              <div class="places-grid" v-if="showMoreCafes">
-                <div class="places-heading">
-                  <h1>Kafići</h1>
+              <ul class="flex flex-row items-center justify-start">
+                <li v-for="place in places" @click="selectPlace(place)">{{ place }}</li>
+              </ul>
+              <div v-if="selectedPlace !== null">
+                <div class="places-grid">
+                  <div v-for="p in selectedPlace.results">{{ place }}</div>
                 </div>
-                <ul :class="[showMoreCafes ? 'extend' : '']">
-                  <li v-for="(cafe, index) in cafes" :key="index">
-                    <p>{{ cafe.name }}</p>
-                  </li>
-                </ul>
-              </div>
-              <div class="places-grid" v-if="showMoreRestaurants">
-                <div class="places-heading">
-                  <h1>Restorani</h1>
-                </div>
-                <ul :class="[ showMoreRestaurants ? 'extend' : '']">
-                  <li v-for="(restaurant, index) in restaurants" :key="index">
-                    <p>{{ restaurant.name }}</p>
-                  </li>
-                </ul>
-                <button @click="showMoreRestaurants = !showMoreRestaurants">{{ showMoreRestaurants ? 'Prikaži manje' : 'Prikaži više' }}</button>
-              </div>
-              <div class="places-grid" v-if="showMoreSchools">
-                <div class="places-heading">
-                  <h1>Škole i vrtići</h1>
-                </div>
-                <ul :class="[ showMoreSchools ? 'extend' : '']">
-                  <li v-for="(school, index) in schools" :key="index">
-                    <p>{{ translateSchool(school.name, 'school') }}</p>
-                  </li>
-                </ul>
-                <button @click="showMoreSchools = !showMoreSchools">{{ showMoreSchools ? 'Prikaži manje' : 'Prikaži više' }}</button>
-              </div>
-              <div class="places-grid" v-if="showMoreAtms">
-                <div class="places-heading">
-                  <h1>Banke i bankomati</h1>
-                </div>
-                <ul :class="[ showMoreAtms ? 'extend' : '']">
-                  <li v-for="(atm, index) in atms" :key="index">
-                    <p>{{ translateSchool(atm.name, 'atm') }}</p>
-                  </li>
-                </ul>
-                <button @click="showMoreAtms = !showMoreAtms">{{ showMoreAtms ? 'Prikaži manje' : 'Prikaži više' }}</button>
-              </div>
-              <div class="places-grid" v-if="showMoreMalls">
-                <div class="places-heading">
-                  <h1>Šoping centri</h1>
-                </div>
-                <ul :class="[ showMoreMalls ? 'extend' : '']>
-                <li v-for="(mall, index) in malls" :key="index">
-                <p>{{ mall.name }}</p>
-                </li>
-                </ul>
-                <button @click="showMoreMalls = !showMoreMalls">{{ showMoreMalls ? 'Prikaži manje' : 'Prikaži više' }}</button>
               </div>
             </div>
             <div class="separator"></div>
-            <h2 class="heading">Lokacija nekretnine</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Lokacija nekretnine</h2>
             <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             <div class="separator" v-if="questions.length"></div>
             <h2 class="heading question" v-if="questions.length">Pitanja</h2>
@@ -343,6 +290,7 @@ export default class Artikal extends Vue {
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
+  selectedPlace = null;
   swiperOption = {
     pagination: {
       el: '.swiper-pagination',
@@ -371,26 +319,23 @@ export default class Artikal extends Vue {
       id: 5,
     },
   ]
-  cafes = [];
-  atms = [];
-  malls = [];
-  schools = [];
-  restaurants = [];
+  places = []
 
   async fetchPlaces() {
     try {
       let res = await this.$axios.get('/listings/' + this.listing.id + '/places');
-      this.cafes = res.data.cafe.results;
-      this.atms = res.data.atm.results;
-      this.malls = res.data.shopping_mall.results;
-      this.schools = res.data.school.results;
-      this.restaurants = res.data.restaurant.results;
 
-      console.log(this.cafes)
+      this.places = res.data;
+
+      console.log(this.places);
 
     } catch(e) {
       console.log(e)
     }
+  }
+
+  selectPlace(p) {
+    this.selectedPlace = p;
   }
 
   numberWithCommas(x) {

@@ -1,7 +1,7 @@
 <template>
   <div class="search-wrapper w-full">
     <div class="inner">
-      <div class="content">
+      <div class="content px-20 pt-6">
         <div class="search-heading">
           <div class="border-b border-gray-200">
             <div class="rounded-md bg-blue-50 p-4 mb-6" v-if="meta.price">
@@ -21,11 +21,6 @@
             </div>
           </div>
           <div class="filter-buttons">
-            <button v-if="$device.isMobile" @click="$modal.show('map-modal')">Mapa</button>
-            <button>Sortiraj</button>
-            <button>Vrsta oglasa</button>
-            <button>Stanje oglasa</button>
-<!--            <button @click="toggleFiltersModal">Filteri</button>-->
             <CategoryFilter
               class="bb-filters"
               v-model="queryPayload.category_id"
@@ -37,11 +32,14 @@
             <button @click="$modal.show('search-filters')">Filteri</button>
           </div>
           <div class="mb-3">
-            <div class="hidden sm:block">
+            <div class="w-full">
               <div class="flex items-center border-b border-gray-200">
                 <nav class="flex-1 -mb-px flex space-x-6 xl:space-x-8" aria-label="Tabs">
                   <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
                   <p class="font-medium text-md">{{ results.length }} rezultata</p>
+                  <ul>
+                    <li class="h-10 flex items-center justify-center px-2 rounded-sm border border-gray-500" v-for="cat in meta.categories" >{{ cat.title }}</li>
+                  </ul>
                 </nav>
                 <div class="flex flex-row items-center">
                   <button
@@ -110,11 +108,9 @@
 
         </div>
         <div class="results">
-          <ul class="divide-y divide-gray-200">
-            <li v-for="listing in results" class="relative bg-white">
-              <HorizontalCard :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
-            </li>
-          </ul>
+          <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap">
+            <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+          </div>
           <client-only>
             <Pagination
               ref="pagination"
@@ -124,30 +120,6 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-      </div>
-      <div :class="['map', mapExpanded ? 'expand' : '']" v-if="!$device.isMobile">
-        <div class="filter-buttons map" v-if="mapExpanded">
-          <button v-if="$device.isMobile" @click="$modal.show('map-modal')">Mapa</button>
-          <button>Sortiraj</button>
-          <button>Vrsta oglasa</button>
-          <button>Stanje oglasa</button>
-          <button @click="toggleFiltersModal">Filteri</button>
-          <button class="save" @click="openSearchSaveModal">
-            <font-awesome-icon icon="heart"></font-awesome-icon>
-            Spasi pretragu
-          </button>
-        </div>
-        <button v-if="mapExpanded" @click="mapExpanded = !mapExpanded" class="map-expand">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </button>
-        <button v-else @click="mapExpanded = !mapExpanded" class="map-expand">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-          </svg>
-        </button>
-        <SearchMap :locations="results"/>
       </div>
     </div>
     <client-only>
@@ -194,19 +166,6 @@
       </modal>
       <Snackbar></Snackbar>
       <client-only>
-        <modal name="map-modal" :adaptive="true" height="100%">
-          <div class="modal-inner">
-            <div class="modal-header">
-              <h2>Mapa</h2>
-              <i class="material-icons" @click="$modal.hide('map-modal')">close</i>
-            </div>
-            <div class="modal-content mapa">
-              <SearchMap :locations="results"/>
-            </div>
-          </div>
-        </modal>
-      </client-only>
-      <client-only>
         <modal name="search-filters" :adaptive="true" height="100%">
           <div class="modal-inner">
             <div class="modal-header">
@@ -247,7 +206,6 @@
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
-import HorizontalCard from "@/components/listingCard/HorizontalCard";
 import TextField from "@/components/inputs/TextField";
 import RangeFilter from "@/components/search/RangeFilter";
 import CategoryFilter from "@/components/search/CategoryFilter";
@@ -255,15 +213,14 @@ import TermFilter from "@/components/search/TermFilter";
 import TermsFilter from "@/components/search/TermsFilter";
 import { buildQuery } from "@/util/search";
 import { capitalize } from "@/util/str";
-import SearchMap from "@/components/googleMap/SearchMap";
 import Snackbar from "@/components/global/Snackbar";
 import Pagination from "@/components/pagination";
+import ListingCard from "../components/listingCard/ListingCard";
 
 @Component({
   components: {
-    SearchMap,
+    ListingCard,
     TextField,
-    HorizontalCard,
     RangeFilter,
     CategoryFilter,
     Pagination,
@@ -423,11 +380,10 @@ export default class Homepage extends Vue {
     height: 100%;
   }
   .content {
-    width: 50%;
-    min-width: 50%;
+    width: 100%;
+    min-width: 100%;
     box-sizing: border-box;
     position: relative;
-    padding: 24px;
     height: calc(100vh - 60px);
     overflow-y: scroll;
 
@@ -699,5 +655,19 @@ export default class Homepage extends Vue {
     border: 1px solid #000;
   }
 }
+::v-deep .listing-card-wrapper {
+  width: 100%;
+}
 
+
+::v-deep .listing-card-wrapper a{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+::v-deep .listing-card-wrapper a img{
+  width: 100%;
+  height: 280px;
+}
 </style>

@@ -90,7 +90,7 @@ export default class Pagination extends Vue {
   align-items: center;
   justify-content: space-between;
   width: fit-content;
-  margin: 36px auto;
+  margin: 120px auto;
   ul {
     display: flex;
     align-items: center;
