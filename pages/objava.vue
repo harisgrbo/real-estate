@@ -736,6 +736,7 @@ export default class Objava extends Vue {
 
       this.address = res.data.address;
       this.city = res.data.city;
+      this.district = res.data.district;
       this.lat = res.data.location.lat;
       this.lng = res.data.location.lng;
       this.zip_code = res.data.zip_code;
