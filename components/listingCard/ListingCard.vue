@@ -19,7 +19,7 @@
         <button @click="removeFromSaved(listing.id)">Ukloni iz spašenih</button>
       </div>
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
-        <img src="/hotel.webp" alt="">
+        <img :src="listing.thumbnail" alt="">
         <div class="listing-card-content">
           <div class="address title">
             <p>
