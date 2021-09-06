@@ -741,9 +741,13 @@ export default class Objava extends Vue {
       this.lng = res.data.location.lng;
       this.zip_code = res.data.zip_code;
 
-      if (this.lat && this.lng) {
+      if (this.city && this.lat && this.lng) {
         this.city.location.lat = this.lat;
         this.city.location.lng = this.lng;
+      }
+
+      if (this.address && this.city && this.district && this.zip_code && this.lat && this.lng) {
+        this.nextStep();
       }
     } catch (e) {
       console.log(e)
