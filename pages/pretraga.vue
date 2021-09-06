@@ -21,14 +21,6 @@
             </div>
           </div>
           <div class="filter-buttons">
-            <CategoryFilter
-              class="bb-filters"
-              v-model="queryPayload.category_id"
-              :categories="meta.categories"
-              :aggregations="meta.aggregations"
-              :filter="{}"
-              @input="newSearch"
-            />
             <button @click="$modal.show('search-filters')">Filteri</button>
           </div>
           <div class="mb-3">
@@ -38,7 +30,7 @@
                   <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
                   <p class="font-medium text-md">{{ results.length }} rezultata</p>
                   <ul>
-                    <li class="h-10 flex items-center justify-center px-2 rounded-sm border border-gray-500" v-for="cat in meta.categories" >{{ cat.title }}</li>
+                    <li :class="[cat.id === selectedCategoryId ? 'text-red': '']" class="h-10 flex items-center justify-center px-2 rounded-sm border border-gray-500" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
                   </ul>
                 </nav>
                 <div class="flex flex-row items-center">
@@ -208,10 +200,9 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import RangeFilter from "@/components/search/RangeFilter";
-import CategoryFilter from "@/components/search/CategoryFilter";
 import TermFilter from "@/components/search/TermFilter";
 import TermsFilter from "@/components/search/TermsFilter";
-import { buildQuery } from "@/util/search";
+import { buildQuery, buildCategory } from "@/util/search";
 import { capitalize } from "@/util/str";
 import Snackbar from "@/components/global/Snackbar";
 import Pagination from "@/components/pagination";
@@ -222,7 +213,6 @@ import ListingCard from "../components/listingCard/ListingCard";
     ListingCard,
     TextField,
     RangeFilter,
-    CategoryFilter,
     Pagination,
     TermFilter,
     TermsFilter,
@@ -241,6 +231,8 @@ import ListingCard from "../components/listingCard/ListingCard";
     };
     let allAttributes = [];
     let queryPayload = {};
+    let categories = [];
+    let selectedCategoryId = null;
 
     if (ctx.route.query.q) {
       let query = decodeURIComponent(ctx.route.query.q)
@@ -254,6 +246,10 @@ import ListingCard from "../components/listingCard/ListingCard";
         query = JSON.parse(query)
 
         query.forEach(item => {
+          if (item.name === 'category_id') {
+            selectedCategoryId = item.value;
+          }
+
           queryPayload[item.name] = Object.assign({}, item);
         });
 
@@ -274,6 +270,15 @@ import ListingCard from "../components/listingCard/ListingCard";
       }
     }
 
+    // get cats
+    try {
+      let response = await ctx.app.$axios.get(`/categories`)
+
+      categories = response.data.data;
+    } catch (e) {
+      console.log(e)
+    }
+
     let lp = meta.total / meta.perPage;
 
     if(! Number.isInteger(lp)) {
@@ -288,7 +293,9 @@ import ListingCard from "../components/listingCard/ListingCard";
       meta,
       queryPayload,
       page,
-      last_page
+      last_page,
+      categories,
+      selectedCategoryId
     }
   },
 })
@@ -325,6 +332,18 @@ export default class Homepage extends Vue {
 
   filterFor(attr) {
     return `${capitalize(attr)}Filter`;
+  }
+
+  handleSelectedCategory(cat) {
+    this.queryPayload = {
+      category_id: {
+        name: "category_id",
+        type: "term",
+        value: cat.id
+      }
+    }
+
+    this.newSearch();
   }
 
   async saveSearch() {
