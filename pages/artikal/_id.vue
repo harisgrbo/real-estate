@@ -141,6 +141,8 @@
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Cijena
+                        <p v-if="!listing.va_included">bez uračunatog PDV-a</p>
+                        <p v-else>sa uračunatim PDV-om</p>
                       </a>
                     </h3>
                     <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>

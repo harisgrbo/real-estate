@@ -63,23 +63,20 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_THREE" class="step-3 test">
+        <div v-show="currentStep === steps.STEP_THREE" class="step-3 test flex flex-col">
           <div class="inner">
-            <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
-          </div>
-          <ul v-if="recommendedAddresses.length">
-            <li v-for="item in recommendedAddresses" @click="handleSelectedAddress(item)">
-              {{ item.description }}
-            </li>
-          </ul>
-
-          <div>
-            <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
-            <div v-if="city" @click="city = null;">
-              <span>{{ city.name }}</span>
+            <div class="relative w-full flex flex-col">
+              <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+              <ul v-if="recommendedAddresses.length" class="address-dropdown">
+                <li v-for="item in recommendedAddresses" @click="handleSelectedAddress(item)">
+                  {{ item.description }}
+                </li>
+              </ul>
             </div>
-            <PublishDropdown v-else :placeholder="'Pretražite lokacije'" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
-            <PublishTextInput type="text" title="ZIP" v-model="zip_code"></PublishTextInput>
+            <div class="flex flex-col mt-6">
+              <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
+              <PublishTextInput type="text" title="ZIP" v-model="zip_code"></PublishTextInput>
+            </div>
           </div>
 
           <div class="button-wrapper">
@@ -749,6 +746,8 @@ export default class Objava extends Vue {
       if (this.address && this.city && this.district && this.zip_code && this.lat && this.lng) {
         this.nextStep();
       }
+
+      this.recommendedAddresses = []
     } catch (e) {
       console.log(e)
     }
@@ -1555,6 +1554,39 @@ h2.info {
   border-top: 1px solid #f1f1f1;
   padding-top: 24px;
   margin-top: 24px;
+}
+
+.address-dropdown {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  z-index: 1;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+
+  li {
+    height: fit-content;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: 600;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 </style>
