@@ -19,7 +19,7 @@
           Unesite cijenu nekretnine
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
-          Unesite lokaciju vaše nekretnine, i pomjerite pin na tačnu lokaciju
+          Pomjerite pin na tačnu lokaciju nekretnine
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_SIX">
           Opišite vašu nekretninu
