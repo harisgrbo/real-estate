@@ -75,7 +75,10 @@
 
           <div>
             <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
-            <PublishDropdown :placeholder="city ? city.name : 'Pretražite lokacije'" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
+            <div v-if="city" @click="city = null;">
+              <span>{{ city.name }}</span>
+            </div>
+            <PublishDropdown v-else :placeholder="'Pretražite lokacije'" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
             <PublishTextInput type="text" title="ZIP" v-model="zip_code"></PublishTextInput>
           </div>
 
@@ -143,6 +146,7 @@
         <div v-show="currentStep === steps.STEP_SEVEN" class="step-7 test">
           <div class="inner pt-20 pb-52">
             <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+              <InputError :error="errors.attributes[attr.id]" />
               <component
                 :attr="attr"
                 :options="attr"
@@ -363,7 +367,7 @@ export default class Objava extends Vue {
       'error': false,
       'message': "required"
     },
-    'zip_code': {
+    'zipCode': {
       'error': false,
       'message': "required"
     },
@@ -395,9 +399,9 @@ export default class Objava extends Vue {
     this.$modal.show('location');
   }
 
-  snackbarValidationError() {
+  snackbarValidationError(param = false) {
     this.$snackbar.show({
-      text: "Imate greske",
+      text: param || "Imate greske",
       timeout: 1000,
       type: "danger"
     });
@@ -473,7 +477,7 @@ export default class Objava extends Vue {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
           if(! this.validateMany(['category'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste odabrali kategoriju");
 
             return
           }
@@ -482,7 +486,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_TWO:
           if(! this.validateMany(['listingType'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste odabrali tip objave");
 
             return;
           }
@@ -491,7 +495,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_THREE:
           if(! this.validateMany(['district', 'address', 'city', 'zipCode'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste popunili sve obavezne podatke");
 
             return;
           }
@@ -500,7 +504,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_FOUR:
           if(! this.validateMany(['price'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste popunili cijenu");
 
             return;
           }
@@ -509,7 +513,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_FIVE:
           if(! this.validateMany(['city'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste postavili pin");
 
             return;
           }
@@ -518,7 +522,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_SIX:
           if(! this.validateMany(['description'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste popunili opis");
 
             return;
           }
@@ -527,7 +531,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_SEVEN:
           if(! this.validateAttributes()) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste popunili obavezna polja");
 
             return;
           }
@@ -535,7 +539,7 @@ export default class Objava extends Vue {
           break;
         case this.steps.STEP_NINE:
           if(! this.validateMany(['sponsorship'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste odabrali plan objave");
 
             return;
           }
@@ -727,8 +731,6 @@ export default class Objava extends Vue {
   }
 
   async handleSelectedAddress(item) {
-    console.log(item);
-
     try {
       let res = await this.$axios.get('/address/details/' + item.place_id)
 
@@ -737,8 +739,13 @@ export default class Objava extends Vue {
       this.lat = res.data.location.lat;
       this.lng = res.data.location.lng;
       this.zip_code = res.data.zip_code;
-    } catch (e) {
 
+      if (this.lat && this.lng) {
+        this.city.location.lat = this.lat;
+        this.city.location.lng = this.lng;
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
