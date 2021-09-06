@@ -86,13 +86,13 @@
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner">
-            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
-
-            <label>PDV ukljucen u cijenu</label>
-            <input type="checkbox" v-model="vat_included" />
-
-            <label>Cijena po kvadratu</label>
-            <input type="checkbox" v-model="price_per_square" />
+            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true" :square="price_per_square"></PublishTextInput>
+              <label class="cursor-pointer w-full flex justify-between items-center font-medium text-lg mb-4 pdv">PDV uključen u cijenu
+                <input type="checkbox" v-model="vat_included" />
+              </label>
+              <label class="cursor-pointer w-full flex justify-between items-center font-medium text-lg">Cijena po kvadratu
+                <input type="checkbox" v-model="price_per_square" />
+              </label>
           </div>
 
           <div class="button-wrapper">
@@ -1080,7 +1080,7 @@ export default class Objava extends Vue {
       border-radius: 8px;
       font-family: 'Raleway', sans-serif;
       font-size: 16px;
-      line-height: 21px;
+      line-height: 26px;
       box-sizing: border-box;
       padding: 24px;
 
@@ -1451,17 +1451,17 @@ h2.info {
 }
 
 .left {
-  background-image: url("/login2.jpg");
+  background-image: url(/login2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   width: 50% !important;
   min-width: 50%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
   position: relative;
-  padding-left: 120px;
+  padding: 24px;
+  padding-top: 200px;
 
   &::after {
     background: rgb(0,0,0);
@@ -1482,6 +1482,7 @@ h2.info {
     color: white;
     position: relative;
     z-index: 1;
+    line-height: 65px;
   }
 }
 
@@ -1508,5 +1509,11 @@ h2.info {
 
 .publish-drop {
   transition: 0.3s all ease;
+}
+
+.pdv {
+  border-top: 1px solid #f1f1f1;
+  padding-top: 24px;
+  margin-top: 24px;
 }
 </style>

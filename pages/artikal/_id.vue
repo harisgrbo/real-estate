@@ -143,7 +143,7 @@
                         Cijena
                       </a>
                     </h3>
-                    <p class="mt-1 text-lg text-black font-semibold">{{ parseInt(listing.price) }} KM</p>
+                    <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
                   </div>
                 </div>
               </li>
@@ -391,6 +391,10 @@ export default class Artikal extends Vue {
     } catch(e) {
       console.log(e)
     }
+  }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
   translateSchool(n, type) {

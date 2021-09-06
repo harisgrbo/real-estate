@@ -3,10 +3,10 @@
     <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
     <label class="w-full border border-gray-200 rounded-tl-md rounded-tr-md relative p-4 flex cursor-pointer" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
       <input :id="option.id" :value="option.title" :checked="value && value.id === option.id" type="radio" name="privacy-setting" value="Public access" class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-900 border-gray-300 focus:ring-indigo-900" aria-labelledby="privacy-setting-0-label" aria-describedby="privacy-setting-0-description">
-      <div class="ml-3 flex flex-col">
+      <div class="ml-3 flex items-center">
         <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
         <!-- Checked: "text-indigo-700", Not Checked: "text-gray-500" -->
-        <span id="privacy-setting-0-description" class="text-black block text-sm">
+        <span id="privacy-setting-0-description">
           {{ option.title }}
         </span>
       </div>
@@ -182,6 +182,9 @@ $radioActive: #757B9A;
   }
   span {
     width: 100%;
+    font-weight: 600;
+    color: #000;
+    font-size: 18px;
   }
 }
 </style>
