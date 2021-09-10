@@ -208,7 +208,7 @@ export default class GrupisanjeOglasa extends Vue {
         box-sizing: border-box;
         font-size: 14px;
         font-weight: 500;
-        font-family: 'Raleway', sans-serif;
+        font-family: 'Roboto', sans-serif;
         margin-top: 12px;
         &:focus {
           outline: none;

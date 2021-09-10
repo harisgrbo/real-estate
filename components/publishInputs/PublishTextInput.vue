@@ -6,7 +6,7 @@
       </div>
       <input :type="type"
              :value="value"
-             @input="updateValue($event.target.value)"  @blur="$emit('blur')" :placeholder="title" name="price" id="price" :class="['focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
+             @input="updateValue($event.target.value)"  @blur="$emit('blur')" :placeholder="title" name="price" id="price" :class="['block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <span v-if="currency" class="text-gray-500 flex flex-row items-center" id="price-currency">
           KM

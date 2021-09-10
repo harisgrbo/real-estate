@@ -1,7 +1,7 @@
 <template>
   <div class="main-wrapper">
     <label>{{ title }}</label>
-    <div class="input-wrapper">
+    <div :class="['input-wrapper', showAutoCompleteDropdown ? 'shadow-sm' : '']">
       <div class="bg-white">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -14,7 +14,7 @@
         >
       </div>
       <!-- Autocomplete dropdown -->
-      <div class="autocomplete-dropdown" v-if="showAutoCompleteDropdown">
+      <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">
         <ul>
           <li v-for="suggest in suggestions" @click="selectOption(suggest)">
             {{ suggest.name }}
@@ -120,10 +120,11 @@ export default class PublishDropdown extends Vue{
     width: 100%;
     height: fit-content;
     position: absolute;
-    top: 44px;
+    top: 33px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     border: 1px solid #ddd;
+    padding: 12px;
     ul {
       width: 100%;
       display: flex;
@@ -157,5 +158,6 @@ export default class PublishDropdown extends Vue{
 ::placeholder {
   font-size: 14px;
   font-weight: 500;
+  color: #000;
 }
 </style>

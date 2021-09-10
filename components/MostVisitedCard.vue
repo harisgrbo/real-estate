@@ -57,7 +57,7 @@ export default class MostVisitedCard extends Vue {
 
         b {
           margin-top: 8px;
-          font-family: 'Raleway', sans-serif;
+          font-family: 'Roboto', sans-serif;
           font-size: 16px;
           font-weight: 600;
         }

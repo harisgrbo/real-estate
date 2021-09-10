@@ -35,7 +35,7 @@ textarea {
   font-weight: 500;
   color: #000;
   font-size: 18px;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Roboto', sans-serif;
   padding: 24px;
   min-height: 300px;
   line-height: 25px;

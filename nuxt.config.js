@@ -17,7 +17,7 @@ export default {
       {
         rel: "stylesheet",
         href:
-          "https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap"
+          "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap"
       }
     ],
     script: [
@@ -49,7 +49,8 @@ export default {
     { src: "~plugins/vue-lightbox.js", mode: "client" },
     { src: "~plugins/security-code.js", mode: "client" },
     { src: "~plugins/apex-charts.js", mode: "client" },
-    { src: "~plugins/emoji.js", mode: "client" }
+    { src: "~plugins/emoji.js", mode: "client" },
+    { src: "~plugins/calendar.js", mode: "client" }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

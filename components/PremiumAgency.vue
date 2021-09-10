@@ -82,7 +82,7 @@ export default class PremiumAgency extends Vue {
       }
 
       b {
-        font-family: 'Raleway', sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 16px;
         font-weight: 600;
         margin-right: 12px;

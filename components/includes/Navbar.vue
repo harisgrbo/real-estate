@@ -2,7 +2,7 @@
   <div :class="['navbar-wrapper w-full px-20 shadow-sm', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-        <img :src="[ $device.isMobile ? '/mobile1.png' : '/desktop.png']" class="main-logo" alt="" @click="$router.push('/')">
+        <img :src="[ $device.isMobile ? '/mobile1.png' : '/logo-test.png']" class="main-logo" alt="" @click="$router.push('/')">
       </div>
       <div v-if="this.$route.name !== 'index'" class="input-wrapper"
            @focusin="focused = true"
@@ -73,20 +73,20 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ backgroundImage: 'linear-gradient(to right bottom, #3a326d, #373671, #343b75, #313f79, #2e437c, #2a4078, #263c74, #223970, #1c2e64, #172358, #11194d, #0c0e41)', border: 'none', color: '#fff', borderRadius: '8px', height: '48px', marginRight: '24px' }" :loading="loading"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="loading"></ActionButton>
 
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">
             <button class="register" @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
           <button v-if="$auth.user" class="login">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
             <p class="notify" v-if="messagesCount.lenth">{{ messagesCount }}</p>
           </button>
           <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
             <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
@@ -148,7 +148,24 @@ export default class Navbar extends Vue {
   showNotifications = false;
 
   mounted() {
+    window.addEventListener("scroll", this.onScroll)
+
     this.realtime();
+  }
+
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll);
+  }
+
+  onScroll() {
+    let scroll = document.documentElement.scrollTop;
+    let elem = document.querySelector(".navbar-wrapper");
+    let opacity = scroll / 400;
+
+    if (opacity >= 0) {
+      elem.style.background = "rgba(255,255,255," + opacity + ")";
+      elem.style.boxShadow = "0px -3px 5px -1px rgba(0,0,0," + opacity + ")";
+    }
   }
 
   realtime() {
@@ -403,25 +420,6 @@ export default class Navbar extends Vue {
   border-bottom: 1px solid #f1f1f1;
   background: #fff;
   box-sizing: border-box;
-  @include for-phone-only {
-    padding: 0 8px 0 8px !important;
-    position: fixed;
-    bottom: 12px;
-    left: 4px;
-    box-sizing: border-box;
-    right: 4px;
-    top: 4px;
-    width: auto;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    border-radius:10px;
-    z-index: 3;
-    -webkit-box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
-    box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
-  }
 
   .second-row {
     display: flex;
@@ -477,13 +475,6 @@ export default class Navbar extends Vue {
       }
     }
 
-    img {
-      height: 41px;
-
-      @include for-phone-only {
-        height: 48px;
-      }
-    }
   }
   .input-wrapper {
     height: 48px;

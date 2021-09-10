@@ -18,7 +18,7 @@
         <div class="flex flex-row items-center w-full inputs">
           <div>
             <label>Lokacija</label>
-            <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+            <PublishDropdown placeholder="Pretražite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
           </div>
           <div>
             <label>Kategorija</label>
@@ -26,8 +26,8 @@
             <fieldset class="w-full">
               <label for="language" class="sr-only">Language</label>
               <div class="relative">
-                <select id="language" name="language" class="appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="selectedCategory">
-                  <option v-for="category in categories" :value="category">{{ category.title }}</option>
+                <select id="language" name="language" class="cat-select appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="selectedCategory">
+                  <option class="font-medium text-sm" v-for="category in categories" :value="category">{{ category.title }}</option>
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
                   <!-- Heroicon name: solid/chevron-down -->
@@ -38,18 +38,19 @@
               </div>
             </fieldset>
           </div>
-          <div>
+          <div class="price-label">
             <label>Cijena</label>
             <div class="w-full flex items-center justify-between">
               <TextField type="number" :currency="true" placeholder="Od" v-model="priceFrom"></TextField>
-              <p>-</p>
+              <p class="mx-2">-</p>
               <TextField type="number" :currency="true" placeholder="Do" v-model="priceTo"></TextField>
             </div>
           </div>
-          <button @click="search">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button @click="search" class="px-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
+            Pretraži
           </button>
         </div>
       </div>
@@ -96,7 +97,7 @@
       <client-only>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings" :key="listing.id">
-            <ListingCard :listing="listing" :type="listing.user.user_type"/>
+            <ListingCard action="true" :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
         </swiper>
       </client-only>
@@ -114,7 +115,7 @@
         >
           <div class="relative overlay-out">
             <div class="overlay"></div>
-            <h3 class="font-semibold">
+            <h3 class="font-medium">
               {{ cat.name }}
             </h3>
             <p class="mt-1 text-lg text-white">{{ cat.text }}</p>
@@ -749,7 +750,7 @@ ul.most-visited-cats {
 .section-title {
   font-size: 22px !important;
   line-height: 26px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
 }
 
 .more {
@@ -793,9 +794,9 @@ ul.most-visited-cats {
 }
 
 .publish {
-  background-image: url("/luxuries.jpeg");
+  background-image: url("/white-bg.jpeg");
   background-repeat: no-repeat;
-  height: 410px;
+  height: 560px;
   background-size: cover;
   background-position: bottom;
   position: relative;
@@ -804,9 +805,11 @@ ul.most-visited-cats {
     position: absolute;
     left: 200px;
     right: 200px;
-    bottom: -50px;
-    box-shadow: rgb(0 0 0 / 12%) 0px 0px 20px;
+    bottom: 36px;
     border-radius: 15px;
+    background-color: rgba(255, 255, 255, .5);
+    -webkit-backdrop-filter: blur(0.2em);
+    backdrop-filter: blur(2px);
 
     ul {
       width: fit-content;
@@ -818,7 +821,6 @@ ul.most-visited-cats {
       li {
         height: 100%;
         padding: 0 24px;
-        background: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -828,12 +830,10 @@ ul.most-visited-cats {
 
         &:first-child {
           border-top-left-radius: 15px;
-          background: #fff;
         }
 
         &:last-child {
           border-top-right-radius: 15px;
-          background: #fff;
         }
       }
     }
@@ -842,7 +842,6 @@ ul.most-visited-cats {
       border-bottom-left-radius: 15px;
       border-bottom-right-radius: 15px;
       border-top-right-radius: 15px;
-      background: #fff;
       height: fit-content;
       padding: 24px;
       align-items: flex-end;
@@ -863,6 +862,15 @@ ul.most-visited-cats {
         ::v-deep .input-wrapper {
           border: none;
           padding: 0;
+          padding: 0 12px;
+          height: 48px;
+          max-height: 48px !important;
+          min-height: 48px !important;
+        }
+
+        ::v-deep .input-wrapper input {
+          height: 48px;
+          max-height: 48px !important;
         }
 
 
@@ -879,15 +887,16 @@ ul.most-visited-cats {
     }
 
     button {
-      height: 50px;
-      width: 50px;
-      min-width: 50px;
+      height: 48px;
+      width: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       width: fit-content;
-      background: #0D1F3E;
+      background: #fff;
       border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
     }
   }
 }
@@ -996,6 +1005,31 @@ ul.most-visited-cats {
 .searched-h3 {
   position: relative;
   z-index: 2;
+}
+
+::v-deep .autocomplete-dropdown {
+  border: none !important;
+}
+
+.cat-select {
+  font-weight: 500;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 10px !important;
+}
+
+.price-label ::v-deep input {
+  font-weight: 500;
+  padding: 0 12px !important;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 10px !important;
+  max-height: 48px;
+}
+
+.price-label ::v-deep ::placeholder {
+  font-size: 14px;
+  font-weight: 500;
 }
 
 </style>

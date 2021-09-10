@@ -43,10 +43,14 @@ export default class Home extends Vue {
 }
 
 .search-wrapper {
-  margin-top: 80px;
-  min-height: calc(100vh - 80px);
+  position: relative;
 }
 
+
+.search-wrapper ::v-deep .navbar-wrapper {
+  position: static !important;
+  top: 0;
+}
 
 </style>
 

@@ -90,11 +90,14 @@ export default class LoginForm extends Vue{
   flex-direction: column;
   justify-content: space-between;
 
-  @include for-phone-only {
-    width: 100%;
-    padding: 0 12px;
-    box-sizing: border-box;
-    height: 100%;
+  ::v-deep input {
+    border: 1px solid #000;
+  }
+
+  ::v-deep ::placeholder {
+    font-weight: 500;
+    font-size: 14px;
+    color: #000;
   }
   h2 {
     font-weight: 500;
@@ -109,10 +112,6 @@ export default class LoginForm extends Vue{
     font-weight: 500;
     width: fit-content;
     font-size: 14px;
-  }
-
-  button {
-    background: #0D1F3E;
   }
 }
 </style>

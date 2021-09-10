@@ -1,20 +1,29 @@
 <template>
-  <div class="pagination-wrapper">
-    <button @click="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1">
-      <font-awesome-icon icon="angle-left"/>
-    </button>
-    <ul>
-      <li v-for="(page, index) in computedPages" :key="index" :class="[page === currentPage ? 'active': '']" @click="handlePageClick(page)">{{ page }}</li>
-    </ul>
-    <button @click="handlePageClick(currentPage + 1)">
-      <font-awesome-icon icon="angle-right"/>
-    </button>
+  <div class="border-t border-gray-200 px-4 flex items-center justify-between my-20">
+    <div class="-mt-px w-0 flex-1 flex">
+      <a @click="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1" href="#" class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+        <svg class="mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+    <div class="hidden md:-mt-px md:flex">
+      <a @click="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index" :class="['border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300', page === currentPage ? 'border-indigo-500 text-indigo-600': '']" href="#">
+        {{ page }}
+      </a>
+    </div>
+    <div class="-mt-px w-0 flex-1 flex justify-end">
+      <a @click="handlePageClick(currentPage + 1)" href="#" class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+        <svg class="ml-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({})
 
@@ -81,83 +90,6 @@ export default class Pagination extends Vue {
 @mixin for-phone-only {
   @media (max-width: 599px) {
     @content;
-  }
-}
-
-.pagination-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: fit-content;
-  margin: 120px auto;
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    li {
-      margin: 0 8px;
-      font-size: 14px !important;
-      line-height: 18px !important;
-      font-weight: 600 !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      flex-shrink: 0 !important;
-      border: none !important;
-      border-radius: 50% !important;
-      cursor: pointer;
-      width: 32px !important;
-      height: 32px !important;
-      @include for-phone-only {
-        margin: 0 5px !important;
-      }
-      &:hover {
-        background: rgb(247, 247, 247) !important;
-      }
-      &.active {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        background: #002F34 !important;
-        color: #fff;
-      }
-    }
-  }
-}
-.prev {
-  transform: rotate(90deg);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.next {
-  transform: rotate(-90deg);
-  font-weight: 600;
-  font-size: 16px;
-}
-
-button {
-  margin: 0 8px;
-  font-size: 14px !important;
-  line-height: 18px !important;
-  font-weight: 600 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-shrink: 0 !important;
-  border: none !important;
-  border-radius: 50% !important;
-  cursor: pointer;
-  width: 55px !important;
-  height: 55px !important;
-  background: rgb(247, 247, 247) !important;
-
-  &:hover {
-    border: 1px solid rgb(190, 181, 181) !important;
-  }
-  &:focus {
-    outline: none;
   }
 }
 </style>

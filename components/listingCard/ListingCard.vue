@@ -4,6 +4,13 @@
         <font-awesome-icon icon="bullhorn"></font-awesome-icon>
         <span>{{ translateType() }}</span>
       </label>
+      <label class="publisher shadow-sm sale" v-if="action">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+        </svg>
+        <span>AKCIJA</span>
+      </label>
 <!--      <label v-if="!$device.isMobile" class="type overflow-hidden w-full flex flex-row">-->
 <!--        <button-->
 <!--          v-for="(attr, index) in specialAttributes"-->
@@ -31,7 +38,8 @@
           </div>
           <div class="icons-date">
             <div>
-              <p class="price">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+              <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+              <p v-if="action" class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
               <p v-show="type === 'rent'" class="pl-2">/ noćenje</p>
             </div>
           </div>
@@ -54,6 +62,7 @@ export default class ListingCard extends Vue{
   @Prop({ type: Boolean, default: false}) from
   @Prop({}) type
   @Prop({}) listingType
+  @Prop({ type: Boolean, default: false }) action
 
   // Translate listing type
   types = {
@@ -138,8 +147,6 @@ export default class ListingCard extends Vue{
       padding: 0 8px;
       font-size: 12px;
       font-weight: 500;
-      text-transform: capitalize;
-      box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
 
       z-index: 2;
 
@@ -154,7 +161,7 @@ export default class ListingCard extends Vue{
         }
 
         button {
-          font-family: 'Raleway', sans-serif;
+          font-family: 'Roboto', sans-serif;
           border: none;
           margin-right: 8px;
           border-radius: 5px;
@@ -196,6 +203,13 @@ export default class ListingCard extends Vue{
 
         svg {
           margin-right: 8px;
+        }
+
+        &.sale {
+          right: 8px !important;
+          left: inherit;
+          background: red;
+          color: #fff;
         }
       }
 
@@ -249,7 +263,7 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 400 !important;
+          font-weight: 500 !important;
           font-size: 16px !important;
           line-height: 20px !important;
         }
@@ -267,7 +281,7 @@ export default class ListingCard extends Vue{
            white-space: nowrap;
            overflow: hidden;
            text-overflow: ellipsis;
-           font-weight: 400 !important;
+           font-weight: 500 !important;
            font-size: 16px !important;
            line-height: 20px !important;
            margin-bottom: 8px;
@@ -326,6 +340,10 @@ export default class ListingCard extends Vue{
 
           @include for-phone-only {
             font-size: 13px;
+          }
+
+          &.old {
+            text-decoration: line-through;
           }
         }
 
@@ -422,5 +440,12 @@ export default class ListingCard extends Vue{
     @include for-phone-only {
       font-size: 11px !important;
     }
+  }
+
+  .new {
+    margin-left: 12px !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    color: #444;
   }
 </style>

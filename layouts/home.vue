@@ -41,10 +41,22 @@ export default class Home extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 80px !important;
+  padding-top: 0px !important;
 
   &.no-padding {
     padding-top: 0;
+  }
+
+  ::v-deep .navbar-wrapper {
+    background: transparent;
+    border-bottom: 0;
+    box-shadow: none;
+
+  }
+
+  ::v-deep .navbar-wrapper .second-row {
+    background: transparent;
+
   }
 }
 </style>

@@ -11,13 +11,13 @@
           <div class="article-title">
             <h2 v-if="listing">{{ listing.title }}</h2>
             <div class="flex flex-row items-center">
-              <button type="button" class="mr-2 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <!-- Heroicon name: solid/plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </button>
-              <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <!-- Heroicon name: solid/plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -141,7 +141,7 @@
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Cijena
-                        <p v-if="!listing.va_included">bez uračunatog PDV-a</p>
+                        <p v-if="!listing.vat_included">bez uračunatog PDV-a</p>
                         <p v-else>sa uračunatim PDV-om</p>
                       </a>
                     </h3>
@@ -485,7 +485,7 @@ export default class Artikal extends Vue {
   }
 
   async created() {
-    console.log(this.listing)
+    console.log(this.listing, 'listing')
     await this.fetchPlaces();
     await this.getQuestions();
     this.isUserFollowed = this.isFollowed;
@@ -664,7 +664,7 @@ export default class Artikal extends Vue {
         h2 {
           color: #000 !important;
           font-size: 25px;
-          font-weight: 600 !important;
+          font-weight: 500 !important;
           padding: 0px !important;
           display: inline !important;
         }
@@ -728,7 +728,7 @@ export default class Artikal extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -940,7 +940,7 @@ export default class Artikal extends Vue {
     height: 100px;
     padding: 12px;
     border-radius: 5px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Roboto', sans-serif;
     &:focus {
       outline: none;
     }
@@ -1138,7 +1138,7 @@ export default class Artikal extends Vue {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 24px;

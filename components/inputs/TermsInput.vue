@@ -48,9 +48,9 @@ export default {
 
   label {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: capitalize;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   .option-wrapper {
@@ -61,12 +61,12 @@ export default {
     margin-bottom: 24px;
 
     button {
-      height: 70px;
+      height: 60px;
       border-radius: 10px;
       background: #fff;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 500;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       cursor: pointer;
       border: 1px solid #000;
       width: 100%;
@@ -77,7 +77,7 @@ export default {
       }
 
       &.selected {
-        background: #f1f1f1;
+        background: #f9f9f9;
         font-weight: 600;
         border: 2px solid #000;
         color: #000;

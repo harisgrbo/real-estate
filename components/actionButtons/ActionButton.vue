@@ -29,24 +29,24 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Roboto', sans-serif;
   height: 48px;
-  background: #1F2937;
+  background: #fff;
   border-radius: 10px;
-  border: none;
+  border: 2px solid #000;
   width: fit-content;
   display: flex;
   align-items: center;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   padding: 0 24px;
-  color: #fff;
+  color: #000;
   cursor: pointer;
   justify-content: center;
   transition: 0.3s all ease;
 
   &:hover {
-    background: #171e2a;
+    background: #f9f9f9;
   }
 
   svg {

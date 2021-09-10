@@ -74,7 +74,7 @@ export default class Package extends Vue{
       border-bottom: 10px solid #0B8489;
       padding: 24px;
       color: #fff;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
 
       .package-type {
         background: #0B8489;
@@ -142,7 +142,7 @@ export default class Package extends Vue{
         border: none;
         color: #fff;
         width: 100%;
-        font-family: 'Raleway', sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 15px;
         font-weight: 500;
         margin-bottom: 24px;

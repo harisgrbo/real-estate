@@ -59,7 +59,7 @@ label {
   margin-bottom: 24px;
   border: 1px solid #000;
   border-radius: 10px;
-  font-weight: bold;
+  font-weight: 500;
   color: #000 !important;
   height: 58px;
 

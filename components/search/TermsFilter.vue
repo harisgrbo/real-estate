@@ -92,7 +92,7 @@ export default class TermsFilter extends Vue {
     }
 
     button {
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       cursor: pointer;
       display: flex;
       align-items: center;

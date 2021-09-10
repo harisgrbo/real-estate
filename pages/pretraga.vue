@@ -4,100 +4,114 @@
       <div class="content px-20 pt-6">
         <div class="search-heading">
           <div class="border-b border-gray-200">
-            <div class="rounded-md bg-blue-50 p-4 mb-6" v-if="meta.price">
-              <div class="flex">
-                <div class="flex-shrink-0">
-                  <!-- Heroicon name: solid/information-circle -->
-                  <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-                <div class="ml-3 flex-1 md:flex md:justify-between">
-                  <p class="text-sm text-blue-700">
-                    Prosječna cijena nekretnine za izabranu kategoriju je {{ parseInt(meta.price).toLocaleString() }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="filter-buttons">
-            <button @click="$modal.show('search-filters')">Filteri</button>
+<!--            <div class="rounded-md bg-blue-50 p-4 mb-6" v-if="meta.price">-->
+<!--              <div class="flex">-->
+<!--                <div class="flex-shrink-0">-->
+<!--                  &lt;!&ndash; Heroicon name: solid/information-circle &ndash;&gt;-->
+<!--                  <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">-->
+<!--                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />-->
+<!--                  </svg>-->
+<!--                </div>-->
+<!--                <div class="ml-3 flex-1 md:flex md:justify-between">-->
+<!--                  <p class="text-sm text-blue-700">-->
+<!--                    Prosječna cijena nekretnine za izabranu kategoriju je {{ parseInt(meta.price).toLocaleString() }}-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
           <div class="mb-3">
             <div class="w-full">
-              <div class="flex items-center border-b border-gray-200">
-                <nav class="flex-1 -mb-px flex space-x-6 xl:space-x-8" aria-label="Tabs">
-                  <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
-                  <p class="font-medium text-md">{{ results.length }} rezultata</p>
-                  <ul>
-                    <li :class="[cat.id === selectedCategoryId ? 'text-red': '']" class="h-10 flex items-center justify-center px-2 rounded-sm border border-gray-500" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
-                  </ul>
-                </nav>
-                <div class="flex flex-row items-center">
-                  <button
-                    class='bg-white relative w-full px-2 mr-4 py-2 text-left cursor-default flex hover:bg-gray-50 cursor-pointer'
-                    @click="openSearchSaveModal"
-                  >
-                    Spasi pretragu
-                    <svg class="ml-2" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z"></path></svg>
-                  </button>
-                  <div class="mt-1 relative">
-                    <button type="button" class="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
-                    <span class="block truncate">
-                      Tom Cook
-                    </span>
-                      <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <!-- Heroicon name: solid/selector -->
-                      <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-                      </svg>
-                    </span>
-                    </button>
-                    <ul class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
-
-                      <li class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9" id="listbox-option-0" role="option">
-                        <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
-                        <span class="font-normal block truncate">
-                        Wade Cooper
-                      </span>
-
-                        <!--
-                          Checkmark, only display for selected option.
-
-                          Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-                        -->
-                        <span class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4">
-                        <!-- Heroicon name: solid/check -->
-                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                      </span>
-                      </li>
-
-                      <!-- More items... -->
-                    </ul>
-                  </div>
-                  <div class="hidden ml-6 bg-gray-100 p-0.5 rounded-lg items-center sm:flex">
-                    <button type="button" class="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                      <!-- Heroicon name: solid/view-list -->
-                      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                      </svg>
-                      <span class="sr-only">Use list view</span>
-                    </button>
-                    <button type="button" class="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                      <!-- Heroicon name: solid/view-grid -->
-                      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                      </svg>
-                      <span class="sr-only">Use grid view</span>
-                    </button>
-                  </div>
-                </div>
+              <div class="flex flex-col w-full items-center border-b border-gray-200">
+                <ul class="category-list w-full">
+                  <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+                </ul>
               </div>
             </div>
           </div>
+          <!-- Filters -->
+          <section aria-labelledby="filter-heading">
+            <h2 id="filter-heading" class="sr-only">Filters</h2>
 
+            <div class="relative z-10 bg-white border-b border-gray-200 pb-6 pt-2">
+              <div class="mx-auto flex items-center justify-between px-4">
+                <div class="flex items-center">
+                  <div class="relative inline-block text-left mr-4 filteri">
+                    <div @click="showSortDropdown = !showSortDropdown">
+                      <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                        {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
+                        <!-- Heroicon name: solid/chevron-down -->
+                        <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div v-if="showSortDropdown" class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                      <div class="py-1" role="none">
+                        <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-500 block px-4 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click="selectSort(item)">
+                          {{ item.name }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="px-4 relative inline-block text-left mr-4">
+                    <button @click="showTypeDropdown = !showTypeDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false">
+                      <span>Vrsta oglasa</span>
+
+                      <span class="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes.length }}</span>
+                      <!-- Heroicon name: solid/chevron-down -->
+                      <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showTypeDropdown ? 'transform rotate-180': '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                    <div v-if="showTypeDropdown" class="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <form class="space-y-4">
+                        <div class="flex items-center cursor-pointer" v-for="item in listing_types" @click="addOrRemoveFromListTypes(item)">
+                          <input id="filter-category-0" name="category[]" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                          <label for="filter-category-0" class="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap">
+                            {{ item.name }}
+                          </label>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" @click="$modal.show('search-filters')">Filteri</button>
+                </div>
+                <button
+                  class='group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900'
+                  @click="openSearchSaveModal"
+                >
+                  Spasi pretragu
+                  <svg class="ml-2" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="h-6" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div class="bg-gray-50 mb-6 rounded-md">
+              <div class="mx-auto sm:flex sm:items-center px-4 rounded-md py-2">
+                <h3 class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                  Filteri
+                  <span class="sr-only">, active</span>
+                </h3>
+
+                <div aria-hidden="true" class="hidden w-px h-5 bg-gray-300 sm:block sm:ml-4"></div>
+
+                <div class="mt-2 sm:mt-0 sm:ml-4 flex justify-between items-center w-full">
+                  <div class="-m-1 flex flex-wrap items-center">
+                    <span class="m-1 inline-flex rounded-full border border-gray-200 items-center py-1.5 pl-3 pr-2 text-sm font-medium bg-white text-gray-900">
+                      <span>Vrsta oglasa</span>
+                      <button type="button" class="flex-shrink-0 ml-1 h-4 w-4 p-1 rounded-full inline-flex text-gray-400 hover:bg-gray-200 hover:text-gray-500">
+                        <span class="sr-only">Remove filter for Objects</span>
+                        <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                          <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                        </svg>
+                      </button>
+                    </span>
+                  </div>
+                  <p class="group inline-flex items-center justify-center text-md font-medium text-gray-700 hover:text-gray-900">Pronađeno {{ results.length }} rezultata</p>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
         <div class="results">
           <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap">
@@ -303,6 +317,62 @@ export default class Homepage extends Vue {
   searchName = '';
   last_page = 0;
   mapExpanded = false;
+  showSortDropdown = false;
+  showTypeDropdown = false;
+  selectedSort = '';
+  selectedTypes = [];
+  listing_types = [
+    {
+      name: "Prodaja",
+      id: 1,
+    },
+    {
+      name: "Potražnja",
+      id: 2,
+    },
+    {
+      name: "Stan na dan",
+      id: 3,
+    },
+    {
+      name: "Iznajmljivanje (duži period)",
+      id: 4,
+    },
+  ]
+  sort_types = [
+    {
+      name: "Najniža cijena",
+      value: 0,
+    },
+    {
+      name: "Najviša cijena",
+      value: 1,
+    },
+    {
+      name: "Najnovije",
+      value: 2,
+    },
+    {
+      name: "Najstarije",
+      value: 3,
+    },
+  ]
+
+  selectSort(i) {
+    this.selectedSort = i.name;
+
+    this.showSortDropdown = false;
+  }
+
+  addOrRemoveFromListTypes(x) {
+    let index = this.selectedTypes.indexOf(x);
+
+    if (index === -1) {
+      this.selectedTypes.push(x);
+    } else {
+      this.selectedTypes.splice(index, 1);
+    }
+  }
 
   toggleFiltersModal() {
     this.$modal.show('filters');
@@ -392,7 +462,7 @@ export default class Homepage extends Vue {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    position: relative;
+    //position: relative;
   }
 
   @include for-phone-only {
@@ -402,9 +472,8 @@ export default class Homepage extends Vue {
     width: 100%;
     min-width: 100%;
     box-sizing: border-box;
-    position: relative;
-    height: calc(100vh - 60px);
-    overflow-y: scroll;
+    //height: calc(100vh - 60px);
+    //overflow-y: scroll;
 
     @include for-phone-only {
       max-height: 100%;
@@ -445,47 +514,6 @@ export default class Homepage extends Vue {
     h2 {
       font-size: 18px;
       margin-bottom: 24px;
-    }
-  }
-
-  .map {
-    width: 50%;
-    min-width: 50%;
-    left: inherit;
-    position: relative;
-
-    &.expand {
-      width: 100vw;
-      min-width: 100vw;
-      position: absolute;
-      z-index: 10;
-
-    }
-
-    button.map-expand {
-      position: absolute;
-      z-index: 11;
-      top: 16px;
-      left: 16px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 10px;
-      font-size: 15px;
-      font-weight: 500;
-      margin-right: 12px;
-      border: 1px solid #c1c1c1;
-      background: transparent;
-      cursor: pointer;
-      transition: 0.3s all ease;
-      font-family: 'Raleway', sans-serif;
-      background: #fff;
-
-      &:hover {
-        background: #f9f9f9;
-      }
     }
   }
 }
@@ -545,7 +573,7 @@ export default class Homepage extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -645,7 +673,7 @@ export default class Homepage extends Vue {
     background: transparent;
     cursor: pointer;
     transition: 0.3s all ease;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
     &:hover {
       border: 1px solid #444;
@@ -688,5 +716,54 @@ export default class Homepage extends Vue {
 ::v-deep .listing-card-wrapper a img{
   width: 100%;
   height: 280px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  li {
+    height: 44px;
+    padding: 0 14px;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+    margin-right: 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    min-width: fit-content;
+    cursor: pointer;
+
+    &.selected-cat {
+      background: #fff;
+      border: 2px solid #000;
+    }
+
+    &:hover {
+      background: #f9f9f9;
+    }
+  }
+}
+
+.select-field {
+  height: 48px;
+  padding: 0 16px;
+  background: #fff;
+  border: 1px solid #f1f1f1;
+  margin-right: 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  min-width: fit-content;
+  cursor: pointer;
+
+  select {
+    height: 47px
+  }
+}
+
+.filteri {
+  position: sticky;
+  top: 0;
 }
 </style>

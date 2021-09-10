@@ -1001,7 +1001,7 @@ export default class Objava extends Vue {
             font-weight: 500 !important;
             transition: 0.3s all ease;
             margin-bottom: 0;
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Roboto', sans-serif;
             cursor: pointer;
 
             &.back {
@@ -1117,7 +1117,7 @@ export default class Objava extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 16px;
       line-height: 26px;
       box-sizing: border-box;

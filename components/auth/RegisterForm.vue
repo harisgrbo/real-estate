@@ -218,9 +218,6 @@ export default class RegisterForm extends Vue{
     width: fit-content;
     font-size: 14px;
   }
-  button {
-    background:#0D1F3E;
-  }
 }
 
 .location {
@@ -230,5 +227,15 @@ export default class RegisterForm extends Vue{
 div.buttons {
   display: flex;
   flex-direction: row;
+}
+
+::v-deep input {
+  border: 1px solid #000;
+}
+
+::v-deep ::placeholder {
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
 }
 </style>
