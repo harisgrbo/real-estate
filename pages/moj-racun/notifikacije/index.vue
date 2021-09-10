@@ -16,7 +16,7 @@
             <div class="min-w-0 flex-1">
               <a href="#" class="block focus:outline-none">
                 <span class="absolute inset-0" aria-hidden="true"></span>
-                <p class="text-sm font-medium text-gray-900 truncate">Gloria Roberston</p>
+                <p class="text-sm font-medium text-gray-900 truncate">Izdvajanje oglasa</p>
               </a>
             </div>
             <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(notification.created_at).fromNow() }}</time>

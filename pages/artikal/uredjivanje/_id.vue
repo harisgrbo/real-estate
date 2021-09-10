@@ -8,8 +8,8 @@
         </h1>
 
         <div class="grid-filters">
-          <InputError :error="errors.neighbourhood" />
-          <PublishTextInput type="text" title="Naselje" v-model="listing.neighbourhood"></PublishTextInput>
+          <InputError :error="errors.district" />
+          <PublishTextInput type="text" title="Naselje" v-model="listing.district"></PublishTextInput>
 
           <InputError :error="errors.address" />
           <PublishTextInput type="text" title="Adresa" v-model="listing.address" @input.native="showAddressAutocomplete"></PublishTextInput>
@@ -218,9 +218,9 @@ export default class ListingEdit extends Vue {
 
   // Errors
   errors = {
-    'neighbourhood': {
+    'district': {
       'error': false,
-      'message': "neighbourhood needs to be two words"
+      'message': "district needs to be two words"
     },
     'description': {
       'error': false,
@@ -284,7 +284,7 @@ export default class ListingEdit extends Vue {
     this.validateStepTwo();
 
     const payload = {
-      neighbourhood: this.listing.neighbourhood,
+      district: this.listing.district,
       description: this.listing.description,
       address: this.listing.address,
       price: this.listing.price,
@@ -502,15 +502,15 @@ export default class ListingEdit extends Vue {
   }
 
   // Basic info
-  neighbourhood = null;
+  district = null;
   address = null;
   price = null;
   description = null;
   listingLoaded = false;
 
-  @Watch('neighbourhood')
-  handleNeighbourhoodChange(newVal, oldVal) {
-    this.errors.neighbourhood.error = false;
+  @Watch('district')
+  handledistrictChange(newVal, oldVal) {
+    this.errors.district.error = false;
   }
 
   @Watch('address')
@@ -530,11 +530,11 @@ export default class ListingEdit extends Vue {
 
   // Step 1 validation
   stepOneValidationProps = [
-    'neighbourhood', 'description', 'address', 'price', 'city', 'category', 'listingType'
+    'district', 'description', 'address', 'price', 'city', 'category', 'listingType'
   ]
 
-  validateNeighbourhood() {
-    return this.neighbourhood !== null && this.neighbourhood !== '';
+  validatedistrict() {
+    return this.district !== null && this.district !== '';
   }
 
   validateDescription() {
@@ -777,7 +777,7 @@ export default class ListingEdit extends Vue {
           font-weight: 500 !important;
           transition: 0.3s all ease;
           margin-bottom: 0;
-          font-family: 'Raleway', sans-serif;
+          font-family: 'Roboto', sans-serif;
           cursor: pointer;
 
           &.back {
@@ -893,7 +893,7 @@ export default class ListingEdit extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;

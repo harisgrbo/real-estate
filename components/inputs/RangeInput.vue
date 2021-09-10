@@ -33,13 +33,12 @@ export default {
   position: relative;
   margin-bottom: 36px;
   input {
-
     height: 60px;
     border: 1px solid #000;
     border-radius: 10px;
-    font-weight: 600;
+    font-weight: 500;
     color: #000;
-    font-size: 18px;
+    font-size: 16px;
     padding: 0 24px;
 
     &:focus {
@@ -51,9 +50,9 @@ export default {
   }
   label {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: capitalize;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 }
 </style>

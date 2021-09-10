@@ -1,5 +1,5 @@
 <template>
-  <div class="listing-wrapper max-w-6xl mx-auto w-full py-8"">
+  <div class="listing-wrapper mx-auto w-full">
     <div v-if="$device.isMobile" class="mobile-topbar">
       <font-awesome-icon icon="angle-left" class="back" @click="$router.go(-1)"></font-awesome-icon>
       <div class="buttons">
@@ -11,13 +11,13 @@
           <div class="article-title">
             <h2 v-if="listing">{{ listing.title }}</h2>
             <div class="flex flex-row items-center">
-              <button type="button" class="mr-2 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <!-- Heroicon name: solid/plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </button>
-              <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <!-- Heroicon name: solid/plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -49,7 +49,7 @@
         </div>
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col">
-            <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+            <ul role="list" class="border-b border-gray-200 pb-6 grid grid-cols-2 gap-6">
               <li class="flow-root">
                 <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
                   <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
@@ -60,13 +60,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Lokacija
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ listing.city.name }}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ listing.city.name }}</p>
                   </div>
                 </div>
               </li>
@@ -79,13 +79,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
-                        Vrsta oglasa
+                        Vsta oglasa
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ listing.listing_type.title}}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ listing.listing_type.title}}</p>
                   </div>
                 </div>
               </li>
@@ -99,13 +99,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Adresa
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ sliceAddress(listing.address) }}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ sliceAddress(listing.address) }}</p>
                   </div>
                 </div>
               </li>
@@ -118,13 +118,13 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-md font-medium text-gray-600 mb-2">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Datum objave
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ $moment(listing.createdAt).format('LL') }}</p>
+                    <p class="mt-1 text-md text-black font-medium">{{ $moment(listing.createdAt).format('LL') }}</p>
                   </div>
                 </div>
               </li>
@@ -137,20 +137,22 @@
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-sm font-medium text-gray-900">
+                    <h3 class="text-lg font-medium text-black">
                       <a href="#" class="focus:outline-none">
                         <span class="absolute inset-0" aria-hidden="true"></span>
                         Cijena
+                        <p v-if="!listing.vat_included">bez uračunatog PDV-a</p>
+                        <p v-else>sa uračunatim PDV-om</p>
                       </a>
                     </h3>
-                    <p class="mt-1 text-sm text-gray-500">{{ parseInt(listing.price) }} KM</p>
+                    <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
                   </div>
                 </div>
               </li>
             </ul>
             <div class="separator"></div>
             <div>
-              <h2 class="text-lg font-medium text-gray-900">
+              <h2 class="text-xl font-medium text-gray-900">
                 Detaljne informacije
               </h2>
               <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
@@ -171,7 +173,7 @@
               </ul>
             </div>
             <div class="mt-6">
-              <h2 class="text-lg font-medium text-gray-900">
+              <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
               <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
@@ -192,75 +194,22 @@
               </ul>
             </div>
             <div class="separator"></div>
-            <h2 class="heading">Detaljni opis</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Detaljni opis</h2>
             <p class="description">{{ listing.description }}</p>
             <div class="separator"></div>
-            <h2 class="heading">U blizini nekretnine</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">U blizini nekretnine</h2>
             <div class="places">
-              <div class="flex flex-row items-center justify-start">
-                <ActionButton class="mr-4" v-if="cafes.length" placeholder="Kafići" @action="showMoreCafes = !showMoreCafes"></ActionButton>
-                <ActionButton class="mr-4" v-if="restaurants.length" placeholder="Restorani" @action="showMoreRestaurants = !showMoreRestaurants"></ActionButton>
-                <ActionButton class="mr-4" v-if="schools.length" placeholder="Škole i vrtići" @action="showMoreSchools = !showMoreSchools"></ActionButton>
-                <ActionButton class="mr-4" v-if="atms.length" placeholder="Banke i bankomati" @action="showMoreAtms = !showMoreAtms"></ActionButton>
-                <ActionButton class="mr-4" v-if="malls.length" placeholder="Šoping centri" @action="showMoreMalls = !showMoreMalls"></ActionButton>
-              </div>
-              <div class="places-grid" v-if="showMoreCafes">
-                <div class="places-heading">
-                  <h1>Kafići</h1>
+              <ul class="flex flex-row items-center justify-start">
+                <li v-for="place in places" @click="selectPlace(place)">{{ place }}</li>
+              </ul>
+              <div v-if="selectedPlace !== null">
+                <div class="places-grid">
+                  <div v-for="p in selectedPlace.results">{{ place }}</div>
                 </div>
-                <ul :class="[showMoreCafes ? 'extend' : '']">
-                  <li v-for="(cafe, index) in cafes" :key="index">
-                    <p>{{ cafe.name }}</p>
-                  </li>
-                </ul>
-              </div>
-              <div class="places-grid" v-if="showMoreRestaurants">
-                <div class="places-heading">
-                  <h1>Restorani</h1>
-                </div>
-                <ul :class="[ showMoreRestaurants ? 'extend' : '']">
-                  <li v-for="(restaurant, index) in restaurants" :key="index">
-                    <p>{{ restaurant.name }}</p>
-                  </li>
-                </ul>
-                <button @click="showMoreRestaurants = !showMoreRestaurants">{{ showMoreRestaurants ? 'Prikaži manje' : 'Prikaži više' }}</button>
-              </div>
-              <div class="places-grid" v-if="showMoreSchools">
-                <div class="places-heading">
-                  <h1>Škole i vrtići</h1>
-                </div>
-                <ul :class="[ showMoreSchools ? 'extend' : '']">
-                  <li v-for="(school, index) in schools" :key="index">
-                    <p>{{ translateSchool(school.name, 'school') }}</p>
-                  </li>
-                </ul>
-                <button @click="showMoreSchools = !showMoreSchools">{{ showMoreSchools ? 'Prikaži manje' : 'Prikaži više' }}</button>
-              </div>
-              <div class="places-grid" v-if="showMoreAtms">
-                <div class="places-heading">
-                  <h1>Banke i bankomati</h1>
-                </div>
-                <ul :class="[ showMoreAtms ? 'extend' : '']">
-                  <li v-for="(atm, index) in atms" :key="index">
-                    <p>{{ translateSchool(atm.name, 'atm') }}</p>
-                  </li>
-                </ul>
-                <button @click="showMoreAtms = !showMoreAtms">{{ showMoreAtms ? 'Prikaži manje' : 'Prikaži više' }}</button>
-              </div>
-              <div class="places-grid" v-if="showMoreMalls">
-                <div class="places-heading">
-                  <h1>Šoping centri</h1>
-                </div>
-                <ul :class="[ showMoreMalls ? 'extend' : '']>
-                <li v-for="(mall, index) in malls" :key="index">
-                <p>{{ mall.name }}</p>
-                </li>
-                </ul>
-                <button @click="showMoreMalls = !showMoreMalls">{{ showMoreMalls ? 'Prikaži manje' : 'Prikaži više' }}</button>
               </div>
             </div>
             <div class="separator"></div>
-            <h2 class="heading">Lokacija nekretnine</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Lokacija nekretnine</h2>
             <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             <div class="separator" v-if="questions.length"></div>
             <h2 class="heading question" v-if="questions.length">Pitanja</h2>
@@ -300,7 +249,7 @@ import RealEstateLocationMap from "@/components/RealEstateLocationMap";
     SingleQuestion,
     RealEstateLocationMap
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let listing = null;
     let user = null
@@ -343,6 +292,7 @@ export default class Artikal extends Vue {
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
+  selectedPlace = null;
   swiperOption = {
     pagination: {
       el: '.swiper-pagination',
@@ -371,26 +321,27 @@ export default class Artikal extends Vue {
       id: 5,
     },
   ]
-  cafes = [];
-  atms = [];
-  malls = [];
-  schools = [];
-  restaurants = [];
+  places = []
 
   async fetchPlaces() {
     try {
       let res = await this.$axios.get('/listings/' + this.listing.id + '/places');
-      this.cafes = res.data.cafe.results;
-      this.atms = res.data.atm.results;
-      this.malls = res.data.shopping_mall.results;
-      this.schools = res.data.school.results;
-      this.restaurants = res.data.restaurant.results;
 
-      console.log(this.cafes)
+      this.places = res.data;
+
+      console.log(this.places);
 
     } catch(e) {
       console.log(e)
     }
+  }
+
+  selectPlace(p) {
+    this.selectedPlace = p;
+  }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
   translateSchool(n, type) {
@@ -534,6 +485,7 @@ export default class Artikal extends Vue {
   }
 
   async created() {
+    console.log(this.listing, 'listing')
     await this.fetchPlaces();
     await this.getQuestions();
     this.isUserFollowed = this.isFollowed;
@@ -557,7 +509,8 @@ export default class Artikal extends Vue {
   grid-area: main;
 
   img {
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 
     min-height: 100%;
 
@@ -569,7 +522,7 @@ export default class Artikal extends Vue {
 .item2 {
   grid-area: small2;
   img {
-    border-radius: 10px;
+    border-top-right-radius: 10px;
     @include for-phone-only {
       border-radius: 0;
     }
@@ -578,7 +531,7 @@ export default class Artikal extends Vue {
 .item3 {
   grid-area: small1;
   img {
-    border-radius: 10px;
+    border-radius: 0px;
 
     @include for-phone-only {
       border-radius: 0;
@@ -588,7 +541,7 @@ export default class Artikal extends Vue {
 .item4 {
   grid-area: small3;
   img {
-    border-radius: 10px;
+    border-top-right-radius: 0px;
 
   }
 
@@ -600,7 +553,7 @@ export default class Artikal extends Vue {
 .item4 {
   grid-area: small4;
   img {
-    border-radius: 10px;
+    border-bottom-right-radius: 10px;
 
     @include for-phone-only {
       border-radius: 0;
@@ -614,17 +567,8 @@ export default class Artikal extends Vue {
   grid-template-areas:
   'main main main small1 small2'
   'main main main small3 small4';
-  grid-gap: 16px;
-
-  img {
-    border-radius: 10px;
-  }
-
-  @include for-phone-only {
-    grid-gap: 1px;
-    max-height: 400px;
-    height: 400px;
-  }
+  grid-gap: 8px;
+  min-height: 500px;
 
   .img-counter {
     position: absolute;
@@ -670,13 +614,8 @@ export default class Artikal extends Vue {
 .listing-wrapper {
   display: flex;
   flex-direction: row;
-  padding-top: 36px;
+  max-width: 1180px;
 
-  @include for-phone-only {
-    height: 100%;
-    padding-top: 0;
-    flex-direction: column;
-  }
   .profile-content {
     width: 20%;
     height: fit-content;
@@ -714,7 +653,7 @@ export default class Artikal extends Vue {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin: 16px 0;
+        margin-top: 24px;
 
         > div {
           display: flex;
@@ -724,23 +663,11 @@ export default class Artikal extends Vue {
 
         h2 {
           color: #000 !important;
-          font-weight: 400 !important;
-          font-size: 26px !important;
-          line-height: 32px !important;
-          margin-bottom: 0;
-
-          @include for-phone-only {
-            font-size: 18px;
-          }
+          font-size: 25px;
+          font-weight: 500 !important;
+          padding: 0px !important;
+          display: inline !important;
         }
-      }
-      h2 {
-        color: inherit !important;
-        font-size: 19px !important;
-        font-weight: 500 !important;
-        line-height: inherit !important;
-        padding: 0px !important;
-        margin-bottom: 32px;
       }
       h4 {
         font-size: 14px;
@@ -801,7 +728,7 @@ export default class Artikal extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -1013,7 +940,7 @@ export default class Artikal extends Vue {
     height: 100px;
     padding: 12px;
     border-radius: 5px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Roboto', sans-serif;
     &:focus {
       outline: none;
     }
@@ -1211,7 +1138,7 @@ export default class Artikal extends Vue {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 24px;

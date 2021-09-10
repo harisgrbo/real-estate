@@ -7,7 +7,7 @@
       <input     :type="type"
                  :placeholder="placeholder"
                  :value="value"
-                 @input="updateValue($event.target.value)" id="price" :class="['focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
+                 @input="updateValue($event.target.value)" id="price" :class="['block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <span v-if="currency" class="text-gray-500 sm:text-sm" id="price-currency">
           KM
@@ -50,5 +50,12 @@ input {
   border: 1px solid #dcdcdc;
   background: transparent;
   border-radius: 10px;
+  padding-right: 24px !important;
+
+  &:hover,
+  &:focus,
+  &:visited {
+    outline: none;
+  }
 }
 </style>

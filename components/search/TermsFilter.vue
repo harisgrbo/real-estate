@@ -92,26 +92,28 @@ export default class TermsFilter extends Vue {
     }
 
     button {
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       cursor: pointer;
-      height: 40px;
-      border: none;
-      border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 400;
-      font-size: 13px;
+      font-size: 14px;
       background: #fff;
+      height: 50px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      color: #000;
 
       &:focus {
         outline: none;
       }
 
       &.active {
-        border:1px solid #1F2937;
-        color: #1F2937;
-        font-weight: 500;
+        border:2px solid #000;
+        color: #000;
+        background: #f9f9f9;
+        font-weight: 600;
       }
     }
   }

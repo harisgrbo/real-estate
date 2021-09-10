@@ -1,6 +1,11 @@
 <template>
   <div class="publish-wrapper-inner">
       <div class="left">
+        <nuxt-link class="absolute top-6 z-10 left-6 bg-white cursor-pointer h-10 w-10 rounded-md flex items-center justify-center back-to-index" to="/">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </nuxt-link>
         <h2 v-if="currentStep === steps.STEP_ONE" class="test">
           Izaberite kategoriju oglasa
         </h2>
@@ -14,7 +19,7 @@
           Unesite cijenu nekretnine
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
-          Unesite lokaciju vaše nekretnine, i pomjerite pin na tačnu lokaciju
+          Pomjerite pin na tačnu lokaciju nekretnine
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_SIX">
           Opišite vašu nekretninu
@@ -45,7 +50,7 @@
 
         <div v-show="currentStep === steps.STEP_TWO" class="step-2 test">
           <div class="inner">
-            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors"></PublishRadioButton>
+            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors" @input="nextStep"></PublishRadioButton>
           </div>
 
           <div class="button-wrapper">
@@ -58,16 +63,21 @@
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_THREE" class="step-3 test">
+        <div v-show="currentStep === steps.STEP_THREE" class="step-3 test flex flex-col">
           <div class="inner">
-            <PublishTextInput type="text" title="Naselje" v-model="neighbourhood" class="mb-6"></PublishTextInput>
-            <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+            <div class="relative w-full flex flex-col">
+              <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
+              <ul v-if="recommendedAddresses.length" class="address-dropdown">
+                <li v-for="item in recommendedAddresses" @click="handleSelectedAddress(item)">
+                  {{ item.description }}
+                </li>
+              </ul>
+            </div>
+            <div class="flex flex-col mt-6">
+              <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
+              <PublishTextInput type="text" title="ZIP" v-model="zip_code"></PublishTextInput>
+            </div>
           </div>
-          <ul v-if="recommendedAddresses.length">
-            <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
-              {{ item.description }}
-            </li>
-          </ul>
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
@@ -81,7 +91,13 @@
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner">
-            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true"></PublishTextInput>
+            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true" :square="price_per_square"></PublishTextInput>
+              <label class="cursor-pointer w-full flex justify-between items-center font-medium text-lg mb-4 pdv">PDV uključen u cijenu
+                <input type="checkbox" v-model="vat_included" />
+              </label>
+              <label class="cursor-pointer w-full flex justify-between items-center font-medium text-lg">Cijena po kvadratu
+                <input type="checkbox" v-model="price_per_square" />
+              </label>
           </div>
 
           <div class="button-wrapper">
@@ -95,9 +111,6 @@
         </div>
 
         <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
-          <div class="inner">
-            <PublishDropdown placeholder="Pretražite lokacije" @select-option="handleSelectedCity" :class="['relative z-10 publish-drop', city !== null ? 'move-top' : '']"></PublishDropdown>
-          </div>
           <div v-if="city !== null" class="map-wrapper">
             <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
           </div>
@@ -130,6 +143,7 @@
         <div v-show="currentStep === steps.STEP_SEVEN" class="step-7 test">
           <div class="inner pt-20 pb-52">
             <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+              <InputError :error="errors.attributes[attr.id]" />
               <component
                 :attr="attr"
                 :options="attr"
@@ -289,6 +303,8 @@ export default class Objava extends Vue {
   lat = 43;
   lng = 42;
   show = false;
+  price_per_square = false;
+  vat_included = false;
 
   // Completion
   completedAttributes = 0
@@ -336,15 +352,19 @@ export default class Objava extends Vue {
       'error': false,
       'message': "Select sponsorship"
     },
-    'neighbourhood': {
+    'district': {
       'error': false,
-      'message': "neighbourhood needs to be two words"
+      'message': "district needs to be two words"
     },
     'description': {
       'error': false,
       'message': "required"
     },
     'address': {
+      'error': false,
+      'message': "required"
+    },
+    'zipCode': {
       'error': false,
       'message': "required"
     },
@@ -376,9 +396,9 @@ export default class Objava extends Vue {
     this.$modal.show('location');
   }
 
-  snackbarValidationError() {
+  snackbarValidationError(param = false) {
     this.$snackbar.show({
-      text: "Imate greske",
+      text: param || "Imate greske",
       timeout: 1000,
       type: "danger"
     });
@@ -404,10 +424,13 @@ export default class Objava extends Vue {
   async publish() {
 
     const payload = {
-      neighbourhood: this.neighbourhood,
+      district: this.district,
       description: this.description,
       address: this.address,
+      zip_code: this.zip_code,
       price: this.price,
+      price_per_square: this.price_per_square,
+      vat_included: this.vat_included,
       listing_type_id: this.listingType.id,
       category_id: this.category.id,
       city_id: this.city.id,
@@ -446,12 +469,12 @@ export default class Objava extends Vue {
 
   nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
-      this.objava();
+      this.publish();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
           if(! this.validateMany(['category'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste odabrali kategoriju");
 
             return
           }
@@ -460,7 +483,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_TWO:
           if(! this.validateMany(['listingType'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste odabrali tip objave");
 
             return;
           }
@@ -468,8 +491,8 @@ export default class Objava extends Vue {
           break;
 
         case this.steps.STEP_THREE:
-          if(! this.validateMany(['neighbourhood', 'address'])) {
-            this.snackbarValidationError();
+          if(! this.validateMany(['district', 'address', 'city', 'zipCode'])) {
+            this.snackbarValidationError("Niste popunili sve obavezne podatke");
 
             return;
           }
@@ -478,7 +501,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_FOUR:
           if(! this.validateMany(['price'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste popunili cijenu");
 
             return;
           }
@@ -487,7 +510,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_FIVE:
           if(! this.validateMany(['city'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste postavili pin");
 
             return;
           }
@@ -496,7 +519,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_SIX:
           if(! this.validateMany(['description'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste popunili opis");
 
             return;
           }
@@ -505,7 +528,7 @@ export default class Objava extends Vue {
 
         case this.steps.STEP_SEVEN:
           if(! this.validateAttributes()) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste popunili obavezna polja");
 
             return;
           }
@@ -513,7 +536,7 @@ export default class Objava extends Vue {
           break;
         case this.steps.STEP_NINE:
           if(! this.validateMany(['sponsorship'])) {
-            this.snackbarValidationError();
+            this.snackbarValidationError("Niste odabrali plan objave");
 
             return;
           }
@@ -547,6 +570,8 @@ export default class Objava extends Vue {
 
   handleSelectedCategory(e) {
     this.category = e;
+
+    this.nextStep();
   }
 
   // Attribute Logic
@@ -690,6 +715,7 @@ export default class Objava extends Vue {
 
   // City location
   city = null;
+  zip_code = null;
 
   handleSelectedCity(f) {
     this.city = f;
@@ -701,15 +727,41 @@ export default class Objava extends Vue {
 
   }
 
+  async handleSelectedAddress(item) {
+    try {
+      let res = await this.$axios.get('/address/details/' + item.place_id)
+
+      this.address = res.data.address;
+      this.city = res.data.city;
+      this.district = res.data.district;
+      this.lat = res.data.location.lat;
+      this.lng = res.data.location.lng;
+      this.zip_code = res.data.zip_code;
+
+      if (this.city && this.lat && this.lng) {
+        this.city.location.lat = this.lat;
+        this.city.location.lng = this.lng;
+      }
+
+      if (this.address && this.city && this.district && this.zip_code && this.lat && this.lng) {
+        this.nextStep();
+      }
+
+      this.recommendedAddresses = []
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   // Basic info
-  neighbourhood = null;
+  district = null;
   address = null;
   price = null;
   description = null;
 
-  @Watch('neighbourhood')
-  handleNeighbourhoodChange(newVal, oldVal) {
-    this.errors.neighbourhood.error = false;
+  @Watch('district')
+  handledistrictChange(newVal, oldVal) {
+    this.errors.district.error = false;
   }
 
   @Watch('address')
@@ -736,8 +788,8 @@ export default class Objava extends Vue {
     return this.selectedAdvertisment !== null;
   }
 
-  validateNeighbourhood() {
-    return this.neighbourhood !== null && this.neighbourhood !== '';
+  validateDistrict() {
+    return this.district !== null && this.district !== '';
   }
 
   validateDescription() {
@@ -746,6 +798,10 @@ export default class Objava extends Vue {
 
   validateAddress() {
     return this.address !== null && this.address !== '';
+  }
+
+  validateZipCode() {
+    return this.zip_code !== null && this.zip_code !== '';
   }
 
   validatePrice() {
@@ -945,7 +1001,7 @@ export default class Objava extends Vue {
             font-weight: 500 !important;
             transition: 0.3s all ease;
             margin-bottom: 0;
-            font-family: 'Raleway', sans-serif;
+            font-family: 'Roboto', sans-serif;
             cursor: pointer;
 
             &.back {
@@ -1061,9 +1117,9 @@ export default class Objava extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Raleway', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 16px;
-      line-height: 21px;
+      line-height: 26px;
       box-sizing: border-box;
       padding: 24px;
 
@@ -1434,17 +1490,17 @@ h2.info {
 }
 
 .left {
-  background-image: url("/login2.jpg");
+  background-image: url(/login2.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   width: 50% !important;
   min-width: 50%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
   position: relative;
-  padding-left: 120px;
+  padding: 24px;
+  padding-top: 200px;
 
   &::after {
     background: rgb(0,0,0);
@@ -1465,6 +1521,7 @@ h2.info {
     color: white;
     position: relative;
     z-index: 1;
+    line-height: 65px;
   }
 }
 
@@ -1491,6 +1548,45 @@ h2.info {
 
 .publish-drop {
   transition: 0.3s all ease;
-
 }
+
+.pdv {
+  border-top: 1px solid #f1f1f1;
+  padding-top: 24px;
+  margin-top: 24px;
+}
+
+.address-dropdown {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  z-index: 1;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+
+  li {
+    height: fit-content;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: 600;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
 </style>
