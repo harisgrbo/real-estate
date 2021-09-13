@@ -7,9 +7,6 @@
         <p>Spašeno</p>
       </li>
     </ul>
-    <h1 class="heading" v-if="!$device.isMobile">
-      Spašeno
-    </h1>
     <div class="content-wrapper">
       <ul class="cw-ul">
         <li v-for="(tab, index) in tabs"
@@ -109,7 +106,7 @@ import Snackbar from "@/components/global/Snackbar";
     ListingCard,
     Snackbar
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })
 
 export default class spaseno extends Vue {
@@ -215,11 +212,7 @@ export default class spaseno extends Vue {
 }
 
 .account-wrapper {
-  @include for-phone-only {
-    padding: 0 12px 120px 12px;
-    box-sizing: border-box;
-    width: 100%;
-  }
+  width: 1180px;
 }
 .saved-wrapper {
   ul {
@@ -307,7 +300,8 @@ export default class spaseno extends Vue {
     flex-direction: row;
     align-items: center;
     margin-bottom: 36px;
-    border-bottom: 1px solid #EBEBEB !important;
+    border-bottom: 1px solid #f1f1f1 !important;
+    margin-top: 24px;
 
     li {
       font-size: 14px !important;
@@ -317,22 +311,23 @@ export default class spaseno extends Vue {
       height: 40px;
       position: relative;
       cursor: pointer;
-      text-transform: uppercase;
       font-weight:500;
+      color: #727272;
 
       &:last-child {
         margin-right: 0;
       }
 
       &.active {
-        color: #0B8489;
+        font-weight: 500;
+        color: #000;
         &::after {
           content: '';
           position: absolute;
           left: 0;
           right: 0;
           bottom: 0;
-          border-bottom: 1px solid #0B8489;
+          border-bottom: 1px solid #000;
         }
       }
     }

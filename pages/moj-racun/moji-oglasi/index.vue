@@ -7,9 +7,6 @@
         <p>Moji oglasi</p>
       </li>
     </ul>
-    <h1 class="heading" v-if="!$device.isMobile">
-      Moji oglasi
-    </h1>
     <div class="content">
       <div v-if="listings.length" class="grid-cards">
         <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
@@ -28,7 +25,7 @@ import { Component, Vue} from "nuxt-property-decorator";
 @Component({
   components: {
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })
 
 export default class mojiOglasi extends Vue {
@@ -58,19 +55,16 @@ export default class mojiOglasi extends Vue {
 }
 
 .account-wrapper {
-  @include for-phone-only {
-    padding: 0 12px 120px 12px;
-    box-sizing: border-box;
-    width: 100%;
-  }
+  width: 1180px;
 }
 .content {
   display: flex;
   flex-direction: column;
+  margin-top: 36px;
 
   .grid-cards {
     display: grid;
-    grid-template-columns: repeat( auto-fill, minmax(240px, 1fr) );
+    grid-template-columns: repeat( auto-fill, minmax(260px, 1fr) );
     column-gap: 16px;
     row-gap: 32px;
     padding-bottom: 36px;

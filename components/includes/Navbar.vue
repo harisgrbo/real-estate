@@ -2,7 +2,7 @@
   <div :class="['navbar-wrapper w-full px-20 shadow-sm', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-        <img :src="[ $device.isMobile ? '/mobile1.png' : '/logo-test.png']" class="main-logo" alt="" @click="$router.push('/')">
+        <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="" @click="$router.push('/')">
       </div>
       <div v-if="this.$route.name !== 'index'" class="input-wrapper"
            @focusin="focused = true"
@@ -100,7 +100,7 @@
           <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
             <sidenav></sidenav>
           </div>
-          <div class="notification" v-show="showNotifications === true">
+          <div :class="[ 'notification', showNotifications ? 'extend' : '' ]">
             <NotificationsDropdown :notifications="notifications" @close-notifications="handleCloseNotifications"></NotificationsDropdown>
           </div>
         </div>
@@ -469,6 +469,10 @@ export default class Navbar extends Vue {
       margin-right: 8px;
     }
 
+    img {
+      height: 40px;
+    }
+
     &.hide {
       @include for-phone-only {
         display: none;
@@ -534,7 +538,6 @@ export default class Navbar extends Vue {
       color: #444;
       border-radius: 16px;
       outline: none;
-      border: none;
       background: none;
 
       i {
@@ -640,14 +643,12 @@ export default class Navbar extends Vue {
   .auth-buttons {
     display: flex;
     align-items: center;
-    position: relative;
     flex: 1;
     justify-content: flex-end;
 
     .inner {
       display: flex;
       align-items: center;
-      padding-right: 8px;
     }
 
     .auth-reg {
@@ -753,19 +754,21 @@ export default class Navbar extends Vue {
 
     .user-dropdown {
       position: absolute;
-      top: 44px;
+      top: 81px;
       padding: 12px;
       background: #fff;
       width: 340px;
       min-width: 340px;
-      right: 0;
+      right: 90px;
       box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      height: -webkit-fit-content;
+      height: -moz-fit-content;
       height: fit-content;
       border-radius: 10px;
-      z-index: 4;
+      z-index: 10;
     }
   }
 
@@ -901,14 +904,23 @@ export default class Navbar extends Vue {
 
 .notification {
   position: absolute;
-  width: 400px;
+  width: 0px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
-  border-radius: 10px;
-  top: 44px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  top: 0;
   right: 0;
-  z-index: 4;
+  z-index: 99;
   background: #fff;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+  box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
+  height: 100vh;
+  transition: 0.3s all ease;
+  overflow-y: scroll;
 
+  &.extend {
+    width: 400px;
+  }
 }
 </style>

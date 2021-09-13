@@ -1,8 +1,8 @@
 <template>
   <div class="notifications-dropdown pb-6">
-    <div class="header px-4">
+    <div class="header p-6">
       <h2>Obavještenja</h2>
-      <i class="material-icons" @click="$emit('close-notifications')">close</i>
+      <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
     </div>
     <div class="flow-root">
       <ul class="-mb-8 p-4">
@@ -62,13 +62,10 @@ export default class NotificationsDropdown extends Vue {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ebebeb;
-    color: #484848;
-    padding-bottom: 14px;
-    padding-top: 8px;
-
+    color: #000;
     h2 {
       font-weight: 500;
-      font-size: 17px;
+      font-size: 16px;
     }
   }
 

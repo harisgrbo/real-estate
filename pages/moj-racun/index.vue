@@ -3,19 +3,19 @@
     <div class="account-wrapper-inner">
       <div class="sidenav">
         <h1 class="heading-account">Moj račun</h1>
-        <div class="info" v-if="$auth.user">
+        <div class="info">
           <p>{{ $auth.user.name }},</p>
-          <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
+          <p>{{ $auth.user.email }}</p>
           <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id">Idi na profil</nuxt-link>
         </div>
         <div class="grid grid-cols-3 gap-6 pb-1">
           <div  v-for="(tab, index) in tabs"
                 :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
             <div>
-      <span class="flex items-start justify-start">
-        <!-- Heroicon name: outline/clock -->
-         <img class="max-h-12" :src="'/settings/' + tab.icon" alt="">
-      </span>
+            <span class="flex items-start justify-start">
+              <!-- Heroicon name: outline/clock -->
+               <img class="max-h-12" :src="'/settings/' + tab.icon" alt="">
+            </span>
             </div>
             <div class="mt-8">
               <h3 class="text-lg font-medium">
@@ -47,7 +47,7 @@
 import { Component, Vue} from "nuxt-property-decorator";
 
 @Component({
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })
 
 export default class accountpage extends Vue {
@@ -118,18 +118,11 @@ export default class accountpage extends Vue {
 .account-wrapper-a {
   height: fit-content;
 
-  @include for-phone-only {
-    padding:12px 0 0 0!important;
-    height: 100%;
-    overflow: scroll;
-
-  }
-
   .account-wrapper-inner {
     display: flex;
     justify-content: space-between;
     height: 100%;
-    width: 1280px;
+    width: 1180px;
     margin: 0 auto;
     box-sizing: border-box;
 
@@ -181,10 +174,10 @@ export default class accountpage extends Vue {
       .heading-account {
         overflow-wrap: break-word !important;
         //font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
-        font-size: 32px !important;
-        font-weight: 600 !important;
+        font-size: 26px !important;
+        font-weight: 500 !important;
         line-height: 1.125em !important;
-        color: rgb(72, 72, 72) !important;
+        color: #000 !important;
       }
 
       h2 {

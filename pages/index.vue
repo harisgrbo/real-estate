@@ -83,12 +83,12 @@
         <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6">
           <div
-            class="swiper-button-next swiper-button-white mx-4"
-            slot="button-next"
+            class="swiper-button-prev swiper-button-white mx-4"
+            slot="button-prev"
           ></div>
           <div
-            class="swiper-button-prev swiper-button-white"
-            slot="button-prev"
+            class="swiper-button-next swiper-button-white"
+            slot="button-next"
           ></div>
         </div>
       </div>
@@ -134,12 +134,12 @@
         <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6">
           <div
-            class="swiper-button-next rent swiper-button-white mx-4"
-            slot="button-next"
+            class="swiper-button-prev rent swiper-button-white mx-4"
+            slot="button-prev"
           ></div>
           <div
-            class="swiper-button-prev rent swiper-button-white"
-            slot="button-prev"
+            class="swiper-button-next rent swiper-button-white"
+            slot="button-next"
           ></div>
         </div>
       </div>
@@ -166,12 +166,12 @@
         <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6">
           <div
-            class="swiper-button-next swiper-button-white mx-4"
-            slot="button-next"
+            class="swiper-button-prev swiper-button-white mx-4"
+            slot="button-prev"
           ></div>
           <div
-            class="swiper-button-prev swiper-button-white"
-            slot="button-prev"
+            class="swiper-button-next swiper-button-white"
+            slot="button-next"
           ></div>
         </div>
       </div>

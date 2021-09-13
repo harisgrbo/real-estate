@@ -11,17 +11,6 @@
         </svg>
         <span>AKCIJA</span>
       </label>
-<!--      <label v-if="!$device.isMobile" class="type overflow-hidden w-full flex flex-row">-->
-<!--        <button-->
-<!--          v-for="(attr, index) in specialAttributes"-->
-<!--          :key="index"-->
-<!--          class="standard-tag"-->
-<!--        >-->
-<!--          {{ attr.value }}-->
-<!--          <p v-if="attr.name === 'Kvadratura'"> m²</p>-->
-<!--          <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>-->
-<!--        </button>-->
-<!--      </label>-->
       <div class="blured-background">
         <button @click="removeFromSaved(listing.id)">Ukloni iz spašenih</button>
       </div>
@@ -33,8 +22,15 @@
               {{ listing.title }}
             </p>
           </div>
-          <div class="address">
-            <p>{{ listing.address }}</p>
+          <div class="addresses">
+            <div
+              v-for="(attr, index) in specialAttributes"
+              :key="index"
+              class="flex flex-row items-center mr-2"
+            >
+              {{ attr.value }}
+              <p v-if="attr.name === 'Kvadratura'"> m²</p>
+            </div>
           </div>
           <div class="icons-date">
             <div>
@@ -447,5 +443,13 @@ export default class ListingCard extends Vue{
     font-weight: bold !important;
     font-size: 16px !important;
     color: #444;
+  }
+
+  .addresses {
+    font-size: 13px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
   }
 </style>
