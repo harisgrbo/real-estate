@@ -60,15 +60,15 @@
         Najtraženije lokacije
       </h2>
       <ul role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-auto">
-          <li class="flow-root justify-between flex flex-col relative" v-for="(city, index) in most_visited_cities" :key="index"
+          <li class="flow-root justify-between flex flex-col relative" v-for="(city, index) in top_locations" :key="index"
               :style="{ backgroundImage: 'url(' + city.img + ')' }"
           >
             <div class="overlay-searched"></div>
             <div>
               <h3 class="font-semibold searched-h3">
-                  {{ city.city }}
+                  {{ city.title }}
               </h3>
-              <p class="mt-1 text-lg text-white searched-h3">2000 KM/m2</p>
+              <p class="mt-1 text-lg text-white searched-h3">{{ price_per_square }} KM/m2</p>
             </div>
             <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Pogledaj više
@@ -96,7 +96,7 @@
     <div class="max-w-full mx-20 mb-8">
       <client-only>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="listing in listings" :key="listing.id">
+          <swiper-slide v-for="listing in listings_sell" :key="listing.id">
             <ListingCard action="true" :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
         </swiper>
@@ -147,7 +147,7 @@
     <div class="max-w-full mx-20 mb-8">
       <client-only>
         <swiper class="swiper" :options="swiperOptionRent">
-          <swiper-slide v-for="listing in listings" :key="listing.id">
+          <swiper-slide v-for="listing in listings_rent" :key="listing.id">
             <ListingCard :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
         </swiper>
@@ -156,9 +156,9 @@
     <div class="agency-wrap">
       <h2>Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
       <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>
-      <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        Lista agencija
-      </button>
+      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Lista agencija
+      </nuxt-link>
     </div>
     <div class="w-full flex items-center justify-between px-20 mb-4">
       <h2 class="section-title">Izdavanje na dan</h2>
@@ -179,7 +179,7 @@
     <div class="max-w-full mx-20 mb-8">
       <client-only>
         <swiper class="swiper" :options="swiperOptionRentPerDay">
-          <swiper-slide v-for="listing in listings" :key="listing.id">
+          <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
             <ListingCard :listing="listing" type="rent"/>
           </swiper-slide>
         </swiper>
@@ -187,10 +187,10 @@
     </div>
     <div class="w-full flex items-center justify-between px-20 mb-4">
       <h2 class="section-title">Agencije</h2>
-      <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+      <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
     <div class="px-20 flex flex-row overflow-x-scroll gap-4 mb-16">
-      <UserCard v-for="i in 10" />
+      <UserCard v-for="agency in agencies" :user="agency"/>
     </div>
   </div>
 </template>
@@ -224,6 +224,11 @@
       let page = 1
       let agency_meta = null
       let agency_page = 1
+      let top_locations = []
+      let listings_sell = []
+      let listings_rent = []
+      let listings_rent_for_a_day = []
+      let agencies = []
 
       try {
         let res = await ctx.app.$axios.get('/listings/home')
@@ -243,13 +248,55 @@
         console.log(e)
       }
 
+      try {
+        let res = await ctx.app.$axios.get('/listings/sell')
+        listings_sell = res.data.data;
+      } catch (e) {
+        console.log(e)
+      }
+
+      try {
+        let res = await ctx.app.$axios.get('/listings/rent')
+        listings_rent = res.data.data;
+      } catch (e) {
+        console.log(e)
+      }
+
+      try {
+        let res = await ctx.app.$axios.get('/listings/rent-for-a-day')
+        listings_rent_for_a_day = res.data.data;
+      } catch (e) {
+        console.log(e)
+      }
+
+      try {
+        let res = await ctx.app.$axios.get('/top/locations')
+        top_locations = res.data.data;
+
+      } catch (e) {
+        console.log(e)
+      }
+
+      try {
+        let res = await ctx.app.$axios.get('/agencies')
+        agencies = res.data.data;
+
+      } catch (e) {
+        console.log(e)
+      }
+
       return {
         listings,
+        agencies,
         meta,
         page,
         agency_listings,
         agency_meta,
-        agency_page
+        agency_page,
+        top_locations,
+        listings_sell,
+        listings_rent,
+        listings_rent_for_a_day
       }
     }
   })
@@ -983,7 +1030,7 @@ ul.most-visited-cats {
     z-index: 1;
   }
 
-  button {
+  a {
     position: relative;
     z-index: 1;
   }

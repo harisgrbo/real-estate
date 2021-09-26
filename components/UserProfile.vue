@@ -1,14 +1,14 @@
 <template>
-  <aside class="bg-white ml-6 overflow-y-auto lg:block">
-    <div class="">
+  <aside class="ml-16">
+    <div class="main-user-wrapper">
       <div class="flex flex-row">
-        <div class="flex w-20 h-20 items-center justify-center rounded-full overflow-hidden">
+        <div class="flex w-14 h-14 items-center justify-center rounded-full overflow-hidden">
           <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="object-contain">
         </div>
-        <div class="flex flex-col items-start justify-between mb-4 pl-4">
-          <h2 @click="goToUser()" class="text-lg font-medium text-black">{{ user.name }}</h2>
+        <div class="flex flex-col items-start justify-between h-14 pl-4">
+          <h2 @click="goToUser()" class="text-lg font-medium text-black leading-5">{{ user.name }}</h2>
           <div class="flex flex-row items-center justify-start">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
             </svg>
             <p class="pl-2">
@@ -41,10 +41,12 @@
     <div class="rent" v-if="isRent">
       <client-only>
         <form @submit.prevent>
+          <div class="flex flex-row items-center mb-4">
+            <p class="text-xl font-medium">{{ price + ' KM'}}</p>
+            <p class="pl-2">/ noć</p>
+          </div>
           <div class="mb-4">
-                <span class="block text-gray-600 text-sm text-left font-bold mb-4"
-                >Izaberite datum iznajmljivanja</span
-                >
+            <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
             <vc-date-picker
               v-model="range"
               mode="dateTime"
@@ -112,7 +114,7 @@
               </template>
             </vc-date-picker>
           </div>
-          <ActionButton placeholder="Pošalji upit"></ActionButton>
+          <ActionButton placeholder="Pošalji upit za rezervaciju" :style-options="{ width: '100%' }"></ActionButton>
         </form>
       </client-only>
     </div>
@@ -154,6 +156,7 @@ export default class UserProfile extends Vue {
   @Prop({}) isRent;
   @Prop({}) type;
   @Prop() id;
+  @Prop() price;
 
   message = '';
   loading = false;
@@ -308,6 +311,8 @@ aside {
   width: 360px;
 
   .contact {
+    margin-top: 36px;
+
     ::v-deep button {
       width: 100%;
       margin-top: 16px;
@@ -325,9 +330,11 @@ aside {
   }
 
   .rent {
+    border: 1px solid #f1f1f1;
+    border-radius: 15px;
+    padding: 16px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
     margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid #f1f1f1;
   }
 
   .modal-inner {
@@ -372,6 +379,13 @@ aside {
       }
     }
   }
+}
+
+.main-user-wrapper {
+  border: 1px solid #f1f1f1;
+  border-radius: 15px;
+  padding: 16px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
 }
 
 </style>

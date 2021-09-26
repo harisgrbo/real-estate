@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="loading"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '1px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="loading"></ActionButton>
 
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">

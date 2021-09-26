@@ -1,11 +1,10 @@
 <template>
   <div class="account-wrapper-a">
-    <Navbar></Navbar>
     <div class="account-wrapper-inner">
-      <div class="sidenav">
-        <h1 class="heading-account">56 agencija za nekretnine</h1>
+      <div class="sidenav my-12">
+        <h1 class="heading-account">{{ agencies.length }} agencija za nekretnine</h1>
          <div class="grid-layout">
-         <UserCard v-for="card in 16" :key="card" />
+         <UserCard v-for="agency in agencies" :user="agency" :key="card" />
        </div>
       </div>
     </div>
@@ -20,34 +19,24 @@ import UserCard from "@/components/UserCard"
 
 @Component({
   components: { Navbar, AgencyCard, UserCard },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : '',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 
 })
 
 export default class Agencies extends Vue {
-  swiperOption = {
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    },
-    setWrapperSize: true,
-    spaceBetween: 14,
-    slidesPerColumnFill: 'row',
-    // centeredSlides: true,
-    // slidesOffsetBefore: '100px',
-    // slidesOffsetAfter: '100px',
-    // slidesOffsetBefore: '0px',
-    loop: true,
-    autoplay: {
-      delay: 2500,
-    },
-    slidesPerGroup: 4,
-    slidesPerView: 4,
-    touchRatio: 0.2,
-    slideToClickedSlide: true,
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+  agencies = [];
+
+  async created() {
+    await this.fetchAgencies();
+  }
+
+  async fetchAgencies() {
+    try {
+      let res = await this.$axios.get('/agencies');
+
+      this.agencies = res.data.data;
+    } catch(e) {
+      console.log(e)
     }
   }
 }
@@ -61,9 +50,8 @@ export default class Agencies extends Vue {
   }
 }
 .account-wrapper-a {
-  padding-top: 107px !important;
-  height: calc(100vh - 107px);
-
+  max-width: 1180px;
+  margin: 0 auto;
   @include for-phone-only {
     padding: 32px 0!important;
     height: 100%;
@@ -74,10 +62,8 @@ export default class Agencies extends Vue {
     display: flex;
     justify-content: space-between;
     height: 100%;
-    width: 1280px;
-    margin: 0 auto;
     box-sizing: border-box;
-    padding-bottom: 100px;
+    width: 100%;
 
     @include for-phone-only {
       width: 100%;
@@ -88,7 +74,6 @@ export default class Agencies extends Vue {
       display: flex;
       flex: 2;
       background: #fff;
-      padding: 24px;
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;
@@ -232,10 +217,16 @@ a {
 
 
 .grid-layout {
+  grid-template-columns: repeat(3, 1fr);
   padding: 0 !important;
   grid-row-gap: 24px;
   grid-column-gap: 24px;
   padding-bottom: 100px;
+
+  ::v-deep .user-profile {
+    min-width: 100%;
+    width: 100%;
+  }
 }
 
 .swiper {

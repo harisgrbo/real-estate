@@ -315,7 +315,7 @@ export default class Agencies extends Vue {
 
   async getAgencyDetailedInfo() {
     try {
-      let res = await this.$axios.get('/agencies/' + this.user.id);
+      let res = await this.$axios.get('/agencije/' + this.user.id);
       this.detailedAgencyinfo = res.data.data;
 
       console.log(res, 'ressss')

@@ -13,7 +13,7 @@
 
               </p>
             </div>
-            <p class="font-medium">Prostor d.o.o</p>
+            <p class="font-medium">{{ user.name }}</p>
             <p class="mt-2 text-sm font-normal">Sarajevo</p>
           </div>
         </div>

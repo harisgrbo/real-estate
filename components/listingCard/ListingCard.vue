@@ -105,6 +105,8 @@ export default class ListingCard extends Vue{
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
+
+    console.log(this.getSpecialAttributes())
   }
 }
 </script>

@@ -33,7 +33,7 @@ button {
   height: 48px;
   background: #fff;
   border-radius: 10px;
-  border: 2px solid #000;
+  border: 1px solid #000;
   width: fit-content;
   display: flex;
   align-items: center;
