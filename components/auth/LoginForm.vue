@@ -53,7 +53,7 @@ export default class LoginForm extends Vue{
           type: 'danger'
         })
       }
-    } finally {
+
       this.loading = false;
     }
   }

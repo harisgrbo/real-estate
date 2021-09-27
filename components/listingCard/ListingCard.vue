@@ -57,7 +57,6 @@ export default class ListingCard extends Vue{
   @Prop({ type: Object }) listing
   @Prop({ type: Boolean, default: false}) from
   @Prop({}) type
-  @Prop({}) listingType
   @Prop({ type: Boolean, default: false }) action
 
   // Translate listing type
@@ -91,11 +90,6 @@ export default class ListingCard extends Vue{
     return this.listing.attributes.filter((item) => {
       return this.specialAttributesKeys.indexOf(item.name) !== -1;
     });
-  }
-
-
-  get listingType() {
-    return this.types[this.listing.listing_type.shortname];
   }
 
   removeFromSaved(id) {

@@ -68,7 +68,7 @@
               <h3 class="font-semibold searched-h3">
                   {{ city.title }}
               </h3>
-              <p class="mt-1 text-lg text-white searched-h3">{{ price_per_square }} KM/m2</p>
+              <p class="mt-1 text-lg text-white searched-h3">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
             </div>
             <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Pogledaj više
@@ -97,7 +97,7 @@
       <client-only>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
-            <ListingCard action="true" :listing="listing" :type="listing.user.user_type"/>
+            <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
         </swiper>
       </client-only>
