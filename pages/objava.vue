@@ -27,6 +27,9 @@
         <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
           Označite polja koja vaša nekretnina posjeduje
         </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_NINE">
+          Promocija oglasa
+        </h2>
       </div>
       <div class="content-wrapper">
         <div class="loader-wrapper">
@@ -220,27 +223,32 @@
         <!-- izdvajanje -->
 
         <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
-          <h1 class="heading">
-            Promocija oglasa
-          </h1>
           <div class="advertising-options-wrapper">
-            <div class="advertising-options">
-              <ul>
-                <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
-                  <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
-                  <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
-                  <div class="text-wrapper">
-                    <p>{{ option.title }}</p>
-                    <p>{{ option.description }}</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="advertising-calculator">
-              <div class="inner">
-                test
+            <div class="inner">
+              <div class="advertising-options">
+                <ul>
+                  <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
+                    <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
+                    <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
+                    <div class="text-wrapper">
+                      <p>{{ option.title }}</p>
+                      <p>{{ option.description }}</p>
+                    </div>
+                  </li>
+                </ul>
               </div>
-              <ActionButton placeholder="Dopuni kredit"></ActionButton>
+              <div class="advertising-calculator">
+                <ActionButton placeholder="Dopuni kredit" :style-options="{ border: '1px solid #000', color: '#000', borderRadius: '8px', height: '58px', marginTop: '36px' }"></ActionButton>
+              </div>
+            </div>
+
+            <div class="button-wrapper">
+              <button @click="prevStep" class="back">Nazad
+                <i class="material-icons">chevron_left</i>
+              </button>
+              <button @click="nextStep">Dalje
+                <i class="material-icons">chevron_right</i>
+              </button>
             </div>
           </div>
 
@@ -921,7 +929,8 @@ export default class Objava extends Vue {
       .step-5,
       .step-6,
       .step-7,
-      .step-8
+      .step-8,
+      .step-9
       {
         min-height: 100%;
         width: 100%;
@@ -1307,11 +1316,8 @@ h2.info {
 
   .advertising-options {
     display: flex;
-    flex: 3;
-    display: flex;
     flex-direction: column;
     height: fit-content;
-    padding: 0px 0 48px 0;
 
     ul {
       display: flex;
@@ -1330,7 +1336,7 @@ h2.info {
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        height: 100px;
+        height: fit-content;
         cursor: pointer;
         padding: 12px;
 
@@ -1412,10 +1418,8 @@ h2.info {
 
   .advertising-calculator {
     display: flex;
-    flex: 1;
     flex-direction: column;
     height: fit-content;
-    margin-left: 24px;
 
     @include for-phone-only {
       margin-left: 0;

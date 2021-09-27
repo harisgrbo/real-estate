@@ -4,8 +4,8 @@
       <h2>Obavještenja</h2>
       <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
     </div>
-    <div class="flow-root">
-      <ul class="-mb-8 p-4">
+    <div class="flow-root p-4 flex flex-col justify-between h-full">
+      <ul class="-mb-8 p-4 min-h-full" v-if="notifications.length">
         <li v-for="notification in notifications">
           <div class="relative pb-8">
             <span class="absolute top-4 left-4 -ml-px h-3/4 w-0.5 bg-gray-200" aria-hidden="true"></span>
@@ -33,15 +33,21 @@
           </div>
         </li>
       </ul>
+      <div v-else class="no-notifications flex flex-col items-center">
+        <img src="/messages-1.jpg" alt="">
+        <h2 class="mt-2 p-2 text-standard font-medium rounded-sm bg-gray-50">Nemate obavijesti</h2>
+      </div>
+      <ActionButton :style-options="{ width: '100%' }" @action="$emit('clear-notifications')" placeholder="Očisti obavijesti" icon="trash-alt"></ActionButton>
     </div>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import ActionButton from "./actionButtons/ActionButton";
 
 @Component({
-  components: {}
+  components: {ActionButton}
 })
 
 export default class NotificationsDropdown extends Vue {
@@ -55,6 +61,7 @@ export default class NotificationsDropdown extends Vue {
 
 <style scoped lang="scss">
 .notifications-dropdown {
+  height: calc(100vh - 120px);
 
   .header {
     display: flex;
@@ -69,5 +76,16 @@ export default class NotificationsDropdown extends Vue {
     }
   }
 
+}
+
+.no-notifications {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    height: 150px;
+  }
 }
 </style>

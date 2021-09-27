@@ -47,8 +47,7 @@ export default class TextField extends Vue{
 
 input {
   height: 50px;
-  border: 1px solid #dcdcdc;
-  background: transparent;
+  background: #f9f9f9;
   border-radius: 10px;
   padding-right: 24px !important;
 

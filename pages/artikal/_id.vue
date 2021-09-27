@@ -48,7 +48,7 @@
           </client-only>
         </div>
         <div class="listing-content-wrapper flex flex-row">
-          <div class="flex flex-col">
+          <div class="flex flex-col w-full">
             <ul role="list" class="main-info">
               <li>
                 <p>Lokacija</p>
@@ -118,14 +118,16 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6">Detaljni opis</h2>
             <p class="description">{{ listing.description }}</p>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6">U blizini</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Pogledajte šta se nalazi u blizini nekretnine</h2>
             <div class="places">
-              <ul class="flex flex-row items-center justify-start">
-                <li v-for="place in places" @click="selectPlace(place)">{{ place }}</li>
+              <ul class="flex flex-row items-center justify-start places-ul">
+                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place' : '']">{{ translatePlaces(index) }}</li>
               </ul>
-              <div v-if="selectedPlace !== null">
-                <div class="places-grid">
-                  <div v-for="p in selectedPlace.results">{{ place }}</div>
+              <div>
+                <div class="places-grid" v-if="selectedPlace !== null">
+                  <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
+                    <img :src="p.icon" :alt="p.name" class="mr-2">
+                    {{ p.name }}</div>
                 </div>
               </div>
             </div>
@@ -291,22 +293,38 @@ export default class Artikal extends Vue {
     },
   ]
   places = []
+  x = 0
+
+  translatePlaces(key) {
+    if(key === 'atm') {
+      return key = 'Bankomati'
+    } else if(key === 'school') {
+      return key = 'Škole'
+    } else if(key === 'cafe') {
+      return key = 'Kafići'
+    } else if(key === 'restaurant') {
+      return key = 'Restorani'
+    } else if(key === 'shopping_mall') {
+      return key = 'Šoping centri'
+    }
+  }
 
   async fetchPlaces() {
     try {
-      let res = await this.$axios.get('/listings/' + this.listing.id + '/places');
+      let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
+      this.places = res;
 
-      this.places = res.data;
-
-      console.log(this.places, 'mjesta');
-
+      console.log(this.places, 'mjesta')
     } catch(e) {
       console.log(e)
     }
   }
 
-  selectPlace(p) {
+  selectPlace(p, i) {
     this.selectedPlace = p;
+    this.x = i;
+
+    console.log(this.selectedPlace, i)
   }
 
   numberWithCommas(x) {
@@ -1039,8 +1057,23 @@ export default class Artikal extends Vue {
   flex-direction: column;
 
   .places-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 24px;
+    grid-row-gap: 32px;
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 8px;
+
+    > div {
+      line-height: 20px;
+      font-size: 14px;
+
+      img {
+        height: 20px;
+        max-height: 20px;
+      }
+    }
 
     .places-heading {
       display: flex;
@@ -1063,60 +1096,6 @@ export default class Artikal extends Vue {
         padding: 12px;
         background: #f1f1f1;
         border-radius: 8px;
-      }
-    }
-  }
-
-  ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    grid-column-gap: 12px;
-    margin-bottom: 24px;
-    //overflow: hidden;
-    max-height: 70px;
-
-    @include for-phone-only {
-      max-height: 150px;
-    }
-
-    &.extend {
-      max-height: fit-content;
-    }
-    li {
-      height: fit-content;
-      padding: 12px 8px;
-      transition: 0.3s all ease;
-      border-radius: 10px;
-
-      p {
-        white-space: nowrap;
-        width: 150px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      &:hover {
-        position: relative;
-        cursor: pointer;
-        p {
-          position: absolute;
-          overflow: visible;
-          box-shadow: 0 0px 12px 0 rgba(0, 0, 0, 0.1);
-          z-index: 10;
-          background: #fff;
-          min-width: fit-content;
-          width: fit-content;
-          height: fit-content;
-          border-radius: 8px;
-          padding: 12px 8px;
-          top: 0;
-          left: 0;
-          right: inherit;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          box-sizing: border-box;
-        }
       }
     }
   }
@@ -1176,6 +1155,27 @@ export default class Artikal extends Vue {
       }
     }
   }
+}
+
+.places-ul {
+  display: flex;
+
+  li {
+    width: fit-content;
+    margin-right: 16px;
+    padding: 16px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.active-place {
+  font-weight: 500;
+  background: #f9f9f9;
 }
 
 </style>
