@@ -2,7 +2,9 @@
   <div :class="['navbar-wrapper w-full px-20 shadow-sm', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-        <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="" @click="$router.push('/')">
+        <nuxt-link :to="'/'">
+          <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="">
+        </nuxt-link>
       </div>
       <div v-if="this.$route.name !== 'index'" class="input-wrapper"
            @focusin="focused = true"
