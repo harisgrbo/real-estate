@@ -26,24 +26,23 @@ import { Component, Vue} from "nuxt-property-decorator";
   components: {
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
-})
+  async asyncData(ctx) {
+    let listings = [];
 
-export default class mojiOglasi extends Vue {
-  listings = []
-
-  async created() {
-    await this.fetchProfileListings();
-  }
-
-  async fetchProfileListings() {
     try {
-      let res = await this.$axios.get('/profile/listings');
-
-      this.listings = res.data.data;
+      let res = await ctx.app.$axios.get('/profile/listings');
+      listings = res.data.data;
     } catch(e) {
       console.log(e)
     }
+
+    return {
+      listings
+    }
   }
+})
+export default class mojiOglasi extends Vue {
+
 }
 </script>
 
