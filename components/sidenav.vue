@@ -171,8 +171,7 @@ export default class sidenav extends Vue {
 
       &.user-label {
         padding: 8px 8px 8px 8px;
-        background: #f9f9f9;
-        margin-bottom: 12px;
+        border-bottom: 1px solid #f1f1f1;
         height: fit-content;
         cursor: pointer;
         img {

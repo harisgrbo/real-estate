@@ -152,7 +152,7 @@ export default class HorizontalCard extends Vue{
       return this.specialAttributesKeys.indexOf(item.name) !== -1;
     });
 
-    console.log(this.specialAttributes)
+    console.log(this.specialAttributes, 'special')
   }
 
   get listingType() {

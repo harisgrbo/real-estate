@@ -315,7 +315,7 @@ export default class Agencies extends Vue {
 
   async getAgencyDetailedInfo() {
     try {
-      let res = await this.$axios.get('/agencies/' + this.user.id);
+      let res = await this.$axios.get('/agencije/' + this.user.id);
       this.detailedAgencyinfo = res.data.data;
 
       console.log(res, 'ressss')
@@ -359,7 +359,7 @@ export default class Agencies extends Vue {
       this.loading = false;
 
       this.$snackbar.show({
-        text: "Uspjšsno ste poslali poruku korisniku " + this.user.name,
+        text: "uspješno ste poslali poruku korisniku " + this.user.name,
         timeout: 1000,
         type: "success"
       });
@@ -377,7 +377,7 @@ export default class Agencies extends Vue {
         this.$axios.post('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "Uspjšsno ste zapratili korisnika " + this.user.name,
+          text: "uspješno ste zapratili korisnika " + this.user.name,
           timeout: 1000,
           type: "success"
         });
@@ -391,7 +391,7 @@ export default class Agencies extends Vue {
         this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "Uspjšsno ste otpratili korisnika " + this.user.name,
+          text: "uspješno ste otpratili korisnika " + this.user.name,
           timeout: 1000,
           type: "success"
         });

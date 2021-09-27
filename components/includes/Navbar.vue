@@ -2,7 +2,9 @@
   <div :class="['navbar-wrapper w-full px-20 shadow-sm', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-        <img :src="[ $device.isMobile ? '/mobile1.png' : '/logo-test.png']" class="main-logo" alt="" @click="$router.push('/')">
+        <nuxt-link :to="'/'">
+          <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="">
+        </nuxt-link>
       </div>
       <div v-if="this.$route.name !== 'index'" class="input-wrapper"
            @focusin="focused = true"
@@ -73,7 +75,7 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="loading"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '1px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="false"></ActionButton>
 
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">
@@ -83,7 +85,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            <p class="notify" v-if="messagesCount.lenth">{{ messagesCount }}</p>
+            <p class="notify" v-if="messagesCount">{{ messagesCount }}</p>
           </button>
           <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,8 +102,8 @@
           <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
             <sidenav></sidenav>
           </div>
-          <div class="notification" v-show="showNotifications === true">
-            <NotificationsDropdown :notifications="notifications" @close-notifications="handleCloseNotifications"></NotificationsDropdown>
+          <div :class="[ 'notification', showNotifications ? 'extend' : '' ]">
+            <NotificationsDropdown :notifications="notifications" @close-notifications="handleCloseNotifications" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
           </div>
         </div>
       </div>
@@ -246,12 +248,15 @@ export default class Navbar extends Vue {
   async handleCloseNotifications() {
     try {
       await this.$axios.post('/profile/notifications/read');
-      this.notifications = [];
     } catch (e) {
       console.log(e)
     } finally {
       this.showNotifications = false;
     }
+  }
+
+  async handleClearNotifications() {
+    this.notifications = [];
   }
 
   async getSearches() {
@@ -469,6 +474,10 @@ export default class Navbar extends Vue {
       margin-right: 8px;
     }
 
+    img {
+      height: 40px;
+    }
+
     &.hide {
       @include for-phone-only {
         display: none;
@@ -534,7 +543,6 @@ export default class Navbar extends Vue {
       color: #444;
       border-radius: 16px;
       outline: none;
-      border: none;
       background: none;
 
       i {
@@ -640,14 +648,12 @@ export default class Navbar extends Vue {
   .auth-buttons {
     display: flex;
     align-items: center;
-    position: relative;
     flex: 1;
     justify-content: flex-end;
 
     .inner {
       display: flex;
       align-items: center;
-      padding-right: 8px;
     }
 
     .auth-reg {
@@ -753,19 +759,21 @@ export default class Navbar extends Vue {
 
     .user-dropdown {
       position: absolute;
-      top: 44px;
+      top: 81px;
       padding: 12px;
       background: #fff;
       width: 340px;
       min-width: 340px;
-      right: 0;
+      right: 90px;
       box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      height: -webkit-fit-content;
+      height: -moz-fit-content;
       height: fit-content;
       border-radius: 10px;
-      z-index: 4;
+      z-index: 10;
     }
   }
 
@@ -901,14 +909,23 @@ export default class Navbar extends Vue {
 
 .notification {
   position: absolute;
-  width: 400px;
+  width: 0px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
-  border-radius: 10px;
-  top: 44px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  top: 0;
   right: 0;
-  z-index: 4;
+  z-index: 99;
   background: #fff;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+  box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
+  height: 100vh;
+  transition: 0.3s all ease;
+  overflow-y: scroll;
 
+  &.extend {
+    width: 400px;
+  }
 }
 </style>

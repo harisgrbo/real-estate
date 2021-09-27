@@ -1,5 +1,5 @@
 <template>
-  <div class="message-wrapper max-w-7xl mx-auto w-full">
+  <div class="message-wrapper mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -11,7 +11,6 @@
       <div class="conversation-list">
         <div class="search-wrapper">
           <input type="text">
-          <font-awesome-icon icon="search"></font-awesome-icon>
         </div>
         <div class="heading-inner">
           <h1>Konverzacije</h1>
@@ -41,10 +40,12 @@
         <div class="main-input-wrapper">
           <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
           <div class="buttons">
-            <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
-            <font-awesome-icon icon="paperclip"></font-awesome-icon>
-            <font-awesome-icon icon="paper-plane" class="last" @click="sendMessage"></font-awesome-icon>
-            <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
+            <div class="flex items-center justify-start">
+              <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
+              <font-awesome-icon icon="paperclip"></font-awesome-icon>
+              <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
+            </div>
+            <ActionButton icon="paper-plane" class="last" placeholder="Pošalji poruku" @click="sendMessage"></ActionButton>
           </div>
         </div>
       </div>
@@ -68,8 +69,13 @@
                 <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
                 <div class="buttons">
                   <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
-                  <font-awesome-icon icon="paperclip"></font-awesome-icon>
-                  <font-awesome-icon icon="paper-plane" class="last" @click="sendMessage"></font-awesome-icon>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" @click="sendMessage" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                  </svg>
                   <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
                 </div>
               </div>
@@ -87,15 +93,17 @@ import ConversationList from "@/components/messages/ConversationList"
 import ConversationContent from "@/components/messages/ConversationContent"
 import { v4 as uuidv4 } from 'uuid';
 import { mixin as clickaway } from 'vue-clickaway';
+import ActionButton from "../../../components/actionButtons/ActionButton";
 
 @Component({
   components: {
+    ActionButton,
     ConversationList,
     ConversationContent,
   },
   mixins: [ clickaway ],
   middleware: ['auth'],
-  layout() { return "home" },
+  layout() { return "article" },
   async asyncData(ctx) {
     let conversations = [];
 
@@ -251,7 +259,7 @@ export default class poruke extends Vue {
   .message-wrapper {
     display: flex;
     height: calc(100vh - 126px);
-    width: 100%;
+    max-width: 1180px;
     box-sizing: border-box;
     flex-direction: column;
     overflow: hidden;
@@ -268,11 +276,11 @@ export default class poruke extends Vue {
     height: 100%;
 
     .heading-wrapper {
-      height: 80px;
-      min-height: 80px;
+      height: 60px;
+      min-height: 60px;
       display: flex;
       align-items: center;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #f1f1f1;
       margin-bottom: 24px;
 
       &.center {
@@ -327,10 +335,6 @@ export default class poruke extends Vue {
           }
         }
 
-        svg {
-          padding: 0 12px;
-          border-left: 1px solid #ddd;
-        }
       }
 
       .heading-inner {
@@ -428,11 +432,8 @@ export default class poruke extends Vue {
 .conversation {
   display: flex;
   flex: 6;
-  background: #f7f7f7;
-  border-radius: 15px;
   flex-direction: column;
   position: relative;
-  box-shadow: rgb(0 0 0 / 8%) 0px 6px 12px;
   height: calc(100vh - 225px);
 
   @include for-phone-only {
@@ -442,57 +443,39 @@ export default class poruke extends Vue {
 
   .main-input-wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     background: #fff;
-    border-radius: 10px;
-    box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
-    padding: 0 12px;
     box-sizing: border-box;
-    height: 70px;
+    height: fit-content;
     position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #f1f1f1;
 
     .buttons {
-      width: fit-content;
+      width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-between;
 
       svg {
+        font-size: 18px;
         margin-right: 12px;
-        padding: 12px;
-        background: #f7f7f7;
-        color: #444;
-        border-radius: 8px;
-        cursor: pointer;
-
-        @include for-phone-only {
-          padding: 6px;
-          margin-right:8px;
-        }
-
-        &.last {
-          margin-right: 0;
-          background: #D63946;
-          padding: 16px;
-          color: #fff;
-
-          @include for-phone-only {
-            padding: 10px;
-          }
-        }
+        color: #a8a8a8;
       }
+
     }
 
     input {
       width: 100%;
-      height: 100%;
+      height: 70px;
+      display: flex;
+      align-items: center;
       border: none;
       background: transparent;
-      padding: 0 12px;
       font-size: 16px;
 
       &::placeholder {
@@ -504,10 +487,6 @@ export default class poruke extends Vue {
         outline: none;
       }
     }
-  }
-
-  .heading-wrapper {
-    padding-left: 24px;
   }
 }
 

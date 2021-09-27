@@ -7,10 +7,7 @@
         <p>Pratim/pratioci</p>
       </li>
     </ul>
-    <h1 class="heading" v-if="!$device.isMobile">
-      Pratim/pratioci
-    </h1>
-    <ul class="navs">
+    <ul class="cw-ul">
       <li v-for="(tab, index) in tabs"
           :key="index"
           @click="activeTab = index"
@@ -126,7 +123,7 @@ import UserCard from "@/components/UserCard";
   components: {
     UserCard,
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })
 
 export default class pratioci extends Vue {
@@ -182,19 +179,16 @@ export default class pratioci extends Vue {
 }
 
 .account-wrapper {
-  @include for-phone-only {
-    padding: 0 12px 120px 12px;
-    box-sizing: border-box;
-    width: 100%;
-  }
+  width: 1180px;
 }
-ul.navs {
+.cw-ul {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 36px;
-  border-bottom: 1px solid #EBEBEB !important;
+  border-bottom: 1px solid #f1f1f1 !important;
+  margin-top: 24px;
 
   li {
     font-size: 14px !important;
@@ -204,22 +198,23 @@ ul.navs {
     height: 40px;
     position: relative;
     cursor: pointer;
-    text-transform: uppercase;
     font-weight:500;
+    color: #727272;
 
     &:last-child {
       margin-right: 0;
     }
 
     &.active {
-      color: #0B8489;
+      font-weight: 500;
+      color: #000;
       &::after {
         content: '';
         position: absolute;
         left: 0;
         right: 0;
         bottom: 0;
-        border-bottom: 1px solid #0B8489;
+        border-bottom: 1px solid #000;
       }
     }
   }

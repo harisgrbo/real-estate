@@ -170,9 +170,9 @@ export default class ConversationContent extends Vue {
     }
     p {
       line-height: 21px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #444;
+      font-size: 15px;
+      font-weight: 400;
+      color: #000;
 
       @include for-phone-only {
         font-size: 13px;

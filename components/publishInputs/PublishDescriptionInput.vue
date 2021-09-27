@@ -29,16 +29,14 @@ label {
   margin-bottom: 12px;
 }
 textarea {
-  height: 60px;
-  border: 1px solid #000;
+  height: 400px;
   border-radius: 10px;
   font-weight: 500;
   color: #000;
   font-size: 18px;
-  font-family: 'Roboto', sans-serif;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
   padding: 24px;
-  min-height: 300px;
-  line-height: 25px;
 
   &:focus {
     outline: none;
@@ -59,8 +57,8 @@ span {
 }
 
 ::placeholder {
-  font-weight: 500;
-  color: #000;
+  font-weight: 400;
+  color: #717171;
   font-size: 16px;
 }
 

@@ -32,13 +32,15 @@ export default {
   flex-direction: column;
   position: relative;
   margin-bottom: 36px;
+
   input {
     height: 60px;
-    border: 1px solid #000;
     border-radius: 10px;
     font-weight: 500;
     color: #000;
-    font-size: 16px;
+    font-size: 18px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
     padding: 0 24px;
 
     &:focus {

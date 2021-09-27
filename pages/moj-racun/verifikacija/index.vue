@@ -7,9 +7,6 @@
         <p>Verifikacija</p>
       </li>
     </ul>
-    <h1 class="heading">
-      Verifikacija
-    </h1>
     <div class="verify-content">
       <div class="verify-box">
         <h2>Verifikacija e-mail adrese</h2>

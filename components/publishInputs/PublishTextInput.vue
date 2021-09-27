@@ -54,11 +54,12 @@ export default class PublishTextInput extends Vue{
 
 input {
   height: 60px;
-  border: 1px solid #000;
   border-radius: 10px;
-  font-weight: 600;
+  font-weight: 500;
   color: #000;
   font-size: 18px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
 
   &:focus {
     outline: none;
@@ -66,8 +67,8 @@ input {
 }
 
 ::placeholder {
-  font-weight: 500;
-  color: #000;
+  font-weight: 400;
+  color: #717171;
   font-size: 16px;
 }
 

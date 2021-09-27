@@ -63,14 +63,14 @@ export default {
     button {
       height: 60px;
       border-radius: 10px;
-      background: #fff;
-      font-size: 16px;
-      font-weight: 500;
-      font-family: 'Roboto', sans-serif;
-      cursor: pointer;
-      border: 1px solid #000;
-      width: 100%;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
       margin-bottom: 0;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 400;
+      color: #717171;
+      font-size: 16px;
 
       &:focus {
         outline: none;
@@ -78,7 +78,7 @@ export default {
 
       &.selected {
         background: #f9f9f9;
-        font-weight: 600;
+        font-weight: 500;
         border: 2px solid #000;
         color: #000;
 

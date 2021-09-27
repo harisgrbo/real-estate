@@ -1,5 +1,5 @@
 <template>
-    <button @click="action" :style="styleOptions">
+    <button @click="action" :style="styleOptions" :disabled="loading === true">
       <font-awesome-icon v-if="icon" :icon="icon"></font-awesome-icon>
       <span v-if="loading === false">{{ placeholder }}</span>
       <img v-else src="/load.svg" alt="">
@@ -33,7 +33,7 @@ button {
   height: 48px;
   background: #fff;
   border-radius: 10px;
-  border: 2px solid #000;
+  border: 1px solid #000;
   width: fit-content;
   display: flex;
   align-items: center;

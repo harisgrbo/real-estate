@@ -26,7 +26,7 @@
             </div>
           </div>
         </div>
-        <div v-if="!$device.isMobile" class="grid-container">
+        <div class="grid-container">
           <div class="img-counter">
             <font-awesome-icon icon="images">
             </font-awesome-icon>
@@ -48,106 +48,27 @@
           </client-only>
         </div>
         <div class="listing-content-wrapper flex flex-row">
-          <div class="flex flex-col">
-            <ul role="list" class="border-b border-gray-200 pb-6 grid grid-cols-2 gap-6">
-              <li class="flow-root">
-                <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                  <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
-                    <!-- Heroicon name: outline/clock -->
-                    <svg class="h-6 w-6 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 class="text-md font-medium text-gray-600 mb-2">
-                      <a href="#" class="focus:outline-none">
-                        <span class="absolute inset-0" aria-hidden="true"></span>
-                        Lokacija
-                      </a>
-                    </h3>
-                    <p class="mt-1 text-md text-black font-medium">{{ listing.city.name }}</p>
-                  </div>
-                </div>
+          <div class="flex flex-col w-full">
+            <ul role="list" class="main-info">
+              <li>
+                <p>Lokacija</p>
+                <p class="mt-1 text-md text-black font-medium">{{ listing.city.name }}</p>
               </li>
-              <li class="flow-root">
-                <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                  <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
-                    <!-- Heroicon name: outline/clock -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 class="text-md font-medium text-gray-600 mb-2">
-                      <a href="#" class="focus:outline-none">
-                        <span class="absolute inset-0" aria-hidden="true"></span>
-                        Vsta oglasa
-                      </a>
-                    </h3>
-                    <p class="mt-1 text-md text-black font-medium">{{ listing.listing_type.title}}</p>
-                  </div>
-                </div>
+              <li>
+                <p>Vrsta oglasa</p>
+                <p class="mt-1 text-md text-black font-medium">{{ listing.listing_type.title}}</p>
               </li>
-              <li class="flow-root">
-                <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                  <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
-                    <!-- Heroicon name: outline/clock -->
-                    <svg class="h-6 w-6 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 class="text-md font-medium text-gray-600 mb-2">
-                      <a href="#" class="focus:outline-none">
-                        <span class="absolute inset-0" aria-hidden="true"></span>
-                        Adresa
-                      </a>
-                    </h3>
-                    <p class="mt-1 text-md text-black font-medium">{{ sliceAddress(listing.address) }}</p>
-                  </div>
-                </div>
+              <li>
+                <p>Adresa</p>
+                <p class="mt-1 text-md text-black font-medium">{{ sliceAddress(listing.address) }}</p>
               </li>
-              <li class="flow-root">
-                <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                  <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100">
-                    <!-- Heroicon name: outline/clock -->
-                    <svg class="h-6 w-6 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 class="text-md font-medium text-gray-600 mb-2">
-                      <a href="#" class="focus:outline-none">
-                        <span class="absolute inset-0" aria-hidden="true"></span>
-                        Datum objave
-                      </a>
-                    </h3>
-                    <p class="mt-1 text-md text-black font-medium">{{ $moment(listing.createdAt).format('LL') }}</p>
-                  </div>
-                </div>
+              <li>
+                <p>Datum objave</p>
+                <p class="mt-1 text-md text-black font-medium">{{ $moment(listing.createdAt).format('LL') }}</p>
               </li>
-              <li class="flow-root">
-                <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-                  <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-800">
-                    <!-- Heroicon name: outline/clock -->
-                    <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 class="text-lg font-medium text-black">
-                      <a href="#" class="focus:outline-none">
-                        <span class="absolute inset-0" aria-hidden="true"></span>
-                        Cijena
-                        <p v-if="!listing.vat_included">bez uračunatog PDV-a</p>
-                        <p v-else>sa uračunatim PDV-om</p>
-                      </a>
-                    </h3>
-                    <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
-                  </div>
-                </div>
+              <li>
+                <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+                <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
               </li>
             </ul>
             <div class="separator"></div>
@@ -197,34 +118,79 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6">Detaljni opis</h2>
             <p class="description">{{ listing.description }}</p>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6">U blizini nekretnine</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Pogledajte šta se nalazi u blizini nekretnine</h2>
             <div class="places">
-              <ul class="flex flex-row items-center justify-start">
-                <li v-for="place in places" @click="selectPlace(place)">{{ place }}</li>
+              <ul class="flex flex-row items-center justify-start places-ul">
+                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place' : '']">{{ translatePlaces(index) }}</li>
               </ul>
-              <div v-if="selectedPlace !== null">
-                <div class="places-grid">
-                  <div v-for="p in selectedPlace.results">{{ place }}</div>
+              <div>
+                <div class="places-grid" v-if="selectedPlace !== null">
+                  <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
+                    <img :src="p.icon" :alt="p.name" class="mr-2">
+                    {{ p.name }}</div>
                 </div>
               </div>
             </div>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6">Lokacija nekretnine</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Lokacija</h2>
             <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
-            <div class="separator" v-if="questions.length"></div>
-            <h2 class="heading question" v-if="questions.length">Pitanja</h2>
-            <div class="separator" v-if="questions.length"></div>
-            <h2 class="heading" v-if="listing.questions_disabled === true">
-              Korisnik je zabranio javna pitanja
-            </h2>
-            <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :key="question.id" :owner="owner"></SingleQuestion>
-            <div class="question-create" v-if="$auth.user && listing.questions_disabled === false && owner === false">
-              <textarea v-model="questionTerm"></textarea>
-              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>
+<!--            <div class="separator" v-if="questions.length"></div>-->
+<!--            <h2 class="heading question" v-if="questions.length">Pitanja</h2>-->
+<!--            <div class="separator" v-if="questions.length"></div>-->
+<!--            <h2 class="heading" v-if="listing.questions_disabled === true">-->
+<!--              Korisnik je zabranio javna pitanja-->
+<!--            </h2>-->
+<!--            <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :key="question.id" :owner="owner"></SingleQuestion>-->
+<!--            <div class="question-create" v-if="$auth.user && listing.questions_disabled === false && owner === false">-->
+<!--              <textarea v-model="questionTerm"></textarea>-->
+<!--              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>-->
+<!--            </div>-->
+            <div class="separator"></div>
+            <div>
+              <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
+              <div class="my-20">
+                <TextField type="text" placeholder="opis" v-model="review_description"></TextField>
+                <TextField type="number" placeholder="Rating" v-model="review_rating"></TextField>
+                <button @click="submitReview()">ostavi review</button>
+              </div>
+              <div v-if="listing_reviews.length" class="bg-white">
+                <div>
+                  <h2 class="sr-only">Customer Reviews</h2>
+
+                  <div v-for="review in listing_reviews" class="-my-10">
+                    <div class="flex text-sm text-gray-500 space-x-4">
+                      <div class="flex-none py-10">
+                        <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
+                      </div>
+                      <div class="flex-1 py-10">
+                        <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
+                        <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+
+                        <div class="flex items-center mt-4">
+                          <!--
+                            Heroicon name: solid/star
+
+                            Active: "text-yellow-400", Default: "text-gray-300"
+                          -->
+                          <svg v-for="i in review.rating" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+
+                          <!-- Heroicon name: solid/star -->
+                        </div>
+
+                        <div class="mt-4 prose prose-sm max-w-none text-gray-500">
+                          <p>{{ review.review }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
+            <UserProfile :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
           </div>
         </div>
       </div>
@@ -240,9 +206,11 @@ import Snackbar from "@/components/global/Snackbar";
 import UserProfile from "@/components/UserProfile"
 import SingleQuestion from "@/components/SingleQuestion"
 import RealEstateLocationMap from "@/components/RealEstateLocationMap";
+import TextField from "../../components/inputs/TextField";
 
 @Component({
   components: {
+    TextField,
     ActionButton,
     Snackbar,
     UserProfile,
@@ -292,7 +260,10 @@ export default class Artikal extends Vue {
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
+  review_rating = 0;
+  review_description = '';
   selectedPlace = null;
+  listing_reviews = [];
   swiperOption = {
     pagination: {
       el: '.swiper-pagination',
@@ -322,22 +293,38 @@ export default class Artikal extends Vue {
     },
   ]
   places = []
+  x = 0
+
+  translatePlaces(key) {
+    if(key === 'atm') {
+      return key = 'Bankomati'
+    } else if(key === 'school') {
+      return key = 'Škole'
+    } else if(key === 'cafe') {
+      return key = 'Kafići'
+    } else if(key === 'restaurant') {
+      return key = 'Restorani'
+    } else if(key === 'shopping_mall') {
+      return key = 'Šoping centri'
+    }
+  }
 
   async fetchPlaces() {
     try {
-      let res = await this.$axios.get('/listings/' + this.listing.id + '/places');
+      let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
+      this.places = res;
 
-      this.places = res.data;
-
-      console.log(this.places);
-
+      console.log(this.places, 'mjesta')
     } catch(e) {
       console.log(e)
     }
   }
 
-  selectPlace(p) {
+  selectPlace(p, i) {
     this.selectedPlace = p;
+    this.x = i;
+
+    console.log(this.selectedPlace, i)
   }
 
   numberWithCommas(x) {
@@ -355,6 +342,29 @@ export default class Artikal extends Vue {
       let res = str.replace('ATM', 'Bankomat')
 
       return res;
+    }
+  }
+
+  submitReview() {
+    try {
+      let res = this.$axios.post(`/listings/${this.$route.params.id}/rent_reviews`, {
+        review: this.review_description,
+        rating: this.review_rating,
+      })
+
+      this.listing_reviews.push(res);
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  async fetchReviews() {
+    try {
+      let res = await this.$axios.get(`/listings/${this.$route.params.id}/rent_reviews`);
+
+      this.listing_reviews = res.data.data;
+    } catch(e) {
+      console.log(e)
     }
   }
 
@@ -431,7 +441,7 @@ export default class Artikal extends Vue {
         await this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "Uspjšsno ste otpratili " + this.user.name,
+          text: "uspješno ste otpratili " + this.user.name,
           timeout: 1000,
           type: "success"
         });
@@ -485,9 +495,8 @@ export default class Artikal extends Vue {
   }
 
   async created() {
-    console.log(this.listing, 'listing')
     await this.fetchPlaces();
-    await this.getQuestions();
+    await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
   }
 
@@ -772,8 +781,7 @@ export default class Artikal extends Vue {
 }
 
 .user-wrap {
-  width: 33%;
-  margin-left: 24px;
+  width: fit-content;
 
   @include for-phone-only {
     margin-left: 0;
@@ -1049,8 +1057,23 @@ export default class Artikal extends Vue {
   flex-direction: column;
 
   .places-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 24px;
+    grid-row-gap: 32px;
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 8px;
+
+    > div {
+      line-height: 20px;
+      font-size: 14px;
+
+      img {
+        height: 20px;
+        max-height: 20px;
+      }
+    }
 
     .places-heading {
       display: flex;
@@ -1077,60 +1100,6 @@ export default class Artikal extends Vue {
     }
   }
 
-  ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    grid-column-gap: 12px;
-    margin-bottom: 24px;
-    overflow: hidden;
-    max-height: 70px;
-
-    @include for-phone-only {
-      max-height: 150px;
-    }
-
-    &.extend {
-      max-height: fit-content;
-    }
-    li {
-      height: fit-content;
-      padding: 12px 8px;
-      transition: 0.3s all ease;
-      border-radius: 10px;
-
-      p {
-        white-space: nowrap;
-        width: 150px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      &:hover {
-        position: relative;
-        cursor: pointer;
-        p {
-          position: absolute;
-          overflow: visible;
-          box-shadow: 0 0px 12px 0 rgba(0, 0, 0, 0.1);
-          z-index: 10;
-          background: #fff;
-          min-width: fit-content;
-          width: fit-content;
-          height: fit-content;
-          border-radius: 8px;
-          padding: 12px 8px;
-          top: 0;
-          left: 0;
-          right: inherit;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          box-sizing: border-box;
-        }
-      }
-    }
-  }
-
   button {
     border: 1px solid #444;
     height: 40px;
@@ -1153,6 +1122,60 @@ export default class Artikal extends Vue {
 
 .svg-inline--fa {
   font-size: 20px;
+}
+
+.main-info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 12px;
+
+  li {
+    width: fit-content;
+    min-width: fit-content;
+    max-width: fit-content;
+    background: #f9f9f9;
+    margin-right: 12px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px 16px;
+
+    p {
+      &:first-child {
+        font-size: 14px;
+      }
+
+      &:last-child {
+        font-size: 15px;
+        margin-top: 16px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.places-ul {
+  display: flex;
+
+  li {
+    width: fit-content;
+    margin-right: 16px;
+    padding: 16px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.active-place {
+  font-weight: 500;
+  background: #f9f9f9;
 }
 
 </style>

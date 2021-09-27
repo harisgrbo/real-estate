@@ -80,12 +80,12 @@ export default class RegisterForm extends Vue{
       .post('/users/register', this.userPayload, this.config)
       .then(() => {
         this.$auth.loggedIn;
-        this.loading = false;
         this.$snackbar.show({
           text: "Uspjesno ste se registrovali!",
           timeout: 3000,
           type: "success"
         });
+        this.loading = false;
       })
       .catch(error => {
         this.loading = false;
@@ -101,7 +101,6 @@ export default class RegisterForm extends Vue{
 
   handleSelectedCity(f) {
     this.realEstateAgencyPayload.location = f.name;
-    console.log(f)
   }
 
   // Real estate agency registration
@@ -109,15 +108,15 @@ export default class RegisterForm extends Vue{
     this.loading = true;
 
     this.$axios
-      .post('/agencies/register', this.realEstateAgencyPayload, this.config)
+      .post('/agencije/register', this.realEstateAgencyPayload, this.config)
       .then(() => {
         this.$auth.loggedIn;
-        this.loading = false;
         this.$snackbar.show({
           text: "Uspjesno ste se registrovali!",
           timeout: 3000,
           type: "success"
         });
+        this.loading = false;
       })
       .catch(error => {
         this.loading = false;
