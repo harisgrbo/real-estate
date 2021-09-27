@@ -98,7 +98,7 @@
               <label class="cursor-pointer w-full flex justify-between items-center font-medium text-lg mb-4 pdv">PDV uključen u cijenu
                 <input type="checkbox" v-model="vat_included" />
               </label>
-              <label class="cursor-pointer w-full flex justify-between items-center font-medium text-lg">Cijena po kvadratu
+              <label v-show="notRenting" class="cursor-pointer w-full flex justify-between items-center font-medium text-lg">Cijena po kvadratu
                 <input type="checkbox" v-model="price_per_square" />
               </label>
           </div>
@@ -340,6 +340,14 @@ export default class Objava extends Vue {
 
   get stepPercentage() {
     return (1.0 / 8) * 100 * this.currentStep + 1;
+  }
+
+  get notRenting() {
+    if (this.listingType) {
+      return this.listingType.shortname !== 'rent' && this.listingType.shorntame !== 'rent-for-a-day';
+    }
+
+    return true;
   }
 
   async created() {

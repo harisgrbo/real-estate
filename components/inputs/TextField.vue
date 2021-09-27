@@ -29,7 +29,7 @@ export default class TextField extends Vue{
   @Prop({ type: String, default: ""}) placeholder;
   @Prop({ type: String }) error;
   @Prop({ type: String }) label;
-  @Prop({ type: String }) value;
+  @Prop({}) value;
   @Prop({type: Boolean}) currency;
 
   updateValue(value) {

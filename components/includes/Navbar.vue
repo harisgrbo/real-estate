@@ -2,7 +2,9 @@
   <div :class="['navbar-wrapper w-full px-20 shadow-sm', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-        <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="" @click="$router.push('/')">
+        <nuxt-link :to="'/'">
+          <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="">
+        </nuxt-link>
       </div>
       <div v-if="this.$route.name !== 'index'" class="input-wrapper"
            @focusin="focused = true"
@@ -73,7 +75,7 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '1px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="loading"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '1px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="false"></ActionButton>
 
         <div class="inner">
           <div v-if="! $auth.user" class="auth-reg">
