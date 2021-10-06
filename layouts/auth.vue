@@ -4,6 +4,14 @@
       <nuxt></nuxt>
     </div>
     <div class="bg">
+      <div class="inner-bg">
+        <div class="relative">
+          <img src="/placeholder.png" class="main-logo" height="40" alt="">
+
+        </div>
+        <h2>Dobrodošli na nekretnine.ba!</h2>
+        <p>Vodeći portal za nekretnine</p>
+      </div>
     </div>
   </div>
 </template>
@@ -72,5 +80,49 @@ export default class Auth extends Vue {
   background-position: center;
   width: 50% !important;
   min-width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .inner-bg {
+    height: 700px;
+    width: 600px;
+    border-radius: 20px;
+    background-color: rgba(19,156,120,16%);
+    -webkit-backdrop-filter: blur(0.2em);
+    backdrop-filter: blur(9px);
+    padding: 40px;
+
+    h2 {
+      color: #fff;
+      font-size: 40px;
+      font-weight: 200;
+      margin-top: 36px;
+    }
+
+    p {
+      color: #fff;
+      font-size: 26px;
+      font-weight: 200;
+      margin-top: 32px;
+    }
+  }
+}
+
+img {
+  filter: brightness(0) invert(1);
+  height: 50px;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    width: 400px;
+    left: 0;
+    content: '';
+    background: rgb(19,156,120);
+    background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%);
+  }
 }
 </style>

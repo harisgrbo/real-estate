@@ -170,6 +170,11 @@ export default class UserProfile extends Vue {
     input: 'YYYY-MM-DD',
   }
 
+  handleListingSponsoring() {
+    console.log(sponzorisano)
+  }
+
+
 
   async created() {
     this.alreadyFollowed = this.followed;
@@ -206,7 +211,6 @@ export default class UserProfile extends Vue {
     try {
       let res = await this.$axios.get('/listings/' + this.id + '/other');
       this.otherListings = res.data.data;
-      console.log(this.otherListings, 'other')
       this.otherListingsLoaded = true;
     } catch(e) {
       console.log(e)
@@ -337,48 +341,6 @@ aside {
     margin-top: 24px;
   }
 
-  .modal-inner {
-    display: flex;
-    flex-direction: column;
-    padding: 0 24px;
-    height: fit-content;
-    .modal-header {
-      display: flex;
-      align-items: center;
-      height: 70px;
-      border-bottom: 1px solid #dcdcdc;
-      justify-content: space-between;
-
-      h2 {
-        font-size: 17px;
-        font-weight: 500;
-      }
-
-      svg {
-        cursor: pointer;
-      }
-    }
-
-    .modal-content {
-      padding: 24px 0;
-      textarea {
-        height: 200px;
-        width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
-        line-height: 21px;
-        box-sizing: border-box;
-        padding: 24px;
-
-        &:focus {
-          outline: none;
-
-        }
-      }
-    }
-  }
 }
 
 .main-user-wrapper {

@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper-a">
+  <div class="account-wrapper-a w-full px-20">
     <div class="account-wrapper-inner">
       <div class="sidenav my-12">
         <h1 class="heading-account">{{ agencies.length }} agencija za nekretnine</h1>
@@ -50,7 +50,6 @@ export default class Agencies extends Vue {
   }
 }
 .account-wrapper-a {
-  max-width: 1180px;
   margin: 0 auto;
   @include for-phone-only {
     padding: 32px 0!important;
@@ -112,7 +111,7 @@ export default class Agencies extends Vue {
 
 
       h2 {
-        //font-family: 'Roboto', sans-serif;
+        //font-family: 'Lato', sans-serif;
         font-weight: 500;
         font-size: 20px;
         margin-bottom: 36px;

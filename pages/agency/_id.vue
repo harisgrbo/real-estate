@@ -1,106 +1,82 @@
 <template>
-  <div class="user-profile-wrapper">
+  <div class="user-profile-wrapper w-full px-20 pt-20">
     <div class="user-content-wrapper">
       <div class="first-col">
-        <div class="upper">
-          <h2>{{ user.name }}</h2>
-          <div class="separator"></div>
-          <div class="user-info">
-            <img src="/test/img1.jpg" alt="">
+        <aside class="w-96 bg-white overflow-y-auto">
+          <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
+            <div class="flex-1 flex flex-row justify-start">
+              <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+              <div class="ml-4">
+                <h3 class="text-gray-900 text-md font-medium">{{ user.name }}</h3>
+                <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
+                  <dt class="sr-only">Title</dt>
+                  <dt class="sr-only">Role</dt>
+                  <dd class="mt-3">
+                    <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
+                  </dd>
+                </dl>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="contact-buttons" v-if="isMe">
-          <ActionButton @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane"></ActionButton>
-        </div>
-        <div class="contact-buttons grid" v-else>
-          <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" icon="paper-plane"></ActionButton>
-          <ActionButton :placeholder="isFollowed? 'Otprati' : 'Zaprati'" @action="toggleFollow" icon="user-plus"></ActionButton>
-        </div>
-        <button class="save">
-          <font-awesome-icon icon="heart"></font-awesome-icon>
-          Spasi agenciju
-        </button>
+        </aside>
+
       </div>
       <div class="second-col">
-        <h2>Lokacija</h2>
-        <div class="separator"></div>
-        <PublishMap :location="city"></PublishMap>
+        <div class="grid grid-cols-2 gap-4 text-sm font-medium text-gray-500">
+          <div>agencija@agencija.com</div>
+          <div>Sarajevo, Alojza Benca 2</div>
+          <div>www.agencijatest.ba</div>
+          <div>+387 33 223-333</div>
+        </div>
       </div>
+
       <div class="third-col">
-        <h2>Informacije o agenciji</h2>
-        <div class="separator"></div>
-        <ul class="user-information">
-         <li v-if="detailedAgencyinfo && detailedAgencyinfo.location">
-           <p>Sjedište agencije</p>
-           <p>{{ detailedAgencyinfo.location }}</p>
-         </li>
-          <li>
-            <p>Broj telefona</p>
-            <b>061559944</b>
-          </li>
-          <li>
-            <p>Registrovan</p>
-            <b>{{ $moment(user.created_at).format("DD.MM.YYYY") }}</b>
-          </li>
-          <li>
-            <p>Email</p>
-            <b>{{ user.email }}</b>
-          </li>
-          <li v-if="detailedAgencyinfo && detailedAgencyinfo.external_number">
-            <p>ID</p>
-            <b>{{ detailedAgencyinfo.external_number }}</b>
-          </li>
-          <li>
-            <p>Web</p>
-            <b>www.agencija.ba</b>
-          </li>
-          <li>
-            <UserMedals></UserMedals>
-          </li>
-        </ul>
+        <div v-if="isMe">
+          <div class="-ml-px w-0 flex-1 flex cursor-pointer">
+            <div @action="toggleFollow" icon="user-plus" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="ml-3">Uredi profil</span>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="flex divide-x divide-gray-200 justify-between w-full">
+            <div class="flex-1 flex cursor-pointer mr-12" @click="$modal.show('contact-user')">
+              <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
+                <!-- Heroicon name: solid/mail -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <span class="ml-3">Poruka</span>
+              </a>
+            </div>
+            <div class="flex-1 flex cursor-pointer">
+              <div @action="toggleFollow" icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span class="ml-3">{{ isFollowed? 'Otprati' : 'Zaprati' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="content-wrapper">
-      <ul>
-        <li v-for="(tab, index) in tabs" @click="activeTab = index" :class="[ activeTab === index ? 'active' : '' ]">{{ tab }}</li>
-      </ul>
+      <div class="flex flex-row items-center justify-between mb-8">
+        <ul class="category-list w-full">
+          <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+        </ul>
+        <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" @click="$modal.show('filters')">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+          Filteri</button>
+      </div>
       <div>
         <div v-if="activeTab === 0" class="filters-agency">
-          <div class="filters-agency-list">
-            <div class="modal-header">
-              <h2>Filteri</h2>
-              <i class="material-icons" @click="$modal.hide('filters')">close</i>
-            </div>
-            <div class="modal-content">
-              <CategoryFilter
-                v-model="queryPayload.category_id"
-                :categories="searchMeta.categories"
-                :aggregations="searchMeta.aggregations"
-                :filter="{}"
-                @input="newSearch"
-              />
-
-              <RangeFilter
-                v-model="queryPayload.price"
-                :attr="false"
-                :filter="{name: 'price', display_name: 'Cijena'}"
-                @input="newSearch"
-                :avg-price="searchMeta.price"
-              />
-
-              <component
-                v-for="(attr, i) in allAttributes"
-                :key="i"
-                :filter="attr"
-                :attr="true"
-                :is="filterFor(attr.type)"
-                v-model="queryPayload[attr.name]"
-                @clear="queryPayload[attr.name] = null; newSearch()"
-                @input="newSearch"
-              />
-
-            </div>
-          </div>
          <div class="content">
            <div v-if="results.length" class="grid-layout">
              <ListingCard v-for="listing in results" :listing="listing" :key="listing.id"></ListingCard>
@@ -110,24 +86,6 @@
              <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
            </div>
          </div>
-        </div>
-        <div v-if="activeTab === 1" >
-          <div class="grid-layout" v-if="finishedListings.length">
-            zavrseni
-          </div>
-          <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa' }}</p>
-          </div>
-        </div>
-        <div v-if="activeTab === 2" >
-          <div class="grid-layout" v-if="feedback.length">
-            dojmovi
-          </div>
-          <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
-            <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate ostavljenih dojmova' : 'Agencija nema ostavljenih dojmova' }}</p>
-          </div>
         </div>
       </div>
     </div>
@@ -144,6 +102,49 @@
       </div>
     </modal>
     <Snackbar></Snackbar>
+    <client-only>
+      <modal name="filters" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Filteri</h2>
+            <i class="material-icons" @click="$modal.hide('filters')">close</i>
+          </div>
+          <div class="modal-content">
+            <div class="filters-agency-list">
+              <div class="modal-content">
+                <CategoryFilter
+                  v-model="queryPayload.category_id"
+                  :categories="searchMeta.categories"
+                  :aggregations="searchMeta.aggregations"
+                  :filter="{}"
+                  @input="newSearch"
+                />
+
+                <RangeFilter
+                  v-model="queryPayload.price"
+                  :attr="false"
+                  :filter="{name: 'price', display_name: 'Cijena'}"
+                  @input="newSearch"
+                  :avg-price="searchMeta.price"
+                />
+
+                <component
+                  v-for="(attr, i) in allAttributes"
+                  :key="i"
+                  :filter="attr"
+                  :attr="true"
+                  :is="filterFor(attr.type)"
+                  v-model="queryPayload[attr.name]"
+                  @clear="queryPayload[attr.name] = null; newSearch()"
+                  @input="newSearch"
+                />
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -164,7 +165,7 @@ import {capitalize} from "@/util/str";
 
 @Component({
   components: {ListingCard, Snackbar, PublishMap, UserMedals, TextField, RangeFilter, CategoryFilter, TermsFilter, TermFilter, Pagination},
-  layout() { return "home" },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   watchQuery: true,
 
   async asyncData(ctx) {
@@ -282,7 +283,6 @@ export default class Agencies extends Vue {
   tabs = [
     "Aktivni oglasi",
     "Završeni oglasi",
-    "Dojmovi"
   ]
   city = {
     location: {
@@ -291,13 +291,25 @@ export default class Agencies extends Vue {
     }
   }
   detailedAgencyinfo = {}
+  categories = []
 
   filterFor(attr) {
     return `${capitalize(attr)}Filter`;
   }
 
+  async fetchCategories() {
+    try {
+      let response = await this.$axios.get(`/categories`)
+
+      this.categories = response.data.data;
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   async created() {
     await this.fetchUser(this.$route.params.id)
+    await this.fetchCategories();
     await this.getAgencyDetailedInfo();
     this.isFollowed = this.meta.followed;
     // await this.fetchUserListings(this.$route.params.id)
@@ -429,11 +441,9 @@ export default class Agencies extends Vue {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 24px;
   height: 100%;
-  width: 1280px;
-  margin: 0 auto;
   box-sizing: border-box;
+  margin: 0 auto;
 
   .user-content-wrapper {
     display: flex;
@@ -441,22 +451,27 @@ export default class Agencies extends Vue {
     //border: 1px solid rgb(221, 221, 221);
     border-radius: 12px;
     justify-content: space-between;
-    padding: 12px;
     //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     height: fit-content;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid #efefef;
+    padding-bottom: 36px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid #f9f9f9;
 
     .first-col {
       display: flex;
-      flex: 2;
+    }
+    .second-col {
+      display: flex;
+      padding: 0 36px;
+      box-sizing: border-box;
       flex-direction: column;
       justify-content: space-between;
 
       h2 {
         font-size: 18px;
-        font-weight: 500;
+        font-weight: 400;
       }
 
       .user-info {
@@ -467,13 +482,6 @@ export default class Agencies extends Vue {
         box-sizing: border-box;
         height: fit-content;
 
-        img {
-          height: 153px;
-          width: 100%;
-          border-radius: 8px;
-          object-fit: cover;
-          cursor: pointer;
-        }
 
         .username-wrapper {
           display: flex;
@@ -514,9 +522,20 @@ export default class Agencies extends Vue {
         }
       }
 
+
+    }
+    .third-col {
+      display: flex;
+      flex: 2;
+      justify-content: flex-end;
+      align-items: flex-end;
+      flex-direction: column;
+
       .contact-buttons {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
 
         button {
           margin-top: 12px !important;
@@ -541,25 +560,6 @@ export default class Agencies extends Vue {
           }
         }
       }
-    }
-    .second-col {
-      display: flex;
-      flex: 4;
-      padding: 0 36px;
-      box-sizing: border-box;
-      flex-direction: column;
-
-      h2 {
-        font-size: 18px;
-        font-weight: 500;
-      }
-    }
-    .third-col {
-      display: flex;
-      flex: 2;
-      justify-content: flex-end;
-      min-height: 100%;
-      flex-direction: column;
 
       h2 {
         font-size: 18px;
@@ -601,8 +601,8 @@ export default class Agencies extends Vue {
 
   h2 {
     color: rgb(34, 34, 34) !important;
-    font-weight: 500 !important;
-    font-size: 18px !important;
+    font-weight: 400 !important;
+    font-size: 22px !important;
     line-height: 26px !important;
   }
 
@@ -611,43 +611,10 @@ export default class Agencies extends Vue {
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
-    margin-top: 36px;
-
-    ul {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-bottom: 36px;
-
-      li {
-        font-size: 16px !important;
-        line-height: 26px !important;
-        margin-right: 24px;
-        padding-bottom: 8px;
-        position: relative;
-        cursor: pointer;
-
-        &:last-child {
-          margin-right: 0;
-        }
-
-        &.active {
-          font-weight: 600;
-          &::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-bottom: 1px solid #D63946;
-          }
-        }
-      }
-    }
 
     .grid-layout {
-      grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) );
+      grid-template-columns: repeat(6, 1fr);
+      grid-column-gap: 24px;
       padding: 0;
     }
   }
@@ -686,7 +653,7 @@ export default class Agencies extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Lato', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -769,4 +736,48 @@ export default class Agencies extends Vue {
     width: 100%;
   }
 }
+
+.grid-layout {
+  ::v-deep a {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  ::v-deep .listing-card-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.category-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  li {
+    height: 44px;
+    padding: 0 10px;
+    background: #fff;
+    margin-right: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    min-width: fit-content;
+    cursor: pointer;
+    color: #717171;
+
+    &.selected-cat {
+      background: #fff;
+      border: 2px solid #000;
+      color: #000;
+      font-weight: 600;
+    }
+
+    &:hover {
+      background: #f9f9f9;
+    }
+  }
+}
+
 </style>

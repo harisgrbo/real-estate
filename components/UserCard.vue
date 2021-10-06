@@ -1,38 +1,54 @@
 <template>
-  <div class="user-profile">
-    <img src="/lokus.jpeg" alt="" @click="$router.push('/users/' + 1)">
-    <div class="avatar-wrapper w-full flex flex-col justify-between">
-        <div class="user-info">
-          <div>
-            <div class="flex flex-row items-center justify-start mb-2 text-gray-600">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-red-600" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+  <div>
+    <div class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+      <div class="flex-1 flex flex-col p-8">
+        <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+        <h3 class="mt-6 text-gray-900 text-sm font-medium">{{ user.name }}</h3>
+        <dl class="mt-1 flex-grow flex flex-col justify-between">
+          <dt class="sr-only">Title</dt>
+          <dt class="sr-only">Role</dt>
+          <dd class="mt-3">
+            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+          </dd>
+        </dl>
+      </div>
+      <div>
+        <div class="-mt-px flex divide-x divide-gray-200">
+          <div class="w-0 flex-1 flex cursor-pointer" @click="$modal.show('contact-user')">
+            <a class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+              <!-- Heroicon name: solid/mail -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
-              <p class="rating">
-                5.0 (43)
-
-              </p>
-            </div>
-            <p class="font-medium">{{ user.name }}</p>
-            <p class="mt-2 text-sm font-normal">Sarajevo</p>
+              <span class="ml-3">Poruka</span>
+            </a>
           </div>
-        </div>
-        <div class="flex flex-row items-center justify-between w-full">
-          <div class="flex flex-row items-center">
-            <button type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-black  text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              07:00
-            </button>
-            <button type="button" class="inline-flex items-center px-3 py-2 border border-black  text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              16:00
-            </button>
+          <div class="-ml-px w-0 flex-1 flex cursor-pointer">
+            <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span class="ml-3">Profil</span>
+            </nuxt-link>
           </div>
-          <button type="button" class="inline-flex items-center px-3 py-2 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-            </svg>
-          </button>
         </div>
       </div>
+    </div>
+    <client-only>
+      <modal name="contact-user" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Poruka za {{ user.name }}</h2>
+            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
+          </div>
+          <div class="modal-content">
+            <textarea v-model="message"></textarea>
+            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage"></action-button>
+          </div>
+        </div>
+      </modal>
+    </client-only>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -50,8 +66,59 @@ import ActionButton from "@/components/actionButtons/ActionButton"
 export default class UserCard extends Vue {
   @Prop({}) user;
 
+  message = '';
+
   removeUser(e) {
     this.$emit('remove-user', e)
+  }
+
+  user_type(t) {
+    if(t === 'agency') {
+      return 'Agencija'
+    } else {
+      return 'Korisnik'
+    }
+  }
+
+  async sendMessage() {
+    if(this.message.length === 0) {
+      this.$snackbar.show({
+        text: "Morate upisati poruku",
+        timeout: 1000,
+        type: "danger"
+      });
+
+      return
+    }
+
+    this.loading = true;
+    try {
+      let res = await this.$axios.post('/conversations', {
+        users: [this.user.id],
+      })
+
+      let conversation = res.data.data;
+
+      await this.$axios.post('/conversations/' + conversation.id + '/messages', {
+        content: this.message,
+        initial_key: Math.floor(Math.random() * 100).toString()
+      });
+
+      this.$modal.hide('contact-user');
+
+      this.loading = false;
+
+      this.$snackbar.show({
+        text: "uspješno ste poslali poruku korisniku " + this.user.name,
+        timeout: 1000,
+        type: "success"
+      });
+
+
+      this.message = '';
+    } catch(e) {
+      console.log(e)
+    }
   }
 }
 </script>

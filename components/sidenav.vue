@@ -1,11 +1,5 @@
 <template>
   <div class="sidenav-wrapper">
-    <div class="modal-inner" v-if="$device.isMobile">
-      <div class="modal-header">
-        <h2 v-if="$auth.user">{{ $auth.user.name }}</h2>
-        <i class="material-icons" @click="closeSidebar">close</i>
-      </div>
-    </div>
     <ul>
       <li v-if="$auth.user" class="user-label" @click="goToUSer">
         <img src="/avatar.jpg" alt="">
@@ -13,7 +7,7 @@
           <label for="">{{ $auth.user.name }}</label>
         </div>
       </li>
-      <li class="login" v-if="!$auth.user">
+      <li class="login mt-2" v-if="!$auth.user">
         <nuxt-link to="/auth/login">Prijavi se</nuxt-link>
       </li>
       <li v-if="!$auth.user">
@@ -39,7 +33,7 @@
         <img src="/049-user.svg" alt="">
         <nuxt-link to="/moj-racun/uredi-profil">Uredi profil</nuxt-link>
       </li>
-      <li class="logout" v-if="$auth.user">
+      <li class="logout mt-2" v-if="$auth.user">
         <img src="/009-logout.svg" alt="">
         <a @click="logout()">Odjavi se</a>
       </li>
@@ -113,8 +107,8 @@ export default class sidenav extends Vue {
     }
     li {
       height: 40px;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 15px;
+      font-weight: 400;
       padding: 0 12px;
       display: flex;
       align-items: center;
@@ -122,6 +116,7 @@ export default class sidenav extends Vue {
       cursor: pointer;
       border-radius: 5px;
       color: #444;
+      margin-bottom: 8px;
 
       @include for-phone-only {
         height: 50px;
@@ -145,6 +140,7 @@ export default class sidenav extends Vue {
 
       &.logout {
         border-top: 1px solid #f1f1f1;
+        margin-top: 16px;
       }
       h2 {
         color: #444;
@@ -231,7 +227,7 @@ export default class sidenav extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Lato', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;

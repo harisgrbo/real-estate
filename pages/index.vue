@@ -10,13 +10,13 @@
         <p>{{cat.title}}</p>
       </li>
     </ul>
-    <div class="publish mb-32 p-8">
+    <div class="publish mb-24 p-8">
       <div class="quick-search">
         <ul class="w-full">
-          <li v-for="(tab, index) in tabs" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
+          <li v-for="(tab, index) in tabs" :key="index" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
         </ul>
         <div class="flex flex-row items-center w-full inputs">
-          <div>
+          <div class="search-inputs">
             <label>Lokacija</label>
             <PublishDropdown placeholder="Pretražite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
           </div>
@@ -27,7 +27,7 @@
               <label for="language" class="sr-only">Language</label>
               <div class="relative">
                 <select id="language" name="language" class="cat-select appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="selectedCategory">
-                  <option class="font-medium text-sm" v-for="category in categories" :value="category">{{ category.title }}</option>
+                  <option class="font-medium text-sm" v-for="(category, index) in categories" :key="index" :value="category">{{ category.title }}</option>
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
                   <!-- Heroicon name: solid/chevron-down -->
@@ -46,8 +46,8 @@
               <TextField type="number" :currency="true" placeholder="Do" v-model="priceTo"></TextField>
             </div>
           </div>
-          <button @click="search" class="px-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button @click="search" class="px-4 search">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             Pretraži
@@ -55,13 +55,13 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col mx-auto w-full mb-16">
-      <h2 class="section-title ml-20">
+    <div class="flex flex-col px-20 mx-auto w-full mb-16">
+      <h2 class="section-title">
         Najtraženije lokacije
       </h2>
-      <ul role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-auto">
+      <ul role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
           <li class="flow-root justify-between flex flex-col relative" v-for="(city, index) in top_locations" :key="index"
-              :style="{ backgroundImage: 'url(' + city.img + ')' }"
+              :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
           >
             <div class="overlay-searched"></div>
             <div>
@@ -77,7 +77,7 @@
 
         </ul>
     </div>
-    <div class="w-full flex items-center justify-between px-20 mb-4">
+    <div class="w-full flex items-center justify-between mb-4 px-20 mx-auto">
       <h2 class="section-title">Prodaja</h2>
       <div class="flex flex-row items-center">
         <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
@@ -93,7 +93,7 @@
         </div>
       </div>
     </div>
-    <div class="max-w-full mx-20 mb-8">
+    <div class="px-20 mx-auto mb-8 w-full">
       <client-only>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
@@ -103,10 +103,10 @@
       </client-only>
     </div>
     <div class="flex flex-col mx-auto w-full mb-16 mx-20 mt-8">
-      <div class="w-full flex items-center justify-between px-20 mb-4">
-        <h2 class="section-title">Pretraži kategorije</h2>
+      <div class="w-full flex items-center justify-between px-20 mx-auto mb-4">
+        <h2 class="section-title">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
-          <nuxt-link class="more" to="/">Više</nuxt-link>
+          <nuxt-link class="more" to="/">Više kategorija</nuxt-link>
           </div>
       </div>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
@@ -128,7 +128,7 @@
       </ul>
     </div>
 
-    <div class="w-full flex items-center justify-between px-20 mb-4">
+    <div class="w-full flex items-center justify-between px-20 mx-auto mb-4">
       <h2 class="section-title">Izdavanje</h2>
       <div class="flex flex-row items-center">
         <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
@@ -144,9 +144,9 @@
         </div>
       </div>
     </div>
-    <div class="max-w-full mx-20 mb-8">
+    <div class="px-20 mx-auto mb-8 w-full">
       <client-only>
-        <swiper class="swiper" :options="swiperOptionRent">
+        <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
             <ListingCard :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
@@ -160,7 +160,7 @@
           Lista agencija
       </nuxt-link>
     </div>
-    <div class="w-full flex items-center justify-between px-20 mb-4">
+    <div class="w-full flex items-center justify-between px-20 mx-auto mb-4">
       <h2 class="section-title">Izdavanje na dan</h2>
       <div class="flex flex-row items-center">
         <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
@@ -176,21 +176,21 @@
         </div>
       </div>
     </div>
-    <div class="max-w-full mx-20 mb-8">
+    <div class="px-20 mx-auto mb-8 w-full">
       <client-only>
-        <swiper class="swiper" :options="swiperOptionRentPerDay">
+        <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
             <ListingCard :listing="listing" type="rent"/>
           </swiper-slide>
         </swiper>
       </client-only>
     </div>
-    <div class="w-full flex items-center justify-between px-20 mb-4">
+    <div class="w-full flex items-center justify-between px-20 mx-auto mb-4">
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="px-20 flex flex-row overflow-x-scroll gap-4 mb-16">
-      <UserCard v-for="agency in agencies" :user="agency"/>
+    <div class="px-20 flex flex-row overflow-x-scroll gap-4 mb-16 grid grid-cols-6 gap-6 p-1">
+      <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
 </template>
@@ -378,11 +378,6 @@
         img: '/rooms.jpg',
         text: 'Preko 2000 nekretnina'
       },
-      {
-        name: 'Luksuzne nekretnine',
-        img: '/luxury-villa.jpeg',
-        text: 'Preko 2000 nekretnina'
-      },
     ]
 
     tabs = [
@@ -397,51 +392,13 @@
       // slidesOffsetBefore: '100px',
       // slidesOffsetAfter: '100px',
       // slidesOffsetBefore: '0px',
-      loop: false,
+      loop: true,
       autoplay: {
-        delay: 500000,
+        delay: 5000,
       },
       slidesPerView: 6,
       touchRatio: 0.2,
-      slideToClickedSlide: true,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      }
-    }
-
-    swiperOptionRent = {
-      spaceBetween: 16,
-      // centeredSlides: true,
-      // slidesOffsetBefore: '100px',
-      // slidesOffsetAfter: '100px',
-      // slidesOffsetBefore: '0px',
-      loop: false,
-      autoplay: {
-        delay: 500000,
-      },
-      slidesPerView: 6,
-      touchRatio: 0.2,
-      slideToClickedSlide: true,
-      navigation: {
-        nextEl: '.swiper-button-next .rent',
-        prevEl: '.swiper-button-prev .rent'
-      }
-    }
-
-    swiperOptionRentPerDay = {
-      spaceBetween: 16,
-      // centeredSlides: true,
-      // slidesOffsetBefore: '100px',
-      // slidesOffsetAfter: '100px',
-      // slidesOffsetBefore: '0px',
-      loop: false,
-      autoplay: {
-        delay: 500000,
-      },
-      slidesPerView: 6,
-      touchRatio: 0.2,
-      slideToClickedSlide: true,
+      slideToClickedSlide: false,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
@@ -604,10 +561,10 @@
     padding: 8px 0;
     overflow-y: hidden;
 
-    ::v-deep .most-visited-card {
-      min-width: 280px;
-      width: 280px;
-    }
+    //::v-deep .most-visited-card {
+    //  min-width: 280px;
+    //  width: 280px;
+    //}
   }
 }
 
@@ -727,11 +684,11 @@ h2.heading {
 }
 
 .flow-root {
-  min-width: 590px;
+  min-width: 440px;
   min-height: 262px;
-  width: 590px;
+  width: 440px;
   height: 262px;
-  border-radius: 15px;
+  border-radius: 10px;
   object-fit: cover;
   object-fit: cover;
   background-position: center;
@@ -752,29 +709,23 @@ h2.heading {
 
 ul.most-visited {
   width: 100%;
-  padding-right: 80px;
-
   li {
-    margin-left: 16px;
-    &:first-child {
-      margin-left: 80px;
-    }
+    margin-right: 16px;
   }
 }
 
 ul.most-visited-cats {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 16px;
   margin: 0 80px;
-
   .flow-root {
     min-width: 100%;
-    min-height: 262px;
+    min-height: 362px;
     width: 100%;
     max-height: 100%;
-    height: 262px;
-    border-radius: 15px;
+    height: 362px;
+    border-radius: 10px;
     object-fit: cover;
     object-fit: cover;
     background-position: center;
@@ -811,8 +762,7 @@ ul.most-visited-cats {
   width: 100% !important;
 
   .swiper-wrapper {
-    max-width: 1600px !important;
-    margin: 0 80px !important;
+    max-width: 100% !important;
   }
 
   .swiper-slide {
@@ -825,7 +775,7 @@ ul.most-visited-cats {
   height: 30px;
   max-height: 30px;
   width: 30px;
-  border-radius: 15px;
+  border-radius: 10px;
   padding: 0 !important;
   display: flex;
   align-items: center;
@@ -841,65 +791,65 @@ ul.most-visited-cats {
 }
 
 .publish {
-  background-image: url("/white-bg.jpeg");
+  background-image: url("/luxuries.jpeg");
   background-repeat: no-repeat;
   height: 560px;
   background-size: cover;
-  background-position: bottom;
+  background-position: right;
   position: relative;
 
   .quick-search {
     position: absolute;
     left: 200px;
     right: 200px;
-    bottom: 36px;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, .5);
-    -webkit-backdrop-filter: blur(0.2em);
-    backdrop-filter: blur(2px);
+    bottom: -30px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+
 
     ul {
       width: fit-content;
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      height: 48px;
+      background-color: #fff;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      height: 50px;
+      overflow: hidden;
+
 
       li {
-        height: 100%;
-        padding: 0 24px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 600;
-        font-size: 14px;
+        font-weight: 400;
+        font-size: 15px;
         cursor: pointer;
-
-        &:first-child {
-          border-top-left-radius: 15px;
-        }
+        padding: 0 12px;
+        height: 100%;
 
         &:last-child {
-          border-top-right-radius: 15px;
+          margin-right: 0;
         }
       }
     }
 
     .inputs {
-      border-bottom-left-radius: 15px;
-      border-bottom-right-radius: 15px;
-      border-top-right-radius: 15px;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
       height: fit-content;
-      padding: 24px;
+      padding: 14px;
       align-items: flex-end;
+      background-color: #fff;
 
       > div {
         display: flex;
         flex-direction: column;
         flex: 1;
-        margin-right: 24px;
-        border-right: 1px solid #f1f1f1;
-        padding-right: 24px;
+        margin-right: 12px;
+        padding-right: 12px;
 
         ::v-deep input {
           border: none;
@@ -927,10 +877,14 @@ ul.most-visited-cats {
 
         label {
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 500;
           margin-bottom: 8px;
         }
       }
+    }
+
+    ::v-deep input, select, .input-wrapper {
+      background: #f1f1f1 !important;
     }
 
     button {
@@ -953,19 +907,10 @@ ul.most-visited-cats {
   position: relative;
 
   &.active {
-    color: #0D1F3E;
-
-    &::after {
-      position: absolute;
-      content: '';
-      height: 2px;
-      width: 30px;
-      left: auto;
-      right: auto;
-      background: #0D1F3E;
-      bottom: 0;
-
-    }
+    color: #fff;
+    background: rgb(19,156,120);
+    background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%);
+    font-weight: 500;
   }
 }
 
@@ -976,8 +921,8 @@ ul.most-visited-cats {
   top: -24px;
   left: -24px;
   right: -24px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   z-index: 0;
   height: 160px;
 }
@@ -990,16 +935,16 @@ ul.most-visited-cats {
 }
 
 .agency-wrap {
-  height: 300px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   background-image: url("/agency-new.jpeg");
   position: relative;
-  margin: 60px 80px;
+  margin: 80px;
   align-items: flex-start;
   justify-content: center;
   padding: 0 80px;
-  border-radius: 15px;
+  border-radius: 10px;
 
   &::after {
     position: absolute;
@@ -1010,7 +955,7 @@ ul.most-visited-cats {
     top: 0;
     background: rgba(0, 0, 0, 0.44);
     backdrop-filter: blur(6px);
-    border-radius: 15px;
+    border-radius: 10px;
   }
 
   h2 {
@@ -1043,8 +988,8 @@ ul.most-visited-cats {
   top: 0px;
   left: 0px;
   right: 0px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   z-index: 0;
   height: 160px;
 }
@@ -1079,4 +1024,19 @@ ul.most-visited-cats {
   font-weight: 500;
 }
 
+button.search {
+  background: rgb(19,156,120) !important;
+  background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%) !important;
+  color: #fff;
+}
+
+.search-inputs {
+  ::v-deep .input-wrapper {
+    background: #f1f1f1 !important;
+  }
+
+  ::v-deep .bg-white {
+    background: #f1f1f1 !important;
+  }
+}
 </style>

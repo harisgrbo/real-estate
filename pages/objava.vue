@@ -45,9 +45,9 @@
             <Categories @selected-category="handleSelectedCategory" />
           </div>
           <div class="button-wrapper">
-            <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
-            </button>
+<!--            <button @click="nextStep">Dalje-->
+<!--              <i class="material-icons">chevron_right</i>-->
+<!--            </button>-->
           </div>
         </div>
 
@@ -57,8 +57,9 @@
           </div>
 
           <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
+            <button @click="prevStep" class="back">
               <i class="material-icons">chevron_left</i>
+              Nazad
             </button>
             <button @click="nextStep">Dalje
               <i class="material-icons">chevron_right</i>
@@ -93,14 +94,25 @@
         </div>
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
-          <div class="inner">
+          <div class="inner checkboxes">
             <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true" :square="price_per_square"></PublishTextInput>
-              <label class="cursor-pointer w-full flex justify-between items-center font-medium text-lg mb-4 pdv">PDV uključen u cijenu
-                <input type="checkbox" v-model="vat_included" />
-              </label>
-              <label v-show="notRenting" class="cursor-pointer w-full flex justify-between items-center font-medium text-lg">Cijena po kvadratu
-                <input type="checkbox" v-model="price_per_square" />
-              </label>
+            <div class="flex flex-row items-center justify-between pt-4 mt-4">
+              <div class="switch-wrap mr-2">
+                <div class="switch">
+                  <input id="switch-1" type="checkbox" v-model="vat_included" class="switch-input" />
+                  <label for="switch-1" class="switch-label">Switch</label>
+                </div>
+                PDV uključen u cijenu
+              </div>
+              <div class="switch-wrap ml-2">
+                <div class="switch" v-show="notRenting">
+                  <input id="switch-2" type="checkbox" v-model="price_per_square" class="switch-input" />
+                  <label for="switch-2" class="switch-label">Switch</label>
+                </div>
+                Cijena po kvadratu
+
+              </div>
+            </div>
           </div>
 
           <div class="button-wrapper">
@@ -1018,11 +1030,21 @@ export default class Objava extends Vue {
             font-weight: 500 !important;
             transition: 0.3s all ease;
             margin-bottom: 0;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Lato', sans-serif;
             cursor: pointer;
 
             &.back {
-              margin-right: 24px;
+              background: transparent !important;
+              border: none !important;
+              color: #000;
+
+              &:hover {
+                box-shadow: none !important;
+              }
+
+              i {
+                margin-left: 0;
+              }
             }
             i {
               margin-left: 8px;
@@ -1134,7 +1156,7 @@ export default class Objava extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Lato', sans-serif;
       font-size: 16px;
       line-height: 26px;
       box-sizing: border-box;
@@ -1599,6 +1621,71 @@ h2.info {
       margin-bottom: 0;
     }
   }
+}
+
+.checkboxes {
+  .switch {
+    position: relative;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 16px;
+  }
+  .switch-input {
+    display: none;
+  }
+  .switch-label {
+    display: block;
+    width: 48px;
+    height: 24px;
+    text-indent: -150%;
+    clip: rect(0 0 0 0);
+    color: transparent;
+    user-select: none;
+  }
+  .switch-label::before,
+  .switch-label::after {
+    content: "";
+    display: block;
+    position: absolute;
+    cursor: pointer;
+  }
+  .switch-label::before {
+    width: 50px;
+    height: 28px;
+    background-color: #dedede;
+    border-radius: 9999em;
+    -webkit-transition: background-color 0.25s ease;
+    transition: background-color 0.25s ease;
+  }
+  .switch-label::after {
+    top: 2px;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
+    -webkit-transition: left 0.25s ease;
+    transition: left 0.25s ease;
+  }
+  .switch-input:checked + .switch-label::before {
+    background-color: #89c12d;
+  }
+  .switch-input:checked + .switch-label::after {
+    left: 24px;
+  }
+}
+
+.switch-wrap {
+  padding: 24px;
+  border: 1px solid #f1f1f1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 </style>
