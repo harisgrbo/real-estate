@@ -207,7 +207,9 @@
         <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
           <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
           <div class="img-upload-wrapper">
-            <div class="upload-btn">
+            <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
+
+<!--            <div class="upload-btn">
               <font-awesome-icon icon="cloud-upload-alt"></font-awesome-icon>
               <p>ili</p>
               <ActionButton placeholder="Dodaj slike"></ActionButton>
@@ -219,7 +221,7 @@
                 <img src="/stan.jpg" alt="">
                 <img src="/stan.jpg" alt="">
               </div>
-            </div>
+            </div>-->
           </div>
 
           <div class="button-wrapper">
@@ -287,10 +289,12 @@ import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
 import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton"
+import Dropzone from "nuxt-dropzone";
+import 'nuxt-dropzone/dropzone.css'
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton
+    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton, Dropzone
   },
   middleware: ['auth'],
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'objava.vue',
@@ -320,6 +324,12 @@ import ActionButton from "@/components/actionButtons/ActionButton"
   }
 })
 export default class Objava extends Vue {
+  listingId = null;
+
+  dropzoneOptions = {
+    url: "http://fakeurl.com"
+  };
+
   lat = 43;
   lng = 42;
   show = false;
@@ -364,6 +374,22 @@ export default class Objava extends Vue {
 
   async created() {
     await this.fetchSponsorship()
+  }
+
+  dropzoneChangeUrl() {
+    this.$refs.dropzone.setOption('url', `https://polar-cove-31327.herokuapp.com/listings/${this.listingId}/image`);
+  }
+
+  primarySent = false;
+
+  sendImages(file, xhr, formData) {
+    if (! this.primarySent) {
+      formData.append('primary', true);
+      this.primarySent = true;
+    }
+
+    xhr.setRequestHeader('Authorization', this.$auth.getToken('local'));
+    formData.append('image', file);
   }
 
   selectAdvertisment(o) {
@@ -465,14 +491,12 @@ export default class Objava extends Vue {
       lat: this.lat,
       lng: this.lng,
       attributes: this.prepareAttributes(),
-      sponsorship_id: this.selectedAdvertisment,
     }
-
 
     try {
       let response = await this.$axios.post('/listings', payload);
 
-      await this.$router.push('/artikal/' + response.data.data.id)
+      this.listingId = response.data.data.id;
     } catch (e) {
       console.log(e)
     }
@@ -495,9 +519,13 @@ export default class Objava extends Vue {
     }
   }
 
-  nextStep() {
+  async nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
-      this.publish();
+      if (this.listingId) {
+        await this.$router.push('/artikal/' + this.listingId)
+      } else {
+        this.snackbarValidationError("Artikal nije uspjesno objavljen")
+      }
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
@@ -560,6 +588,8 @@ export default class Objava extends Vue {
 
             return;
           }
+
+          await this.publish();
 
           break;
         case this.steps.STEP_NINE:
