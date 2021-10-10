@@ -684,7 +684,7 @@ h2.heading {
   min-height: 262px;
   width: 440px;
   height: 262px;
-  border-radius: 10px;
+  border-radius: 7px;
   object-fit: cover;
   object-fit: cover;
   background-position: center;
@@ -721,7 +721,7 @@ ul.most-visited-cats {
     width: 100%;
     max-height: 100%;
     height: 362px;
-    border-radius: 10px;
+    border-radius: 7px;
     object-fit: cover;
     object-fit: cover;
     background-position: center;
@@ -799,7 +799,7 @@ ul.most-visited-cats {
     left: 200px;
     right: 200px;
     bottom: -30px;
-    border-radius: 10px;
+    border-radius: 7px;
 
     ul {
       width: fit-content;
@@ -943,7 +943,7 @@ ul.most-visited-cats {
   align-items: flex-start;
   justify-content: center;
   padding: 0 80px;
-  border-radius: 10px;
+  border-radius: 7px;
 
   &::after {
     position: absolute;
@@ -987,8 +987,8 @@ ul.most-visited-cats {
   top: 0px;
   left: 0px;
   right: 0px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
   z-index: 0;
   height: 160px;
 }
