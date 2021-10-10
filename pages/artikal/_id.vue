@@ -5,50 +5,55 @@
       <div class="buttons">
       </div>
     </div>
-    <div class="listing-content max-w-7xl mx-auto w-ful">
+    <div class="listing-content mt-8 max-w-7xl mx-auto w-ful">
       <div class="listing-content-inner">
-        <div class="mb-6">
-          <div class="article-title">
-            <h2 v-if="listing">{{ listing.title }}</h2>
-            <div class="flex flex-row items-center">
-              <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <!-- Heroicon name: solid/plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </button>
-              <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <!-- Heroicon name: solid/plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="grid-container">
-          <div class="img-counter">
-            <font-awesome-icon icon="images">
-            </font-awesome-icon>
-            <p>{{ images.length }}</p>
-          </div>
-          <div :class="'item' + img.id" v-for="(img, index) in images">
-            <img :src="img.name" alt="" @click="openGallery(index)">
-          </div>
-          <client-only>
-            <light-box
-              ref="lightbox"
-              :media="lightboxImages"
-              :show-light-box="false"
-              :show-thumbs="true"
-              close-text="function() {
-          return 'Zatvori galeriju'
-          }"
-            />
-          </client-only>
-        </div>
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
+            <div class="grid-container">
+              <div class="img-counter">
+                <font-awesome-icon icon="images">
+                </font-awesome-icon>
+                <p>{{ images.length }}</p>
+              </div>
+              <div :class="'item' + (index + 1)" v-for="(img, index) in images.slice(0, 4)">
+                <img :src="img.url" alt="" @click="openGallery(index)">
+                <div class="more" v-if="index === 3">
+                 {{ images.length - 3 + '+ slika' }}
+                </div>
+              </div>
+              <client-only>
+                <light-box
+                  ref="lightbox"
+                  :media="lightboxImages"
+                  :show-light-box="false"
+                  :show-thumbs="true"
+                  close-text="function() {
+          return 'Zatvori galeriju'
+          }"
+                />
+              </client-only>
+            </div>
+
+            <div class="mb-6">
+              <div class="article-title">
+                <h2 v-if="listing">{{ listing.title }}</h2>
+                <div class="flex flex-row items-center">
+                  <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <!-- Heroicon name: solid/plus -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </button>
+                  <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <!-- Heroicon name: solid/plus -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <ul role="list" class="main-info">
               <li>
                 <p>Lokacija</p>
@@ -220,6 +225,7 @@ import TextField from "../../components/inputs/TextField";
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let listing = null;
+    let images = []
     let user = null
     let isFollowed = false;
     let isSaved = false;
@@ -230,6 +236,7 @@ import TextField from "../../components/inputs/TextField";
       listing = response.data.data;
       listingSaved = response.data.meta.saved;
       user = listing.user;
+      images = listing.images;
       isFollowed = response.data.meta.followed;
       isSaved = response.data.meta.saved;
     } catch(e) {
@@ -241,7 +248,8 @@ import TextField from "../../components/inputs/TextField";
       user,
       isFollowed,
       isSaved,
-      listingSaved
+      listingSaved,
+      images
     }
   }
 })
@@ -270,28 +278,7 @@ export default class Artikal extends Vue {
       dynamicBullets: true
     }
   }
-  images = [
-    {
-      name: '/test/img1.jpg',
-      id: 1,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 2,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 3,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 4,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 5,
-    },
-  ]
+  images = []
   places = []
   x = 0
 
@@ -378,8 +365,8 @@ export default class Artikal extends Vue {
     if(this.images.length) {
       return this.images.map((item) => {
         return {
-          src: item.name,
-          thumb: item.name,
+          src: item.url,
+          thumb: item.url,
         };
       });
     }
@@ -518,8 +505,7 @@ export default class Artikal extends Vue {
   img {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-
-    min-height: 100%;
+    height: 400px;
 
     @include for-phone-only {
       border-radius: 0;
@@ -527,7 +513,7 @@ export default class Artikal extends Vue {
   }
 }
 .item2 {
-  grid-area: small2;
+  grid-area: small1;
   img {
     border-top-right-radius: 10px;
     @include for-phone-only {
@@ -536,7 +522,7 @@ export default class Artikal extends Vue {
   }
 }
 .item3 {
-  grid-area: small1;
+  grid-area: small2;
   img {
     border-radius: 0px;
 
@@ -557,25 +543,16 @@ export default class Artikal extends Vue {
   }
 }
 
-.item4 {
-  grid-area: small4;
-  img {
-    border-bottom-right-radius: 10px;
-
-    @include for-phone-only {
-      border-radius: 0;
-    }
-  }
-}
 
 .grid-container {
   position: relative;
   display: grid;
   grid-template-areas:
-  'main main main small1 small2'
-  'main main main small3 small4';
+  'main main small1 small1 small1'
+  'main main small2 small2 small2'
+  'main main small3 small3 small3';
   grid-gap: 8px;
-  min-height: 500px;
+  height: 400px;
 
   .img-counter {
     position: absolute;
@@ -584,20 +561,11 @@ export default class Artikal extends Vue {
     display: flex;
     flex-direction: row;
     width: fit-content;
-    height: 30px;
     border-radius: 5px;
-    padding: 0 12px;
+    padding: 4px;
     color: #fff;
-    background: #000;
+    background: rgba(0, 0, 0, 0.41);
     align-items: center;
-
-    @include for-phone-only {
-      bottom: 12px;
-      top: inherit;
-      background: #0006;
-      font-size: 13px;
-      padding: 0 8px;
-    }
 
     svg {
       margin-right: 8px;
@@ -613,8 +581,49 @@ export default class Artikal extends Vue {
   img {
     object-fit: cover;
     max-width: 100%;
-    min-height: 100%;
   }
+}
+
+
+.item2, .item3, .item4 {
+  cursor: pointer;
+  img {
+    height: 127px;
+  }
+
+  .more {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+}
+
+.item4 {
+  position: relative;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(9px);
+    z-index: 1;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
 }
 
 

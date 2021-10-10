@@ -1,5 +1,5 @@
 <template>
-  <aside class="ml-16">
+  <aside class="ml-6">
     <div class="main-user-wrapper">
       <div class="flex flex-row">
         <div class="flex w-14 h-14 items-center justify-center rounded-full overflow-hidden">
@@ -37,46 +37,45 @@
 <!--          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
 <!--        </button>-->
       </div>
-    </div>
-    <div class="rent" v-if="isRent">
-      <client-only>
-        <form @submit.prevent>
-          <div class="flex flex-row items-center mb-4">
-            <p class="text-xl font-medium">{{ price + ' KM'}}</p>
-            <p class="pl-2">/ noć</p>
-          </div>
-          <div class="mb-4">
-            <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
-            <vc-date-picker
-              v-model="range"
-              mode="dateTime"
-              :masks="masks"
-              is-range
-            >
-              <template v-slot="{ inputValue, inputEvents, isDragging }">
-                <div class="flex flex-col sm:flex-row justify-start items-center">
-                  <div class="relative flex-grow">
-                    <svg
-                      class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      ></path>
-                    </svg>
-                    <input
-                      class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"
-                      :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                      :value="inputValue.start"
-                      v-on="inputEvents.start"
-                    />
-                  </div>
-                  <span class="flex-shrink-0 m-2">
+      <div class="rent" v-if="isRent">
+        <client-only>
+          <form @submit.prevent>
+            <div class="flex flex-row items-center mb-4">
+              <p class="text-xl font-medium">{{ price + ' KM'}}</p>
+              <p class="pl-2">/ noć</p>
+            </div>
+            <div class="mb-4">
+              <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
+              <vc-date-picker
+                v-model="range"
+                mode="dateTime"
+                :masks="masks"
+                is-range
+              >
+                <template v-slot="{ inputValue, inputEvents, isDragging }">
+                  <div class="flex flex-col sm:flex-row justify-start items-center">
+                    <div class="relative flex-grow">
+                      <svg
+                        class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                      </svg>
+                      <input
+                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"
+                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                        :value="inputValue.start"
+                        v-on="inputEvents.start"
+                      />
+                    </div>
+                    <span class="flex-shrink-0 m-2">
               <svg
                 class="w-4 h-4 stroke-current text-gray-600"
                 viewBox="0 0 24 24"
@@ -89,34 +88,36 @@
                 />
               </svg>
             </span>
-                  <div class="relative flex-grow">
-                    <svg
-                      class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      ></path>
-                    </svg>
-                    <input
-                      class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"
-                      :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                      :value="inputValue.end"
-                      v-on="inputEvents.end"
-                    />
+                    <div class="relative flex-grow">
+                      <svg
+                        class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                      </svg>
+                      <input
+                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"
+                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                        :value="inputValue.end"
+                        v-on="inputEvents.end"
+                      />
+                    </div>
                   </div>
-                </div>
-              </template>
-            </vc-date-picker>
-          </div>
-          <ActionButton placeholder="Pošalji upit za rezervaciju" :style-options="{ width: '100%' }"></ActionButton>
-        </form>
-      </client-only>
+                </template>
+              </vc-date-picker>
+            </div>
+            <ActionButton placeholder="Pošalji upit za rezervaciju" :style-options="{ width: '100%' }"></ActionButton>
+          </form>
+        </client-only>
+      </div>
+
     </div>
     <client-only>
       <modal name="contact-user" :adaptive="true" height="100%">
@@ -334,10 +335,6 @@ aside {
   }
 
   .rent {
-    border: 1px solid #f1f1f1;
-    border-radius: 15px;
-    padding: 16px;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
     margin-top: 24px;
   }
 
