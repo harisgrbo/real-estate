@@ -23,12 +23,12 @@
       <div class="flex w-full contact">
         <div class="w-full">
           <div class="w-full flex items-center justify-between" v-if="isMe">
-            <ActionButton @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
-            <ActionButton placeholder="Izdvoji" @action="handleListingSponsoring" class="w-full ml-sm"></ActionButton>
+            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
+            <ActionButton :style-options="{ background: '#023246', border: '2px solid #023246' }"  placeholder="Izdvoji" @action="handleListingSponsoring" class="w-full ml-sm"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
-            <ActionButton @action="$modal.show('contact-user')" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
-            <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" @action="handleFollow" class="ml-sm"></ActionButton>
+            <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
+            <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }" @action="handleFollow" class="ml-sm"></ActionButton>
           </div>
         </div>
 
@@ -37,11 +37,12 @@
 <!--          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
 <!--        </button>-->
       </div>
+
       <div class="rent" v-if="isRent">
         <client-only>
           <form @submit.prevent>
-            <div class="flex flex-row items-center mb-4">
-              <p class="text-xl font-medium">{{ price + ' KM'}}</p>
+            <div class="flex flex-row items-center mb-4 price-wrap">
+              <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
               <p class="pl-2">/ noć</p>
             </div>
             <div class="mb-4">
@@ -69,7 +70,7 @@
                         ></path>
                       </svg>
                       <input
-                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"
+                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
                         :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
                         :value="inputValue.start"
                         v-on="inputEvents.start"
@@ -103,7 +104,7 @@
                         ></path>
                       </svg>
                       <input
-                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"
+                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
                         :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
                         :value="inputValue.end"
                         v-on="inputEvents.end"
@@ -113,11 +114,16 @@
                 </template>
               </vc-date-picker>
             </div>
-            <ActionButton placeholder="Pošalji upit za rezervaciju" :style-options="{ width: '100%' }"></ActionButton>
+            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
           </form>
         </client-only>
       </div>
-
+      <div class="rent" v-else>
+        <div class="flex flex-col items-start price-wrap">
+          <p>Cijena {{ vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+          <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(price) }} KM</p>
+        </div>
+      </div>
     </div>
     <client-only>
       <modal name="contact-user" :adaptive="true" height="100%">
@@ -158,6 +164,7 @@ export default class UserProfile extends Vue {
   @Prop({}) type;
   @Prop() id;
   @Prop() price;
+  @Prop({ type: Boolean }) vat;
 
   message = '';
   loading = false;
@@ -222,6 +229,10 @@ export default class UserProfile extends Vue {
     if(this.$auth.user) {
       return this.$auth.user.id === this.user.id;
     }
+  }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
   handleEditListing() {
@@ -342,9 +353,19 @@ aside {
 
 .main-user-wrapper {
   border: 1px solid #f1f1f1;
-  border-radius: 15px;
+  border-radius: 7px;
   padding: 16px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
 }
 
+.price-wrap {
+  background: #f9f9f9;
+  padding: 12px;
+  border-radius: 7px;
+}
+
+.date-input {
+  height: 50px;
+  background: #f9f9f9;
+  font-size: 13px;
+}
 </style>

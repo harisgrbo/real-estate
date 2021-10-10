@@ -5,7 +5,7 @@
       <div class="buttons">
       </div>
     </div>
-    <div class="listing-content mt-8 max-w-7xl mx-auto w-ful">
+    <div class="listing-content mt-8 max-w-7xl mx-auto w-full">
       <div class="listing-content-inner">
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
@@ -44,9 +44,9 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </button>
-                  <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <button @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
                     <!-- Heroicon name: solid/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :fill="[ listingSaved ? '#023246' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                   </button>
@@ -71,17 +71,13 @@
                 <p>Datum objave</p>
                 <p class="mt-1 text-md text-black font-medium">{{ $moment(listing.createdAt).format('LL') }}</p>
               </li>
-              <li>
-                <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
-                <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
-              </li>
             </ul>
             <div class="separator"></div>
             <div>
               <h2 class="text-xl font-medium text-gray-900">
                 Detaljne informacije
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-4 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -195,7 +191,7 @@
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
+            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
           </div>
         </div>
       </div>
@@ -506,6 +502,7 @@ export default class Artikal extends Vue {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     height: 400px;
+    cursor: pointer;
 
     @include for-phone-only {
       border-radius: 0;
@@ -584,11 +581,15 @@ export default class Artikal extends Vue {
   }
 }
 
+.item1 img {
+  width: 100%;
+}
 
 .item2, .item3, .item4 {
   cursor: pointer;
   img {
     height: 127px;
+    width: 100%;
   }
 
   .more {
@@ -908,7 +909,7 @@ export default class Artikal extends Vue {
 }
 
 ::v-deep img.vue-lb-modal-image {
-  border-radius: 10px !important;
+  border-radius: 7px !important;
 
   @include for-phone-only {
     border-radius: 0 !important;
@@ -916,10 +917,10 @@ export default class Artikal extends Vue {
 }
 
 ::v-deep .vue-lb-arrow {
-  width: 60px !important;
+  width: 30px !important;
   border-radius: 30px!important;
   border: 1px solid #fff!important;
-  height: 60px!important;
+  height: 30px!important;
 
   ::v-deep svg {
     color: #444!important;
@@ -1141,9 +1142,9 @@ export default class Artikal extends Vue {
     width: fit-content;
     min-width: fit-content;
     max-width: fit-content;
-    background: #f9f9f9;
+    border: 1px solid #f1f1f1;
     margin-right: 12px;
-    border-radius: 10px;
+    border-radius: 7px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1158,7 +1159,7 @@ export default class Artikal extends Vue {
       &:last-child {
         font-size: 15px;
         margin-top: 16px;
-        font-weight: 500;
+        font-weight: 600;
       }
     }
   }

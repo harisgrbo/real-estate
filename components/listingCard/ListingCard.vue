@@ -8,13 +8,13 @@
         </span>
       </label>
       <div class="blured-background">
-        <button @click="removeFromSaved(listing.id)">Ukloni iz spašenih</button>
+        <button @click="removeFromSaved(listing.id)">Izbriši iz spašenih</button>
       </div>
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative">
-          <swiper class="swiper" :options="swiperOption" @click.prevent>
-            <swiper-slide v-for="(i, index) in 5" :key="index">
-              <img :src="listing.thumbnail" alt="">
+          <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
+            <swiper-slide v-for="img in listing.images" :key="index">
+              <img :src="img.url" alt="">
             </swiper-slide>
             <div
               class="swiper-button-prev swiper-button-white"
@@ -26,6 +26,7 @@
             ></div>
             <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
+          <img v-else src="/noimage.jpeg" alt="">
           <label class="publisher shadow-sm sale" v-if="action">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
@@ -90,7 +91,7 @@ export default class ListingCard extends Vue{
     "Broj soba",
     "Godina izgradnje"
   ];
-  swiperOption = {
+  swiperOptionCard = {
     spaceBetween: 0,
     // centeredSlides: true,
     // slidesOffsetBefore: '100px',
@@ -183,7 +184,8 @@ export default class ListingCard extends Vue{
       justify-content: center;
       width: fit-content;
       height: 24px;
-      padding: 0 8px;
+      padding: 0 2px;
+      padding-left: 4px;
       font-size: 12px;
       font-weight: 600;
 
@@ -450,7 +452,7 @@ export default class ListingCard extends Vue{
     left: 0;
     right: 0;
     z-index: 6;
-    border-radius: 10px;
+    border-radius: 7px;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
     padding: 24px;
     box-sizing: border-box;
@@ -459,15 +461,15 @@ export default class ListingCard extends Vue{
     transition: 0.3s all ease;
 
     button {
-      height: 53px;
-      background: #D63946;
+      height: 48px;
+      background: #023246;
       border-radius: 4px;
       border: none;
       width: 100%;
       display: flex;
       align-items: center;
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
       padding: 0 24px;
       color: #fff;
       cursor: pointer;

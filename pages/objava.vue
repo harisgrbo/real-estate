@@ -205,25 +205,13 @@
         </div>
 
         <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
-          <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
-          <div class="img-upload-wrapper">
-            <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
-
-<!--            <div class="upload-btn">
-              <font-awesome-icon icon="cloud-upload-alt"></font-awesome-icon>
-              <p>ili</p>
-              <ActionButton placeholder="Dodaj slike"></ActionButton>
+          <div class="inner">
+            <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
+            <div class="img-upload-wrapper">
+              <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
             </div>
-            <div class="uploaded-images">
-              <div class="uploaded-grid">
-                <img src="/stan.jpg" alt="">
-                <img src="/stan.jpg" alt="">
-                <img src="/stan.jpg" alt="">
-                <img src="/stan.jpg" alt="">
-              </div>
-            </div>-->
-          </div>
 
+          </div>
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
               <i class="material-icons">chevron_left</i>
@@ -1716,6 +1704,17 @@ h2.info {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+}
+
+.vue-dropzone {
+  border: 2px dashed #f9f9f9;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+::v-deep .dropzone .dz-preview {
+  margin: 8px !important;
 }
 
 </style>

@@ -75,7 +75,7 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
