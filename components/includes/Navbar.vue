@@ -758,7 +758,7 @@ export default class Navbar extends Vue {
     }
 
     .user-dropdown {
-      position: absolute;
+      position: fixed;
       top: 70px;
       padding: 12px;
       background: #fff;

@@ -47,7 +47,7 @@
             </div>
           </div>
           <button @click="search" class="px-4 search">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             Pretraži
@@ -118,7 +118,7 @@
             <h3 class="font-medium">
               {{ cat.name }}
             </h3>
-            <p class="mt-1 text-lg text-white">{{ cat.text }}</p>
+            <p class="mt-1 text-lg text-white">{{ cat.text + ' oglasa u kategoriji ' + cat.name }}</p>
           </div>
           <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Pretraži
@@ -361,22 +361,22 @@
       {
         name: 'Stanovi',
         img: '/flat.jpeg',
-        text: 'Preko 2000 nekretnina'
+        text: 'Preko 2000'
       },
       {
         name: 'Kuće',
         img: '/house.jpg',
-        text: 'Preko 2000 nekretnina'
+        text: 'Preko 2000'
       },
       {
         name: 'Garaže',
         img: '/garage.jpg',
-        text: 'Preko 2000 nekretnina'
+        text: 'Preko 2000'
       },
       {
         name: 'Sobe',
         img: '/rooms.jpg',
-        text: 'Preko 2000 nekretnina'
+        text: 'Preko 2000'
       },
     ]
 
@@ -679,10 +679,6 @@ h2.heading {
   }
 }
 
-::v-deep .swiper-pagination {
-  bottom: 0px !important;
-}
-
 .flow-root {
   min-width: 440px;
   min-height: 262px;
@@ -791,9 +787,9 @@ ul.most-visited-cats {
 }
 
 .publish {
-  background-image: url("/luxuries.jpeg");
+  background-image: url("/snow.jpg");
   background-repeat: no-repeat;
-  height: 560px;
+  height: 640px;
   background-size: cover;
   background-position: right;
   position: relative;
@@ -804,8 +800,6 @@ ul.most-visited-cats {
     right: 200px;
     bottom: -30px;
     border-radius: 10px;
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-
 
     ul {
       width: fit-content;
@@ -813,10 +807,11 @@ ul.most-visited-cats {
       align-items: center;
       justify-content: flex-start;
       background-color: #fff;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
-      height: 50px;
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+      height: fit-content;
       overflow: hidden;
+      padding: 10px;
 
 
       li {
@@ -826,7 +821,7 @@ ul.most-visited-cats {
         font-weight: 400;
         font-size: 15px;
         cursor: pointer;
-        padding: 0 12px;
+        padding: 8px 12px;
         height: 100%;
 
         &:last-child {
@@ -836,13 +831,15 @@ ul.most-visited-cats {
     }
 
     .inputs {
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-      border-top-right-radius: 10px;
+      border-bottom-left-radius: 7px;
+      border-bottom-right-radius: 7px;
+      border-top-right-radius: 7px;
       height: fit-content;
       padding: 14px;
       align-items: flex-end;
       background-color: #fff;
+      box-shadow: 0px 19px 15px rgba(0,0,0,0.04);
+
 
       > div {
         display: flex;
@@ -895,7 +892,7 @@ ul.most-visited-cats {
       justify-content: center;
       width: fit-content;
       background: #fff;
-      border-radius: 10px;
+      border-radius: 7px;
       font-weight: 500;
       font-size: 14px;
     }
@@ -905,12 +902,14 @@ ul.most-visited-cats {
 .quick-tab {
   display: flex;
   position: relative;
+  padding: 10px;
+
 
   &.active {
     color: #fff;
-    background: rgb(19,156,120);
-    background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%);
+    background: #023246;
     font-weight: 500;
+    border-radius: 7px;
   }
 }
 
@@ -1025,8 +1024,7 @@ ul.most-visited-cats {
 }
 
 button.search {
-  background: rgb(19,156,120) !important;
-  background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%) !important;
+  background: #023246 !important;
   color: #fff;
 }
 

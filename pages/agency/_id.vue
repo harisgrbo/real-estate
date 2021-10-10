@@ -52,8 +52,8 @@
                 <span class="ml-3">Poruka</span>
               </a>
             </div>
-            <div class="flex-1 flex cursor-pointer">
-              <div @action="toggleFollow" icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+            <div class="flex-1 flex cursor-pointer" @click="toggleFollow()">
+              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>

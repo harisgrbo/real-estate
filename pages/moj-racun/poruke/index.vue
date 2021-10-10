@@ -13,7 +13,7 @@
           <input type="text">
         </div>
         <div class="heading-inner">
-          <h1>Konverzacije</h1>
+          <h1>Razgovori</h1>
           <div class="buttons-wrapper">
             <button>
               <font-awesome-icon icon="plus"></font-awesome-icon>
@@ -27,9 +27,15 @@
           <ConversationList :conversations="conversations" v-model="currentConversation" @input="handleSelectedConversation"></ConversationList>
         </div>
       </div>
-      <div class="conversation" v-if="!$device.isMobile">
-        <div class="heading-wrapper center">
+      <div class="conversation ml-4" v-if="!$device.isMobile">
+        <div class="heading-wrapper">
           <h1>{{ currentConversation !== null? others(currentConversation).map(item => item.name).join(',') : '' }}</h1>
+          <button class="hover:bg-gray-50 p-2 rounded-sm cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            Spasi razgovor
+          </button>
         </div>
         <div class="messages-wrap">
           <ConversationContent v-if="messagesLoaded" :messages="messages"></ConversationContent>
@@ -45,7 +51,7 @@
               <font-awesome-icon icon="paperclip"></font-awesome-icon>
               <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
             </div>
-            <ActionButton icon="paper-plane" class="last" placeholder="Pošalji poruku" @click="sendMessage"></ActionButton>
+            <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @click="sendMessage"></ActionButton>
           </div>
         </div>
       </div>
@@ -103,7 +109,7 @@ import ActionButton from "../../../components/actionButtons/ActionButton";
   },
   mixins: [ clickaway ],
   middleware: ['auth'],
-  layout() { return "article" },
+  layout() { return "messages" },
   async asyncData(ctx) {
     let conversations = [];
 
@@ -258,12 +264,12 @@ export default class poruke extends Vue {
 
   .message-wrapper {
     display: flex;
-    height: calc(100vh - 126px);
+    height: calc(100vh - 80px);
     max-width: 1180px;
     box-sizing: border-box;
     flex-direction: column;
     overflow: hidden;
-    padding-top: 24px;
+    padding: 24px;
 
     @include for-phone-only {
       padding: 12px;
@@ -280,8 +286,18 @@ export default class poruke extends Vue {
       min-height: 60px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       border-bottom: 1px solid #f1f1f1;
-      margin-bottom: 24px;
+      padding: 0 12px;
+
+      button {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        svg {
+          margin-right: 5px;
+        }
+      }
 
       &.center {
         margin-bottom: 0;
@@ -305,7 +321,9 @@ export default class poruke extends Vue {
       display: flex;
       flex: 3;
       flex-direction: column;
-      padding: 0 24px 0 0;
+      background: #fff;
+      border-radius: 7px;
+      padding: 12px;
 
       @include for-phone-only {
         width: 100%;
@@ -434,12 +452,8 @@ export default class poruke extends Vue {
   flex: 6;
   flex-direction: column;
   position: relative;
-  height: calc(100vh - 225px);
-
-  @include for-phone-only {
-    height: calc(100vh - 140px);
-    overflow: hidden;
-  }
+  background: #fff;
+  border-radius: 7px;
 
   .main-input-wrapper {
     display: flex;
@@ -450,10 +464,13 @@ export default class poruke extends Vue {
     box-sizing: border-box;
     height: fit-content;
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 1px solid #f1f1f1;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    border: 1px solid #ececec;
+    border-radius: 7px;
+    padding: 12px;
+    background: #f9f9f9;
 
     .buttons {
       width: 100%;
@@ -471,21 +488,29 @@ export default class poruke extends Vue {
 
     input {
       width: 100%;
-      height: 70px;
+      height: 50px;
       display: flex;
       align-items: center;
       border: none;
       background: transparent;
-      font-size: 16px;
+      font-size: 15px;
+      background: #fff;
+      border-radius: 7px;
+      padding: 0 12px;
+      margin-bottom: 12px;
 
       &::placeholder {
-        color: #444;
+        color: #8e8e8e;
       }
 
       &:focus {
         border: none;
         outline: none;
       }
+    }
+
+    button {
+      background: #023246;
     }
   }
 }

@@ -208,4 +208,10 @@ export default class UserCard extends Vue {
   }
 
 }
+
+h3 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>

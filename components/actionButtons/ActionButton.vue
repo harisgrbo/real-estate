@@ -31,7 +31,7 @@ div {
 button {
   font-family: 'Lato', sans-serif;
   height: 48px;
-  border-radius: 8px;
+  border-radius: 4px;
   width: fit-content;
   display: flex;
   align-items: center;

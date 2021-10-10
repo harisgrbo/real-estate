@@ -111,18 +111,20 @@ export default class LoginForm extends Vue{
   }
   a {
     text-decoration: none;
-    color: #434343 !important;
+    color: #000 !important;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
     width: fit-content;
     font-size: 16px;
     margin: 0 auto;
+    margin-top: 26px;
   }
 }
 
 button {
   width: 100%;
   margin-top: 16px;
+  font-size: 16px;
 }
 
 label {

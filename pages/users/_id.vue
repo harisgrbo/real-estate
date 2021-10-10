@@ -120,7 +120,7 @@
           <!-- Details sidebar -->
           <aside class="w-96 bg-white px-4 ml-6 border-l border-gray-200 overflow-y-auto">
             <div class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
-              <div class="flex-1 flex flex-row justify-start p-8">
+              <div class="flex-1 flex flex-row justify-start p-8 pt-0">
                 <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
                 <div class="ml-4">
                   <h3 class="text-gray-900 text-md font-medium">{{ user.name }}</h3>
@@ -144,12 +144,12 @@
                       <span class="ml-3">Poruka</span>
                     </a>
                   </div>
-                  <div class="-ml-px w-0 flex-1 flex cursor-pointer">
+                  <div class="-ml-px w-0 flex-1 flex cursor-pointer" @click="toggleFollow()">
                     <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
-                      <span class="ml-3">Zaprati</span>
+                      <span class="ml-3">{{ isFollowed ? 'Otprati' : 'Zaprati' }}</span>
                     </nuxt-link>
                   </div>
                 </div>
@@ -159,6 +159,20 @@
         </div>
       </div>
     </div>
+    <client-only>
+      <modal name="contact-user" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Poruka za {{ user.name }}</h2>
+            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
+          </div>
+          <div class="modal-content">
+            <textarea v-model="message"></textarea>
+            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+          </div>
+        </div>
+      </modal>
+    </client-only>
   </div>
 </template>
 

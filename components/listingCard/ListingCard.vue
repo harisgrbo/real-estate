@@ -1,19 +1,18 @@
 <template>
-    <div class="listing-card-wrapper" :class="[from? 'blur' : '', listing.sponsored === 2 || listing.sponsored === 1 ? 'sponsored' : '']">
-      <div class="sponsored-label">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-        </svg>
-      </div>
+    <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
       <label class="publisher shadow-sm">
-        <span>{{ translateType() }}</span>
+        <span class="flex flex-row items-center">{{ translateType() }}
+          <div v-if="listing.sponsored === 2 || listing.sponsored === 1" class="red-label ml-2">
+             Sponzorisan
+          </div>
+        </span>
       </label>
       <div class="blured-background">
         <button @click="removeFromSaved(listing.id)">Ukloni iz spašenih</button>
       </div>
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative">
-          <swiper class="swiper" :options="swiperOption">
+          <swiper class="swiper" :options="swiperOption" @click.prevent>
             <swiper-slide v-for="(i, index) in 5" :key="index">
               <img :src="listing.thumbnail" alt="">
             </swiper-slide>
@@ -97,7 +96,7 @@ export default class ListingCard extends Vue{
     // slidesOffsetBefore: '100px',
     // slidesOffsetAfter: '100px',
     // slidesOffsetBefore: '0px',
-    loop: false,
+    loop: true,
     autoplay: false,
     slidesPerView: 1,
     pagination: {
@@ -176,7 +175,7 @@ export default class ListingCard extends Vue{
       position: absolute;
       left: 8px;
       top: 8px;
-      border-radius: 15px;
+      border-radius: 7px;
       background: #fff;
       color: #444;
       display: flex;
@@ -186,7 +185,7 @@ export default class ListingCard extends Vue{
       height: 24px;
       padding: 0 8px;
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
 
       z-index: 2;
 
@@ -278,7 +277,7 @@ export default class ListingCard extends Vue{
     img {
       height: 280px;
       width: 100%;
-      border-radius: 15px;
+      border-radius: 7px;
       object-fit: cover;
 
       @include for-phone-only {
@@ -576,5 +575,13 @@ export default class ListingCard extends Vue{
   @include for-phone-only {
     width: 100% !important;
   }
+}
+
+.red-label {
+  background: #ff0000;
+  color: #fff;
+  border-radius: 7px;
+  padding: 4px;
+  font-weight: 600;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <label for="price" class="block text-sm font-medium text-gray-700">{{ label }}</label>
+    <label for="price" class="block text-sm font-medium text-gray-700 mb-3">{{ label }}</label>
     <div :class="['block w-full sm:text-sm border-gray-300 rounded-md mt-1 relative rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
       </div>
@@ -48,7 +48,7 @@ export default class TextField extends Vue{
 input {
   height: 50px;
   background: #f9f9f9;
-  border-radius: 10px;
+  border-radius: 4px;
   padding-right: 100px !important;
 
   &:hover,
