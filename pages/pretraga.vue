@@ -42,9 +42,9 @@
               </button>
               <div v-if="showTypeDropdown" class="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <form class="space-y-4">
-                  <div class="flex items-center cursor-pointer" v-for="item in listing_types" @click="addOrRemoveFromListTypes(item)">
-                    <input id="filter-category-0" name="category[]" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                    <label for="filter-category-0" class="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap">
+                  <div class="flex items-center cursor-pointer" v-for="item in listing_types" @click="addOrRemoveFromListTypes(item.id)">
+                    <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                    <label :for="'filter-category-' + item.id" class="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap">
                       {{ item.name }}
                     </label>
                   </div>
@@ -240,7 +240,14 @@ import ListingCard from "../components/listingCard/ListingCard";
 
     let last_page = parseInt(lp);
 
+    let selectedTypes = [];
+
+    if (queryPayload.listing_type_id) {
+      selectedTypes = queryPayload.listing_type_id.value;
+    }
+
     return {
+      selectedTypes,
       allAttributes,
       results,
       meta,
@@ -259,23 +266,22 @@ export default class Homepage extends Vue {
   showSortDropdown = false;
   showTypeDropdown = false;
   selectedSort = '';
-  selectedTypes = [];
   listing_types = [
     {
       name: "Prodaja",
       id: 1,
     },
     {
-      name: "Potražnja",
+      name: "Kupovina",
       id: 2,
     },
     {
       name: "Stan na dan",
-      id: 3,
+      id: 4,
     },
     {
       name: "Iznajmljivanje (duži period)",
-      id: 4,
+      id: 3,
     },
   ]
   sort_types = [
@@ -310,6 +316,16 @@ export default class Homepage extends Vue {
       this.selectedTypes.push(x);
     } else {
       this.selectedTypes.splice(index, 1);
+    }
+
+    if (this.selectedTypes.length) {
+      this.queryPayload.listing_type_id = {
+        name: "listing_type_id",
+        type: "terms",
+        value: this.selectedTypes
+      }
+
+      this.newSearch();
     }
   }
 
@@ -377,8 +393,6 @@ export default class Homepage extends Vue {
         timeout: 1000,
         type: "success"
       });
-
-      console.log(res)
     } catch(e) {
       console.log(e)
     }
