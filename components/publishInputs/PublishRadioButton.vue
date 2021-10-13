@@ -57,7 +57,7 @@ export default class PublishRadioButton extends Vue{
 
 label {
   height: 60px;
-  border-radius: 10px;
+  border-radius: 7px;
   font-weight: 400;
   color: #000;
   font-size: 16px;

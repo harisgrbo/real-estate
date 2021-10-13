@@ -121,7 +121,7 @@
           <aside class="w-96 bg-white px-4 ml-6 border-l border-gray-200 overflow-y-auto">
             <div class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
               <div class="flex-1 flex flex-row justify-start p-8 pt-0">
-                <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
                 <div class="ml-4">
                   <h3 class="text-gray-900 text-md font-medium">{{ user.name }}</h3>
                   <dl class="mt-1 flex-grow flex flex-col justify-between">

@@ -55,7 +55,7 @@
               </div>
             </div>
           </li>
-          <UserCard v-for="user in followers" :user="user"/>
+          <UserCard v-for="user in followers" :id="user.id" :user="user"/>
           <!-- More people... -->
         </ul>
         <div v-else class="no-image">
@@ -65,7 +65,7 @@
       </div>
       <div v-show="activeTab === 1">
         <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 p-1" v-if="followed.length">
-          <UserCard v-for="user in followed" :user="user"/>
+          <UserCard v-for="user in followed" :id="user.id" :user="user"/>
         </ul>
         <div v-else class="no-image">
           <img src="/noimg.jpg" alt="no-image">

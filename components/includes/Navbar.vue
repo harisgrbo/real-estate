@@ -574,7 +574,7 @@ export default class Navbar extends Vue {
       min-width: 100%;
       right: -1px;
       box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 12px;
-      z-index: 12;
+      z-index: 999;
       left: -1px;
       height: fit-content;
       min-height: 0;

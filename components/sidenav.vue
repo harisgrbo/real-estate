@@ -2,7 +2,7 @@
   <div class="sidenav-wrapper">
     <ul>
       <li v-if="$auth.user" class="user-label" @click="goToUSer">
-        <img src="/avatar.jpg" alt="">
+        <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
         <div class="user-wrap">
           <label for="">{{ $auth.user.name }}</label>
         </div>

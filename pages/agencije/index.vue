@@ -4,7 +4,7 @@
       <div class="sidenav my-12">
         <h1 class="heading-account">{{ agencies.length }} agencija za nekretnine</h1>
          <div class="grid-layout">
-         <UserCard v-for="agency in agencies" :user="agency" :key="card" />
+         <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="card" />
        </div>
       </div>
     </div>

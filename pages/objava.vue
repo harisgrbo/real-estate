@@ -27,6 +27,9 @@
         <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
           Označite polja koja vaša nekretnina posjeduje
         </h2>
+        <h2 class="test" v-if="currentStep === steps.STEP_EIGHT">
+          Dodajte slike nekretnine
+        </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_NINE">
           Promocija oglasa
         </h2>
@@ -216,7 +219,7 @@
             <button @click="prevStep" class="back">Nazad
               <i class="material-icons">chevron_left</i>
             </button>
-            <button @click="nextStep">Dalje
+            <button @click="nextStep" :disabled="uploading === true ? true : false">Dalje
               <i class="material-icons">chevron_right</i>
             </button>
           </div>
@@ -315,11 +318,13 @@ export default class Objava extends Vue {
   listingId = null;
 
   dropzoneOptions = {
-    url: "http://fakeurl.com"
+    url: "http://fakeurl.com",
+    addRemoveLinks: true,
   };
 
   lat = 43;
   lng = 42;
+  uploading = false;
   show = false;
   price_per_square = false;
   vat_included = false;
@@ -365,7 +370,9 @@ export default class Objava extends Vue {
   }
 
   dropzoneChangeUrl() {
+    this.uploading = true;
     this.$refs.dropzone.setOption('url', `https://polar-cove-31327.herokuapp.com/listings/${this.listingId}/image`);
+    this.uploading = false;
   }
 
   primarySent = false;
@@ -1715,6 +1722,14 @@ h2.info {
 
 ::v-deep .dropzone .dz-preview {
   margin: 8px !important;
+}
+
+::v-deep .dz-remove {
+  margin-left: 0 !important;
+}
+
+::v-deep .dz-details {
+  background-color: rgba(2, 50, 70, 0.52) !important;
 }
 
 </style>

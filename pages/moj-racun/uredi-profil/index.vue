@@ -8,11 +8,8 @@
       </li>
     </ul>
     <div class="info-wrapper pb-12 mt-6">
-
-      <img :src="avatarUrl" />
-
       <form class="flex flex-row justify-between w-full" @submit="updateProfileInfo">
-        <div class="space-y-6 sm:space-y-5 w-full flex flex-col bg-gray-50 p-4">
+        <div class="space-y-6 sm:space-y-5 w-full flex flex-col">
           <div>
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Lični podaci
@@ -21,17 +18,21 @@
               Koristite prave informacije
             </p>
           </div>
-          <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+          <div class="image-upload">
+            <img v-if="!avatarUrl.length" src="/noimage.jpeg" class="my-4" alt="">
+            <img v-else :src="avatarUrl" class="my-4"/>
+          </div>
+          <div class="mt-6 grid gap-6 grid-cols-2">
+            <div class="w-full flex flex-col">
               <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Ime i Prezime
+                Korisnicko ime
               </label>
               <div class="mt-1 sm:mt-0 sm:col-span-2">
                 <input v-model="name" type="text" name="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
               </div>
             </div>
 
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="w-full flex flex-col">
               <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                 Email
               </label>
@@ -40,7 +41,7 @@
               </div>
             </div>
 
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="w-full flex flex-col">
               <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                 Sifra
               </label>
@@ -49,7 +50,7 @@
               </div>
             </div>
 
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="w-full flex flex-col">
               <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                 Potvrda Sifre
               </label>
@@ -57,13 +58,14 @@
                 <input v-model="passwordConfirm" type="password" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
               </div>
             </div>
-
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+          </div>
+          <div class="image-upload-wrap">
+            <div class="flex flex-col">
               <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                 Slika profila
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <div class="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="flex flex-row items-center justify-start">
+                <div class="max-w-xl w-full flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md mr-4">
                   <div class="space-y-1 text-center mr-2">
                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                       <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -82,9 +84,10 @@
                 </div>
               </div>
             </div>
+            <ActionButton type="submit" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }" class="w-full mt-6" placeholder="Spasi izmjene"></ActionButton>
 
-            <button type="submit">Spasi izmjene</button>
           </div>
+
         </div>
       </form>
     </div>
@@ -396,4 +399,32 @@ h2.heading {
   background: #0B8489;
 }
 
+input {
+  height: 50px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  padding-right: 100px !important;
+  width: 100%;
+  padding: 0 12px;
+  min-width: 100%;
+
+  &:hover,
+  &:focus,
+  &:visited {
+    outline: none;
+  }
+}
+
+.image-upload {
+  img {
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+  }
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
 </style>

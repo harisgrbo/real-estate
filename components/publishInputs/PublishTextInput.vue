@@ -81,6 +81,6 @@ input {
 
 .input-wrap {
   background: #F7F6F9;
-  border-radius: 10px;
+  border-radius: 7px;
 }
 </style>

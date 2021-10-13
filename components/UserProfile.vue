@@ -3,21 +3,13 @@
     <div class="main-user-wrapper">
       <div class="flex flex-row">
         <div class="flex w-14 h-14 items-center justify-center rounded-full overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="object-contain">
+          <img :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="" class="object-contain">
         </div>
-        <div class="flex flex-col items-start justify-between h-14 pl-4">
+        <div class="flex flex-col items-start justify-start h-14 pl-4">
           <h2 @click="goToUser()" class="text-lg font-medium text-black leading-5">{{ user.name }}</h2>
-          <div class="flex flex-row items-center justify-start">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-            </svg>
-            <p class="pl-2">
-              4.8
-            </p>
-            <nuxt-link class="pl-2 underline" to="/">
-              (54 ocjena)
-            </nuxt-link>
-          </div>
+          <dd class="mt-3">
+            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+          </dd>
         </div>
       </div>
       <div class="flex w-full contact">
@@ -182,7 +174,13 @@ export default class UserProfile extends Vue {
     console.log(sponzorisano)
   }
 
-
+  user_type(t) {
+    if(t === 'agency') {
+      return 'Agencija'
+    } else {
+      return 'Korisnik'
+    }
+  }
 
   async created() {
     this.alreadyFollowed = this.followed;
@@ -327,7 +325,7 @@ aside {
   width: 360px;
 
   .contact {
-    margin-top: 36px;
+    margin-top: 12px;
 
     ::v-deep button {
       width: 100%;
@@ -355,6 +353,10 @@ aside {
   border: 1px solid #f1f1f1;
   border-radius: 7px;
   padding: 16px;
+
+  img {
+    height: 100%;
+  }
 }
 
 .price-wrap {

@@ -5,18 +5,19 @@
       <div class="buttons">
       </div>
     </div>
-    <div class="listing-content mt-8 max-w-7xl mx-auto w-full">
+    <div class="listing-content mt-12 max-w-7xl mx-auto w-full">
       <div class="listing-content-inner">
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
             <div class="grid-container">
               <div class="img-counter">
-                <font-awesome-icon icon="images">
-                </font-awesome-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
                 <p>{{ images.length }}</p>
               </div>
-              <div :class="'item' + (index + 1)" v-for="(img, index) in images.slice(0, 4)">
-                <img :src="img.url" alt="" @click="openGallery(index)">
+              <div :class="'item' + (index + 1)" v-for="(img, index) in images.slice(0, 4)" @click="openGallery(index)">
+                <img :src="img.url" alt="">
                 <div class="more" v-if="index === 3">
                  {{ images.length - 3 + '+ slika' }}
                 </div>
@@ -51,6 +52,17 @@
                     </svg>
                   </button>
                 </div>
+              </div>
+              <div class="flex flex-row items-center justify-start mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="yellow" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+                <p class="pl-2 font-semibold">
+                  4.8
+                </p>
+                <nuxt-link class="pl-2 underline text-sm font-medium" to="/">
+                  (54 dojmova)
+                </nuxt-link>
               </div>
             </div>
 
@@ -88,7 +100,7 @@
                           {{ info.name }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-gray-500">{{ info.value }}</p>
+                      <p class="mt-1 text-sm text-gray-500 font-semibold">{{ info.value }}</p>
                     </div>
                   </div>
                 </li>
@@ -98,7 +110,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-4 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -109,7 +121,7 @@
                           {{ info.name }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-gray-500">{{ attrTranslate(info.value) }}</p>
+                      <p class="mt-1 text-sm text-gray-500 font-semibold">{{ attrTranslate(info.value) }}</p>
                     </div>
                   </div>
                 </li>
@@ -121,11 +133,11 @@
             <div class="separator"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6">Pogledajte šta se nalazi u blizini nekretnine</h2>
             <div class="places">
-              <ul class="flex flex-row items-center justify-start places-ul">
-                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place' : '']">{{ translatePlaces(index) }}</li>
+              <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2">
+                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md' : '']">{{ translatePlaces(index) }}</li>
               </ul>
-              <div>
-                <div class="places-grid" v-if="selectedPlace !== null">
+              <div class="mt-3">
+                <div class="places-grid bg-gray-50" v-if="selectedPlace !== null">
                   <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
                     <img :src="p.icon" :alt="p.name" class="mr-2">
                     {{ p.name }}</div>
@@ -296,6 +308,8 @@ export default class Artikal extends Vue {
     try {
       let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
       this.places = res;
+
+      this.selectedPlace = this.places[0]
     } catch(e) {
       console.log(e)
     }
@@ -477,6 +491,7 @@ export default class Artikal extends Vue {
 
   async created() {
     await this.fetchPlaces();
+    await this.selectPlace(this.places[0])
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
   }
@@ -548,7 +563,7 @@ export default class Artikal extends Vue {
   'main main small1 small1 small1'
   'main main small2 small2 small2'
   'main main small3 small3 small3';
-  grid-gap: 8px;
+  grid-gap: 2px;
   height: 400px;
 
   .img-counter {
@@ -559,7 +574,7 @@ export default class Artikal extends Vue {
     flex-direction: row;
     width: fit-content;
     border-radius: 5px;
-    padding: 4px;
+    padding: 4px 8px;
     color: #fff;
     background: rgba(0, 0, 0, 0.41);
     align-items: center;
@@ -588,7 +603,7 @@ export default class Artikal extends Vue {
 .item2, .item3, .item4 {
   cursor: pointer;
   img {
-    height: 127px;
+    height: 132px;
     width: 100%;
   }
 
@@ -1070,7 +1085,6 @@ export default class Artikal extends Vue {
     grid-column-gap: 24px;
     grid-row-gap: 32px;
     padding: 16px;
-    background: #f9f9f9;
     border-radius: 8px;
 
     > div {
@@ -1170,10 +1184,10 @@ export default class Artikal extends Vue {
 
   li {
     width: fit-content;
-    margin-right: 16px;
-    padding: 16px;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
+    margin-right: 10px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 500;
 
     &:last-child {
       margin-right: 0;
@@ -1183,7 +1197,6 @@ export default class Artikal extends Vue {
 
 .active-place {
   font-weight: 500;
-  background: #f9f9f9;
 }
 
 </style>

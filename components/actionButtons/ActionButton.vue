@@ -2,7 +2,7 @@
     <button @click="action" :style="styleOptions" :disabled="loading === true">
       <font-awesome-icon v-if="icon" :icon="icon"></font-awesome-icon>
       <span v-if="loading === false">{{ placeholder }}</span>
-      <img v-else src="/load.svg" alt="">
+      <img v-else src="/loader.svg" alt="">
     </button>
 </template>
 
