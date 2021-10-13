@@ -1,46 +1,9 @@
 <template>
-  <div class="user-profile-wrapper max-w-7xl mx-auto w-full py-8">
+  <div class="user-profile-wrapper px-20 mx-auto w-full py-8">
     <div class="flex overflow-hidden">
-      <!-- Narrow sidebar -->
-      <!--
-        Mobile menu
-
-        Off-canvas menu for mobile, show/hide based on off-canvas menu state.
-      -->
       <div class="fixed inset-0 z-40 flex md:hidden" role="dialog" aria-modal="true">
-        <!--
-          Off-canvas menu overlay, show/hide based on off-canvas menu state.
-
-          Entering: "transition-opacity ease-linear duration-300"
-            From: "opacity-0"
-            To: "opacity-100"
-          Leaving: "transition-opacity ease-linear duration-300"
-            From: "opacity-100"
-            To: "opacity-0"
-        -->
         <div class="fixed inset-0 bg-gray-600 bg-opacity-75" aria-hidden="true"></div>
-
-        <!--
-          Off-canvas menu, show/hide based on off-canvas menu state.
-
-          Entering: "transition ease-in-out duration-300 transform"
-            From: "-translate-x-full"
-            To: "translate-x-0"
-          Leaving: "transition ease-in-out duration-300 transform"
-            From: "translate-x-0"
-            To: "-translate-x-full"
-        -->
         <div class="relative max-w-xs w-full bg-indigo-700 pt-5 pb-4 flex-1 flex flex-col">
-          <!--
-            Close button, show/hide based on off-canvas menu state.
-
-            Entering: "ease-in-out duration-300"
-              From: "opacity-0"
-              To: "opacity-100"
-            Leaving: "ease-in-out duration-300"
-              From: "opacity-100"
-              To: "opacity-0"
-          -->
           <div class="absolute top-1 right-0 -mr-14 p-1">
             <button type="button" class="h-12 w-12 rounded-full flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white">
               <!-- Heroicon name: outline/x -->
@@ -50,20 +13,13 @@
               <span class="sr-only">Close sidebar</span>
             </button>
           </div>
-
           <div class="flex-shrink-0 px-4 flex items-center">
             <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white" alt="Workflow">
           </div>
           <div class="mt-5 flex-1 h-0 px-2">
             <nav class="h-full flex flex-col">
               <div class="space-y-1">
-                <!-- Current: "bg-indigo-800 text-white", Default: "text-indigo-100 hover:bg-indigo-800 hover:text-white" -->
                 <a href="#" class="text-indigo-100 hover:bg-indigo-800 hover:text-white group py-2 px-3 rounded-md flex items-center text-sm font-medium">
-                  <!--
-                    Heroicon name: outline/home
-
-                    Current: "text-white", Default: "text-indigo-300 group-hover:text-white"
-                  -->
                   <svg class="text-indigo-300 group-hover:text-white mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
@@ -146,24 +102,11 @@
                 </div>
               </div>
 
-              <!-- Tabs -->
-              <div class="mt-3 sm:mt-2">
-                <div class="hidden sm:block">
-                  <div class="flex items-center border-b border-gray-200">
-                    <nav class="flex space-x-4" aria-label="Tabs">
-                      <!-- Current: "bg-gray-100 text-gray-700", Default: "text-gray-500 hover:text-gray-700" -->
-                      <a :class="['text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md cursor-pointer', activeTab === index ? 'bg-gray-100 text-gray-700 px-3 py-2 font-medium text-sm rounded-md' : '']" v-for="(tab, index) in tabs" @click="activeTab = index">
-                        {{ tab }}
-                      </a>
-                    </nav>
-                  </div>
-                </div>
-              </div>
+              <h2 class="font-medium text-2xl">Oglasi</h2>
 
-              <!-- Gallery -->
               <section class="mt-8 pb-16" aria-labelledby="gallery-heading">
                 <h2 id="gallery-heading" class="sr-only">Recently viewed</h2>
-                <ul role="list" class="grid grid-cols-3 gap-4 gap-x-6">
+                <ul role="list" class="grid grid-cols-4 gap-4 gap-x-6">
                   <li class="relative listing-card" v-for="listing in listings">
                     <ListingCard :listing="listing" :key="listing.id"></ListingCard>
                   </li>
@@ -175,80 +118,61 @@
           </main>
 
           <!-- Details sidebar -->
-          <aside class="hidden w-96 bg-white px-4 ml-6 border-l border-gray-200 overflow-y-auto lg:block bg-gray-50">
-            <div class="pb-16 space-y-6">
-              <div>
-                <div class="mt-4 flex items-start justify-between mb-4">
-                  <div>
-                    <h2 class="text-lg font-medium text-black">{{ user.name }}</h2>
-                  </div>
-                  <button type="button" class="ml-4 bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <!-- Heroicon name: outline/heart -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                    <span class="sr-only">Favorite</span>
-                  </button>
-                </div>
-                <div class="block w-full h-64 rounded-lg overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="object-cover">
+          <aside class="w-96 bg-white px-4 ml-6 border-l border-gray-200 overflow-y-auto">
+            <div class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+              <div class="flex-1 flex flex-row justify-start p-8 pt-0">
+                <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                <div class="ml-4">
+                  <h3 class="text-gray-900 text-md font-medium">{{ user.name }}</h3>
+                  <dl class="mt-1 flex-grow flex flex-col justify-between">
+                    <dt class="sr-only">Title</dt>
+                    <dt class="sr-only">Role</dt>
+                    <dd class="mt-3">
+                      <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+                    </dd>
+                  </dl>
                 </div>
               </div>
               <div>
-                <h3 class="font-medium text-gray-900">Informacije</h3>
-                <dl class="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
-                  <div class="py-3 flex justify-between text-sm font-medium">
-                    <dt class="text-gray-500">Uploaded by</dt>
-                    <dd class="text-gray-900">Marie Culver</dd>
+                <div class="-mt-px flex divide-x divide-gray-200">
+                  <div class="w-0 flex-1 flex cursor-pointer" @click="$modal.show('contact-user')">
+                    <a class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                      <!-- Heroicon name: solid/mail -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      </svg>
+                      <span class="ml-3">Poruka</span>
+                    </a>
                   </div>
-
-                  <div class="py-3 flex justify-between text-sm font-medium">
-                    <dt class="text-gray-500">Created</dt>
-                    <dd class="text-gray-900">June 8, 2020</dd>
+                  <div class="-ml-px w-0 flex-1 flex cursor-pointer" @click="toggleFollow()">
+                    <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span class="ml-3">{{ isFollowed ? 'Otprati' : 'Zaprati' }}</span>
+                    </nuxt-link>
                   </div>
-
-                  <div class="py-3 flex justify-between text-sm font-medium">
-                    <dt class="text-gray-500">Last modified</dt>
-                    <dd class="text-gray-900">June 8, 2020</dd>
-                  </div>
-
-                  <div class="py-3 flex justify-between text-sm font-medium">
-                    <dt class="text-gray-500">Dimensions</dt>
-                    <dd class="text-gray-900">4032 x 3024</dd>
-                  </div>
-
-                  <div class="py-3 flex justify-between text-sm font-medium">
-                    <dt class="text-gray-500">Resolution</dt>
-                    <dd class="text-gray-900">72 x 72</dd>
-                  </div>
-                </dl>
-              </div>
-              <div>
-                <h3 class="font-medium text-gray-900">Description</h3>
-                <div class="mt-2 flex items-center justify-between">
-                  <p class="text-sm text-gray-500 italic">Add a description to this image.</p>
-                  <button type="button" class="bg-white rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <!-- Heroicon name: solid/pencil -->
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                    </svg>
-                    <span class="sr-only">Add description</span>
-                  </button>
                 </div>
-              </div>
-              <div class="flex">
-                <button type="button" class="flex-1 bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Poruka
-                </button>
-                <button type="button" class="flex-1 ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Blokiraj
-                </button>
               </div>
             </div>
           </aside>
         </div>
       </div>
     </div>
+    <client-only>
+      <modal name="contact-user" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Poruka za {{ user.name }}</h2>
+            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
+          </div>
+          <div class="modal-content">
+            <textarea v-model="message"></textarea>
+            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+          </div>
+        </div>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -256,10 +180,11 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import Snackbar from "@/components/global/Snackbar";
+import UserCard from "../../components/UserCard";
 
 @Component({
-  components: {ListingCard, Snackbar},
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+  components: {UserCard, ListingCard, Snackbar},
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let user = null
     let meta = null
@@ -289,11 +214,6 @@ export default class Users extends Vue {
   listings = []
   finishedListings = []
   feedback = []
-  tabs = [
-    "Aktivni oglasi",
-    "Završeni oglasi",
-    "Dojmovi"
-  ]
 
   get isMe() {
     if(this.$auth.user) {
@@ -390,6 +310,15 @@ export default class Users extends Vue {
     }
   }
 
+
+  user_type(t) {
+    if(t === 'agency') {
+      return 'Agencija'
+    } else {
+      return 'Korisnik'
+    }
+  }
+
   async fetchUserListings(id) {
     try {
       let response = await this.$axios.get('/users/' + id + '/listings')
@@ -413,16 +342,8 @@ export default class Users extends Vue {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  width: 100%;
-  margin: 0 auto;
   box-sizing: border-box;
-
-  @include for-phone-only {
-    flex-direction: column;
-    width: 100%;
-    padding: 12px;
-    padding-top: 36px;
-  }
+  margin: 0 auto;
 
   .user-content-wrapper {
     display: flex;
@@ -631,7 +552,7 @@ export default class Users extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Lato', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -719,15 +640,22 @@ ul.user-information {
   justify-content: space-between;
 }
 
-.listing-card ::v-deep img {
-  height: 180px;
-}
-
 .listing-card ::v-deep .listing-card-wrapper {
   width: 100%;
 }
 
 .listing-card ::v-deep a {
   width: 100%;
+}
+
+aside {
+  padding-top: 63px;
+}
+
+::v-deep {
+  .shadow {
+    box-shadow: none;
+    border-left: 1px solid #f1f1f1;
+  }
 }
 </style>

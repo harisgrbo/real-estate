@@ -35,7 +35,7 @@ export default {
 
   input {
     height: 60px;
-    border-radius: 10px;
+    border-radius: 7px;
     font-weight: 500;
     color: #000;
     font-size: 18px;

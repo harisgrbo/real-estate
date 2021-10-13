@@ -2,11 +2,11 @@
   <div class="flex flex-col">
     <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
     <label class="w-full border border-gray-200 rounded-tl-md rounded-tr-md relative p-4 flex cursor-pointer" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
-      <input :id="option.id" :value="option.title" :checked="value && value.id === option.id" type="radio" name="privacy-setting" value="Public access" class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-900 border-gray-300 focus:ring-indigo-900" aria-labelledby="privacy-setting-0-label" aria-describedby="privacy-setting-0-description">
+      <input :id="option.id" :value="option.title" :checked="value && value.id === option.id" type="radio" name="privacy-setting" value="Public access" class="h-6 w-4 mt-0.5 cursor-pointer text-indigo-900 border-gray-300 focus:ring-indigo-900" aria-labelledby="privacy-setting-0-label" aria-describedby="privacy-setting-0-description">
       <div class="ml-3 flex items-center">
         <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
         <!-- Checked: "text-indigo-700", Not Checked: "text-gray-500" -->
-        <span id="privacy-setting-0-description">
+        <span id="text-standard font-semibold">
           {{ option.title }}
         </span>
       </div>
@@ -56,12 +56,15 @@ export default class PublishRadioButton extends Vue{
 }
 
 label {
+  height: 60px;
+  border-radius: 7px;
+  font-weight: 400;
+  color: #000;
+  font-size: 16px;
+  background: #F7F6F9;
+  transition: 0.3s all ease;
+  border: none;
   margin-bottom: 24px;
-  border: 1px solid #000;
-  border-radius: 10px;
-  font-weight: 500;
-  color: #000 !important;
-  height: 58px;
 
   &.selected {
     background: #f9f9f9;
@@ -91,7 +94,7 @@ $radioActive: #757B9A;
 .radio {
   display: flex;
   flex: 1;
-  height: 50px;
+  height: 58px !important;
   border: 1px solid #ddd;
   border-radius: 5px;
   align-items: center;
@@ -118,7 +121,7 @@ $radioActive: #757B9A;
     background: #f9f9f9;
     span {
       color: #444;
-      font-weight: 500;
+      font-weight: 400;
     }
   }
   input {

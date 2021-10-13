@@ -63,14 +63,22 @@ export default class mojiOglasi extends Vue {
 
   .grid-cards {
     display: grid;
-    grid-template-columns: repeat( auto-fill, minmax(260px, 1fr) );
-    column-gap: 16px;
-    row-gap: 32px;
-    padding-bottom: 36px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 24px;
+    padding: 0;
 
     @include for-phone-only {
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      grid-column-gap: 12px;
+      grid-column-gap: 24px;
+      grid-row-gap: 24px;
+    }
+    ::v-deep a {
+      width: 217px;
+    }
+
+
+    ::v-deep img {
+      width: 100%;
     }
   }
 }

@@ -1,5 +1,5 @@
 export default {
-  version: '0.0.1',
+  version: "0.0.1",
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -19,7 +19,7 @@ export default {
       {
         rel: "stylesheet",
         href:
-          "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap"
+          "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap"
       }
     ],
     script: [
@@ -145,7 +145,12 @@ export default {
     }
   },
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: ["nuxt-ssr-cache", "@nuxtjs/auth", "@nuxtjs/axios", ["nuxt-material-design-icons"]],
+  modules: [
+    "nuxt-ssr-cache",
+    "@nuxtjs/auth",
+    "@nuxtjs/axios",
+    ["nuxt-material-design-icons"]
+  ],
 
   axios: {
     baseURL: "https://polar-cove-31327.herokuapp.com/"
@@ -202,7 +207,7 @@ export default {
     ],
 
     store: {
-      type: 'memory',
+      type: "memory",
 
       // maximum number of pages to store in memory
       // if limit is reached, least recently used page
@@ -210,7 +215,7 @@ export default {
       max: 100,
 
       // number of seconds to store this page in cache
-      ttl: 120,
-    },
-  },
+      ttl: 120
+    }
+  }
 };

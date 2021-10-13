@@ -2,7 +2,7 @@
     <button @click="action" :style="styleOptions" :disabled="loading === true">
       <font-awesome-icon v-if="icon" :icon="icon"></font-awesome-icon>
       <span v-if="loading === false">{{ placeholder }}</span>
-      <img v-else src="/load.svg" alt="">
+      <img v-else src="/loader.svg" alt="">
     </button>
 </template>
 
@@ -29,25 +29,21 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   height: 48px;
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #000;
+  border-radius: 4px;
   width: fit-content;
   display: flex;
   align-items: center;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   padding: 0 24px;
-  color: #000;
+  color: #fff;
   cursor: pointer;
   justify-content: center;
   transition: 0.3s all ease;
-
-  &:hover {
-    background: #f9f9f9;
-  }
+  background: rgb(19,156,120);
+  background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%);
 
   svg {
     margin-right: 8px;

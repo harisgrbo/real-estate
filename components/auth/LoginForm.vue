@@ -2,12 +2,12 @@
   <div class="form-wrapper">
     <h2>Prijava</h2>
     <form @submit.prevent="handleLogin">
-      <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4"></TextField>
-      <TextField type="password" placeholder="Lozinka" v-model="payload.password"></TextField>
-      <div class="flex flex-row items-center justify-between mt-8">
-        <nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
-        <ActionButton type="submit" placeholder="Prijavi se" :loading="loading"></ActionButton>
-      </div>
+      <label for="">Email</label>
+      <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4 mt-1"></TextField>
+      <label for="">Password</label>
+      <TextField type="password" placeholder="Lozinka" v-model="payload.password" class="mt-1"></TextField>
+      <ActionButton type="submit" placeholder="Prijavi se" :loading="loading"></ActionButton>
+      <nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
     </form>
     <Snackbar />
   </div>
@@ -91,27 +91,44 @@ export default class LoginForm extends Vue{
   justify-content: space-between;
 
   ::v-deep input {
-    border: 1px solid #000;
+    border: 1px solid #ddd;
+    background: #fff;
+    height: 52px;
+    width: 100%;
+    padding: 0 16px;
   }
 
   ::v-deep ::placeholder {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
-    color: #000;
+    color: #8d8d8d;
   }
   h2 {
-    font-weight: 500;
-    font-size: 20px;
-    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 36px;
+    margin-bottom: 42px;
     text-align: left;
   }
   a {
     text-decoration: none;
-    color: #434343 !important;
+    color: #000 !important;
     text-align: center;
-    font-weight: 500;
+    font-weight: 600;
     width: fit-content;
-    font-size: 14px;
+    font-size: 16px;
+    margin: 0 auto;
+    margin-top: 26px;
   }
+}
+
+button {
+  width: 100%;
+  margin-top: 16px;
+  font-size: 16px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 15px;
 }
 </style>

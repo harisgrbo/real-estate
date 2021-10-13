@@ -1,5 +1,5 @@
 <template>
-  <div :class="['navbar-wrapper w-full px-20 shadow-sm', this.$route.name === 'index' ? 'only-index' : '']">
+  <div :class="['navbar-wrapper w-full px-20 shadow-sm overflow-x-hidden max-w-full', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'">
@@ -75,9 +75,9 @@
         </div>
       </div>
       <div class="auth-buttons">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '1px solid #000', color: '#000', borderRadius: '8px', height: '42px', marginRight: '24px' }" :loading="false"></ActionButton>
+        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
-        <div class="inner">
+        <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
             <button class="register" @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
@@ -574,7 +574,7 @@ export default class Navbar extends Vue {
       min-width: 100%;
       right: -1px;
       box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 12px;
-      z-index: 3;
+      z-index: 999;
       left: -1px;
       height: fit-content;
       min-height: 0;
@@ -686,7 +686,7 @@ export default class Navbar extends Vue {
       border-radius: 0px;
       border: none;
       background: transparent;
-      font-size: 12px;
+      font-size: 14px !important;
       font-weight: 600;
       cursor: pointer;
       transition: 0.3s all ease;
@@ -758,13 +758,13 @@ export default class Navbar extends Vue {
     }
 
     .user-dropdown {
-      position: absolute;
-      top: 81px;
+      position: fixed;
+      top: 70px;
       padding: 12px;
       background: #fff;
       width: 340px;
       min-width: 340px;
-      right: 90px;
+      right: 80px;
       box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
       display: flex;
       flex-direction: column;
@@ -773,7 +773,7 @@ export default class Navbar extends Vue {
       height: -moz-fit-content;
       height: fit-content;
       border-radius: 10px;
-      z-index: 10;
+      z-index: 500;
     }
   }
 
@@ -908,23 +908,21 @@ export default class Navbar extends Vue {
 }
 
 .notification {
-  position: absolute;
-  width: 0px;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  position: fixed;
+  width: 400px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   top: 0;
-  right: 0;
-  z-index: 99;
+  bottom: 0;
+  right: -400px;
+  width: 0;
+  z-index: 400;
   background: #fff;
   box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
-  height: 100vh;
   transition: 0.3s all ease;
-  overflow-y: scroll;
 
   &.extend {
+    right: 0;
     width: 400px;
   }
 }

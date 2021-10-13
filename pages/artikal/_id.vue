@@ -5,50 +5,67 @@
       <div class="buttons">
       </div>
     </div>
-    <div class="listing-content max-w-7xl mx-auto w-ful">
+    <div class="listing-content mt-12 max-w-7xl mx-auto w-full">
       <div class="listing-content-inner">
-        <div class="mb-6">
-          <div class="article-title">
-            <h2 v-if="listing">{{ listing.title }}</h2>
-            <div class="flex flex-row items-center">
-              <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <!-- Heroicon name: solid/plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </button>
-              <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <!-- Heroicon name: solid/plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="grid-container">
-          <div class="img-counter">
-            <font-awesome-icon icon="images">
-            </font-awesome-icon>
-            <p>{{ images.length }}</p>
-          </div>
-          <div :class="'item' + img.id" v-for="(img, index) in images">
-            <img :src="img.name" alt="" @click="openGallery(index)">
-          </div>
-          <client-only>
-            <light-box
-              ref="lightbox"
-              :media="lightboxImages"
-              :show-light-box="false"
-              :show-thumbs="true"
-              close-text="function() {
-          return 'Zatvori galeriju'
-          }"
-            />
-          </client-only>
-        </div>
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
+            <div class="grid-container">
+              <div class="img-counter">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p>{{ images.length }}</p>
+              </div>
+              <div :class="'item' + (index + 1)" v-for="(img, index) in images.slice(0, 4)" @click="openGallery(index)">
+                <img :src="img.url" alt="">
+                <div class="more" v-if="index === 3">
+                 {{ images.length - 3 + '+ slika' }}
+                </div>
+              </div>
+              <client-only>
+                <light-box
+                  ref="lightbox"
+                  :media="lightboxImages"
+                  :show-light-box="false"
+                  :show-thumbs="true"
+                  close-text="function() {
+          return 'Zatvori galeriju'
+          }"
+                />
+              </client-only>
+            </div>
+
+            <div class="mb-6">
+              <div class="article-title">
+                <h2 v-if="listing">{{ listing.title }}</h2>
+                <div class="flex flex-row items-center">
+                  <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <!-- Heroicon name: solid/plus -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </button>
+                  <button @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
+                    <!-- Heroicon name: solid/plus -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :fill="[ listingSaved ? '#023246' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="flex flex-row items-center justify-start mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="yellow" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+                <p class="pl-2 font-semibold">
+                  4.8
+                </p>
+                <nuxt-link class="pl-2 underline text-sm font-medium" to="/">
+                  (54 dojmova)
+                </nuxt-link>
+              </div>
+            </div>
+
             <ul role="list" class="main-info">
               <li>
                 <p>Lokacija</p>
@@ -66,17 +83,13 @@
                 <p>Datum objave</p>
                 <p class="mt-1 text-md text-black font-medium">{{ $moment(listing.createdAt).format('LL') }}</p>
               </li>
-              <li>
-                <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
-                <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
-              </li>
             </ul>
             <div class="separator"></div>
             <div>
               <h2 class="text-xl font-medium text-gray-900">
                 Detaljne informacije
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-4 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -87,7 +100,7 @@
                           {{ info.name }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-gray-500">{{ info.value }}</p>
+                      <p class="mt-1 text-sm text-gray-500 font-semibold">{{ info.value }}</p>
                     </div>
                   </div>
                 </li>
@@ -97,7 +110,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-4 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -108,7 +121,7 @@
                           {{ info.name }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-gray-500">{{ attrTranslate(info.value) }}</p>
+                      <p class="mt-1 text-sm text-gray-500 font-semibold">{{ attrTranslate(info.value) }}</p>
                     </div>
                   </div>
                 </li>
@@ -120,11 +133,11 @@
             <div class="separator"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6">Pogledajte šta se nalazi u blizini nekretnine</h2>
             <div class="places">
-              <ul class="flex flex-row items-center justify-start places-ul">
-                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place' : '']">{{ translatePlaces(index) }}</li>
+              <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2">
+                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md' : '']">{{ translatePlaces(index) }}</li>
               </ul>
-              <div>
-                <div class="places-grid" v-if="selectedPlace !== null">
+              <div class="mt-3">
+                <div class="places-grid bg-gray-50" v-if="selectedPlace !== null">
                   <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
                     <img :src="p.icon" :alt="p.name" class="mr-2">
                     {{ p.name }}</div>
@@ -190,7 +203,7 @@
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
+            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
           </div>
         </div>
       </div>
@@ -220,6 +233,7 @@ import TextField from "../../components/inputs/TextField";
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let listing = null;
+    let images = []
     let user = null
     let isFollowed = false;
     let isSaved = false;
@@ -230,6 +244,7 @@ import TextField from "../../components/inputs/TextField";
       listing = response.data.data;
       listingSaved = response.data.meta.saved;
       user = listing.user;
+      images = listing.images;
       isFollowed = response.data.meta.followed;
       isSaved = response.data.meta.saved;
     } catch(e) {
@@ -241,7 +256,8 @@ import TextField from "../../components/inputs/TextField";
       user,
       isFollowed,
       isSaved,
-      listingSaved
+      listingSaved,
+      images
     }
   }
 })
@@ -270,28 +286,7 @@ export default class Artikal extends Vue {
       dynamicBullets: true
     }
   }
-  images = [
-    {
-      name: '/test/img1.jpg',
-      id: 1,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 2,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 3,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 4,
-    },
-    {
-      name: '/test/img1.jpg',
-      id: 5,
-    },
-  ]
+  images = []
   places = []
   x = 0
 
@@ -314,7 +309,7 @@ export default class Artikal extends Vue {
       let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
       this.places = res;
 
-      console.log(this.places, 'mjesta')
+      this.selectedPlace = this.places[0]
     } catch(e) {
       console.log(e)
     }
@@ -380,8 +375,8 @@ export default class Artikal extends Vue {
     if(this.images.length) {
       return this.images.map((item) => {
         return {
-          src: item.name,
-          thumb: item.name,
+          src: item.url,
+          thumb: item.url,
         };
       });
     }
@@ -496,6 +491,7 @@ export default class Artikal extends Vue {
 
   async created() {
     await this.fetchPlaces();
+    await this.selectPlace(this.places[0])
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
   }
@@ -520,8 +516,8 @@ export default class Artikal extends Vue {
   img {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-
-    min-height: 100%;
+    height: 400px;
+    cursor: pointer;
 
     @include for-phone-only {
       border-radius: 0;
@@ -529,7 +525,7 @@ export default class Artikal extends Vue {
   }
 }
 .item2 {
-  grid-area: small2;
+  grid-area: small1;
   img {
     border-top-right-radius: 10px;
     @include for-phone-only {
@@ -538,7 +534,7 @@ export default class Artikal extends Vue {
   }
 }
 .item3 {
-  grid-area: small1;
+  grid-area: small2;
   img {
     border-radius: 0px;
 
@@ -559,25 +555,16 @@ export default class Artikal extends Vue {
   }
 }
 
-.item4 {
-  grid-area: small4;
-  img {
-    border-bottom-right-radius: 10px;
-
-    @include for-phone-only {
-      border-radius: 0;
-    }
-  }
-}
 
 .grid-container {
   position: relative;
   display: grid;
   grid-template-areas:
-  'main main main small1 small2'
-  'main main main small3 small4';
-  grid-gap: 8px;
-  min-height: 500px;
+  'main main small1 small1 small1'
+  'main main small2 small2 small2'
+  'main main small3 small3 small3';
+  grid-gap: 2px;
+  height: 400px;
 
   .img-counter {
     position: absolute;
@@ -586,20 +573,11 @@ export default class Artikal extends Vue {
     display: flex;
     flex-direction: row;
     width: fit-content;
-    height: 30px;
     border-radius: 5px;
-    padding: 0 12px;
+    padding: 4px 8px;
     color: #fff;
-    background: #000;
+    background: rgba(0, 0, 0, 0.41);
     align-items: center;
-
-    @include for-phone-only {
-      bottom: 12px;
-      top: inherit;
-      background: #0006;
-      font-size: 13px;
-      padding: 0 8px;
-    }
 
     svg {
       margin-right: 8px;
@@ -615,8 +593,53 @@ export default class Artikal extends Vue {
   img {
     object-fit: cover;
     max-width: 100%;
-    min-height: 100%;
   }
+}
+
+.item1 img {
+  width: 100%;
+}
+
+.item2, .item3, .item4 {
+  cursor: pointer;
+  img {
+    height: 132px;
+    width: 100%;
+  }
+
+  .more {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+}
+
+.item4 {
+  position: relative;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(9px);
+    z-index: 1;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
 }
 
 
@@ -737,7 +760,7 @@ export default class Artikal extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Lato', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -901,7 +924,7 @@ export default class Artikal extends Vue {
 }
 
 ::v-deep img.vue-lb-modal-image {
-  border-radius: 10px !important;
+  border-radius: 7px !important;
 
   @include for-phone-only {
     border-radius: 0 !important;
@@ -909,10 +932,10 @@ export default class Artikal extends Vue {
 }
 
 ::v-deep .vue-lb-arrow {
-  width: 60px !important;
+  width: 30px !important;
   border-radius: 30px!important;
   border: 1px solid #fff!important;
-  height: 60px!important;
+  height: 30px!important;
 
   ::v-deep svg {
     color: #444!important;
@@ -948,7 +971,7 @@ export default class Artikal extends Vue {
     height: 100px;
     padding: 12px;
     border-radius: 5px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lato', sans-serif;
     &:focus {
       outline: none;
     }
@@ -1062,7 +1085,6 @@ export default class Artikal extends Vue {
     grid-column-gap: 24px;
     grid-row-gap: 32px;
     padding: 16px;
-    background: #f9f9f9;
     border-radius: 8px;
 
     > div {
@@ -1107,7 +1129,7 @@ export default class Artikal extends Vue {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 24px;
@@ -1134,9 +1156,9 @@ export default class Artikal extends Vue {
     width: fit-content;
     min-width: fit-content;
     max-width: fit-content;
-    background: #f9f9f9;
+    border: 1px solid #f1f1f1;
     margin-right: 12px;
-    border-radius: 10px;
+    border-radius: 7px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1151,7 +1173,7 @@ export default class Artikal extends Vue {
       &:last-child {
         font-size: 15px;
         margin-top: 16px;
-        font-weight: 500;
+        font-weight: 600;
       }
     }
   }
@@ -1162,10 +1184,10 @@ export default class Artikal extends Vue {
 
   li {
     width: fit-content;
-    margin-right: 16px;
-    padding: 16px;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
+    margin-right: 10px;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 500;
 
     &:last-child {
       margin-right: 0;
@@ -1175,7 +1197,6 @@ export default class Artikal extends Vue {
 
 .active-place {
   font-weight: 500;
-  background: #f9f9f9;
 }
 
 </style>

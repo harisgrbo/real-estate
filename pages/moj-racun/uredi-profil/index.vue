@@ -8,8 +8,8 @@
       </li>
     </ul>
     <div class="info-wrapper pb-12 mt-6">
-      <form class="flex flex-row justify-between w-full">
-        <div class="space-y-6 sm:space-y-5 w-full flex flex-col bg-gray-50 p-4">
+      <form class="flex flex-row justify-between w-full" @submit="updateProfileInfo">
+        <div class="space-y-6 sm:space-y-5 w-full flex flex-col">
           <div>
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Lični podaci
@@ -18,62 +18,54 @@
               Koristite prave informacije
             </p>
           </div>
-          <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+          <div class="image-upload">
+            <img v-if="!avatarUrl.length" src="/noimage.jpeg" class="my-4" alt="">
+            <img v-else :src="avatarUrl" class="my-4"/>
+          </div>
+          <div class="mt-6 grid gap-6 grid-cols-2">
+            <div class="w-full flex flex-col">
               <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Ime
+                Korisnicko ime
               </label>
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                <input v-model="name" type="text" name="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
               </div>
             </div>
 
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Prezime
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="w-full flex flex-col">
               <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                 Email
               </label>
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                <input v-model="email" type="text" name="first-name" id="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
               </div>
             </div>
 
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <label for="country" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Grad
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <select id="country" name="country" autocomplete="country" class="max-w-lg block h-10  w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+            <div class="w-full flex flex-col">
               <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Adresa
+                Sifra
               </label>
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
+                <input v-model="password" type="password" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
               </div>
             </div>
 
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-              <label for="cover-photo" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+            <div class="w-full flex flex-col">
+              <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                Potvrda Sifre
+              </label>
+              <div class="mt-1 sm:mt-0 sm:col-span-2">
+                <input v-model="passwordConfirm" type="password" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
+              </div>
+            </div>
+          </div>
+          <div class="image-upload-wrap">
+            <div class="flex flex-col">
+              <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                 Slika profila
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <div class="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="flex flex-row items-center justify-start">
+                <div class="max-w-xl w-full flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md mr-4">
                   <div class="space-y-1 text-center mr-2">
                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                       <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -81,9 +73,9 @@
                     <div class="flex text-sm text-gray-600">
                       <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-black">
                         <span class="px-2">Izaberite sliku</span>
-                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                        <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="updateAvatar">
                       </label>
-                      <p class="pl-1">ili prevucite sliku u <okvir></okvir></p>
+                      <p class="pl-1">ili prevucite sliku u okvir</p>
                     </div>
                     <p class="text-xs text-gray-500">
                       PNG, JPG, GIF up to 10MB
@@ -92,7 +84,10 @@
                 </div>
               </div>
             </div>
+            <ActionButton type="submit" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }" class="w-full mt-6" placeholder="Spasi izmjene"></ActionButton>
+
           </div>
+
         </div>
       </form>
     </div>
@@ -123,14 +118,38 @@ export default class urediProfil extends Vue {
   password = '';
   passwordConfirm = '';
   loading = false;
+  avatarUrl = '';
 
   async created() {
     this.setInputs();
   }
 
+  async updateAvatar(event) {
+    console.log(event.target.files);
+    if (event.target.files.length) {
+      let image = event.target.files[0];
+      let formData = new FormData();
+      formData.append('avatar', image);
+
+      try {
+        await this.$axios.post('/avatar', formData, {
+          'headers': {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        await this.$auth.fetchUser();
+        this.setInputs();
+      } catch (e) {
+        alert("Avatar nije moguce postaviti")
+      }
+    }
+  }
+
   setInputs() {
     this.name = this.$auth.user.name;
     this.email = this.$auth.user.email;
+    this.avatarUrl = this.$auth.user.avatar_url;
   }
 
   async updateProfileInfo() {
@@ -147,11 +166,20 @@ export default class urediProfil extends Vue {
       }
 
       if (this.password.length) {
-        payload.password = this.password;
+        if (this.passwordConfirm === this.password) {
+          payload.password = this.password;
+        } else {
+          this.$snackbar.show({
+            text: "Sifre nisu iste",
+            timeout: 1000,
+            type: "danger"
+          })
+        }
       }
 
       await this.$axios.put('/profile/update', payload)
       await this.$auth.fetchUser();
+      this.setInputs();
 
       this.$snackbar.show({
         text: "Uspjesno ste se spasili izmjene!",
@@ -319,7 +347,7 @@ h2.heading {
             background: #0B8489;
             border-radius: 5px;
             border: none;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Lato', sans-serif;
             color: #fff;
             padding: 8px 12px;
             cursor: pointer;
@@ -371,4 +399,32 @@ h2.heading {
   background: #0B8489;
 }
 
+input {
+  height: 50px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  padding-right: 100px !important;
+  width: 100%;
+  padding: 0 12px;
+  min-width: 100%;
+
+  &:hover,
+  &:focus,
+  &:visited {
+    outline: none;
+  }
+}
+
+.image-upload {
+  img {
+    height: 150px;
+    width: 150px;
+    border-radius: 75px;
+  }
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
 </style>

@@ -93,6 +93,10 @@ export default class Categories extends Vue {
 }
 
 a {
+  font-weight: 400;
+  color: #000;
+  font-size: 16px;
+
   &:hover, &:active, &:visited {
     outline: none;
     border: none;

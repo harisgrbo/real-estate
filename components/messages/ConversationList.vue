@@ -1,5 +1,5 @@
 <template>
-  <ul class="border-b border-gray-200 divide-y divide-gray-200">
+  <ul class="border-b border-gray-200 divide-y divide-gray-200 py-4">
     <li v-for="(conversation, index) in conversations"
         @click="setSelectedConversation(conversation, index)"
         :class="[ (conversation.id === (value ? value.id: null)) ? 'active' : '']"
@@ -152,6 +152,13 @@ export default class ConversationList extends Vue {
     font-size: 13px;
     color: #fff;
     margin-right: 4px;
+  }
+}
+
+li {
+  &:hover {
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 2px !important;
   }
 }
 </style>

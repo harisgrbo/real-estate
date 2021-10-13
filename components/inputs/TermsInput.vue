@@ -62,7 +62,7 @@ export default {
 
     button {
       height: 60px;
-      border-radius: 10px;
+      border-radius: 7px;
       background: #f9f9f9;
       border: 1px solid #ddd;
       margin-bottom: 0;

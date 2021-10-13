@@ -48,15 +48,5 @@ export default class Article extends Vue {
   }
 
 }
-
-::v-deep .second-row {
-  max-width: 1180px !important;
-  margin: 0 auto;
-}
-
-::v-deep .px-20 {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
 </style>
 

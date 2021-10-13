@@ -1,13 +1,13 @@
 <template>
   <div class="relative">
 <!--    <label for="price" class="block text-sm font-medium text-gray-700">{{ title }}</label>-->
-    <div class="mt-1 relative rounded-md">
+    <div class="mt-1 relative rounded-md input-wrap">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
       </div>
       <input :type="type"
              :value="value"
-             @input="updateValue($event.target.value)"  @blur="$emit('blur')" :placeholder="title" name="price" id="price" :class="['block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
-      <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+             @input="updateValue($event.target.value)"  @blur="$emit('blur')" :placeholder="title" name="price" id="price" :class="['block w-full pl-4 pr-24 sm:text-sm rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
+      <div class="absolute inset-y-0 right-0 bg-gray-200 rounded-md m-2 flex items-center pointer-events-none">
         <span v-if="currency" class="text-gray-500 flex flex-row items-center" id="price-currency">
           KM
           <p v-if="showSquareM" class="pl-1">/ m²</p>
@@ -54,12 +54,12 @@ export default class PublishTextInput extends Vue{
 
 input {
   height: 60px;
-  border-radius: 10px;
   font-weight: 500;
   color: #000;
   font-size: 18px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  transition: 0.3s all ease;
+  border: none;
+  background: transparent;
 
   &:focus {
     outline: none;
@@ -68,7 +68,7 @@ input {
 
 ::placeholder {
   font-weight: 400;
-  color: #717171;
+  color: #9F9FAF;
   font-size: 16px;
 }
 
@@ -77,5 +77,10 @@ input {
   font-size: 18px;
   color: black !important;
   padding: 0 24px;
+}
+
+.input-wrap {
+  background: #F7F6F9;
+  border-radius: 7px;
 }
 </style>

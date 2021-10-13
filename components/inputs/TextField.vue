@@ -1,15 +1,15 @@
 <template>
   <div class="relative">
-    <label for="price" class="block text-sm font-medium text-gray-700">{{ label }}</label>
-    <div class="mt-1 relative rounded-md">
+    <label for="price" class="block text-sm font-medium text-gray-700 mb-3">{{ label }}</label>
+    <div :class="['block w-full sm:text-sm border-gray-300 rounded-md mt-1 relative rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
       </div>
       <input     :type="type"
                  :placeholder="placeholder"
                  :value="value"
-                 @input="updateValue($event.target.value)" id="price" :class="['block w-full pl-4 pr-12 sm:text-sm border-gray-300 rounded-md', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']" aria-describedby="price-currency">
+                 @input="updateValue($event.target.value)" id="price" aria-describedby="price-currency">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-        <span v-if="currency" class="text-gray-500 sm:text-sm" id="price-currency">
+        <span v-if="currency" class="text-gray-500 sm:text-sm font-medium" id="price-currency">
           KM
         </span>
       </div>
@@ -48,8 +48,8 @@ export default class TextField extends Vue{
 input {
   height: 50px;
   background: #f9f9f9;
-  border-radius: 10px;
-  padding-right: 24px !important;
+  border-radius: 4px;
+  padding-right: 100px !important;
 
   &:hover,
   &:focus,
