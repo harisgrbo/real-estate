@@ -36,7 +36,7 @@
           </label>
         </div>
         <div class="listing-card-content">
-          <div class="flex flex-row justify-between items-center">
+          <div class="flex flex-col justify-between items-start">
             <div class="address title">
               <p>
                 {{ listing.title }}
@@ -50,15 +50,15 @@
               </div>
             </div>
           </div>
-          <div class="addresses">
-            <div
-              v-for="(attr, index) in specialAttributes"
-              :key="index"
-              class="flex flex-row items-center mr-2"
-            >
-              {{ attr.value }}
-            </div>
-          </div>
+<!--          <div class="addresses">-->
+<!--            <div-->
+<!--              v-for="(attr, index) in specialAttributes"-->
+<!--              :key="index"-->
+<!--              class="flex flex-row items-center mr-2"-->
+<!--            >-->
+<!--              {{ attr.value }}-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </nuxt-link>
       <Snackbar />
@@ -321,14 +321,9 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           white-space: initial;
-           overflow: hidden;
-           text-overflow: ellipsis;
-           font-weight: 600 !important;
-           font-size: 14px;
+           font-weight: 500 !important;
+           font-size: 17px;
            line-height: 20px !important;
-           word-break: break-word;
-           max-width: 140px;
          }
         }
 
@@ -374,10 +369,11 @@ export default class ListingCard extends Vue{
         }
 
         .price {
-          font-weight: 500;
-          font-size: 14px;
+          font-weight: 400 !important;
+          font-size: 15px !important;
           color: #444;
           line-height: 20px;
+          margin-top: 8px;
 
           @include for-phone-only {
             font-size: 13px;
@@ -504,8 +500,9 @@ export default class ListingCard extends Vue{
   }
 
   .addresses {
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
+    font-weight: 300;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
