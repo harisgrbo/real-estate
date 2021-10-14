@@ -1,34 +1,38 @@
 <template>
   <div class="form-wrapper">
     <h2>Registracija</h2>
-    <ul>
-      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :key="index" :class="[ currentType === index ? 'active' : '' ]">{{ type }}</li>
+    <ul class="flex flex-row items-center justify-start bg-gray-50 rounded-md p-2">
+      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :key="index" :class="[ currentType === index ? 'active bg-white shadow-sm rounded-md' : '' ]">{{ type }}</li>
     </ul>
     <!-- User registration -->
     <div v-if="currentType === 0">
       <form @submit.prevent="handleUserRegistration">
+        <label for="">Email</label>
         <TextField type="text" placeholder="Email" v-model="userPayload.email" class="mb-4"></TextField>
+        <label for="">Korisničko ime</label>
         <TextField type="text" placeholder="Korisničko ime" v-model="userPayload.name" class="mb-4"></TextField>
-        <TextField type="password" placeholder="Lozinka" v-model="userPayload.password" class="mb-4"></TextField>
-        <div class="flex flex-row items-center justify-between mt-8 w-full buttons">
-          <nuxt-link :to="{ path: '/auth/login' }">Logujte se</nuxt-link>
-          <ActionButton placeholder="Registruj se" @action="handleUserRegistration" :loading="loading"></ActionButton>
-        </div>
+        <label for="">Šifra</label>
+        <TextField type="password" placeholder="Šifra" v-model="userPayload.password" class="mb-4"></TextField>
+        <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', marginTop: '24px' }" @action="handleUserRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
+      <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
+
     </div>
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
-        <TextField type="text" placeholder="Naziv agencije" v-model="realEstateAgencyPayload.name" class="mb-4"></TextField>
+        <label for="">Ime agencije</label>
+        <TextField type="text" placeholder="Ime agencije" v-model="realEstateAgencyPayload.name" class="mb-4"></TextField>
+        <label for="">ID broj</label>
         <TextField type="number" placeholder="ID broj" v-model="realEstateAgencyPayload.external_id" class="mb-4"></TextField>
+        <label for="">Email</label>
         <TextField type="text" placeholder="Email" v-model="realEstateAgencyPayload.email" class="mb-4"></TextField>
-        <TextField type="password" placeholder="Lozinka" v-model="realEstateAgencyPayload.password" class="mb-4"></TextField>
-        <PublishDropdown placeholder="Pretrazite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+        <label for="">Šifra</label>
+        <TextField type="password" placeholder="Šifra" v-model="realEstateAgencyPayload.password" class="mb-4"></TextField>
+        <PublishDropdown placeholder="Pretrazite lokacije" title="Lokacija" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+        <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
-      <div class="flex flex-row items-center justify-between mt-8 buttons">
-        <nuxt-link :to="{ path: '/auth/login' }">Logujte se</nuxt-link>
-        <ActionButton placeholder="Registruj se" @action="handleRealEstateAgencyRegistration" :loading="loading"></ActionButton>
-      </div>
+      <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
     </div>
     <Snackbar />
   </div>
@@ -181,34 +185,6 @@ export default class RegisterForm extends Vue{
     margin-bottom: 24px;
     text-align: left;
   }
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 24px;
-    width: 100%;
-    li {
-      font-size: 14px !important;
-      line-height: 26px !important;
-      margin-right: 24px;
-      padding-bottom: 8px;
-      height: 30px;
-      position: relative;
-      cursor: pointer;
-      font-weight:500;
-      &.active {
-        color: #0D1F3E;
-        &::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          border-bottom: 1px solid #0D1F3E;
-        }
-      }
-    }
-  }
   a {
     text-decoration: none;
     color: #434343 !important;
@@ -219,22 +195,88 @@ export default class RegisterForm extends Vue{
   }
 }
 
-.location {
-  margin-top: 12px;
-}
-
-div.buttons {
+.form-wrapper {
+  width: 70%;
+  margin: 0 auto;
+  height: 80%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: space-between;
+
+  ::v-deep input {
+    border: 1px solid #ddd;
+    background: #fff;
+    height: 52px;
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  ::v-deep ::placeholder {
+    font-weight: 500;
+    font-size: 14px;
+    color: #8d8d8d;
+  }
+  h2 {
+    font-weight: 600;
+    font-size: 36px;
+    margin-bottom: 42px;
+    text-align: left;
+  }
+  ul {
+    display: flex;
+    margin-bottom: 24px;
+    height: 50px;
+
+    li {
+      width: fit-content;
+      margin-right: 10px;
+      padding: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #797979;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.active {
+        font-weight: 600;
+        color: #000;
+      }
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: #000 !important;
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0 auto;
+    margin-top: 42px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      cursor: pointer;
+      background: #f9f9f9;
+      border-radius: 7px;
+    }
+  }
 }
 
-::v-deep input {
-  border: 1px solid #000;
+button {
+  width: 100%;
+  margin-top: 16px;
+  font-size: 16px;
 }
 
-::v-deep ::placeholder {
-  font-weight: 500;
-  font-size: 14px;
-  color: #000;
+label {
+  font-weight: 600;
+  font-size: 15px;
 }
 </style>

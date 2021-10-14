@@ -1,10 +1,10 @@
 <template>
   <div class="categories-list-wrap w-full">
     <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-2 gap-6 w-full">
-      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flow-root"
+      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flow-root border bg-gray-100 rounded-md"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
-        <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-900">
-          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg bg-gray-100 p-1">
+        <div class="relative flex items-center space-x-4 rounded-md hover:bg-gray-50">
+          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg p-1">
             <!-- Heroicon name: outline/clock -->
             <img :src="cat.icon" alt="">
           </div>
@@ -89,7 +89,7 @@ export default class Categories extends Vue {
 }
 
 .selected {
-  border-radius: 10px;
+  border: 2px solid #023246;
 }
 
 a {

@@ -216,7 +216,7 @@ a {
 
 
 .grid-layout {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   padding: 0 !important;
   grid-row-gap: 24px;
   grid-column-gap: 24px;

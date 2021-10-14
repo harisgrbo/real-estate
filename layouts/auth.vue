@@ -4,14 +4,6 @@
       <nuxt></nuxt>
     </div>
     <div class="bg">
-      <div class="inner-bg">
-        <div class="relative">
-          <img src="/placeholder.png" class="main-logo" height="40" alt="">
-
-        </div>
-        <h2>Dobrodošli na nekretnine.ba!</h2>
-        <p>Vodeći portal za nekretnine</p>
-      </div>
     </div>
   </div>
 </template>

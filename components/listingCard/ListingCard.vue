@@ -13,7 +13,7 @@
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative">
           <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
-            <swiper-slide v-for="img in listing.images" :key="index">
+            <swiper-slide v-for="(img, index) in listing.images" :key="index">
               <img :src="img.url" alt="">
             </swiper-slide>
             <div
@@ -36,7 +36,7 @@
           </label>
         </div>
         <div class="listing-card-content">
-          <div class="flex flex-row justify-between items-center">
+          <div class="flex flex-col justify-between items-start">
             <div class="address title">
               <p>
                 {{ listing.title }}
@@ -50,15 +50,15 @@
               </div>
             </div>
           </div>
-          <div class="addresses">
-            <div
-              v-for="(attr, index) in specialAttributes"
-              :key="index"
-              class="flex flex-row items-center mr-2"
-            >
-              {{ attr.value }}
-            </div>
-          </div>
+<!--          <div class="addresses">-->
+<!--            <div-->
+<!--              v-for="(attr, index) in specialAttributes"-->
+<!--              :key="index"-->
+<!--              class="flex flex-row items-center mr-2"-->
+<!--            >-->
+<!--              {{ attr.value }}-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </nuxt-link>
       <Snackbar />
@@ -138,8 +138,6 @@ export default class ListingCard extends Vue{
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
-
-    console.log(this.listing)
   }
 }
 </script>
@@ -176,7 +174,7 @@ export default class ListingCard extends Vue{
       position: absolute;
       left: 8px;
       top: 8px;
-      border-radius: 7px;
+      border-radius: 4px;
       background: #fff;
       color: #444;
       display: flex;
@@ -184,11 +182,9 @@ export default class ListingCard extends Vue{
       justify-content: center;
       width: fit-content;
       height: 24px;
-      padding: 0 2px;
-      padding-left: 4px;
+      padding: 0 4px;
       font-size: 12px;
       font-weight: 600;
-
       z-index: 2;
 
       &.type {
@@ -323,14 +319,9 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           white-space: initial;
-           overflow: hidden;
-           text-overflow: ellipsis;
-           font-weight: 600 !important;
-           font-size: 14px;
+           font-weight: 500 !important;
+           font-size: 17px;
            line-height: 20px !important;
-           word-break: break-word;
-           max-width: 140px;
          }
         }
 
@@ -376,10 +367,11 @@ export default class ListingCard extends Vue{
         }
 
         .price {
-          font-weight: 500;
-          font-size: 14px;
+          font-weight: 400 !important;
+          font-size: 15px !important;
           color: #444;
           line-height: 20px;
+          margin-top: 4px;
 
           @include for-phone-only {
             font-size: 13px;
@@ -407,14 +399,14 @@ export default class ListingCard extends Vue{
         .important {
           display: flex;
           flex-direction: column;
-          align-items: flex-end;
+          align-items: flex-start;
 
           p {
-            font-size: 12px;
+            font-size: 13px !important;
           }
 
           .new {
-            font-size: 13px !important;
+            font-size: 15px !important;
           }
         }
 
@@ -498,16 +490,11 @@ export default class ListingCard extends Vue{
     }
   }
 
-  .new {
-    margin-left: 12px !important;
-    font-weight: bold !important;
-    font-size: 16px !important;
-    color: #444;
-  }
 
   .addresses {
-    font-size: 13px;
+    font-size: 14px;
     display: flex;
+    font-weight: 300;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;

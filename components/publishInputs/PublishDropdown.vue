@@ -66,7 +66,7 @@ export default class PublishDropdown extends Vue{
   label {
     font-weight: 600;
     font-size: 16px;
-    margin-bottom: 0px;
+    margin-bottom: 12px;
   }
 }
 .input-wrapper {
@@ -83,13 +83,18 @@ export default class PublishDropdown extends Vue{
   box-sizing: border-box;
   cursor: pointer;
   border: 1px solid #ddd;
-  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   height: fit-content;
   position: relative;
   background: #fff;
+  border: 1px solid #ddd;
+  background: #fff;
+  height: 48px;
+  width: 100%;
+  padding: 0 16px;
+  border-radius: 4px;
 
   div {
     display: flex;
@@ -102,9 +107,10 @@ export default class PublishDropdown extends Vue{
   input {
     width: 100%;
     border: none;
-    height: 59px;
+    height: 100%;
     font-size: 14px;
     font-weight: 500;
+    border: none !important;
     &:focus {
       outline: none;
     }

@@ -9,7 +9,7 @@
       <div class="listing-content-inner">
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
-            <div class="grid-container">
+            <div class="grid-container" v-if="images.length > 1">
               <div class="img-counter">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -29,10 +29,13 @@
                   :show-light-box="false"
                   :show-thumbs="true"
                   close-text="function() {
-          return 'Zatvori galeriju'
-          }"
+                  return 'Zatvori galeriju'
+                  }"
                 />
               </client-only>
+            </div>
+            <div v-else class="no-image-grid">
+              <img src="/noimage.jpeg" alt="">
             </div>
 
             <div class="mb-6">
@@ -77,7 +80,7 @@
               </li>
               <li>
                 <p>Adresa</p>
-                <p class="mt-1 text-md text-black font-medium">{{ sliceAddress(listing.address) }}</p>
+                <p class="mt-1 text-md text-black font-medium">{{ listing.address }}</p>
               </li>
               <li>
                 <p>Datum objave</p>
@@ -159,7 +162,7 @@
 <!--              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>-->
 <!--            </div>-->
             <div class="separator"></div>
-            <div>
+            <div v-if="listing.is_rent">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="my-20">
                 <TextField type="text" placeholder="opis" v-model="review_description"></TextField>
@@ -203,7 +206,7 @@
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
+            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
           </div>
         </div>
       </div>
@@ -392,9 +395,6 @@ export default class Artikal extends Vue {
     }
   }
 
-  sliceAddress(address) {
-    return address.slice(0,20)
-  }
 
   openGallery(index) {
     this.$refs.lightbox.showImage(index);
@@ -552,6 +552,18 @@ export default class Artikal extends Vue {
 
   @include for-phone-only {
     border-radius: 0;
+  }
+}
+
+.no-image-grid {
+  height: 400px;
+  border-radius: 7px;
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
 }
 

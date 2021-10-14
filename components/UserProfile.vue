@@ -1,5 +1,5 @@
 <template>
-  <aside class="ml-6">
+  <aside class="ml-6 sticky-top">
     <div class="main-user-wrapper">
       <div class="flex flex-row">
         <div class="flex w-14 h-14 items-center justify-center rounded-full overflow-hidden">
@@ -30,7 +30,7 @@
 <!--        </button>-->
       </div>
 
-      <div class="rent" v-if="isRent">
+      <div class="rent" v-if="isBooking">
         <client-only>
           <form @submit.prevent>
             <div class="flex flex-row items-center mb-4 price-wrap">
@@ -153,6 +153,7 @@ export default class UserProfile extends Vue {
   @Prop({}) user;
   @Prop({}) followed;
   @Prop({}) isRent;
+  @Prop({}) isBooking;
   @Prop({}) type;
   @Prop() id;
   @Prop() price;
@@ -350,12 +351,14 @@ aside {
 }
 
 .main-user-wrapper {
-  border: 1px solid #f1f1f1;
-  border-radius: 7px;
-  padding: 16px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
 
   img {
     height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -369,5 +372,10 @@ aside {
   height: 50px;
   background: #f9f9f9;
   font-size: 13px;
+}
+
+.sticky-top {
+  position: sticky;
+  top: 100px;
 }
 </style>
