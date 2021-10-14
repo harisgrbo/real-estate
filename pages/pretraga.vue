@@ -276,7 +276,6 @@ import skeleton from "../components/skeleton";
 })
 export default class Homepage extends Vue {
   searchName = '';
-  last_page = 0;
   mapExpanded = false;
   showSortDropdown = false;
   showTypeDropdown = false;
