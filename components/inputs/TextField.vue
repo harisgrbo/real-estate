@@ -46,7 +46,7 @@ export default class TextField extends Vue{
 }
 
 .text-input {
-  background: #f9f9f9;
+  background: #f1f1f1;
 }
 
 input {
