@@ -1,20 +1,20 @@
 <template>
-  <div class="border-t border-gray-200 px-4 flex items-center justify-between my-20">
-    <div class="-mt-px w-0 flex-1 flex">
-      <a @click.prevent="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1" href="#" class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-        <svg class="mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+  <div class="border-t border-gray-200 flex w-full items-center justify-between my-20">
+    <div class="-mt-px rounded-full flex justify-end bg-gray-100 items-center justify-center text-black">
+      <a @click.prevent="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1" href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#023246" aria-hidden="true">
           <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
         </svg>
       </a>
     </div>
-    <div class="hidden md:-mt-px md:flex">
-      <a @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index" :class="['border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300', page === currentPage ? 'border-indigo-500 text-indigo-600': '']" href="#">
+    <div class="hidden md:-mt-px md:flex bg-gray-100 flex items-center justify-between rounded-full p-2 py-2">
+      <a class="mr-4 link" @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index" :class="['border-transparent text-gray-500 font-semibold hover:text-gray-700 hover:border-gray-300', page === currentPage ? 'active text-indigo-600': '']" href="#">
         {{ page }}
       </a>
     </div>
-    <div class="-mt-px w-0 flex-1 flex justify-end">
-      <a @click.prevent="handlePageClick(currentPage + 1)" href="#" class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-        <svg class="ml-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <div class="-mt-px rounded-full flex justify-end bg-gray-100 items-center justify-center text-black">
+      <a @click.prevent="handlePageClick(currentPage + 1)" href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#023246" aria-hidden="true">
           <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
       </a>
@@ -89,6 +89,28 @@ export default class Pagination extends Vue {
 @mixin for-phone-only {
   @media (max-width: 599px) {
     @content;
+  }
+}
+
+.active {
+  background: #023246;
+  border-radius: 13px;
+  height: 26px;
+  width: 26px;
+  color: #fff;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter {
+  width: fit-content;
+}
+
+.link {
+  &:last-child {
+    margin-right: 0;
   }
 }
 </style>

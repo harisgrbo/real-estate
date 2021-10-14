@@ -174,7 +174,7 @@ export default class ListingCard extends Vue{
       position: absolute;
       left: 8px;
       top: 8px;
-      border-radius: 7px;
+      border-radius: 4px;
       background: #fff;
       color: #444;
       display: flex;
@@ -182,11 +182,9 @@ export default class ListingCard extends Vue{
       justify-content: center;
       width: fit-content;
       height: 24px;
-      padding: 0 2px;
-      padding-left: 4px;
+      padding: 0 4px;
       font-size: 12px;
       font-weight: 600;
-
       z-index: 2;
 
       &.type {

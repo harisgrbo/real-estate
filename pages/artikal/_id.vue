@@ -162,7 +162,7 @@
 <!--              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>-->
 <!--            </div>-->
             <div class="separator"></div>
-            <div>
+            <div v-if="listing.is_rent">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="my-20">
                 <TextField type="text" placeholder="opis" v-model="review_description"></TextField>
