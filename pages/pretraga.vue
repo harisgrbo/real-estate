@@ -40,7 +40,7 @@
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
               </button>
-              <div v-if="showTypeDropdown" class="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div v-if="showTypeDropdown" class="origin-top-right top-9 right-4 absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <form class="space-y-4">
                   <div class="flex items-center cursor-pointer" v-for="item in listing_types" @click="addOrRemoveFromListTypes(item.id)">
                     <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
@@ -66,8 +66,11 @@
     </div>
     <div class="content px-20 w-full mx-auto">
       <div class="results">
-        <div class="divide-y divide-gray-200 grid grid-cols-6 gap-6 w-full listing-wrap">
+        <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap" v-if="results_loaded">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+        </div>
+        <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap" v-else>
+          <skeleton v-for="i in 20"></skeleton>
         </div>
         <client-only>
           <Pagination
@@ -160,6 +163,7 @@ import { capitalize } from "@/util/str";
 import Snackbar from "@/components/global/Snackbar";
 import Pagination from "@/components/pagination";
 import ListingCard from "../components/listingCard/ListingCard";
+import skeleton from "../components/skeleton";
 
 @Component({
   components: {
@@ -168,6 +172,7 @@ import ListingCard from "../components/listingCard/ListingCard";
     RangeFilter,
     Pagination,
     TermFilter,
+    skeleton,
     TermsFilter,
     Snackbar
   },
@@ -184,6 +189,7 @@ import ListingCard from "../components/listingCard/ListingCard";
     };
     let allAttributes = [];
     let queryPayload = {};
+    let results_loaded = false;
     let categories = [];
     let selectedCategoryId = null;
 
@@ -192,6 +198,7 @@ import ListingCard from "../components/listingCard/ListingCard";
       page = ctx.route.query.page || '1';
       page = parseInt(page)
 
+      results_loaded = false;
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}`)
         results = response.data.data;
@@ -205,6 +212,9 @@ import ListingCard from "../components/listingCard/ListingCard";
 
           queryPayload[item.name] = Object.assign({}, item);
         });
+
+        results_loaded = true;
+
 
         try {
           let res = await ctx.app.$axios.get('/attributes');
@@ -253,6 +263,7 @@ import ListingCard from "../components/listingCard/ListingCard";
       meta,
       queryPayload,
       page,
+      results_loaded,
       last_page,
       categories,
       selectedCategoryId
@@ -703,7 +714,7 @@ export default class Homepage extends Vue {
   min-width: fit-content;
 }
 
-.listing-wrap {
-  grid-row-gap: 36px;
-}
+//.listing-wrap {
+//  grid-row-gap: 36px;
+//}
 </style>

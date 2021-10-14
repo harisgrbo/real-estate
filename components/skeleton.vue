@@ -1,7 +1,7 @@
 <template>
   <svg
     role="img"
-    width="240"
+    width="100%"
     height="330"
     aria-labelledby="loading-aria"
     viewBox="0 0 240 330"

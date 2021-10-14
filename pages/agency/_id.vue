@@ -613,7 +613,7 @@ export default class Agencies extends Vue {
     box-sizing: border-box;
 
     .grid-layout {
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       grid-column-gap: 24px;
       padding: 0;
     }

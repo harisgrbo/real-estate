@@ -307,7 +307,7 @@
       // slidesOffsetBefore: '0px',
       loop: true,
       autoplay: {
-        delay: 5000,
+        delay: 7000,
       },
       slidesPerView: 6,
       touchRatio: 0.2,

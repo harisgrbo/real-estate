@@ -950,7 +950,7 @@ export default class Objava extends Vue {
     justify-content: space-between;
     width: 100%;
     margin: 0 auto;
-    flex-direction: row;
+    flex-direction: row-reverse;
     height: 100vh;
 
     @include for-phone-only {
