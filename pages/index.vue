@@ -59,23 +59,30 @@
       <h2 class="section-title">
         Najtraženije lokacije
       </h2>
-      <ul role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-          <li class="flow-root justify-between flex flex-col relative" v-for="(city, index) in top_locations" :key="index"
-              :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
-          >
-            <div class="overlay-searched"></div>
-            <div>
-              <h3 class="font-semibold searched-h3">
-                  {{ city.title }}
-              </h3>
-              <p class="mt-1 text-lg text-white searched-h3">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
-            </div>
-            <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Pogledaj više
-            </button>
-          </li>
 
-        </ul>
+      <ul v-if="locationsLoaded" role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
+        <li class="flow-root justify-between flex flex-col relative" v-for="(city, index) in top_locations" :key="index"
+            :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
+        >
+          <div class="overlay-searched"></div>
+          <div>
+            <h3 class="font-semibold searched-h3">
+                {{ city.title }}
+            </h3>
+            <p class="mt-1 text-lg text-white searched-h3">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
+          </div>
+          <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Pogledaj više
+          </button>
+        </li>
+      </ul>
+
+      <div v-else role="list" class="most-visited mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
+        <div class="flow-root justify-between flex flex-col relative min-h-full" v-for="i in 6">
+          <skeletonlocation></skeletonlocation>
+        </div>
+      </div>
+
     </div>
     <div class="w-full flex items-center justify-between mb-4 px-20 mx-auto">
       <h2 class="section-title">Prodaja</h2>
@@ -94,10 +101,17 @@
       </div>
     </div>
     <div class="px-20 mx-auto mb-8 w-full">
-      <client-only>
+      <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
             <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
+          </swiper-slide>
+        </swiper>
+      </client-only>
+      <client-only v-else>
+        <swiper class="swiper" :options="swiperOption">
+          <swiper-slide v-for="i in 6">
+            <skeleton></skeleton>
           </swiper-slide>
         </swiper>
       </client-only>
@@ -145,10 +159,17 @@
       </div>
     </div>
     <div class="px-20 mx-auto mb-8 w-full">
-      <client-only>
+      <client-only v-if="rentLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
             <ListingCard :listing="listing" :type="listing.user.user_type"/>
+          </swiper-slide>
+        </swiper>
+      </client-only>
+      <client-only v-else>
+        <swiper class="swiper" :options="swiperOption">
+          <swiper-slide v-for="i in 6">
+            <skeleton></skeleton>
           </swiper-slide>
         </swiper>
       </client-only>
@@ -177,10 +198,17 @@
       </div>
     </div>
     <div class="px-20 mx-auto mb-8 w-full">
-      <client-only>
+      <client-only v-if="rentPerDayLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
             <ListingCard :listing="listing" type="rent"/>
+          </swiper-slide>
+        </swiper>
+      </client-only>
+      <client-only v-else>
+        <swiper class="swiper" :options="swiperOption">
+          <swiper-slide v-for="i in 6">
+            <skeleton></skeleton>
           </swiper-slide>
         </swiper>
       </client-only>
@@ -205,6 +233,8 @@
   import UserCard from "../components/UserCard";
   import TextField from "@/components/inputs/TextField";
   import { buildCategory, buildType, buildCity, buildTitle, buildPrice } from "@/util/search";
+  import skeleton from "../components/skeleton";
+  import skeletonlocation from "../components/skeletonlocation";
 
   @Component({
     components: {
@@ -214,91 +244,11 @@
       ListingCard,
       PublishShortcut,
       MostVisitedCard,
-      PremiumAgency
+      PremiumAgency,
+      skeleton,
+      skeletonlocation
     },
     layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
-    async asyncData(ctx) {
-      let listings = []
-      let agency_listings = []
-      let meta = null
-      let page = 1
-      let agency_meta = null
-      let agency_page = 1
-      let top_locations = []
-      let listings_sell = []
-      let listings_rent = []
-      let listings_rent_for_a_day = []
-      let agencies = []
-
-      try {
-        let res = await ctx.app.$axios.get('/listings/home')
-        listings = res.data.data
-        meta = res.data.meta
-        page = 2
-      } catch (e) {
-        console.log(e)
-      }
-
-      try {
-        let res = await ctx.app.$axios.get('/listings/agencies/home')
-        agency_listings = res.data.data
-        agency_meta = res.data.meta
-        agency_page = 2
-      } catch (e) {
-        console.log(e)
-      }
-
-      try {
-        let res = await ctx.app.$axios.get('/listings/sell')
-        listings_sell = res.data.data;
-      } catch (e) {
-        console.log(e)
-      }
-
-      try {
-        let res = await ctx.app.$axios.get('/listings/rent')
-        listings_rent = res.data.data;
-      } catch (e) {
-        console.log(e)
-      }
-
-      try {
-        let res = await ctx.app.$axios.get('/listings/rent-for-a-day')
-        listings_rent_for_a_day = res.data.data;
-      } catch (e) {
-        console.log(e)
-      }
-
-      try {
-        let res = await ctx.app.$axios.get('/top/locations')
-        top_locations = res.data.data;
-
-      } catch (e) {
-        console.log(e)
-      }
-
-      try {
-        let res = await ctx.app.$axios.get('/agencies')
-        agencies = res.data.data;
-
-      } catch (e) {
-        console.log(e)
-      }
-
-      return {
-        listings,
-        agencies,
-        meta,
-        page,
-        agency_listings,
-        agency_meta,
-        agency_page,
-        top_locations,
-        listings_sell,
-        listings_rent,
-        listings_rent_for_a_day
-      }
-    }
   })
 
   export default class Homepage extends Vue {
@@ -316,47 +266,10 @@
     selectedType = {
       id: 1
     };
+    sellLoaded = false;
+    rentLoaded = false;
+    rentPerDayLoaded = false;
     quickSearchTab = 0;
-    most_visited_cities = [
-      {
-        city: 'Sarajevo',
-        img: '/sarajevo.jpeg'
-      },
-      {
-        city: 'Neum',
-        img: '/neum.jpeg'
-      },
-      {
-        city: 'Mostar',
-        img: '/mostar.jpeg'
-
-      },
-      {
-        city: 'Banja Luka',
-        img: '/banjaluka.jpeg'
-
-      },
-      {
-        city: 'Bihać',
-        img: '/bihac.jpeg'
-
-      },
-      {
-        city: 'Tuzla',
-        img: '/tuzla.jpeg'
-
-      },
-      {
-        city: 'Zenica',
-        img: '/zenica.png'
-
-      },
-      {
-        city: 'Travnik',
-        img: '/travnik.jpeg'
-
-      },
-    ]
     most_visited_cats = [
       {
         name: 'Stanovi',
@@ -404,7 +317,89 @@
         prevEl: '.swiper-button-prev'
       }
     }
+    listings = []
+    agency_listings = []
+    meta = null
+    page = 1
+    agency_meta = null
+    locationsLoaded = false;
+    agency_page = 1
+    top_locations = []
+    listings_sell = []
+    listings_rent = []
+    listings_rent_for_a_day = []
+    agencies = []
 
+    created() {
+      this.fetchCategories()
+      this.fetchHomeListings();
+      this.fetchSelling();
+      this.fetchRenting();
+      this.fetchRentingPerDay();
+      this.fetchAgencies();
+      this.fetchTopLocations();
+    }
+
+
+    async fetchHomeListings() {
+      try {
+        let res = this.$axios.get('/listings/home')
+        this.listings = res.data.data
+        this.meta = res.data.meta
+        this.page = 2
+      } catch (e) {
+        console.log(e)
+      }
+
+    }
+
+    async fetchSelling() {
+      this.sellLoaded = false;
+      try {
+        let res = await this.$axios.get('/listings/sell')
+        this.listings_sell = res.data.data;
+
+        this.sellLoaded = true;
+      } catch (e) {
+        console.log(e)
+      }
+
+    }
+
+    async fetchRenting() {
+      this.rentLoaded = false;
+      try {
+        let res = await this.$axios.get('/listings/rent')
+        this.listings_rent = res.data.data;
+
+        this.rentLoaded = true;
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    async fetchRentingPerDay() {
+      this.rentPerDayLoaded = false;
+      try {
+        let res = await this.$axios.get('/listings/rent-for-a-day')
+        this.listings_rent_for_a_day = res.data.data;
+
+        this.rentPerDayLoaded = true;
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+
+    async fetchAgencies() {
+      try {
+        let res = await this.$axios.get('/agencies')
+        this.agencies = res.data.data;
+
+      } catch (e) {
+        console.log(e)
+      }
+    }
 
     infiniteHandler($state) {
       this.$axios.get('/listings/home', {
@@ -434,6 +429,20 @@
       }
     }
 
+    async fetchTopLocations() {
+      this.locationsLoaded = false;
+      try {
+        let res = await this.$axios.get('/top/locations')
+        this.top_locations = res.data.data;
+
+        this.locationsLoaded = true;
+
+      } catch (e) {
+        console.log(e)
+      }
+
+    }
+
     selectCategory(c) {
       this.selectedCategory = c;
       this.$emit('selected-category', c);
@@ -449,10 +458,6 @@
 
     handleSelectedCity(val) {
       this.selectedCity = val;
-    }
-
-    async created() {
-      await this.fetchCategories()
     }
 
     search() {
@@ -707,6 +712,8 @@ ul.most-visited {
   width: 100%;
   li {
     margin-right: 16px;
+    min-height: 262px;
+    min-width: 440px;
   }
 }
 
