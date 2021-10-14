@@ -87,7 +87,7 @@
     <div class="w-full flex items-center justify-between mb-4 px-20 mx-auto">
       <h2 class="section-title">Prodaja</h2>
       <div class="flex flex-row items-center">
-        <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+        <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6">
           <div
             class="swiper-button-prev swiper-button-white mx-4"
@@ -120,7 +120,7 @@
       <div class="w-full flex items-center justify-between px-20 mx-auto mb-4">
         <h2 class="section-title">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
-          <nuxt-link class="more" to="/">Više kategorija</nuxt-link>
+          <nuxt-link class="more" to="/pretraga">Više kategorija</nuxt-link>
           </div>
       </div>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
@@ -134,7 +134,7 @@
             </h3>
             <p class="mt-1 text-lg text-white">{{ cat.text + ' oglasa u kategoriji ' + cat.name }}</p>
           </div>
-          <button type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button @click="searchCategory(cat)" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Pretraži
           </button>
         </li>
@@ -145,7 +145,7 @@
     <div class="w-full flex items-center justify-between px-20 mx-auto mb-4">
       <h2 class="section-title">Izdavanje</h2>
       <div class="flex flex-row items-center">
-        <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+        <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6">
           <div
             class="swiper-button-prev rent swiper-button-white mx-4"
@@ -184,7 +184,7 @@
     <div class="w-full flex items-center justify-between px-20 mx-auto mb-4">
       <h2 class="section-title">Izdavanje na dan</h2>
       <div class="flex flex-row items-center">
-        <nuxt-link class="more" to="/">Pogledaj više</nuxt-link>
+        <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6">
           <div
             class="swiper-button-prev swiper-button-white mx-4"
@@ -272,22 +272,26 @@
     quickSearchTab = 0;
     most_visited_cats = [
       {
+        id: 1,
         name: 'Stanovi',
         img: '/flat.jpeg',
         text: 'Preko 2000'
       },
       {
+        id: 2,
         name: 'Kuće',
         img: '/house.jpg',
         text: 'Preko 2000'
       },
       {
+        id: 4,
         name: 'Garaže',
         img: '/garage.jpg',
         text: 'Preko 2000'
       },
       {
-        name: 'Sobe',
+        id: 6,
+        name: 'Apartmani',
         img: '/rooms.jpg',
         text: 'Preko 2000'
       },
@@ -462,6 +466,18 @@
       this.selectedCity = val;
     }
 
+    get searchSell() {
+      return buildType({id: 1});
+    }
+
+    get searchRent() {
+      return buildType({id: 3});
+    }
+
+    get searchRentDay() {
+      return buildType({id: 4});
+    }
+
     searchLocation(cityId) {
       let cityFilter = JSON.stringify({
         type: 'term',
@@ -470,6 +486,10 @@
       });
 
       this.$router.push(`/pretraga?q=[${cityFilter}]`);
+    }
+
+    searchCategory(cat) {
+      this.$router.push(`/pretraga?q=[${buildCategory(cat)}]`);
     }
 
     search() {

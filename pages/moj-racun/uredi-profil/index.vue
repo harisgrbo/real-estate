@@ -125,7 +125,6 @@ export default class urediProfil extends Vue {
   }
 
   async updateAvatar(event) {
-    console.log(event.target.files);
     if (event.target.files.length) {
       let image = event.target.files[0];
       let formData = new FormData();
@@ -149,7 +148,7 @@ export default class urediProfil extends Vue {
   setInputs() {
     this.name = this.$auth.user.name;
     this.email = this.$auth.user.email;
-    this.avatarUrl = this.$auth.user.avatar_url;
+    this.avatarUrl = this.$auth.user.avatar_url || '';
   }
 
   async updateProfileInfo() {
