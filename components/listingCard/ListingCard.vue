@@ -13,7 +13,7 @@
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative">
           <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
-            <swiper-slide v-for="img in listing.images" :key="index">
+            <swiper-slide v-for="(img, index) in listing.images" :key="index">
               <img :src="img.url" alt="">
             </swiper-slide>
             <div
@@ -138,8 +138,6 @@ export default class ListingCard extends Vue{
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
-
-    console.log(this.listing)
   }
 }
 </script>

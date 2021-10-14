@@ -42,8 +42,8 @@
               </button>
               <div v-if="showTypeDropdown" class="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <form class="space-y-4">
-                  <div class="flex items-center cursor-pointer" v-for="item in listing_types" @click="addOrRemoveFromListTypes(item.id)">
-                    <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                  <div class="flex items-center cursor-pointer" v-for="item in listing_types">
+                    <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" @click="addOrRemoveFromListTypes(item.id)" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
                     <label :for="'filter-category-' + item.id" class="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap">
                       {{ item.name }}
                     </label>
@@ -243,7 +243,11 @@ import ListingCard from "../components/listingCard/ListingCard";
     let selectedTypes = [];
 
     if (queryPayload.listing_type_id) {
-      selectedTypes = queryPayload.listing_type_id.value;
+      if (Array.isArray(queryPayload.listing_type_id.value)) {
+        selectedTypes = queryPayload.listing_type_id.value;
+      } else {
+        selectedTypes = [queryPayload.listing_type_id.value];
+      }
     }
 
     return {
@@ -324,9 +328,11 @@ export default class Homepage extends Vue {
         type: "terms",
         value: this.selectedTypes
       }
-
-      this.newSearch();
+    } else {
+      delete this.queryPayload.listing_type_id;
     }
+
+    this.newSearch();
   }
 
   toggleFiltersModal() {
