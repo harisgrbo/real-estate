@@ -30,7 +30,7 @@
 <!--        </button>-->
       </div>
 
-      <div class="rent" v-if="isRent">
+      <div class="rent" v-if="isBooking">
         <client-only>
           <form @submit.prevent>
             <div class="flex flex-row items-center mb-4 price-wrap">
@@ -153,6 +153,7 @@ export default class UserProfile extends Vue {
   @Prop({}) user;
   @Prop({}) followed;
   @Prop({}) isRent;
+  @Prop({}) isBooking;
   @Prop({}) type;
   @Prop() id;
   @Prop() price;
@@ -357,6 +358,7 @@ aside {
 
   img {
     height: 100%;
+    object-fit: cover;
   }
 }
 

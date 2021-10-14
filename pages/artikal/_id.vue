@@ -80,7 +80,7 @@
               </li>
               <li>
                 <p>Adresa</p>
-                <p class="mt-1 text-md text-black font-medium">{{ sliceAddress(listing.address) }}</p>
+                <p class="mt-1 text-md text-black font-medium">{{ listing.address }}</p>
               </li>
               <li>
                 <p>Datum objave</p>
@@ -206,7 +206,7 @@
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
+            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
           </div>
         </div>
       </div>
@@ -395,9 +395,6 @@ export default class Artikal extends Vue {
     }
   }
 
-  sliceAddress(address) {
-    return address.slice(0,20)
-  }
 
   openGallery(index) {
     this.$refs.lightbox.showImage(index);

@@ -373,7 +373,7 @@ export default class ListingCard extends Vue{
           font-size: 15px !important;
           color: #444;
           line-height: 20px;
-          margin-top: 8px;
+          margin-top: 4px;
 
           @include for-phone-only {
             font-size: 13px;
@@ -401,14 +401,14 @@ export default class ListingCard extends Vue{
         .important {
           display: flex;
           flex-direction: column;
-          align-items: flex-end;
+          align-items: flex-start;
 
           p {
-            font-size: 12px;
+            font-size: 13px !important;
           }
 
           .new {
-            font-size: 13px !important;
+            font-size: 15px !important;
           }
         }
 
@@ -492,12 +492,6 @@ export default class ListingCard extends Vue{
     }
   }
 
-  .new {
-    margin-left: 12px !important;
-    font-weight: bold !important;
-    font-size: 16px !important;
-    color: #444;
-  }
 
   .addresses {
     font-size: 14px;
