@@ -434,7 +434,7 @@
     async fetchRentingPerDay() {
       this.rentPerDayLoaded = false;
       try {
-        let res = await this.$axios.get('/listings/rent-for-a-day')
+        let res = await this.$axios.get('/listings/booking')
         this.listings_rent_for_a_day = res.data.data;
 
         this.rentPerDayLoaded = true;

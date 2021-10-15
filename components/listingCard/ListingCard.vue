@@ -50,15 +50,17 @@
               </div>
             </div>
           </div>
-<!--          <div class="addresses">-->
-<!--            <div-->
-<!--              v-for="(attr, index) in specialAttributes"-->
-<!--              :key="index"-->
-<!--              class="flex flex-row items-center mr-2"-->
-<!--            >-->
-<!--              {{ attr.value }}-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="addresses">
+            <div
+              v-for="(attr, index) in specialAttributes"
+              :key="index"
+              class="flex flex-row items-center mr-2"
+            >
+              {{ attr.value }}
+              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
+            </div>
+          </div>
         </div>
       </nuxt-link>
       <Snackbar />
@@ -89,7 +91,7 @@ export default class ListingCard extends Vue{
   specialAttributes = [];
   specialAttributesKeys = [
     "Broj soba",
-    "Godina izgradnje"
+    "Sprat"
   ];
   swiperOptionCard = {
     spaceBetween: 0,
@@ -117,7 +119,7 @@ export default class ListingCard extends Vue{
       return 'Potražnja'
     } else if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
-    } else if(this.listing.listing_type.shortname === 'rent-for-a-day'){
+    } else if(this.listing.listing_type.shortname === 'booking'){
       return 'Stan na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
       return 'Iznajmljivanje'
@@ -137,6 +139,8 @@ export default class ListingCard extends Vue{
 
 
   created() {
+
+    console.log(this.listing, 'listing')
     this.specialAttributes = this.getSpecialAttributes().slice();
   }
 }
@@ -507,6 +511,12 @@ export default class ListingCard extends Vue{
     align-items: center;
     justify-content: flex-start;
     margin-top: 10px;
+
+    img {
+      height: 20px;
+      width: 20px;
+      border-radius: 0 !important;
+    }
   }
 
   .sponsored-label {
