@@ -57,6 +57,8 @@ input {
   &:focus,
   &:visited {
     outline: none;
+      border: 2px solid #000;
+      background: #fff;
   }
 }
 </style>

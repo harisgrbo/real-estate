@@ -57,12 +57,13 @@ input {
   font-weight: 500;
   color: #000;
   font-size: 18px;
-  transition: 0.3s all ease;
   border: none;
   background: transparent;
 
   &:focus {
     outline: none;
+    border: 2px solid #000;
+    background: #fff;
   }
 }
 

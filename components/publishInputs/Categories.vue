@@ -1,20 +1,18 @@
 <template>
   <div class="categories-list-wrap w-full">
-    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-2 gap-6 w-full">
+    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-5 w-full">
       <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flow-root border bg-gray-100 rounded-md"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
+        <div class="w-full">
+            <a href="#" class="focus:outline-none">
+              <span aria-hidden="true"></span>
+              {{ cat.title }}
+            </a>
+        </div>
         <div class="relative flex items-center space-x-4 rounded-md hover:bg-gray-50">
-          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg p-1">
+          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg p-1 svg-wrap">
             <!-- Heroicon name: outline/clock -->
-            <img :src="cat.icon" alt="">
-          </div>
-          <div>
-            <h3 class="text-sm font-medium text-gray-900">
-              <a href="#" class="focus:outline-none">
-                <span class="absolute inset-0" aria-hidden="true"></span>
-                {{ cat.title }}
-              </a>
-            </h3>
+            <img :src="'/cats/' + cat.slug + '.png'" alt="">
           </div>
         </div>
       </li>
@@ -90,6 +88,13 @@ export default class Categories extends Vue {
 
 .selected {
   border: 2px solid #023246;
+  font-weight: 600 !important;
+
+
+  @include for-phone-only {
+    background: #f9f9f9 !important;
+    border: 2px solid #000 !important;
+  }
 }
 
 a {
@@ -100,6 +105,28 @@ a {
   &:hover, &:active, &:visited {
     outline: none;
     border: none;
+  }
+}
+
+ul li {
+  @include for-phone-only {
+    background: #FFFFFF !important;
+    color: #222222 !important;
+    padding: 16px !important;
+    width: 100% !important;
+    border: 1px solid #DDDDDD !important;
+    min-height: 76px;
+    height: 76px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    font-weight: 500 !important;
+
+    .svg-wrap {
+      height: 50px;
+      width: 50px;
+      border-radius: 7px;
+    }
   }
 }
 </style>

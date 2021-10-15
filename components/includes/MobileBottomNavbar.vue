@@ -1,20 +1,30 @@
 <template>
   <div class="mobile-bottom-navbar">
     <nuxt-link :to="{ path: '/' }">
-      <font-awesome-icon icon="home"></font-awesome-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
     </nuxt-link>
     <nuxt-link to="/moj-racun/poruke" class="relative">
-      <font-awesome-icon icon="envelope"></font-awesome-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
       <p class="notify">{{ messagesCount }}</p>
     </nuxt-link>
-    <nuxt-link to="/publish">
-      <font-awesome-icon icon="plus" class="publish-btn"></font-awesome-icon>
+    <nuxt-link to="/objava">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
     </nuxt-link>
     <nuxt-link :to="goToUser()">
-      <font-awesome-icon icon="user" @click=""></font-awesome-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+      </svg>
     </nuxt-link>
     <nuxt-link to="#" class="relative">
-      <font-awesome-icon icon="bars" @click="openSidebarMenu"></font-awesome-icon>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="openSidebarMenu">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+      </svg>
       <p class="notify">{{ notifications.length }}</p>
     </nuxt-link>
   </div>
@@ -133,17 +143,17 @@ export default class MobileBottomNavbar extends Vue {
 <style scoped lang="scss">
   .mobile-bottom-navbar {
     position: fixed;
-    bottom: 4px;
-    left: 4px;
+    bottom: 0px;
+    left: 0px;
     box-sizing: border-box;
-    right: 4px;
+    right: 0px;
     min-height: 60px;
     height: fit-content;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
-    border-radius:10px;
+    border-radius:0px;
     z-index: 5;
     padding: 0 24px;
     -webkit-box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
@@ -151,25 +161,22 @@ export default class MobileBottomNavbar extends Vue {
 
     svg {
       font-size: 20px;
-      color: #dcdcdc;
-
-      &.fa-plus {
-        color: #D63946;
-      }
-    }
-
-    .publish-btn {
-      background-color: #D63946;
-      color: #fff !important;
-      border-radius:10px;
-      padding: 8px;
+      border-radius: 50%;
+      padding: 10px;
+      height: 40px;
+      width: 40px;
     }
   }
 
   a {
     &.nuxt-link-exact-active {
       svg {
-        color: red !important;
+        color: #023246 !important;
+        background: #f1f1f1;
+        border-radius: 50%;
+        padding: 10px;
+        height: 40px;
+        width: 40px;
       }
     }
   }

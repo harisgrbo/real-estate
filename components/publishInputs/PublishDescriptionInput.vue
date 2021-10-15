@@ -39,7 +39,9 @@ textarea {
   padding: 24px;
 
   &:focus {
-    outline: none;
+      outline: none;
+      border: 2px solid #000;
+      background: #fff;
   }
 
 &.hasError {

@@ -2,7 +2,7 @@
   <svg
     role="img"
     width="100%"
-    height="330"
+    :height="height"
     aria-labelledby="loading-aria"
     viewBox="0 0 240 330"
     preserveAspectRatio="none"
@@ -69,7 +69,8 @@
 
 <script>
 export default {
-  name: "skeleton"
+  name: "skeleton",
+  props: ['height']
 }
 </script>
 

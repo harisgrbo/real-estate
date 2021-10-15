@@ -50,8 +50,19 @@ html, body {
   font-family: 'Lato', sans-serif;
 }
 
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+
 #__nuxt, #__layout {
   height: 100%;
+
+  @include for-phone-only {
+    overflow-x: hidden;
+  }
 }
 
 ::-webkit-scrollbar {

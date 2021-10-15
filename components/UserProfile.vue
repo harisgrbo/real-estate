@@ -126,7 +126,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>

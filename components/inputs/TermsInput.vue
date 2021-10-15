@@ -60,6 +60,11 @@ export default {
     grid-column-gap: 24px;
     margin-bottom: 24px;
 
+    @include for-phone-only {
+      grid-row-gap: 16px;
+      grid-column-gap: 16px;
+    }
+
     button {
       height: 60px;
       border-radius: 7px;
