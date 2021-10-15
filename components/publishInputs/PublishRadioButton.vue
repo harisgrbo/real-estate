@@ -56,18 +56,25 @@ export default class PublishRadioButton extends Vue{
 }
 
 label {
-  height: 60px;
-  border-radius: 7px;
-  font-weight: 400;
-  color: #000;
-  font-size: 16px;
-  background: #F7F6F9;
-  transition: 0.3s all ease;
-  border: none;
-  margin-bottom: 24px;
+  background: #FFFFFF !important;
+  color: #222222 !important;
+  padding: 16px !important;
+  width: 100% !important;
+  border: 1px solid #DDDDDD !important;
+  min-height: 76px;
+  height: 76px;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  align-items: center;
+  border-radius: 15px;
+  font-weight: 500 !important;
+  margin-bottom: 16px;
 
   &.selected {
-    background: #f9f9f9;
+    background: #f9f9f9 !important;
+    border: 2px solid #000 !important;
+    font-weight: 600 !important;
+
   }
 }
 

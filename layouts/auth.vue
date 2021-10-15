@@ -76,6 +76,10 @@ export default class Auth extends Vue {
   align-items: center;
   justify-content: center;
 
+  @include for-phone-only {
+    display: none;
+  }
+
   .inner-bg {
     height: 700px;
     width: 600px;

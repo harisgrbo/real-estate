@@ -1,12 +1,12 @@
 <template>
-  <div :class="['navbar-wrapper w-full px-20 shadow-sm overflow-x-hidden max-w-full', this.$route.name === 'index' ? 'only-index' : '']">
+  <div :class="['navbar-wrapper w-full lg:px-20 xl:px-20 up:px-20 lg:shadow-sm xl:shadow-sm up:shadow-sm sm:shadow-none max-w-full sm:px-4', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'">
           <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
-      <div v-if="this.$route.name !== 'index'" class="input-wrapper"
+      <div class="input-wrapper"
            @focusin="focused = true"
            :class="[ focused? 'focused' : '']"
            v-on-clickaway="away"
@@ -18,7 +18,9 @@
           <p>Pretraži</p>
         </button>
         <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']" v-if="$device.isMobile">
-          <i class="material-icons">search</i>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
         </button>
         <input type="text"
                ref="search"
@@ -74,7 +76,7 @@
           </ul>
         </div>
       </div>
-      <div class="auth-buttons">
+      <div class="auth-buttons" v-if="!$device.isMobile">
         <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
@@ -426,6 +428,12 @@ export default class Navbar extends Vue {
   background: #fff;
   box-sizing: border-box;
 
+  @include for-phone-only {
+    padding: 0 16px;
+    border-bottom: none;
+    background: #fff !important;
+  }
+
   .second-row {
     display: flex;
     align-items: center;
@@ -471,7 +479,6 @@ export default class Navbar extends Vue {
     @include for-phone-only {
       width: fit-content;
       flex: 0;
-      margin-right: 8px;
     }
 
     img {
@@ -499,11 +506,12 @@ export default class Navbar extends Vue {
 
     @include for-phone-only {
       box-sizing: border-box;
-      padding: 0 8px;
+      background: #fff;
+      border: 2px solid #E4E4E5;
     }
 
     &.focused {
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.09);
       border-radius: 8px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
@@ -515,6 +523,7 @@ export default class Navbar extends Vue {
         right: 0px;
         background: #fff;
         top: 0px;
+        border: none;
       }
     }
     input {
@@ -574,7 +583,7 @@ export default class Navbar extends Vue {
       min-width: 100%;
       right: -1px;
       box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 12px;
-      z-index: 999;
+      z-index: 99;
       left: -1px;
       height: fit-content;
       min-height: 0;

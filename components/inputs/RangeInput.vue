@@ -45,6 +45,8 @@ export default {
 
     &:focus {
       outline: none;
+      border: 2px solid #000;
+      background: #fff;
     }
     &.hasError {
       border: 1px solid red;

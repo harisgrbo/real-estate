@@ -163,6 +163,10 @@ export default class ListingCard extends Vue{
     max-width: fit-content;
     overflow: hidden;
 
+    @include for-phone-only {
+      min-width: 220px;
+    }
+
     &:hover {
       .swiper-button-prev,
       .swiper-button-next {
@@ -307,6 +311,7 @@ export default class ListingCard extends Vue{
           font-weight: 500 !important;
           font-size: 16px !important;
           line-height: 20px !important;
+
         }
 
       }
@@ -322,6 +327,9 @@ export default class ListingCard extends Vue{
            font-weight: 500 !important;
            font-size: 17px;
            line-height: 20px !important;
+           @include for-phone-only {
+             font-weight: 600 !important;
+           }
          }
         }
 
@@ -535,6 +543,11 @@ export default class ListingCard extends Vue{
   display: none;
   transition: 0.3s all ease;
 
+  @include for-phone-only {
+    display: flex;
+    background: rgba(241, 241, 241, 0.48);
+  }
+
   &::after {
     font-size: 13px !important;
     line-height: 13px !important;
@@ -542,17 +555,17 @@ export default class ListingCard extends Vue{
 }
 
 ::v-deep .swiper-pagination-bullet {
-  width: 14px !important;
-  height: 14px !important;
+  width: 10px !important;
+  height: 10px !important;
   border: 2px solid rgb(255, 255, 255) !important;
-  background: transparent !important;
+  background: #fff !important;
   opacity: 0.8 !important;
 }
 ::v-deep .swiper-pagination-bullet-active {
-  width: 14px !important;
-  height: 14px !important;
+  width: 10px !important;
+  height: 10px !important;
   border: 3px solid white !important;
-  background: transparent !important;
+  background: #fff !important;
   opacity: 1 !important;
 }
 
@@ -563,6 +576,12 @@ export default class ListingCard extends Vue{
 ::v-deep .swiper-slide.active {
   @include for-phone-only {
     width: 100% !important;
+  }
+}
+
+::v-deep .swiper-slide {
+  @include for-phone-only {
+    width: 220 !important;
   }
 }
 

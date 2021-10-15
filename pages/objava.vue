@@ -61,11 +61,9 @@
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">
-              <i class="material-icons">chevron_left</i>
               Nazad
             </button>
             <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
@@ -88,10 +86,8 @@
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
@@ -99,15 +95,15 @@
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner checkboxes">
             <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true" :square="price_per_square"></PublishTextInput>
-            <div class="flex flex-row items-center justify-between pt-4 mt-4">
-              <div class="switch-wrap mr-2">
+            <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
+              <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 mb-5">
                 <div class="switch">
                   <input id="switch-1" type="checkbox" v-model="vat_included" class="switch-input" />
                   <label for="switch-1" class="switch-label">Switch</label>
                 </div>
                 PDV uključen u cijenu
               </div>
-              <div class="switch-wrap ml-2">
+              <div class="switch-wrap ml-0 lg:ml-2 xl:ml-2 up:ml-2">
                 <div class="switch" v-show="notRenting">
                   <input id="switch-2" type="checkbox" v-model="price_per_square" class="switch-input" />
                   <label for="switch-2" class="switch-label">Switch</label>
@@ -120,10 +116,8 @@
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
@@ -135,10 +129,8 @@
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
@@ -150,10 +142,8 @@
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
@@ -199,17 +189,15 @@
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep">Dalje
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
 
         <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
           <div class="inner">
-            <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
+<!--            <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>-->
             <div class="img-upload-wrapper">
               <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
             </div>
@@ -217,10 +205,8 @@
           </div>
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep" :disabled="uploading === true ? true : false">Dalje
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
@@ -249,20 +235,16 @@
 
             <div class="button-wrapper">
               <button @click="prevStep" class="back">Nazad
-                <i class="material-icons">chevron_left</i>
               </button>
               <button @click="nextStep">Dalje
-                <i class="material-icons">chevron_right</i>
               </button>
             </div>
           </div>
 
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
-              <i class="material-icons">chevron_left</i>
             </button>
             <button @click="nextStep">Završi
-              <i class="material-icons">chevron_right</i>
             </button>
           </div>
         </div>
@@ -288,7 +270,7 @@ import 'nuxt-dropzone/dropzone.css'
     Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton, Dropzone
   },
   middleware: ['auth'],
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'objava.vue',
+  layout: 'objava',
 
   async asyncData(ctx) {
     let attributes = [];
@@ -957,8 +939,10 @@ export default class Objava extends Vue {
       display: flex;
       flex-direction: column;
       width: 100%;
-      padding: 0 12px;
+      padding: 0;
       box-sizing: border-box;
+      height: 100vh;
+      overflow-y: hidden;
     }
 
     .content-wrapper {
@@ -986,10 +970,20 @@ export default class Objava extends Vue {
         align-items: center;
         justify-content: center;
 
+        @include for-phone-only {
+          height: calc(100vh - 200px) !important;
+        }
+
         .inner {
           max-width: 600px;
           margin: auto;
           width: 600px;
+
+          @include for-phone-only {
+            width: 100%;
+            max-width: 100%;
+            padding: 36px 16px;
+          }
         }
 
 
@@ -1036,6 +1030,7 @@ export default class Objava extends Vue {
           @include for-phone-only {
             padding: 0;
             justify-content: space-between;
+            z-index: 10;
           }
 
 
@@ -1047,21 +1042,24 @@ export default class Objava extends Vue {
             align-items: center;
             justify-content: center;
             font-size: 16px;
-            border-radius: 4px;
             outline: none;
-            border: none;
-            background: #1B1E31 !important;
-            color: #fff;
-            font-weight: 500 !important;
+            font-weight: 600 !important;
             transition: 0.3s all ease;
             margin-bottom: 0;
             font-family: 'Lato', sans-serif;
             cursor: pointer;
+            margin-right: 16px;
+            border: 2px solid #023246;
+            border-radius: 4px;
+            color: #023246;
 
             &.back {
               background: transparent !important;
               border: none !important;
               color: #000;
+              text-decoration: underline;
+              font-weight: 600 !important;
+              margin-right: 0;
 
               &:hover {
                 box-shadow: none !important;
@@ -1082,6 +1080,16 @@ export default class Objava extends Vue {
         }
       }
 
+      @include for-phone-only {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        margin-top: -30px;
+        position: relative;
+        z-index: 1;
+        background: #fff;
+        overflow-y: scroll;
+        min-height: calc(100vh - 170px);
+      }
     }
   }
 
@@ -1092,8 +1100,8 @@ export default class Objava extends Vue {
     grid-column-gap: 46px;
 
     @include for-phone-only {
-      grid-template-columns: repeat(2, 1fr);
-
+      grid-template-columns: repeat(1, 1fr);
+      grid-row-gap: 32px;
     }
   }
 
@@ -1338,7 +1346,6 @@ h1.heading {
 
       @include for-phone-only {
         grid-template-columns: repeat(3, 1fr);
-
       }
 
       img {
@@ -1561,6 +1568,14 @@ h2.info {
   padding: 24px;
   padding-top: 200px;
 
+  @include for-phone-only {
+    width: 100%;
+    min-width: 100%;
+    padding-top: 80px;
+    height: 356px;
+    min-height: 200px;
+  }
+
   &::after {
     background: rgb(0,0,0);
     background: linear-gradient(180deg, rgba(0,0,0,0.53125) 0%, rgba(255,255,255,0) 100%);
@@ -1571,6 +1586,14 @@ h2.info {
     right: 0;
     z-index: 0;
     height: 80%;
+
+    @include for-phone-only {
+      background-color: rgba(19,156,120,16%);
+      -webkit-backdrop-filter: blur(0.2em);
+      backdrop-filter: blur(9px);
+      bottom: 0;
+      height: 100%;
+    }
   }
 
 
@@ -1581,6 +1604,11 @@ h2.info {
     position: relative;
     z-index: 1;
     line-height: 65px;
+
+    @include for-phone-only {
+      font-size: 30px;
+      line-height: 35px;
+    }
   }
 }
 
@@ -1593,6 +1621,7 @@ h2.info {
   transition: 0.3s all ease;
   height: 3px;
   color: transparent;
+  z-index: 10 !important;
 
   .loader {
     height: 3px;
@@ -1627,9 +1656,9 @@ h2.info {
   z-index: 1;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
 
   li {
     height: fit-content;
@@ -1696,7 +1725,7 @@ h2.info {
     transition: left 0.25s ease;
   }
   .switch-input:checked + .switch-label::before {
-    background-color: #89c12d;
+    background-color: #023246;
   }
   .switch-input:checked + .switch-label::after {
     left: 24px;
@@ -1718,6 +1747,10 @@ h2.info {
   padding: 12px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+
+  @include for-phone-only {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 ::v-deep .dropzone .dz-preview {

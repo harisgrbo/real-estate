@@ -84,7 +84,7 @@ export default class Mobile extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 62px !important;
+  padding-top: 82px !important;
   &.artikal-page {
     padding-top: 0 !important;
   }
