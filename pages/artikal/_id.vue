@@ -1021,7 +1021,7 @@ export default class Artikal extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -1232,7 +1232,7 @@ export default class Artikal extends Vue {
     height: 100px;
     padding: 12px;
     border-radius: 5px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Poppins', sans-serif;
     &:focus {
       outline: none;
     }
@@ -1397,7 +1397,7 @@ export default class Artikal extends Vue {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 24px;

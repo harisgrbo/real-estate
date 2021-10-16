@@ -17,8 +17,8 @@
     </div>
     <client-only>
       <modal name="sidebar" :adaptive="true" height="100%">
-        <div class="modal-inner map">
-          <i class="material-icons" @click.prevent="$modal.hide('sidebar')">close</i>
+        <div class="modal-inner">
+<!--          <i class="material-icons" @click.prevent="$modal.hide('sidebar')">close</i>-->
           <div class="modal-content">
             <sidenav></sidenav>
           </div>

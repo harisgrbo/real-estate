@@ -484,7 +484,7 @@ export default class Homepage extends Vue {
   background: #fff;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 9;
 }
 
 .search-wrapper {
@@ -551,7 +551,7 @@ export default class Homepage extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -651,7 +651,7 @@ export default class Homepage extends Vue {
     background: transparent;
     cursor: pointer;
     transition: 0.3s all ease;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Poppins', sans-serif;
 
     &:hover {
       border: 1px solid #444;
