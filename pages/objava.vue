@@ -1165,22 +1165,6 @@ export default class Objava extends Vue {
   flex-direction: column;
   padding: 0 24px;
   height: fit-content;
-  .modal-header {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    border-bottom: 1px solid #dcdcdc;
-    justify-content: space-between;
-
-    h2 {
-      font-size: 17px;
-      font-weight: 500;
-    }
-
-    svg {
-      cursor: pointer;
-    }
-  }
 
   .modal-content {
     padding: 24px 0;

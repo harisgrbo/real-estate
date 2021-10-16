@@ -125,7 +125,8 @@
   margin-top: 36px;
 
   @include for-phone-only {
-    margin-bottom: 32px;
+    margin-top: 0 !important;
+    margin-bottom: 22px !important;
   }
 }
 
@@ -138,12 +139,12 @@
     display: flex;
     align-items: center;
     height: 70px;
-    border-bottom: 1px solid #dcdcdc;
     justify-content: space-between;
+    font-weight: 600;
 
     h2 {
-      font-size: 17px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
     }
 
     svg, i {

@@ -5,10 +5,10 @@
         <h1 class="heading-account">Moj račun</h1>
         <div class="info">
           <p>{{ $auth.user.name }},</p>
-          <p>{{ $auth.user.email }}</p>
+          <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
           <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id">Idi na profil</nuxt-link>
         </div>
-        <div class="grid grid-cols-3 gap-6 pb-1">
+        <div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6 pb-1">
           <div  v-for="(tab, index) in tabs"
                 :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
             <div>
@@ -141,7 +141,7 @@ export default class accountpage extends Vue {
       padding-top: 36px;
 
       @include for-phone-only {
-        padding: 12px;
+        padding: 16px;
       }
 
 
@@ -164,7 +164,7 @@ export default class accountpage extends Vue {
         }
 
         a {
-          color: #D63946;
+          color: #002F34;
           &:hover {
             text-decoration: underline;
           }

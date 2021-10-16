@@ -213,6 +213,11 @@ export default class spaseno extends Vue {
 
 .account-wrapper {
   width: 1180px;
+
+  @include for-phone-only {
+    width: 100%;
+    padding: 16px;
+  }
 }
 .saved-wrapper {
   ul {
@@ -262,7 +267,7 @@ export default class spaseno extends Vue {
   padding: 0;
 
   @include for-phone-only {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(1, 1fr);
     grid-column-gap: 12px;
   }
 }

@@ -121,6 +121,7 @@ ul li {
     align-items: center;
     border-radius: 15px;
     font-weight: 500 !important;
+    display: flex;
 
     .svg-wrap {
       height: 50px;
