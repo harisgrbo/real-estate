@@ -42,9 +42,13 @@ button {
   cursor: pointer;
   justify-content: center;
   transition: 0.3s all ease;
-  background: rgb(19,156,120);
-  background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%);
+  background: hsla(218, 34%, 30%, 1);
 
+  background: radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+
+  background: -moz-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+
+  background: -webkit-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
   svg {
     margin-right: 8px;
   }

@@ -58,23 +58,6 @@ export default class CategoriesList extends Vue{
     padding: 0 12px;
   }
 
-  .modal-header {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    border-bottom: 1px solid #dcdcdc;
-    justify-content: space-between;
-
-    i {
-      cursor: pointer;
-    }
-
-    h2 {
-      font-size: 17px;
-      font-weight: 500;
-    }
-  }
-
   .content {
     padding: 24px 0;
 

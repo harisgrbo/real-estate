@@ -82,7 +82,7 @@
         </button>
       </div>
       <div class="results">
-        <div class="divide-y divide-gray-200 grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap" v-if="results_loaded">
+        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap" v-if="results_loaded">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
         </div>
         <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap" v-else>
@@ -99,7 +99,7 @@
       </div>
     </div>
     <client-only>
-      <modal name="filters" :adaptive="true" height="100%" :width="$device.isMobile ? '100%' : '40%'">
+      <modal name="filters" transition="slide-up" :adaptive="true" height="100%" :width="$device.isMobile ? '100%' : '40%'">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Filteri</h2>
@@ -496,6 +496,10 @@ export default class Homepage extends Vue {
     box-sizing: border-box;
     height: 100%;
 
+    @include for-phone-only {
+      padding-bottom: 180px;
+    }
+
     h2 {
       font-size: 22px !important;
       font-weight: 500 !important;
@@ -530,34 +534,6 @@ export default class Homepage extends Vue {
     padding: 0;
   }
 
-  .modal-header {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    border-bottom: 1px solid #dcdcdc;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background: #fff;
-
-    @include for-phone-only {
-      padding: 0 16px;
-      box-sizing: border-box;
-    }
-
-    h2 {
-      font-size: 20px;
-      font-weight: 400;
-      margin-bottom: 0;
-    }
-
-    i {
-      cursor: pointer;
-    }
-  }
   .modal-content {
     padding: 24px 0;
 
@@ -818,6 +794,37 @@ export default class Homepage extends Vue {
         border: 2px solid #000 !important;
       }
     }
+  }
+}
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 0.5s;
+}
+.scale-enter,
+.scale-leave-active {
+  opacity: 0;
+  transform: scale(0.3) translateY(24px);
+}
+
+.slide-up-enter-active {
+  transition: all .2s ease;
+}
+.slide-up-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-up-enter, .slide-fade-leave-to {
+  transform: translateY(100vh);
+  opacity: 0;
+}
+
+::v-deep .vm--modal {
+  @include for-phone-only {
+    top: 110px !important;
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    height: calc(100vh - 100px) !important;
+    padding-bottom: 180px !important;
   }
 }
 </style>

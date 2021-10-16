@@ -27,8 +27,9 @@
                v-model="searchInput"
                @keyup.enter="search"
                @input="showSuggests"
+               placeholder="Npr. stan Sarajevo.."
         >
-        <span class="relative z-0 inline-flex rounded-md border border-gray-200"  v-if="selectedCategory !== null">
+        <span class="relative z-0 inline-flex rounded-md border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">
           <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
             {{ selectedCategory.title }}
           </div>
@@ -38,7 +39,7 @@
             </svg>
           </div>
         </span>
-        <span class="relative z-0 inline-flex rounded-md border border-gray-800"  v-if="selectedType !== null">
+        <span class="relative z-0 inline-flex rounded-md border border-gray-800 selected-cat-type"  v-if="selectedType !== null">
           <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
             {{ selectedType.title }}
           </div>
@@ -54,11 +55,16 @@
         <!-- Autocomplete dropdown -->
         <div class="autocomplete-dropdown" v-if="focused === true">
           <div class="quick-filters">
-            <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
-              Kategorija
-            </button>
-            <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Vrsta oglasa
+            <div class="flex flex-row items-center">
+              <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
+                {{ selectedCategory !== null ? selectedCategory.title : 'Kategorija' }}
+              </button>
+              <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{ selectedType !== null ? selectedType.title : 'Vrsta oglasa' }}
+              </button>
+            </div>
+            <button @click="selectedType = null; selectedCategory = null" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Očisti filtere
             </button>
           </div>
           <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>
@@ -506,8 +512,7 @@ export default class Navbar extends Vue {
 
     @include for-phone-only {
       box-sizing: border-box;
-      background: #fff;
-      border: 2px solid #E4E4E5;
+      background: #f9f9f9;
     }
 
     &.focused {
@@ -524,6 +529,8 @@ export default class Navbar extends Vue {
         background: #fff;
         top: 0px;
         border: none;
+        height: 60px;
+
       }
     }
     input {
@@ -593,19 +600,20 @@ export default class Navbar extends Vue {
       border-bottom: 1px solid #eaeaea;
 
       @include for-phone-only {
-        padding: 8px;
-        padding-top: 8px;
+        padding: 16px;
+        padding-top: 16px;
+        top: 60px;
       }
 
       .quick-filters {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         width: 100%;
 
         button {
-          border: 1px solid #eaeaea;
-          border-radius: 5px;
+          border: 1px solid #023246;
+          border-radius: 4px;
 
           &:hover {
             background: #f9f9f9;
@@ -933,6 +941,11 @@ export default class Navbar extends Vue {
   &.extend {
     right: 0;
     width: 400px;
+  }
+}
+.selected-cat-type {
+  @include for-phone-only {
+    display: none;
   }
 }
 </style>

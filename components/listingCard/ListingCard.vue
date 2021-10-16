@@ -46,21 +46,21 @@
               <div class="important">
                 <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-if="action" class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
-                <p v-show="type === 'rent'" class="pl-2">/ noćenje</p>
+                <p v-show="listing.is_booking" class="pl-2">/ noć</p>
               </div>
             </div>
           </div>
-          <div class="addresses">
-            <div
-              v-for="(attr, index) in specialAttributes"
-              :key="index"
-              class="flex flex-row items-center mr-2"
-            >
-              {{ attr.value }}
-              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
-            </div>
-          </div>
+<!--          <div class="addresses">-->
+<!--            <div-->
+<!--              v-for="(attr, index) in specialAttributes"-->
+<!--              :key="index"-->
+<!--              class="flex flex-row items-center mr-2"-->
+<!--            >-->
+<!--              {{ attr.value }}-->
+<!--              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">-->
+<!--              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </nuxt-link>
       <Snackbar />
@@ -312,7 +312,7 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 500 !important;
+          font-weight: 400 !important;
           font-size: 16px !important;
           line-height: 20px !important;
 
@@ -328,11 +328,11 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           font-weight: 500 !important;
+           font-weight: 400 !important;
            font-size: 17px;
            line-height: 20px !important;
            @include for-phone-only {
-             font-weight: 600 !important;
+             font-weight: 500 !important;
            }
          }
         }
@@ -379,9 +379,9 @@ export default class ListingCard extends Vue{
         }
 
         .price {
-          font-weight: 400 !important;
-          font-size: 15px !important;
-          color: #444;
+          font-weight: 600 !important;
+          font-size: 17px !important;
+          color: #000;
           line-height: 20px;
           margin-top: 4px;
 
@@ -410,15 +410,18 @@ export default class ListingCard extends Vue{
 
         .important {
           display: flex;
-          flex-direction: column;
-          align-items: flex-start;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
 
           p {
-            font-size: 13px !important;
+            font-size: 16px !important;
+            font-weight: 400;
           }
 
           .new {
-            font-size: 15px !important;
+            font-size: 17px !important;
+            font-weight: 600 !important;
           }
         }
 
@@ -510,7 +513,7 @@ export default class ListingCard extends Vue{
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 10px;
+    margin-top: 4px;
 
     img {
       height: 20px;

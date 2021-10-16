@@ -1,11 +1,28 @@
 <template>
   <div class="listing-wrapper mx-auto w-full">
     <div v-if="$device.isMobile" class="mobile-topbar">
-      <font-awesome-icon icon="angle-left" class="back" @click="$router.go(-1)"></font-awesome-icon>
-      <div class="buttons">
+      <button @click="$router.go(-1)" type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <!-- Heroicon name: solid/plus -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+        </svg>
+      </button>
+      <div class="flex flex-row items-center">
+        <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <!-- Heroicon name: solid/plus -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </button>
+        <button @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
+          <!-- Heroicon name: solid/plus -->
+          <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#023246' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </button>
       </div>
     </div>
-    <div class="listing-content mt-12 max-w-7xl mx-auto w-full">
+    <div class="listing-content mt-0 lg:mt-12 xl:mt-12 up:mt-12 max-w-7xl mx-auto w-full">
       <div class="listing-content-inner">
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
@@ -38,10 +55,10 @@
               <img src="/noimage.jpeg" alt="">
             </div>
 
-            <div class="mb-6">
+            <div class="mb-6 px-5">
               <div class="article-title">
                 <h2 v-if="listing">{{ listing.title }}</h2>
-                <div class="flex flex-row items-center">
+                <div class="flex flex-row items-center" v-if="!$device.isMobile">
                   <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     <!-- Heroicon name: solid/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -69,7 +86,7 @@
               </div>
             </div>
 
-            <ul role="list" class="main-info">
+            <ul role="list" class="main-info px-5">
               <li>
                 <p>Lokacija</p>
                 <p class="mt-1 text-md text-black font-medium">{{ listing.city.name }}</p>
@@ -88,54 +105,54 @@
               </li>
             </ul>
             <div class="separator"></div>
-            <div>
+            <div class="px-5">
               <h2 class="text-xl font-medium text-gray-900">
                 Detaljne informacije
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-4 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 up:grid-cols-4 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
                     <div>
                       <h3 class="text-sm font-medium text-gray-900">
                         <a href="#" class="focus:outline-none">
-                          <span class="absolute inset-0" aria-hidden="true"></span>
+                          <span aria-hidden="true"></span>
                           {{ info.name }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-gray-500 font-semibold">{{ info.value }}</p>
+                      <p class="mt-1 text-sm text-black font-semibold">{{ info.value }}</p>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
-            <div class="mt-6">
+            <div class="mt-6 mx-5">
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-4 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 up:grid-cols-4 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
                     <div>
                       <h3 class="text-sm font-medium text-gray-900">
                         <a href="#" class="focus:outline-none">
-                          <span class="absolute inset-0" aria-hidden="true"></span>
+                          <span aria-hidden="true"></span>
                           {{ info.name }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-gray-500 font-semibold">{{ attrTranslate(info.value) }}</p>
+                      <p class="mt-1 text-sm text-black font-semibold">{{ attrTranslate(info.value) }}</p>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6">Detaljni opis</h2>
-            <p class="description">{{ listing.description }}</p>
+            <h2 class="text-xl font-medium text-gray-900 mb-6 mx-5">Detaljni opis</h2>
+            <p class="description mx-5">{{ listing.description }}</p>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6">Pogledajte šta se nalazi u blizini nekretnine</h2>
-            <div class="places">
+            <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Pogledajte šta se nalazi u blizini nekretnine</h2>
+            <div class="places" v-if="!$device.isMobile">
               <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2">
                 <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md' : '']">{{ translatePlaces(index) }}</li>
               </ul>
@@ -147,10 +164,14 @@
                 </div>
               </div>
             </div>
+            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('places')" placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ border: 'none', color: '#fff', height: '52px', marginRight: '24px', fontSize: '13px', width: 'auto' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6">Lokacija</h2>
-            <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
-<!--            <div class="separator" v-if="questions.length"></div>-->
+            <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Lokacija</h2>
+            <div v-if="!$device.isMobile">
+              <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
+            </div>
+            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('map-modal')" placeholder="Prikaži lokaciju na mapi" :style-options="{ border: 'none', color: '#fff', height: '52px', marginRight: '24px', fontSize: '13px', width: 'auto' }" :loading="false"></ActionButton>
+            <!--            <div class="separator" v-if="questions.length"></div>-->
 <!--            <h2 class="heading question" v-if="questions.length">Pitanja</h2>-->
 <!--            <div class="separator" v-if="questions.length"></div>-->
 <!--            <h2 class="heading" v-if="listing.questions_disabled === true">-->
@@ -162,6 +183,13 @@
 <!--              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>-->
 <!--            </div>-->
             <div class="separator"></div>
+            <div v-if="listing.is_booking" :class="['book-article', showBooking ? 'show' : 'hide']">
+              <div class="flex flex-row items-center justify-star">
+                <p class="text-xl font-bold">{{ listing.price + ' KM' }}</p>
+                <p class="text-gray-600 font-semibold text-lg ml-2">/ noć</p>
+              </div>
+              <ActionButton placeholder="Rezerviši datum" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
+            </div>
             <div v-if="listing.is_rent">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="my-20">
@@ -209,6 +237,139 @@
             <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
           </div>
         </div>
+        <client-only>
+          <modal name="places" :adaptive="true" height="100%">
+            <div class="modal-inner">
+              <div class="modal-header">
+                <h2>U blizini</h2>
+                <i class="material-icons" @click.prevent="$modal.hide('places')">close</i>
+              </div>
+              <div class="modal-content places-modal">
+                <div class="filters rounded-md">
+                  <ul class="flex flex-row items-center justify-start">
+                    <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer modal-place', index === x ? 'active-place-modal bg-white shadow-sm rounded-md' : '']">
+                      <div class="img-wrapper shadow-lg rounded-full">
+                        <img :src="'/' + translatePlaces(index) + '.svg'" alt="">
+                      </div>
+                      <p>{{ translatePlaces(index) }}</p>
+                    </li>
+                  </ul>
+                  <div class="mt-3">
+                    <div class="places-grid bg-gray-50" v-if="selectedPlace !== null">
+                      <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
+                        <img :src="p.icon" :alt="p.name" class="mr-2">
+                        {{ p.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </modal>
+        </client-only>
+        <client-only>
+          <modal name="map-modal" :adaptive="true" height="100%">
+            <div class="modal-inner map">
+              <i class="material-icons" @click.prevent="$modal.hide('map-modal')">close</i>
+              <div class="modal-content">
+                <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
+              </div>
+            </div>
+          </modal>
+        </client-only>
+
+        <client-only>
+          <modal name="booking" :adaptive="true" height="100%">
+            <div class="modal-inner">
+              <div class="modal-header">
+                <h2>Poašalji upit za rezervaciju</h2>
+                <i class="material-icons" @click.prevent="$modal.hide('booking')">close</i>
+              </div>
+              <div class="modal-content places-modal">
+                <div class="filters rounded-md">
+                  <client-only>
+                    <form @submit.prevent>
+                      <div class="flex flex-row items-center mb-4 price-wrap">
+                        <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                        <p class="pl-2">/ noć</p>
+                      </div>
+                      <div class="mb-4">
+                        <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
+                        <vc-date-picker
+                          v-model="range"
+                          mode="dateTime"
+                          :masks="masks"
+                          is-range
+                        >
+                          <template v-slot="{ inputValue, inputEvents, isDragging }">
+                            <div class="flex flex-col sm:flex-row justify-start items-center">
+                              <div class="relative flex-grow w-full">
+                                <svg
+                                  class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                                  fill="none"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                  ></path>
+                                </svg>
+                                <input
+                                  class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                                  :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                                  :value="inputValue.start"
+                                  v-on="inputEvents.start"
+                                />
+                              </div>
+                              <span class="flex-shrink-0 m-2">
+              <svg
+                class="w-4 h-4 stroke-current text-gray-600"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </span>
+                              <div class="relative flex-grow w-full">
+                                <svg
+                                  class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                                  fill="none"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                  ></path>
+                                </svg>
+                                <input
+                                  class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                                  :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                                  :value="inputValue.end"
+                                  v-on="inputEvents.end"
+                                />
+                              </div>
+                            </div>
+                          </template>
+                        </vc-date-picker>
+                      </div>
+                      <ActionButton :style-options="{ color: '#fff', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                    </form>
+                  </client-only>
+                </div>
+              </div>
+            </div>
+          </modal>
+        </client-only>
       </div>
     </div>
     <Snackbar></Snackbar>
@@ -292,6 +453,60 @@ export default class Artikal extends Vue {
   images = []
   places = []
   x = 0
+  lastScrollPosition = 0
+  showBooking = false;
+  range = {
+    start: new Date(2020, 0, 6),
+    end: new Date(2020, 0, 23),
+  }
+  masks = {
+    input: 'YYYY-MM-DD',
+  }
+
+  get dates() {
+    return this.days.map(day => day.date);
+  }
+
+  get attributes() {
+    return this.dates.map(date => ({
+      highlight: true,
+      dates: date,
+    }));
+  }
+  onDayClick(day) {
+    const idx = this.days.findIndex(d => d.id === day.id);
+    if (idx >= 0) {
+      this.days.splice(idx, 1);
+    } else {
+      this.days.push({
+        id: day.id,
+        date: day.date,
+      });
+    }
+  }
+
+
+
+  mounted() {
+    if(this.$device.isMobile) {
+      window.addEventListener('scroll', this.handleScroll, true)
+    }
+  }
+
+  toggleBookingModal() {
+    console.log('radi')
+    this.$modal.show('booking')
+  }
+
+  handleScroll(e) {
+    let currentScrollPosition = (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop;
+    if (currentScrollPosition < 10) {
+      this.showBooking = false;
+    } else if(currentScrollPosition > 50){
+      this.showBooking = true;
+    }
+  }
 
   translatePlaces(key) {
     if(key === 'atm') {
@@ -660,6 +875,10 @@ export default class Artikal extends Vue {
   flex-direction: row;
   max-width: 1180px;
 
+  @include for-phone-only {
+    flex-direction: column;
+  }
+
   .profile-content {
     width: 20%;
     height: fit-content;
@@ -678,7 +897,7 @@ export default class Artikal extends Vue {
 
       @include for-phone-only {
         flex-direction: column;
-        padding: 0 12px;
+        padding: 0px;
         box-sizing: border-box;
         padding-bottom: 120px;
       }
@@ -690,6 +909,7 @@ export default class Artikal extends Vue {
 
         @include for-phone-only {
           width: 100%;
+          flex-direction: column;
         }
       }
       .article-title {
@@ -742,27 +962,56 @@ export default class Artikal extends Vue {
   }
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  height: 70px;
-  border-bottom: 1px solid #dcdcdc;
-  justify-content: space-between;
-
-  h2 {
-    font-size: 17px;
-    font-weight: 500;
-  }
-
-  svg {
-    cursor: pointer;
-  }
-}
+//.modal-header {
+//  display: flex;
+//  align-items: center;
+//  height: 70px;
+//  border-bottom: 1px solid #dcdcdc;
+//  justify-content: space-between;
+//
+//  h2 {
+//    font-size: 17px;
+//    font-weight: 500;
+//  }
+//
+//  svg {
+//    cursor: pointer;
+//  }
+//}
 
 .modal-inner {
   display: flex;
   flex-direction: column;
   padding: 0 24px;
+
+  &.map {
+    padding: 0;
+
+    .modal-content {
+      padding: 0;
+      height: 100%;
+
+      ::v-deep #map {
+        height: calc(100vh - 110px);
+      }
+    }
+
+    i {
+      position: absolute;
+      top: 0;
+      background: #fff;
+      border-radius: 4px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      right: 16px;
+      z-index: 1;
+      top: 16px;
+    }
+  }
 
 
   .modal-content {
@@ -991,23 +1240,30 @@ export default class Artikal extends Vue {
 }
 
 .mobile-topbar {
-  background: #fff;
+  background: transparent;
   display: flex;
-  position: sticky;
+  position: absolute;
   top: 0;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 0 12px;
   height: 60px;
-  min-height: 60px;
+  min-height: 70px;
   z-index: 3;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
-
-  svg.back {
-    font-size: 22px;
+  width: 100%;
+  button {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-radius: 10px !important;
+  }
+  svg {
+    font-size: 22px !important;
+    height: 24px !important;
   }
 
   .buttons {
@@ -1178,6 +1434,7 @@ export default class Artikal extends Vue {
     padding: 12px 16px;
 
     p {
+      line-height: 18px;
       &:first-child {
         font-size: 14px;
       }
@@ -1209,6 +1466,109 @@ export default class Artikal extends Vue {
 
 .active-place {
   font-weight: 500;
+}
+
+::v-deep .vm--modal {
+  @include for-phone-only {
+    top: 110px !important;
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    height: calc(100vh - 100px) !important;
+    padding-bottom: 180px !important;
+  }
+}
+
+.places-modal {
+  ul {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    justify-content: flex-start;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      margin-right: 24px;
+
+      &.active-place-modal {
+        .img-wrapper {
+          background: #023246;
+          img {
+            filter: invert(1);
+          }
+        }
+
+        p {
+          color: #023246;
+          font-weight: 600!important;
+        }
+      }
+
+      .img-wrapper {
+        height:50px;
+        width: 50px;
+        min-width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+      }
+
+      p {
+        min-width: fit-content;
+        margin-top: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 80px;
+        font-size: 14px;
+        font-weight: 500!important;
+        color: #9a9a9a;
+      }
+    }
+  }
+}
+
+.modal-place {
+  img {
+    height: 25px;
+    width: 25px;
+  }
+}
+
+.book-article {
+  position: fixed;
+  top: 16px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+  z-index: 10;
+  background: #fff;
+  border-radius: 4px;
+  left: 16px;
+  right: 16px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.3s all ease;
+
+  &.show {
+    height: 80px;
+  }
+
+  &.hide {
+    display: none;
+  }
+}
+
+.date-input {
+  height: 50px;
+  background: #f9f9f9;
+  font-size: 13px;
+  border: 2px solid #023246;
+  background: transparent;
+  min-width: 100%;
 }
 
 </style>

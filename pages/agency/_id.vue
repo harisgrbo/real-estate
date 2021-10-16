@@ -620,27 +620,6 @@ export default class Agencies extends Vue {
   }
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  height: 70px;
-  border-bottom: 1px solid #dcdcdc;
-  justify-content: space-between;
-
-  h2 {
-    font-size: 17px;
-    font-weight: 500;
-  }
-
-  i {
-    cursor: pointer;
-  }
-
-  svg {
-    cursor: pointer;
-  }
-}
-
 .modal-inner {
   display: flex;
   flex-direction: column;

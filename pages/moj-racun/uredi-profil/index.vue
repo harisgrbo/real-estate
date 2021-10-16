@@ -22,7 +22,7 @@
             <img v-if="!avatarUrl.length" src="/noimage.jpeg" class="my-4" alt="">
             <img v-else :src="avatarUrl" class="my-4"/>
           </div>
-          <div class="mt-6 grid gap-6 grid-cols-2">
+          <div class="mt-6 grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 up:grid-cols-2">
             <div class="w-full flex flex-col">
               <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                 Korisnicko ime
@@ -65,7 +65,7 @@
                 Slika profila
               </label>
               <div class="flex flex-row items-center justify-start">
-                <div class="max-w-xl w-full flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md mr-4">
+                <div class="max-w-xl w-full flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                   <div class="space-y-1 text-center mr-2">
                     <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                       <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -84,7 +84,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton type="submit" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }" class="w-full mt-6" placeholder="Spasi izmjene"></ActionButton>
+            <ActionButton type="submit" :style-options="{ color: '#fff', width: '100%' }" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
 
           </div>
 
@@ -210,6 +210,11 @@ export default class urediProfil extends Vue {
 
 .account-wrapper {
   width: 1180px;
+
+  @include for-phone-only {
+    width: 100%;
+    padding: 16px;
+  }
 }
 
 .heading {
@@ -223,10 +228,6 @@ export default class urediProfil extends Vue {
       grid-template-columns: repeat(2, 1fr);
       row-gap: 32px;
       column-gap: 24px;
-    }
-
-    ::v-deep button {
-      width: 150px;
     }
   }
 
@@ -392,10 +393,6 @@ h2.heading {
       }
     }
   }
-}
-
-::v-deep button {
-  background: #0B8489;
 }
 
 input {
