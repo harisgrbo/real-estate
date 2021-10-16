@@ -460,7 +460,7 @@ export default class Users extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;

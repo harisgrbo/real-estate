@@ -123,6 +123,8 @@ export default class RegisterForm extends Vue{
           type: "success"
         });
         this.loading = false;
+
+        window.location.href = "/";
       })
       .catch(error => {
         this.loading = false;

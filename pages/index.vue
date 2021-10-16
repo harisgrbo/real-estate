@@ -849,6 +849,7 @@ ul.most-visited-cats {
       height: 150px;
       max-height: 150px;
       font-size: 18px;
+      padding: 16px;
     }
 
     button {
@@ -1050,6 +1051,13 @@ ul.most-visited-cats {
   border-top-right-radius: 10px;
   z-index: 0;
   height: 160px;
+
+  @include for-phone-only {
+    height: 85px;
+    top: -16px;
+    left: -16px;
+    right: -16px;
+  }
 }
 
 .overlay-out {

@@ -3,7 +3,7 @@
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'">
-          <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="">
+          <img :src="[ $device.isMobile ? '/kucica.svg' : '/placeholder.png']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
       <div class="input-wrapper"
@@ -82,6 +82,12 @@
           </ul>
         </div>
       </div>
+      <button v-if="$auth.user && $device.isMobile" class="login notify" @click="$modal.show('notifications')">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="#0B8489">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+        <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
+      </button>
       <div class="auth-buttons" v-if="!$device.isMobile">
         <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
@@ -119,6 +125,11 @@
     <client-only>
       <modal name="type" :adaptive="true" height="100%">
         <ListingType @selected-type="handleSelectedType" @close="$modal.hide('type')"></ListingType>
+      </modal>
+    </client-only>
+    <client-only>
+      <modal name="notifications" :adaptive="true" height="100%">
+        <NotificationsDropdown :notifications="notifications" @close-notifications="$modal.hide('notifications')" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
       </modal>
     </client-only>
   </div>
@@ -872,6 +883,11 @@ export default class Navbar extends Vue {
       height: 30px;
       width: 30px;
       margin-right: 8px;
+      background: #023246 !important;
+
+      svg {
+        color: #fff !important
+      }
     }
 
     p {
@@ -938,9 +954,18 @@ export default class Navbar extends Vue {
   box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
   transition: 0.3s all ease;
 
+  @include for-phone-only {
+    right: -100vw;
+  }
+
   &.extend {
     right: 0;
     width: 400px;
+
+    @include for-phone-only {
+      width: 100vw;
+      right: 0 !important;
+    }
   }
 }
 .selected-cat-type {

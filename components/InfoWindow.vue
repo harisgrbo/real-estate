@@ -109,7 +109,7 @@ a {
       border-radius: 0px;
 
       button {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif;
         border: none;
         margin-right: 8px;
         border-radius: 5px;

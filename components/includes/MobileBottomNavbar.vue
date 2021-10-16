@@ -13,7 +13,7 @@
     </nuxt-link>
     <nuxt-link to="/objava">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     </nuxt-link>
     <nuxt-link :to="goToUser()">
@@ -22,8 +22,8 @@
       </svg>
     </nuxt-link>
     <nuxt-link to="#" class="relative">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="openSidebarMenu">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click.prevent="openSidebarMenu()">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
       </svg>
       <p class="notify">{{ notifications.length }}</p>
     </nuxt-link>
@@ -79,8 +79,10 @@ export default class MobileBottomNavbar extends Vue {
   }
 
   async created() {
-    await this.getNotifications()
-    await this.getUnreadMessagesCount()
+    if(this.$auth.user) {
+      await this.getNotifications()
+      await this.getUnreadMessagesCount()
+    }
   }
 
   async getNotifications() {
@@ -148,16 +150,18 @@ export default class MobileBottomNavbar extends Vue {
     box-sizing: border-box;
     right: 0px;
     min-height: 60px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
-    border-radius:0px;
     z-index: 5;
     padding: 0 24px;
-    -webkit-box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
-    box-shadow: 0px 0px 10px -6px rgb(0 0 0 / 69%);
+    border-top-left-radius: 15px;
+    box-shadow: 0px 0px 9px 1px rgb(0 0 0 / 27%);
+    border-top-right-radius: 15px;
 
     svg {
       font-size: 20px;
@@ -165,6 +169,7 @@ export default class MobileBottomNavbar extends Vue {
       padding: 10px;
       height: 40px;
       width: 40px;
+      color: #0B8489;
     }
   }
 
@@ -173,10 +178,10 @@ export default class MobileBottomNavbar extends Vue {
       svg {
         color: #023246 !important;
         background: #f1f1f1;
-        border-radius: 50%;
+        border-radius: 10px;
         padding: 10px;
-        height: 40px;
-        width: 40px;
+        height: 43px;
+        width: 43px;
       }
     }
   }
@@ -187,16 +192,17 @@ export default class MobileBottomNavbar extends Vue {
     .notify {
       height: 14px;
       width: 14px;
-      border-radius: 4px;
+      border-radius: 7px;
       font-weight: 600;
       color: #fff;
       background: #D63946;
       position: absolute;
       font-size: 10px;
-      top: -3px;
-      left: 18px;
+      top: 6px;
+      left: 21px;
       text-align: center;
       line-height: 14px;
+
     }
   }
 </style>

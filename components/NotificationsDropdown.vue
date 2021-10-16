@@ -1,6 +1,6 @@
 <template>
-  <div class="notifications-dropdown">
-    <div class="header p-6">
+  <div class="notifications-dropdown modal-inner">
+    <div class="modal-header">
       <h2>Obavijesti</h2>
       <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
     </div>
@@ -54,21 +54,19 @@ export default class NotificationsDropdown extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .notifications-dropdown {
   height: 100vh;
 
-  .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ebebeb;
-    color: #000;
-    h2 {
-      font-weight: 400;
-      font-size: 18px;
-    }
+  @include for-phone-only {
+    height: calc(100vh - 260px);
   }
+
 
 }
 

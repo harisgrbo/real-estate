@@ -231,7 +231,7 @@ export default class Paketi extends Vue{
   }
 
   table {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Poppins', sans-serif;
     border-collapse: collapse;
     width: 100%;
     margin-top: 24px;
@@ -281,7 +281,7 @@ export default class Paketi extends Vue{
       .package-header {
         padding: 24px;
         color: #fff;
-        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif;
 
         > div {
           display: flex;

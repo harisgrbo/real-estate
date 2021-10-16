@@ -64,7 +64,7 @@ export default class ZastoRegistrovatiAgenciju extends Vue {
         flex-direction: row;
         justify-content: space-between;
         height: fit-content;
-        font-family: 'Lato', sans-serif;
+        font-family: 'Poppins', sans-serif;
 
         .left {
           display: flex;

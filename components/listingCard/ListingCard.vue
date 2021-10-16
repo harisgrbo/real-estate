@@ -2,9 +2,6 @@
     <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
       <label class="publisher shadow-sm">
         <span class="flex flex-row items-center">{{ translateType() }}
-          <div v-if="listing.sponsored === 2 || listing.sponsored === 1" class="red-label ml-2">
-             Sponzorisan
-          </div>
         </span>
       </label>
       <div class="blured-background">
@@ -43,7 +40,7 @@
               </p>
             </div>
             <div class="icons-date">
-              <div class="important">
+              <div class="important mt-2">
                 <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-if="action" class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-show="listing.is_booking" class="pl-2">/ noć</p>
@@ -206,7 +203,7 @@ export default class ListingCard extends Vue{
         }
 
         button {
-          font-family: 'Lato', sans-serif;
+          font-family: 'Poppins', sans-serif;
           border: none;
           margin-right: 8px;
           border-radius: 5px;
@@ -261,6 +258,10 @@ export default class ListingCard extends Vue{
           bottom: 108px;
           top: 232px;
           width: 150px;
+
+          @include for-phone-only {
+            top: 102px;
+          }
         }
       }
 
@@ -383,7 +384,6 @@ export default class ListingCard extends Vue{
           font-size: 17px !important;
           color: #000;
           line-height: 20px;
-          margin-top: 4px;
 
           @include for-phone-only {
             font-size: 13px;
@@ -422,6 +422,7 @@ export default class ListingCard extends Vue{
           .new {
             font-size: 17px !important;
             font-weight: 600 !important;
+            margin-left: 12px;
           }
         }
 
