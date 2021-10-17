@@ -66,11 +66,15 @@
   overflow: scroll !important;
 
   @include for-phone-only {
-    top: 110px !important;
+    top: 70px !important;
     border-top-left-radius: 15px !important;
     border-top-right-radius: 15px !important;
     height: calc(100vh - 100px) !important;
     //padding-bottom: 180px !important;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    bottom: calc(49px + env(safe-area-inset-bottom));
   }
 }
 

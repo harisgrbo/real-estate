@@ -44,6 +44,9 @@
           </div>
         </div>
         <div class="main-input-wrapper">
+          <div>
+
+          </div>
           <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
           <div class="buttons">
             <div class="flex items-center justify-start">
@@ -51,8 +54,9 @@
 <!--              <font-awesome-icon icon="paperclip"></font-awesome-icon>-->
               <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
             </div>
-            <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @action="sendMessage"></ActionButton>
           </div>
+          <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @action="sendMessage"></ActionButton>
+
         </div>
       </div>
     </div>
@@ -75,13 +79,11 @@
                 <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
                 <div class="buttons">
                   <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" @click="sendMessage" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                  </svg>
+<!--                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />-->
+<!--                  </svg>-->
+                  <ActionButton icon="paper-plane" class="send" placeholder="Pošalji" @action="sendMessage"></ActionButton>
                   <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
                 </div>
               </div>
@@ -424,7 +426,7 @@ export default class poruke extends Vue {
     height: 100%;
 
     @include for-phone-only {
-      height: calc(100vh - 230px);
+      height: calc(100vh - 290px);
     }
 
   }
@@ -590,5 +592,34 @@ export default class poruke extends Vue {
   }
 }
 
+.send {
+  font-family: 'Lato', sans-serif;
+  height: 48px;
+  border-radius: 4px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 24px;
+  color: #fff;
+  cursor: pointer;
+  justify-content: center;
+  transition: 0.3s all ease;
+  background: hsla(218, 34%, 30%, 1);
+
+  background: radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+
+  background: -moz-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+
+  background: -webkit-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+  color: #fff !important;
+
+}
+
+.modal-content {
+
+
+}
 
 </style>

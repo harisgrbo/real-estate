@@ -56,7 +56,7 @@ export default class ConversationContent extends Vue {
   overflow: auto;
 
   @include for-phone-only {
-    height: calc(100vh - 342px);
+    height: calc(100vh - 475px);
   }
 }
 .conversation-wrapper {

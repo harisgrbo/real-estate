@@ -3,7 +3,7 @@
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'">
-          <img :src="[ $device.isMobile ? '/kucica.svg' : '/placeholder.png']" class="main-logo" height="40" alt="">
+          <img :src="[ $device.isMobile ? '/substraction.svg' : '/placeholder.png']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
       <div class="input-wrapper"
@@ -498,8 +498,13 @@ export default class Navbar extends Vue {
       flex: 0;
     }
 
-    img {
-      height: 40px;
+    @include for-phone-only {
+      img {
+        height: 48px;
+        width: 48px;
+        min-width: 48px;
+        margin-right: 16px;
+      }
     }
 
     &.hide {
