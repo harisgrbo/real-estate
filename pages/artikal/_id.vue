@@ -26,18 +26,55 @@
       <div class="listing-content-inner">
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
-            <div class="grid-container" v-if="images.length > 1">
-              <div class="img-counter">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <p>{{ images.length }}</p>
-              </div>
-              <div :class="'item' + (index + 1)" v-for="(img, index) in images.slice(0, 4)" @click="openGallery(index)">
-                <img :src="img.url" alt="">
-                <div class="more" v-if="index === 3">
-                 {{ images.length - 3 + '+ slika' }}
+            <div v-if="!$device.isMobile">
+              <div class="grid-container" v-if="images.length > 1">
+                <div class="img-counter">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <p>{{ images.length }}</p>
                 </div>
+                <div v-for="(img, index) in images.slice(0, 4)" @click="openGallery(index)">
+                  <img :src="img.url" alt="">
+                  <div class="more" v-if="index === 3">
+                    {{ images.length - 3 + '+ slika' }}
+                  </div>
+                </div>
+                <client-only>
+                  <light-box
+                    ref="lightbox"
+                    :media="lightboxImages"
+                    :show-light-box="false"
+                    :show-thumbs="true"
+                    close-text="function() {
+                  return 'Zatvori galeriju'
+                  }"
+                  />
+                </client-only>
+              </div>
+              <div v-else class="no-image-grid">
+                <img src="/noimage.jpeg" alt="">
+              </div>
+            </div>
+            <div v-else>
+              <client-only v-if="images.length >= 1">
+                <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
+                  <swiper-slide v-for="(img, index) in images" :key="index">
+                    <img :src="img.url" alt="">
+                  </swiper-slide>
+                  <div
+                    class="swiper-button-prev swiper-button-white"
+                    slot="button-prev"
+                  ></div>
+                  <div
+                    class="swiper-button-next swiper-button-white"
+                    slot="button-next"
+                  ></div>
+                  <div class="swiper-pagination" slot="pagination"></div>
+                </swiper>
+              </client-only>
+              <div v-else class="no-image-grid">
+                <img src="/noimage.jpeg" alt="">
               </div>
               <client-only>
                 <light-box
@@ -51,10 +88,6 @@
                 />
               </client-only>
             </div>
-            <div v-else class="no-image-grid">
-              <img src="/noimage.jpeg" alt="">
-            </div>
-
             <div class="mb-6 px-5 mobile-content">
               <div class="article-title">
                 <h2 v-if="listing">{{ listing.title }}</h2>
@@ -463,6 +496,27 @@ export default class Artikal extends Vue {
     input: 'YYYY-MM-DD',
   }
 
+  swiperOptionCard = {
+    spaceBetween: 0,
+    // centeredSlides: true,
+    // slidesOffsetBefore: '100px',
+    // slidesOffsetAfter: '100px',
+    // slidesOffsetBefore: '0px',
+    loop: true,
+    autoplay: false,
+    slidesPerView: 1,
+    pagination: {
+      el: ".swiper-pagination",
+      dynamicBullets: true,
+    },
+    touchRatio: 0.2,
+    slideToClickedSlide: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    }
+  }
+
   get dates() {
     return this.days.map(day => day.date);
   }
@@ -792,6 +846,11 @@ export default class Artikal extends Vue {
   'main main small3 small3 small3';
   grid-gap: 2px;
   height: 400px;
+
+  //@include for-phone-only {
+  //  display: flex;
+  //
+  //}
 
   .img-counter {
     position: absolute;
@@ -1321,11 +1380,15 @@ export default class Artikal extends Vue {
   }
 
   .swiper-slide {
-    max-height: 400px;
+    max-height: 400px !important;
+    min-height: 400px !important;
   }
 
   .swiper-slide img {
-    max-height: 400px;
+    max-height: 400px !important;
+    height: 400px !important;
+    width: 100%;
+    object-fit: cover;
   }
 
   ::v-deep button svg {
@@ -1573,11 +1636,59 @@ export default class Artikal extends Vue {
 
 .mobile-content {
   margin-top: -30px;
+  position: relative;
   background: #fff;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: rgb(0 0 0 / 7%) 0px -10px 8px;
+  z-index: 1;
 }
+
+.swiper-button-prev, .swiper-button-next {
+  color: #002F34 !important;
+  height: 30px;
+  max-height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+  z-index: 10;
+  display: none;
+  transition: 0.3s all ease;
+
+  @include for-phone-only {
+    display: flex;
+    background: rgba(241, 241, 241, 0.48);
+  }
+
+  &::after {
+    font-size: 13px !important;
+    line-height: 13px !important;
+  }
+}
+
+::v-deep .swiper-pagination-bullet {
+  width: 10px !important;
+  height: 10px !important;
+  border: 2px solid rgb(255, 255, 255) !important;
+  background: #fff !important;
+  opacity: 0.8 !important;
+}
+::v-deep .swiper-pagination-bullet-active {
+  width: 10px !important;
+  height: 10px !important;
+  border: 3px solid white !important;
+  background: #fff !important;
+  opacity: 1 !important;
+}
+
+::v-deep .swiper-pagination {
+  bottom: 50px !important;
+}
+
 
 </style>
 
