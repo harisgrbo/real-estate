@@ -591,8 +591,6 @@ export default class Artikal extends Vue {
     try {
       let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
       this.places = res;
-
-      this.selectedPlace = this.places[0]
     } catch(e) {
       console.log(e)
     }
@@ -601,8 +599,6 @@ export default class Artikal extends Vue {
   selectPlace(p, i) {
     this.selectedPlace = p;
     this.x = i;
-
-    console.log(this.selectedPlace, i)
   }
 
   numberWithCommas(x) {
@@ -771,7 +767,13 @@ export default class Artikal extends Vue {
 
   async created() {
     await this.fetchPlaces();
-    await this.selectPlace(this.places[0])
+
+    Object.keys(this.places).forEach(key => {
+      if (this.places[key].results.length) {
+        this.selectPlace(this.places[key].results, key)
+      }
+    })
+
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
   }
