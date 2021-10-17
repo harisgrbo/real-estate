@@ -106,7 +106,7 @@
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
-            <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
+            <ListingCard :listing="listing" :type="listing.user.user_type"/>
           </swiper-slide>
         </swiper>
       </client-only>
