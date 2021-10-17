@@ -4,20 +4,23 @@
         @click="setSelectedConversation(conversation, index)"
         :class="[ (conversation.id === (value ? value.id: null)) ? 'active' : '']"
         class="relative bg-white py-5 px-6 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600">
-      <div class="flex justify-between space-x-3">
-        <div class="min-w-0 flex-1">
-          <a href="#" class="block focus:outline-none">
-            <span class="absolute inset-0" aria-hidden="true"></span>
-            <p class="text-sm font-medium text-gray-900 truncate"><p>{{ others(conversation).map(item => item.name).join(',') }}</p></p>
-          </a>
+      <img src="/noimage.jpeg" alt="">
+      <div class="flex flex-col w-full">
+        <div class="flex justify-between w-full space-x-3">
+          <div class="min-w-0 flex-1">
+            <a href="#" class="block focus:outline-none">
+              <span class="absolute inset-0" aria-hidden="true"></span>
+              <p class="text-sm font-semibold text-gray-900 truncate"><p class="name">{{ others(conversation).map(item => item.name).join(',') }}</p></p>
+            </a>
+          </div>
+          <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</time>
         </div>
-        <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</time>
-      </div>
-      <div class="mt-1">
-        <p class="line-clamp-2 text-sm text-gray-600">
-          {{ conversation.last_message.content }}
-        </p>
-        <div class="unread" v-if="conversation.unread !== 0"><b>{{ conversation.unread }}</b> nove poruke</div>
+        <div class="mt-1">
+          <p class="line-clamp-2 text-sm text-gray-600">
+            {{ conversation.last_message.content }}
+          </p>
+          <div class="unread" v-if="conversation.unread !== 0"><b>{{ conversation.unread }}</b> nove poruke</div>
+        </div>
       </div>
     </li>
   </ul>
@@ -156,9 +159,34 @@ export default class ConversationList extends Vue {
 }
 
 li {
+  display: flex;
+  flex-direction: row;
+  padding: 12px 0;
+  width: 100%;
+  img {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    margin-right: 12px;
+  }
   &:hover {
     border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.07) 0px 2px 2px !important;
   }
+
+  p.name {
+    font-weight: 600;
+    color: #000;
+  }
+}
+
+time {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0B8489;
+}
+
+::v-deep .vm--modal {
+  padding-bottom: 0 !important
 }
 </style>

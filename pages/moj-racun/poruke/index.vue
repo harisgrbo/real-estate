@@ -1,6 +1,6 @@
 <template>
   <div class="message-wrapper mx-auto w-full">
-    <ul class="breadcrumbs">
+    <ul class="breadcrumbs" v-if="!$device.isMobile">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
         <font-awesome-icon icon="angle-right"></font-awesome-icon>
@@ -9,7 +9,7 @@
     </ul>
     <div class="content">
       <div class="conversation-list">
-        <div class="search-wrapper">
+        <div class="search-wrapper" v-if="!$device.isMobile">
           <input type="text">
         </div>
         <div class="heading-inner">
@@ -48,7 +48,7 @@
           <div class="buttons">
             <div class="flex items-center justify-start">
               <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
-              <font-awesome-icon icon="paperclip"></font-awesome-icon>
+<!--              <font-awesome-icon icon="paperclip"></font-awesome-icon>-->
               <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
             </div>
             <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @action="sendMessage"></ActionButton>
@@ -274,6 +274,8 @@ export default class poruke extends Vue {
     @include for-phone-only {
       padding: 12px;
       height: calc(100vh - 76px);
+      max-width: 100%;
+      background: #fff;
     }
   }
   .content {
@@ -421,6 +423,10 @@ export default class poruke extends Vue {
   .messages-wrap {
     height: 100%;
 
+    @include for-phone-only {
+      height: calc(100vh - 230px);
+    }
+
   }
 
 
@@ -464,13 +470,13 @@ export default class poruke extends Vue {
     box-sizing: border-box;
     height: fit-content;
     position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    border: 1px solid #ececec;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    border-top: 1px solid #ececec;
     border-radius: 7px;
     padding: 12px;
-    background: #f9f9f9;
+    background: #fff;
 
     .buttons {
       width: 100%;
@@ -494,10 +500,10 @@ export default class poruke extends Vue {
       border: none;
       background: transparent;
       font-size: 15px;
-      background: #fff;
       border-radius: 7px;
       padding: 0 12px;
       margin-bottom: 12px;
+      background: #f9f9f9;
 
       &::placeholder {
         color: #8e8e8e;

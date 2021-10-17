@@ -1,6 +1,6 @@
 <template>
   <div class="categories-list-wrap w-full">
-    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-5 w-full">
+    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-5 w-full">
       <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flow-root border bg-gray-100 rounded-md"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
         <div class="w-full">
@@ -75,11 +75,14 @@ export default class Categories extends Vue {
   }
 }
 .categories-list-wrap {
-  height: 490px;
   width: 100%;
   display: flex;
   justify-content: center;
   position: relative;
+
+  @include for-phone-only {
+    padding-bottom: 15px;
+  }
 
   .loading {
     height: 40px;
@@ -110,11 +113,10 @@ a {
 
 ul li {
   @include for-phone-only {
-    background: #FFFFFF !important;
+    background: #f9f9f9 !important;
     color: #222222 !important;
     padding: 16px !important;
     width: 100% !important;
-    border: 1px solid #DDDDDD !important;
     min-height: 76px;
     height: 76px;
     justify-content: space-between;

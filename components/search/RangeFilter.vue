@@ -3,15 +3,6 @@
     <label>
       {{ displayName }}
     </label>
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4" v-if="avgPrice">
-      <div class="flex">
-        <div class="ml-3">
-          <p class="text-sm text-yellow-700">
-            Prosječna cijena nekretnine za izabranu kategoriju je {{ parseInt(avgPrice).toLocaleString() }}
-          </p>
-        </div>
-      </div>
-    </div>
     <div class="input-wrapper">
       <div>
         <label>min cijena</label>
@@ -26,7 +17,7 @@
 </template>
 
 <script>
-import { Component, Vue, Prop} from "nuxt-property-decorator";
+import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 import FilterMixin from "./FilterMixin.js";
 
 @Component({

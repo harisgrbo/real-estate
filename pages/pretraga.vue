@@ -4,7 +4,7 @@
       <div class="border-b border-gray-200">
       </div>
       <div class="w-full">
-        <div class="flex flex-row w-full items-center justify-between border-b border-gray-200 px-5">
+        <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between border-b border-gray-200 px-5">
           <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
           </ul>
@@ -12,7 +12,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
-            {{ category_title !== '' ? category_title : "Kategorije" }}
+            {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
           </button>
 
           <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
@@ -21,10 +21,17 @@
             </svg>
             Filteri</button>
 
-          <div class="flex items-center justify-end">
+          <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+            </svg>
+            {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
+          </button>
+
+          <div class="flex items-center justify-end types">
             <div class="relative inline-block text-left filteri">
               <div @click="showSortDropdown = !showSortDropdown" v-if="!$device.isMobile">
-                <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                <button type="button" class="group inline-flex justify-center text-sm w-full font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
                   </svg>
@@ -43,8 +50,8 @@
                 </div>
               </div>
             </div>
-            <div class="px-4 relative flex w-auto text-left type">
-              <button @click="showTypeDropdown = !showTypeDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" aria-expanded="false">
+            <div class="relative flex w-full text-left type">
+              <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
 
                 <span class="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes && selectedTypes.length ? selectedTypes.length : '0' }}</span>
@@ -76,27 +83,17 @@
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4" v-if="$device.isMobile">
         <h1 class="font-semibold">1000 rezultata</h1>
-
-        <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-          </svg>
-          {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
-        </button>
       </div>
       <div class="results">
-        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap" v-if="results_loaded">
+        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
-        </div>
-        <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap" v-else>
-          <skeleton v-for="i in 20"></skeleton>
         </div>
         <client-only>
           <Pagination
             ref="pagination"
             v-show="meta.total > 20"
             :current-page="page"
-            :total-pages="last_page"
+            :total-pages="lastPage"
             @page-change="pageChangeHandler" />
         </client-only>
       </div>
@@ -114,7 +111,6 @@
               :attr="false"
               :filter="{name: 'price', display_name: 'Cijena'}"
               @input="newSearch"
-              :avg-price="meta.price"
             />
 
             <component
@@ -157,8 +153,8 @@
                   :filter="attr"
                   :attr="true"
                   :is="filterFor(attr.type)"
-                  v-model="queryPayload[attr.name]"
-                  @clear="queryPayload[attr.name] = null; newSearch()"
+                  v-model="queryPayload[attr.id]"
+                  @clear="queryPayload[attr.id] = null; newSearch()"
                   @input="newSearch"
                 />
 
@@ -239,7 +235,6 @@ import skeleton from "../components/skeleton";
     };
     let allAttributes = [];
     let queryPayload = {};
-    let results_loaded = false;
     let categories = [];
     let selectedCategoryId = null;
 
@@ -248,11 +243,12 @@ import skeleton from "../components/skeleton";
       page = ctx.route.query.page || '1';
       page = parseInt(page)
 
-      results_loaded = false;
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}`)
         results = response.data.data;
         meta = response.data.meta;
+        allAttributes = response.data.meta.attributes;
+
         query = JSON.parse(query)
 
         query.forEach(item => {
@@ -262,21 +258,6 @@ import skeleton from "../components/skeleton";
 
           queryPayload[item.name] = Object.assign({}, item);
         });
-
-        results_loaded = true;
-
-
-        try {
-          let res = await ctx.app.$axios.get('/attributes');
-
-          allAttributes = res.data.data.map(item => {
-            item.type = item.attr_type;
-
-            return item;
-          }).concat(meta.attributes)
-        } catch (e) {
-          console.log(e);
-        }
       } catch (e) {
         console.log(e)
         // @TODO: Error handling
@@ -298,7 +279,7 @@ import skeleton from "../components/skeleton";
       lp += 1;
     }
 
-    let last_page = parseInt(lp);
+    let lastPage = parseInt(lp);
 
     let selectedTypes = [];
 
@@ -310,15 +291,19 @@ import skeleton from "../components/skeleton";
       }
     }
 
+    let category = categories.find(item => item.id === selectedCategoryId);
+
+    let categoryTitle = category ? category.title: '';
+
     return {
+      categoryTitle,
       selectedTypes,
       allAttributes,
       results,
       meta,
       queryPayload,
       page,
-      results_loaded,
-      last_page,
+      lastPage,
       categories,
       selectedCategoryId
     }
@@ -348,7 +333,6 @@ export default class Homepage extends Vue {
       id: 3,
     },
   ]
-  category_title = '';
   sort_types = [
     {
       name: "Najniža cijena",
@@ -442,9 +426,6 @@ export default class Homepage extends Vue {
     this.$modal.hide('cats-modal')
 
     this.newSearch();
-
-    this.category_title = cat.title;
-
   }
 
   async saveSearch() {
@@ -827,7 +808,11 @@ export default class Homepage extends Vue {
     border-top-left-radius: 15px !important;
     border-top-right-radius: 15px !important;
     height: calc(100vh - 100px) !important;
-    padding-bottom: 180px !important;
+    padding-bottom: 0px !important;
   }
+}
+
+.types {
+  min-width: fit-content;
 }
 </style>
