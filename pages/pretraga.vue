@@ -153,8 +153,8 @@
                   :filter="attr"
                   :attr="true"
                   :is="filterFor(attr.type)"
-                  v-model="queryPayload[attr.name]"
-                  @clear="queryPayload[attr.name] = null; newSearch()"
+                  v-model="queryPayload[attr.id]"
+                  @clear="queryPayload[attr.id] = null; newSearch()"
                   @input="newSearch"
                 />
 
