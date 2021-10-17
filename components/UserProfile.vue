@@ -33,7 +33,7 @@
       <div class="rent" v-if="isBooking && !$device.isMobile">
         <client-only>
           <form @submit.prevent>
-            <div class="flex flex-row items-center mb-4 price-wrap">
+            <div class="flex flex-row items-center mb-4 price-wrap" v-if="!$device.isMobile">
               <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
               <p class="pl-2">/ noć</p>
             </div>
@@ -111,7 +111,7 @@
         </client-only>
       </div>
       <div class="rent" v-else>
-        <div class="flex flex-col items-start price-wrap">
+        <div class="flex flex-col items-start price-wrap" v-if="!$device.isMobile">
           <p>Cijena {{ vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
           <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(price) }} KM</p>
         </div>

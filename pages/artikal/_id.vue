@@ -976,7 +976,7 @@ export default class Artikal extends Vue {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         margin-top: 24px;
 
         @include for-phone-only {

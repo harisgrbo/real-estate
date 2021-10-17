@@ -1209,4 +1209,16 @@ button.search {
   width: 240px;
   height: 223px;
 }
+
+::v-deep .listing-card-wrapper {
+  max-width: 240px;
+  min-width: 240px;
+  width: 240px;
+
+  img.slider-img {
+    max-width: 240px;
+    min-width: 240px;
+    width: 240px;
+  }
+}
 </style>

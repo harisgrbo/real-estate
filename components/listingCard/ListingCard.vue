@@ -11,7 +11,7 @@
         <div class="overflow-hidden relative">
           <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
             <swiper-slide v-for="(img, index) in listing.images" :key="index">
-              <img :src="img.url" alt="">
+              <img class="slider-img" :src="img.url" alt="">
             </swiper-slide>
             <div
               class="swiper-button-prev swiper-button-white"
@@ -154,6 +154,11 @@ export default class ListingCard extends Vue{
     z-index: 1;
     width: 240px;
     border-radius: 10px;
+
+    @include for-phone-only {
+      width: 100%;
+      min-width: 100%;
+    }
   }
   .listing-card-wrapper {
     display: flex;
@@ -165,7 +170,7 @@ export default class ListingCard extends Vue{
     overflow: hidden;
 
     @include for-phone-only {
-      min-width: 220px;
+      min-width: 240px;
     }
 
     &:hover {
@@ -289,6 +294,7 @@ export default class ListingCard extends Vue{
 
       @include for-phone-only {
         height: 154px;
+        max-width: 220px;
       }
     }
 
@@ -517,8 +523,8 @@ export default class ListingCard extends Vue{
     margin-top: 10px;
 
     img {
-      height: 15px;
-      width: 15px;
+      height: 15px !important;
+      width: 15px !important;
       border-radius: 0 !important;
       margin-right: 4px;
     }
@@ -607,7 +613,7 @@ export default class ListingCard extends Vue{
 
 ::v-deep .swiper-slide {
   @include for-phone-only {
-    width: 220 !important;
+    max-width: fit-content;
   }
 }
 
