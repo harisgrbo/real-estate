@@ -666,6 +666,8 @@ export default class Homepage extends Vue {
 
   @include for-phone-only {
     padding: 24px 0px;
+    padding-top: 0;
+    padding-bottom: 150px;
   }
 }
 ::v-deep .listing-card-wrapper {
