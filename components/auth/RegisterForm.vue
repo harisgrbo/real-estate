@@ -53,6 +53,14 @@ import PublishDropdown from "@/components/publishInputs/PublishDropdown"
 
 export default class RegisterForm extends Vue{
 
+  loginPayload = {
+    grant_type: 'password',
+    client_id: 2,
+    client_secret: 'NxQqmRUUd4GWpAkNNwGpCilDYvhuU7E6C0xQSWuU',
+    username: '',
+    password: '',
+  }
+
   userPayload = {
     name: '',
     email: '',
@@ -78,21 +86,21 @@ export default class RegisterForm extends Vue{
     // responseType: 'blob',
   };
 
+  async handlePostRegister() {
+    this.loginPayload.username = this.userPayload.email;
+    this.loginPayload.password = this.userPayload.password;
+
+    await this.$auth.loginWith("local", { data: this.loginPayload });
+    this.$router.push('/');
+  }
+
   // User registration
   handleUserRegistration() {
     this.loading = true;
 
     this.$axios
       .post('/users/register', this.userPayload, this.config)
-      .then(() => {
-        this.$auth.loggedIn;
-        this.$snackbar.show({
-          text: "Uspjesno ste se registrovali!",
-          timeout: 3000,
-          type: "success"
-        });
-        this.loading = false;
-      })
+      .then(this.handlePostRegister)
       .catch(error => {
         this.loading = false;
         if (error.response.status === 422) {
@@ -115,17 +123,7 @@ export default class RegisterForm extends Vue{
 
     this.$axios
       .post('/agencije/register', this.realEstateAgencyPayload, this.config)
-      .then(() => {
-        this.$auth.loggedIn;
-        this.$snackbar.show({
-          text: "Uspjesno ste se registrovali!",
-          timeout: 3000,
-          type: "success"
-        });
-        this.loading = false;
-
-        window.location.href = "/";
-      })
+      .then(this.handlePostRegister)
       .catch(error => {
         this.loading = false;
         if (error.response.status === 422) {
