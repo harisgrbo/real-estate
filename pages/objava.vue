@@ -1650,10 +1650,11 @@ h2.info {
 
   li {
     height: fit-content;
-    padding: 12px;
-    font-size: 16px;
+    padding: 0px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
+    margin-bottom: 24px;
 
     &:hover {
       font-weight: 600;
