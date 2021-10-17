@@ -531,8 +531,8 @@ export default class ListingCard extends Vue{
     margin-top: 10px;
 
     img {
-      height: 15px !important;
-      width: 15px !important;
+      height: 12px !important;
+      width: 12px !important;
       border-radius: 0 !important;
       margin-right: 4px;
     }
@@ -540,12 +540,13 @@ export default class ListingCard extends Vue{
     > div {
       border: 1px solid #ececec;
       border-radius: 15px;
-      height: 30px;
+      height: 25px;
       width: fit-content;
       margin-right: 8px;
       padding: 0 10px;
       font-weight: 500;
       background: #f9f9f9;
+      font-size: 13px;
     }
   }
 
