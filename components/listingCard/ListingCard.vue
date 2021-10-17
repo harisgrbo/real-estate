@@ -24,13 +24,13 @@
             <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
           <img v-else src="/noimage.jpeg" alt="">
-          <label class="publisher shadow-sm sale" v-if="action">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
-            </svg>
-            <span>AKCIJA</span>
-          </label>
+<!--          <label class="publisher shadow-sm sale" v-if="action">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />-->
+<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />-->
+<!--            </svg>-->
+<!--            <span>AKCIJA</span>-->
+<!--          </label>-->
         </div>
         <div class="listing-card-content">
           <div class="flex flex-col justify-between items-start">
@@ -41,23 +41,23 @@
             </div>
             <div class="icons-date">
               <div class="important mt-2">
-                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
-                <p v-if="action" class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+<!--                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>-->
+                <p class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-show="listing.is_booking" class="pl-2">/ noć</p>
               </div>
             </div>
           </div>
-<!--          <div class="addresses">-->
-<!--            <div-->
-<!--              v-for="(attr, index) in specialAttributes"-->
-<!--              :key="index"-->
-<!--              class="flex flex-row items-center mr-2"-->
-<!--            >-->
-<!--              {{ attr.value }}-->
-<!--              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">-->
-<!--              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="addresses">
+            <div
+              v-for="(attr, index) in specialAttributes"
+              :key="index"
+              class="flex flex-row items-center mr-2"
+            >
+              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
+              {{ attr.value }}
+            </div>
+          </div>
         </div>
       </nuxt-link>
       <Snackbar />
@@ -203,7 +203,7 @@ export default class ListingCard extends Vue{
         }
 
         button {
-          font-family: 'Poppins', sans-serif;
+          font-family: 'Lato', sans-serif;
           border: none;
           margin-right: 8px;
           border-radius: 5px;
@@ -422,7 +422,7 @@ export default class ListingCard extends Vue{
           .new {
             font-size: 17px !important;
             font-weight: 600 !important;
-            margin-left: 12px;
+            margin-left: 0px;
           }
         }
 
@@ -514,12 +514,24 @@ export default class ListingCard extends Vue{
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 4px;
+    margin-top: 10px;
 
     img {
-      height: 20px;
-      width: 20px;
+      height: 15px;
+      width: 15px;
       border-radius: 0 !important;
+      margin-right: 4px;
+    }
+
+    > div {
+      border: 1px solid #ececec;
+      border-radius: 15px;
+      height: 30px;
+      width: fit-content;
+      margin-right: 8px;
+      padding: 0 10px;
+      font-weight: 500;
+      background: #f9f9f9;
     }
   }
 

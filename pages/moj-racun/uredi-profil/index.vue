@@ -347,7 +347,7 @@ h2.heading {
             background: #0B8489;
             border-radius: 5px;
             border: none;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Lato', sans-serif;
             color: #fff;
             padding: 8px 12px;
             cursor: pointer;
