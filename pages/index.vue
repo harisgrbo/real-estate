@@ -478,6 +478,10 @@
         let response = await this.$axios.get('/categories');
         this.categories = response.data.data;
 
+        if (this.categories.length) {
+          this.selectCategory(this.categories[0])
+        }
+
         this.loading = false;
       } catch(e) {
         console.log(e)

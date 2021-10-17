@@ -12,7 +12,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
-            {{ category_title !== '' ? category_title : "Kategorije" }}
+            {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
           </button>
 
           <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
@@ -310,7 +310,12 @@ import skeleton from "../components/skeleton";
       }
     }
 
+    let category = categories.find(item => item.id === selectedCategoryId);
+
+    let categoryTitle = category ? category.title: '';
+
     return {
+      categoryTitle,
       selectedTypes,
       allAttributes,
       results,
@@ -348,7 +353,6 @@ export default class Homepage extends Vue {
       id: 3,
     },
   ]
-  category_title = '';
   sort_types = [
     {
       name: "Najniža cijena",
@@ -442,9 +446,6 @@ export default class Homepage extends Vue {
     this.$modal.hide('cats-modal')
 
     this.newSearch();
-
-    this.category_title = cat.title;
-
   }
 
   async saveSearch() {
