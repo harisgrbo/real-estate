@@ -99,7 +99,14 @@
       </div>
     </div>
     <client-only>
-      <modal name="filters" transition="slide-up" :adaptive="true" height="100%" :width="$device.isMobile ? '100%' : '40%'">
+      <modal name="filters"
+             transition="slide-up"
+             :adaptive="true"
+             height="100%"
+             :width="$device.isMobile ? '100%' : '40%'"
+             @before-open="beforeOpen"
+             @before-close="beforeClose"
+      >
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Filteri</h2>
@@ -123,7 +130,6 @@
               @clear="queryPayload[attr.name] = null; newSearch()"
               @input="newSearch"
             />
-
           </div>
         </div>
       </modal>
@@ -157,6 +163,7 @@
                   @clear="queryPayload[attr.id] = null; newSearch()"
                   @input="newSearch"
                 />
+                <ActionButton class="refresh" placeholder="Osvježi" @action="newSearch()"></ActionButton>
 
               </div>
             </div>
@@ -210,10 +217,12 @@ import Snackbar from "@/components/global/Snackbar";
 import Pagination from "@/components/pagination";
 import ListingCard from "../components/listingCard/ListingCard";
 import skeleton from "../components/skeleton";
+import ActionButton from "@/components/actionButtons/ActionButton"
 
 @Component({
   components: {
     ListingCard,
+    ActionButton,
     TextField,
     RangeFilter,
     Pagination,
@@ -391,6 +400,7 @@ export default class Homepage extends Vue {
   openSearchSaveModal() {
     this.$modal.show('save-search');
   }
+
 
   pageChangeHandler(selectedPage) {
     this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage }) });
@@ -666,6 +676,8 @@ export default class Homepage extends Vue {
 
   @include for-phone-only {
     padding: 24px 0px;
+    padding-top: 0;
+    padding-bottom: 150px;
   }
 }
 ::v-deep .listing-card-wrapper {
@@ -814,5 +826,13 @@ export default class Homepage extends Vue {
 
 .types {
   min-width: fit-content;
+}
+
+.refresh {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  width: auto;
 }
 </style>
