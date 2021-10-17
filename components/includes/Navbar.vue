@@ -3,7 +3,7 @@
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'">
-          <img :src="[ $device.isMobile ? '/kucica.svg' : '/placeholder.png']" class="main-logo" height="40" alt="">
+          <img :src="[ $device.isMobile ? '/mojkvadrat.svg' : '/placeholder.png']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
       <div class="input-wrapper"
@@ -76,13 +76,13 @@
           </ul>
           <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
           <ul>
-            <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearch(suggest)">
+            <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearchFromSuggestion(suggest)">
               {{ suggest }}
             </li>
           </ul>
         </div>
       </div>
-      <button v-if="$auth.user && $device.isMobile" class="login notify" @click="$modal.show('notifications')">
+      <button v-if="$auth.user && $device.isMobile" class="login notify relative" @click="$modal.show('notifications')">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="#0B8489">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
@@ -167,6 +167,7 @@ export default class Navbar extends Vue {
   searchInput = ""
   savedSearches = []
   showNotifications = false;
+  notifications = [];
 
   mounted() {
     window.addEventListener("scroll", this.onScroll)
@@ -215,6 +216,9 @@ export default class Navbar extends Vue {
     await this.getSearches()
     await this.getNotifications()
     await this.getUnreadMessagesCount()
+    if(this.$auth.user) {
+      await this.getNotifications()
+    }
   }
 
   async getUnreadMessagesCount()
@@ -264,7 +268,17 @@ export default class Navbar extends Vue {
     this.$router.push('/pretraga?q=[' + q + ']');
   }
 
-  async handleCloseNotifications() {
+  goToSearchFromSuggestion(s) {
+    let words = s.split(' ');
+    words.pop();
+
+    s = words.join(' ');
+
+    let q = buildTitle(s);
+    this.$router.push('/pretraga?q=[' + q + ']');
+  }
+
+    async handleCloseNotifications() {
     try {
       await this.$axios.post('/profile/notifications/read');
     } catch (e) {
@@ -275,6 +289,7 @@ export default class Navbar extends Vue {
   }
 
   async handleClearNotifications() {
+    await this.handleCloseNotifications();
     this.notifications = [];
   }
 
@@ -287,6 +302,18 @@ export default class Navbar extends Vue {
       } catch(e) {
         console.log(e)
       }
+    }
+  }
+
+  async getNotifications() {
+    try {
+      let res = await this.$axios.get('/profile/notifications/unread');
+
+      this.notifications = res.data.data.map(notification => {
+        return notification.data
+      })
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -498,8 +525,13 @@ export default class Navbar extends Vue {
       flex: 0;
     }
 
-    img {
-      height: 40px;
+    @include for-phone-only {
+      img {
+        height: 48px;
+        width: 48px;
+        min-width: 48px;
+        margin-right: 16px;
+      }
     }
 
     &.hide {
@@ -981,6 +1013,26 @@ export default class Navbar extends Vue {
     border-top-right-radius: 15px !important;
     height: calc(100vh - 100px) !important;
     padding-bottom: 180px !important;
+  }
+}
+
+.relative {
+  position: relative;
+
+  .notify {
+    height: 14px;
+    width: 14px;
+    border-radius: 7px;
+    font-weight: 600;
+    color: #fff;
+    background: #D63946;
+    position: absolute;
+    font-size: 10px;
+    top: -1px;
+    left: 25px;
+    text-align: center;
+    line-height: 14px;
+
   }
 }
 </style>

@@ -223,42 +223,48 @@
               </div>
               <ActionButton placeholder="Rezerviši datum" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
-            <div v-if="listing.is_rent">
-              <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
-              <div class="my-20">
-                <TextField type="text" placeholder="opis" v-model="review_description"></TextField>
-                <TextField type="number" placeholder="Rating" v-model="review_rating"></TextField>
-                <button @click="submitReview()">ostavi review</button>
-              </div>
-              <div v-if="listing_reviews.length" class="bg-white">
-                <div>
-                  <h2 class="sr-only">Customer Reviews</h2>
+          </div>
+          <div class="user-wrap">
+            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
+          </div>
+          <div v-if="listing.is_rent" class="px-5">
+            <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
+            <div class="review">
+              <label>Opišite ukratko vaše iskustvo</label>
+              <TextField class="mb-3" type="text" v-model="review_description"></TextField>
+              <label>Ocjena za nekretninu</label>
+              <TextField type="number" placeholder="Ocjena od 1 do 5" v-model="review_rating"></TextField>
+              <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
 
-                  <div v-for="review in listing_reviews" class="-my-10">
-                    <div class="flex text-sm text-gray-500 space-x-4">
-                      <div class="flex-none py-10">
-                        <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
+            </div>
+            <div v-if="listing_reviews.length" class="bg-white">
+              <div>
+                <h2 class="sr-only">Customer Reviews</h2>
+
+                <div v-for="review in listing_reviews">
+                  <div class="flex text-sm text-gray-500 space-x-4">
+                    <div class="flex-none py-10">
+                      <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
+                    </div>
+                    <div class="flex-1 py-10">
+                      <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
+                      <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+
+                      <div class="flex items-center mt-4">
+                        <!--
+                          Heroicon name: solid/star
+
+                          Active: "text-yellow-400", Default: "text-gray-300"
+                        -->
+                        <svg v-for="i in review.rating" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+
+                        <!-- Heroicon name: solid/star -->
                       </div>
-                      <div class="flex-1 py-10">
-                        <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
-                        <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
 
-                        <div class="flex items-center mt-4">
-                          <!--
-                            Heroicon name: solid/star
-
-                            Active: "text-yellow-400", Default: "text-gray-300"
-                          -->
-                          <svg v-for="i in review.rating" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-
-                          <!-- Heroicon name: solid/star -->
-                        </div>
-
-                        <div class="mt-4 prose prose-sm max-w-none text-gray-500">
-                          <p>{{ review.review }}</p>
-                        </div>
+                      <div class="mt-4 prose prose-sm max-w-none text-gray-500">
+                        <p>{{ review.review }}</p>
                       </div>
                     </div>
                   </div>
@@ -266,9 +272,7 @@
               </div>
             </div>
           </div>
-          <div class="user-wrap">
-            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
-          </div>
+
         </div>
         <client-only>
           <modal name="places" :adaptive="true" height="100%">
@@ -619,14 +623,14 @@ export default class Artikal extends Vue {
     }
   }
 
-  submitReview() {
+  async submitReview() {
     try {
-      let res = this.$axios.post(`/listings/${this.$route.params.id}/rent_reviews`, {
+      let res = await this.$axios.post(`/listings/${this.$route.params.id}/rent_reviews`, {
         review: this.review_description,
         rating: this.review_rating,
       })
 
-      this.listing_reviews.push(res);
+      this.listing_reviews.push(res.data.data);
     } catch(e) {
       console.log(e)
     }
@@ -1767,6 +1771,17 @@ export default class Artikal extends Vue {
 .mobile-images {
   background: #f9f9f9;
   min-height: 400px;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
 }
 
 </style>

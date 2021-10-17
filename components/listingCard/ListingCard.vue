@@ -294,7 +294,7 @@ export default class ListingCard extends Vue{
 
       @include for-phone-only {
         height: 154px;
-        max-width: 220px;
+        //max-width: 220px;
       }
     }
 
@@ -613,7 +613,8 @@ export default class ListingCard extends Vue{
 
 ::v-deep .swiper-slide {
   @include for-phone-only {
-    max-width: fit-content;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 

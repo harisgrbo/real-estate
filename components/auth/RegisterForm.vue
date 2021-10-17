@@ -1,6 +1,7 @@
 <template>
   <div class="form-wrapper">
-    <img src="/mobile-img.jpeg" class="image" alt="">
+    <img src="/mojkvadrat.svg" class="logo" alt="" @click="$router.push('/')">
+
 
     <h2 class="mt-4">Registracija</h2>
     <ul class="flex flex-row items-center justify-start bg-gray-50 rounded-md p-2">
@@ -209,6 +210,7 @@ export default class RegisterForm extends Vue{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 
   @include for-phone-only {
     width: 100%;
@@ -292,5 +294,10 @@ button {
 label {
   font-weight: 600;
   font-size: 15px;
+}
+
+.logo {
+  width: 120px;
+  margin: 36px auto;
 }
 </style>

@@ -43,6 +43,11 @@ export default class Auth extends Vue {
   height: 100vh;
   width: 100%;
   overflow: hidden;
+
+  @include for-phone-only {
+    flex-direction: column;
+    align-items: flex-end;
+  }
   .form-wrap {
     display: flex;
     flex-direction: column;
@@ -51,6 +56,7 @@ export default class Auth extends Vue {
 
     @include for-phone-only {
       width: 100%;
+      height: 100%;
     }
     .logo {
       width: 300px;
@@ -121,4 +127,5 @@ img {
     background: linear-gradient(90deg, rgba(19,156,120,1) 0%, rgba(34,201,154,1) 100%);
   }
 }
+
 </style>

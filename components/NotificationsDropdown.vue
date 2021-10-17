@@ -4,7 +4,7 @@
       <h2>Obavijesti</h2>
       <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
     </div>
-    <div class="flow-root flex flex-col justify-between h-full p-4">
+    <div class="flow-root flex flex-col justify-between h-full">
       <ul role="list" class="divide-y divide-gray-200" v-if="notifications.length">
         <li v-for="notification in notifications" class="cursor-pointer w-auto inline-block relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
           <div class="flex justify-between space-x-3">
@@ -81,6 +81,6 @@ export default class NotificationsDropdown extends Vue {
 }
 
 ul, .no-notifications {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 340px);
 }
 </style>

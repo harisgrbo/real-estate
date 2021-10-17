@@ -103,8 +103,8 @@
                 </div>
                 PDV uključen u cijenu
               </div>
-              <div class="switch-wrap ml-0 lg:ml-2 xl:ml-2 up:ml-2">
-                <div class="switch" v-show="notRenting">
+              <div class="switch-wrap ml-0 lg:ml-2 xl:ml-2 up:ml-2" v-show="notRenting">
+                <div class="switch">
                   <input id="switch-2" type="checkbox" v-model="price_per_square" class="switch-input" />
                   <label for="switch-2" class="switch-label">Switch</label>
                 </div>
@@ -223,13 +223,13 @@
                     <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
                     <div class="text-wrapper">
                       <p>{{ option.title }}</p>
-                      <p>{{ option.description }}</p>
+<!--                      <p>{{ option.description }}</p>-->
                     </div>
                   </li>
                 </ul>
               </div>
               <div class="advertising-calculator">
-                <ActionButton placeholder="Dopuni kredit" :style-options="{ border: '1px solid #000', color: '#000', borderRadius: '8px', height: '58px', marginTop: '36px' }"></ActionButton>
+                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>
               </div>
             </div>
 
@@ -955,6 +955,12 @@ export default class Objava extends Vue {
       position: relative;
       width: 100%;
 
+      .step-3 {
+        ::v-deep input {
+          padding-right: 16px !important;
+        }
+      }
+
       .step-1,
       .step-2,
       .step-3,
@@ -1359,6 +1365,7 @@ h2.info {
 .advertising-options-wrapper {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 
   @include for-phone-only {
     flex-direction: column;
@@ -1368,6 +1375,7 @@ h2.info {
     display: flex;
     flex-direction: column;
     height: fit-content;
+    width: 100%;
 
     ul {
       display: flex;
@@ -1376,7 +1384,7 @@ h2.info {
 
       @include for-phone-only {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         grid-column-gap: 12px;
         grid-row-gap: 12px;
       }
@@ -1392,7 +1400,7 @@ h2.info {
 
         @include for-phone-only {
           height: fit-content;
-          flex-direction: column;
+          flex-direction: row;
         }
 
         img {
@@ -1400,7 +1408,7 @@ h2.info {
           height: 30px;
 
           @include for-phone-only {
-            margin-right: 0;
+            margin-right: 16;
           }
 
           &.main {
