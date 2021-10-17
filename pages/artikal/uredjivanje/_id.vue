@@ -707,6 +707,12 @@ export default class ListingEdit extends Vue {
       padding-top: 24px;
     }
 
+    .step-3 {
+      input {
+        padding-right: 16px;
+      }
+    }
+
     .step-1,
     .step-2,
     .step-3 {

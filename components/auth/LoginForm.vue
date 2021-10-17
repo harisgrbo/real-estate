@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <img src="/mobile-img.jpeg" class="image" alt="">
+    <img src="/mobile-img.jpeg" class="l" alt="">
 
     <h2 class="mt-4">Dobrodošli!</h2>
     <form @submit.prevent="handleLogin">

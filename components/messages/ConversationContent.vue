@@ -56,7 +56,7 @@ export default class ConversationContent extends Vue {
   overflow: auto;
 
   @include for-phone-only {
-    height: calc(100vh - 248px);
+    height: calc(100vh - 475px);
   }
 }
 .conversation-wrapper {
@@ -138,7 +138,7 @@ export default class ConversationContent extends Vue {
     margin-bottom: 8px;
 
     @include for-phone-only {
-      padding: 6px;
+      padding: 12px;
     }
 
     .message-info {

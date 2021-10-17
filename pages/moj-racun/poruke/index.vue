@@ -1,6 +1,6 @@
 <template>
   <div class="message-wrapper mx-auto w-full">
-    <ul class="breadcrumbs">
+    <ul class="breadcrumbs" v-if="!$device.isMobile">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
         <font-awesome-icon icon="angle-right"></font-awesome-icon>
@@ -9,7 +9,7 @@
     </ul>
     <div class="content">
       <div class="conversation-list">
-        <div class="search-wrapper">
+        <div class="search-wrapper" v-if="!$device.isMobile">
           <input type="text">
         </div>
         <div class="heading-inner">
@@ -44,15 +44,19 @@
           </div>
         </div>
         <div class="main-input-wrapper">
+          <div>
+
+          </div>
           <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
           <div class="buttons">
             <div class="flex items-center justify-start">
               <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
-              <font-awesome-icon icon="paperclip"></font-awesome-icon>
+<!--              <font-awesome-icon icon="paperclip"></font-awesome-icon>-->
               <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
             </div>
-            <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @action="sendMessage"></ActionButton>
           </div>
+          <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @action="sendMessage"></ActionButton>
+
         </div>
       </div>
     </div>
@@ -75,13 +79,11 @@
                 <input type="text" placeholder="Upišite poruku.." v-model="messageContent" @keyup.enter="sendMessage">
                 <div class="buttons">
                   <font-awesome-icon @click="showEmoji = !showEmoji" icon="grin"></font-awesome-icon>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" @click="sendMessage" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                  </svg>
+<!--                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />-->
+<!--                  </svg>-->
+                  <ActionButton icon="paper-plane" class="send" placeholder="Pošalji" @action="sendMessage"></ActionButton>
                   <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
                 </div>
               </div>
@@ -274,6 +276,8 @@ export default class poruke extends Vue {
     @include for-phone-only {
       padding: 12px;
       height: calc(100vh - 76px);
+      max-width: 100%;
+      background: #fff;
     }
   }
   .content {
@@ -421,6 +425,10 @@ export default class poruke extends Vue {
   .messages-wrap {
     height: 100%;
 
+    @include for-phone-only {
+      height: calc(100vh - 290px);
+    }
+
   }
 
 
@@ -464,13 +472,13 @@ export default class poruke extends Vue {
     box-sizing: border-box;
     height: fit-content;
     position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    border: 1px solid #ececec;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    border-top: 1px solid #ececec;
     border-radius: 7px;
     padding: 12px;
-    background: #f9f9f9;
+    background: #fff;
 
     .buttons {
       width: 100%;
@@ -494,10 +502,10 @@ export default class poruke extends Vue {
       border: none;
       background: transparent;
       font-size: 15px;
-      background: #fff;
       border-radius: 7px;
       padding: 0 12px;
       margin-bottom: 12px;
+      background: #f9f9f9;
 
       &::placeholder {
         color: #8e8e8e;
@@ -584,5 +592,34 @@ export default class poruke extends Vue {
   }
 }
 
+.send {
+  font-family: 'Lato', sans-serif;
+  height: 48px;
+  border-radius: 4px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 24px;
+  color: #fff;
+  cursor: pointer;
+  justify-content: center;
+  transition: 0.3s all ease;
+  background: hsla(218, 34%, 30%, 1);
+
+  background: radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+
+  background: -moz-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+
+  background: -webkit-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+  color: #fff !important;
+
+}
+
+.modal-content {
+
+
+}
 
 </style>

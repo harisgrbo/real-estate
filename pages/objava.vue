@@ -955,6 +955,12 @@ export default class Objava extends Vue {
       position: relative;
       width: 100%;
 
+      .step-3 {
+        ::v-deep input {
+          padding-right: 16px !important;
+        }
+      }
+
       .step-1,
       .step-2,
       .step-3,

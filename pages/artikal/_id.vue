@@ -56,11 +56,12 @@
                 <img src="/noimage.jpeg" alt="">
               </div>
             </div>
-            <div v-else>
+            <div v-else class="mobile-images">
               <client-only v-if="images.length >= 1">
                 <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
                   <swiper-slide v-for="(img, index) in images" :key="index">
-                    <img :src="img.url" alt="">
+                    <img class="swiper-lazy" :src="img.url" alt="" @click="openGallery(index)">
+                    <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                   </swiper-slide>
                   <div
                     class="swiper-button-prev swiper-button-white"
@@ -72,21 +73,19 @@
                   ></div>
                   <div class="swiper-pagination" slot="pagination"></div>
                 </swiper>
-              </client-only>
-              <div v-else class="no-image-grid">
-                <img src="/noimage.jpeg" alt="">
-              </div>
-              <client-only>
                 <light-box
                   ref="lightbox"
                   :media="lightboxImages"
                   :show-light-box="false"
                   :show-thumbs="true"
                   close-text="function() {
-                  return 'Zatvori galeriju'
-                  }"
+                return 'Zatvori galeriju'
+                }"
                 />
               </client-only>
+              <div v-else class="no-image-grid">
+                <img src="/noimage.jpeg" alt="">
+              </div>
             </div>
             <div class="mb-6 px-5 mobile-content">
               <div class="article-title">
@@ -141,7 +140,7 @@
             <div class="separator"></div>
             <div class="px-5">
               <h2 class="text-xl font-medium text-gray-900">
-                Detaljne informacije
+                Informacije o nekretnini
               </h2>
               <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 up:grid-cols-4 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
@@ -160,7 +159,7 @@
                 </li>
               </ul>
             </div>
-            <div class="mt-6 mx-5">
+            <div class="mt-6 mx-5" v-if="checkboxAttributes.length">
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
@@ -182,7 +181,7 @@
               </ul>
             </div>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6 mx-5">Detaljni opis</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6 mx-5">Opis</h2>
             <p class="description mx-5">{{ listing.description }}</p>
             <div class="separator"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Pogledajte šta se nalazi u blizini nekretnine</h2>
@@ -192,7 +191,7 @@
               </ul>
               <div class="mt-3">
                 <div class="places-grid bg-gray-50" v-if="selectedPlace !== null">
-                  <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
+                  <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start mb-4">
                     <img :src="p.icon" :alt="p.name" class="mr-2">
                     {{ p.name }}</div>
                 </div>
@@ -289,7 +288,7 @@
                     </li>
                   </ul>
                   <div class="mt-3">
-                    <div class="places-grid bg-gray-50" v-if="selectedPlace !== null">
+                    <div class="places-grid" v-if="selectedPlace !== null">
                       <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
                         <img :src="p.icon" :alt="p.name" class="mr-2">
                         {{ p.name }}
@@ -515,7 +514,14 @@ export default class Artikal extends Vue {
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
-    }
+    },
+    preloadImages: false,
+    lazy: {
+      //  tell swiper to load images before they appear
+      loadPrevNext: true,
+      // amount of images to load
+      loadPrevNextAmount: 2,
+    },
   }
 
   get dates() {
@@ -1321,8 +1327,8 @@ export default class Artikal extends Vue {
   z-index: 3;
   width: 100%;
   button {
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1378,6 +1384,11 @@ export default class Artikal extends Vue {
   }
 }
 
+::v-deep .swiper {
+  @include for-phone-only {
+    min-height: 400px;
+  }
+}
 @include for-phone-only {
   .mobile-img {
     height: 400px;
@@ -1414,6 +1425,52 @@ export default class Artikal extends Vue {
 .scroller-position {
   height: 60px;
 }
+.places-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 24px;
+  grid-row-gap: 32px;
+  border-radius: 8px;
+  padding: 32px 0;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  > div {
+    line-height: 20px;
+    font-size: 14px;
+
+    img {
+      height: 20px !important;
+      max-height: 20px !important;
+    }
+  }
+
+  .places-heading {
+    display: flex;
+    align-items: center;
+    justfiy-content: flex-start;
+    margin-bottom: 12px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f1f1f1;
+
+    h1 {
+      margin-left: 12px;
+      font-size: 17px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    svg {
+      font-sizee: 20px;
+      color: #444;
+      padding: 12px;
+      background: #f1f1f1;
+      border-radius: 8px;
+    }
+  }
+}
 
 .places {
   display: flex;
@@ -1427,13 +1484,17 @@ export default class Artikal extends Vue {
     padding: 16px;
     border-radius: 8px;
 
+    @include for-phone-only {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
     > div {
       line-height: 20px;
       font-size: 14px;
 
       img {
-        height: 20px;
-        max-height: 20px;
+        height: 20px !important;
+        max-height: 20px !important;
       }
     }
 
@@ -1656,7 +1717,7 @@ export default class Artikal extends Vue {
   height: 30px;
   max-height: 30px;
   width: 30px;
-  border-radius: 15px;
+  border-radius: 7px;
   padding: 0 !important;
   display: flex;
   align-items: center;
@@ -1703,6 +1764,10 @@ export default class Artikal extends Vue {
   margin: 0 16px 16px 16px;
 }
 
+.mobile-images {
+  background: #f9f9f9;
+  min-height: 400px;
+}
 
 </style>
 
