@@ -24,12 +24,6 @@ export default class CategoryFilter extends Vue {
     type: Array
   }) categories;
 
-
-  @Prop({
-    required: true,
-    type: Array
-  }) aggregations;
-
   @Prop({
     required: false
   }) filter;
@@ -37,10 +31,6 @@ export default class CategoryFilter extends Vue {
   handleChange(e, id) {
     let data = this.buildValue("match", id, "category_id");
     this.$emit("input", data);
-  }
-
-  agg(key) {
-    return this.aggregations.find(item => item.key === key).doc_count;
   }
 };
 </script>

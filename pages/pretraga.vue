@@ -85,18 +85,15 @@
         </button>
       </div>
       <div class="results">
-        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap" v-if="results_loaded">
+        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
-        </div>
-        <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap" v-else>
-          <skeleton v-for="i in 20"></skeleton>
         </div>
         <client-only>
           <Pagination
             ref="pagination"
             v-show="meta.total > 20"
             :current-page="page"
-            :total-pages="last_page"
+            :total-pages="lastPage"
             @page-change="pageChangeHandler" />
         </client-only>
       </div>
@@ -114,7 +111,6 @@
               :attr="false"
               :filter="{name: 'price', display_name: 'Cijena'}"
               @input="newSearch"
-              :avg-price="meta.price"
             />
 
             <component
@@ -239,7 +235,6 @@ import skeleton from "../components/skeleton";
     };
     let allAttributes = [];
     let queryPayload = {};
-    let results_loaded = false;
     let categories = [];
     let selectedCategoryId = null;
 
@@ -248,11 +243,12 @@ import skeleton from "../components/skeleton";
       page = ctx.route.query.page || '1';
       page = parseInt(page)
 
-      results_loaded = false;
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}`)
         results = response.data.data;
         meta = response.data.meta;
+        allAttributes = response.data.meta.attributes;
+
         query = JSON.parse(query)
 
         query.forEach(item => {
@@ -262,21 +258,6 @@ import skeleton from "../components/skeleton";
 
           queryPayload[item.name] = Object.assign({}, item);
         });
-
-        results_loaded = true;
-
-
-        try {
-          let res = await ctx.app.$axios.get('/attributes');
-
-          allAttributes = res.data.data.map(item => {
-            item.type = item.attr_type;
-
-            return item;
-          }).concat(meta.attributes)
-        } catch (e) {
-          console.log(e);
-        }
       } catch (e) {
         console.log(e)
         // @TODO: Error handling
@@ -298,7 +279,7 @@ import skeleton from "../components/skeleton";
       lp += 1;
     }
 
-    let last_page = parseInt(lp);
+    let lastPage = parseInt(lp);
 
     let selectedTypes = [];
 
@@ -322,8 +303,7 @@ import skeleton from "../components/skeleton";
       meta,
       queryPayload,
       page,
-      results_loaded,
-      last_page,
+      lastPage,
       categories,
       selectedCategoryId
     }

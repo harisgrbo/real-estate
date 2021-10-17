@@ -8,7 +8,7 @@
         v-for="option in filter.values"
         :class="options.indexOf(option) >= 0 ? 'active': ''"
         @click="handleChange($event, option)"
-      >{{ option }} ({{ aggregationFor(option) }})</button>
+      >{{ option }}</button>
     </div>
   </div>
 </template>
@@ -38,17 +38,6 @@ export default class TermsFilter extends Vue {
       console.log("clear");
       this.clear();
     }
-  }
-
-  aggregationFor(key) {
-    if (this.filter.buckets) {
-      let obj = this.filter.buckets.find(item => item.key === key);
-      if (obj) {
-        return obj.doc_count;
-      }
-    }
-
-    return 0;
   }
 
   toggleOption(option) {

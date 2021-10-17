@@ -3,11 +3,11 @@
     <label>
       {{ displayName }}
     </label>
-    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4" v-if="avgPrice">
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4" v-if="false">
       <div class="flex">
         <div class="ml-3">
           <p class="text-sm text-yellow-700">
-            Prosječna cijena nekretnine za izabranu kategoriju je {{ parseInt(avgPrice).toLocaleString() }}
+            Prosječna cijena nekretnine za izabranu kategoriju je {{ /*parseInt(avgPrice).toLocaleString()*/ }}
           </p>
         </div>
       </div>
