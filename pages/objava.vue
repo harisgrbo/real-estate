@@ -361,7 +361,7 @@ export default class Objava extends Vue {
 
   sendImages(file, xhr, formData) {
     if (! this.primarySent) {
-      formData.append('primary', true);
+      formData.append('primary', 1);
       this.primarySent = true;
     }
 
@@ -476,6 +476,10 @@ export default class Objava extends Vue {
       this.listingId = response.data.data.id;
     } catch (e) {
       console.log(e)
+
+      alert("Objava je neuspjela, pokusajte ponovo");
+
+      location.reload();
     }
   }
 

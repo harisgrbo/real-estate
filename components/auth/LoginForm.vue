@@ -34,12 +34,6 @@ export default class LoginForm extends Vue{
   }
   loading = false;
 
-  handleEnter(e) {
-    if (e.code === 'Enter') {
-      this.handleLogin();
-    }
-  }
-
   async handleLogin() {
     this.loading = true;
 
