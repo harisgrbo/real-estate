@@ -1,5 +1,5 @@
 <template>
-  <aside class="ml-6 sticky-top">
+  <aside class="ml-0 lg:ml-6 xl:ml-6 up:ml-6 sticky-top">
     <div class="main-user-wrapper">
       <div class="flex flex-row">
         <div class="flex w-14 h-14 items-center justify-center rounded-full overflow-hidden">
@@ -30,7 +30,7 @@
 <!--        </button>-->
       </div>
 
-      <div class="rent" v-if="isRent">
+      <div class="rent" v-if="isBooking && !$device.isMobile">
         <client-only>
           <form @submit.prevent>
             <div class="flex flex-row items-center mb-4 price-wrap">
@@ -106,7 +106,7 @@
                 </template>
               </vc-date-picker>
             </div>
-            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji"></ActionButton>
           </form>
         </client-only>
       </div>
@@ -126,7 +126,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>
@@ -153,6 +153,7 @@ export default class UserProfile extends Vue {
   @Prop({}) user;
   @Prop({}) followed;
   @Prop({}) isRent;
+  @Prop({}) isBooking;
   @Prop({}) type;
   @Prop() id;
   @Prop() price;
@@ -321,8 +322,19 @@ export default class UserProfile extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 aside {
   width: 360px;
+
+  @include for-phone-only {
+    width: 100%;
+  }
 
   .contact {
     margin-top: 12px;
@@ -355,8 +367,15 @@ aside {
   padding: 24px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
 
+  @include for-phone-only {
+    box-shadow: none;
+    border: none;
+    padding: 16px;
+  }
+
   img {
     height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -375,5 +394,20 @@ aside {
 .sticky-top {
   position: sticky;
   top: 100px;
+}
+
+textarea {
+  height: 300px;
+  font-weight: 500;
+  color: #000;
+  font-size: 18px;
+  border: none;
+  background: #f9f9f9;
+
+  &:focus {
+    outline: none;
+    border: 2px solid #000;
+    background: #fff;
+  }
 }
 </style>

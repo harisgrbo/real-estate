@@ -51,7 +51,7 @@
               <font-awesome-icon icon="paperclip"></font-awesome-icon>
               <VEmojiPicker v-if="showEmoji" @select="selectEmoji" v-on-clickaway="away" />
             </div>
-            <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @click="sendMessage"></ActionButton>
+            <ActionButton icon="paper-plane" class="last" placeholder="Pošalji" @action="sendMessage"></ActionButton>
           </div>
         </div>
       </div>

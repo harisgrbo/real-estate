@@ -2,9 +2,6 @@
     <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
       <label class="publisher shadow-sm">
         <span class="flex flex-row items-center">{{ translateType() }}
-          <div v-if="listing.sponsored === 2 || listing.sponsored === 1" class="red-label ml-2">
-             Sponzorisan
-          </div>
         </span>
       </label>
       <div class="blured-background">
@@ -43,10 +40,10 @@
               </p>
             </div>
             <div class="icons-date">
-              <div class="important">
+              <div class="important mt-2">
                 <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-if="action" class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
-                <p v-show="type === 'rent'" class="pl-2">/ noćenje</p>
+                <p v-show="listing.is_booking" class="pl-2">/ noć</p>
               </div>
             </div>
           </div>
@@ -57,6 +54,8 @@
 <!--              class="flex flex-row items-center mr-2"-->
 <!--            >-->
 <!--              {{ attr.value }}-->
+<!--              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">-->
+<!--              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">-->
 <!--            </div>-->
 <!--          </div>-->
         </div>
@@ -89,7 +88,7 @@ export default class ListingCard extends Vue{
   specialAttributes = [];
   specialAttributesKeys = [
     "Broj soba",
-    "Godina izgradnje"
+    "Sprat"
   ];
   swiperOptionCard = {
     spaceBetween: 0,
@@ -117,7 +116,7 @@ export default class ListingCard extends Vue{
       return 'Potražnja'
     } else if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
-    } else if(this.listing.listing_type.shortname === 'rent-for-a-day'){
+    } else if(this.listing.listing_type.shortname === 'booking'){
       return 'Stan na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
       return 'Iznajmljivanje'
@@ -137,6 +136,8 @@ export default class ListingCard extends Vue{
 
 
   created() {
+
+    console.log(this.listing, 'listing')
     this.specialAttributes = this.getSpecialAttributes().slice();
   }
 }
@@ -163,6 +164,10 @@ export default class ListingCard extends Vue{
     max-width: fit-content;
     overflow: hidden;
 
+    @include for-phone-only {
+      min-width: 220px;
+    }
+
     &:hover {
       .swiper-button-prev,
       .swiper-button-next {
@@ -174,7 +179,7 @@ export default class ListingCard extends Vue{
       position: absolute;
       left: 8px;
       top: 8px;
-      border-radius: 7px;
+      border-radius: 4px;
       background: #fff;
       color: #444;
       display: flex;
@@ -182,11 +187,9 @@ export default class ListingCard extends Vue{
       justify-content: center;
       width: fit-content;
       height: 24px;
-      padding: 0 2px;
-      padding-left: 4px;
+      padding: 0 4px;
       font-size: 12px;
       font-weight: 600;
-
       z-index: 2;
 
       &.type {
@@ -255,6 +258,10 @@ export default class ListingCard extends Vue{
           bottom: 108px;
           top: 232px;
           width: 150px;
+
+          @include for-phone-only {
+            top: 102px;
+          }
         }
       }
 
@@ -306,9 +313,10 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 500 !important;
+          font-weight: 400 !important;
           font-size: 16px !important;
           line-height: 20px !important;
+
         }
 
       }
@@ -321,9 +329,12 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           font-weight: 500 !important;
+           font-weight: 400 !important;
            font-size: 17px;
            line-height: 20px !important;
+           @include for-phone-only {
+             font-weight: 500 !important;
+           }
          }
         }
 
@@ -369,11 +380,10 @@ export default class ListingCard extends Vue{
         }
 
         .price {
-          font-weight: 400 !important;
-          font-size: 15px !important;
-          color: #444;
+          font-weight: 600 !important;
+          font-size: 17px !important;
+          color: #000;
           line-height: 20px;
-          margin-top: 8px;
 
           @include for-phone-only {
             font-size: 13px;
@@ -400,15 +410,19 @@ export default class ListingCard extends Vue{
 
         .important {
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
 
           p {
-            font-size: 12px;
+            font-size: 16px !important;
+            font-weight: 400;
           }
 
           .new {
-            font-size: 13px !important;
+            font-size: 17px !important;
+            font-weight: 600 !important;
+            margin-left: 12px;
           }
         }
 
@@ -492,12 +506,6 @@ export default class ListingCard extends Vue{
     }
   }
 
-  .new {
-    margin-left: 12px !important;
-    font-weight: bold !important;
-    font-size: 16px !important;
-    color: #444;
-  }
 
   .addresses {
     font-size: 14px;
@@ -506,7 +514,13 @@ export default class ListingCard extends Vue{
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 10px;
+    margin-top: 4px;
+
+    img {
+      height: 20px;
+      width: 20px;
+      border-radius: 0 !important;
+    }
   }
 
   .sponsored-label {
@@ -543,6 +557,11 @@ export default class ListingCard extends Vue{
   display: none;
   transition: 0.3s all ease;
 
+  @include for-phone-only {
+    display: flex;
+    background: rgba(241, 241, 241, 0.48);
+  }
+
   &::after {
     font-size: 13px !important;
     line-height: 13px !important;
@@ -550,17 +569,17 @@ export default class ListingCard extends Vue{
 }
 
 ::v-deep .swiper-pagination-bullet {
-  width: 14px !important;
-  height: 14px !important;
+  width: 10px !important;
+  height: 10px !important;
   border: 2px solid rgb(255, 255, 255) !important;
-  background: transparent !important;
+  background: #fff !important;
   opacity: 0.8 !important;
 }
 ::v-deep .swiper-pagination-bullet-active {
-  width: 14px !important;
-  height: 14px !important;
+  width: 10px !important;
+  height: 10px !important;
   border: 3px solid white !important;
-  background: transparent !important;
+  background: #fff !important;
   opacity: 1 !important;
 }
 
@@ -571,6 +590,12 @@ export default class ListingCard extends Vue{
 ::v-deep .swiper-slide.active {
   @include for-phone-only {
     width: 100% !important;
+  }
+}
+
+::v-deep .swiper-slide {
+  @include for-phone-only {
+    width: 220 !important;
   }
 }
 

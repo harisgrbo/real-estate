@@ -1,12 +1,12 @@
 <template>
-  <div :class="['navbar-wrapper w-full px-20 shadow-sm overflow-x-hidden max-w-full', this.$route.name === 'index' ? 'only-index' : '']">
+  <div :class="['navbar-wrapper w-full lg:px-20 xl:px-20 up:px-20 lg:shadow-sm xl:shadow-sm up:shadow-sm sm:shadow-none max-w-full sm:px-4', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'">
-          <img :src="[ $device.isMobile ? '/mobile1.png' : '/placeholder.png']" class="main-logo" height="40" alt="">
+          <img :src="[ $device.isMobile ? '/kucica.svg' : '/placeholder.png']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
-      <div v-if="this.$route.name !== 'index'" class="input-wrapper"
+      <div class="input-wrapper"
            @focusin="focused = true"
            :class="[ focused? 'focused' : '']"
            v-on-clickaway="away"
@@ -18,15 +18,18 @@
           <p>Pretraži</p>
         </button>
         <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']" v-if="$device.isMobile">
-          <i class="material-icons">search</i>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
         </button>
         <input type="text"
                ref="search"
                v-model="searchInput"
                @keyup.enter="search"
                @input="showSuggests"
+               placeholder="Npr. stan Sarajevo.."
         >
-        <span class="relative z-0 inline-flex rounded-md border border-gray-200"  v-if="selectedCategory !== null">
+        <span class="relative z-0 inline-flex rounded-md border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">
           <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
             {{ selectedCategory.title }}
           </div>
@@ -36,7 +39,7 @@
             </svg>
           </div>
         </span>
-        <span class="relative z-0 inline-flex rounded-md border border-gray-800"  v-if="selectedType !== null">
+        <span class="relative z-0 inline-flex rounded-md border border-gray-800 selected-cat-type"  v-if="selectedType !== null">
           <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
             {{ selectedType.title }}
           </div>
@@ -52,11 +55,16 @@
         <!-- Autocomplete dropdown -->
         <div class="autocomplete-dropdown" v-if="focused === true">
           <div class="quick-filters">
-            <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
-              Kategorija
-            </button>
-            <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Vrsta oglasa
+            <div class="flex flex-row items-center">
+              <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
+                {{ selectedCategory !== null ? selectedCategory.title : 'Kategorija' }}
+              </button>
+              <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{ selectedType !== null ? selectedType.title : 'Vrsta oglasa' }}
+              </button>
+            </div>
+            <button @click="selectedType = null; selectedCategory = null" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Očisti filtere
             </button>
           </div>
           <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>
@@ -74,7 +82,13 @@
           </ul>
         </div>
       </div>
-      <div class="auth-buttons">
+      <button v-if="$auth.user && $device.isMobile" class="login notify" @click="$modal.show('notifications')">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="#0B8489">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+        <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
+      </button>
+      <div class="auth-buttons" v-if="!$device.isMobile">
         <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
@@ -111,6 +125,11 @@
     <client-only>
       <modal name="type" :adaptive="true" height="100%">
         <ListingType @selected-type="handleSelectedType" @close="$modal.hide('type')"></ListingType>
+      </modal>
+    </client-only>
+    <client-only>
+      <modal name="notifications" :adaptive="true" height="100%">
+        <NotificationsDropdown :notifications="notifications" @close-notifications="$modal.hide('notifications')" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
       </modal>
     </client-only>
   </div>
@@ -426,6 +445,12 @@ export default class Navbar extends Vue {
   background: #fff;
   box-sizing: border-box;
 
+  @include for-phone-only {
+    padding: 0 16px;
+    border-bottom: none;
+    background: #fff !important;
+  }
+
   .second-row {
     display: flex;
     align-items: center;
@@ -471,7 +496,6 @@ export default class Navbar extends Vue {
     @include for-phone-only {
       width: fit-content;
       flex: 0;
-      margin-right: 8px;
     }
 
     img {
@@ -499,11 +523,11 @@ export default class Navbar extends Vue {
 
     @include for-phone-only {
       box-sizing: border-box;
-      padding: 0 8px;
+      background: #f9f9f9;
     }
 
     &.focused {
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0px 8px 20px rgba(0,0,0,0.09);
       border-radius: 8px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
@@ -515,6 +539,9 @@ export default class Navbar extends Vue {
         right: 0px;
         background: #fff;
         top: 0px;
+        border: none;
+        height: 60px;
+
       }
     }
     input {
@@ -574,7 +601,7 @@ export default class Navbar extends Vue {
       min-width: 100%;
       right: -1px;
       box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 12px;
-      z-index: 999;
+      z-index: 99;
       left: -1px;
       height: fit-content;
       min-height: 0;
@@ -584,19 +611,20 @@ export default class Navbar extends Vue {
       border-bottom: 1px solid #eaeaea;
 
       @include for-phone-only {
-        padding: 8px;
-        padding-top: 8px;
+        padding: 16px;
+        padding-top: 16px;
+        top: 60px;
       }
 
       .quick-filters {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         width: 100%;
 
         button {
-          border: 1px solid #eaeaea;
-          border-radius: 5px;
+          border: 1px solid #023246;
+          border-radius: 4px;
 
           &:hover {
             background: #f9f9f9;
@@ -855,6 +883,11 @@ export default class Navbar extends Vue {
       height: 30px;
       width: 30px;
       margin-right: 8px;
+      background: #023246 !important;
+
+      svg {
+        color: #fff !important
+      }
     }
 
     p {
@@ -921,9 +954,23 @@ export default class Navbar extends Vue {
   box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
   transition: 0.3s all ease;
 
+  @include for-phone-only {
+    right: -100vw;
+  }
+
   &.extend {
     right: 0;
     width: 400px;
+
+    @include for-phone-only {
+      width: 100vw;
+      right: 0 !important;
+    }
+  }
+}
+.selected-cat-type {
+  @include for-phone-only {
+    display: none;
   }
 }
 </style>

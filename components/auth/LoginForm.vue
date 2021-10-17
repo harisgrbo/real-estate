@@ -1,14 +1,16 @@
 <template>
   <div class="form-wrapper">
-    <h2>Prijava</h2>
+    <img src="/mobile-img.jpeg" class="image" alt="">
+
+    <h2 class="mt-4">Dobrodošli!</h2>
     <form @submit.prevent="handleLogin">
       <label for="">Email</label>
-      <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4 mt-1"></TextField>
+      <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4 mt-3"></TextField>
       <label for="">Password</label>
-      <TextField type="password" placeholder="Lozinka" v-model="payload.password" class="mt-1"></TextField>
-      <ActionButton type="submit" placeholder="Prijavi se" :loading="loading"></ActionButton>
-      <nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
+      <TextField type="password" placeholder="Lozinka" v-model="payload.password" class="mt-3"></TextField>
+      <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
+    <nuxt-link class="mt-xl" :to="{ path: '/auth/register' }">Nemaš račun? Registruj se</nuxt-link>
     <Snackbar />
   </div>
 </template>
@@ -90,6 +92,12 @@ export default class LoginForm extends Vue{
   flex-direction: column;
   justify-content: space-between;
 
+  @include for-phone-only {
+    width: 100%;
+    padding: 24px 16px;
+
+  }
+
   ::v-deep input {
     border: 1px solid #ddd;
     background: #fff;
@@ -99,7 +107,7 @@ export default class LoginForm extends Vue{
   }
 
   ::v-deep ::placeholder {
-    font-weight: 600;
+    font-weight: 500;
     font-size: 14px;
     color: #8d8d8d;
   }
@@ -113,11 +121,21 @@ export default class LoginForm extends Vue{
     text-decoration: none;
     color: #000 !important;
     text-align: center;
-    font-weight: 600;
-    width: fit-content;
+    font-weight: 500;
     font-size: 16px;
     margin: 0 auto;
-    margin-top: 26px;
+    margin-top: 42px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      cursor: pointer;
+      background: #f9f9f9;
+      border-radius: 7px;
+    }
   }
 }
 
@@ -130,5 +148,6 @@ button {
 label {
   font-weight: 600;
   font-size: 15px;
+  padding-bottom: 8px !important;
 }
 </style>

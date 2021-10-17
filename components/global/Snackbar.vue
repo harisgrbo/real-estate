@@ -54,7 +54,7 @@ export default {
       this.options = options;
       this.type = options.type;
       this.show = true;
-      this.close(this.options.closeWait || 3000);
+      this.close(this.options.closeWait || 5000);
     });
   },
   methods: {
@@ -77,6 +77,8 @@ export default {
 
 .snackbar {
   z-index: 9999 !important;
+  bottom: inherit !important;
+  top: 0px !important;
 }
 
 .snackbar.success {

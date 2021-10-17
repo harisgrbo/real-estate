@@ -1,5 +1,5 @@
 <template>
-  <div ref="home" :class="['home-wrapper', $route.name === 'objava.vue' || $route.name === 'artikal-id' ? 'objava.vue' : '']">
+  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'artikal-id' ? 'objava' : '']">
     <div
       class="header"
       :class="{ 'navbar--hidden': !showNavbar }"
@@ -15,6 +15,16 @@
     >
       <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>
+    <client-only>
+      <modal name="sidebar" :adaptive="true" height="100%">
+        <div class="modal-inner">
+<!--          <i class="material-icons" @click.prevent="$modal.hide('sidebar')">close</i>-->
+          <div class="modal-content">
+            <sidenav></sidenav>
+          </div>
+        </div>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -84,7 +94,7 @@ export default class Mobile extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 62px !important;
+  padding-top: 82px !important;
   &.artikal-page {
     padding-top: 0 !important;
   }
@@ -144,6 +154,19 @@ export default class Mobile extends Vue {
   }
 }
 
+.objava {
+  padding-top: 0 !important;
+}
+
+::v-deep .vm--modal {
+  @include for-phone-only {
+    top: 110px !important;
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    height: calc(100vh - 100px) !important;
+    padding-bottom: 180px !important;
+  }
+}
 
 </style>
 

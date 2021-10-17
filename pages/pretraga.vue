@@ -1,16 +1,29 @@
 <template>
   <div class="search-wrapper w-full relative flex flex-col">
-    <div class="search-heading px-20 py-4 my-4 sticky">
+    <div class="search-heading lg:px-20 xl:px-20 up:px-20 sm:px-5 py-4 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="border-b border-gray-200">
       </div>
       <div class="w-full">
-        <div class="flex flex-row w-full items-center justify-between border-b border-gray-200">
-          <ul class="category-list w-full">
+        <div class="flex flex-row w-full items-center justify-between border-b border-gray-200 px-5">
+          <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
           </ul>
+          <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+            {{ category_title !== '' ? category_title : "Kategorije" }}
+          </button>
+
+          <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+            Filteri</button>
+
           <div class="flex items-center justify-end">
             <div class="relative inline-block text-left filteri">
-              <div @click="showSortDropdown = !showSortDropdown">
+              <div @click="showSortDropdown = !showSortDropdown" v-if="!$device.isMobile">
                 <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
@@ -34,7 +47,7 @@
               <button @click="showTypeDropdown = !showTypeDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
 
-                <span class="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes.length }}</span>
+                <span class="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes && selectedTypes.length ? selectedTypes.length : '0' }}</span>
                 <!-- Heroicon name: solid/chevron-down -->
                 <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showTypeDropdown ? 'transform rotate-180': '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -51,11 +64,7 @@
                 </form>
               </div>
             </div>
-            <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-              </svg>
-              Filteri</button>
+
           </div>
         </div>
       </div>
@@ -64,9 +73,19 @@
         <h2 id="filter-heading" class="sr-only">Filters</h2>
       </section>
     </div>
-    <div class="content px-20 w-full mx-auto">
+    <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
+      <div class="w-full flex items-center justify-between mb-4" v-if="$device.isMobile">
+        <h1 class="font-semibold">1000 rezultata</h1>
+
+        <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+          </svg>
+          {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
+        </button>
+      </div>
       <div class="results">
-        <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap" v-if="results_loaded">
+        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap" v-if="results_loaded">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
         </div>
         <div class="divide-y divide-gray-200 grid grid-cols-5 gap-6 w-full listing-wrap" v-else>
@@ -83,7 +102,7 @@
       </div>
     </div>
     <client-only>
-      <modal name="filters" :adaptive="true" height="100%" :width="$device.isMobile ? '100%' : '40%'">
+      <modal name="filters" transition="slide-up" :adaptive="true" height="100%" :width="$device.isMobile ? '100%' : '40%'">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Filteri</h2>
@@ -143,6 +162,37 @@
                   @input="newSearch"
                 />
 
+              </div>
+            </div>
+          </div>
+        </modal>
+      </client-only>
+      <client-only>
+        <modal name="cats-modal" :adaptive="true" height="100%">
+          <div class="modal-inner">
+            <div class="modal-header">
+              <h2>Kategorije</h2>
+              <i class="material-icons" @click.prevent="$modal.hide('cats-modal')">close</i>
+            </div>
+            <div class="modal-content">
+              <div class="filters rounded-md">
+                <ul role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-5 w-full categories-list-wrap">
+                  <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)" class="flow-root border bg-gray-100 rounded-md"
+                      :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
+                    <div>
+                      <a href="#" class="focus:outline-none">
+                        <span aria-hidden="true"></span>
+                        {{ cat.title }}
+                      </a>
+                    </div>
+                    <div class="relative flex items-center space-x-4 rounded-md hover:bg-gray-50">
+                      <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg p-1 svg-wrap">
+                        <!-- Heroicon name: outline/clock -->
+                        <img :src="'/cats/' + cat.slug + '.png'" alt="">
+                      </div>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -298,6 +348,7 @@ export default class Homepage extends Vue {
       id: 3,
     },
   ]
+  category_title = '';
   sort_types = [
     {
       name: "Najniža cijena",
@@ -316,6 +367,10 @@ export default class Homepage extends Vue {
       value: 3,
     },
   ]
+
+  toggleCatsModal() {
+    this.$modal.show('cats-modal')
+  }
 
   selectSort(i) {
     this.selectedSort = i.name;
@@ -384,7 +439,12 @@ export default class Homepage extends Vue {
       }
     }
 
+    this.$modal.hide('cats-modal')
+
     this.newSearch();
+
+    this.category_title = cat.title;
+
   }
 
   async saveSearch() {
@@ -427,7 +487,7 @@ export default class Homepage extends Vue {
   background: #fff;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 9;
 }
 
 .search-wrapper {
@@ -438,6 +498,10 @@ export default class Homepage extends Vue {
   .content {
     box-sizing: border-box;
     height: 100%;
+
+    @include for-phone-only {
+      padding-bottom: 180px;
+    }
 
     h2 {
       font-size: 22px !important;
@@ -473,34 +537,6 @@ export default class Homepage extends Vue {
     padding: 0;
   }
 
-  .modal-header {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    border-bottom: 1px solid #dcdcdc;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background: #fff;
-
-    @include for-phone-only {
-      padding: 0 16px;
-      box-sizing: border-box;
-    }
-
-    h2 {
-      font-size: 20px;
-      font-weight: 400;
-      margin-bottom: 0;
-    }
-
-    i {
-      cursor: pointer;
-    }
-  }
   .modal-content {
     padding: 24px 0;
 
@@ -646,6 +682,10 @@ export default class Homepage extends Vue {
   ::v-deep input, select, text-area {
     border: 1px solid #000;
   }
+
+  @include for-phone-only {
+    padding: 24px 0px;
+  }
 }
 ::v-deep .listing-card-wrapper {
   width: 100%;
@@ -722,4 +762,72 @@ export default class Homepage extends Vue {
 //.listing-wrap {
 //  grid-row-gap: 36px;
 //}
+
+
+
+.categories-list-wrap li {
+  @include for-phone-only {
+    background: #FFFFFF !important;
+    color: #222222 !important;
+    padding: 16px !important;
+    width: 100% !important;
+    border: 1px solid #DDDDDD !important;
+    min-height: 76px;
+    height: 76px;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    font-weight: 500 !important;
+    flex-direction: row;
+    display: flex;
+
+    .svg-wrap {
+      height: 50px;
+      width: 50px;
+      border-radius: 7px;
+    }
+
+    &.selected {
+      border: 2px solid #023246;
+      font-weight: 600 !important;
+
+
+      @include for-phone-only {
+        background: #f9f9f9 !important;
+        border: 2px solid #000 !important;
+      }
+    }
+  }
+}
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 0.5s;
+}
+.scale-enter,
+.scale-leave-active {
+  opacity: 0;
+  transform: scale(0.3) translateY(24px);
+}
+
+.slide-up-enter-active {
+  transition: all .2s ease;
+}
+.slide-up-leave-active {
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-up-enter, .slide-fade-leave-to {
+  transform: translateY(100vh);
+  opacity: 0;
+}
+
+::v-deep .vm--modal {
+  @include for-phone-only {
+    top: 110px !important;
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    height: calc(100vh - 100px) !important;
+    padding-bottom: 180px !important;
+  }
+}
 </style>
