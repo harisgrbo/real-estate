@@ -76,7 +76,7 @@
           </ul>
           <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
           <ul>
-            <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearch(suggest)">
+            <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearchFromSuggestion(suggest)">
               {{ suggest }}
             </li>
           </ul>
@@ -264,7 +264,17 @@ export default class Navbar extends Vue {
     this.$router.push('/pretraga?q=[' + q + ']');
   }
 
-  async handleCloseNotifications() {
+  goToSearchFromSuggestion(s) {
+    let words = s.split(' ');
+    words.pop();
+
+    s = words.join(' ');
+
+    let q = buildTitle(s);
+    this.$router.push('/pretraga?q=[' + q + ']');
+  }
+
+    async handleCloseNotifications() {
     try {
       await this.$axios.post('/profile/notifications/read');
     } catch (e) {
