@@ -260,7 +260,7 @@ export default class Navbar extends Vue {
   }
 
   goToSearch(s) {
-    let q = this.buildTitle(s)
+    let q = buildTitle(s);
     this.$router.push('/pretraga?q=[' + q + ']');
   }
 
