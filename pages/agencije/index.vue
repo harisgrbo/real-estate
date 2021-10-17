@@ -111,7 +111,7 @@ export default class Agencies extends Vue {
 
 
       h2 {
-        //font-family: 'Poppins', sans-serif;
+        //font-family: 'Lato', sans-serif;
         font-weight: 500;
         font-size: 20px;
         margin-bottom: 36px;

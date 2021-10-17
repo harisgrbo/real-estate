@@ -364,7 +364,7 @@ export default class Kredit extends Vue {
           .value {
             font-size: 20px;
             font-weight: 500;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Lato', sans-serif;
             margin-bottom: 16px;
           }
 
@@ -375,7 +375,7 @@ export default class Kredit extends Vue {
             p {
               font-size: 18px;
               font-weight: 500;
-              font-family: 'Poppins', sans-serif;
+              font-family: 'Lato', sans-serif;
             }
 
             img {
@@ -493,7 +493,7 @@ export default class Kredit extends Vue {
           .value {
             font-size: 20px;
             font-weight: 500;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Lato', sans-serif;
             margin-bottom: 15px;
             display: flex;
             flex-direction: row;
@@ -511,7 +511,7 @@ export default class Kredit extends Vue {
             p {
               font-size: 14px;
               font-weight: 500;
-              font-family: 'Poppins', sans-serif;
+              font-family: 'Lato', sans-serif;
             }
 
             img {

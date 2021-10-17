@@ -458,7 +458,7 @@ export default class spaseno extends Vue {
 
             .save {
               display: flex;
-              font-family: 'Poppins', sans-serif;
+              font-family: 'Lato', sans-serif;
               align-items: center;
               font-size: 16px;
               padding: 6px 12px;
@@ -514,7 +514,7 @@ export default class spaseno extends Vue {
           }
 
           button {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Lato', sans-serif;
             height: 100%;
             width: 100%;
             display: flex;

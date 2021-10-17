@@ -29,7 +29,7 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Lato', sans-serif;
   height: 48px;
   border-radius: 4px;
   width: fit-content;

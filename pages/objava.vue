@@ -1046,7 +1046,7 @@ export default class Objava extends Vue {
             font-weight: 600 !important;
             transition: 0.3s all ease;
             margin-bottom: 0;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Lato', sans-serif;
             cursor: pointer;
             margin-right: 16px;
             border: 2px solid #023246;
@@ -1173,7 +1173,7 @@ export default class Objava extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Lato', sans-serif;
       font-size: 16px;
       line-height: 26px;
       box-sizing: border-box;
