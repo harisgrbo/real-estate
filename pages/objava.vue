@@ -476,6 +476,10 @@ export default class Objava extends Vue {
       this.listingId = response.data.data.id;
     } catch (e) {
       console.log(e)
+
+      alert("Objava je neuspjela, pokusajte ponovo");
+
+      location.reload();
     }
   }
 
