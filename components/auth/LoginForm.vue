@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <img src="/mobile-img.jpeg" class="l" alt="">
+    <img src="/mojkvadrat.svg" class="logo" alt="" @click="$router.push('/')">
 
     <h2 class="mt-4">Dobrodošli!</h2>
     <form @submit.prevent="handleLogin">
@@ -89,6 +89,7 @@ export default class LoginForm extends Vue{
   @include for-phone-only {
     width: 100%;
     padding: 24px 16px;
+    height: 100%;
 
   }
 
@@ -143,5 +144,10 @@ label {
   font-weight: 600;
   font-size: 15px;
   padding-bottom: 8px !important;
+}
+
+.logo {
+  width: 120px;
+  margin: 36px auto;
 }
 </style>

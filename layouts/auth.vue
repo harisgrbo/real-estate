@@ -56,6 +56,7 @@ export default class Auth extends Vue {
 
     @include for-phone-only {
       width: 100%;
+      height: 100%;
     }
     .logo {
       width: 300px;
