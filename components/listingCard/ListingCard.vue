@@ -11,7 +11,8 @@
         <div class="overflow-hidden relative">
           <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
             <swiper-slide v-for="(img, index) in listing.images" :key="index">
-              <img class="slider-img" :src="img.url" alt="">
+              <img class="slider-img swiper-lazy" :src="img.url" alt="">
+              <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </swiper-slide>
             <div
               class="swiper-button-prev swiper-button-white"
@@ -108,7 +109,14 @@ export default class ListingCard extends Vue{
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
-    }
+    },
+    preloadImages: false,
+    lazy: {
+      //  tell swiper to load images before they appear
+      loadPrevNext: true,
+      // amount of images to load
+      loadPrevNextAmount: 2,
+    },
   }
 
   translateType() {
@@ -523,8 +531,8 @@ export default class ListingCard extends Vue{
     margin-top: 10px;
 
     img {
-      height: 15px !important;
-      width: 15px !important;
+      height: 12px !important;
+      width: 12px !important;
       border-radius: 0 !important;
       margin-right: 4px;
     }
@@ -532,12 +540,13 @@ export default class ListingCard extends Vue{
     > div {
       border: 1px solid #ececec;
       border-radius: 15px;
-      height: 30px;
+      height: 25px;
       width: fit-content;
       margin-right: 8px;
       padding: 0 10px;
       font-weight: 500;
       background: #f9f9f9;
+      font-size: 13px;
     }
   }
 

@@ -563,6 +563,7 @@ export default class Navbar extends Vue {
       border-radius: 8px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
+      z-index: 1;
       //border: none;
 
       @include for-phone-only {
@@ -1017,8 +1018,7 @@ export default class Navbar extends Vue {
 }
 
 .relative {
-  position: relative;
-
+  z-index: 0;
   .notify {
     height: 14px;
     width: 14px;

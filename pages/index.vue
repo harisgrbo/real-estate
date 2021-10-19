@@ -88,7 +88,7 @@
     </div>
     <div class="mx-5 flex items-center justify-between mb-4 sm:px-5 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Prodaja</h2>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
@@ -119,7 +119,7 @@
       </client-only>
     </div>
     <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full mobile" v-else>
-      <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll mx-5">
+      <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_sell" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
         </div>
@@ -158,7 +158,7 @@
 
     <div class="flex items-center justify-between mb-4 sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-5">
       <h2 class="section-title">Iznajmljivanje</h2>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
@@ -205,11 +205,11 @@
       <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>
       <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           Lista agencija
-      </nuxt-link>
+      </nuxt-link>r
     </div>
     <div class=" flex items-center justify-between mb-4 sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-5">
       <h2 class="section-title">Izdavanje na dan</h2>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
