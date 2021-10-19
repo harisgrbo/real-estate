@@ -170,6 +170,16 @@
               />
             </div>
 
+            <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
+              <InputError :error="errors.attributes[attr.id]" />
+              <component
+                :attr="attr"
+                :options="attr"
+                :is="filterFor(attr)"
+                @changed="handleChangedAttribute"
+              />
+            </div>
+
             <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
             <div class="checkbox-grid">
               <TermInput
@@ -180,6 +190,12 @@
               />
               <TermInput
                 v-for="attr in termCategoryAttributes"
+                @changed="handleChangedAttribute"
+                :attr="attr"
+                :key="attr.id"
+              />
+              <TermInput
+                v-for="attr in termListingTypeAttributes"
                 @changed="handleChangedAttribute"
                 :attr="attr"
                 :key="attr.id"

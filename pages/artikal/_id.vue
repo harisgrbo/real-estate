@@ -768,11 +768,12 @@ export default class Artikal extends Vue {
   async created() {
     await this.fetchPlaces();
 
-    Object.keys(this.places).forEach(key => {
+    for (let key of Object.keys(this.places)) {
       if (this.places[key].results.length) {
         this.selectPlace(this.places[key].results, key)
+        break;
       }
-    })
+    }
 
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
