@@ -525,6 +525,10 @@ export default class Navbar extends Vue {
       flex: 0;
     }
 
+    img {
+      height: 40px;
+    }
+
     @include for-phone-only {
       img {
         height: 48px;
@@ -543,7 +547,7 @@ export default class Navbar extends Vue {
   }
   .input-wrapper {
     height: 48px;
-    border: 1px solid #eaeaea;
+    border: 2px solid #000;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -552,10 +556,12 @@ export default class Navbar extends Vue {
     flex: 2;
     position: relative;
     transition: 0.3s all ease;
+    background: transparent;
 
     @include for-phone-only {
       box-sizing: border-box;
       background: #f9f9f9;
+      border: none;
     }
 
     &.focused {
@@ -564,7 +570,8 @@ export default class Navbar extends Vue {
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       z-index: 1;
-      //border: none;
+      background: #fff;
+      border: none;
 
       @include for-phone-only {
         position: absolute;
@@ -585,6 +592,7 @@ export default class Navbar extends Vue {
       font-weight: 400;
       color: #000;
       padding-left: 8px;
+      background: transparent;
 
       @include for-phone-only {
         height: 35px;

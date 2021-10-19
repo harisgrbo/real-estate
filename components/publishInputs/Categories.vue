@@ -112,6 +112,12 @@ a {
 }
 
 ul li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  cursor: pointer;
   @include for-phone-only {
     background: #f9f9f9 !important;
     color: #222222 !important;

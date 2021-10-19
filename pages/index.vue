@@ -81,14 +81,14 @@
       </ul>
 
       <div v-else role="list" class="pl-5 most-visited mt-5 sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-        <div class="mr-5 justify-between flex relative min-h-full" v-for="i in 6">
-          <skeleton height="182px" width="260px"></skeleton>
+        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="i in 6">
+          <skeleton height="262px" width="440px"></skeleton>
         </div>
       </div>
     </div>
-    <div class="mx-5 flex items-center justify-between mb-4 sm:px-5 lg:px-20 xl:px-20 up:px-20">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
       <h2 class="section-title">Prodaja</h2>
-      <div class="flex flex-row items-center mr-5">
+      <div class="flex flex-row items-center">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
@@ -113,7 +113,7 @@
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="i in 6">
-            <skeleton></skeleton>
+            <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
       </client-only>
@@ -156,7 +156,7 @@
       </ul>
     </div>
 
-    <div class="flex items-center justify-between mb-4 sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
       <h2 class="section-title">Iznajmljivanje</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
@@ -172,7 +172,7 @@
         </div>
       </div>
     </div>
-    <div class="px-20 mb-8 mx-5" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
       <client-only v-if="rentLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
@@ -183,12 +183,12 @@
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="i in 6">
-            <skeleton></skeleton>
+            <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
       </client-only>
     </div>
-    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mb-8 mx-5 mobile" v-else>
+    <div class="pl-5 lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
       <div v-if="rentLoaded" class="flex flex-row overflow-y-scroll">
         <div v-for="listing in listings_rent" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
@@ -207,7 +207,7 @@
           Lista agencija
       </nuxt-link>r
     </div>
-    <div class=" flex items-center justify-between mb-4 sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
       <h2 class="section-title">Izdavanje na dan</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
@@ -223,7 +223,7 @@
         </div>
       </div>
     </div>
-    <div class="px-20 mx-auto mb-8 w-full" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
       <client-only v-if="rentPerDayLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
@@ -234,28 +234,28 @@
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="i in 6">
-            <skeleton></skeleton>
+            <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
       </client-only>
     </div>
-    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mb-8 mx-5 mobile" v-else>
-      <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll">
+    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
+      <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-5">
           <ListingCard :action="false" :listing="listing" :type="listing.user.user_type"/>
         </div>
       </div>
-      <div v-else class="flex flex-row overflow-y-scroll">
+      <div v-else class="flex flex-row overflow-y-scroll ml-5">
         <div  v-for="i in 5" class="skeleton-wrap mr-5">
           <skeleton height="232px" width="240px"></skeleton>
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mt-20">
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="m:px-5 lg:px-20 xl:px-20 up:px-20 flex flex-row overflow-x-scroll gap-4 mb-16 flex mx-5 flex-row lg:grid xl:grid up:grid lg:grid-cols-6 xl:grid-cols-6 up:grid-cols-6 gap-6 p-1">
+    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 flex-row lg:grid xl:grid up:grid lg:grid-cols-6 xl:grid-cols-6 up:grid-cols-6 gap-6 p-1">
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
@@ -368,7 +368,7 @@
         // when window width is >= 640px
         640: {
           slidesPerView: 'auto',
-          spaceBetween: 40
+          spaceBetween: 16
         }
       }
     }
@@ -1077,7 +1077,7 @@ ul.most-visited-cats {
   flex-direction: column;
   background-image: url("/agency-new.jpeg");
   position: relative;
-  margin: 80px;
+  margin: 100px;
   align-items: flex-start;
   justify-content: center;
   padding: 0 80px;
@@ -1219,6 +1219,13 @@ button.search {
     max-width: 240px;
     min-width: 240px;
     width: 240px;
+  }
+}
+
+.mobile-skeleton ::v-deep #skeleton {
+  @include for-phone-only {
+    height: 182px !important;
+    width: 260px !important;
   }
 }
 </style>

@@ -4,7 +4,7 @@
       <div class="border-b border-gray-200">
       </div>
       <div class="w-full">
-        <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between border-b border-gray-200 px-5">
+        <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
           </ul>
@@ -19,9 +19,10 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
-            Filteri</button>
+            Filteri
+          </button>
 
-          <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+          <button v-if="$device.isMobile" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
             </svg>
@@ -30,7 +31,7 @@
 
           <div class="flex items-center justify-end types">
             <div class="relative inline-block text-left filteri">
-              <div @click="showSortDropdown = !showSortDropdown" v-if="!$device.isMobile">
+              <div @click="showSortDropdown = !showSortDropdown" v-if="!$device.isMobile" class="mr-4">
                 <button type="button" class="group inline-flex justify-center text-sm w-full font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
@@ -81,10 +82,19 @@
       </section>
     </div>
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
-      <div class="w-full flex items-center justify-between mb-4" v-if="$device.isMobile">
+      <div class="w-full flex items-center justify-between mb-4">
         <h1 class="font-semibold">1000 rezultata</h1>
+
+        <div class="toggle-map-wrapper">
+          <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selected_preview_type === type.value ? 'active' : ''">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
+            </svg>
+            {{ type.name }}
+          </button>
+        </div>
       </div>
-      <div class="results">
+      <div class="results" v-if="selected_preview_type === 'grid'">
         <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
         </div>
@@ -96,6 +106,22 @@
             :total-pages="lastPage"
             @page-change="pageChangeHandler" />
         </client-only>
+      </div>
+      <div class="results map" v-else>
+        <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map">
+          <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+          <client-only>
+            <Pagination
+              ref="pagination"
+              v-show="meta.total > 20"
+              :current-page="page"
+              :total-pages="lastPage"
+              @page-change="pageChangeHandler" />
+          </client-only>
+        </div>
+        <div class="map-wrapper">
+          <SearchMap :locations="results"></SearchMap>
+        </div>
       </div>
     </div>
     <client-only>
@@ -218,9 +244,13 @@ import Pagination from "@/components/pagination";
 import ListingCard from "../components/listingCard/ListingCard";
 import skeleton from "../components/skeleton";
 import ActionButton from "@/components/actionButtons/ActionButton"
+import HorizontalCard from "../components/listingCard/HorizontalCard";
+import SearchMap from "../components/googleMap/SearchMap";
 
 @Component({
   components: {
+    SearchMap,
+    HorizontalCard,
     ListingCard,
     ActionButton,
     TextField,
@@ -342,6 +372,19 @@ export default class Homepage extends Vue {
       id: 3,
     },
   ]
+  preview_types = [
+    {
+      name: 'Mapa',
+      value: 'map',
+      path: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7'
+    },
+    {
+      name: 'Grid',
+      value: 'grid',
+      path: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'
+    }
+  ]
+  selected_preview_type = 'grid';
   sort_types = [
     {
       name: "Najniža cijena",
@@ -404,6 +447,12 @@ export default class Homepage extends Vue {
 
   pageChangeHandler(selectedPage) {
     this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage }) });
+  }
+
+  handleSelectPreviewType(t) {
+    this.selected_preview_type = t.value
+
+    console.log(this.selected_preview_type)
   }
 
   getResultKey(listing) {
@@ -485,6 +534,7 @@ export default class Homepage extends Vue {
   display: flex;
   margin-top: 0px;
   flex-direction: column;
+  overflow: hidden;
 
   .content {
     box-sizing: border-box;
@@ -509,6 +559,32 @@ export default class Homepage extends Vue {
     .results {
       display: flex;
       flex-direction: column;
+
+      &.map {
+        display: flex;
+        flex-direction: row;
+
+        height: calc(100vh - 245px);
+
+        .map-wrapper {
+          width: 60%;
+          min-width: 60%;
+          background: #f9f9f9;
+          margin-left: 36px;
+          height: calc(100vh - 272px);
+          border-radius: 15px;
+          overflow: hidden;
+
+          ::v-deep #map {
+            height: calc(100vh - 272px);
+          }
+        }
+
+        .results-wrapper-map {
+          height: calc(100vh - 212px);
+          overflow-y: scroll;
+        }
+      }
     }
 
     h2 {
@@ -834,5 +910,45 @@ export default class Homepage extends Vue {
   left: 16px;
   right: 16px;
   width: auto;
+}
+
+.toggle-map-wrapper {
+  background: #f9f9f9;
+  padding: 6px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  min-width: fit-content;;
+  justify-content: center;
+  height: 40px;
+  button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    padding: 0 12px;
+
+    &:first-child {
+      margin-right: 7px;
+    }
+
+    svg {
+      margin-right: 4px;
+      height: 17px
+    }
+    &.active {
+      background: #fff;
+      border-radius: 7px;
+      box-shadow: rgb(0 0 0 / 12%) 0px 1px 5px;
+      font-weight: 600;
+    }
+  }
+
+  button {
+
+  }
 }
 </style>

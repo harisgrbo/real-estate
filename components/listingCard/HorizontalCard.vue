@@ -65,43 +65,55 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </nuxt-link>-->
-    <div class="bg-white cursor-pointer sm:w-full horizontal-card border-black h-36 mb-6 flex flex-col sm:flex-row gap-5 select-none">
-      <img
-        src="/test/img1.jpg"
-        class="min-h-full w-48 rounded-lg bg-gray-100 bg-center object-cover"
-      >
-      <div class="flex sm:flex-1 flex-col gap-2 p-1 justify-between">
-        <h1 class="text-xl font-normal  text-gray-800">
-          {{ listing.title }}
-        </h1>
-        <p class="text-gray-500 text-sm font-light line-clamp-3">
-          {{ listing.description }}
-        </p>
+    <div class="bg-white cursor-pointer sm:w-full horizontal-card border-black mb-6 flex flex-col sm:flex-row gap-5 select-none">
+      <div class="overflow-hidden relative image-wrapper">
+        <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
+          <swiper-slide v-for="(img, index) in listing.images" :key="index">
+            <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
+            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+          </swiper-slide>
+          <div
+            class="swiper-button-prev swiper-button-white"
+            slot="button-prev"
+          ></div>
+          <div
+            class="swiper-button-next swiper-button-white"
+            slot="button-next"
+          ></div>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+        <img v-else src="/noimage.jpeg" alt="">
+      </div>
+      <div class="flex w-full flex-col gap-2 p-1 justify-between">
+        <div>
+          <button
+            class='w-full flex items-center font-medium flex flex-row items-center justify-between'
+          >
+            <h1 class="text-lg font-medium text-gray-800">
+              {{ listing.title }}
+            </h1>
+            {{ listing.price }} KM
+          </button>
+          <p class="mt-5 text-sm text-gray-500 font-medium leading-5">{{ listing.address }}</p>
+        </div>
         <div class="flex  justify-between">
 
-          <div class="flex flex-row items-center">
-            <button
+          <div class="flex flex-row items-center special">
+            <div
               v-for="(attr, index) in specialAttributes"
               :key="index"
-              class='mr-4 flex items-center gap-1 sm:text-md border border-gray-300 px-2 py-1 rounded-md transition-colors'
+              class="flex flex-row items-center mr-2"
             >
+              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
               {{ attr.value }}
-              <p v-if="attr.name === 'Kvadratura'">m²</p>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-if="attr.name === 'Broj soba'">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-              </svg>
-            </button>
+            </div>
           </div>
           <div class="flex flex-row items-center">
             <button
               class='flex items-center gap-1 sm:text-lg border border-gray-300 px-1 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
             >
               <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z"></path></svg>
-            </button>
-            <button
-              class='ml-4 flex items-center font-medium gap-1 sm:text-md px-2 py-2 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
-            >
-              {{ listing.price }} KM
             </button>
           </div>
         </div>
@@ -136,9 +148,47 @@ export default class HorizontalCard extends Vue{
     "Kvadratura",
     "Broj soba",
   ];
+  swiperOptionCard = {
+    spaceBetween: 0,
+    // centeredSlides: true,
+    // slidesOffsetBefore: '100px',
+    // slidesOffsetAfter: '100px',
+    // slidesOffsetBefore: '0px',
+    loop: true,
+    autoplay: false,
+    slidesPerView: 1,
+    pagination: {
+      el: ".swiper-pagination",
+      dynamicBullets: true,
+    },
+    touchRatio: 0.2,
+    slideToClickedSlide: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    preloadImages: false,
+    lazy: {
+      //  tell swiper to load images before they appear
+      loadPrevNext: false,
+      // amount of images to load
+      loadPrevNextAmount: 1,
+    },
+  }
+
+  mounted() {
+    localStorage.setItem('preview', this.selected_preview_type);
+  }
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
+
+    let preview = localStorage.getItem("preview");
+
+    this.selected_preview_type = preview.toLowerCase();
+
+    console.log(this.selected_preview_type, 'asdasdasda')
+
   }
 
   differenceInPrice(a, b) {
@@ -652,5 +702,43 @@ padding-left: 16px;
   margin-bottom: 16px;
   padding-bottom: 16px;
   border-bottom: 1px solid #ececec;
+  height: 200px;
+}
+
+.image-wrapper {
+  min-width: 250px;
+  width: 250px;
+  max-width: 250px;
+  border-radius: 7px;
+
+}
+
+.special {
+  font-size: 14px;
+  display: flex;
+  font-weight: 300;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+
+  img {
+    height: 12px !important;
+    width: 12px !important;
+    border-radius: 0 !important;
+    margin-right: 4px;
+  }
+
+  > div {
+    border: 1px solid #ececec;
+    border-radius: 15px;
+    height: 25px;
+    width: fit-content;
+    margin-right: 8px;
+    padding: 0 10px;
+    font-weight: 500;
+    background: #f9f9f9;
+    font-size: 12px;
+  }
 }
 </style>

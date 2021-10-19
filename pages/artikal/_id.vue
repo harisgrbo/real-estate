@@ -34,7 +34,7 @@
                   </svg>
                   <p>{{ images.length }}</p>
                 </div>
-                <div v-for="(img, index) in images.slice(0, 4)" @click="openGallery(index)">
+                <div :class="'item' + (index + 1)" v-for="(img, index) in images.slice(0, 4)" @click="openGallery(index)">
                   <img :src="img.url" alt="">
                   <div class="more" v-if="index === 3">
                     {{ images.length - 3 + '+ slika' }}
@@ -87,7 +87,7 @@
                 <img src="/noimage.jpeg" alt="">
               </div>
             </div>
-            <div class="mb-6 px-5 mobile-content">
+            <div class="mb-6 px-5 lg:px-0 xl:px-0 up:px-0 mobile-content">
               <div class="article-title">
                 <h2 v-if="listing">{{ listing.title }}</h2>
                 <p v-if="$device.isMobile" class="mt-5 text-md text-gray-500 font-medium">{{ listing.address }}</p>
@@ -123,7 +123,7 @@
               <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
               <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
             </div>
-            <ul role="list" class="main-info px-5">
+            <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
               <li>
                 <p class="text-md text-black font-normal">{{ listing.city.name }}</p>
               </li>
@@ -138,7 +138,7 @@
               </li>
             </ul>
             <div class="separator"></div>
-            <div class="px-5">
+            <div class="px-5 lg:px-0 xl:px-0 up:px-0">
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
@@ -159,7 +159,7 @@
                 </li>
               </ul>
             </div>
-            <div class="mt-6 mx-5" v-if="checkboxAttributes.length">
+            <div class="mt-6 mx-5 lg:mx-0 xl:mx-0 up:mx-0" v-if="checkboxAttributes.length">
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
@@ -181,8 +181,8 @@
               </ul>
             </div>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6 mx-5">Opis</h2>
-            <p class="description mx-5">{{ listing.description }}</p>
+            <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Opis</h2>
+            <p class="description mx-5 lg:mx-0 xl:mx-0 up:mx-0">{{ listing.description }}</p>
             <div class="separator"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Pogledajte šta se nalazi u blizini nekretnine</h2>
             <div class="places" v-if="!$device.isMobile">
@@ -203,6 +203,51 @@
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
+            <div v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && !authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0">
+              <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
+              <div class="review">
+                <label>Opišite ukratko vaše iskustvo</label>
+                <TextField class="mb-3" type="text" v-model="review_description"></TextField>
+                <label>Ocjena za nekretninu</label>
+                <TextField type="number" placeholder="Ocjena od 1 do 5" v-model="review_rating"></TextField>
+                <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
+
+              </div>
+              <div v-if="listing_reviews.length" class="bg-white">
+                <div>
+                  <h2 class="sr-only">Customer Reviews</h2>
+
+                  <div v-for="review in listing_reviews">
+                    <div class="flex text-sm text-gray-500 space-x-4">
+                      <div class="flex-none py-10">
+                        <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
+                      </div>
+                      <div class="flex-1 py-10">
+                        <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
+                        <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+
+                        <div class="flex items-center mt-4">
+                          <!--
+                            Heroicon name: solid/star
+
+                            Active: "text-yellow-400", Default: "text-gray-300"
+                          -->
+                          <svg v-for="i in review.rating" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+
+                          <!-- Heroicon name: solid/star -->
+                        </div>
+
+                        <div class="mt-4 prose prose-sm max-w-none text-gray-500">
+                          <p>{{ review.review }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('map-modal')" placeholder="Prikaži lokaciju na mapi" :style-options="{ border: 'none', color: '#fff', height: '52px', marginRight: '24px', fontSize: '13px', width: 'auto' }" :loading="false"></ActionButton>
             <!--            <div class="separator" v-if="questions.length"></div>-->
 <!--            <h2 class="heading question" v-if="questions.length">Pitanja</h2>-->
@@ -216,7 +261,7 @@
 <!--              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>-->
 <!--            </div>-->
             <div class="separator"></div>
-            <div v-if="listing.is_booking" :class="['book-article', showBooking ? 'show' : 'hide']">
+            <div v-if="listing.is_booking && $device.isMobile && !authUser" :class="['book-article', showBooking ? 'show' : 'hide']">
               <div class="flex flex-row items-center justify-star">
                 <p class="text-xl font-bold">{{ listing.price + ' KM' }}</p>
                 <p class="text-gray-600 font-semibold text-lg ml-2">/ noć</p>
@@ -225,9 +270,9 @@
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
+            <UserProfile :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
           </div>
-          <div v-if="listing.is_rent" class="px-5">
+          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && !authUser" class="px-5 lg:px-0 xl:px-0 up:px-0">
             <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
             <div class="review">
               <label>Opišite ukratko vaše iskustvo</label>
@@ -550,7 +595,13 @@ export default class Artikal extends Vue {
     }
   }
 
-
+  get authUser() {
+    if (this.$auth.user) {
+      if (this.$auth.user.id && this.listing.user.id) {
+        return this.$auth.user.id === this.listing.user.id;
+      }
+    }
+  }
 
   mounted() {
     if(this.$device.isMobile) {
@@ -1709,13 +1760,17 @@ export default class Artikal extends Vue {
 }
 
 .mobile-content {
-  margin-top: -30px;
-  position: relative;
-  background: #fff;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: rgb(0 0 0 / 7%) 0px -10px 8px;
-  z-index: 1;
+
+  @include for-phone-only {
+    margin-top: -30px;
+    position: relative;
+    background: #fff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: rgb(0 0 0 / 7%) 0px -10px 8px;
+    z-index: 1;
+  }
+
 }
 
 .swiper-button-prev, .swiper-button-next {
