@@ -30,7 +30,7 @@
 <!--        </button>-->
       </div>
 
-      <div class="rent" v-if="isBooking && !$device.isMobile">
+      <div class="rent" v-if="isBooking && !$device.isMobile && !authUser">
         <client-only>
           <form @submit.prevent>
             <div class="flex flex-row items-center mb-4 price-wrap" v-if="!$device.isMobile">
@@ -106,7 +106,7 @@
                 </template>
               </vc-date-picker>
             </div>
-            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji"></ActionButton>
+            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit"></ActionButton>
           </form>
         </client-only>
       </div>
@@ -126,7 +126,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>
@@ -151,6 +151,7 @@ import ActionButton from "./actionButtons/ActionButton";
 
 export default class UserProfile extends Vue {
   @Prop({}) user;
+  @Prop({}) authUser;
   @Prop({}) followed;
   @Prop({}) isRent;
   @Prop({}) isBooking;

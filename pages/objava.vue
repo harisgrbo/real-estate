@@ -96,7 +96,7 @@
           <div class="inner checkboxes">
             <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true" :square="price_per_square"></PublishTextInput>
             <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
-              <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 mb-5">
+              <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 lg:mb-0 xp:mb-0 up:mb-0 mb-5">
                 <div class="switch">
                   <input id="switch-1" type="checkbox" v-model="vat_included" class="switch-input" />
                   <label for="switch-1" class="switch-label">Switch</label>
@@ -170,6 +170,16 @@
               />
             </div>
 
+            <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
+              <InputError :error="errors.attributes[attr.id]" />
+              <component
+                :attr="attr"
+                :options="attr"
+                :is="filterFor(attr)"
+                @changed="handleChangedAttribute"
+              />
+            </div>
+
             <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
             <div class="checkbox-grid">
               <TermInput
@@ -180,6 +190,12 @@
               />
               <TermInput
                 v-for="attr in termCategoryAttributes"
+                @changed="handleChangedAttribute"
+                :attr="attr"
+                :key="attr.id"
+              />
+              <TermInput
+                v-for="attr in termListingTypeAttributes"
                 @changed="handleChangedAttribute"
                 :attr="attr"
                 :key="attr.id"

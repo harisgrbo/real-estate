@@ -2,10 +2,13 @@
   <div class="account-wrapper-a w-full px-20">
     <div class="account-wrapper-inner">
       <div class="sidenav my-12">
-        <h1 class="heading-account">{{ agencies.length }} agencija za nekretnine</h1>
-         <div class="grid-layout">
-         <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="card" />
-       </div>
+        <h1 class="heading-account"><b>{{ agencies.length }}</b> agencija za nekretnine</h1>
+        <div class="grid-layout" v-if="agenciesLoaded">
+          <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="card" />
+        </div>
+        <div class="grid-layout" v-else>
+          <skeleton v-for="i in 10" height="323px" width="264px"></skeleton>
+        </div>
       </div>
     </div>
   </div>
@@ -16,25 +19,31 @@ import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import AgencyCard from "@/components/AgencyCard"
 import UserCard from "@/components/UserCard"
+import skeleton from "../../components/skeleton";
 
 @Component({
-  components: { Navbar, AgencyCard, UserCard },
+  components: { Navbar, skeleton, AgencyCard, UserCard },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 
 })
 
 export default class Agencies extends Vue {
   agencies = [];
+  agenciesLoaded = false;
 
   async created() {
     await this.fetchAgencies();
   }
 
   async fetchAgencies() {
+    this.agenciesLoaded = false;
+
     try {
       let res = await this.$axios.get('/agencies');
 
       this.agencies = res.data.data;
+
+      this.agenciesLoaded = true;
     } catch(e) {
       console.log(e)
     }

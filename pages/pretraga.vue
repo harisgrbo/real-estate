@@ -4,7 +4,7 @@
       <div class="border-b border-gray-200">
       </div>
       <div class="w-full">
-        <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between border-b border-gray-200 px-5">
+        <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
           </ul>
@@ -19,23 +19,24 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
-            Filteri</button>
+            Filteri
+          </button>
 
-          <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+          <button v-if="$device.isMobile" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
             </svg>
-            {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
+            {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
           </button>
 
           <div class="flex items-center justify-end types">
             <div class="relative inline-block text-left filteri">
-              <div @click="showSortDropdown = !showSortDropdown" v-if="!$device.isMobile">
+              <div @click="showSortDropdown = !showSortDropdown" v-if="!$device.isMobile" class="mr-4">
                 <button type="button" class="group inline-flex justify-center text-sm w-full font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
                   </svg>
-                  {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
+                  {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
                   <!-- Heroicon name: solid/chevron-down -->
                   <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -44,7 +45,7 @@
               </div>
               <div v-if="showSortDropdown" class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="py-1" role="none">
-                  <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click="selectSort(item)">
+                  <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
                     {{ item.name }}
                   </a>
                 </div>
@@ -81,10 +82,19 @@
       </section>
     </div>
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
-      <div class="w-full flex items-center justify-between mb-4" v-if="$device.isMobile">
+      <div class="w-full flex items-center justify-between mb-4">
         <h1 class="font-semibold">1000 rezultata</h1>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;"><path d="M26 1a5 5 0 0 1 5 5c0 6.389-1.592 13.187-4 14.693V31h-2V20.694c-2.364-1.478-3.942-8.062-3.998-14.349L21 6l.005-.217A5 5 0 0 1 26 1zm-9 0v18.118c2.317.557 4 3.01 4 5.882 0 3.27-2.183 6-5 6s-5-2.73-5-6c0-2.872 1.683-5.326 4-5.882V1zM2 1h1c4.47 0 6.934 6.365 6.999 18.505L10 21H3.999L4 31H2zm14 20c-1.602 0-3 1.748-3 4s1.398 4 3 4 3-1.748 3-4-1.398-4-3-4zM4 3.239V19h3.995l-.017-.964-.027-.949C7.673 9.157 6.235 4.623 4.224 3.364l-.12-.07zm19.005 2.585L23 6l.002.31c.045 4.321 1.031 9.133 1.999 11.39V3.17a3.002 3.002 0 0 0-1.996 2.654zm3.996-2.653v14.526C27.99 15.387 29 10.4 29 6a3.001 3.001 0 0 0-2-2.829z"></path></svg>
+        <div class="toggle-map-wrapper">
+          <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
+            </svg>
+            {{ type.name }}
+          </button>
+        </div>
       </div>
-      <div class="results">
+      <div class="results" v-if="selectedPreviewType === 'grid'">
         <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
         </div>
@@ -97,6 +107,22 @@
             @page-change="pageChangeHandler" />
         </client-only>
       </div>
+      <div class="results map" v-else>
+        <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map">
+          <HorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
+          <client-only>
+            <Pagination
+              ref="pagination"
+              v-show="meta.total > 20"
+              :current-page="page"
+              :total-pages="lastPage"
+              @page-change="pageChangeHandler" />
+          </client-only>
+        </div>
+        <div class="map-wrapper">
+          <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
+        </div>
+      </div>
     </div>
     <client-only>
       <modal name="filters"
@@ -104,8 +130,6 @@
              :adaptive="true"
              height="100%"
              :width="$device.isMobile ? '100%' : '40%'"
-             @before-open="beforeOpen"
-             @before-close="beforeClose"
       >
         <div class="modal-inner">
           <div class="modal-header">
@@ -218,9 +242,13 @@ import Pagination from "@/components/pagination";
 import ListingCard from "../components/listingCard/ListingCard";
 import skeleton from "../components/skeleton";
 import ActionButton from "@/components/actionButtons/ActionButton"
+import HorizontalCard from "../components/listingCard/HorizontalCard";
+import SearchMap from "../components/googleMap/SearchMap";
 
 @Component({
   components: {
+    SearchMap,
+    HorizontalCard,
     ListingCard,
     ActionButton,
     TextField,
@@ -246,14 +274,38 @@ import ActionButton from "@/components/actionButtons/ActionButton"
     let queryPayload = {};
     let categories = [];
     let selectedCategoryId = null;
+    let selectedPreviewType = 'grid';
+    let selectedSort = {
+      name: "Najnovije",
+      value: 0
+    }
 
     if (ctx.route.query.q) {
       let query = decodeURIComponent(ctx.route.query.q)
       page = ctx.route.query.page || '1';
       page = parseInt(page)
 
+      if (ctx.route.query.preview) {
+        selectedPreviewType = ctx.route.query.preview;
+      }
+
+      let sortQuery = '';
+
+      if (ctx.route.query.sort) {
+        let order = ctx.route.query.order || 'desc';
+
+        selectedSort = {
+          name: order === 'asc' ? "Najniža cijena": "Najviša cijena",
+          value: order === 'asc' ? 1: 2,
+          sort: 'price',
+          order: order
+        }
+
+        sortQuery = `&sort=price&order=${order}`;
+      }
+
       try {
-        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}`)
+        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
         results = response.data.data;
         meta = response.data.meta;
         allAttributes = response.data.meta.attributes;
@@ -305,6 +357,8 @@ import ActionButton from "@/components/actionButtons/ActionButton"
     let categoryTitle = category ? category.title: '';
 
     return {
+      selectedSort,
+      selectedPreviewType,
       categoryTitle,
       selectedTypes,
       allAttributes,
@@ -323,7 +377,7 @@ export default class Homepage extends Vue {
   mapExpanded = false;
   showSortDropdown = false;
   showTypeDropdown = false;
-  selectedSort = '';
+  currentResultIndex = -1;
   listing_types = [
     {
       name: "Prodaja",
@@ -342,33 +396,68 @@ export default class Homepage extends Vue {
       id: 3,
     },
   ]
+  preview_types = [
+    {
+      name: 'Mapa',
+      value: 'map',
+      path: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7'
+    },
+    {
+      name: 'Grid',
+      value: 'grid',
+      path: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'
+    }
+  ]
   sort_types = [
     {
-      name: "Najniža cijena",
+      name: "Najnovije",
       value: 0,
+      sort: 0,
+      order: 'desc'
+    },
+    {
+      name: "Najniža cijena",
+      value: 1,
+      sort: 'price',
+      order: 'asc'
     },
     {
       name: "Najviša cijena",
-      value: 1,
-    },
-    {
-      name: "Najnovije",
       value: 2,
-    },
-    {
-      name: "Najstarije",
-      value: 3,
-    },
+      sort: 'price',
+      order: 'desc'
+    }
   ]
+
+  mounted() {
+    let preview = localStorage.getItem("preview");
+
+    if(preview) {
+      this.selectedPreviewType = preview.toLowerCase();
+    } else {
+      this.selectedPreviewType = 'grid'
+    }
+  }
+
+  handleListingHover(index) {
+    this.currentResultIndex = index;
+  }
 
   toggleCatsModal() {
     this.$modal.show('cats-modal')
   }
 
   selectSort(i) {
-    this.selectedSort = i.name;
+    if (i.value === 0) {
+      let cpy = Object.assign({}, this.$route.query);
 
-    this.showSortDropdown = false;
+      delete cpy.sort;
+      delete cpy.order;
+
+      this.$router.push({ query: Object.assign({}, cpy, { preview: this.selectedPreviewType }) });
+    } else {
+      this.$router.push({ query: Object.assign({}, this.$route.query, { sort: i.sort, order: i.order, preview: this.selectedPreviewType }) });
+    }
   }
 
   addOrRemoveFromListTypes(x) {
@@ -403,8 +492,15 @@ export default class Homepage extends Vue {
 
 
   pageChangeHandler(selectedPage) {
-    this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage }) });
+    this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage, preview: this.selectedPreviewType }) });
   }
+
+  handleSelectPreviewType(t) {
+    this.selectedPreviewType = t.value
+
+    localStorage.setItem('preview', this.selectedPreviewType);
+  }
+
 
   getResultKey(listing) {
     return `${listing.id}-${this.$route.query.q}`
@@ -413,7 +509,7 @@ export default class Homepage extends Vue {
   newSearch() {
     let q = buildQuery(this.queryPayload)
 
-    this.$router.push(`/pretraga?q=${q}`)
+    this.$router.push(`/pretraga?q=${q}&preview=${this.selectedPreviewType}`)
   }
 
   handleBack() {
@@ -485,6 +581,7 @@ export default class Homepage extends Vue {
   display: flex;
   margin-top: 0px;
   flex-direction: column;
+  overflow: hidden;
 
   .content {
     box-sizing: border-box;
@@ -509,6 +606,32 @@ export default class Homepage extends Vue {
     .results {
       display: flex;
       flex-direction: column;
+
+      &.map {
+        display: flex;
+        flex-direction: row;
+
+        height: calc(100vh - 245px);
+
+        .map-wrapper {
+          width: 60%;
+          min-width: 60%;
+          background: #f9f9f9;
+          margin-left: 36px;
+          height: calc(100vh - 272px);
+          border-radius: 15px;
+          overflow: hidden;
+
+          ::v-deep #map {
+            height: calc(100vh - 272px);
+          }
+        }
+
+        .results-wrapper-map {
+          height: calc(100vh - 212px);
+          overflow-y: scroll;
+        }
+      }
     }
 
     h2 {
@@ -834,5 +957,45 @@ export default class Homepage extends Vue {
   left: 16px;
   right: 16px;
   width: auto;
+}
+
+.toggle-map-wrapper {
+  background: #f9f9f9;
+  padding: 6px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  min-width: fit-content;;
+  justify-content: center;
+  height: 40px;
+  button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    padding: 0 12px;
+
+    &:first-child {
+      margin-right: 7px;
+    }
+
+    svg {
+      margin-right: 4px;
+      height: 17px
+    }
+    &.active {
+      background: #fff;
+      border-radius: 7px;
+      box-shadow: rgb(0 0 0 / 12%) 0px 1px 5px;
+      font-weight: 600;
+    }
+  }
+
+  button {
+
+  }
 }
 </style>

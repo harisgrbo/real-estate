@@ -3,12 +3,11 @@
 </template>
 
 <script>
-import { Component, Vue, Prop} from "nuxt-property-decorator";
+import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 import InfoWindow from '@/components/InfoWindow'
 
 @Component({
 })
-
 export default class SearchMap extends Vue{
 
   @Prop({ type: Array, default: ()=>[]}) locations;
@@ -16,6 +15,7 @@ export default class SearchMap extends Vue{
     type: Object,
     default: () => { return { lat: 43.8563, lng: 18.4131 } }
   }) center;
+  @Prop() current;
   @Prop() loaded;
 
   map = null;
@@ -26,6 +26,27 @@ export default class SearchMap extends Vue{
 
   mounted() {
     this.initMarkers();
+  }
+
+  @Watch('locations', {
+    deep: true
+  })
+  reinitMarkers() {
+    this.$nextTick(() => {
+      this.initMarkers();
+    })
+  }
+
+  @Watch('current')
+  hoverHandle(newVal, oldVal) {
+    if (newVal !== oldVal) {
+      this.closeLastOpenedInfoWindow();
+
+      if (this.markers[newVal]) {
+        this.markers[newVal].info.open(this.map, this.markers[newVal]);
+        this.lastOpenedInfoWindow = this.markers[newVal].info;
+      }
+    }
   }
 
   renderListingCard(listing) {
@@ -58,6 +79,8 @@ export default class SearchMap extends Vue{
       mapId: '90b8b95b1bbd0bc9'
     });
 
+    this.map = map;
+
     const svgMarker = {
       path:
         "M12 0c-4.198 0-8 3.403-8 7.602 0 6.243 6.377 6.903 8 16.398 1.623-9.495 8-10.155 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.342-3 3-3 3 1.343 3 3-1.343 3-3 3z",
@@ -82,7 +105,6 @@ export default class SearchMap extends Vue{
         map: map,
         icon: svgMarker,
         clickable: true,
-
       });
 
       let self = this;
@@ -98,8 +120,6 @@ export default class SearchMap extends Vue{
       });
 
       return marker;
-
-
     });
   }
 }

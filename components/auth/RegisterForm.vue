@@ -123,7 +123,7 @@ export default class RegisterForm extends Vue{
     this.loading = true;
 
     this.$axios
-      .post('/agencije/register', this.realEstateAgencyPayload, this.config)
+      .post('/agencies/register', this.realEstateAgencyPayload, this.config)
       .then(this.handlePostRegister)
       .catch(error => {
         this.loading = false;

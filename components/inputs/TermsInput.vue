@@ -1,6 +1,6 @@
 <template>
   <div class="terms-wrapper">
-    <label>{{ attr.name }}</label>
+    <label>{{ attr.name }} {{ attr.required ? '*': '' }}</label>
     <div class="option-wrapper">
       <button
         class="select"

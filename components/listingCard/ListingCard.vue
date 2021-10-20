@@ -11,7 +11,7 @@
         <div class="overflow-hidden relative">
           <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
             <swiper-slide v-for="(img, index) in listing.images" :key="index">
-              <img class="slider-img swiper-lazy" :src="img.url" alt="">
+              <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
               <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </swiper-slide>
             <div
@@ -113,9 +113,9 @@ export default class ListingCard extends Vue{
     preloadImages: false,
     lazy: {
       //  tell swiper to load images before they appear
-      loadPrevNext: true,
+      loadPrevNext: false,
       // amount of images to load
-      loadPrevNextAmount: 2,
+      loadPrevNextAmount: 1,
     },
   }
 
@@ -144,8 +144,6 @@ export default class ListingCard extends Vue{
 
 
   created() {
-
-    console.log(this.listing, 'listing')
     this.specialAttributes = this.getSpecialAttributes().slice();
   }
 }
@@ -546,7 +544,7 @@ export default class ListingCard extends Vue{
       padding: 0 10px;
       font-weight: 500;
       background: #f9f9f9;
-      font-size: 13px;
+      font-size: 12px;
     }
   }
 

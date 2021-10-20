@@ -1,6 +1,6 @@
 <template>
   <div class="input-wrapper">
-    <label>{{ attr.name }}</label>
+    <label>{{ attr.name }} {{ attr.required ? '*': '' }}</label>
     <input type="number" v-model="val" @input="handleChange" />
   </div>
 </template>
