@@ -83,10 +83,9 @@
     </div>
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4">
-        <h1 class="font-semibold">1000 rezultata</h1>
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;"><path d="M26 1a5 5 0 0 1 5 5c0 6.389-1.592 13.187-4 14.693V31h-2V20.694c-2.364-1.478-3.942-8.062-3.998-14.349L21 6l.005-.217A5 5 0 0 1 26 1zm-9 0v18.118c2.317.557 4 3.01 4 5.882 0 3.27-2.183 6-5 6s-5-2.73-5-6c0-2.872 1.683-5.326 4-5.882V1zM2 1h1c4.47 0 6.934 6.365 6.999 18.505L10 21H3.999L4 31H2zm14 20c-1.602 0-3 1.748-3 4s1.398 4 3 4 3-1.748 3-4-1.398-4-3-4zM4 3.239V19h3.995l-.017-.964-.027-.949C7.673 9.157 6.235 4.623 4.224 3.364l-.12-.07zm19.005 2.585L23 6l.002.31c.045 4.321 1.031 9.133 1.999 11.39V3.17a3.002 3.002 0 0 0-1.996 2.654zm3.996-2.653v14.526C27.99 15.387 29 10.4 29 6a3.001 3.001 0 0 0-2-2.829z"></path></svg>
+        <h1 class="font-semibold" v-if="meta.total > 0">{{ meta.total }} rezultata</h1>
         <div class="toggle-map-wrapper">
-          <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selected_preview_type === type.value ? 'active' : ''">
+          <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
             </svg>
@@ -94,7 +93,7 @@
           </button>
         </div>
       </div>
-      <div class="results" v-if="selected_preview_type === 'grid'">
+      <div class="results" v-if="selectedPreviewType === 'grid'">
         <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
         </div>
@@ -109,7 +108,7 @@
       </div>
       <div class="results map" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map">
-          <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+          <HorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           <client-only>
             <Pagination
               ref="pagination"
@@ -120,7 +119,7 @@
           </client-only>
         </div>
         <div class="map-wrapper">
-          <SearchMap :locations="results"></SearchMap>
+          <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
         </div>
       </div>
     </div>
@@ -130,8 +129,6 @@
              :adaptive="true"
              height="100%"
              :width="$device.isMobile ? '100%' : '40%'"
-             @before-open="beforeOpen"
-             @before-close="beforeClose"
       >
         <div class="modal-inner">
           <div class="modal-header">
@@ -276,11 +273,16 @@ import SearchMap from "../components/googleMap/SearchMap";
     let queryPayload = {};
     let categories = [];
     let selectedCategoryId = null;
+    let selectedPreviewType = 'grid';
 
     if (ctx.route.query.q) {
       let query = decodeURIComponent(ctx.route.query.q)
       page = ctx.route.query.page || '1';
       page = parseInt(page)
+
+      if (ctx.route.query.preview) {
+        selectedPreviewType = ctx.route.query.preview;
+      }
 
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}`)
@@ -335,6 +337,7 @@ import SearchMap from "../components/googleMap/SearchMap";
     let categoryTitle = category ? category.title: '';
 
     return {
+      selectedPreviewType,
       categoryTitle,
       selectedTypes,
       allAttributes,
@@ -354,6 +357,7 @@ export default class Homepage extends Vue {
   showSortDropdown = false;
   showTypeDropdown = false;
   selectedSort = '';
+  currentResultIndex = -1;
   listing_types = [
     {
       name: "Prodaja",
@@ -384,7 +388,6 @@ export default class Homepage extends Vue {
       path: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'
     }
   ]
-  selected_preview_type = 'grid';
   sort_types = [
     {
       name: "Najniža cijena",
@@ -408,13 +411,14 @@ export default class Homepage extends Vue {
     let preview = localStorage.getItem("preview");
 
     if(preview) {
-      this.selected_preview_type = preview.toLowerCase();
+      this.selectedPreviewType = preview.toLowerCase();
     } else {
-      this.selected_preview_type = 'grid'
+      this.selectedPreviewType = 'grid'
     }
+  }
 
-    console.log(this.selected_preview_type, 'asdasdasda')
-
+  handleListingHover(index) {
+    this.currentResultIndex = index;
   }
 
   toggleCatsModal() {
@@ -459,13 +463,13 @@ export default class Homepage extends Vue {
 
 
   pageChangeHandler(selectedPage) {
-    this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage }) });
+    this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage, preview: this.selectedPreviewType }) });
   }
 
   handleSelectPreviewType(t) {
-    this.selected_preview_type = t.value
+    this.selectedPreviewType = t.value
 
-    localStorage.setItem('preview', this.selected_preview_type);
+    localStorage.setItem('preview', this.selectedPreviewType);
   }
 
 
@@ -476,7 +480,7 @@ export default class Homepage extends Vue {
   newSearch() {
     let q = buildQuery(this.queryPayload)
 
-    this.$router.push(`/pretraga?q=${q}`)
+    this.$router.push(`/pretraga?q=${q}&preview=${this.selectedPreviewType}`)
   }
 
   handleBack() {

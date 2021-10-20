@@ -9,21 +9,7 @@
     </div>
     <a :href="'/artikal/' + listing.id">
       <div class="overflow-hidden relative">
-        <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
-          <swiper-slide v-for="(img, index) in listing.images" :key="index">
-            <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
-            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-          </swiper-slide>
-          <div
-            class="swiper-button-prev swiper-button-white"
-            slot="button-prev"
-          ></div>
-          <div
-            class="swiper-button-next swiper-button-white"
-            slot="button-next"
-          ></div>
-          <div class="swiper-pagination" slot="pagination"></div>
-        </swiper>
+        <img :src="listing.images[0].url" class="main-image" alt="" v-if="listing.images.length">
         <img v-else src="/noimage.jpeg" alt="">
         <!--          <label class="publisher shadow-sm sale" v-if="action">-->
         <!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
@@ -300,7 +286,7 @@ a {
   img {
     height: 280px;
     width: 100%;
-    border-radius: 7px;
+    border-radius: 0px;
     object-fit: cover;
 
     @include for-phone-only {
@@ -637,4 +623,10 @@ a {
   padding: 4px;
   font-weight: 600;
 }
+
+.main-image {
+  height: 190px !important;
+}
+
+
 </style>

@@ -1,125 +1,66 @@
 <template>
-  <div class="listing-card-wrapper">
-<!--    <nuxt-link :to="{ path: '/artikal/' + listing.id }">-->
-<!--      <div class="img-wrapper-main">-->
-<!--        <label class="type" v-if="$device.isMobile">{{ listing.listing_type.title }}</label>-->
-
-<!--        <label class="publisher" v-if="!$device.isMobile">-->
-<!--          <font-awesome-icon icon="bullhorn"></font-awesome-icon>-->
-<!--          <span>{{ translateType() }}</span>-->
-<!--        </label>-->
-<!--        <label class="bottom" v-if="!$device.isMobile">-->
-<!--          <button-->
-<!--            v-for="(attr, index) in specialAttributes"-->
-<!--            :key="index"-->
-<!--            class="standard-tag"-->
-<!--          >-->
-<!--            {{ attr.value }}-->
-<!--            <p v-if="attr.name === 'Kvadratura'"> m²</p>-->
-<!--            <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>-->
-<!--          </button>-->
-<!--        </label>-->
-<!--        <img src="/stan.jpg" alt="">-->
-<!--      </div>-->
-<!--      <div :class="['listing-card-content', listing.sponsored !== 0 ? 'sponsored' : '']">-->
-<!--        <div class="column">-->
-<!--          <div class="title-price">-->
-<!--            <div class="title-box">-->
-<!--              <div class="pb-5 border-b border-gray-200">-->
-<!--                <h3 class="text-lg leading-6 font-medium text-gray-900">-->
-<!--                  {{listing.title }}-->
-<!--                </h3>-->
-<!--              </div>-->
-<!--&lt;!&ndash;              <div v-if="!$device.isMobile" class="aprox">&ndash;&gt;-->
-<!--&lt;!&ndash;                {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }} ispod prosječne cijene&ndash;&gt;-->
-<!--&lt;!&ndash;              </div>&ndash;&gt;-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          &lt;!&ndash; Potrebno u responsu vratitit ime grada, category slug i korisnika &ndash;&gt;-->
-<!--          <div class="address">-->
-<!--            <p>{{ listing.address }}</p>-->
-<!--          </div>-->
-<!--          <div class="main-options" v-if="$device.isMobile">-->
-<!--            <label v-show="this.listing.price < this.avgPrice" @click.stop.prevent="showTooltip = true">-->
-<!--              {{ differenceInPrice(parseInt(this.avgPrice), parseInt(this.listing.price)) }}-->
-<!--              <font-awesome-icon icon="sort-down"></font-awesome-icon>-->
-<!--            </label>-->
-<!--            <label-->
-<!--              v-for="(attr, index) in specialAttributes"-->
-<!--              :key="index"-->
-<!--              >-->
-<!--                {{ attr.value }}-->
-<!--                <p v-if="attr.name === 'Kvadratura'">m²</p>-->
-<!--                <font-awesome-icon v-if="attr.name === 'Broj soba'" icon="door-closed"></font-awesome-icon>-->
-<!--            </label>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="price">-->
-<!--          <h1>{{ this.$moment(listing.published_at).fromNow() }}</h1>-->
-<!--          <div class="price-div">-->
-<!--            <p class="price-label">{{ parseInt(listing.price) }} KM</p>-->
-<!--            <b v-if="listing.listing_type.shortname === 'rent-for-a-day'">dan</b>-->
-<!--            <b v-if="listing.listing_type.shortname === 'rent'">mj</b>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </nuxt-link>-->
-    <div class="bg-white cursor-pointer sm:w-full horizontal-card border-black mb-6 flex flex-col sm:flex-row gap-5 select-none">
-      <div class="overflow-hidden relative image-wrapper">
-        <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
-          <swiper-slide v-for="(img, index) in listing.images" :key="index">
-            <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
-            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-          </swiper-slide>
-          <div
-            class="swiper-button-prev swiper-button-white"
-            slot="button-prev"
-          ></div>
-          <div
-            class="swiper-button-next swiper-button-white"
-            slot="button-next"
-          ></div>
-          <div class="swiper-pagination" slot="pagination"></div>
-        </swiper>
-        <img v-else src="/noimage.jpeg" alt="">
-      </div>
-      <div class="flex w-full flex-col gap-2 p-1 justify-between">
-        <div>
-          <button
-            class='w-full flex items-center font-medium flex flex-row items-center justify-between'
-          >
-            <h1 class="text-lg font-medium text-gray-800">
-              {{ listing.title }}
-            </h1>
-            {{ listing.price }} KM
-          </button>
-          <p class="mt-5 text-sm text-gray-500 font-medium leading-5">{{ listing.address }}</p>
-        </div>
-        <div class="flex  justify-between">
-
-          <div class="flex flex-row items-center special">
+  <div class="listing-card-wrapper relative">
+    <nuxt-link :to="{ path: '/artikal/' + listing.id }">
+      <label class="publisher shadow-sm">
+        <span class="flex flex-row items-center">{{ translateType() }}
+        </span>
+      </label>
+      <div class="bg-white cursor-pointer sm:w-full horizontal-card border-black mb-6 flex flex-col sm:flex-row gap-5 select-none">
+        <div class="overflow-hidden relative image-wrapper">
+          <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
+            <swiper-slide v-for="(img, index) in listing.images" :key="index">
+              <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
+              <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            </swiper-slide>
             <div
-              v-for="(attr, index) in specialAttributes"
-              :key="index"
-              class="flex flex-row items-center mr-2"
+              class="swiper-button-prev swiper-button-white"
+              slot="button-prev"
+            ></div>
+            <div
+              class="swiper-button-next swiper-button-white"
+              slot="button-next"
+            ></div>
+            <div class="swiper-pagination" slot="pagination"></div>
+          </swiper>
+          <img v-else src="/noimage.jpeg" alt="">
+        </div>
+        <div class="flex w-full flex-col gap-2 p-1 justify-between">
+          <div>
+            <button
+              class='w-full flex items-center font-medium flex flex-row items-center justify-between'
             >
-              <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
-              {{ attr.value }}
+              <h1 class="text-lg font-medium text-gray-800 text-left">
+                {{ listing.title }}
+              </h1>
+            </button>
+            <p class="mt-5 text-sm text-gray-500 font-medium leading-5">{{ listing.address }}</p>
+          </div>
+          <div class="flex  justify-between items-center">
+
+            <div class="flex flex-row items-center special">
+                <button
+                  v-for="(attr, index) in specialAttributes"
+                  :key="index"
+                  class='px-2 flex items-center gap-1 sm:text-lg border border-gray-300 py-0 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500 flex flex-row items-center mr-2'
+                >
+                  <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                  <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
+                  {{ attr.value }}
+                </button>
+            </div>
+            <div class="flex flex-row items-center">
+              <button
+                class='flex items-center gap-1 sm:text-lg py-1 px-1 hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
+              >
+                <p class="text-sm w-auto font-semibold">{{ listing.price }} KM</p>
+
+              </button>
             </div>
           </div>
-          <div class="flex flex-row items-center">
-            <button
-              class='flex items-center gap-1 sm:text-lg border border-gray-300 px-1 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
-            >
-              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z"></path></svg>
-            </button>
-          </div>
         </div>
       </div>
-    </div>
-    <Snackbar />
+      <Snackbar />
+    </nuxt-link>
   </div>
 </template>
 
@@ -178,6 +119,7 @@ export default class HorizontalCard extends Vue{
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
+    console.log(this.listing)
   }
 
   differenceInPrice(a, b) {
@@ -204,7 +146,7 @@ export default class HorizontalCard extends Vue{
       return 'Potražnja'
     } else if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
-    } else if(this.listing.listing_type.shortname === 'rent-for-a-day'){
+    } else if(this.listing.listing_type.shortname === 'booking'){
       return 'Stan na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
       return 'Iznajmljivanje'
@@ -262,7 +204,7 @@ a {
 .listing-card-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: fit-content;
   width: 100%;
   position: relative;
 
@@ -270,6 +212,10 @@ a {
     flex-direction: row;
     height: 120px;
     margin-bottom: 12px;
+  }
+
+  a {
+    align-items: flex-start;
   }
 
 .column {
@@ -660,14 +606,6 @@ padding-left: 16px;
       }
     }
 
-    &.publisher {
-      top: 8px;
-
-      svg {
-        margin-right: 8px;
-      }
-    }
-
     &.sponsored {
       right: 8px !important;
       left: inherit;
@@ -699,6 +637,23 @@ padding-left: 16px;
   width: 250px;
   max-width: 250px;
   border-radius: 7px;
+  height: 180px;
+  max-height: 180px;
+
+  img {
+    height: 190px !important;
+  }
+
+  ::v-deep .swiper-slide {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: #f9f9f9 !important;
+
+    &:focus {
+      outline: none !important
+    }
+  }
 
 }
 
@@ -709,7 +664,6 @@ padding-left: 16px;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 10px;
 
   img {
     height: 12px !important;
@@ -718,16 +672,102 @@ padding-left: 16px;
     margin-right: 4px;
   }
 
-  > div {
+  > button {
     border: 1px solid #ececec;
-    border-radius: 15px;
-    height: 25px;
     width: fit-content;
     margin-right: 8px;
-    padding: 0 10px;
     font-weight: 500;
     background: #f9f9f9;
-    font-size: 12px;
+    font-size: 13px;
   }
 }
+
+.swiper-button-prev, .swiper-button-next {
+  color: #002F34 !important;
+  height: 30px;
+  max-height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+  z-index: 10;
+  transition: 0.3s all ease;
+
+  @include for-phone-only {
+    display: flex;
+    background: rgba(241, 241, 241, 0.48);
+  }
+
+  &::after {
+    font-size: 13px !important;
+    line-height: 13px !important;
+  }
+}
+
+::v-deep .swiper-pagination-bullet {
+  width: 10px !important;
+  height: 10px !important;
+  border: 2px solid rgb(255, 255, 255) !important;
+  background: #fff !important;
+  opacity: 0.8 !important;
+}
+::v-deep .swiper-pagination-bullet-active {
+  width: 10px !important;
+  height: 10px !important;
+  border: 3px solid white !important;
+  background: #fff !important;
+  opacity: 1 !important;
+}
+
+::v-deep .swiper-pagination {
+  bottom: 12px !important;
+}
+
+::v-deep .swiper-slide.active {
+  @include for-phone-only {
+    width: 100% !important;
+  }
+}
+
+::v-deep .swiper-slide {
+  @include for-phone-only {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #f9f9f9 !important;
+  }
+}
+
+.publisher {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  position: absolute;
+  border-radius: 3px;
+  background: #fff;
+  color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: capitalize;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+  z-index: 2;
+
+  svg {
+    margin-right: 8px;
+  }
+}
+
 </style>
