@@ -826,6 +826,8 @@ export default class Artikal extends Vue {
       }
     }
 
+    console.log(this.listing, 'listing')
+
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
   }

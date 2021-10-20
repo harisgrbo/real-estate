@@ -7,12 +7,12 @@
     <div class="flow-root flex flex-col justify-between h-full">
       <ul role="list" class="divide-y divide-gray-200" v-if="notifications.length">
         <li v-for="notification in notifications" class="cursor-pointer w-auto inline-block relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-          <div class="flex justify-between space-x-3">
+          <nuxt-link :to="notification.action" class="flex justify-between space-x-3">
             <div class="min-w-0 flex-1">
-              <a href="#" class="block focus:outline-none mb-1" v-if="notification.user">
+              <div class="block focus:outline-none mb-1" v-if="notification.user">
                 <span class="absolute inset-0" aria-hidden="true"></span>
-                <p class="text-sm font-medium text-gray-900 truncate">{{ notification.user.name }}</p>
-              </a>
+                <p class="text-md font-semibold text-gray-900 truncate">{{ notification.user.name }}</p>
+              </div>
               <div>
                 <p class="line-clamp-2 text-sm text-gray-600">
                   {{
@@ -22,7 +22,7 @@
               </div>
             </div>
             <time class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(notification.date).format("DD.MM.YYYY") }}</time>
-          </div>
+          </nuxt-link>
         </li>
 
         <!-- More messages... -->

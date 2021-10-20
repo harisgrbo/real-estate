@@ -551,7 +551,7 @@ export default class Navbar extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 0 12px;
     flex: 2;
     position: relative;
@@ -566,7 +566,7 @@ export default class Navbar extends Vue {
 
     &.focused {
       box-shadow: 0px 8px 20px rgba(0,0,0,0.09);
-      border-radius: 8px;
+      border-radius: 4px;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       z-index: 1;

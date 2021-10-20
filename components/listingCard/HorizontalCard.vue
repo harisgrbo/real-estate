@@ -176,19 +176,8 @@ export default class HorizontalCard extends Vue{
     },
   }
 
-  mounted() {
-    localStorage.setItem('preview', this.selected_preview_type);
-  }
-
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
-
-    let preview = localStorage.getItem("preview");
-
-    this.selected_preview_type = preview.toLowerCase();
-
-    console.log(this.selected_preview_type, 'asdasdasda')
-
   }
 
   differenceInPrice(a, b) {
