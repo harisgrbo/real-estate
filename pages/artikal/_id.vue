@@ -159,6 +159,24 @@
                 </li>
               </ul>
             </div>
+            <div v-if="RentSpecialAttributes.length">
+              <h2 class="text-xl font-medium text-gray-900 mx-5 lg:mx-0 xl:mx-0 up:mx-0">
+                Izdvojene pogodnosti
+              </h2>
+              <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 up:grid-cols-4 gap-4 py-6 bg-gray-50 mt-4 rounded-md p-4">
+                <div
+                  v-for="(attr, index) in RentSpecialAttributes"
+                  :key="index"
+                  class="flex flex-row items-center p-2 rounded-md border border-gray-400 rent-special"
+                >
+                  <img :src="'/' + attr.name + '.png'" alt="">
+                  <div>
+                    <p>{{ attr.name }}</p>
+                    <p v-if="typeof (attr.value) !== 'boolean'" :class="[typeof (attr.value) !== 'boolean' ? 'mt-1' : '']">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="mt-6 mx-5 lg:mx-0 xl:mx-0 up:mx-0" v-if="checkboxAttributes.length">
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
@@ -544,6 +562,16 @@ export default class Artikal extends Vue {
   masks = {
     input: 'YYYY-MM-DD',
   }
+  RentSpecialAttributes = []
+  RentSpecialAttributesKeys = [
+    "Klima",
+    "Wifi",
+    "Broj kreveta",
+    "Pegla",
+    "Ves masina",
+    "Kuhinja",
+    "Fen"
+  ];
 
   swiperOptionCard = {
     spaceBetween: 0,
@@ -593,6 +621,13 @@ export default class Artikal extends Vue {
         date: day.date,
       });
     }
+  }
+
+  getSpecialAttributes() {
+    if (!this.listing.attributes) return [];
+    return this.listing.attributes.filter((item) => {
+      return this.RentSpecialAttributesKeys.indexOf(item.name) !== -1;
+    });
   }
 
   get authUser() {
@@ -817,6 +852,7 @@ export default class Artikal extends Vue {
   }
 
   async created() {
+    this.RentSpecialAttributes = this.getSpecialAttributes();
     await this.fetchPlaces();
 
     for (let key of Object.keys(this.places)) {
@@ -1842,6 +1878,20 @@ export default class Artikal extends Vue {
     font-weight: 600;
   }
 
+}
+
+.rent-special {
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  img {
+    height: 25px;
+    margin-right: 10px;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
 </style>

@@ -417,10 +417,6 @@ export default class Homepage extends Vue {
 
   }
 
-  created() {
-
-  }
-
   toggleCatsModal() {
     this.$modal.show('cats-modal')
   }

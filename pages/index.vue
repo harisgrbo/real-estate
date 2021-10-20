@@ -69,7 +69,7 @@
             <h3 class="font-semibold searched-h3">
                 {{ city.title }}
             </h3>
-            <p class="mt-1 text-lg text-white searched-h3">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
+            <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
           </div>
           <button @click="searchLocation(city.city.id)" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Pogledaj više
@@ -1157,6 +1157,13 @@ ul.most-visited-cats {
 .searched-h3 {
   position: relative;
   z-index: 2;
+
+  &.km {
+    background: rgba(0, 0, 0, 0.51);
+    border-radius: 4px;
+    margin-top: 12px;
+    padding: 8px 12px;
+  }
 }
 
 ::v-deep .autocomplete-dropdown {
