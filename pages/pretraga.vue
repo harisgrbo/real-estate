@@ -109,7 +109,7 @@
       </div>
       <div class="results map" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map">
-          <HorizontalCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+          <HorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           <client-only>
             <Pagination
               ref="pagination"
@@ -120,7 +120,7 @@
           </client-only>
         </div>
         <div class="map-wrapper">
-          <SearchMap :locations="results"></SearchMap>
+          <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
         </div>
       </div>
     </div>
@@ -358,6 +358,7 @@ export default class Homepage extends Vue {
   showSortDropdown = false;
   showTypeDropdown = false;
   selectedSort = '';
+  currentResultIndex = -1;
   listing_types = [
     {
       name: "Prodaja",
@@ -415,6 +416,10 @@ export default class Homepage extends Vue {
     } else {
       this.selectedPreviewType = 'grid'
     }
+  }
+
+  handleListingHover(index) {
+    this.currentResultIndex = index;
   }
 
   toggleCatsModal() {
