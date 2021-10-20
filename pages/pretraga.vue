@@ -26,7 +26,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
             </svg>
-            {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
+            {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
           </button>
 
           <div class="flex items-center justify-end types">
@@ -36,7 +36,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
                   </svg>
-                  {{ selectedSort !== "" ? selectedSort : 'Sortiraj' }}
+                  {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
                   <!-- Heroicon name: solid/chevron-down -->
                   <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -45,7 +45,7 @@
               </div>
               <div v-if="showSortDropdown" class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="py-1" role="none">
-                  <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click="selectSort(item)">
+                  <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
                     {{ item.name }}
                   </a>
                 </div>
@@ -275,6 +275,10 @@ import SearchMap from "../components/googleMap/SearchMap";
     let categories = [];
     let selectedCategoryId = null;
     let selectedPreviewType = 'grid';
+    let selectedSort = {
+      name: "Najnovije",
+      value: 0
+    }
 
     if (ctx.route.query.q) {
       let query = decodeURIComponent(ctx.route.query.q)
@@ -285,8 +289,23 @@ import SearchMap from "../components/googleMap/SearchMap";
         selectedPreviewType = ctx.route.query.preview;
       }
 
+      let sortQuery = '';
+
+      if (ctx.route.query.sort) {
+        let order = ctx.route.query.order || 'desc';
+
+        selectedSort = {
+          name: order === 'asc' ? "Najniža cijena": "Najviša cijena",
+          value: order === 'asc' ? 1: 2,
+          sort: 'price',
+          order: order
+        }
+
+        sortQuery = `&sort=price&order=${order}`;
+      }
+
       try {
-        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}`)
+        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
         results = response.data.data;
         meta = response.data.meta;
         allAttributes = response.data.meta.attributes;
@@ -338,6 +357,7 @@ import SearchMap from "../components/googleMap/SearchMap";
     let categoryTitle = category ? category.title: '';
 
     return {
+      selectedSort,
       selectedPreviewType,
       categoryTitle,
       selectedTypes,
@@ -357,7 +377,6 @@ export default class Homepage extends Vue {
   mapExpanded = false;
   showSortDropdown = false;
   showTypeDropdown = false;
-  selectedSort = '';
   currentResultIndex = -1;
   listing_types = [
     {
@@ -391,21 +410,23 @@ export default class Homepage extends Vue {
   ]
   sort_types = [
     {
-      name: "Najniža cijena",
+      name: "Najnovije",
       value: 0,
+      sort: 0,
+      order: 'desc'
+    },
+    {
+      name: "Najniža cijena",
+      value: 1,
+      sort: 'price',
+      order: 'asc'
     },
     {
       name: "Najviša cijena",
-      value: 1,
-    },
-    {
-      name: "Najnovije",
       value: 2,
-    },
-    {
-      name: "Najstarije",
-      value: 3,
-    },
+      sort: 'price',
+      order: 'desc'
+    }
   ]
 
   mounted() {
@@ -427,9 +448,16 @@ export default class Homepage extends Vue {
   }
 
   selectSort(i) {
-    this.selectedSort = i.name;
+    if (i.value === 0) {
+      let cpy = Object.assign({}, this.$route.query);
 
-    this.showSortDropdown = false;
+      delete cpy.sort;
+      delete cpy.order;
+
+      this.$router.push({ query: Object.assign({}, cpy, { preview: this.selectedPreviewType }) });
+    } else {
+      this.$router.push({ query: Object.assign({}, this.$route.query, { sort: i.sort, order: i.order, preview: this.selectedPreviewType }) });
+    }
   }
 
   addOrRemoveFromListTypes(x) {
