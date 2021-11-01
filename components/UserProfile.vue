@@ -106,7 +106,7 @@
                 </template>
               </vc-date-picker>
             </div>
-            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit"></ActionButton>
+            <ActionButton @action="$emit(`booking`)" :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit"></ActionButton>
           </form>
         </client-only>
       </div>

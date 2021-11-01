@@ -288,7 +288,7 @@
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type"></UserProfile>
+            <UserProfile :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && !authUser" class="px-5 lg:px-0 xl:px-0 up:px-0">
             <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
@@ -462,7 +462,7 @@
                           </template>
                         </vc-date-picker>
                       </div>
-                      <ActionButton :style-options="{ color: '#fff', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                      <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
                     </form>
                   </client-only>
                 </div>
@@ -599,6 +599,28 @@ export default class Artikal extends Vue {
       // amount of images to load
       loadPrevNextAmount: 2,
     },
+  }
+
+  async sendBookingRequest() {
+    let start = this.$moment(this.range.start).format('d-M-Y');
+    let end = this.$moment(this.range.end).format('d-M-Y');
+
+    try {
+      let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
+        'starts_at': start,
+        'ends_at': end
+      })
+
+      console.log(res);
+
+      this.$snackbar.show({
+        text: "Upit poslan",
+        timeout: 1000,
+        type: "success"
+      });
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   get dates() {
