@@ -11,6 +11,13 @@
 <!--      </li>-->
 <!--    </ul>-->
     <div class="publish mb-24 p-8">
+      <client-only>
+        <swiper class="swiper top" :options="swiperOptionSpecial">
+          <swiper-slide v-for="listing in listings_sell" :key="listing.id">
+            <Slide :listing="listing"></Slide>
+          </swiper-slide>
+        </swiper>
+      </client-only>
       <div class="quick-search">
         <ul class="w-full">
           <li v-for="(tab, index) in tabs" :key="index" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
@@ -384,6 +391,26 @@
     listings_rent = []
     listings_rent_for_a_day = []
     agencies = []
+
+    swiperOptionSpecial = {
+      spaceBetween: 0,
+      // centeredSlides: true,
+      // slidesOffsetBefore: '100px',
+      // slidesOffsetAfter: '100px',
+      // slidesOffsetBefore: '0px',
+      loop: true,
+      autoplay: {
+        delay: 7000,
+      },
+      slidesPerView: 1,
+      touchRatio: 0.2,
+      slideToClickedSlide: false,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+    }
+
 
     created() {
       this.fetchCategories()
@@ -1234,5 +1261,9 @@ button.search {
     height: 182px !important;
     width: 260px !important;
   }
+}
+
+.swiper.top {
+  position: absolute !important;
 }
 </style>
