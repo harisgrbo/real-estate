@@ -107,7 +107,7 @@
         </client-only>
       </div>
       <div class="results map" v-else>
-        <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map">
+        <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
           <HorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           <client-only>
             <Pagination
@@ -117,6 +117,9 @@
               :total-pages="lastPage"
               @page-change="pageChangeHandler" />
           </client-only>
+        </div>
+        <div v-else class="divide-y divide-gray-200 flex flex-col results-wrapper-map w-full items-center justify-center">
+          nema rezultata
         </div>
         <div class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
