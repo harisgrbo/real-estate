@@ -69,7 +69,7 @@ export default class Dashboard extends Vue {
 
 .nuxt-link-active.inner {
   position: relative;
-  color: #0B8489;
+  color: #023246;
 
   &::after {
     content: '';
@@ -77,7 +77,7 @@ export default class Dashboard extends Vue {
     left: 0;
     right: 0;
     bottom: 0;
-    border-bottom: 1px solid #0B8489;
+    border-bottom: 2px solid #023246;
   }
 }
 
@@ -98,7 +98,6 @@ ul.expanded {
     height: 40px;
     position: relative;
     cursor: pointer;
-    text-transform: uppercase;
     font-weight:500;
     width: fit-content;
 

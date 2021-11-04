@@ -94,7 +94,7 @@
         </div>
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
-        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap">
+        <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
           <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
         </div>
         <client-only>
@@ -1004,4 +1004,5 @@ export default class Homepage extends Vue {
 
   }
 }
+
 </style>

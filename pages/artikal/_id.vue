@@ -1090,10 +1090,12 @@ export default class Artikal extends Vue {
         flex-direction: row;
         width: 100%;
         padding-bottom: 32px;
+        padding-top: 60px;
 
         @include for-phone-only {
           width: 100%;
           flex-direction: column;
+          padding-top: 0;
         }
       }
       .article-title {

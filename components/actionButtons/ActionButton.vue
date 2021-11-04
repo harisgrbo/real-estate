@@ -31,7 +31,7 @@ div {
 button {
   font-family: 'Lato', sans-serif;
   height: 48px;
-  border-radius: 4px;
+  border-radius: 8px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -43,11 +43,8 @@ button {
   justify-content: center;
   transition: 0.3s all ease;
   background: hsla(218, 34%, 30%, 1);
-
   background: radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
-
   background: -moz-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
-
   background: -webkit-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
   svg {
     margin-right: 8px;

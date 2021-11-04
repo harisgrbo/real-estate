@@ -56,11 +56,11 @@
       </div>
     </div>
     <div class="flex flex-col lg:px-20 xl:px-20 mt-8 up:px-20 mx-auto w-full mb-12 lg:mb-16 xl:mb-16 up:mb-16">
-      <h2 class="section-title ml-5">
+      <h2 class="section-title">
         Najtraženije lokacije
       </h2>
 
-      <ul v-if="locationsLoaded" role="list" class="pl-5 most-visited sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
+      <ul v-if="locationsLoaded" role="list" class="most-visited sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
         <li class="flow-root justify-between flex flex-col items-center text-center relative" v-for="(city, index) in top_locations" :key="index"
             :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
         >

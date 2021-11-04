@@ -1,8 +1,7 @@
 <template>
   <div class="upravljanje-wrapper">
-    <h2>Aktivni oglasi</h2>
-    <div class="grid-layout">
-      <ListingCard v-for="listing in listings" :listing="listing" :from="true" :key="listing.id"/>
+    <div class="grid-cols-6 grid">
+      <ListingCard v-for="listing in listings" :listing="listing" :from="true" @handleAction="actionHandler($event)" action_text="Izbriši" :key="listing.id"/>
     </div>
   </div>
 </template>
@@ -33,6 +32,11 @@ export default class UpravljanjeOglasima extends Vue {
       console.log(e)
     }
   }
+
+  actionHandler($event) {
+    console.log($event)
+  }
+
 }
 </script>
 
@@ -42,6 +46,8 @@ export default class UpravljanjeOglasima extends Vue {
   flex-direction: column;
   padding-top: 36px;
   box-sizing: border-box;
+  width: auto;
+  margin: 0 80px;
 
   h2 {
     font-size: 20px;

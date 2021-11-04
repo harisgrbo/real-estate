@@ -89,7 +89,7 @@
         <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
       </button>
       <div class="auth-buttons" v-if="!$device.isMobile">
-        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
+        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '8px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
@@ -815,11 +815,15 @@ export default class Navbar extends Vue {
             color: #fff;
             background: #0D1F3E;
             height: 18px;
-            border-radius: 3px;
+            width: 18px;
+            border-radius: 13px;
             margin-right: 4px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-top: -14px;
+            margin-left: -18px;
           }
         }
 
