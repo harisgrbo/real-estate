@@ -83,7 +83,7 @@
     </div>
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4">
-        <h1 class="font-semibold" v-if="meta.total > 0">{{ meta.total }} rezultata</h1>
+        <h1 class="font-semibold">{{ meta.total }} rezultata</h1>
         <div class="toggle-map-wrapper">
           <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -94,17 +94,23 @@
         </div>
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
-        <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
-          <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+        <div v-if="results.length" class="w-full flex flex-col">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
+            <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+          </div>
+          <client-only>
+            <Pagination
+              ref="pagination"
+              v-show="meta.total > 20"
+              :current-page="page"
+              :total-pages="lastPage"
+              @page-change="pageChangeHandler" />
+          </client-only>
         </div>
-        <client-only>
-          <Pagination
-            ref="pagination"
-            v-show="meta.total > 20"
-            :current-page="page"
-            :total-pages="lastPage"
-            @page-change="pageChangeHandler" />
-        </client-only>
+        <div v-else class="divide-y divide-gray-200 flex flex-col min-h-full w-full items-center justify-center">
+          <img class="no-results" src="/no-results.svg" alt="">
+          <p class="mt-4 text-lg font-normal">Nema rezultata</p>
+        </div>
       </div>
       <div class="results map" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
@@ -118,8 +124,9 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <div v-else class="divide-y divide-gray-200 flex flex-col results-wrapper-map w-full items-center justify-center">
-          nema rezultata
+        <div v-else class="divide-y divide-gray-200 flex flex-col min-h-full w-full items-center justify-center">
+          <img class="no-results" src="/no-results.svg" alt="">
+          <p class="mt-4 text-lg font-normal">Nema rezultata</p>
         </div>
         <div class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
@@ -1003,6 +1010,11 @@ export default class Homepage extends Vue {
   button {
 
   }
+}
+
+.no-results {
+  height: 200px;
+  margin-top: 200px;
 }
 
 </style>
