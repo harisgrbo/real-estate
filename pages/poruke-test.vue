@@ -1,7 +1,7 @@
 <template>
   <div class="account-wrapper-a">
     <!-- BEGIN: Content -->
-    <div class="content">
+    <div class="content px-20 mt-20">
       <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
         <h2 class="text-lg font-medium mr-auto">
           Chat

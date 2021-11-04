@@ -3,12 +3,12 @@
     <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
       <!-- BEGIN: Display Information -->
       <div class="intro-y box lg:mt-5">
-        <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+        <div class="flex items-center border-b border-gray-200 dark:border-dark-5">
           <h2 class="font-medium text-base mr-auto">
             Display Information
           </h2>
         </div>
-        <div class="p-5">
+        <div>
           <div class="flex flex-col-reverse xl:flex-row flex-col">
             <div class="flex-1 mt-6 xl:mt-0">
               <div class="grid grid-cols-12 gap-x-5">
@@ -54,7 +54,7 @@
               <button type="button" class="btn btn-primary w-20 mt-3">Save</button>
             </div>
             <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
-              <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
+              <div class="border-2 border-dashed border-gray-200 dark:border-dark-5 rounded-md p-5">
                 <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
                   <img class="rounded-md" alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-3.jpg">
                   <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
@@ -71,12 +71,12 @@
       <!-- END: Display Information -->
       <!-- BEGIN: Personal Information -->
       <div class="intro-y box mt-5">
-        <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+        <div class="flex items-center border-b border-gray-200 dark:border-dark-5">
           <h2 class="font-medium text-base mr-auto">
             Personal Information
           </h2>
         </div>
-        <div class="p-5">
+        <div>
           <div class="grid grid-cols-12 gap-x-5">
             <div class="col-span-12 xl:col-span-6">
               <div>
@@ -207,180 +207,11 @@ export default class urediProfil extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-
-.heading {
-  margin-bottom: 36px;
-}
-.w-full {
-  display: flex;
-
-  .content {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 32px;
-    column-gap: 24px;
-  }
-
-  ::v-deep button {
-    width: 150px;
-  }
-}
-
-h2.heading {
-  color: rgb(72, 72, 72) !important;
-  font-weight: 500 !important;
+<style>
+.box {
+  box-shadow: none;
+  border-bottom: 1px solid #f1f1f1;
   padding-bottom: 24px;
-  font-size: 22px !important;
-  border-bottom: 1px solid #EBEBEB !important;
-  position: relative;
-
-  &.password {
-    margin-top: 42px;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 80px;
-    height: 1px;
-    background: #0B8489;
-  }
-}
-
-.grid-inputs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-row-gap: 24px;
-  grid-column-gap: 24px;
-}
-
-.info-wrapper {
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-
-  .field-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex: 6;
-  }
-
-  .img-upload {
-    display: flex;
-    flex-direction: column;
-    flex: 2;
-    box-sizing: border-box;
-    margin-left: 48px;
-
-    .avatar-wrapper {
-      border-radius: 10px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      align-items: center;
-      justify-content: center;
-
-      .img-wrap-relative {
-        height: 200px;
-        width: 200px;
-        border-radius: 100px;
-        position: relative;
-        overflow: hidden;
-
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-        }
-
-        .upload-btn {
-          position: absolute;
-          display: none;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          z-index:3;
-          height: 100%;
-          width: 100%;
-          border-radius: 100px;
-          background-color: rgba(255, 255, 255, .5);
-          -webkit-backdrop-filter: blur(0.1em);
-          backdrop-filter: blur(1px);
-
-          button {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            jsutify-content: center;
-            background: #0B8489;
-            border-radius: 5px;
-            border: none;
-            font-family: 'Lato', sans-serif;
-            color: #fff;
-            padding: 8px 12px;
-            cursor: pointer;
-
-            svg {
-              font-size: 17px;
-            }
-
-            &:focus {
-              outline: none;
-            }
-
-            p {
-              margin-right: 12px;
-            }
-          }
-        }
-
-        &:hover {
-          .upload-btn {
-            display: flex;
-          }
-        }
-      }
-
-      .verification-status {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        margin-top: 24px;
-        padding-top: 24px;
-        border-top: 1px solid #ebebeb;
-        align-items: center;
-        justify-content: flex-start;
-
-        img {
-          height: 40px;
-        }
-
-        p {
-          margin-left: 12px;
-        }
-      }
-    }
-  }
-}
-
-::v-deep button {
-  background: #0B8489;
-}
-
-textarea {
-  width: 100%;
-  height: 200px;
-  padding: 12px;
-  box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  resize: none;
 }
 </style>
+

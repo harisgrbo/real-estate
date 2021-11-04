@@ -69,6 +69,7 @@ label {
   border-radius: 15px;
   font-weight: 500 !important;
   margin-bottom: 16px;
+  font-size: 16px;
 
   &.selected {
     background: #f9f9f9 !important;
