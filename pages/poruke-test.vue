@@ -2,25 +2,6 @@
   <div class="account-wrapper-a">
     <!-- BEGIN: Content -->
     <div class="content px-20 mt-20">
-      <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-        <h2 class="text-lg font-medium mr-auto">
-          Chat
-        </h2>
-        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-          <button class="btn btn-primary shadow-md mr-2">Start New Chat</button>
-          <div class="dropdown ml-auto sm:ml-0">
-            <button class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300" aria-expanded="false">
-              <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-feather="plus"></i> </span>
-            </button>
-            <div class="dropdown-menu w-40">
-              <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="users" class="w-4 h-4 mr-2"></i> Create Group </a>
-                <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="settings" class="w-4 h-4 mr-2"></i> Settings </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="intro-y chat grid grid-cols-12 gap-5 mt-5">
         <!-- BEGIN: Chat Side Menu -->
         <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
