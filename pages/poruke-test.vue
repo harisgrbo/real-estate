@@ -26,7 +26,7 @@
         <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
           <div class="intro-y pr-1">
             <div class="box p-2">
-              <div class="chat__tabs nav nav-tabs justify-center" role="tablist"> <a id="chats-tab" data-toggle="tab" data-target="#chats" href="javascript:;" class="flex-1 py-2 rounded-md text-center active" role="tab" aria-controls="chats" aria-selected="true">Chats</a> <a id="friends-tab" data-toggle="tab" data-target="#friends" href="javascript:;" class="flex-1 py-2 rounded-md text-center" role="tab" aria-controls="friends" aria-selected="false">Friends</a> <a id="profile-tab" data-toggle="tab" data-target="#profile" href="javascript:;" class="flex-1 py-2 rounded-md text-center" role="tab" aria-controls="profile" aria-selected="false">Profile</a> </div>
+              <div class="chat__tabs nav nav-tabs justify-center" role="tablist"> <a id="chats-tab" data-toggle="tab" data-target="#chats" href="javascript:;" class="flex-1 py-2 rounded-md text-center active" role="tab" aria-controls="chats" aria-selected="true">Chats</a> <a id="friends-tab" data-toggle="tab" data-target="#friends" href="javascript:;" class="flex-1 py-2 rounded-md text-center" role="tab" aria-controls="friends" aria-selected="false">Friends</a></div>
             </div>
           </div>
           <div class="tab-content">
@@ -37,216 +37,22 @@
                     <input type="text" class="form-control py-3 px-4 border-transparent bg-gray-200 pr-10 placeholder-theme-8" placeholder="Search for messages or users...">
                     <i class="w-4 h-4 hidden sm:absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
                   </div>
-                  <div class="overflow-x-auto scrollbar-hidden">
-                    <div class="flex mt-5">
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Russell Crowe</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Johnny Depp</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-10.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Kevin Spacey</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Robert De Niro</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-12.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Tom Cruise</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-2.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Russell Crowe</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-5.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">John Travolta</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-5.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">John Travolta</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-3.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Robert De Niro</div>
-                      </a>
-                      <a href="" class="w-10 mr-4 cursor-pointer">
-                        <div class="w-10 h-10 flex-none image-fit rounded-full">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-6.jpg">
-                          <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                        </div>
-                        <div class="text-xs text-gray-600 truncate text-center mt-2">Al Pacino</div>
-                      </a>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 ">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Russell Crowe</a>
-                      <div class="text-xs text-gray-500 ml-auto">05:09 AM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
-                  </div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Johnny Depp</a>
-                      <div class="text-xs text-gray-500 ml-auto">01:10 PM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy text ever since the 1500</div>
-                  </div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
+                <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
                   <div class="w-12 h-12 flex-none image-fit mr-1">
                     <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-10.jpg">
                     <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
                   </div>
                   <div class="ml-2 overflow-hidden">
                     <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Kevin Spacey</a>
-                      <div class="text-xs text-gray-500 ml-auto">01:10 PM</div>
+                      <a href="javascript:;" class="font-medium">{{ others(conversation).map(item => item.name).join(',') }}</a>
+                      <div class="text-xs text-gray-500 ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
+                    <div class="w-full truncate text-gray-600 mt-0.5">{{ conversation.last_message.content }}</div>
                   </div>
-                  <div class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-17 font-medium -mt-1 -mr-1">1</div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Robert De Niro</a>
-                      <div class="text-xs text-gray-500 ml-auto">01:10 PM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 20</div>
-                  </div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-12.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Tom Cruise</a>
-                      <div class="text-xs text-gray-500 ml-auto">05:09 AM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
-                  </div>
-                  <div class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-17 font-medium -mt-1 -mr-1">5</div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-2.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Russell Crowe</a>
-                      <div class="text-xs text-gray-500 ml-auto">01:10 PM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomi</div>
-                  </div>
-                  <div class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-17 font-medium -mt-1 -mr-1">5</div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-5.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">John Travolta</a>
-                      <div class="text-xs text-gray-500 ml-auto">05:09 AM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem </div>
-                  </div>
-                  <div class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-17 font-medium -mt-1 -mr-1">2</div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-5.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">John Travolta</a>
-                      <div class="text-xs text-gray-500 ml-auto">05:09 AM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 20</div>
-                  </div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-3.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Robert De Niro</a>
-                      <div class="text-xs text-gray-500 ml-auto">05:09 AM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem </div>
-                  </div>
-                </div>
-                <div class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-6.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center">
-                      <a href="javascript:;" class="font-medium">Al Pacino</a>
-                      <div class="text-xs text-gray-500 ml-auto">01:10 PM</div>
-                    </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 20</div>
-                  </div>
+                  <div v-if="conversation.unread !== 0" class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-17 font-medium -mt-1 -mr-1">{{ conversation.unread }}</div>
                 </div>
               </div>
             </div>
@@ -360,49 +166,6 @@
                 </div>
               </div>
             </div>
-            <div id="profile" class="tab-pane" role="tabpanel" aria-labelledby="profile-tab">
-              <div class="pr-1">
-                <div class="box px-5 py-10 mt-5">
-                  <div class="w-20 h-20 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                    <img alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-1.jpg">
-                  </div>
-                  <div class="text-center mt-3">
-                    <div class="font-medium text-lg">Russell Crowe</div>
-                    <div class="text-gray-600 mt-1">Tailwind HTML Admin Template</div>
-                  </div>
-                </div>
-                <div class="box p-5 mt-5">
-                  <div class="flex items-center border-b border-gray-200 dark:border-dark-5 pb-5">
-                    <div>
-                      <div class="text-gray-600">Country</div>
-                      <div class="mt-1">New York City, USA</div>
-                    </div>
-                    <i data-feather="globe" class="w-4 h-4 text-gray-600 ml-auto"></i>
-                  </div>
-                  <div class="flex items-center border-b border-gray-200 dark:border-dark-5 py-5">
-                    <div>
-                      <div class="text-gray-600">Phone</div>
-                      <div class="mt-1">+32 19 23 62 24 34</div>
-                    </div>
-                    <i data-feather="mic" class="w-4 h-4 text-gray-600 ml-auto"></i>
-                  </div>
-                  <div class="flex items-center border-b border-gray-200 dark:border-dark-5 py-5">
-                    <div>
-                      <div class="text-gray-600">Email</div>
-                      <div class="mt-1">russellcrowe@left4code.com</div>
-                    </div>
-                    <i data-feather="mail" class="w-4 h-4 text-gray-600 ml-auto"></i>
-                  </div>
-                  <div class="flex items-center pt-5">
-                    <div>
-                      <div class="text-gray-600">Joined Date</div>
-                      <div class="mt-1">11 September 2022</div>
-                    </div>
-                    <i data-feather="clock" class="w-4 h-4 text-gray-600 ml-auto"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <!-- END: Chat Side Menu -->
@@ -410,14 +173,14 @@
         <div class="intro-y col-span-12 lg:col-span-8 2xl:col-span-9">
           <div class="chat__box box">
             <!-- BEGIN: Chat Active -->
-            <div class="hidden h-full flex flex-col">
+            <div v-if="currentConversation" class="h-full flex flex-col">
               <div class="flex flex-col sm:flex-row border-b border-gray-200 dark:border-dark-5 px-5 py-4">
                 <div class="flex items-center">
                   <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                     <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
                   </div>
                   <div class="ml-3 mr-auto">
-                    <div class="font-medium text-base">Russell Crowe</div>
+                    <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
                     <div class="text-gray-600 text-xs sm:text-sm">Hey, I am using chat <span class="mx-1">•</span> Online</div>
                   </div>
                 </div>
@@ -435,115 +198,34 @@
                   </div>
                 </div>
               </div>
-              <div class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
-                <div class="chat__box__text-box flex items-end float-left mb-4">
-                  <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
-                  </div>
-                  <div class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md">
-                    Lorem ipsum sit amen dolor, lorem ipsum sit amen dolor
-                    <div class="mt-1 text-xs text-gray-600">2 mins ago</div>
-                  </div>
-                  <div class="hidden sm:block dropdown ml-3 my-auto">
-                    <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
+              <div v-if="messagesLoaded" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
+                <div v-for="message in messages">
+                  <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
+                    <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
+                    </div>
+                    <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      {{ message.content }}
+                      <div class="flex justify-between">
+                        <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                        <div class="ml-1 mt-1 text-xs text-gray-600">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                      </div>
+                    </div>
+                    <div class="hidden sm:block dropdown ml-3 my-auto">
+                      <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
+                      <div class="dropdown-menu w-40">
+                        <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                          <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
+                          <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="clear-both"></div>
-                <div class="chat__box__text-box flex items-end float-right mb-4">
-                  <div class="hidden sm:block dropdown mr-3 my-auto">
-                    <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md">
-                    Lorem ipsum sit amen dolor, lorem ipsum sit amen dolor
-                    <div class="mt-1 text-xs text-theme-33">1 mins ago</div>
-                  </div>
-                  <div class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                  </div>
-                </div>
-                <div class="clear-both"></div>
-                <div class="chat__box__text-box flex items-end float-right mb-4">
-                  <div class="hidden sm:block dropdown mr-3 my-auto">
-                    <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md">
-                    Lorem ipsum sit amen dolor, lorem ipsum sit amen dolor
-                    <div class="mt-1 text-xs text-theme-33">59 secs ago</div>
-                  </div>
-                  <div class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                  </div>
-                </div>
-                <div class="clear-both"></div>
-                <div class="text-gray-500 dark:text-gray-600 text-xs text-center mb-10 mt-5">12 June 2020</div>
-                <div class="chat__box__text-box flex items-end float-left mb-4">
-                  <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
-                  </div>
-                  <div class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md">
-                    Lorem ipsum sit amen dolor, lorem ipsum sit amen dolor
-                    <div class="mt-1 text-xs text-gray-600">10 secs ago</div>
-                  </div>
-                  <div class="hidden sm:block dropdown ml-3 my-auto">
-                    <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="clear-both"></div>
-                <div class="chat__box__text-box flex items-end float-right mb-4">
-                  <div class="hidden sm:block dropdown mr-3 my-auto">
-                    <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md">
-                    Lorem ipsum
-                    <div class="mt-1 text-xs text-theme-33">1 secs ago</div>
-                  </div>
-                  <div class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                  </div>
-                </div>
-                <div class="clear-both"></div>
-                <div class="chat__box__text-box flex items-end float-left mb-4">
-                  <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
-                  </div>
-                  <div class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md">
-                    Russell Crowe is typing
-                    <span class="typing-dots ml-1"> <span>.</span> <span>.</span> <span>.</span> </span>
-                  </div>
+                  <div class="clear-both"></div>
                 </div>
               </div>
               <div class="pt-4 pb-10 sm:py-4 flex items-center border-t border-gray-200 dark:border-dark-5">
-                <textarea class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Type your message..."></textarea>
+                <textarea v-model="messageContent" @keyup.enter="sendMessage" class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Type your message..."></textarea>
                 <div class="flex absolute sm:static left-0 bottom-0 ml-5 sm:ml-0 mb-5 sm:mb-0">
                   <div class="dropdown mr-3 sm:mr-5">
                     <a href="javascript:;" class="dropdown-toggle w-4 h-4 sm:w-5 sm:h-5 block text-gray-600" aria-expanded="false"> <i data-feather="smile" class="w-full h-full"></i> </a>
@@ -1964,18 +1646,18 @@
                     <input type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
                   </div>
                 </div>
-                <a href="javascript:;" class="w-8 h-8 sm:w-10 sm:h-10 block bg-theme-17 text-white rounded-full flex-none flex items-center justify-center mr-5"> <i data-feather="send" class="w-4 h-4"></i> </a>
+                <button @click.prevent="sendMessage" class="w-8 h-8 sm:w-10 sm:h-10 block bg-theme-17 text-white rounded-full flex-none flex items-center justify-center mr-5"> <i data-feather="send" class="w-4 h-4"></i> </button>
               </div>
             </div>
             <!-- END: Chat Active -->
             <!-- BEGIN: Chat Default -->
-            <div class="h-full flex items-center">
+            <div v-else class="h-full flex items-center">
               <div class="mx-auto text-center">
                 <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
                   <img alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-1.jpg">
                 </div>
                 <div class="mt-3">
-                  <div class="font-medium">Hey, Russell Crowe!</div>
+                  <div class="font-medium">Hey, {{ $auth.user.name }}</div>
                   <div class="text-gray-600 mt-1">Please select a chat to start messaging.</div>
                 </div>
               </div>
@@ -1993,17 +1675,143 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import StandardChart from "@/components/analytics/StandardChart";
 import PieChart from "@/components/analytics/PieChart";
+import {v4 as uuidv4} from "uuid";
 
 @Component({
   components: {
     StandardChart,
     PieChart
   },
-  layout() { return "home" }
+  middleware: ['auth'],
+  layout() { return "home" },
+  async asyncData(ctx) {
+    let conversations = [];
+
+    try {
+      let res = await ctx.app.$axios.get('/conversations');
+      conversations = res.data.data;
+    } catch(e) {
+      console.log(e)
+    }
+
+    return {
+      conversations
+    }
+  }
 })
 
 export default class Porukice extends Vue {
+  messages = [];
+  messagesLoaded = true;
+  currentConversation = null;
+  messageContent = '';
 
+  mounted() {
+    this.realtime();
+  }
+
+  realtime() {
+    this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
+      if (notification.type === 'broadcast.message') {
+        let message = notification.message;
+        let conversation = message.conversation;
+
+        let index = this.conversations.findIndex(item => item.id === conversation.id)
+
+        if (index === -1) {
+          conversation.unread = 1;
+
+          this.conversations.unshift(conversation);
+        }
+      }
+    })
+
+    this.conversations.forEach(conversation => {
+      this.$echo.private(`messaging.${conversation.id}`).listen('.message', event => {
+        let message = event.message;
+        let conversation = message.conversation;
+
+        let index = this.conversations.findIndex(item => item.id === conversation.id)
+
+        conversation.unread = this.conversations[index].unread;
+
+        if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
+          this.messages.push(message)
+        } else if (this.currentConversation.id !== conversation.id) {
+          conversation.unread++;
+        }
+
+        this.conversations.splice(index, 1);
+        this.conversations.unshift(conversation);
+      })
+    })
+  }
+
+  others(conversation) {
+    return conversation.users.filter( item => item.id !== this.$auth.user.id);
+  }
+
+  handleSelectedConversation(conv, index) {
+    if (this.currentConversation !== conv) {
+      this.currentConversation = conv;
+
+      this.conversations[index].unread = 0;
+
+      this.fetchMessages(conv.id);
+    }
+  }
+
+  isMe(message) {
+    return message.sender.id === this.$auth.user.id;
+  }
+
+  async sendMessage() {
+    if (this.messageContent.length === 0)
+      return;
+
+    let key = uuidv4();
+
+    try {
+      this.messages.push({
+        sender: this.$auth.user,
+        content: this.messageContent,
+        id: key,
+        delivered: false
+      })
+
+      let content = this.messageContent;
+      this.messageContent = '';
+
+      let res = await this.$axios.post('/conversations/' + this.currentConversation.id + '/messages', {
+        initial_key: key,
+        content: content
+      });
+
+      let messageId = res.data.data.id;
+      key = res.data.meta;
+
+      let message = this.messages.find(item => item.id === key);
+
+      if (message) {
+        message.id = messageId;
+        message.delivered = true;
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  async fetchMessages(id) {
+    this.messagesLoaded = false;
+    try {
+      let res = await this.$axios.get('/conversations/' + id + '/messages');
+
+      this.messages = res.data.data;
+      this.messagesLoaded = true;
+    } catch(e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 
