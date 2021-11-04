@@ -11,13 +11,6 @@
 <!--      </li>-->
 <!--    </ul>-->
     <div class="publish mb-24 p-8">
-      <client-only>
-        <swiper class="swiper top" :options="swiperOptionSpecial">
-          <swiper-slide v-for="listing in listings_sell" :key="listing.id">
-            <Slide :listing="listing"></Slide>
-          </swiper-slide>
-        </swiper>
-      </client-only>
       <div class="quick-search">
         <ul class="w-full">
           <li v-for="(tab, index) in tabs" :key="index" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
@@ -62,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col lg:px-20 xl:px-20 mt-8 up:px-20 sm:px-5 mx-auto w-full mb-12 lg:mb-16 xl:mb-16 up:mb-16">
+    <div class="flex flex-col lg:px-20 xl:px-20 mt-8 up:px-20 mx-auto w-full mb-12 lg:mb-16 xl:mb-16 up:mb-16">
       <h2 class="section-title ml-5">
         Najtraženije lokacije
       </h2>
@@ -93,7 +86,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Prodaja</h2>
       <div class="flex flex-row items-center">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
@@ -109,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
@@ -125,7 +118,7 @@
         </swiper>
       </client-only>
     </div>
-    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full mobile" v-else>
+    <div class="lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full mobile" v-else>
       <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_sell" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
@@ -137,8 +130,8 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col mb-16 mt-8 mx-5">
-      <div class="w-full flex items-center justify-between sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-auto mx-auto mb-4">
+    <div class="flex flex-col mb-16 mt-8">
+      <div class="w-full flex items-center justify-between lg:px-20 xl:px-20 up:px-20 mx-auto mx-auto mb-4">
         <h2 class="section-title">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
           <nuxt-link class="more" to="/pretraga">Više kategorija</nuxt-link>
@@ -163,7 +156,7 @@
       </ul>
     </div>
 
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Iznajmljivanje</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
@@ -179,7 +172,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20" v-if="!$device.isMobile">
       <client-only v-if="rentLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
@@ -214,7 +207,7 @@
           Lista agencija
       </nuxt-link>r
     </div>
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Izdavanje na dan</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
@@ -230,7 +223,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20" v-if="!$device.isMobile">
       <client-only v-if="rentPerDayLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
@@ -246,7 +239,7 @@
         </swiper>
       </client-only>
     </div>
-    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
+    <div class="lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
       <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-5">
           <ListingCard :action="false" :listing="listing" :type="listing.user.user_type"/>
@@ -258,11 +251,11 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mt-20">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mt-20">
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 flex-row lg:grid xl:grid up:grid lg:grid-cols-6 xl:grid-cols-6 up:grid-cols-6 gap-6 p-1">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 flex-row lg:grid xl:grid up:grid lg:grid-cols-6 xl:grid-cols-6 up:grid-cols-6 gap-6">
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
@@ -988,6 +981,10 @@ ul.most-visited-cats {
       }
     }
 
+    select {
+      border-radius: 8px !important;
+    }
+
     .inputs {
       border-bottom-left-radius: 7px;
       border-bottom-right-radius: 7px;
@@ -1018,6 +1015,8 @@ ul.most-visited-cats {
           height: 48px;
           max-height: 48px !important;
           min-height: 48px !important;
+          border-radius: 8px;
+          background: #F3F3F4 !important;
         }
 
         ::v-deep .input-wrapper input {
@@ -1104,7 +1103,7 @@ ul.most-visited-cats {
   flex-direction: column;
   background-image: url("/agency-new.jpeg");
   position: relative;
-  margin: 100px;
+  margin: 100px 80px;
   align-items: flex-start;
   justify-content: center;
   padding: 0 80px;

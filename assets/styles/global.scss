@@ -48,6 +48,9 @@ a {
 
 html, body {
   font-family: 'Lato', sans-serif;
+  background: #fff !important;
+  padding: 0 !important;
+  margin: 0 !important
 }
 
 @mixin for-phone-only {

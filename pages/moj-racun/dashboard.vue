@@ -1,19 +1,12 @@
 <template>
-  <div class="account-wrapper dashboard-wrapper">
-    <ul class="breadcrumbs">
-      <li>
-        <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
-        <p>Dashboard</p>
-      </li>
-    </ul>
+  <div class="account-wrapper-a">
     <div class="content">
-      <ul class="expanded"">
-      <nuxt-link class="inner" :to="{ path: `/moj-racun/dashboard/${link.slug}`}" v-for="(link, index) in links" :key="index">
-        <li>
-            <p>{{ link.name }}</p>
-        </li>
-      </nuxt-link>
+      <ul class="expanded mx-20">
+        <nuxt-link class="inner" :to="{ path: `/moj-racun/dashboard/${link.slug}`}" v-for="(link, index) in links" :key="index">
+          <li>
+              <p>{{ link.name }}</p>
+          </li>
+        </nuxt-link>
       </ul>
       <div class="dashboard-inner">
         <nuxt-child></nuxt-child>
@@ -58,11 +51,6 @@ export default class Dashboard extends Vue {
       icon: '/052-presentation.svg'
     },
     {
-      name: 'Grupisanje oglasa',
-      slug: 'grupisanje-oglasa',
-      icon: '/052-presentation.svg'
-    },
-    {
       name: 'Sponzorisanje',
       slug: 'izdvajanje',
       icon: '/052-presentation.svg'
@@ -78,29 +66,6 @@ export default class Dashboard extends Vue {
 </script>
 
 <style scoped lang="scss">
-.dashboard-wrapper {
-  display: flex;
-  //height: calc(100vh - 126px);
-  width: 100%;
-  box-sizing: border-box;
-  flex-direction: column;
-  //overflow: hidden;
-  padding: 0px 80px 24px 80px;
-}
-.content {
-  display: flex;
-  flex-direction: column;
-  margin-top: 24px;
-
-
-  .dashboard-inner {
-    display: flex;
-    box-sizing: border-box;
-    > div {
-      width: 100%;
-    }
-  }
-}
 
 .nuxt-link-active.inner {
   position: relative;
@@ -164,6 +129,14 @@ ul.expanded {
       }
     }
   }
+}
+
+.account-wrapper-a {
+  padding-top: 120px;
+}
+
+.dashboard-inner {
+  width: 100%;
 }
 
 </style>

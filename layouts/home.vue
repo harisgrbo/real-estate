@@ -48,7 +48,7 @@ export default class Home extends Vue {
   }
 
   ::v-deep .navbar-wrapper {
-    background: transparent;
+    background: #fff;
     border-bottom: 0;
     box-shadow: none;
 

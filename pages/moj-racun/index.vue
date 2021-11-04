@@ -54,6 +54,12 @@ export default class accountpage extends Vue {
 
   tabs = [
     {
+      name: "Dashboard",
+      slug: "dashboard",
+      icon: "014-browser-6.svg",
+      desc: 'Glavni dashboard, statistika oglasa, agenti za nekretnine'
+    },
+    {
       name: "Uredi profil",
       slug: "uredi-profil",
       icon: "010-technical-support.svg",

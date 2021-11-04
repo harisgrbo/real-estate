@@ -1,5 +1,5 @@
 <template>
-  <div class="sidenav-wrapper">
+  <div class="sidenav-wrapper flex flex-col justify-between h-full">
     <ul>
       <li v-if="$auth.user" class="user-label" @click="goToUSer">
         <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
@@ -10,11 +10,12 @@
           </dd>
         </div>
       </li>
-      <li class="login mt-2" v-if="!$auth.user">
-        <nuxt-link to="/auth/login">Prijavi se</nuxt-link>
-      </li>
-      <li v-if="!$auth.user">
-        <nuxt-link to="/auth/register">Registruj se</nuxt-link>
+      <li v-if="$auth.user">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+        </svg>
+        <nuxt-link to="/moj-racun/dashboard">Dashboard</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,7 +40,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
-        <nuxt-link to="/moj-racun/poruke">Poruke</nuxt-link>
+        <nuxt-link to="/moj-racun/poruke">Chat</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,21 +58,21 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#023246">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
         </svg>
-        <nuxt-link to="/moj-racun/moji-oglasi" class="font-semibold">Moje rezervacije</nuxt-link>
+        <nuxt-link to="/moj-racun/moji-oglasi" class="font-medium">Moje rezervacije</nuxt-link>
       </li>
       <li v-if="$auth.user" class="bg-gray-50">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#023246">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
-        <nuxt-link to="/moj-racun/moji-oglasi" class="font-semibold">Oglasi koje izdajem</nuxt-link>
-      </li>
-      <li class="logout mt-2" v-if="$auth.user">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-        </svg>
-        <a @click="logout()">Odjavi se</a>
+        <nuxt-link to="/moj-racun/moji-oglasi" class="font-medium">Oglasi koje izdajem</nuxt-link>
       </li>
     </ul>
+    <button class="logout mt-2" v-if="$auth.user" @click="logout()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+      </svg>
+      <a>Odjavi se</a>
+    </button>
   </div>
 </template>
 
@@ -158,7 +159,7 @@ export default class sidenav extends Vue {
       cursor: pointer;
       border-radius: 5px;
       color: #444;
-      margin-bottom: 0px;
+      margin-bottom: 8px;
 
       @include for-phone-only {
         height: 50px;
@@ -286,6 +287,24 @@ li.dashboard {
 
   &:hover {
     background: #f9f9f9 !important;
+  }
+}
+
+button.logout {
+  height: 40px;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #444;
+  margin-bottom: 8px;
+
+  svg {
+    margin-right: 10px;
   }
 }
 </style>

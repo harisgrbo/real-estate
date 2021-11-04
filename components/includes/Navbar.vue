@@ -82,32 +82,32 @@
           </ul>
         </div>
       </div>
-      <button v-if="$auth.user && $device.isMobile" class="login notify relative" @click="$modal.show('notifications')">
+      <button v-if="$auth.user && $device.isMobile" class="login-a notify relative" @click="$modal.show('notifications')">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="#0B8489">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
         <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
       </button>
       <div class="auth-buttons" v-if="!$device.isMobile">
-        <ActionButton type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
+        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
-            <button class="register" @click="$router.push('/auth/login')">Prijavi se</button>
+            <button @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
-          <button v-if="$auth.user" class="login">
+          <button v-if="$auth.user" class="login-a">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
             <p class="notify" v-if="messagesCount">{{ messagesCount }}</p>
           </button>
-          <button v-if="$auth.user" class="login notify" @click="showNotifications = true">
+          <button v-if="$auth.user" class="login-a notify" @click="showNotifications = true">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
             <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
           </button>
-          <button class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
+          <button v-if="$auth.user" class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -170,8 +170,6 @@ export default class Navbar extends Vue {
   notifications = [];
 
   mounted() {
-    window.addEventListener("scroll", this.onScroll)
-
     this.realtime();
   }
 
@@ -179,16 +177,6 @@ export default class Navbar extends Vue {
     window.removeEventListener("scroll", this.onScroll);
   }
 
-  onScroll() {
-    let scroll = document.documentElement.scrollTop;
-    let elem = document.querySelector(".navbar-wrapper");
-    let opacity = scroll / 400;
-
-    if (opacity >= 0) {
-      elem.style.background = "rgba(255,255,255," + opacity + ")";
-      elem.style.boxShadow = "0px -3px 5px -1px rgba(0,0,0," + opacity + ")";
-    }
-  }
 
   realtime() {
     if (this.$auth.user) {
@@ -467,10 +455,12 @@ export default class Navbar extends Vue {
   align-items: center;
   position: fixed;
   top: 0;
-  z-index: 5;
+  z-index: 100;
   border-bottom: 1px solid #f1f1f1;
   background: #fff;
   box-sizing: border-box;
+  box-shadow: 0px 5px 9px rgba(0,0,0,0.03) !important;
+
 
   @include for-phone-only {
     padding: 0 16px;
@@ -547,16 +537,16 @@ export default class Navbar extends Vue {
   }
   .input-wrapper {
     height: 48px;
-    border: 2px solid #000;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 0 12px;
+    background: #F3F3F4;
     flex: 2;
     position: relative;
     transition: 0.3s all ease;
-    background: transparent;
+    max-width: 600px;
 
     @include for-phone-only {
       box-sizing: border-box;
@@ -730,6 +720,23 @@ export default class Navbar extends Vue {
       display: flex;
       align-items: center;
       justify-content: flex-end;
+
+      button {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 8px;
+        padding: 0 12px;
+        background: #F3F3F4;
+        flex: 2;
+        position: relative;
+        transition: 0.3s all ease;
+
+        &:hover {
+          background: #e0e0e0 !important;
+        }
+      }
     }
 
     .login-wrapper {
@@ -786,7 +793,7 @@ export default class Navbar extends Vue {
         }
       }
 
-      &.login {
+      &.login-a {
         display: flex;
         align-items: center;
         border-radius: 0px;
@@ -828,12 +835,12 @@ export default class Navbar extends Vue {
 
     .user-dropdown {
       position: fixed;
-      top: 70px;
+      top: 80px;
       padding: 12px;
       background: #fff;
       width: 340px;
       min-width: 340px;
-      right: 80px;
+      right: 0px;
       box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;
       display: flex;
       flex-direction: column;
@@ -841,8 +848,10 @@ export default class Navbar extends Vue {
       height: -webkit-fit-content;
       height: -moz-fit-content;
       height: fit-content;
-      border-radius: 10px;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
       z-index: 500;
+      height: calc(100vh - 80px);
     }
   }
 

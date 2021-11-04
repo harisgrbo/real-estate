@@ -522,6 +522,10 @@ export default class Homepage extends Vue {
     return `${capitalize(attr)}Filter`;
   }
 
+  created() {
+    console.log(this.$route.path)
+  }
+
   handleSelectedCategory(cat) {
     this.queryPayload = {
       category_id: {
