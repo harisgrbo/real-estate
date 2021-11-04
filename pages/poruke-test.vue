@@ -179,7 +179,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="messagesLoaded" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
+              <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
                 <div v-for="message in messages">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
@@ -304,6 +304,7 @@ export default class Porukice extends Vue {
 
         if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
           this.messages.push(message)
+          this.scrollBottom();
         } else if (this.currentConversation.id !== conversation.id) {
           conversation.unread++;
         }
@@ -318,14 +319,26 @@ export default class Porukice extends Vue {
     return conversation.users.filter( item => item.id !== this.$auth.user.id);
   }
 
-  handleSelectedConversation(conv, index) {
+  async handleSelectedConversation(conv, index) {
     if (this.currentConversation !== conv) {
       this.currentConversation = conv;
 
       this.conversations[index].unread = 0;
 
-      this.fetchMessages(conv.id);
+      await this.fetchMessages(conv.id);
+
+      this.scrollBottom();
     }
+  }
+
+  scrollBottom() {
+    this.$nextTick(() => {
+      let container = this.$refs.messageContainer;
+
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    })
   }
 
   isMe(message) {
@@ -345,6 +358,8 @@ export default class Porukice extends Vue {
         id: key,
         delivered: false
       })
+
+      this.scrollBottom();
 
       let content = this.messageContent;
       this.messageContent = '';
