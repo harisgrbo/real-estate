@@ -3,7 +3,7 @@
     <div class="search-heading lg:px-20 xl:px-20 up:px-20 sm:px-5 py-4 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="border-b border-gray-200">
       </div>
-      <div class="w-full">
+      <div class="w-full relative">
         <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
@@ -30,7 +30,7 @@
           </button>
 
           <div class="flex items-center justify-end types">
-            <div class="relative inline-block text-left filteri">
+            <div class="inline-block text-left">
               <div @click="showSortDropdown = !showSortDropdown" v-if="!$device.isMobile" class="mr-4">
                 <button type="button" class="group inline-flex justify-center text-sm w-full font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -51,7 +51,7 @@
                 </div>
               </div>
             </div>
-            <div class="relative flex w-full text-left type">
+            <div class="flex w-full text-left type">
               <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
 
@@ -83,9 +83,8 @@
     </div>
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4">
-        <h1 class="font-semibold">1000 rezultata</h1>
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;"><path d="M26 1a5 5 0 0 1 5 5c0 6.389-1.592 13.187-4 14.693V31h-2V20.694c-2.364-1.478-3.942-8.062-3.998-14.349L21 6l.005-.217A5 5 0 0 1 26 1zm-9 0v18.118c2.317.557 4 3.01 4 5.882 0 3.27-2.183 6-5 6s-5-2.73-5-6c0-2.872 1.683-5.326 4-5.882V1zM2 1h1c4.47 0 6.934 6.365 6.999 18.505L10 21H3.999L4 31H2zm14 20c-1.602 0-3 1.748-3 4s1.398 4 3 4 3-1.748 3-4-1.398-4-3-4zM4 3.239V19h3.995l-.017-.964-.027-.949C7.673 9.157 6.235 4.623 4.224 3.364l-.12-.07zm19.005 2.585L23 6l.002.31c.045 4.321 1.031 9.133 1.999 11.39V3.17a3.002 3.002 0 0 0-1.996 2.654zm3.996-2.653v14.526C27.99 15.387 29 10.4 29 6a3.001 3.001 0 0 0-2-2.829z"></path></svg>
-        <div class="toggle-map-wrapper">
+        <h1 class="font-semibold text-lg">{{ meta.total }} rezultata</h1>
+        <div class="toggle-map-wrapper" v-if="!$device.isMobile">
           <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
@@ -95,20 +94,26 @@
         </div>
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
-        <div class="divide-y divide-gray-200 flex flex-col lg:grid xl:grid up:grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-6 w-full listing-wrap">
-          <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+        <div v-if="results.length" class="w-full flex flex-col">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
+            <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+          </div>
+          <client-only>
+            <Pagination
+              ref="pagination"
+              v-show="meta.total > 20"
+              :current-page="page"
+              :total-pages="lastPage"
+              @page-change="pageChangeHandler" />
+          </client-only>
         </div>
-        <client-only>
-          <Pagination
-            ref="pagination"
-            v-show="meta.total > 20"
-            :current-page="page"
-            :total-pages="lastPage"
-            @page-change="pageChangeHandler" />
-        </client-only>
+        <div v-else class="divide-y divide-gray-200 flex flex-col min-h-full w-full items-center justify-center">
+          <img class="no-results" src="/no-results.svg" alt="">
+          <p class="mt-4 text-lg font-normal">Nema rezultata</p>
+        </div>
       </div>
       <div class="results map" v-else>
-        <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map">
+        <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
           <HorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           <client-only>
             <Pagination
@@ -118,6 +123,10 @@
               :total-pages="lastPage"
               @page-change="pageChangeHandler" />
           </client-only>
+        </div>
+        <div v-else class="divide-y divide-gray-200 flex flex-col min-h-full w-full items-center justify-center">
+          <img class="no-results" src="/no-results.svg" alt="">
+          <p class="mt-4 text-lg font-normal">Nema rezultata</p>
         </div>
         <div class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
@@ -520,6 +529,10 @@ export default class Homepage extends Vue {
     return `${capitalize(attr)}Filter`;
   }
 
+  created() {
+    console.log(this.$route.path)
+  }
+
   handleSelectedCategory(cat) {
     this.queryPayload = {
       category_id: {
@@ -630,6 +643,7 @@ export default class Homepage extends Vue {
         .results-wrapper-map {
           height: calc(100vh - 212px);
           overflow-y: scroll;
+          padding-bottom: 30px !important;
         }
       }
     }
@@ -875,9 +889,12 @@ export default class Homepage extends Vue {
   min-width: fit-content;
 }
 
-//.listing-wrap {
-//  grid-row-gap: 36px;
-//}
+.listing-wrap {
+  @include for-phone-only {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 
 
 
@@ -998,4 +1015,10 @@ export default class Homepage extends Vue {
 
   }
 }
+
+.no-results {
+  height: 200px;
+  margin-top: 200px;
+}
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper max-w-7xl mx-auto w-full">
+  <div class="account-wrapper mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -76,7 +76,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>Nemate spšenih pretraga</p>
+            <p>Nemate spašenih pretraga</p>
           </div>
         </div>
         <div v-show="activeTab === 1">
@@ -85,7 +85,7 @@
           </div>
           <div v-else class="no-image">
             <img src="/noimg.jpg" alt="no-image">
-            <p>Nemate spšenih oglasa</p>
+            <p>Nemate spašenih oglasa</p>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ import Snackbar from "@/components/global/Snackbar";
     ListingCard,
     Snackbar
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
 
 export default class spaseno extends Vue {
@@ -212,7 +212,7 @@ export default class spaseno extends Vue {
 }
 
 .account-wrapper {
-  width: 1180px;
+  width: auto;
 
   @include for-phone-only {
     width: 100%;

@@ -45,23 +45,34 @@ a {
   color: #434343;
 }
 
-
-html, body {
-  font-family: 'Lato', sans-serif;
-}
-
 @mixin for-phone-only {
   @media (max-width: 599px) {
     @content;
   }
 }
 
+html, body {
+  font-family: 'Lato', sans-serif;
+  background: #fff !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: calc(100vh - 80px);
+
+  @include for-phone-only {
+    min-height: 100%;
+  }
+}
+
+
+
 
 #__nuxt, #__layout {
   height: 100%;
+  min-height: calc(100vh - 80px);
 
   @include for-phone-only {
     width: 100%;
+    min-height: 100%;
   }
 }
 
@@ -69,3 +80,7 @@ html, body {
   display: none;
 }
 
+
+.modal-content {
+  box-shadow: none;
+}

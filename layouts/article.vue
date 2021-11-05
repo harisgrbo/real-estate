@@ -42,6 +42,11 @@ export default class Article extends Vue {
 
 .home-wrapper {
   padding-top: 80px !important;
+  min-height: calc(100vh - 80px);
+
+  @include for-phone-only {
+    min-height: 100%;
+  }
 
   &.no-padding {
     padding-top: 0;

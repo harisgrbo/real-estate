@@ -2,7 +2,7 @@
   <div class="main-wrapper">
     <label>{{ title }}</label>
     <div :class="['input-wrapper', showAutoCompleteDropdown ? 'shadow-sm' : '']">
-      <div class="bg-white">
+      <div>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -27,8 +27,11 @@
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import {mixin as clickaway} from "vue-clickaway";
 
 @Component({
+  mixins: [ clickaway ],
+
 })
 
 export default class PublishDropdown extends Vue{
@@ -55,6 +58,10 @@ export default class PublishDropdown extends Vue{
       this.showAutoCompleteDropdown = false;
     }
   }
+
+  away() {
+    this.showAutoCompleteDropdown = false;
+  }
 }
 </script>
 
@@ -71,30 +78,18 @@ export default class PublishDropdown extends Vue{
 }
 .input-wrapper {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 60px;
-  min-height: 60px;
   align-items: center;
   justify-content: space-between;
+  border-radius: 8px;
   padding: 0 12px;
-  margin-right: 24px;
-  transition: 0.1s all ease;
-  box-sizing: border-box;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  height: fit-content;
+  background: #F3F3F4;
+  flex: 2;
   position: relative;
-  background: #fff;
-  border: 1px solid #ddd;
-  background: #fff;
-  height: 48px;
-  width: 100%;
-  padding: 0 16px;
-  border-radius: 4px;
+  transition: 0.3s all ease;
+  max-width: 600px;
+  margin-top: 0;
+  min-height: 48px;
+  height: fit-content;
 
   div {
     display: flex;
@@ -110,6 +105,7 @@ export default class PublishDropdown extends Vue{
     height: 100%;
     font-size: 14px;
     font-weight: 500;
+    background: transparent;
     border: none !important;
     &:focus {
       outline: none;
@@ -126,11 +122,12 @@ export default class PublishDropdown extends Vue{
     width: 100%;
     height: fit-content;
     position: absolute;
-    top: 33px;
+    top: 49px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     border: 1px solid #ddd;
     padding: 12px;
+    left: 0;
     ul {
       width: 100%;
       display: flex;
@@ -146,7 +143,6 @@ export default class PublishDropdown extends Vue{
         color: #444;
         border-radius: 5px;
         padding: 8px;
-        margin-bottom: 4px;
         cursor: pointer;
 
         &:last-child {

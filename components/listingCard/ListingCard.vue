@@ -1,11 +1,11 @@
 <template>
-    <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
+    <div class="listing-card-wrapper" :class="[from? 'blured' : '']">
       <label class="publisher shadow-sm">
         <span class="flex flex-row items-center">{{ translateType() }}
         </span>
       </label>
       <div class="blured-background">
-        <button @click="removeFromSaved(listing.id)">Izbriši iz spašenih</button>
+        <button @click="$emit('handleAction', listing.id)">{{ action_text }}</button>
       </div>
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative">
@@ -76,6 +76,7 @@ import Snackbar from "@/components/global/Snackbar";
 export default class ListingCard extends Vue{
   @Prop({ type: Object }) listing
   @Prop({ type: Boolean, default: false}) from
+  @Prop({ type: String }) action_text
   @Prop({}) type
   @Prop({ type: Boolean, default: false }) action
 
@@ -171,8 +172,8 @@ export default class ListingCard extends Vue{
     flex-direction: column;
     height: 100%;
     position: relative;
-    width: fit-content;
-    max-width: fit-content;
+    width: 100%;
+    max-width: 100%;
     overflow: hidden;
 
     @include for-phone-only {
@@ -499,7 +500,7 @@ export default class ListingCard extends Vue{
   }
 
   @supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em))) {
-    .blur:hover {
+    .blured:hover {
       .blured-background {
         display: flex;
         background-color: rgba(255, 255, 255, .5);
@@ -544,7 +545,7 @@ export default class ListingCard extends Vue{
       padding: 0 10px;
       font-weight: 500;
       background: #f9f9f9;
-      font-size: 12px;
+      font-size: 11px;
     }
   }
 

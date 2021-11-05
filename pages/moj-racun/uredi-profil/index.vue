@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper max-w-7xl mx-auto w-full">
+  <div class="account-wrapper mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -7,89 +7,61 @@
         <p>Uredi profil</p>
       </li>
     </ul>
-    <div class="info-wrapper pb-12 mt-6">
-      <form class="flex flex-row justify-between w-full" @submit="updateProfileInfo">
-        <div class="space-y-6 sm:space-y-5 w-full flex flex-col">
-          <div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Lični podaci
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-              Koristite prave informacije
-            </p>
-          </div>
-          <div class="image-upload">
-            <img v-if="!avatarUrl.length" src="/noimage.jpeg" class="my-4" alt="">
-            <img v-else :src="avatarUrl" class="my-4"/>
-          </div>
-          <div class="mt-6 grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 up:grid-cols-2">
-            <div class="w-full flex flex-col">
-              <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Korisnicko ime
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="name" type="text" name="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-
-            <div class="w-full flex flex-col">
-              <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Email
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="email" type="text" name="first-name" id="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-
-            <div class="w-full flex flex-col">
-              <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Sifra
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="password" type="password" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-
-            <div class="w-full flex flex-col">
-              <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Potvrda Sifre
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="passwordConfirm" type="password" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-          </div>
-          <div class="image-upload-wrap">
-            <div class="flex flex-col">
-              <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Slika profila
-              </label>
-              <div class="flex flex-row items-center justify-start">
-                <div class="max-w-xl w-full flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div class="space-y-1 text-center mr-2">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <div class="flex text-sm text-gray-600">
-                      <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-black">
-                        <span class="px-2">Izaberite sliku</span>
-                        <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="updateAvatar">
-                      </label>
-                      <p class="pl-1">ili prevucite sliku u okvir</p>
-                    </div>
-                    <p class="text-xs text-gray-500">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
+    <div class="col-span-12">
+      <!-- BEGIN: Display Information -->
+      <div class="intro-y box lg:mt-5">
+        <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+          <h2 class="font-medium text-base mr-auto">
+            Osnovni podaci
+          </h2>
+        </div>
+        <div class="p-5">
+          <div class="flex flex-col-reverse xl:flex-row flex-col">
+            <div class="flex-1 mt-6 xl:mt-0">
+              <div class="grid grid-cols-12 gap-x-5">
+                <div class="col-span-12 2xl:col-span-6">
+                  <div>
+                    <label for="update-profile-form-1" class="form-label">Ime</label>
+                    <input id="update-profile-form-1" type="text" class="form-control" v-model="name">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
+                  <div class="">
+                    <label for="update-profile-form-4" class="form-label">Email</label>
+                    <input type="email" id="update-profile-form-4" class="form-control" v-model="email">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
+                  <div class="mt-3">
+                    <label for="update-profile-form-5" class="form-label">Šifra</label>
+                    <input type="password" id="update-profile-form-5" class="form-control" v-model="password">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
+                  <div class="mt-3">
+                    <label for="update-profile-form-6" class="form-label">Ponovi šifru</label>
+                    <input type="password" id="update-profile-form-6" class="form-control" v-model="passwordConfirm">
                   </div>
                 </div>
               </div>
+              <button type="button" class="btn btn-primary w-20 mt-3" @click.prevent="updateProfileInfo">Sačuvaj</button>
             </div>
-            <ActionButton type="submit" :style-options="{ color: '#fff', width: '100%' }" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
-
+            <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
+              <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
+                <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
+                  <img class="rounded-md" alt="Profile picture" :src="avatarUrl !== '' ? avatarUrl: 'dist/images/profile-3.jpg'">
+                  <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
+                </div>
+                <div class="mx-auto cursor-pointer relative mt-5">
+                  <button type="button" class="btn btn-primary w-full">Promijeni sliku</button>
+                  <input @change="updateAvatar" type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
+                </div>
+              </div>
+            </div>
           </div>
-
         </div>
-      </form>
+      </div>
+      <!-- END: Display Information -->
     </div>
     <Snackbar></Snackbar>
   </div>
@@ -108,7 +80,7 @@ import Snackbar from "@/components/global/Snackbar";
     Snackbar
   },
   middleware: ['auth'],
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
 
 export default class urediProfil extends Vue {
@@ -193,10 +165,6 @@ export default class urediProfil extends Vue {
       console.log(error)
     }
   }
-
-  handleAction() {
-    this.updateProfileInfo();
-  }
 }
 </script>
 
@@ -209,7 +177,7 @@ export default class urediProfil extends Vue {
 }
 
 .account-wrapper {
-  width: 1180px;
+  width: auto;
 
   @include for-phone-only {
     width: 100%;

@@ -160,7 +160,7 @@ export default class Mobile extends Vue {
 
 ::v-deep .vm--modal {
   @include for-phone-only {
-    top: 110px !important;
+    top: 70px !important;
     border-top-left-radius: 15px !important;
     border-top-right-radius: 15px !important;
     height: calc(100vh - 100px) !important;

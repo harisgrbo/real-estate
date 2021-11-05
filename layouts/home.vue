@@ -42,13 +42,18 @@ export default class Home extends Vue {
 
 .home-wrapper {
   padding-top: 0px !important;
+  min-height: calc(100vh - 80px);
+
+  @include for-phone-only {
+    min-height: 100%;
+  }
 
   &.no-padding {
     padding-top: 0;
   }
 
   ::v-deep .navbar-wrapper {
-    background: transparent;
+    background: #fff;
     border-bottom: 0;
     box-shadow: none;
 

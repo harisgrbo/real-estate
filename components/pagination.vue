@@ -7,7 +7,7 @@
         </svg>
       </a>
     </div>
-    <div class="hidden md:-mt-px md:flex bg-gray-100 flex items-center justify-between rounded-full p-2 py-2">
+    <div class="md:-mt-px md:flex bg-gray-100 flex items-center justify-between rounded-full p-2 py-2">
       <a class="mr-4 link" @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index" :class="['border-transparent text-gray-500 font-semibold hover:text-gray-700 hover:border-gray-300', page === currentPage ? 'active text-indigo-600': '']" href="#">
         {{ page }}
       </a>
@@ -93,7 +93,7 @@ export default class Pagination extends Vue {
 }
 
 .active {
-  background: #023246;
+  background: #023246 !important;
   border-radius: 13px;
   height: 26px;
   width: 26px;

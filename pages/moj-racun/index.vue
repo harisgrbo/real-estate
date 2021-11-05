@@ -8,9 +8,9 @@
           <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
           <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id">Idi na profil</nuxt-link>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6 pb-1">
+        <div class="grid grid-cols-4 gap-6 pb-1 mobile-grid">
           <div  v-for="(tab, index) in tabs"
-                :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
+                :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 rounded-md">
             <div>
             <span class="flex items-start justify-start">
               <!-- Heroicon name: outline/clock -->
@@ -25,7 +25,7 @@
                   {{ tab.name }}
                 </nuxt-link>
               </h3>
-              <p class="mt-2 text-sm text-gray-500">
+              <p class="mt-2 text-sm text-gray-700">
                 {{
                   tab.desc
                 }}
@@ -47,9 +47,9 @@
 import { Component, Vue} from "nuxt-property-decorator";
 
 @Component({
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
+  middleware: ['auth'],
 })
-
 export default class accountpage extends Vue {
 
   tabs = [
@@ -102,6 +102,17 @@ export default class accountpage extends Vue {
       desc: 'Postavke privatnosti'
     },
   ]
+
+  created() {
+    if (this.$auth.user && this.$auth.user.user_type === 'agency') {
+      this.tabs.unshift({
+        name: "Dashboard",
+        slug: "dashboard/analitika",
+        icon: "014-browser-6.svg",
+        desc: 'Glavni dashboard, statistika oglasa, agenti za nekretnine'
+      });
+    }
+  }
 }
 
 
@@ -116,25 +127,25 @@ export default class accountpage extends Vue {
 }
 
 .account-wrapper-a {
-  height: fit-content;
+  height: 100%;
 
   .account-wrapper-inner {
     display: flex;
     justify-content: space-between;
     height: 100%;
-    width: 1180px;
-    margin: 0 auto;
+    width: auto;
+    margin: 0 80px;
     box-sizing: border-box;
 
     @include for-phone-only {
       width: 100%;
       padding-bottom: 70px;
+      margin: 0;
     }
 
     .sidenav {
       display: flex;
       flex: 2;
-      background: #fff;
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;
@@ -215,5 +226,11 @@ export default class accountpage extends Vue {
   background: #F7F9FF;
 }
 
+.mobile-grid {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+  }
+}
 </style>
 

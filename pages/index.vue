@@ -55,12 +55,12 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col lg:px-20 xl:px-20 mt-8 up:px-20 sm:px-5 mx-auto w-full mb-12 lg:mb-16 xl:mb-16 up:mb-16">
-      <h2 class="section-title ml-5">
+    <div class="flex flex-col lg:px-20 xl:px-20 mt-8 up:px-20 mx-auto w-full mb-12 lg:mb-16 xl:mb-16 up:mb-16">
+      <h2 class="section-title">
         Najtraženije lokacije
       </h2>
 
-      <ul v-if="locationsLoaded" role="list" class="pl-5 most-visited sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
+      <ul v-if="locationsLoaded" role="list" class="most-visited sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
         <li class="flow-root justify-between flex flex-col items-center text-center relative" v-for="(city, index) in top_locations" :key="index"
             :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
         >
@@ -69,7 +69,7 @@
             <h3 class="font-semibold searched-h3">
                 {{ city.title }}
             </h3>
-            <p class="mt-1 text-lg text-white searched-h3">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
+            <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
           </div>
           <button @click="searchLocation(city.city.id)" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Pogledaj više
@@ -86,9 +86,9 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Prodaja</h2>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
@@ -118,7 +118,7 @@
         </swiper>
       </client-only>
     </div>
-    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full mobile" v-else>
+    <div class="lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full mobile" v-else>
       <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_sell" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
@@ -130,9 +130,9 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col mb-16 mt-8 mx-5">
-      <div class="w-full flex items-center justify-between sm:px-5 lg:px-20 xl:px-20 up:px-20 mx-auto mx-auto mb-4">
-        <h2 class="section-title">Popularne kategorije</h2>
+    <div class="flex flex-col mb-16 mt-8 popular">
+      <div class="w-full flex items-center justify-between lg:px-20 up:px-20 xl:px-20 mx-auto mb-4">
+        <h2 class="section-title popular-cats">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
           <nuxt-link class="more" to="/pretraga">Više kategorija</nuxt-link>
           </div>
@@ -156,7 +156,7 @@
       </ul>
     </div>
 
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Iznajmljivanje</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
@@ -172,7 +172,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20" v-if="!$device.isMobile">
       <client-only v-if="rentLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
@@ -207,7 +207,7 @@
           Lista agencija
       </nuxt-link>r
     </div>
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mx-5">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Izdavanje na dan</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
@@ -223,7 +223,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mx-5" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20" v-if="!$device.isMobile">
       <client-only v-if="rentPerDayLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
@@ -239,7 +239,7 @@
         </swiper>
       </client-only>
     </div>
-    <div class="sm:px-5 lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
+    <div class="lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
       <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-5">
           <ListingCard :action="false" :listing="listing" :type="listing.user.user_type"/>
@@ -251,12 +251,12 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 mt-20">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mt-8">
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-between mb-4 px-5 lg:px-20 xl:px-20 up:px-20 flex-row lg:grid xl:grid up:grid lg:grid-cols-6 xl:grid-cols-6 up:grid-cols-6 gap-6 p-1">
-      <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
+    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 up:px-20 flex-row overflow-x-scroll w-full agencija">
+      <UserCard class="mr-5" v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
 </template>
@@ -384,6 +384,26 @@
     listings_rent = []
     listings_rent_for_a_day = []
     agencies = []
+
+    swiperOptionSpecial = {
+      spaceBetween: 0,
+      // centeredSlides: true,
+      // slidesOffsetBefore: '100px',
+      // slidesOffsetAfter: '100px',
+      // slidesOffsetBefore: '0px',
+      loop: true,
+      autoplay: {
+        delay: 7000,
+      },
+      slidesPerView: 1,
+      touchRatio: 0.2,
+      slideToClickedSlide: false,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+    }
+
 
     created() {
       this.fetchCategories()
@@ -765,7 +785,6 @@ h2.heading {
 
 .agencije ::v-deep .swiper-container {
   padding: 24px 0 !important;
-
 }
 
 @include for-phone-only {
@@ -799,6 +818,10 @@ h2.heading {
 
 ul.most-visited {
   width: 100%;
+
+  @include for-phone-only {
+    padding-left: 16px;
+  }
   li {
     margin-right: 16px;
     min-height: 262px;
@@ -870,6 +893,11 @@ ul.most-visited-cats {
   @include for-phone-only {
     font-size: 18px !important;
     font-weight: 600 !important;
+    margin-left: 16px;
+  }
+
+  &.popular-cats {
+    margin-left: 0;
   }
 }
 
@@ -961,6 +989,10 @@ ul.most-visited-cats {
       }
     }
 
+    select {
+      border-radius: 8px !important;
+    }
+
     .inputs {
       border-bottom-left-radius: 7px;
       border-bottom-right-radius: 7px;
@@ -991,6 +1023,8 @@ ul.most-visited-cats {
           height: 48px;
           max-height: 48px !important;
           min-height: 48px !important;
+          border-radius: 8px;
+          background: #F3F3F4 !important;
         }
 
         ::v-deep .input-wrapper input {
@@ -1077,7 +1111,7 @@ ul.most-visited-cats {
   flex-direction: column;
   background-image: url("/agency-new.jpeg");
   position: relative;
-  margin: 100px;
+  margin: 100px 80px;
   align-items: flex-start;
   justify-content: center;
   padding: 0 80px;
@@ -1157,6 +1191,13 @@ ul.most-visited-cats {
 .searched-h3 {
   position: relative;
   z-index: 2;
+
+  &.km {
+    background: rgba(0, 0, 0, 0.51);
+    border-radius: 4px;
+    margin-top: 12px;
+    padding: 8px 12px;
+  }
 }
 
 ::v-deep .autocomplete-dropdown {
@@ -1187,6 +1228,7 @@ ul.most-visited-cats {
 button.search {
   background: #023246 !important;
   color: #fff;
+  border-radius: 8px !important;
 }
 
 .search-inputs {
@@ -1226,6 +1268,22 @@ button.search {
   @include for-phone-only {
     height: 182px !important;
     width: 260px !important;
+  }
+}
+
+.swiper.top {
+  position: absolute !important;
+}
+
+.popular {
+  @include for-phone-only {
+    margin: 16px;
+  }
+}
+
+.agencija {
+  @include for-phone-only {
+    padding: 0 16px;
   }
 }
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div class="form-wrapper">
-    <img src="/mojkvadrat.svg" class="logo" alt="" @click="$router.push('/')">
+    <img src="/newm2.jpeg" class="logo" alt="" @click="$router.push('/')">
 
     <h2 class="mt-4">Dobrodošli!</h2>
     <form @submit.prevent="handleLogin">
       <label for="">Email</label>
-      <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4 mt-3"></TextField>
+      <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4 mt-1"></TextField>
       <label for="">Password</label>
-      <TextField type="password" placeholder="Lozinka" v-model="payload.password" class="mt-3"></TextField>
+      <TextField type="password" placeholder="Lozinka" v-model="payload.password" class="mt-1"></TextField>
       <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
     <nuxt-link class="mt-xl" :to="{ path: '/auth/register' }">Nemaš račun? Registruj se</nuxt-link>
@@ -19,9 +19,10 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton";
+import {mixin as clickaway} from "vue-clickaway";
 
 @Component({
-  components: {ActionButton, TextField}
+  components: {ActionButton, TextField},
 })
 
 export default class LoginForm extends Vue{
@@ -85,6 +86,8 @@ export default class LoginForm extends Vue{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-y: scroll;
+
 
   @include for-phone-only {
     width: 100%;
@@ -93,19 +96,6 @@ export default class LoginForm extends Vue{
 
   }
 
-  ::v-deep input {
-    border: 1px solid #ddd;
-    background: #fff;
-    height: 52px;
-    width: 100%;
-    padding: 0 16px;
-  }
-
-  ::v-deep ::placeholder {
-    font-weight: 500;
-    font-size: 14px;
-    color: #8d8d8d;
-  }
   h2 {
     font-weight: 600;
     font-size: 36px;

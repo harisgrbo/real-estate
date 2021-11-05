@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="flex w-full contact">
-        <div class="w-full">
+        <div class="w-full" v-if="this.$auth.user">
           <div class="w-full flex items-center justify-between" v-if="isMe">
             <ActionButton :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
             <ActionButton :style-options="{ color: '#fff' }"  placeholder="Izdvoji" @action="handleListingSponsoring" class="w-full ml-sm"></ActionButton>
@@ -33,13 +33,21 @@
       <div class="rent" v-if="isBooking && !$device.isMobile && !authUser">
         <client-only>
           <form @submit.prevent>
-            <div class="flex flex-row items-center mb-4 price-wrap" v-if="!$device.isMobile">
-              <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
-              <p class="pl-2">/ noć</p>
+            <div class="price-wrap" v-if="!$device.isMobile">
+              <div class="flex flex-row items-center mb-4">
+                <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
+                <p class="pl-2">/ noć</p>
+              </div>
+              <div v-show="numOfDays">
+                <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
+              </div>
             </div>
-            <div class="mb-4">
+
+            <div class="mb-4 mt-4">
               <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
               <vc-date-picker
+                :disabled-dates="disabledDates"
+                :min-date="new Date()"
                 v-model="range"
                 mode="dateTime"
                 :masks="masks"
@@ -106,7 +114,7 @@
                 </template>
               </vc-date-picker>
             </div>
-            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit"></ActionButton>
+            <ActionButton @action="$emit(`booking`, range)" :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit"></ActionButton>
           </form>
         </client-only>
       </div>
@@ -159,21 +167,31 @@ export default class UserProfile extends Vue {
   @Prop() id;
   @Prop() price;
   @Prop({ type: Boolean }) vat;
+  @Prop({type: Array, default: () => []}) bookings;
 
   message = '';
   loading = false;
   otherListings = [];
   otherListingsLoaded = false;
   range = {
-    start: new Date(2020, 0, 6),
-    end: new Date(2020, 0, 23),
+    start: new Date(),
+    end: new Date(),
   }
   masks = {
-    input: 'YYYY-MM-DD',
+    input: 'DD-MM-YYYY',
   }
 
   handleListingSponsoring() {
     console.log(sponzorisano)
+  }
+
+  get disabledDates() {
+    return this.bookings.map(item => {
+      return {
+        start: this.$moment(item.starts_at).toDate(),
+        end: this.$moment(item.ends_at).toDate(),
+      }
+    })
   }
 
   user_type(t) {
@@ -200,6 +218,14 @@ export default class UserProfile extends Vue {
       highlight: true,
       dates: date,
     }));
+  }
+
+  get numOfDays() {
+    return this.$moment(this.range.end).diff(this.$moment(this.range.start), 'days');
+  }
+
+  get totalBookingPrice() {
+    return this.price * this.numOfDays;
   }
 
   onDayClick(day) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper max-w-7xl mx-auto w-full">
+  <div class="account-wrapper mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -54,8 +54,14 @@ export default class mojiOglasi extends Vue {
 }
 
 .account-wrapper {
-  width: 1180px;
+  width: auto;
+
+  @include for-phone-only {
+    width: 100%;
+    padding: 16px;
+  }
 }
+
 .content {
   display: flex;
   flex-direction: column;
@@ -63,22 +69,27 @@ export default class mojiOglasi extends Vue {
 
   .grid-cards {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-column-gap: 24px;
+    grid-row-gap: 24px;
     padding: 0;
 
     @include for-phone-only {
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      grid-template-columns: repeat(1, 1fr);
       grid-column-gap: 24px;
       grid-row-gap: 24px;
     }
     ::v-deep a {
-      width: 217px;
+      width: 100%;
     }
 
 
     ::v-deep img {
       width: 100%;
+
+      @include for-phone-only {
+        height: 254px;
+      }
     }
   }
 }
@@ -105,6 +116,12 @@ h1 {
     font-size: 20px;
     font-weight: 500;
     margin-top: 24px;
+  }
+}
+
+.content {
+  @include for-phone-only {
+    padding: 0;
   }
 }
 </style>

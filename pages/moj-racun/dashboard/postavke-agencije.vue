@@ -1,59 +1,43 @@
 <template>
   <div class="account-wrapper">
-    <div class="info-wrapper">
-      <div class="field-wrapper">
-        <div class="content">
-          <h2 class="heading">
-            Informacije o agenciji
+    <div class="col-span-12">
+      <!-- BEGIN: Display Information -->
+      <div class="intro-y box lg:mt-5">
+        <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+          <h2 class="font-medium text-base mr-auto">
+            Display Information
           </h2>
-          <div class="grid-inputs">
-            <TextField label="Naziv agencije" v-model="name" type="text"></TextField>
-            <TextField label="Email" v-model="email" type="text"></TextField>
-            <TextField label="Broj telefona" v-model="number" type="number"></TextField>
-            <TextField label="Grad" v-model="email" type="text"></TextField>
-            <TextField label="Država" v-model="email" type="text"></TextField>
-            <TextField label="Adresa" v-model="email" type="text"></TextField>
-            <TextField label="ID broj" v-model="email" type="text"></TextField>
-          </div>
         </div>
-        <div class="content">
-          <h2 class="heading password">
-            Promjena šifre
-          </h2>
-          <div class="grid-inputs">
-            <TextField label="Šifra" type="password" v-model="password"></TextField>
-            <TextField label="Potvrdi šifru" v-model="passwordConfirm" type="password"></TextField>
-          </div>
-        </div>
-        <div class="content">
-          <h2 class="heading password">
-            O nama
-          </h2>
-          <textarea v-model="description"></textarea>
-        </div>
-        <ActionButton @action="handleAction" placeholder="Spasi izmjene" :loading="loading"></ActionButton>
-      </div>
-      <div class="img-upload">
-        <h2 class="heading">
-          Promjena avatara
-        </h2>
-        <div class="avatar-wrapper">
-          <div class="img-wrap-relative">
-            <div class="upload-btn">
-              <button>
-                <p>Izaberite avatar</p> <font-awesome-icon icon="file-upload"></font-awesome-icon>
-              </button>
-            </div>
-            <img src="/avatar.jpg" alt="">
-          </div>
-          <ActionButton @action="handleAction" placeholder="Promijeni sliku" :loading="loading"></ActionButton>
+        <div class="p-5">
+          <div class="flex flex-col-reverse xl:flex-row flex-col">
+            <div class="flex-1 mt-6 xl:mt-0">
+              <div class="grid grid-cols-12 gap-x-5">
+                <div class="col-span-12 2xl:col-span-6">
+                  <div>
+                    <label for="update-profile-form-1" class="form-label">ID Broj</label>
+                    <input id="update-profile-form-1" type="text" class="form-control" v-model="id">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
 
-          <div class="verification-status">
-            <img src="/percentage.svg" alt="">
-            <p>profil verifikovan 50%</p>
+                  <div class="">
+                    <label for="update-profile-form-4" class="form-label">Lokacija</label>
+                    <input id="update-profile-form-4" type="text" class="form-control" v-model="location">
+                  </div>
+                </div>
+                <div class="col-span-12">
+                  <div class="mt-3">
+                    <label for="update-profile-form-5" class="form-label">Opis</label>
+                    <textarea id="update-profile-form-5" class="form-control" v-model="description"></textarea>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary w-20 mt-3" @click="updateProfileInfo">Sačuvaj</button>
+            </div>
           </div>
         </div>
       </div>
+      <!-- END: Display Information -->
     </div>
     <Snackbar></Snackbar>
   </div>
@@ -74,22 +58,34 @@ import Snackbar from "@/components/global/Snackbar";
   middleware: ['auth'],
   layout() { return "home" }
 })
-
 export default class urediProfil extends Vue {
-  user = {}
-  name = '';
-  email = '';
-  password = '';
-  passwordConfirm = '';
+  id = '';
+  location = '';
+  description = '';
   loading = false;
+  agency = {
+    external_id: '',
+    location: '',
+    description: ''
+  };
 
   async created() {
+    await this.fetchMyAgency();
     this.setInputs();
   }
 
   setInputs() {
-    this.name = this.$auth.user.name;
-    this.email = this.$auth.user.email;
+    this.id = this.agency.external_id;
+    this.location = this.agency.location;
+    this.description = this.agency.description
+  }
+
+  async fetchMyAgency() {
+    try {
+      this.agency = (await this.$axios.get('/profile/agency')).data.data;
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   async updateProfileInfo() {
@@ -97,20 +93,19 @@ export default class urediProfil extends Vue {
     try {
       let payload = {};
 
-      if (this.name !== this.$auth.user.name) {
-        payload.name = this.name
+      if (this.id !== this.agency.id) {
+        payload.external_id = this.id
       }
 
-      if (this.email !== this.$auth.user.email) {
-        payload.email = this.email;
+      if (this.location !== this.agency.location) {
+        payload.location = this.location;
       }
 
-      if (this.password.length) {
-        payload.password = this.password;
+      if (this.description !== this.agency.description) {
+        payload.description = this.description;
       }
 
-      await this.$axios.put('/profile/update', payload)
-      await this.$auth.fetchUser();
+      await this.$axios.put('/profile/agency', payload)
 
       this.$snackbar.show({
         text: "Uspjesno ste se spasili izmjene!",
@@ -125,187 +120,14 @@ export default class urediProfil extends Vue {
       console.log(error)
     }
   }
-
-  handleAction() {
-    this.updateProfileInfo();
-  }
 }
 </script>
 
-<style scoped lang="scss">
-
-.heading {
-  margin-bottom: 36px;
-}
-.w-full {
-  display: flex;
-
-  .content {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 32px;
-    column-gap: 24px;
-  }
-
-  ::v-deep button {
-    width: 150px;
-  }
-}
-
-h2.heading {
-  color: rgb(72, 72, 72) !important;
-  font-weight: 500 !important;
+<style>
+.box {
+  box-shadow: none;
+  border-bottom: 1px solid #f1f1f1;
   padding-bottom: 24px;
-  font-size: 22px !important;
-  border-bottom: 1px solid #EBEBEB !important;
-  position: relative;
-
-  &.password {
-    margin-top: 42px;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 80px;
-    height: 1px;
-    background: #0B8489;
-  }
-}
-
-.grid-inputs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-row-gap: 24px;
-  grid-column-gap: 24px;
-}
-
-.info-wrapper {
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-
-  .field-wrapper {
-    display: flex;
-    flex-direction: column;
-    flex: 6;
-  }
-
-  .img-upload {
-    display: flex;
-    flex-direction: column;
-    flex: 2;
-    box-sizing: border-box;
-    margin-left: 48px;
-
-    .avatar-wrapper {
-      border-radius: 10px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      align-items: center;
-      justify-content: center;
-
-      .img-wrap-relative {
-        height: 200px;
-        width: 200px;
-        border-radius: 100px;
-        position: relative;
-        overflow: hidden;
-
-        img {
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-        }
-
-        .upload-btn {
-          position: absolute;
-          display: none;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          z-index:3;
-          height: 100%;
-          width: 100%;
-          border-radius: 100px;
-          background-color: rgba(255, 255, 255, .5);
-          -webkit-backdrop-filter: blur(0.1em);
-          backdrop-filter: blur(1px);
-
-          button {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            jsutify-content: center;
-            background: #0B8489;
-            border-radius: 5px;
-            border: none;
-            font-family: 'Lato', sans-serif;
-            color: #fff;
-            padding: 8px 12px;
-            cursor: pointer;
-
-            svg {
-              font-size: 17px;
-            }
-
-            &:focus {
-              outline: none;
-            }
-
-            p {
-              margin-right: 12px;
-            }
-          }
-        }
-
-        &:hover {
-          .upload-btn {
-            display: flex;
-          }
-        }
-      }
-
-      .verification-status {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        margin-top: 24px;
-        padding-top: 24px;
-        border-top: 1px solid #ebebeb;
-        align-items: center;
-        justify-content: flex-start;
-
-        img {
-          height: 40px;
-        }
-
-        p {
-          margin-left: 12px;
-        }
-      }
-    }
-  }
-}
-
-::v-deep button {
-  background: #0B8489;
-}
-
-textarea {
-  width: 100%;
-  height: 200px;
-  padding: 12px;
-  box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  resize: none;
 }
 </style>
+
