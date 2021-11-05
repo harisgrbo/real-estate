@@ -55,6 +55,7 @@ export default class mojiOglasi extends Vue {
 
 .account-wrapper {
   width: auto;
+  background: #f9f9f9;
 
   @include for-phone-only {
     width: 100%;
