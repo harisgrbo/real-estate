@@ -175,6 +175,7 @@ export default class ListingCard extends Vue{
     width: 100%;
     max-width: 100%;
     overflow: hidden;
+    height: fit-content;
 
     @include for-phone-only {
       min-width: 240px;

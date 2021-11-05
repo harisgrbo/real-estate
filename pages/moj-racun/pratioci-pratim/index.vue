@@ -107,10 +107,12 @@ export default class pratioci extends Vue {
 
 .account-wrapper {
   width: auto;
+  background: #f9f9f9;
 
   @include for-phone-only {
     width: 100%;
     padding: 16px;
+    min-height: calc(100vh - 80px);
   }
 }
 .cw-ul {
