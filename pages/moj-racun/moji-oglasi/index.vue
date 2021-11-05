@@ -69,7 +69,7 @@ export default class mojiOglasi extends Vue {
 
   .grid-cards {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-column-gap: 24px;
     grid-row-gap: 24px;
     padding: 0;
