@@ -907,7 +907,11 @@ export default class Artikal extends Vue {
 
   async created() {
     this.RentSpecialAttributes = this.getSpecialAttributes();
-    this.fetchBookings();
+
+    if (this.listing.listing_type.shortname === 'booking') {
+      this.fetchBookings();
+    }
+
     await this.fetchPlaces();
 
     for (let key of Object.keys(this.places)) {
