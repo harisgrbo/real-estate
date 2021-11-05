@@ -84,7 +84,7 @@
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4">
         <h1 class="font-semibold text-lg">{{ meta.total }} rezultata</h1>
-        <div class="toggle-map-wrapper">
+        <div class="toggle-map-wrapper" v-if="!$device.isMobile">
           <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
@@ -889,9 +889,12 @@ export default class Homepage extends Vue {
   min-width: fit-content;
 }
 
-//.listing-wrap {
-//  grid-row-gap: 36px;
-//}
+.listing-wrap {
+  @include for-phone-only {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 
 
 
