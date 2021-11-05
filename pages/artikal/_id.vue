@@ -633,7 +633,15 @@ export default class Artikal extends Vue {
         type: "success"
       });
     } catch (e) {
-      console.log(e)
+      if (e.response.data.code === 10) {
+        this.$snackbar.show({
+          text: "Već ste poslali upit za ovaj oglas",
+          timeout: 1000,
+          type: "danger"
+        })
+      } else {
+        console.log(e.response)
+      }
     }
   }
 
