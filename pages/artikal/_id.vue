@@ -215,7 +215,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('places')" placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ border: 'none', color: '#fff', height: '52px', marginRight: '24px', fontSize: '13px', width: 'auto' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #023246', color: '#023246' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
             <div class="separator"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Lokacija</h2>
             <div v-if="!$device.isMobile">
@@ -225,16 +225,13 @@
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review">
                 <label>Opišite ukratko vaše iskustvo</label>
-                <TextField class="mb-3" type="text" v-model="review_description"></TextField>
+                <textarea class="mb-3" type="text" v-model="review_description"></textarea>
                 <label>Ocjena za nekretninu</label>
                 <TextField type="number" placeholder="Ocjena od 1 do 5" v-model="review_rating"></TextField>
                 <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
-
               </div>
               <div v-if="listing_reviews.length" class="bg-white">
                 <div>
-                  <h2 class="sr-only">Customer Reviews</h2>
-
                   <div v-for="review in listing_reviews">
                     <div class="flex text-sm text-gray-500 space-x-4">
                       <div class="flex-none py-10">
@@ -242,7 +239,7 @@
                       </div>
                       <div class="flex-1 py-10">
                         <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
-                        <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+                        <p><time>{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
 
                         <div class="flex items-center mt-4">
                           <!--
@@ -257,7 +254,7 @@
                           <!-- Heroicon name: solid/star -->
                         </div>
 
-                        <div class="mt-4 prose prose-sm max-w-none text-gray-500">
+                        <div class="mt-4 prose prose-sm max-w-none text-black">
                           <p>{{ review.review }}</p>
                         </div>
                       </div>
@@ -266,7 +263,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('map-modal')" placeholder="Prikaži lokaciju na mapi" :style-options="{ border: 'none', color: '#fff', height: '52px', marginRight: '24px', fontSize: '13px', width: 'auto' }" :loading="false"></ActionButton>
+            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('map-modal')" placeholder="Prikaži lokaciju na mapi" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #023246', color: '#023246' }" :loading="false"></ActionButton>
             <!--            <div class="separator" v-if="questions.length"></div>-->
 <!--            <h2 class="heading question" v-if="questions.length">Pitanja</h2>-->
 <!--            <div class="separator" v-if="questions.length"></div>-->
@@ -294,7 +291,7 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
             <div class="review">
               <label>Opišite ukratko vaše iskustvo</label>
-              <TextField class="mb-3" type="text" v-model="review_description"></TextField>
+              <textarea class="mb-3" type="text" v-model="review_description"></textarea>
               <label>Ocjena za nekretninu</label>
               <TextField type="number" placeholder="Ocjena od 1 do 5" v-model="review_rating"></TextField>
               <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
@@ -326,7 +323,7 @@
                         <!-- Heroicon name: solid/star -->
                       </div>
 
-                      <div class="mt-4 prose prose-sm max-w-none text-gray-500">
+                      <div class="mt-4 prose prose-sm max-w-none text-black">
                         <p>{{ review.review }}</p>
                       </div>
                     </div>
@@ -382,29 +379,33 @@
           <modal name="booking" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Poašalji upit za rezervaciju</h2>
+                <h2>Pošalji upit za rezervaciju</h2>
                 <i class="material-icons" @click.prevent="$modal.hide('booking')">close</i>
               </div>
               <div class="modal-content places-modal">
                 <div class="filters rounded-md">
                   <client-only>
                     <form @submit.prevent>
-                      <div class="flex flex-row items-center mb-4 price-wrap">
-                        <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>
-                        <p class="pl-2">/ noć</p>
+                      <div class="price-wrap flex flex-col justify-start">
+                        <div class="flex flex-row items-center w-full">
+                          <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                          <p class="pl-2">/ noć</p>
+                        </div>
+                        <div v-show="numOfDays" class="mt-2 w-full">
+                          <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
+                        </div>
                       </div>
                       <div class="mb-4">
-                        <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
+                        <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Rezervišite datum</h2>
                         <vc-date-picker
                           :disabled-dates="disabledDates"
                           :min-date="new Date()"
                           v-model="range"
-                          mode="dateTime"
                           :masks="masks"
                           is-range
                         >
                           <template v-slot="{ inputValue, inputEvents, isDragging }">
-                            <div class="flex flex-col sm:flex-row justify-start items-center">
+                            <div class="flex flex-row justify-start items-center">
                               <div class="relative flex-grow w-full">
                                 <svg
                                   class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
@@ -558,11 +559,11 @@ export default class Artikal extends Vue {
   lastScrollPosition = 0
   showBooking = false;
   range = {
-    start: new Date(2020, 0, 6),
-    end: new Date(2020, 0, 23),
+    start: new Date(),
+    end: new Date(),
   }
   masks = {
-    input: 'YYYY-MM-DD',
+    input: 'DD-MM-YYYY',
   }
   RentSpecialAttributes = []
   RentSpecialAttributesKeys = [
@@ -696,6 +697,14 @@ export default class Artikal extends Vue {
     if(this.$device.isMobile) {
       window.addEventListener('scroll', this.handleScroll, true)
     }
+  }
+
+  get numOfDays() {
+    return this.$moment(this.range.end).diff(this.$moment(this.range.start), 'days');
+  }
+
+  get totalBookingPrice() {
+    return this.listing.price * this.numOfDays;
   }
 
   toggleBookingModal() {
@@ -1214,6 +1223,10 @@ export default class Artikal extends Vue {
   display: flex;
   flex-direction: column;
   padding: 0 24px;
+
+  @include for-phone-only {
+    padding: 12px;
+  }
 
   &.map {
     padding: 0;
@@ -1817,6 +1830,10 @@ export default class Artikal extends Vue {
       }
     }
   }
+
+  @include for-phone-only {
+    min-height: 500px;
+  }
 }
 
 .modal-place {
@@ -1851,12 +1868,18 @@ export default class Artikal extends Vue {
 }
 
 .date-input {
-  height: 50px;
-  background: #f9f9f9;
-  font-size: 13px;
-  border: 2px solid #023246;
-  background: transparent;
-  min-width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #F3F3F4;
+  flex: 2;
+  position: relative;
+  transition: 0.3s all ease;
+  max-width: 600px;
+  margin-top: 0;
 }
 
 .mobile-content {
@@ -1923,6 +1946,10 @@ export default class Artikal extends Vue {
   padding: 12px;
   border-radius: 7px;
   margin: 0 16px 16px 16px;
+
+  @include for-phone-only {
+    margin: 0 0 16px 0
+  }
 }
 
 .mobile-images {
@@ -1937,6 +1964,21 @@ export default class Artikal extends Vue {
   label {
     margin-bottom: 8px;
     font-weight: 600;
+  }
+
+  textarea {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    padding: 0 12px;
+    background: #F3F3F4;
+    flex: 2;
+    position: relative;
+    transition: 0.3s all ease;
+    max-width: 600px;
+    margin-top: 0;
   }
 
 }
@@ -1955,5 +1997,12 @@ export default class Artikal extends Vue {
   }
 }
 
+.modal-title {
+  @include for-phone-only {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f1f1f1;
+  }
+}
 </style>
 

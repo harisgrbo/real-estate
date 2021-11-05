@@ -38,12 +38,12 @@
                 <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
                 <p class="pl-2">/ noć</p>
               </div>
-              <div v-show="numOfDays" class="mb-4">
-                <p>{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
+              <div v-show="numOfDays">
+                <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 mt-4">
               <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
               <vc-date-picker
                 :disabled-dates="disabledDates"
@@ -178,7 +178,7 @@ export default class UserProfile extends Vue {
     end: new Date(),
   }
   masks = {
-    input: 'YYYY-MM-DD',
+    input: 'DD-MM-YYYY',
   }
 
   handleListingSponsoring() {

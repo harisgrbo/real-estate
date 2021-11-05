@@ -88,7 +88,7 @@
     </div>
     <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Prodaja</h2>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
@@ -130,9 +130,9 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col mb-16 mt-8">
-      <div class="w-full flex items-center justify-between lg:px-20 xl:px-20 up:px-20 mx-auto mx-auto mb-4">
-        <h2 class="section-title">Popularne kategorije</h2>
+    <div class="flex flex-col mb-16 mt-8 popular">
+      <div class="w-full flex items-center justify-between lg:px-20 up:px-20 xl:px-20 mx-auto mb-4">
+        <h2 class="section-title popular-cats">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
           <nuxt-link class="more" to="/pretraga">Više kategorija</nuxt-link>
           </div>
@@ -251,12 +251,12 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mt-20">
+    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mt-8">
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 flex-row lg:grid xl:grid up:grid lg:grid-cols-6 xl:grid-cols-6 up:grid-cols-6 gap-6">
-      <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
+    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 up:px-20 flex-row overflow-x-scroll w-full agencija">
+      <UserCard class="mr-5" v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
 </template>
@@ -785,7 +785,6 @@ h2.heading {
 
 .agencije ::v-deep .swiper-container {
   padding: 24px 0 !important;
-
 }
 
 @include for-phone-only {
@@ -819,6 +818,10 @@ h2.heading {
 
 ul.most-visited {
   width: 100%;
+
+  @include for-phone-only {
+    padding-left: 16px;
+  }
   li {
     margin-right: 16px;
     min-height: 262px;
@@ -890,6 +893,11 @@ ul.most-visited-cats {
   @include for-phone-only {
     font-size: 18px !important;
     font-weight: 600 !important;
+    margin-left: 16px;
+  }
+
+  &.popular-cats {
+    margin-left: 0;
   }
 }
 
@@ -1265,5 +1273,17 @@ button.search {
 
 .swiper.top {
   position: absolute !important;
+}
+
+.popular {
+  @include for-phone-only {
+    margin: 16px;
+  }
+}
+
+.agencija {
+  @include for-phone-only {
+    padding: 0 16px;
+  }
 }
 </style>

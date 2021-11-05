@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <img src="/mojkvadrat.svg" class="logo" alt="" @click="$router.push('/')">
+    <img src="/newm2.jpeg" class="logo" alt="" @click="$router.push('/')">
 
     <h2 class="mt-4">Dobrodošli!</h2>
     <form @submit.prevent="handleLogin">
