@@ -155,7 +155,7 @@
           <div class="chat__box box">
             <!-- BEGIN: Chat Active -->
             <div v-if="currentConversation" class="h-full flex flex-col">
-              <div class="flex flex-col sm:flex-row border-b border-gray-200 dark:border-dark-5 px-5 py-4">
+              <div class="shadow-md flex flex-col sm:flex-row border-b border-gray-200 dark:border-dark-5 px-5 py-4">
                 <div class="flex items-center">
                   <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                     <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
@@ -234,20 +234,16 @@
         </div>
         <!-- END: Chat Content -->
       </div>
-    </div>
+    </div>l
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
-import StandardChart from "@/components/analytics/StandardChart";
-import PieChart from "@/components/analytics/PieChart";
 import {v4 as uuidv4} from "uuid";
 
 @Component({
   components: {
-    StandardChart,
-    PieChart
   },
   middleware: ['auth'],
   layout() { return "home" },

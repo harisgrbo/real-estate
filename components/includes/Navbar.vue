@@ -554,6 +554,10 @@ export default class Navbar extends Vue {
       border: none;
     }
 
+    ::placeholder {
+      color: #adadad;
+    }
+
     &.focused {
       box-shadow: 0px 8px 20px rgba(0,0,0,0.09);
       border-radius: 4px;
@@ -593,6 +597,7 @@ export default class Navbar extends Vue {
         outline: none;
       }
     }
+
     button {
       display: flex;
       align-items: center;

@@ -81,7 +81,6 @@ export default class Agencies extends Vue {
     .sidenav {
       display: flex;
       flex: 2;
-      background: #fff;
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;

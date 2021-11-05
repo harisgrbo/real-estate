@@ -172,8 +172,8 @@ export default class ListingCard extends Vue{
     flex-direction: column;
     height: 100%;
     position: relative;
-    width: fit-content;
-    max-width: fit-content;
+    width: 100%;
+    max-width: 100%;
     overflow: hidden;
 
     @include for-phone-only {

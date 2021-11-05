@@ -18,15 +18,12 @@
     </ul>
     <div class="saved-content">
       <div v-show="activeTab === 0">
-        <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 p-1" v-if="followers.length">
+        <ul class="grid grid-cols-5 gap-6" v-if="followers.length">
           <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200" v-for="user in followers">
             <div class="flex-1 flex flex-col p-8">
               <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
               <h3 class="mt-6 text-gray-900 text-sm font-medium">{{ user.name }}</h3>
               <dl class="mt-1 flex-grow flex flex-col justify-between">
-                <dt class="sr-only">Title</dt>
-                <dd class="text-gray-500 text-sm">Paradigm Representative</dd>
-                <dt class="sr-only">Role</dt>
                 <dd class="mt-3">
                   <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
                 </dd>
@@ -64,12 +61,46 @@
         </div>
       </div>
       <div v-show="activeTab === 1">
-        <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 p-1" v-if="followed.length">
-          <UserCard v-for="user in followed" :id="user.id" :user="user"/>
+        <ul class="grid grid-cols-5 gap-6" v-if="followed.length">
+          <li class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200" v-for="user in followed">
+            <div class="flex-1 flex flex-col p-8">
+              <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+              <h3 class="mt-6 text-gray-900 text-sm font-medium">{{ user.name }}</h3>
+              <dl class="mt-1 flex-grow flex flex-col justify-between">
+                <dd class="mt-3">
+                  <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+                </dd>
+              </dl>
+            </div>
+            <div>
+              <div class="-mt-px flex divide-x divide-gray-200">
+                <div class="w-0 flex-1 flex">
+                  <a href="mailto:janecooper@example.com" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                    <!-- Heroicon name: solid/mail -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <span class="ml-3">Poruka</span>
+                  </a>
+                </div>
+                <div class="-ml-px w-0 flex-1 flex">
+                  <a href="tel:+1-202-555-0170" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                    <!-- Heroicon name: solid/phone -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span class="ml-3">Profil</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <UserCard v-for="user in followers" :id="user.id" :user="user"/>
+          <!-- More people... -->
         </ul>
         <div v-else class="no-image">
           <img src="/noimg.jpg" alt="no-image">
-          <p>Ne pratite nikoga</p>
+          <p>Nemate pratilaca</p>
         </div>
       </div>
     </div>
@@ -85,7 +116,7 @@ import UserCard from "@/components/UserCard";
   components: {
     UserCard,
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
 
 export default class pratioci extends Vue {
@@ -123,6 +154,14 @@ export default class pratioci extends Vue {
       console.log(e)
     }
   }
+
+  user_type(t) {
+    if(t === 'agency') {
+      return 'Agencija'
+    } else {
+      return 'Korisnik'
+    }
+  }
 }
 </script>
 
@@ -134,7 +173,12 @@ export default class pratioci extends Vue {
 }
 
 .account-wrapper {
-  width: 1180px;
+  width: auto;
+  min-height: calc(100vh - 80px);
+
+  @include for-phone-only {
+    min-height: 100%;
+  }
 }
 .cw-ul {
   width: 100%;

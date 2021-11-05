@@ -1220,6 +1220,7 @@ ul.most-visited-cats {
 button.search {
   background: #023246 !important;
   color: #fff;
+  border-radius: 8px !important;
 }
 
 .search-inputs {

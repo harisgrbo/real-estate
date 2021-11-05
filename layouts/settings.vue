@@ -1,5 +1,5 @@
 <template>
-  <div :class="['home-wrapper', this.$route.name === 'index' ? 'no-padding' : '']">
+  <div class="home-wrapper">
     <Navbar></Navbar>
     <Nuxt />
   </div>
@@ -14,7 +14,7 @@ import Footer from "@/components/Footer"
   components: {Navbar, Footer}
 })
 
-export default class Home extends Vue {
+export default class Settings extends Vue {
 }
 </script>
 
@@ -41,8 +41,11 @@ export default class Home extends Vue {
 }
 
 .home-wrapper {
-  padding-top: 0px !important;
+  padding-top: 80px !important;
   min-height: calc(100vh - 80px);
+  background: #f9f9f9;
+  width: auto;
+  padding-bottom: 36px;
 
   @include for-phone-only {
     min-height: 100%;
@@ -52,17 +55,6 @@ export default class Home extends Vue {
     padding-top: 0;
   }
 
-  ::v-deep .navbar-wrapper {
-    background: #fff;
-    border-bottom: 0;
-    box-shadow: none;
-
-  }
-
-  ::v-deep .navbar-wrapper .second-row {
-    background: transparent;
-
-  }
 }
 </style>
 

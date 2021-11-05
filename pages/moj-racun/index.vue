@@ -10,7 +10,7 @@
         </div>
         <div class="grid grid-cols-4 gap-6 pb-1">
           <div  v-for="(tab, index) in tabs"
-                :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0">
+                :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 rounded-md">
             <div>
             <span class="flex items-start justify-start">
               <!-- Heroicon name: outline/clock -->
@@ -47,7 +47,7 @@
 import { Component, Vue} from "nuxt-property-decorator";
 
 @Component({
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
 
 export default class accountpage extends Vue {
@@ -55,7 +55,7 @@ export default class accountpage extends Vue {
   tabs = [
     {
       name: "Dashboard",
-      slug: "dashboard",
+      slug: "dashboard/analitika",
       icon: "014-browser-6.svg",
       desc: 'Glavni dashboard, statistika oglasa, agenti za nekretnine'
     },
@@ -122,7 +122,7 @@ export default class accountpage extends Vue {
 }
 
 .account-wrapper-a {
-  height: fit-content;
+  height: 100%;
 
   .account-wrapper-inner {
     display: flex;
@@ -140,7 +140,6 @@ export default class accountpage extends Vue {
     .sidenav {
       display: flex;
       flex: 2;
-      background: #fff;
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;

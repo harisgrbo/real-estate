@@ -7,90 +7,6 @@
         <p>Uredi profil</p>
       </li>
     </ul>
-    <div class="info-wrapper pb-12 mt-6">
-      <form class="flex flex-row justify-between w-full" @submit="updateProfileInfo">
-        <div class="space-y-6 sm:space-y-5 w-full flex flex-col">
-          <div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Lični podaci
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-              Koristite prave informacije
-            </p>
-          </div>
-          <div class="image-upload">
-            <img v-if="!avatarUrl.length" src="/noimage.jpeg" class="my-4" alt="">
-            <img v-else :src="avatarUrl" class="my-4"/>
-          </div>
-          <div class="mt-6 grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 up:grid-cols-2">
-            <div class="w-full flex flex-col">
-              <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Korisnicko ime
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="name" type="text" name="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-
-            <div class="w-full flex flex-col">
-              <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Email
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="email" type="text" name="first-name" id="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm h-10 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-
-            <div class="w-full flex flex-col">
-              <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Sifra
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="password" type="password" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-
-            <div class="w-full flex flex-col">
-              <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Potvrda Sifre
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <input v-model="passwordConfirm" type="password" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm h-10 sm:text-sm border-gray-300 rounded-md">
-              </div>
-            </div>
-          </div>
-          <div class="image-upload-wrap">
-            <div class="flex flex-col">
-              <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                Slika profila
-              </label>
-              <div class="flex flex-row items-center justify-start">
-                <div class="max-w-xl w-full flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div class="space-y-1 text-center mr-2">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <div class="flex text-sm text-gray-600">
-                      <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-black">
-                        <span class="px-2">Izaberite sliku</span>
-                        <input id="file-upload" name="file-upload" type="file" class="sr-only" @change="updateAvatar">
-                      </label>
-                      <p class="pl-1">ili prevucite sliku u okvir</p>
-                    </div>
-                    <p class="text-xs text-gray-500">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <ActionButton type="submit" :style-options="{ color: '#fff', width: '100%' }" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
-
-          </div>
-
-        </div>
-      </form>
-    </div>
     <div class="col-span-12">
       <!-- BEGIN: Display Information -->
       <div class="intro-y box lg:mt-5">
@@ -106,43 +22,24 @@
                 <div class="col-span-12 2xl:col-span-6">
                   <div>
                     <label for="update-profile-form-1" class="form-label">Display Name</label>
-                    <input id="update-profile-form-1" type="text" class="form-control" placeholder="Input text" value="Morgan Freeman" disabled>
-                  </div>
-                  <div class="mt-3">
-                    <label for="update-profile-form-2" class="form-label">Nearest MRT Station</label>
-                    <select id="update-profile-form-2" data-search="true" class="tom-select w-full">
-                      <option value="1">Admiralty</option>
-                      <option value="2">Aljunied</option>
-                      <option value="3">Ang Mo Kio</option>
-                      <option value="4">Bartley</option>
-                      <option value="5">Beauty World</option>
-                    </select>
+                    <input id="update-profile-form-1" type="text" class="form-control" placeholder="Input text" :value="$auth.user.name" disabled>
                   </div>
                 </div>
                 <div class="col-span-12 2xl:col-span-6">
-                  <div class="mt-3 2xl:mt-0">
-                    <label for="update-profile-form-3" class="form-label">Postal Code</label>
-                    <select id="update-profile-form-3" data-search="true" class="tom-select w-full">
-                      <option value="1">018906 - 1 STRAITS BOULEVARD SINGA...</option>
-                      <option value="2">018910 - 5A MARINA GARDENS DRIVE...</option>
-                      <option value="3">018915 - 100A CENTRAL BOULEVARD...</option>
-                      <option value="4">018925 - 21 PARK STREET MARINA...</option>
-                      <option value="5">018926 - 23 PARK STREET MARINA...</option>
-                    </select>
-                  </div>
-                  <div class="mt-3">
+
+                  <div class="">
                     <label for="update-profile-form-4" class="form-label">Phone Number</label>
                     <input id="update-profile-form-4" type="text" class="form-control" placeholder="Input text" value="65570828">
                   </div>
                 </div>
                 <div class="col-span-12">
                   <div class="mt-3">
-                    <label for="update-profile-form-5" class="form-label">Address</label>
+                    <label for="update-profile-form-5" class="form-label">Adresa</label>
                     <textarea id="update-profile-form-5" class="form-control" placeholder="Adress">10 Anson Road, International Plaza, #10-11, 079903 Singapore, Singapore</textarea>
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary w-20 mt-3">Save</button>
+              <button type="button" class="btn btn-primary w-20 mt-3">Sačuvaj</button>
             </div>
             <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
               <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
@@ -151,7 +48,7 @@
                   <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
                 </div>
                 <div class="mx-auto cursor-pointer relative mt-5">
-                  <button type="button" class="btn btn-primary w-full">Change Photo</button>
+                  <button type="button" class="btn btn-primary w-full">Promijeni sliku</button>
                   <input type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
                 </div>
               </div>
@@ -164,7 +61,7 @@
       <div class="intro-y box mt-5">
         <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
           <h2 class="font-medium text-base mr-auto">
-            Personal Information
+            Lične informacije
           </h2>
         </div>
         <div class="p-5">
@@ -175,25 +72,17 @@
                 <input id="update-profile-form-6" type="text" class="form-control" placeholder="Input text" value="morganfreeman@left4code.com" disabled>
               </div>
               <div class="mt-3">
-                <label for="update-profile-form-7" class="form-label">Name</label>
+                <label for="update-profile-form-7" class="form-label">Korisničko ime</label>
                 <input id="update-profile-form-7" type="text" class="form-control" placeholder="Input text" value="Morgan Freeman" disabled>
               </div>
               <div class="mt-3">
-                <label for="update-profile-form-8" class="form-label">ID Type</label>
-                <select id="update-profile-form-8" class="form-select">
-                  <option>IC</option>
-                  <option>FIN</option>
-                  <option>Passport</option>
-                </select>
-              </div>
-              <div class="mt-3">
-                <label for="update-profile-form-9" class="form-label">ID Number</label>
+                <label for="update-profile-form-9" class="form-label">ID broj</label>
                 <input id="update-profile-form-9" type="text" class="form-control" placeholder="Input text" value="357821204950001">
               </div>
             </div>
             <div class="col-span-12 xl:col-span-6">
               <div class="mt-3 xl:mt-0">
-                <label for="update-profile-form-10" class="form-label">Phone Number</label>
+                <label for="update-profile-form-10" class="form-label">Broj telefona</label>
                 <input id="update-profile-form-10" type="text" class="form-control" placeholder="Input text" value="65570828">
               </div>
               <div class="mt-3">
@@ -201,21 +90,14 @@
                 <input id="update-profile-form-11" type="text" class="form-control" placeholder="Input text" value="10 Anson Road, International Plaza, #10-11, 079903 Singapore, Singapore">
               </div>
               <div class="mt-3">
-                <label for="update-profile-form-12" class="form-label">Bank Name</label>
-                <select id="update-profile-form-12" data-search="true" class="tom-select w-full">
-                  <option value="1">SBI - STATE BANK OF INDIA</option>
-                  <option value="1">CITI BANK - CITI BANK</option>
-                </select>
-              </div>
-              <div class="mt-3">
-                <label for="update-profile-form-13" class="form-label">Bank Account</label>
+                <label for="update-profile-form-13" class="form-label">Lokacija</label>
                 <input id="update-profile-form-13" type="text" class="form-control" placeholder="Input text" value="DBS Current 011-903573-0">
               </div>
             </div>
           </div>
           <div class="flex justify-end mt-4">
-            <button type="button" class="btn btn-primary w-20 mr-auto">Save</button>
-            <a href="" class="text-theme-24 flex items-center"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete Account </a>
+            <button type="button" class="btn btn-primary w-20 mr-auto">Sačuvaj</button>
+            <a href="" class="text-theme-24 flex items-center"> <i data-feather="trash-2" class="w-4 h-4 mr-1"></i>Izbriši račun</a>
           </div>
         </div>
       </div>
@@ -238,7 +120,7 @@ import Snackbar from "@/components/global/Snackbar";
     Snackbar
   },
   middleware: ['auth'],
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
 
 export default class urediProfil extends Vue {
