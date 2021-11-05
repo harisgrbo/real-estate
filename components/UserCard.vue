@@ -43,7 +43,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage"></action-button>
+            <action-button class="mt-4" :style-options="{ width: '100%' }" placeholder="Pošalji" @action="sendMessage"></action-button>
           </div>
         </div>
       </modal>
@@ -62,10 +62,8 @@ import ActionButton from "@/components/actionButtons/ActionButton"
   },
   layout() { return "account" }
 })
-
 export default class UserCard extends Vue {
   @Prop({}) user;
-
   message = '';
 
   removeUser(e) {
@@ -135,13 +133,6 @@ export default class UserCard extends Vue {
   width: 486px;
   height: 200px;
 
-  img {
-    height: 100%;
-    width: 123px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-right: 24px;
-  }
   .user-info {
     display: flex;
     flex-direction: row;
@@ -206,7 +197,14 @@ export default class UserCard extends Vue {
       text-decoration: underline;
     }
   }
+}
 
+img {
+  height: 128px;
+  width: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  min-width: 128px;
 }
 
 h3 {

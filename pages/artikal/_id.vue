@@ -382,7 +382,7 @@
           <modal name="booking" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Poašalji upit za rezervaciju</h2>
+                <h2>Pošalji upit za rezervaciju</h2>
                 <i class="material-icons" @click.prevent="$modal.hide('booking')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -397,7 +397,6 @@
                         <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
                         <vc-date-picker
                           v-model="range"
-                          mode="dateTime"
                           :masks="masks"
                           is-range
                         >
@@ -560,7 +559,7 @@ export default class Artikal extends Vue {
     end: new Date(2020, 0, 23),
   }
   masks = {
-    input: 'YYYY-MM-DD',
+    input: 'DD-MM-YYYY',
   }
   RentSpecialAttributes = []
   RentSpecialAttributesKeys = [
@@ -1780,6 +1779,10 @@ export default class Artikal extends Vue {
       }
     }
   }
+
+  @include for-phone-only {
+    min-height: 500px;
+  }
 }
 
 .modal-place {
@@ -1886,6 +1889,10 @@ export default class Artikal extends Vue {
   padding: 12px;
   border-radius: 7px;
   margin: 0 16px 16px 16px;
+
+  @include for-phone-only {
+    margin: 0 0 16px 0
+  }
 }
 
 .mobile-images {

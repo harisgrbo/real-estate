@@ -3,7 +3,7 @@
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'">
-          <img :src="[ $device.isMobile ? '/mojkvadrat.svg' : '/placeholder.png']" class="main-logo" height="40" alt="">
+          <img :src="[ $device.isMobile ? '/mojkvadrat.svg' : '/newm2.jpeg']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
       <div class="input-wrapper"

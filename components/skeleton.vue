@@ -1,5 +1,5 @@
 <template>
-  <div id="skeleton" :style="{ 'height': height, 'width': width}">
+  <div id="skeleton" :style="{ 'height': height, 'width': width, 'minWidth': width}">
     .
   </div>
 </template>
