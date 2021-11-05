@@ -285,7 +285,7 @@
             </div>
           </div>
           <div class="user-wrap">
-            <UserProfile :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
+            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && !authUser" class="px-5 lg:px-0 xl:px-0 up:px-0">
             <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
@@ -398,6 +398,7 @@
                       <div class="mb-4">
                         <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Rezervišite datum</h2>
                         <vc-date-picker
+                          :disabled-dates="disabledDates"
                           :min-date="new Date()"
                           v-model="range"
                           :masks="masks"
@@ -575,6 +576,8 @@ export default class Artikal extends Vue {
     "Fen"
   ];
 
+  bookings = [];
+
   swiperOptionCard = {
     spaceBetween: 0,
     // centeredSlides: true,
@@ -603,14 +606,24 @@ export default class Artikal extends Vue {
     },
   }
 
-  async sendBookingRequest() {
-    let start = this.$moment(this.range.start).format('d-M-Y');
-    let end = this.$moment(this.range.end).format('d-M-Y');
+  async fetchBookings() {
+    try {
+      let res = await this.$axios.get(`/listings/${this.listing.id}/bookings`);
+
+      this.bookings = res.data.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async sendBookingRequest(event) {
+    let start = this.$moment(event ? event.start: this.range.start);
+    let end = this.$moment(event ? event.end: this.range.end);
 
     try {
       let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
-        'starts_at': start,
-        'ends_at': end
+        'starts_at': start.format('D-M-Y'),
+        'ends_at': end.format('D-M-Y')
       })
 
       console.log(res);
@@ -621,7 +634,15 @@ export default class Artikal extends Vue {
         type: "success"
       });
     } catch (e) {
-      console.log(e)
+      if (e.response.data.code === 10) {
+        this.$snackbar.show({
+          text: "Već ste poslali upit za ovaj oglas",
+          timeout: 1000,
+          type: "danger"
+        })
+      } else {
+        console.log(e.response)
+      }
     }
   }
 
@@ -635,6 +656,16 @@ export default class Artikal extends Vue {
       dates: date,
     }));
   }
+
+  get disabledDates() {
+    return this.bookings.map(item => {
+      return {
+        start: this.$moment(item.starts_at).toDate(),
+        end: this.$moment(item.ends_at).toDate(),
+      }
+    })
+  }
+
   onDayClick(day) {
     const idx = this.days.findIndex(d => d.id === day.id);
     if (idx >= 0) {
@@ -885,6 +916,7 @@ export default class Artikal extends Vue {
 
   async created() {
     this.RentSpecialAttributes = this.getSpecialAttributes();
+    this.fetchBookings();
     await this.fetchPlaces();
 
     for (let key of Object.keys(this.places)) {
