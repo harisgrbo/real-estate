@@ -10,12 +10,12 @@
           </dd>
         </div>
       </li>
-      <li v-if="$auth.user">
+      <li v-if="$auth.user && $auth.user.user_type === 1">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
         </svg>
-        <nuxt-link to="/moj-racun/dashboard">Dashboard</nuxt-link>
+        <nuxt-link to="/moj-racun/dashboard/analitika">Dashboard</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

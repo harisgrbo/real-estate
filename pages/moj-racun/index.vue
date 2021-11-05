@@ -48,17 +48,11 @@ import { Component, Vue} from "nuxt-property-decorator";
 
 @Component({
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
+  middleware: ['auth'],
 })
-
 export default class accountpage extends Vue {
 
   tabs = [
-    {
-      name: "Dashboard",
-      slug: "dashboard/analitika",
-      icon: "014-browser-6.svg",
-      desc: 'Glavni dashboard, statistika oglasa, agenti za nekretnine'
-    },
     {
       name: "Uredi profil",
       slug: "uredi-profil",
@@ -108,6 +102,17 @@ export default class accountpage extends Vue {
       desc: 'Postavke privatnosti'
     },
   ]
+
+  created() {
+    if (this.$auth.user && this.$auth.user.user_type === 1) {
+      this.tabs.unshift({
+        name: "Dashboard",
+        slug: "dashboard/analitika",
+        icon: "014-browser-6.svg",
+        desc: 'Glavni dashboard, statistika oglasa, agenti za nekretnine'
+      });
+    }
+  }
 }
 
 
