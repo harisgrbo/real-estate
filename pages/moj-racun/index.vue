@@ -8,7 +8,7 @@
           <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
           <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id">Idi na profil</nuxt-link>
         </div>
-        <div class="grid grid-cols-4 gap-6 pb-1">
+        <div class="grid grid-cols-4 gap-6 pb-1 mobile-grid">
           <div  v-for="(tab, index) in tabs"
                 :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 rounded-md">
             <div>
@@ -140,6 +140,7 @@ export default class accountpage extends Vue {
     @include for-phone-only {
       width: 100%;
       padding-bottom: 70px;
+      margin: 0;
     }
 
     .sidenav {
@@ -225,5 +226,11 @@ export default class accountpage extends Vue {
   background: #F7F9FF;
 }
 
+.mobile-grid {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+  }
+}
 </style>
 

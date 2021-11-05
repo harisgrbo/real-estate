@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper">
+  <div class="account-wrapper w-full mx-auto">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -18,7 +18,7 @@
     </ul>
     <div class="saved-content">
       <div v-show="activeTab === 0">
-        <div class="grid grid-cols-5 gap-6" v-if="followers.length">
+        <div class="grid grid-cols-5 gap-6 mobile-grid" v-if="followers.length">
           <UserCard v-for="user in followers" :id="user.id" :user="user"/>
           <!-- More people... -->
         </div>
@@ -28,8 +28,8 @@
         </div>
       </div>
       <div v-show="activeTab === 1">
-        <div class="grid grid-cols-5 gap-6" v-if="followed.length">
-          <UserCard v-for="user in followers" :id="user.id" :user="user"/>
+        <div class="grid grid-cols-5 gap-6 mobile-grid" v-if="followed.length">
+          <UserCard v-for="user in followed" :id="user.id" :user="user"/>
         </div>
         <div v-else class="no-image">
           <img src="/noimg.jpg" alt="no-image">
@@ -107,10 +107,10 @@ export default class pratioci extends Vue {
 
 .account-wrapper {
   width: auto;
-  min-height: calc(100vh - 80px);
 
   @include for-phone-only {
-    min-height: 100%;
+    width: 100%;
+    padding: 16px;
   }
 }
 .cw-ul {
@@ -184,4 +184,10 @@ h1 {
   }
 }
 
+.mobile-grid {
+  @include for-phone-only {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 </style>

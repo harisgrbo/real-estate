@@ -84,6 +84,13 @@ import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 
 export default class sidenav extends Vue {
 
+ @Watch('$route')
+  handleWatcher(newVal, oldVal) {
+   if(newVal) {
+     this.$modal.hide('sidebar')
+   }
+  }
+
   logout() {
     this.$auth.logout();
     this.$router.push('/auth/login');

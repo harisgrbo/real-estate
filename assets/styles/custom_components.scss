@@ -66,10 +66,9 @@
   overflow: scroll !important;
 
   @include for-phone-only {
-    top: 70px !important;
+    top: 0px !important;
     border-top-left-radius: 15px !important;
     border-top-right-radius: 15px !important;
-    height: calc(100vh - 100px) !important;
     //padding-bottom: 180px !important;
   }
 
@@ -90,6 +89,10 @@
   flex-direction: column;
   overflow: scroll;
   padding-bottom: 0;
+
+  @include for-phone-only {
+    margin: 0;
+  }
 
 }
 

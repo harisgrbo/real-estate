@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper w-full">
+  <div class="account-wrapper mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -213,10 +213,10 @@ export default class spaseno extends Vue {
 
 .account-wrapper {
   width: auto;
-  min-height: calc(100vh - 80px);
 
   @include for-phone-only {
-    min-height: 100%;
+    width: 100%;
+    padding: 16px;
   }
 }
 .saved-wrapper {
