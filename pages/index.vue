@@ -253,7 +253,7 @@
     </div>
     <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20 mt-8">
       <h2 class="section-title">Agencije</h2>
-      <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
+      <nuxt-link class="more mr-5" to="/agencije">Pogledaj više</nuxt-link>
     </div>
     <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 up:px-20 flex-row overflow-x-scroll w-full agencija">
       <UserCard class="mr-5" v-for="(agency, index) in agencies" :key="index" :user="agency"/>
@@ -627,8 +627,14 @@
 
 
   @include for-phone-only {
-    padding-bottom: 90px;
     padding: 0px;
+    padding-bottom: 90px;
+  }
+
+  ::v-deep .listing-card-wrapper {
+    @include for-phone-only {
+      max-width: 240px;
+    }
   }
 
   h1 {
