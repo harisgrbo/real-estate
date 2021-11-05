@@ -245,7 +245,7 @@
                         </div>
                       </div>
                     </div>
-                    <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
+                    <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden pt-5 flex-1">
                       <div v-for="message in messages">
                         <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                           <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
@@ -540,9 +540,9 @@ export default class Porukice extends Vue {
 
 .modal-inner .modal-content textarea {
   @include for-phone-only {
-    height: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
   }
 }
 
