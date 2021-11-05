@@ -396,6 +396,8 @@
                       <div class="mb-4">
                         <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
                         <vc-date-picker
+                          :disabled-dates="disabledDates"
+                          :min-date="new Date()"
                           v-model="range"
                           mode="dateTime"
                           :masks="masks"
@@ -644,6 +646,15 @@ export default class Artikal extends Vue {
       highlight: true,
       dates: date,
     }));
+  }
+
+  get disabledDates() {
+    return this.bookings.map(item => {
+      return {
+        start: this.$moment(item.starts_at).toDate(),
+        end: this.$moment(item.ends_at).toDate(),
+      }
+    })
   }
 
   onDayClick(day) {
