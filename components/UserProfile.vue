@@ -46,6 +46,7 @@
             <div class="mb-4">
               <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
               <vc-date-picker
+                :disabled-dates="disabledDates"
                 :min-date="new Date()"
                 v-model="range"
                 mode="dateTime"
@@ -113,7 +114,7 @@
                 </template>
               </vc-date-picker>
             </div>
-            <ActionButton @action="$emit(`booking`)" :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit"></ActionButton>
+            <ActionButton @action="$emit(`booking`, range)" :style-options="{ background: 'transparent', border: '2px solid #000', color: '#000', width: '100%' }" placeholder="Pošalji upit"></ActionButton>
           </form>
         </client-only>
       </div>
@@ -166,6 +167,7 @@ export default class UserProfile extends Vue {
   @Prop() id;
   @Prop() price;
   @Prop({ type: Boolean }) vat;
+  @Prop({type: Array, default: () => []}) bookings;
 
   message = '';
   loading = false;
@@ -181,6 +183,15 @@ export default class UserProfile extends Vue {
 
   handleListingSponsoring() {
     console.log(sponzorisano)
+  }
+
+  get disabledDates() {
+    return this.bookings.map(item => {
+      return {
+        start: this.$moment(item.starts_at).toDate(),
+        end: this.$moment(item.ends_at).toDate(),
+      }
+    })
   }
 
   user_type(t) {
