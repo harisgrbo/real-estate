@@ -104,7 +104,7 @@ export default class accountpage extends Vue {
   ]
 
   created() {
-    if (this.$auth.user && this.$auth.user.user_type === 1) {
+    if (this.$auth.user && this.$auth.user.user_type === 'agency') {
       this.tabs.unshift({
         name: "Dashboard",
         slug: "dashboard/analitika",
