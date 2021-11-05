@@ -33,13 +33,20 @@
       <div class="rent" v-if="isBooking && !$device.isMobile && !authUser">
         <client-only>
           <form @submit.prevent>
-            <div class="flex flex-row items-center mb-4 price-wrap" v-if="!$device.isMobile">
-              <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
-              <p class="pl-2">/ noć</p>
+            <div class="price-wrap" v-if="!$device.isMobile">
+              <div class="flex flex-row items-center mb-4">
+                <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
+                <p class="pl-2">/ noć</p>
+              </div>
+              <div v-show="numOfDays" class="mb-4">
+                <p>{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
+              </div>
             </div>
+
             <div class="mb-4">
               <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
               <vc-date-picker
+                :min-date="new Date()"
                 v-model="range"
                 mode="dateTime"
                 :masks="masks"
@@ -165,8 +172,8 @@ export default class UserProfile extends Vue {
   otherListings = [];
   otherListingsLoaded = false;
   range = {
-    start: new Date(2020, 0, 6),
-    end: new Date(2020, 0, 23),
+    start: new Date(),
+    end: new Date(),
   }
   masks = {
     input: 'YYYY-MM-DD',
@@ -200,6 +207,14 @@ export default class UserProfile extends Vue {
       highlight: true,
       dates: date,
     }));
+  }
+
+  get numOfDays() {
+    return this.$moment(this.range.end).diff(this.$moment(this.range.start), 'days');
+  }
+
+  get totalBookingPrice() {
+    return this.price * this.numOfDays;
   }
 
   onDayClick(day) {
