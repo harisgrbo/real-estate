@@ -25,7 +25,7 @@ import { Component, Vue} from "nuxt-property-decorator";
 @Component({
   components: {
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
   async asyncData(ctx) {
     let listings = [];
 

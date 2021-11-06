@@ -24,15 +24,9 @@
         </div>
         <h2>Lokacija</h2>
 
-        <div v-if="listing.city !== null">
-          <p>{{ listing.city.name }}</p>
-        </div>
-
         <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
 
-        <div v-if="listing.city !== null" class="map-wrapper">
-          <PublishMap :location="listing.city" @latlng="handleLatLng"></PublishMap>
-        </div>
+        <PublishMap :location="listing" @latlng="handleLatLng"></PublishMap>
         <InputError :error="errors.city" />
         <InputError :error="errors.description" />
         <PublishDescriptionInput title="Opis" v-model="listing.description"></PublishDescriptionInput>
@@ -48,6 +42,7 @@
           <component
             :attr="attr"
             :options="attr"
+            :init="findValueFromListing(attr.id)"
             :is="filterFor(attr)"
             @changed="handleChangedAttribute"
           />
@@ -57,6 +52,7 @@
           <InputError :error="errors.attributes[attr.id]" />
           <component
             :attr="attr"
+            :init="findValueFromListing(attr.id)"
             :options="attr"
             :is="filterFor(attr)"
             @changed="handleChangedAttribute"
@@ -69,67 +65,20 @@
             v-for="attr in termGlobalAttributes"
             @changed="handleChangedAttribute"
             :attr="attr"
+            :init="findValueFromListing(attr.id)"
             :key="attr.id"
           />
           <TermInput
             v-for="attr in termCategoryAttributes"
             @changed="handleChangedAttribute"
             :attr="attr"
+            :init="findValueFromListing(attr.id)"
             :key="attr.id"
           />
         </div>
       </div>
 
-      <div class="step-3">
-        <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
-        <div class="img-upload-wrapper">
-          <div class="upload-btn">
-            <font-awesome-icon icon="cloud-upload-alt"></font-awesome-icon>
-            <p>ili</p>
-            <ActionButton placeholder="Dodaj slike"></ActionButton>
-          </div>
-          <div class="uploaded-images">
-            <div class="uploaded-grid">
-              <img src="/stan.jpg" alt="">
-              <img src="/stan.jpg" alt="">
-              <img src="/stan.jpg" alt="">
-              <img src="/stan.jpg" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step-3">
-        <h1 class="heading">
-          Promocija oglasa
-        </h1>
-        <div class="advertising-options-wrapper">
-          <div class="advertising-options">
-            <ul>
-              <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
-                <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
-                <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
-                <div class="text-wrapper">
-                  <p>{{ option.title }}</p>
-                  <p>{{ option.description }}</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="advertising-calculator">
-            <div class="inner">
-              test
-            </div>
-            <ActionButton placeholder="Dopuni kredit"></ActionButton>
-          </div>
-        </div>
-
-        <div class="button-wrapper">
-          <button @click="nextStep">Završi
-            <i class="material-icons">chevron_right</i>
-          </button>
-        </div>
-      </div>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', borderRadius: '8px', minHeight: '42px', height: '42px', marginRight: '24px', fontSize: '13px' }" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -201,10 +150,14 @@ export default class ListingEdit extends Vue {
     await this.fetchAttributesByCategory();
     await this.fetchAttributesByListingType();
 
-    console.log(this.listing, 'listing')
+    this.lat = this.listing.location.lat;
+    this.lng = this.listing.location.lng;
+  }
 
-    this.lat = this.listing.city.location.lat;
-    this.lng = this.listing.city.location.lng;
+  findValueFromListing(id) {
+    let item = this.listing.attributes.find(item => item.id === id);
+
+    return item ? item.value: null;
   }
 
   selectAdvertisment(o) {
@@ -215,8 +168,6 @@ export default class ListingEdit extends Vue {
   get allAttributes() {
     return this.globalAttributes.merge(this.categoryAttributes).merge(this.listingTypeAttributes);
   }
-
-
 
   // Errors
   errors = {
@@ -280,11 +231,7 @@ export default class ListingEdit extends Vue {
   currentStep = this.steps.STEP_FOUR;
   recommendedAddresses = []
 
-  async publish() {
-
-    this.validateStepOne();
-    this.validateStepTwo();
-
+  async saveChanges() {
     const payload = {
       district: this.listing.district,
       description: this.listing.description,
@@ -294,14 +241,20 @@ export default class ListingEdit extends Vue {
       lat: this.lat,
       lng: this.lng,
       attributes: this.prepareAttributes(),
-      sponsorship_id: this.selectedAdvertisment,
     }
 
+    console.log(payload)
 
     try {
       let response = await this.$axios.put('/listings/' + this.listing.id, payload);
 
-      await this.$router.push('/artikal/' + response.data.data.id)
+      this.listing = response.data.data;
+
+      this.$snackbar.show({
+        text: "Uspješno ste spasili izmjene",
+        timeout: 3000,
+        type: "success"
+      });
     } catch (e) {
       console.log(e)
     }
@@ -394,9 +347,15 @@ export default class ListingEdit extends Vue {
   attributePayload = {};
 
   prepareAttributes() {
-    let result = []
+    let result = this.listing.attributes;
 
     Object.values(this.attributePayload).forEach(item => {
+      let index = result.findIndex(i => i.id === item.id);
+
+      if (index !== -1) {
+        result.splice(index, 1);
+      }
+
       result.push({
         id: item.id,
         name: item.name,
@@ -707,6 +666,8 @@ export default class ListingEdit extends Vue {
       border-left: none;
       padding: 0;
       padding-top: 24px;
+      width: 100%;
+      padding: 16px;
     }
 
     .step-3 {
@@ -724,7 +685,7 @@ export default class ListingEdit extends Vue {
       box-sizing: border-box;
 
       @include for-phone-only {
-        height: calc(100vh - 75px);
+        height: fit-content;
         padding-bottom: 120px;
       }
 
@@ -769,36 +730,6 @@ export default class ListingEdit extends Vue {
         }
 
 
-        button {
-          padding: 0 24px;
-          height: 50px;
-          width: fit-content;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
-          border-radius: 4px;
-          outline: none;
-          border: none;
-          background: #1B1E31 !important;
-          color: #fff;
-          font-weight: 500 !important;
-          transition: 0.3s all ease;
-          margin-bottom: 0;
-          font-family: 'Lato', sans-serif;
-          cursor: pointer;
-
-          &.back {
-            margin-right: 24px;
-          }
-          i {
-            margin-left: 8px;
-          }
-
-          &:hover {
-            box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
-          }
-        }
       }
     }
 
@@ -913,11 +844,6 @@ export default class ListingEdit extends Vue {
       }
     }
   }
-}
-
-::v-deep button {
-  margin-bottom: 24px;
-  width: fit-content;
 }
 
 .map-wrapper {

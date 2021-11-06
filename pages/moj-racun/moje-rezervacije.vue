@@ -23,9 +23,21 @@
                   {{ booking.total_price }} KM
                 </p>
               </div>
-              <p class="hidden text-gray-500 sm:block sm:mt-2">
-                {{ booking.description }}
+              <p class="text-gray-500 sm:block sm:mt-2">
+                {{ booking.listing.description }}
               </p>
+              <p class="text-gray-500 sm:block sm:mt-2">
+                {{ booking.listing.address }}
+              </p>
+              <div
+                v-for="(attr, index) in getSpecialAttributes(booking.listing)"
+                :key="index"
+                class="flex flex-row items-center mr-2"
+              >
+                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
+                {{ attr.value }}
+              </div>
             </div>
           </div>
 
@@ -78,6 +90,18 @@ import { Component, Vue} from "nuxt-property-decorator";
   }
 })
 export default class mojeRezervacije extends Vue {
+  specialAttributesKeys = [
+    "Broj soba",
+    "Sprat"
+  ];
+
+  getSpecialAttributes(listing) {
+    if (! listing.attributes) return [];
+    return listing.attributes.filter((item) => {
+      return this.specialAttributesKeys.indexOf(item.name) !== -1;
+    });
+  }
+
   async cancel(booking, index) {
     try {
       this.bookings.splice(index, 1);

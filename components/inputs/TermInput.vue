@@ -1,7 +1,7 @@
 <template>
   <div class="checkbox-wrap">
     <div>
-      <input type="checkbox" id="_checkbox" :id="attr.name" name="option1" @click="checkedOption"/>
+      <input ref="checkbox" type="checkbox" id="_checkbox" :id="attr.name" name="option1" @click="checkedOption"/>
       <label :for="attr.name">{{ attr.name }}</label>
     </div>
   </div>
@@ -10,11 +10,19 @@
 <script>
 export default {
   name: "TermsInput",
-  props: ["attr"],
+  props: ["attr", "init"],
   data() {
     return {
       checked: false
     };
+  },
+  mounted() {
+    if (this.checked) {
+      this.$refs.checkbox.checked = true;
+    }
+  },
+  created() {
+    this.checked = !!this.init;
   },
   methods: {
     checkedOption() {

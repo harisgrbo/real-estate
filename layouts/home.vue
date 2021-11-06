@@ -43,6 +43,7 @@ export default class Home extends Vue {
 .home-wrapper {
   padding-top: 0px !important;
   min-height: calc(100vh - 80px);
+  padding-bottom: 60px;
 
   @include for-phone-only {
     min-height: 100%;
