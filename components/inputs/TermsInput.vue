@@ -16,11 +16,14 @@
 <script>
 export default {
   name: "TermsInput",
-  props: ["attr"],
+  props: ["attr", 'init'],
   data() {
     return {
       val: null
     };
+  },
+  created() {
+    this.val = this.init;
   },
   methods: {
     selectOption(o) {

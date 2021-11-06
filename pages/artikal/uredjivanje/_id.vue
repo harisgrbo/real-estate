@@ -30,9 +30,7 @@
 
         <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
 
-        <div v-if="listing.city !== null" class="map-wrapper">
-          <PublishMap :location="listing.city" @latlng="handleLatLng"></PublishMap>
-        </div>
+        <PublishMap :location="listing" @latlng="handleLatLng"></PublishMap>
         <InputError :error="errors.city" />
         <InputError :error="errors.description" />
         <PublishDescriptionInput title="Opis" v-model="listing.description"></PublishDescriptionInput>
@@ -48,6 +46,7 @@
           <component
             :attr="attr"
             :options="attr"
+            :init="findValueFromListing(attr.id)"
             :is="filterFor(attr)"
             @changed="handleChangedAttribute"
           />
@@ -57,6 +56,7 @@
           <InputError :error="errors.attributes[attr.id]" />
           <component
             :attr="attr"
+            :init="findValueFromListing(attr.id)"
             :options="attr"
             :is="filterFor(attr)"
             @changed="handleChangedAttribute"
@@ -69,16 +69,20 @@
             v-for="attr in termGlobalAttributes"
             @changed="handleChangedAttribute"
             :attr="attr"
+            :init="findValueFromListing(attr.id)"
             :key="attr.id"
           />
           <TermInput
             v-for="attr in termCategoryAttributes"
             @changed="handleChangedAttribute"
             :attr="attr"
+            :init="findValueFromListing(attr.id)"
             :key="attr.id"
           />
         </div>
       </div>
+
+      <ActionButton @action="saveChanges" placeholder="Spasi izmjene"></ActionButton>
 
       <div class="step-3">
         <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
@@ -122,12 +126,6 @@
             </div>
             <ActionButton placeholder="Dopuni kredit"></ActionButton>
           </div>
-        </div>
-
-        <div class="button-wrapper">
-          <button @click="nextStep">Završi
-            <i class="material-icons">chevron_right</i>
-          </button>
         </div>
       </div>
     </div>
@@ -201,10 +199,14 @@ export default class ListingEdit extends Vue {
     await this.fetchAttributesByCategory();
     await this.fetchAttributesByListingType();
 
-    console.log(this.listing, 'listing')
+    this.lat = this.listing.location.lat;
+    this.lng = this.listing.location.lng;
+  }
 
-    this.lat = this.listing.city.location.lat;
-    this.lng = this.listing.city.location.lng;
+  findValueFromListing(id) {
+    let item = this.listing.attributes.find(item => item.id === id);
+
+    return item ? item.value: null;
   }
 
   selectAdvertisment(o) {
@@ -215,8 +217,6 @@ export default class ListingEdit extends Vue {
   get allAttributes() {
     return this.globalAttributes.merge(this.categoryAttributes).merge(this.listingTypeAttributes);
   }
-
-
 
   // Errors
   errors = {
@@ -280,11 +280,7 @@ export default class ListingEdit extends Vue {
   currentStep = this.steps.STEP_FOUR;
   recommendedAddresses = []
 
-  async publish() {
-
-    this.validateStepOne();
-    this.validateStepTwo();
-
+  async saveChanges() {
     const payload = {
       district: this.listing.district,
       description: this.listing.description,
@@ -294,14 +290,20 @@ export default class ListingEdit extends Vue {
       lat: this.lat,
       lng: this.lng,
       attributes: this.prepareAttributes(),
-      sponsorship_id: this.selectedAdvertisment,
     }
 
+    console.log(payload)
 
     try {
       let response = await this.$axios.put('/listings/' + this.listing.id, payload);
 
-      await this.$router.push('/artikal/' + response.data.data.id)
+      this.listing = response.data.data;
+
+      this.$snackbar.show({
+        text: "Uspješno ste spasili izmjene",
+        timeout: 3000,
+        type: "success"
+      });
     } catch (e) {
       console.log(e)
     }
@@ -394,9 +396,15 @@ export default class ListingEdit extends Vue {
   attributePayload = {};
 
   prepareAttributes() {
-    let result = []
+    let result = this.listing.attributes;
 
     Object.values(this.attributePayload).forEach(item => {
+      let index = result.findIndex(i => i.id === item.id);
+
+      if (index !== -1) {
+        result.splice(index, 1);
+      }
+
       result.push({
         id: item.id,
         name: item.name,
