@@ -1288,6 +1288,9 @@ button.search {
 }
 
 .agencija {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 16px;
   @include for-phone-only {
     padding: 0 16px;
   }

@@ -340,6 +340,15 @@ export default class spaseno extends Vue {
   }
 }
 
+::v-deep .image-wrapper img {
+  width: 100%;
+
+  @include for-phone-only {
+    height: 254px;
+    min-height: 254px;
+  }
+}
+
 .searches-wrap {
   display: flex;
   flex-direction: column;

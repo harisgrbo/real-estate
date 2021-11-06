@@ -170,9 +170,9 @@
                   class="flex flex-row items-center p-2 rounded-md border border-gray-400 rent-special"
                 >
                   <img :src="'/' + attr.name + '.png'" alt="">
-                  <div>
+                  <div class="flex flex-row items-center justify-between w-full">
                     <p>{{ attr.name }}</p>
-                    <p v-if="typeof (attr.value) !== 'boolean'" :class="[typeof (attr.value) !== 'boolean' ? 'mt-1' : '']">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
+                    <p v-if="typeof (attr.value) !== 'boolean'" :class="['pl-5', typeof (attr.value) !== 'boolean' ? '' : '']">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
                   </div>
                 </div>
               </div>
