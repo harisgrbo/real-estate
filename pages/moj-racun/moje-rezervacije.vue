@@ -11,10 +11,10 @@
       <ul role="list" class="divide-y divide-gray-200">
         <li v-for="(booking, index) in bookings" class="p-4 sm:p-6 bg-white shadow-sm rounded-md">
           <div class="flex items-center sm:items-start">
-            <div class="flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40">
+            <div class="flex-shrink-0 w-20 h-25 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40">
               <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="w-full h-full object-center object-cover">
             </div>
-            <div class="flex-1 ml-6 text-sm">
+            <div class="flex-1 ml-6 text-sm w-full">
               <div class="font-medium text-gray-900 sm:flex sm:justify-between">
                 <h5 class="text-lg">
                   {{ booking.listing.title }}
@@ -23,21 +23,24 @@
                   {{ booking.total_price }} KM
                 </p>
               </div>
-              <p class="text-gray-500 sm:block sm:mt-2">
+              <p class="text-gray-900 sm:block sm:mt-2">
                 {{ booking.listing.description }}
               </p>
-              <p class="text-gray-500 sm:block sm:mt-2">
+              <p class="text-gray-900 sm:block sm:mt-2">
                 {{ booking.listing.address }}
               </p>
-              <div
-                v-for="(attr, index) in getSpecialAttributes(booking.listing)"
-                :key="index"
-                class="flex flex-row items-center mr-2"
-              >
-                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
-                {{ attr.value }}
+              <div class="w-full mt-4 flex items-center justify-start">
+                <div
+                  v-for="(attr, index) in getSpecialAttributes(booking.listing)"
+                  :key="index"
+                  class="flex flex-row items-center mr-4 bg-gray-100 rounded-full p-2 px-4"
+                >
+                  <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                  <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
+                  <p class="pl-2 font-semibold">{{ attr.value }}</p>
+                </div>
               </div>
+
             </div>
           </div>
 
