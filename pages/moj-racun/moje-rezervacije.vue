@@ -20,7 +20,7 @@
                   {{ booking.listing.title }}
                 </h5>
                 <p class="mt-2 sm:mt-0 text-lg font-semibold">
-                  {{ booking.total_price }} KM
+                  {{ booking.total_price }} KM za {{ booking.days }} dana
                 </p>
               </div>
               <p class="text-gray-900 sm:block sm:mt-2">
