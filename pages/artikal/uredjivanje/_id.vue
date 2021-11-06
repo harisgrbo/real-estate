@@ -24,10 +24,6 @@
         </div>
         <h2>Lokacija</h2>
 
-        <div v-if="listing.city !== null">
-          <p>{{ listing.city.name }}</p>
-        </div>
-
         <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
 
         <PublishMap :location="listing" @latlng="handleLatLng"></PublishMap>
@@ -82,52 +78,7 @@
         </div>
       </div>
 
-      <ActionButton @action="saveChanges" placeholder="Spasi izmjene"></ActionButton>
-
-      <div class="step-3">
-        <h2 class="info">Objava prvih 8 slika je besplatna. Kako biste objavili dodatne slike pretplatite se na jedan od premium paketa ili doplatite dodanu sliku kreditom.</h2>
-        <div class="img-upload-wrapper">
-          <div class="upload-btn">
-            <font-awesome-icon icon="cloud-upload-alt"></font-awesome-icon>
-            <p>ili</p>
-            <ActionButton placeholder="Dodaj slike"></ActionButton>
-          </div>
-          <div class="uploaded-images">
-            <div class="uploaded-grid">
-              <img src="/stan.jpg" alt="">
-              <img src="/stan.jpg" alt="">
-              <img src="/stan.jpg" alt="">
-              <img src="/stan.jpg" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step-3">
-        <h1 class="heading">
-          Promocija oglasa
-        </h1>
-        <div class="advertising-options-wrapper">
-          <div class="advertising-options">
-            <ul>
-              <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
-                <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
-                <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
-                <div class="text-wrapper">
-                  <p>{{ option.title }}</p>
-                  <p>{{ option.description }}</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="advertising-calculator">
-            <div class="inner">
-              test
-            </div>
-            <ActionButton placeholder="Dopuni kredit"></ActionButton>
-          </div>
-        </div>
-      </div>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', borderRadius: '8px', minHeight: '42px', height: '42px', marginRight: '24px', fontSize: '13px' }" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -715,6 +666,8 @@ export default class ListingEdit extends Vue {
       border-left: none;
       padding: 0;
       padding-top: 24px;
+      width: 100%;
+      padding: 16px;
     }
 
     .step-3 {
@@ -732,7 +685,7 @@ export default class ListingEdit extends Vue {
       box-sizing: border-box;
 
       @include for-phone-only {
-        height: calc(100vh - 75px);
+        height: fit-content;
         padding-bottom: 120px;
       }
 
@@ -777,36 +730,6 @@ export default class ListingEdit extends Vue {
         }
 
 
-        button {
-          padding: 0 24px;
-          height: 50px;
-          width: fit-content;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 16px;
-          border-radius: 4px;
-          outline: none;
-          border: none;
-          background: #1B1E31 !important;
-          color: #fff;
-          font-weight: 500 !important;
-          transition: 0.3s all ease;
-          margin-bottom: 0;
-          font-family: 'Lato', sans-serif;
-          cursor: pointer;
-
-          &.back {
-            margin-right: 24px;
-          }
-          i {
-            margin-left: 8px;
-          }
-
-          &:hover {
-            box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
-          }
-        }
       }
     }
 
@@ -921,11 +844,6 @@ export default class ListingEdit extends Vue {
       }
     }
   }
-}
-
-::v-deep button {
-  margin-bottom: 24px;
-  width: fit-content;
 }
 
 .map-wrapper {

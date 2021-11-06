@@ -128,13 +128,14 @@ export default class PublishDropdown extends Vue{
     border: 1px solid #ddd;
     padding: 12px;
     left: 0;
+    z-index: 1;
     ul {
       width: 100%;
       display: flex;
       flex-direction: column;
       max-height: 300px;
       overflow: scroll;
-      padding: 8px 0;
+      padding: 0px 0;
 
       li {
         width: 100%;
