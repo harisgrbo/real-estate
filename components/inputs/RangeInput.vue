@@ -8,11 +8,16 @@
 <script>
 export default {
   name: "RangeInput",
-  props: ["attr"],
+  props: ["attr", "init"],
   data() {
     return {
       val: false
     };
+  },
+  created() {
+    if (this.init) {
+      this.val = this.init;
+    }
   },
   methods: {
     handleChange() {

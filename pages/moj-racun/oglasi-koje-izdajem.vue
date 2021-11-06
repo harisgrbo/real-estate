@@ -20,7 +20,7 @@
                   {{ booking.listing.title }}
                 </h5>
                 <p class="hidden text-gray-500 sm:block sm:mt-2">
-                  {{ booking.description }}
+                  {{ booking.listing.description }}
                 </p>
               </div>
               <p class="mt-2 sm:mt-0 text-lg font-semibold price">
