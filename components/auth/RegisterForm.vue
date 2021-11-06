@@ -1,6 +1,8 @@
 <template>
   <div class="form-wrapper">
-    <img src="/mojkvadrat.svg" class="logo" alt="" @click="$router.push('/')">
+    <nuxt-link :to="'/'" class="flex flex-row items-center logo-wrap">
+      <img :src="[ $device.isMobile ? '/logo-new.png' : '/logo-new.png']" class="main-logo" height="40" alt="">
+    </nuxt-link>
 
 
     <h2 class="mt-4">Registracija</h2>
@@ -287,5 +289,12 @@ label {
 .logo {
   width: 120px;
   margin: 36px auto;
+}
+
+.logo-wrap {
+  height: 80px !important;
+  width: 80px !important;
+  padding-bottom: 36px !important;
+
 }
 </style>

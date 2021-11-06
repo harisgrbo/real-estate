@@ -212,7 +212,7 @@
             </div>
             <div class="modal-content">
               <div class="filters rounded-md">
-                <ul role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-5 w-full categories-list-wrap">
+                <ul role="list" class="pt-8 border-t border-b border-gray-200 pb-6 grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-5 w-full categories-list-wrap">
                   <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)" class="flow-root border bg-gray-100 rounded-md"
                       :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
                     <div>
@@ -661,14 +661,14 @@ export default class Homepage extends Vue {
   position: relative;
 
   @include for-phone-only {
-    padding: 0;
+    padding: 12px;
   }
 
   .modal-content {
     padding: 24px 0;
 
     @include for-phone-only {
-      padding: 12px;
+      padding: 0px;
     }
 
     &.mapa {

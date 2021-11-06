@@ -2,8 +2,10 @@
   <div :class="['navbar-wrapper w-full lg:px-20 xl:px-20 up:px-20 lg:shadow-sm xl:shadow-sm up:shadow-sm sm:shadow-none max-w-full sm:px-4', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-        <nuxt-link :to="'/'">
-          <img :src="[ $device.isMobile ? '/mojkvadrat.svg' : '/newm2.jpeg']" class="main-logo" height="40" alt="">
+        <nuxt-link :to="'/'" class="flex flex-row items-center">
+          <img :src="[ $device.isMobile ? '/logo-new.png' : '/logo-new.png']" class="main-logo" height="40" alt="">
+          <p class="first-part" v-if="!$device.isMobile">MOJ</p>
+          <p class="second-part" v-if="!$device.isMobile">KVADRAT</p>
         </nuxt-link>
       </div>
       <div class="input-wrapper"
@@ -1060,5 +1062,19 @@ export default class Navbar extends Vue {
     line-height: 14px;
 
   }
+}
+
+.first-part {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Lato', sans-serif;
+  color: #002F34;
+  margin-left: 5px;
+}
+.second-part {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: 'Lato', sans-serif;
+  color: #002F34;
 }
 </style>

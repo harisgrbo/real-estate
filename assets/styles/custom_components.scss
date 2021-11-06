@@ -89,6 +89,7 @@
   flex-direction: column;
   overflow: scroll;
   padding-bottom: 0;
+  min-height: calc(100vh - 80px);
 
   @include for-phone-only {
     margin: 0;
@@ -169,14 +170,28 @@
 .modal-header {
   display: flex;
   align-items: center;
-  height: 30px;
+  height: 70px;
   justify-content: space-between;
   padding: 0px;
 
+  @include for-phone-only {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    justify-content: space-between;
+    padding: 0px;
+  }
+
   h2 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: #000;
+
+    @include for-phone-only {
+      font-size: 16px;
+      font-weight: 500;
+      color: #000;
+    }
   }
 
   svg, i {

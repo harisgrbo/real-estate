@@ -98,6 +98,7 @@ export default class Mobile extends Vue {
   background: #f9f9f9;
   &.artikal-page {
     padding-top: 0 !important;
+    background: #fff;
   }
 
   &.publish {
@@ -157,6 +158,7 @@ export default class Mobile extends Vue {
 
 .objava {
   padding-top: 0 !important;
+  background: #fff;
 }
 
 ::v-deep .vm--modal {

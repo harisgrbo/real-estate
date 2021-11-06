@@ -354,8 +354,8 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           font-weight: 400 !important;
-           font-size: 17px;
+           font-weight: 500 !important;
+           font-size: 14px;
            line-height: 20px !important;
            @include for-phone-only {
              font-weight: 500 !important;
@@ -445,7 +445,7 @@ export default class ListingCard extends Vue{
           }
 
           .new {
-            font-size: 17px !important;
+            font-size: 15px !important;
             font-weight: 600 !important;
             margin-left: 0px;
           }

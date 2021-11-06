@@ -1,6 +1,8 @@
 <template>
   <div class="form-wrapper">
-    <img src="/newm2.jpeg" class="logo" alt="" @click="$router.push('/')">
+    <nuxt-link :to="'/'" class="flex flex-row items-center logo-wrap">
+      <img :src="[ $device.isMobile ? '/logo-new.png' : '/logo-new.png']" class="main-logo" height="40" alt="">
+    </nuxt-link>
 
     <h2 class="mt-4">Dobrodošli!</h2>
     <form @submit.prevent="handleLogin">
@@ -93,6 +95,8 @@ export default class LoginForm extends Vue{
     width: 100%;
     padding: 24px 16px;
     height: 100%;
+    min-height: 100vh;
+
 
   }
 
@@ -139,5 +143,26 @@ label {
 .logo {
   width: 120px;
   margin: 36px auto;
+}
+
+.first-part {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Lato', sans-serif;
+  color: #002F34;
+  margin-left: 5px;
+}
+.second-part {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: 'Lato', sans-serif;
+  color: #002F34;
+}
+
+.logo-wrap {
+  height: 80px !important;
+  width: 80px !important;
+  padding-bottom: 36px;
+
 }
 </style>

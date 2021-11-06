@@ -84,3 +84,7 @@ html, body {
 .modal-content {
   box-shadow: none;
 }
+
+* > .intro-y:nth-child(1) {
+  z-index: 0;
+}
