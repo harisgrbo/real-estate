@@ -107,16 +107,16 @@
                   </button>
                 </div>
               </div>
-              <div class="flex flex-row items-center justify-start mt-5">
+              <div v-if="reviewCount" class="flex flex-row items-center justify-start mt-5">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="yellow" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
                 <p class="pl-2 font-semibold">
-                  4.8
+                  {{ rating }}
                 </p>
-                <nuxt-link class="pl-2 underline text-sm font-medium" to="/">
-                  (54 dojmova)
-                </nuxt-link>
+                <a href="#dojmovi" class="pl-2 underline text-sm font-medium">
+                  ({{ reviewCount }} dojmova)
+                </a>
               </div>
             </div>
             <div class="flex flex-col items-start price-wrap" v-if="$device.isMobile">
@@ -221,7 +221,7 @@
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
-            <div v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && !authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0">
+            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && !authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review">
                 <label>Opišite ukratko vaše iskustvo</label>
@@ -505,6 +505,8 @@ import TextField from "../../components/inputs/TextField";
     let isFollowed = false;
     let isSaved = false;
     let listingSaved = false;
+    let rating = 0;
+    let reviewCount = 0;
 
     try {
       let response = await ctx.app.$axios.get('/listings/' + ctx.params.id);
@@ -514,11 +516,15 @@ import TextField from "../../components/inputs/TextField";
       images = listing.images;
       isFollowed = response.data.meta.followed;
       isSaved = response.data.meta.saved;
+      rating = response.data.meta.rating || 0;
+      reviewCount = response.data.meta.review_count || 0;
     } catch(e) {
       console.log(e)
     }
 
     return {
+      rating,
+      reviewCount,
       listing,
       user,
       isFollowed,
