@@ -197,7 +197,9 @@ export default class ListingEdit extends Vue {
 
   async created() {
     await this.fetchListing(this.$route.params.id);
-    await this.fetchSponsorship()
+    await this.fetchSponsorship();
+    await this.fetchAttributesByCategory();
+    await this.fetchAttributesByListingType();
 
     console.log(this.listing, 'listing')
 

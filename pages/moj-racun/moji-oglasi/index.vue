@@ -55,10 +55,10 @@ export default class mojiOglasi extends Vue {
 
 .account-wrapper {
   width: auto;
-  background: #f9f9f9;
 
   @include for-phone-only {
     width: 100%;
+    background: #f9f9f9;
     padding: 16px;
   }
 }
@@ -85,11 +85,12 @@ export default class mojiOglasi extends Vue {
     }
 
 
-    ::v-deep img {
+    ::v-deep .image-wrapper img {
       width: 100%;
 
       @include for-phone-only {
         height: 254px;
+        min-height: 254px;
       }
     }
   }

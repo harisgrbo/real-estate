@@ -128,6 +128,7 @@ export default class accountpage extends Vue {
 
 .account-wrapper-a {
   height: 100%;
+  background: #fff !important;
 
   .account-wrapper-inner {
     display: flex;

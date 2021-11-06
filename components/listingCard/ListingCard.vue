@@ -33,7 +33,7 @@
 <!--            <span>AKCIJA</span>-->
 <!--          </label>-->
         </div>
-        <div class="overflow-hidden relative" v-else>
+        <div class="overflow-hidden relative image-wrapper" v-else>
           <img :src="listing.images[0].url" v-if="listing.images.length" alt="">
           <img v-else src="/noimage.jpeg" alt="">
           <!--          <label class="publisher shadow-sm sale" v-if="action">-->

@@ -1,7 +1,7 @@
 <template>
   <div class="w-full mobile-user">
     <div class="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
-      <div class="flex-1 flex flex-col p-2">
+      <div class="flex-1 flex flex-col p-2 pt-4">
         <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
         <h3 class="mt-6 text-gray-900 text-sm font-medium ">{{ user.name }}</h3>
         <dl class="mt-1 flex-grow flex flex-col justify-between">
@@ -233,7 +233,7 @@ h3 {
 
 @include for-phone-only {
   .mobile-user {
-    width: 150px;
+    width: 100%;
     min-width: 150px;
   }
 }
