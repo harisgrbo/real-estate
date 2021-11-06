@@ -33,7 +33,7 @@
                 {{ listing.title }}
               </h1>
             </button>
-            <p class="mt-5 text-sm text-gray-500 font-medium leading-5">{{ listing.address }}</p>
+            <p class="mt-5 text-sm text-gray-800 font-medium leading-5">{{ listing.address }}</p>
           </div>
           <div class="flex  justify-between items-center">
 

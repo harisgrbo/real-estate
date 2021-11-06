@@ -213,6 +213,7 @@ export default class spaseno extends Vue {
 
 .account-wrapper {
   width: auto;
+  background: #f9f9f9;
 
   @include for-phone-only {
     width: 100%;

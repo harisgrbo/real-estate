@@ -90,7 +90,7 @@
             <div class="mb-6 px-5 lg:px-0 xl:px-0 up:px-0 mobile-content">
               <div class="article-title">
                 <h2 v-if="listing">{{ listing.title }}</h2>
-                <p v-if="$device.isMobile" class="mt-5 text-md text-gray-500 font-medium">{{ listing.address }}</p>
+                <p v-if="$device.isMobile" class="mt-5 text-md text-gray-800 font-medium">{{ listing.address }}</p>
 
                 <div class="flex flex-row items-center" v-if="!$device.isMobile">
                   <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -1954,7 +1954,8 @@ export default class Artikal extends Vue {
   margin: 0 16px 16px 16px;
 
   @include for-phone-only {
-    margin: 0 0 16px 0
+    margin: 0 0 16px 0;
+    padding: 20px;
   }
 }
 
