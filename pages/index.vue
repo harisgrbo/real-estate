@@ -56,6 +56,7 @@
       </div>
     </div>
     <div class="flex flex-col lg:px-20 xl:px-20 mt-8 up:px-20 mx-auto w-full mb-12 lg:mb-16 xl:mb-16 up:mb-16">
+      <MultipleSelect></MultipleSelect>
       <h2 class="section-title">
         Najtraženije lokacije
       </h2>
@@ -273,9 +274,11 @@
   import { buildCategory, buildType, buildCity, buildTitle, buildPrice } from "@/util/search";
   import skeleton from "../components/skeleton";
   import skeletonlocation from "../components/skeletonlocation";
+  import MultipleSelect from "../components/global/MultipleSelect";
 
   @Component({
     components: {
+      MultipleSelect,
       TextField,
       UserCard,
       Categories,
