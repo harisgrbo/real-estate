@@ -146,8 +146,17 @@
             <i class="material-icons" @click="$modal.hide('filters')">close</i>
           </div>
           <div class="modal-content">
-            <p v-show="! selectedCategoryId">Izaberite kategoriju za više filtera</p>
-
+            <div v-show="! selectedCategoryId" class="rounded-md bg-green-50 p-4">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-green-800">
+                    Kategorija nije izabrana, za više filtera odaberite jednu
+                  </p>
+                </div>
+              </div>
+            </div>
             <RangeFilter
               v-model="queryPayload.price"
               :attr="false"
@@ -180,7 +189,17 @@
             </div>
             <div class="modal-content">
               <div class="filters rounded-md">
-                <p v-show="! selectedCategoryId">Izaberite kategoriju za više filtera</p>
+                <div v-show="! selectedCategoryId" class="rounded-md bg-green-50 p-4">
+                  <div class="flex">
+                    <div class="flex-shrink-0">
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-sm font-medium text-green-800">
+                        Kategorija nije izabrana, za više filtera odaberite jednu
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
                 <RangeFilter
                   class="bb-filters"
