@@ -10,7 +10,7 @@
     <div class="w-full mt-5">
       <ul role="list" class="divide-y divide-gray-200">
         <li v-for="(booking, index) in bookings" class="p-4 sm:p-6 bg-white shadow-sm rounded-md">
-          <div class="flex items-center sm:items-start">
+          <div class="flex items-center sm:items-start inner">
             <div class="flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40 listing">
               <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="w-full h-full object-center object-cover">
             </div>
@@ -24,7 +24,7 @@
                 </p>
               </div>
               <p class="mt-2 sm:mt-0 text-lg font-semibold price">
-                {{ booking.total_price }} KM
+                {{ booking.total_price }} KM za {{ booking.days }} dana
               </p>
             </div>
             <vc-date-picker :value="getDatesFromBooking(booking)" title-position="left" is-range/>
@@ -43,6 +43,9 @@
             <div class="mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
               <div v-if="! booking.confirmed" class="flex-1 flex justify-center">
                 <button @click="confirm(booking)" class="text-indigo-600 whitespace-nowrap hover:text-indigo-500">Prihvati rezervaciju</button>
+              </div>
+              <div class="flex-1 pl-4 flex justify-center">
+                <button @click="$router.push('/artikal/' + booking.id)" class="text-indigo-600 whitespace-nowrap hover:text-indigo-500">Idi na oglas</button>
               </div>
               <div class="flex-1 pl-4 flex justify-center">
                 <button @click="cancel(booking, index)" class="text-indigo-600 whitespace-nowrap hover:text-indigo-500">Poništi upit</button>
@@ -160,5 +163,43 @@ a {
   justify-content: center;
   font-size: 20px;
   padding: 0 24px;
+}
+
+li {
+
+  @include for-phone-only {
+    margin: 16px;
+  }
+  .inner {
+    @include for-phone-only {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .listing {
+      @include for-phone-only {
+        height: 150px;
+        width: 100%;
+      }
+    }
+
+    .listing-content {
+      @include for-phone-only {
+        width: 100%;
+
+
+        h5 {
+          margin-top: 12px;
+        }
+
+        .price {
+          width: 100%;
+          justify-content: flex-start;
+          margin-bottom: 16px
+        }
+
+      }
+    }
+  }
 }
 </style>

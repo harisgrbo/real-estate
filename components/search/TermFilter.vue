@@ -1,11 +1,11 @@
 <template>
     <div class="term-wrapper">
-      <label>{{ displayName }} </label>
+      <label :for="'checkbox' + $vnode.key">{{ displayName }} </label>
       <select v-if="filter.values" @change="handleChange">
           <option value="">...</option>
           <option v-for="option in filter.values" :value="option">{{ option }}</option>
       </select>
-      <input v-else v-model="checked" type="checkbox" @input="handleChange" />
+      <input :id="'checkbox' + $vnode.key" v-else v-model="checked" type="checkbox" @input="handleChange" />
     </div>
 </template>
 

@@ -603,13 +603,17 @@ export default class Homepage extends Vue {
   margin-top: 0px;
   flex-direction: column;
 
+  @include for-phone-only {
+    padding-top: 80px;
+  }
+
   .content {
     box-sizing: border-box;
     height: 100%;
 
     @include for-phone-only {
       padding-bottom: 180px;
-      padding-top: 22px;
+      padding-top: 12px;
     }
 
     h2 {
