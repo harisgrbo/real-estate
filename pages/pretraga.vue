@@ -146,6 +146,8 @@
             <i class="material-icons" @click="$modal.hide('filters')">close</i>
           </div>
           <div class="modal-content">
+            <p v-show="! selectedCategoryId">Izaberite kategoriju za više filtera</p>
+
             <RangeFilter
               v-model="queryPayload.price"
               :attr="false"
@@ -178,6 +180,7 @@
             </div>
             <div class="modal-content">
               <div class="filters rounded-md">
+                <p v-show="! selectedCategoryId">Izaberite kategoriju za više filtera</p>
 
                 <RangeFilter
                   class="bb-filters"
