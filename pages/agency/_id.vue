@@ -69,17 +69,12 @@
         <ul class="category-list w-full">
           <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
         </ul>
-        <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" @click="$modal.show('filters')">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-          </svg>
-          Filteri</button>
       </div>
       <div>
         <div v-if="activeTab === 0" class="filters-agency">
          <div class="content">
-           <div v-if="results.length" class="grid-layout">
-             <ListingCard v-for="listing in results" :listing="listing" :key="listing.id"></ListingCard>
+           <div v-if="listings.length || loadingListings" class="grid-layout">
+             <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
            </div>
            <div v-else class="no-image">
              <img src="/nodata.jpeg" alt="no-image">
@@ -102,49 +97,6 @@
       </div>
     </modal>
     <Snackbar></Snackbar>
-    <client-only>
-      <modal @before-open="beforeOpen" @before-close="beforeClose" name="filters" :adaptive="true" height="100%">
-        <div class="modal-inner">
-          <div class="modal-header">
-            <h2>Filteri</h2>
-            <i class="material-icons" @click="$modal.hide('filters')">close</i>
-          </div>
-          <div class="modal-content">
-            <div class="filters-agency-list">
-              <div class="modal-content">
-                <CategoryFilter
-                  v-model="queryPayload.category_id"
-                  :categories="searchMeta.categories"
-                  :aggregations="searchMeta.aggregations"
-                  :filter="{}"
-                  @input="newSearch"
-                />
-
-                <RangeFilter
-                  v-model="queryPayload.price"
-                  :attr="false"
-                  :filter="{name: 'price', display_name: 'Cijena'}"
-                  @input="newSearch"
-                  :avg-price="searchMeta.price"
-                />
-
-                <component
-                  v-for="(attr, i) in allAttributes"
-                  :key="i"
-                  :filter="attr"
-                  :attr="true"
-                  :is="filterFor(attr.type)"
-                  v-model="queryPayload[attr.name]"
-                  @clear="queryPayload[attr.name] = null; newSearch()"
-                  @input="newSearch"
-                />
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </modal>
-    </client-only>
   </div>
 </template>
 
@@ -164,115 +116,40 @@ import {buildQuery} from "@/util/search";
 import {capitalize} from "@/util/str";
 
 @Component({
-  components: {ListingCard, Snackbar, PublishMap, UserMedals, TextField, RangeFilter, CategoryFilter, TermsFilter, TermFilter, Pagination},
+  components: {ListingCard, Snackbar, PublishMap, UserMedals, TextField, Pagination},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   watchQuery: true,
-
   async asyncData(ctx) {
-    let page = 1;
-    let results = [];
-    let searchMeta = {
-      categories: [],
-      aggregations: []
-    };
-    let allAttributes = [];
-    let queryPayload = {};
-
-    let query = `[{"name":"user_id","type":"term","attr":false,"value":${ctx.route.params.id}}]`
-
-    if (ctx.route.query.q) {
-      let tmp = decodeURIComponent(ctx.route.query.q)
-
-      let decoded = JSON.parse(tmp);
-      let invalid = false;
-      let hasUserId = false;
-
-      if (Array.isArray(decoded)) {
-        for(let i = 0; i > decoded.length; ++i) {
-          let item = decoded[i];
-
-          if (typeof item === 'object') {
-            if (item.name === 'user_id') {
-              item.attr = false;
-              item.value = ctx.route.params.id
-              item.type = 'term'
-              hasUserId = true;
-            }
-          } else {
-            invalid = true;
-          }
-        }
-      }
-
-      if (! invalid) {
-        if (! hasUserId) {
-          decoded.push({
-            attr: false,
-            value: ctx.route.params.id,
-            type: 'term',
-            name: "user_id"
-          })
-        }
-
-        query = JSON.stringify(decoded)
-      }
-    }
-
-    console.log(query)
-
-    page = ctx.route.query.page || '1';
-    page = parseInt(page)
+    let categories = [];
+    let user = {};
+    let meta = {};
 
     try {
-      let response = await ctx.app.$axios.get(`/listings/search?q=${query}&page=${page}`)
-      results = response.data.data;
-      searchMeta = response.data.meta;
-      query = JSON.parse(query)
+      let response = await ctx.app.$axios.get(`/categories`)
 
-      query.forEach(item => {
-        if (item.name !== 'user_id') {
-          queryPayload[item.name] = Object.assign({}, item);
-        }
-      });
-
-      try {
-        let res = await ctx.app.$axios.get('/attributes');
-
-        allAttributes = res.data.data.map(item => {
-          item.type = item.attr_type;
-
-          return item;
-        }).concat(searchMeta.attributes)
-      } catch (e) {
-        console.log(e)
-      }
+      categories = response.data.data;
     } catch (e) {
       console.log(e)
-      // @TODO: Error handling
     }
 
-    let lp = searchMeta.total / searchMeta.perPage;
-
-    if(! Number.isInteger(lp)) {
-      lp += 1;
+    try {
+      let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
+      user = response.data.data;
+      meta = response.data.meta;
+    } catch(e) {
+      console.log(e)
     }
-
-    let last_page = parseInt(lp);
 
     return {
-      allAttributes,
-      results,
-      searchMeta,
-      queryPayload,
-      page,
-      last_page
+      categories,
+      user,
+      meta
     }
-  },
+  }
 })
 export default class Agencies extends Vue {
-
+  loadingListings = false;
   activeTab = 0
-  user = {}
   isFollowed = ''
   message = '';
   loading = false;
@@ -290,21 +167,16 @@ export default class Agencies extends Vue {
       lng: parseFloat("18.4149369")
     }
   }
-  detailedAgencyinfo = {}
-  categories = []
+  selectedCategoryId = null;
 
-  filterFor(attr) {
-    return `${capitalize(attr)}Filter`;
-  }
-
-  async fetchCategories() {
-    try {
-      let response = await this.$axios.get(`/categories`)
-
-      this.categories = response.data.data;
-    } catch (e) {
-      console.log(e)
+  async handleSelectedCategory(cat) {
+    if (this.selectedCategoryId === cat.id) {
+      this.selectedCategoryId = null;
+    } else {
+      this.selectedCategoryId = cat.id;
     }
+
+    await this.fetchUserListings(this.user.id, this.selectedCategoryId);
   }
 
   beforeOpen() {
@@ -315,33 +187,10 @@ export default class Agencies extends Vue {
     document.body.style.overflow = 'auto';
   }
 
-  async created() {
-    await this.fetchUser(this.$route.params.id)
-    await this.fetchCategories();
-    await this.getAgencyDetailedInfo();
+  created() {
+    this.fetchUserListings(this.user.id, null);
     this.isFollowed = this.meta.followed;
     // await this.fetchUserListings(this.$route.params.id)
-  }
-
-  newSearch() {
-    let q = buildQuery(this.queryPayload)
-
-    this.$router.push(this.$route.path + `?q=${q}`)
-  }
-
-  pageChangeHandler(selectedPage) {
-    this.$router.push({ query: Object.assign({}, this.$route.query, { page: selectedPage }) });
-  }
-
-  async getAgencyDetailedInfo() {
-    try {
-      let res = await this.$axios.get('/agencije/' + this.user.id);
-      this.detailedAgencyinfo = res.data.data;
-
-      console.log(res, 'ressss')
-    } catch(e) {
-      console.log(e)
-    }
   }
 
   get isMe() {
@@ -423,22 +272,22 @@ export default class Agencies extends Vue {
     }
   }
 
-  async fetchUser(id) {
-    try {
-      let response = await this.$axios.get('/users/' + id)
-      this.user = response.data.data;
-      this.meta = response.data.meta;
-    } catch(e) {
-      console.log(e)
-    }
-  }
+  async fetchUserListings(id, catId) {
+    this.loadingListings = true;
 
-  async fetchUserListings(id) {
     try {
-      let response = await this.$axios.get('/users/' + id + '/listings')
+      let url = '/users/' + id + '/listings';
+
+      if (catId) {
+        url += '?category_id=' + catId;
+      }
+
+      let response = await this.$axios.get(url)
       this.listings = response.data.data;
     } catch(e) {
       console.log(e)
+    } finally {
+      this.loadingListings = false;
     }
   }
 }
