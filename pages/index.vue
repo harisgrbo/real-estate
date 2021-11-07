@@ -274,11 +274,11 @@
   import { buildCategory, buildType, buildCity, buildTitle, buildPrice } from "@/util/search";
   import skeleton from "../components/skeleton";
   import skeletonlocation from "../components/skeletonlocation";
-  import MultipleSelect from "../components/global/MultipleSelect";
+  import CitiesMultipleSelect from "../components/global/CitiesMultipleSelect";
 
   @Component({
     components: {
-      MultipleSelect,
+      MultipleSelect: CitiesMultipleSelect,
       TextField,
       UserCard,
       Categories,

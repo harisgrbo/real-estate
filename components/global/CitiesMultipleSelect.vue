@@ -15,8 +15,8 @@
                @input="showResults"
                type="text"
       >
-      <ul v-show="options.length">
-        <li v-for="option in options" @click="addOptionToSelected(option)">{{ option }}</li>
+      <ul v-show="cities.length">
+        <li v-for="option in cities" @click="addOptionToSelected(option)">{{ option.name }}</li>
       </ul>
     </div>
   </div>
@@ -25,32 +25,52 @@
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 
-@Component({
-  components: {
-  }
-})
-
-export default class MultipleSelect extends Vue{
-  options = []
+@Component({})
+export default class CitiesMultipleSelect extends Vue{
+  @Prop({ type: Array, default: () => [] }) initialCityIds;
+  selectedOptions = [];
   showDropdown = false;
-  searchTerm = ''
+  searchTerm = '';
+  cities = [];
+
+  created() {
+    this.initialCityIds.forEach(async (id) => {
+      try {
+        this.selectedOptions.push((await this.$axios.get('/cities/' + id)).data.data);
+      } catch (e) {
+        console.log(e)
+      }
+    })
+  }
+
+  emitValues() {
+    this.$emit('cities', this.selectedOptions.map(item => item.id));
+  }
 
   addOptionToSelected(o) {
     this.selectedOptions.push(o)
+
+    this.emitValues();
   }
 
-  showResults() {
+  async showResults() {
     let q = this.searchTerm;
 
-    if(q.length > 1) {
-      //uradi nesto
-    } else {
-      //isto
+    if (q.length >= 3) {
+      try {
+        let res = await this.$axios.get('/cities?q=' + q);
+
+        this.cities = res.data.data;
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
   removeFromSelected(item, index) {
-    //do sth
+    this.selectedOptions.splice(index, 1);
+
+    this.emitValues()
   }
 }
 </script>
