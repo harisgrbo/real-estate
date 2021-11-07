@@ -12,13 +12,6 @@
           </div>
           <div class="tab-content">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
-              <div class="pr-1">
-                <div class="box px-5 pt-5 pb-5 mt-5">
-                  <div class="relative text-gray-700 dark:text-gray-300">
-                    <input type="text" class="form-control custom-search py-3 px-4 border-transparent bg-gray-200 pr-10 placeholder-theme-8" placeholder="Pretraži razgovore">
-                  </div>
-                </div>
-              </div>
               <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
                 <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
                   <div class="w-12 h-12 flex-none image-fit mr-1">
@@ -555,6 +548,41 @@ export default class Porukice extends Vue {
 .modal-inner .modal-content {
   padding: 0;
   padding-bottom: 16px;
+}
+
+.chat .chat__tabs a {
+  font-family: 'Lato', sans-serif;
+  height: 48px;
+  border-radius: 8px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 24px;
+  color: #023246;
+  cursor: pointer;
+  justify-content: center;
+  transition: 0.3s all ease;
+  background: transparent;
+  color: #848484;
+}
+.chat .chat__tabs a.active {
+  font-family: 'Lato', sans-serif;
+  height: 48px;
+  border-radius: 8px;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 24px;
+  color: #023246;
+  cursor: pointer;
+  justify-content: center;
+  transition: 0.3s all ease;
+  border:2px solid hsla(218, 34%, 30%, 1);
+  background: transparent;
 }
 </style>
 
