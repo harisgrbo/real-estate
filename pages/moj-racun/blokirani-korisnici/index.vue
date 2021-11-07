@@ -14,7 +14,7 @@
            blokirani korisnici
           </div>
           <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
+            <img src="/nodata.jpeg" alt="no-image">
             <p>Nemate blokiranih korisnika</p>
           </div>
         </div>

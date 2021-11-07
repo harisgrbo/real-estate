@@ -4,7 +4,7 @@
       <div class="first-col">
         <aside class="w-96 bg-white overflow-y-auto">
           <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
-            <div class="flex-1 flex flex-row justify-start">
+            <div class="flex-1 flex flex-row justify-start user-inner">
               <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
               <div class="ml-4">
                 <h3 class="text-gray-900 text-md font-medium">{{ user.name }}</h3>
@@ -22,7 +22,7 @@
 
       </div>
       <div class="second-col">
-        <div class="grid grid-cols-2 gap-4 text-sm font-medium text-gray-500">
+        <div class="grid grid-cols-2 gap-4 text-sm font-medium text-gray-500 infos">
           <div>agencija@agencija.com</div>
           <div>Sarajevo, Alojza Benca 2</div>
           <div>www.agencijatest.ba</div>
@@ -31,19 +31,19 @@
       </div>
 
       <div class="third-col">
-        <div v-if="isMe">
-          <div class="-ml-px w-0 flex-1 flex cursor-pointer">
+        <div v-if="isMe" class="w-full">
+          <button class="-ml-px w-0 flex-1 flex cursor-pointer">
             <div @action="toggleFollow" icon="user-plus" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span class="ml-3">Uredi profil</span>
             </div>
-          </div>
+          </button>
         </div>
-        <div v-else>
+        <div v-else class="w-full">
           <div class="flex divide-x divide-gray-200 justify-between w-full">
-            <div class="flex-1 flex cursor-pointer mr-12" @click="$modal.show('contact-user')">
+            <button class="flex-1 flex cursor-pointer mr-12 first" @click="$modal.show('contact-user')">
               <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -51,21 +51,21 @@
                 </svg>
                 <span class="ml-3">Poruka</span>
               </a>
-            </div>
-            <div class="flex-1 flex cursor-pointer" @click="toggleFollow()">
+            </button>
+            <button class="flex-1 flex cursor-pointer" @click="toggleFollow()">
               <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 <span class="ml-3">{{ isFollowed? 'Otprati' : 'Zaprati' }}</span>
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>
     </div>
     <div class="content-wrapper">
-      <div class="flex flex-row items-center justify-between mb-8">
+      <div class="flex flex-row items-center justify-between mb-8 user-options">
         <ul class="category-list w-full">
           <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
         </ul>
@@ -82,14 +82,14 @@
              <ListingCard v-for="listing in results" :listing="listing" :key="listing.id"></ListingCard>
            </div>
            <div v-else class="no-image">
-             <img src="/noimg.jpg" alt="no-image">
+             <img src="/nodata.jpeg" alt="no-image">
              <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
            </div>
          </div>
         </div>
       </div>
     </div>
-    <modal name="contact-user" :adaptive="true" height="100%">
+    <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
       <div class="modal-inner">
         <div class="modal-header">
           <h2>Poruka za {{ user.name }}</h2>
@@ -103,7 +103,7 @@
     </modal>
     <Snackbar></Snackbar>
     <client-only>
-      <modal name="filters" :adaptive="true" height="100%">
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="filters" :adaptive="true" height="100%">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Filteri</h2>
@@ -307,6 +307,14 @@ export default class Agencies extends Vue {
     }
   }
 
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
+  }
+
   async created() {
     await this.fetchUser(this.$route.params.id)
     await this.fetchCategories();
@@ -437,6 +445,12 @@ export default class Agencies extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .user-profile-wrapper {
   display: flex;
   flex-direction: column;
@@ -444,6 +458,10 @@ export default class Agencies extends Vue {
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
+
+  @include for-phone-only {
+    padding: 16px;
+  }
 
   .user-content-wrapper {
     display: flex;
@@ -459,8 +477,27 @@ export default class Agencies extends Vue {
     margin-bottom: 36px;
     border-bottom: 1px solid #f9f9f9;
 
+    @include for-phone-only {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      padding: 16px;
+    }
+
+    .user-inner {
+      @include for-phone-only {
+        display: flex;
+      }
+    }
+
     .first-col {
       display: flex;
+
+      @include for-phone-only {
+        padding-bottom: 24px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #f1f1f1;
+      }
     }
     .second-col {
       display: flex;
@@ -468,6 +505,19 @@ export default class Agencies extends Vue {
       box-sizing: border-box;
       flex-direction: column;
       justify-content: space-between;
+
+      @include for-phone-only {
+        padding: 0;
+        margin-top: 12px;
+        margin-bottom: 20px;
+      }
+
+      .infos {
+        color: #000;
+        @include for-phone-only {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
 
       h2 {
         font-size: 18px;
@@ -530,6 +580,39 @@ export default class Agencies extends Vue {
       justify-content: flex-end;
       align-items: flex-end;
       flex-direction: column;
+
+      @include for-phone-only {
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+
+        button {
+          height: 48px;
+          font-family: 'Lato', sans-serif;
+          height: 48px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          padding: 0 24px;
+          color: #fff;
+          cursor: pointer;
+          justify-content: center;
+          transition: 0.3s all ease;
+          background: transparent;
+          border: 2px solid #023246;
+          width: 100%;
+          margin-right: 0;
+
+          &.first {
+            margin-right: 8px;
+          }
+
+          a {
+            font-weight: 500;
+          }
+        }
+      }
 
       .contact-buttons {
         display: flex;
@@ -616,6 +699,21 @@ export default class Agencies extends Vue {
       grid-template-columns: repeat(5, 1fr);
       grid-column-gap: 24px;
       padding: 0;
+
+      @include for-phone-only {
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 12px;
+        grid-row: 16px;
+      }
+    }
+
+    .user-options {
+      @include for-phone-only {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        overflow-y: scroll;
+      }
     }
   }
 }
@@ -713,6 +811,10 @@ export default class Agencies extends Vue {
 
   .content {
     width: 100%;
+
+    @include for-phone-only {
+      padding: 0;
+    }
   }
 }
 

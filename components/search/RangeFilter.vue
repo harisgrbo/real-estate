@@ -5,11 +5,11 @@
     </label>
     <div class="input-wrapper">
       <div>
-        <label>min cijena</label>
+        <label>od</label>
         <input v-model="from" type="number" @change="handleChange">
       </div>
       <div>
-        <label>max cijena</label>
+        <label>do</label>
         <input v-model="to" type="number" @change="handleChange">
       </div>
     </div>

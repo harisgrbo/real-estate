@@ -125,12 +125,12 @@
       </div>
     </div>
     <client-only>
-      <modal name="type" :adaptive="true" height="100%">
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="type" :adaptive="true" height="100%">
         <ListingType @selected-type="handleSelectedType" @close="$modal.hide('type')"></ListingType>
       </modal>
     </client-only>
     <client-only>
-      <modal name="notifications" :adaptive="true" height="100%">
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="notifications" :adaptive="true" height="100%">
         <NotificationsDropdown :notifications="notifications" @close-notifications="$modal.hide('notifications')" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
       </modal>
     </client-only>
@@ -175,6 +175,14 @@ export default class Navbar extends Vue {
     this.realtime();
   }
 
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
+  }
+
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll);
   }
@@ -200,6 +208,14 @@ export default class Navbar extends Vue {
   onUrlChange() {
     this.closeSidebar();
     this.away();
+  }
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
   }
 
   async created() {

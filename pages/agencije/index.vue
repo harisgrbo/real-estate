@@ -1,7 +1,7 @@
 <template>
   <div class="account-wrapper-a w-full px-20">
     <div class="account-wrapper-inner">
-      <div class="sidenav my-12">
+      <div class="sidenav">
         <h1 class="heading-account"><b>{{ agencies.length }}</b> agencija za nekretnine</h1>
         <div class="grid-layout" v-if="agenciesLoaded">
           <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="card" />
@@ -63,6 +63,7 @@ export default class Agencies extends Vue {
   @include for-phone-only {
     padding: 32px 0!important;
     height: 100%;
+    min-height: calc(100vh - 80px);
     overflow: scroll;
   }
 

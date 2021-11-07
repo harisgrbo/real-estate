@@ -12,7 +12,7 @@
         <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
       </div>
       <div v-else class="no-image">
-        <img src="/noimg.jpg" alt="no-image">
+        <img src="/nodata.jpeg" alt="no-image">
         <p>Nemate spšenih pretraga</p>
       </div>
     </div>
