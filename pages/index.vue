@@ -273,9 +273,11 @@
   import { buildCategory, buildType, buildCity, buildTitle, buildPrice } from "@/util/search";
   import skeleton from "../components/skeleton";
   import skeletonlocation from "../components/skeletonlocation";
+  import CitiesMultipleSelect from "../components/global/CitiesMultipleSelect";
 
   @Component({
     components: {
+      MultipleSelect: CitiesMultipleSelect,
       TextField,
       UserCard,
       Categories,
@@ -1267,6 +1269,12 @@ button.search {
     max-width: 240px;
     min-width: 240px;
     width: 240px;
+  }
+
+  .main-image {
+    @include for-phone-only {
+      min-width: 100%;
+    }
   }
 }
 

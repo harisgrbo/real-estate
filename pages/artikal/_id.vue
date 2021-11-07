@@ -221,13 +221,18 @@
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
-            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && !authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0">
+            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && !authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
-              <div class="review">
+              <div class="review w-full">
                 <label>Opišite ukratko vaše iskustvo</label>
-                <textarea class="mb-3" type="text" v-model="review_description"></textarea>
+                <textarea class="review-textarea mb-3" type="text" v-model="review_description"></textarea>
                 <label>Ocjena za nekretninu</label>
-                <TextField type="number" placeholder="Ocjena od 1 do 5" v-model="review_rating"></TextField>
+                <div class="w-full flex flex-row items-center justify-start">
+                  <svg v-for="i in 5" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="yellow" viewBox="0 0 24 24" stroke="currentColor">
+                    <path v-show="i <= review_rating" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                  </svg>
+                </div>
+                <input class="review-input" type="range" min="1" max="5" placeholder="Ocjena od 1 do 5" v-model="review_rating" />
                 <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
               </div>
               <div v-if="listing_reviews.length" class="bg-white">
@@ -549,7 +554,7 @@ export default class Artikal extends Vue {
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
-  review_rating = 0;
+  review_rating = null;
   review_description = '';
   selectedPlace = null;
   listing_reviews = [];
@@ -2003,13 +2008,16 @@ export default class Artikal extends Vue {
     align-items: center;
     justify-content: space-between;
     border-radius: 8px;
-    padding: 0 12px;
     background: #F3F3F4;
     flex: 2;
     position: relative;
     transition: 0.3s all ease;
-    max-width: 600px;
     margin-top: 0;
+    padding: 12px;
+
+    &:focus {
+      outline: none;
+    }
   }
 
 }
@@ -2035,5 +2043,38 @@ export default class Artikal extends Vue {
     border-top: 1px solid #f1f1f1;
   }
 }
+
+.review-input {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #F3F3F4;
+  flex: 2;
+  position: relative;
+  transition: 0.3s all ease;
+  margin-top: 0;
+  width: 200px;
+  min-height: 48px;
+}
+
+.review-textarea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #F3F3F4;
+  flex: 2;
+  position: relative;
+  transition: 0.3s all ease;
+  margin-top: 0;
+  min-height: 150px;
+  width: 100%;
+}
+
+
 </style>
 

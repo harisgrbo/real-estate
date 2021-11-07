@@ -7,7 +7,7 @@
         <!-- Main content -->
         <div class="flex-1 flex items-stretch mobile-flex">
           <main class="overflow-y-auto">
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-7xl mx-auto main-container-user">
               <div class="flex" v-if="!$device.isMobile">
                 <div class="ml-6 bg-gray-100 p-0.5 rounded-lg flex items-center sm:hidden">
                   <button type="button" class="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -30,17 +30,17 @@
               <h2 class="font-medium text-xl mt-8">Oglasi</h2>
 
               <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-if="listingsLoaded">
-                <ul role="list" class="grid lg:grid-cols-1 lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6">
-                  <li class="relative listing-card" v-for="listing in listings">
+                <ul role="list" class="grid lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
+                  <li class="relative listing-card w-full min-w-full" v-for="listing in listings">
                     <ListingCard :listing="listing" :key="listing.id"></ListingCard>
                   </li>
                   <!-- More files... -->
                 </ul>
               </section>
               <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-else>
-                <ul role="list" class="grid lg:grid-cols-1 lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6">
-                  <li class="relative listing-card" v-for="i in 10">
-                    <skeleton height="315px" width="252px"></skeleton>
+                <ul role="list" class="grid lg:grid-cols-1 lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
+                  <li class="relative listing-card w-full min-w-full" v-for="i in 10">
+                    <skeleton height="315px" width="165px"></skeleton>
                   </li>
                   <!-- More files... -->
                 </ul>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="flex flex-row items-center justify-between w-full" v-else>
                       <div class="flex-1 flex cursor-pointer w-full" @click="$modal.show('contact-user')">
-                        <nuxt-link to="" class="mr-2 relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                        <nuxt-link to="/moj-racun/uredi-profil" class="mr-2 relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
                           <!-- Heroicon name: solid/mail -->
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -587,6 +587,11 @@ ul.user-information {
 
   img {
     height: 220px;
+
+    @include for-phone-only {
+      width: 100%;
+
+    }
   }
 }
 
@@ -602,6 +607,7 @@ aside {
     margin: 0;
     border-left: none;
     padding-top: 36px;
+    background: #fff;
   }
 }
 
@@ -645,6 +651,7 @@ aside {
     position: static;
     padding: 0;
     box-shadow: none !important;
+    background: #fff;
 
     img {
       height: 100px;
@@ -664,10 +671,31 @@ aside {
 
     a {
       @include for-phone-only {
-        background: #f9f9f9;
+        background: #fff;
       }
     }
   }
 
+}
+
+.listings-user-wrap {
+  @include for-phone-only {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 12px;
+    grid-row: 16px;
+  }
+}
+
+
+::v-deep .listing-card-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.main-container-user {
+  @include for-phone-only {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 </style>

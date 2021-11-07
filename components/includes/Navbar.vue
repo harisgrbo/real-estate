@@ -119,7 +119,7 @@
             <sidenav></sidenav>
           </div>
           <div :class="[ 'notification', showNotifications ? 'extend' : '' ]">
-            <NotificationsDropdown :notifications="notifications" @close-notifications="handleCloseNotifications" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
+            <NotificationsDropdown @clicked="$modal.hide('notifications')" :notifications="notifications" @close-notifications="handleCloseNotifications" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
           </div>
         </div>
       </div>
@@ -131,7 +131,7 @@
     </client-only>
     <client-only>
       <modal @before-open="beforeOpen" @before-close="beforeClose" name="notifications" :adaptive="true" height="100%">
-        <NotificationsDropdown :notifications="notifications" @close-notifications="$modal.hide('notifications')" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
+        <NotificationsDropdown @clicked="$modal.hide('notifications')" :notifications="notifications" @close-notifications="$modal.hide('notifications')" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
       </modal>
     </client-only>
   </div>
@@ -169,7 +169,6 @@ export default class Navbar extends Vue {
   searchInput = ""
   savedSearches = []
   showNotifications = false;
-  notifications = [];
 
   mounted() {
     this.realtime();
@@ -308,18 +307,6 @@ export default class Navbar extends Vue {
       } catch(e) {
         console.log(e)
       }
-    }
-  }
-
-  async getNotifications() {
-    try {
-      let res = await this.$axios.get('/profile/notifications/unread');
-
-      this.notifications = res.data.data.map(notification => {
-        return notification.data
-      })
-    } catch (e) {
-      console.log(e)
     }
   }
 

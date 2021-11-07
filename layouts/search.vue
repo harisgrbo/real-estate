@@ -48,7 +48,7 @@ export default class Home extends Vue {
 
 
 .search-wrapper ::v-deep .navbar-wrapper {
-  position: static !important;
+  position: relative !important;
   top: 0;
   padding: 0 24px;
 }
