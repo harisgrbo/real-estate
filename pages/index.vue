@@ -133,7 +133,7 @@
     <div class="flex flex-col mb-16 mt-8 popular">
       <div class="w-full flex items-center justify-between lg:px-20 up:px-20 xl:px-20 mx-auto mb-4">
         <h2 class="section-title popular-cats">Popularne kategorije</h2>
-        <div class="flex flex-row items-center">
+        <div class="flex flex-row items-center" v-if="!$device.isMobile">
           <nuxt-link class="more" to="/pretraga">Više kategorija</nuxt-link>
           </div>
       </div>
@@ -1293,6 +1293,12 @@ button.search {
   column-gap: 16px;
   @include for-phone-only {
     padding: 0 16px;
+  }
+}
+
+.no-padding {
+  @include for-phone-only {
+    padding-top: 80px;
   }
 }
 </style>

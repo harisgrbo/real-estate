@@ -30,7 +30,7 @@
         <h5 v-if="showInfoMsg">Provjerite jeste li dobili poruku i unesite kod</h5>
       </div>
       <client-only>
-        <modal name="verification" :adaptive="true" height="100%">
+        <modal @before-open="beforeOpen" @before-close="beforeClose" name="verification" :adaptive="true" height="100%">
           <div class="modal-inner">
             <div class="modal-header">
               <h2>Unesite verifikacijski kod iz SMS poruke</h2>
@@ -69,6 +69,14 @@ export default class Verifikacija extends Vue {
 
   onChange(v) {
     console.log("onChange ", v);
+  }
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
   }
 
   onComplete(v) {

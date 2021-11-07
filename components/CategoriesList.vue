@@ -55,7 +55,7 @@ export default class CategoriesList extends Vue{
   padding: 0 24px;
 
   @include for-phone-only {
-    padding: 0 12px;
+    padding: 16px !important;
   }
 
   .content {

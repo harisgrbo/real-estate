@@ -1,5 +1,5 @@
 <template>
-  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'artikal-id' ? 'objava' : '']">
+  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'artikal-id' || $route.name === 'pretraga' || $route.name === 'index' ? 'objava' : '']">
     <div
       class="header"
       :class="{ 'navbar--hidden': !showNavbar }"
@@ -16,7 +16,7 @@
       <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>
     <client-only>
-      <modal name="sidebar" :adaptive="true" height="100%">
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="sidebar" :adaptive="true" height="100%">
         <div class="modal-inner">
 <!--          <i class="material-icons" @click.prevent="$modal.hide('sidebar')">close</i>-->
           <div class="modal-content">
@@ -67,6 +67,14 @@ export default class Mobile extends Vue {
 
   beforeDestroy () {
     window.removeEventListener('scroll', this.onScroll)
+  }
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
   }
 }
 </script>
@@ -159,6 +167,10 @@ export default class Mobile extends Vue {
 .objava {
   padding-top: 0 !important;
   background: #fff;
+
+  @include for-phone-only {
+    background: #fff;
+  }
 }
 
 ::v-deep .vm--modal {

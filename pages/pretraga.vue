@@ -134,7 +134,7 @@
       </div>
     </div>
     <client-only>
-      <modal name="filters"
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="filters"
              transition="slide-up"
              :adaptive="true"
              height="100%"
@@ -168,7 +168,7 @@
       </modal>
       <Snackbar></Snackbar>
       <client-only>
-        <modal name="search-filters" :adaptive="true" height="100%">
+        <modal @before-open="beforeOpen" @before-close="beforeClose" name="search-filters" :adaptive="true" height="100%">
           <div class="modal-inner">
             <div class="modal-header">
               <h2>Filteri</h2>
@@ -204,7 +204,7 @@
         </modal>
       </client-only>
       <client-only>
-        <modal name="cats-modal" :adaptive="true" height="100%">
+        <modal @before-open="beforeOpen" @before-close="beforeClose" name="cats-modal" :adaptive="true" height="100%">
           <div class="modal-inner">
             <div class="modal-header">
               <h2>Kategorije</h2>
@@ -469,6 +469,14 @@ export default class Homepage extends Vue {
     }
   }
 
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
+  }
+
   addOrRemoveFromListTypes(x) {
     let index = this.selectedTypes.indexOf(x);
 
@@ -601,6 +609,7 @@ export default class Homepage extends Vue {
 
     @include for-phone-only {
       padding-bottom: 180px;
+      padding-top: 22px;
     }
 
     h2 {
@@ -818,6 +827,12 @@ export default class Homepage extends Vue {
 }
 ::v-deep .listing-card-wrapper {
   width: 100%;
+
+  img.main-image {
+    @include for-phone-only {
+      height: 210px !important;
+    }
+  }
 }
 
 
@@ -891,7 +906,9 @@ export default class Homepage extends Vue {
 .listing-wrap {
   @include for-phone-only {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 12px;
+    grid-row-gap: 16px;
   }
 }
 

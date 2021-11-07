@@ -126,7 +126,7 @@
       </div>
     </div>
     <client-only>
-      <modal name="contact-user" :adaptive="true" height="100%">
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Poruka za {{ user.name }}</h2>
@@ -200,6 +200,14 @@ export default class UserProfile extends Vue {
     } else {
       return 'Korisnik'
     }
+  }
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
   }
 
   async created() {

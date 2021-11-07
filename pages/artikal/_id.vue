@@ -335,7 +335,7 @@
 
         </div>
         <client-only>
-          <modal name="places" :adaptive="true" height="100%">
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="places" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
                 <h2>U blizini</h2>
@@ -365,7 +365,7 @@
           </modal>
         </client-only>
         <client-only>
-          <modal name="map-modal" :adaptive="true" height="100%">
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="map-modal" :adaptive="true" height="100%">
             <div class="modal-inner map">
               <i class="material-icons" @click.prevent="$modal.hide('map-modal')">close</i>
               <div class="modal-content">
@@ -376,7 +376,7 @@
         </client-only>
 
         <client-only>
-          <modal name="booking" :adaptive="true" height="100%">
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="booking" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
                 <h2>Pošalji upit za rezervaciju</h2>
@@ -612,6 +612,14 @@ export default class Artikal extends Vue {
     },
   }
 
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
+  }
+
   async fetchBookings() {
     try {
       let res = await this.$axios.get(`/listings/${this.listing.id}/bookings`);
@@ -620,6 +628,14 @@ export default class Artikal extends Vue {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
   }
 
   async sendBookingRequest(event) {
@@ -661,6 +677,14 @@ export default class Artikal extends Vue {
       highlight: true,
       dates: date,
     }));
+  }
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
   }
 
   get disabledDates() {

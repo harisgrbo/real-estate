@@ -23,7 +23,7 @@
           <!-- More people... -->
         </div>
         <div v-else class="no-image">
-          <img src="/noimg.jpg" alt="no-image">
+          <img src="/nodata.jpeg" alt="no-image">
           <p>Nemate pratilaca</p>
         </div>
       </div>
@@ -32,7 +32,7 @@
           <UserCard v-for="user in followed" :id="user.id" :user="user"/>
         </div>
         <div v-else class="no-image">
-          <img src="/noimg.jpg" alt="no-image">
+          <img src="/nodata.jpeg" alt="no-image">
           <p>Nemate pratilaca</p>
         </div>
       </div>

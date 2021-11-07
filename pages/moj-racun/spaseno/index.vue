@@ -75,7 +75,7 @@
             </div>
           </div>
           <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
+            <img src="/nodata.jpeg" alt="no-image">
             <p>Nemate spašenih pretraga</p>
           </div>
         </div>
@@ -84,7 +84,7 @@
             <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id" :from="true" @remove-from-saved="handleRemoveListing"></ListingCard>
           </div>
           <div v-else class="no-image">
-            <img src="/noimg.jpg" alt="no-image">
+            <img src="/nodata.jpeg" alt="no-image">
             <p>Nemate spašenih oglasa</p>
           </div>
         </div>
