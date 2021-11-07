@@ -260,8 +260,7 @@
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
             </button>
-            <button @click="nextStep">Završi
-            </button>
+            <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>
           </div>
         </div>
       </div>
@@ -314,6 +313,8 @@ import 'nuxt-dropzone/dropzone.css'
 })
 export default class Objava extends Vue {
   listingId = null;
+
+  finishLoader = false;
 
   dropzoneOptions = {
     url: "http://fakeurl.com",
@@ -519,6 +520,7 @@ export default class Objava extends Vue {
   async nextStep() {
     if (this.currentStep === this.steps.TOTAL_STEPS) {
       if (this.listingId) {
+        this.finishLoader = true;
         await this.$router.push('/artikal/' + this.listingId)
       } else {
         this.snackbarValidationError("Artikal nije uspjesno objavljen")

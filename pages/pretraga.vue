@@ -146,12 +146,16 @@
             <i class="material-icons" @click="$modal.hide('filters')">close</i>
           </div>
           <div class="modal-content">
+            <p v-show="! selectedCategoryId">Izaberite kategoriju za više filtera</p>
+
             <RangeFilter
               v-model="queryPayload.price"
               :attr="false"
               :filter="{name: 'price', display_name: 'Cijena'}"
               @input="newSearch"
             />
+
+            <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
             <component
               v-for="(attr, i) in allAttributes"
@@ -176,6 +180,7 @@
             </div>
             <div class="modal-content">
               <div class="filters rounded-md">
+                <p v-show="! selectedCategoryId">Izaberite kategoriju za više filtera</p>
 
                 <RangeFilter
                   class="bb-filters"
@@ -184,6 +189,8 @@
                   :filter="{name: 'price', display_name: 'Cijena'}"
                   @input="newSearch"
                 />
+
+                <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
                 <component
                   class="bb-filters"
@@ -253,9 +260,11 @@ import skeleton from "../components/skeleton";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import HorizontalCard from "../components/listingCard/HorizontalCard";
 import SearchMap from "../components/googleMap/SearchMap";
+import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 
 @Component({
   components: {
+    CitiesMultipleSelect,
     SearchMap,
     HorizontalCard,
     ListingCard,
@@ -282,11 +291,13 @@ import SearchMap from "../components/googleMap/SearchMap";
     let allAttributes = [];
     let queryPayload = {};
     let categories = [];
+    let cityIds = [];
     let selectedCategoryId = null;
     let selectedPreviewType = 'grid';
     let selectedSort = {
       name: "Najnovije",
-      value: 0
+      value: 0,
+      order: 'asc'
     }
 
     if (ctx.route.query.q) {
@@ -324,6 +335,10 @@ import SearchMap from "../components/googleMap/SearchMap";
         query.forEach(item => {
           if (item.name === 'category_id') {
             selectedCategoryId = item.value;
+          }
+
+          if (item.name === 'city_id') {
+            cityIds = item.value;
           }
 
           queryPayload[item.name] = Object.assign({}, item);
@@ -366,6 +381,7 @@ import SearchMap from "../components/googleMap/SearchMap";
     let categoryTitle = category ? category.title: '';
 
     return {
+      cityIds,
       selectedSort,
       selectedPreviewType,
       categoryTitle,
@@ -422,7 +438,7 @@ export default class Homepage extends Vue {
       name: "Najnovije",
       value: 0,
       sort: 0,
-      order: 'desc'
+      order: 'asc'
     },
     {
       name: "Najniža cijena",
@@ -551,6 +567,22 @@ export default class Homepage extends Vue {
     }
 
     this.$modal.hide('cats-modal')
+
+    this.newSearch();
+  }
+
+  handleCitiesSearch(cityIds) {
+
+    if (cityIds.length) {
+      this.queryPayload.city_id = {
+        name: "city_id",
+        type: "terms",
+        value: cityIds
+      }
+    } else {
+      delete this.queryPayload.city_id;
+    }
+
 
     this.newSearch();
   }

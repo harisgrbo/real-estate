@@ -169,7 +169,6 @@ export default class Navbar extends Vue {
   searchInput = ""
   savedSearches = []
   showNotifications = false;
-  notifications = [];
 
   mounted() {
     this.realtime();
@@ -308,18 +307,6 @@ export default class Navbar extends Vue {
       } catch(e) {
         console.log(e)
       }
-    }
-  }
-
-  async getNotifications() {
-    try {
-      let res = await this.$axios.get('/profile/notifications/unread');
-
-      this.notifications = res.data.data.map(notification => {
-        return notification.data
-      })
-    } catch (e) {
-      console.log(e)
     }
   }
 
