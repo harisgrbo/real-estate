@@ -55,6 +55,54 @@
         </div>
       </div>
     </div>
+    <div class="flex flex-col mt-8" v-if="$auth.user">
+      <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
+        <h2 class="section-title">Oglasi korisnika koje pratite</h2>
+        <div class="flex flex-row items-center mr-5">
+          <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
+            <div
+              class="swiper-button-prev rent swiper-button-white mx-4"
+              slot="button-prev"
+            ></div>
+            <div
+              class="swiper-button-next rent swiper-button-white"
+              slot="button-next"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20" v-if="!$device.isMobile">
+        <client-only v-if="followedUserListingsLoaded">
+          <swiper class="swiper" :options="swiperOption">
+            <swiper-slide v-for="listing in followedUserListings" :key="listing.id">
+              <ListingCard :listing="listing" :type="listing.user.user_type"/>
+            </swiper-slide>
+          </swiper>
+        </client-only>
+        <client-only v-else>
+          <swiper class="swiper" :options="swiperOption">
+            <swiper-slide v-for="i in 6">
+              <skeleton height="370px" width="240px"></skeleton>
+            </swiper-slide>
+          </swiper>
+        </client-only>
+      </div>
+      <div class="pl-5 lg:px-20 xl:px-20 up:px-20 mb-0 mobile" v-else>
+        <div v-if="followedUserListingsLoaded" class="flex flex-row overflow-y-scroll">
+          <div v-for="listing in followedUserListings" :key="listing.id" class="mr-5">
+            <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
+          </div>
+        </div>
+        <div v-else class="flex flex-row overflow-y-scroll">
+          <div  v-for="i in 5" class="skeleton-wrap mr-5">
+            <skeleton height="232px" width="240px"></skeleton>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
     <div class="flex flex-col lg:px-20 xl:px-20 mt-8 up:px-20 mx-auto w-full mb-12 lg:mb-16 xl:mb-16 up:mb-16">
       <h2 class="section-title">
         Najtraženije lokacije
@@ -307,6 +355,8 @@
       id: 1
     };
     sellLoaded = false;
+    followedUserListingsLoaded = false;
+    followedUserListings = []
     rentLoaded = false;
     rentPerDayLoaded = false;
     quickSearchTab = 0;
@@ -412,6 +462,7 @@
       this.fetchHomeListings();
       this.fetchSelling();
       this.fetchRenting();
+      this.fetchFollowedUserListings();
       this.fetchRentingPerDay();
       this.fetchAgencies();
       this.fetchTopLocations();
@@ -424,6 +475,19 @@
         this.listings = res.data.data
         this.meta = res.data.meta
         this.page = 2
+      } catch (e) {
+        console.log(e)
+      }
+
+    }
+
+    async fetchFollowedUserListings() {
+      this.followedUserListingsLoaded = false;
+      try {
+        let res = await this.$axios.get('/profile/followed/listings')
+        this.followedUserListings = res.data.data;
+
+        this.followedUserListingsLoaded = true;
       } catch (e) {
         console.log(e)
       }
@@ -1292,6 +1356,7 @@ button.search {
 .popular {
   @include for-phone-only {
     margin: 16px;
+    margin-bottom: 42px;
   }
 }
 
