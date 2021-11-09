@@ -286,7 +286,7 @@
                 <p class="text-xl font-bold">{{ listing.price + ' KM' }}</p>
                 <p class="text-gray-600 font-semibold text-lg ml-2">/ noć</p>
               </div>
-              <ActionButton placeholder="Rezerviši datum" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
+              <ActionButton v-if="$auth.user" placeholder="Rezerviši datum" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
           </div>
           <div class="user-wrap">
@@ -400,7 +400,7 @@
                           <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
                         </div>
                       </div>
-                      <div class="mb-4">
+                      <div class="mb-4" v-if="$auth.user">
                         <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Rezervišite datum</h2>
                         <vc-date-picker
                           :disabled-dates="disabledDates"

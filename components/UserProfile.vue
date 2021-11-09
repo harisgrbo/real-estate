@@ -43,7 +43,7 @@
               </div>
             </div>
 
-            <div class="mb-4 mt-4">
+            <div class="mb-4 mt-4" v-if="$auth.user">
               <h2 class="text-lg font-normal text-black leading-5 mb-4">Rezervišite datum</h2>
               <vc-date-picker
                 :disabled-dates="disabledDates"
