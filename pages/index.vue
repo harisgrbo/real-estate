@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col mt-8" v-if="$auth.user">
+    <div class="flex flex-col mt-8" v-if="$auth.user && followedUserListings.length">
       <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
         <h2 class="section-title">Oglasi korisnika koje pratite</h2>
         <div class="flex flex-row items-center mr-5">

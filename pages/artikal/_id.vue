@@ -896,7 +896,7 @@ export default class Artikal extends Vue {
         await this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "uspješno ste otpratili " + this.user.name,
+          text: "Uspješno ste otpratili " + this.user.name,
           timeout: 1000,
           type: "success"
         });
