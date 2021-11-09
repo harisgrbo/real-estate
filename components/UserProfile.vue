@@ -324,16 +324,16 @@ export default class UserProfile extends Vue {
 
   async handleFollow() {
     try {
-      if(this.isFollowed) {
+      if(this.followed) {
         await this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "uspješno ste otpratili " + this.user.name,
+          text: "Uspješno ste otpratili " + this.user.name,
           timeout: 1000,
           type: "success"
         });
 
-        this.isFollowed = false;
+        this.followed = false;
       } else {
         await this.$axios.post('/users/' + this.user.id + '/follow');
 
@@ -343,7 +343,7 @@ export default class UserProfile extends Vue {
           type: "success"
         });
 
-        this.isFollowed = true;
+        this.followed = true;
       }
 
     } catch(e)  {
