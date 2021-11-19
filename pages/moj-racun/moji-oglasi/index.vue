@@ -21,9 +21,11 @@
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
+import ListingCard from '@/components/listingCard/ListingCard'
 
 @Component({
   components: {
+    ListingCard
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
   async asyncData(ctx) {
