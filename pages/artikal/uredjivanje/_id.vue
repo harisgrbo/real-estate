@@ -79,6 +79,13 @@
       </div>
 
       <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', borderRadius: '8px', minHeight: '42px', height: '42px', marginRight: '24px', fontSize: '13px' }" placeholder="Spasi izmjene"></ActionButton>
+
+      <div>
+        <div v-for="(image, index) in listing.images">
+          <img :src="image.url" width="300" height="200" />
+          <button @click="deleteImage(image, index)">X</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -152,6 +159,16 @@ export default class ListingEdit extends Vue {
 
     this.lat = this.listing.location.lat;
     this.lng = this.listing.location.lng;
+  }
+
+  async deleteImage(image, index) {
+    this.listing.images.splice(index, 1);
+
+    try {
+      await this.$axios.delete("/listing_images/" + image.id);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   findValueFromListing(id) {
