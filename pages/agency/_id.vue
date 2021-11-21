@@ -125,7 +125,7 @@ import {capitalize} from "@/util/str";
     let meta = {};
 
     try {
-      let response = await ctx.app.$axios.get(`/categories`)
+      let response = await ctx.app.$axios.get(`/users/${ctx.route.params.id}/categories`);
 
       categories = response.data.data;
     } catch (e) {
