@@ -49,11 +49,14 @@ export default {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  cursor: pointer;
 
     label {
       font-size: 15px;
       font-weight: 500;
       margin-left: 8px;
+      width: 100%;
+      min-width: 100%;
     }
 
 }

@@ -3,6 +3,7 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
+    __dangerouslyDisableSanitizers: ['script'],
     title: "eNekretnine.ba - sve nekretnine na jednom mjestu!",
     meta: [
       { charset: "utf-8" },
@@ -26,6 +27,23 @@ export default {
       {
         src:
           "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9&callback=initMap"
+      },
+      {
+        hid: 'gtm-script1',
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-VMWBZZM8WD',
+        defer: true
+      },
+      {
+        hid: 'gtm-script2',
+        innerHTML: `
+          window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VMWBZZM8WD');
+        `,
+        type: 'text/javascript',
+        charset: 'utf-8'
       }
     ]
   },
@@ -63,6 +81,7 @@ export default {
   buildModules: [
     ["@nuxtjs/fontawesome"],
     ["@nuxtjs/tailwindcss"],
+    '@nuxtjs/google-analytics',
     ["@nuxtjs/device"],
     [
       "@nuxtjs/laravel-echo",
@@ -83,6 +102,10 @@ export default {
   moment: {
     defaultLocale: "bs",
     locales: ["bs"]
+  },
+
+  googleAnalytics: {
+    id: 'G-VMWBZZM8WD'
   },
 
   fontawesome: {

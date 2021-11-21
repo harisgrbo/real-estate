@@ -189,7 +189,7 @@
                       {{ message.content }}
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-600">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
                     <div class="hidden sm:block dropdown ml-3 my-auto">
