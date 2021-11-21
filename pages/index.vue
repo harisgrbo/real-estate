@@ -700,6 +700,7 @@
   ::v-deep .listing-card-wrapper {
     @include for-phone-only {
       max-width: 240px;
+      min-width: 240px;
     }
   }
 
@@ -1366,6 +1367,8 @@ button.search {
   column-gap: 16px;
   @include for-phone-only {
     padding: 0 16px;
+    display: flex;
+    flex-direction: row;
   }
 }
 
