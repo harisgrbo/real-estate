@@ -1,7 +1,7 @@
 <template>
   <div class="account-wrapper-a w-full px-20">
     <div class="account-wrapper-inner">
-      <div class="sidenav">
+      <div class="sidenav w-full">
         <h1 class="heading-account"><b>{{ agencies.length }}</b> agencija za nekretnine</h1>
         <div class="grid-layout" v-if="agenciesLoaded">
           <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="card" />
@@ -235,6 +235,12 @@ a {
     min-width: 100%;
     width: 100%;
   }
+
+  @include for-phone-only {
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 16px;
+    grid-column-gap: 16px;
+  }
 }
 
 .swiper {
@@ -249,5 +255,10 @@ a {
   background: #d63946 !important;
 }
 
+::v-deep .mobile-user {
+  @include for-phone-only {
+    min-width: 100%;
+  }
+}
 </style>
 

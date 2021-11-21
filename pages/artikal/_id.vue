@@ -145,7 +145,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -184,7 +184,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -224,7 +224,7 @@
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
-            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && !authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
+            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review w-full">
                 <label>Opišite ukratko vaše iskustvo</label>
@@ -295,7 +295,7 @@
           <div class="user-wrap">
             <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
           </div>
-          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && !authUser" class="px-5 lg:px-0 xl:px-0 up:px-0">
+          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && authUser" class="px-5 lg:px-0 xl:px-0 up:px-0">
             <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
             <div class="review">
               <label>Opišite ukratko vaše iskustvo</label>

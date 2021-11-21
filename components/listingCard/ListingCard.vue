@@ -33,7 +33,7 @@
 <!--            <span>AKCIJA</span>-->
 <!--          </label>-->
         </div>
-        <div class="overflow-hidden relative image-wrapper" v-else>
+        <div class="overflow-hidden relative image-wrapper bg-gray-50" v-else>
           <img class="main-image" :src="listing.images[0].url" v-if="listing.images.length" alt="">
           <img class="main-image" v-else src="/noimage.jpeg" alt="">
           <!--          <label class="publisher shadow-sm sale" v-if="action">-->
@@ -566,6 +566,7 @@ export default class ListingCard extends Vue{
       font-weight: 500;
       background: #f9f9f9;
       font-size: 11px;
+      line-height: 8px;
 
       @include for-phone-only {
         border: none;

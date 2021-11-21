@@ -41,8 +41,8 @@
             </nuxt-link>
           </button>
         </div>
-        <div v-else class="w-full">
-          <div class="flex divide-x divide-gray-200 justify-between w-full" v-if="$auth.user">
+        <div v-else class="w-full flex justify-end">
+          <div class="flex justify-between w-full buttons" v-if="$auth.user">
             <button class="flex-1 flex cursor-pointer mr-12 first" @click="$modal.show('contact-user')">
               <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
@@ -708,6 +708,10 @@ export default class Agencies extends Vue {
       background: #f9f9f9;
     }
   }
+}
+
+.buttons {
+  max-width: fit-content;
 }
 
 </style>
