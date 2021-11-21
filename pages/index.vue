@@ -303,7 +303,7 @@
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more mr-5" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 up:px-20 flex-row overflow-x-scroll w-full agencija">
+    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 gap-4 up:px-20 flex-row overflow-x-scroll w-full agencija">
       <UserCard class="mr-5" v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
@@ -1362,9 +1362,10 @@ button.search {
 }
 
 .agencija {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  column-gap: 16px;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  width: 100%;
   @include for-phone-only {
     padding: 0 16px;
     display: flex;

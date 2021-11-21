@@ -13,7 +13,7 @@
         </div>
       </nuxt-link>
       <div class="flex divide-x divide-gray-200" v-if="$auth.user">
-        <div class="flex-1 flex cursor-pointer" @click.prevent.stop="$modal.show('contact-user')">
+        <div class="flex-1 flex cursor-pointer" @click="$modal.show('contact-user')">
           <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
             <!-- Heroicon name: solid/mail -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -23,20 +23,6 @@
           </a>
         </div>
       </div>
-      <client-only>
-        <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
-          <div class="modal-inner">
-            <div class="modal-header">
-              <h2>Poruka za {{ user.name }}</h2>
-              <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
-            </div>
-            <div class="modal-content">
-              <textarea v-model="message"></textarea>
-              <action-button class="mt-4" :style-options="{ width: '100%' }" placeholder="Pošalji" @action="sendMessage"></action-button>
-            </div>
-          </div>
-        </modal>
-      </client-only>
       <Snackbar></Snackbar>
     </div>
   </div>

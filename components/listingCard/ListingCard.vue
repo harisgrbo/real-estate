@@ -566,6 +566,7 @@ export default class ListingCard extends Vue{
       font-weight: 500;
       background: #f9f9f9;
       font-size: 11px;
+      line-height: 8px;
 
       @include for-phone-only {
         border: none;

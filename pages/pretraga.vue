@@ -22,11 +22,11 @@
             Filteri
           </button>
           <div>
-            <button v-if="$device.isMobile" @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+            <button v-if="$device.isMobile" @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-full px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
               </svg>
-              {{ selectedSort !== "" ? selected_sort : 'Sortiraj' }}
+              {{ selectedSort !== "" ? selected_sort.name : 'Sortiraj' }}
             </button>
             <div v-if="showSortDropdown" class=" w-full origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
               <div class="py-1" role="none">
@@ -502,13 +502,14 @@ export default class Homepage extends Vue {
   }
 
   selectSort(i) {
+    this.selected_sort = i
+
     if (i.value === 0) {
       let cpy = Object.assign({}, this.$route.query);
 
       delete cpy.sort;
       delete cpy.order;
 
-      this.selected_sort = i
 
       this.$router.push({ query: Object.assign({}, cpy, { preview: this.selectedPreviewType }) });
     } else {
@@ -1104,4 +1105,7 @@ export default class Homepage extends Vue {
   margin-top: 200px;
 }
 
+.sort-btn {
+  min-width: fit-content;
+}
 </style>
