@@ -16,11 +16,11 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     </nuxt-link>
-    <nuxt-link :to="goToUser()">
+    <a @click="goToUser()">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
       </svg>
-    </nuxt-link>
+    </a>
     <nuxt-link to="#" class="relative" v-if="$auth.user">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click.prevent="openSidebarMenu()">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
@@ -128,11 +128,13 @@ export default class MobileBottomNavbar extends Vue {
     }
   }
 
-  goToUser() {
+  goToUSer() {
     if(this.$auth.user) {
-      return '/users/' + this.$auth.user.id
-    } else {
-      return '/auth/login'
+      if(this.$auth.user.user_type === 'agency') {
+        this.$router.push('/agency/' + this.$auth.user.id)
+      } else {
+        this.$router.push('/users/' + this.$auth.user.id)
+      }
     }
   }
 

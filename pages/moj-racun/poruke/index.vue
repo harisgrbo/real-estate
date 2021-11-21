@@ -6,9 +6,7 @@
         <!-- BEGIN: Chat Side Menu -->
         <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
           <div class="intro-y pr-1">
-            <div class="box p-2">
-              <div class="chat__tabs nav nav-tabs justify-center" role="tablist"> <a id="chats-tab" data-toggle="tab" data-target="#chats" href="javascript:;" class="flex-1 py-2 rounded-md text-center active" role="tab" aria-controls="chats" aria-selected="true">Inbox</a> <a id="friends-tab" data-toggle="tab" data-target="#friends" href="javascript:;" class="flex-1 py-2 rounded-md text-center" role="tab" aria-controls="friends" aria-selected="false">Spašene</a></div>
-            </div>
+            <h2 class="font-medium text-xl">Chat</h2>
           </div>
           <div class="tab-content">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
@@ -177,7 +175,7 @@
                       {{ message.content }}
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-600">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
                     <div class="hidden sm:block dropdown ml-3 my-auto">
@@ -246,7 +244,7 @@
                             {{ message.content }}
                             <div class="flex justify-between">
                               <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                              <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-600">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                              <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                             </div>
                           </div>
                           <div class="hidden sm:block dropdown ml-3 my-auto">

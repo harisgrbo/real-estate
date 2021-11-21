@@ -91,13 +91,10 @@ ul, .no-notifications {
   padding: 0;
   margin-bottom: 16px;
   border-bottom: 1px solid #f1f1f1;
-  padding-bottom: 16px;
   transition: 0.3s all ease;
-  padding-top: 12px;
+  padding: 12px 12px 16px 12px;
 
   &:hover {
-   padding-left: 12px;
-    padding-right: 12px;
     cursor: pointer;
   }
 }

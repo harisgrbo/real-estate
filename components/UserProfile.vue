@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="flex w-full contact">
-        <div class="w-full" v-if="this.$auth.user">
+        <div class="w-full" v-if="$auth.user">
           <div class="w-full flex items-center justify-between" v-if="isMe">
             <ActionButton :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
             <ActionButton :style-options="{ color: '#fff' }"  placeholder="Izdvoji" @action="handleListingSponsoring" class="w-full ml-sm"></ActionButton>
@@ -315,7 +315,7 @@ export default class UserProfile extends Vue {
   }
 
   goToUser() {
-    if(this.type === 'agency') {
+    if(this.user.user_type === 'agency') {
       this.$router.push('/agency/' + this.user.id)
     } else {
       this.$router.push('/users/' + this.user.id)
