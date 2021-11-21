@@ -79,6 +79,38 @@
       </div>
 
       <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', borderRadius: '8px', minHeight: '42px', height: '42px', marginRight: '24px', fontSize: '13px' }" placeholder="Spasi izmjene"></ActionButton>
+      <div class="w-full my-10 flex-col">
+        <h1 class="heading">
+          Slike
+        </h1>
+        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md mb-10">
+          <div class="space-y-1 text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="flex text-sm text-gray-600">
+              <label class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600">
+                <span>Upload a file</span>
+                <input type="file" accept="image/*" @change="uploadImages" multiple ref="upload">
+              </label>
+              <p class="pl-1">or drag and drop</p>
+            </div>
+            <p class="text-xs text-gray-500">
+              PNG, JPG, GIF up to 10MB
+            </p>
+          </div>
+        </div>
+        <div class="w-full bg-gray-50 rounded-md p-4 grid grid-cols-4 gap-4">
+          <div v-for="(image, index) in listing.images" class="img-upload-box">
+            <img :src="image.url" width="300" height="200" />
+            <button @click="deleteImage(image, index)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -152,6 +184,38 @@ export default class ListingEdit extends Vue {
 
     this.lat = this.listing.location.lat;
     this.lng = this.listing.location.lng;
+  }
+
+  async uploadImages() {
+    let images = this.$refs.upload.files;
+
+    const form = new FormData();
+
+    images.forEach(item => {
+      form.append('images[]', item)
+    })
+
+    const headers = { 'Content-Type': 'multipart/form-data' };
+
+    try {
+      let res = await this.$axios.post('/listings/' + this.listing.id + '/images', form, { headers })
+
+      console.log(res, 'response images')
+
+      this.listing.images = this.listing.images.concat(res.data.data)
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  async deleteImage(image, index) {
+    this.listing.images.splice(index, 1);
+
+    try {
+      await this.$axios.delete("/listing_images/" + image.id);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   findValueFromListing(id) {
@@ -255,6 +319,8 @@ export default class ListingEdit extends Vue {
         timeout: 3000,
         type: "success"
       });
+
+      this.$router.push('/artikal/' + this.listing.id)
     } catch (e) {
       console.log(e)
     }
@@ -933,6 +999,11 @@ h1.heading {
   }
 }
 
+::v-deep .option-wrapper {
+  grid-template-columns: repeat(3, 1fr);
+
+}
+
 ::v-deep .terms-wrapper .option-wrapper button {
   width: 100% !important;
   margin-bottom: 0;
@@ -1168,5 +1239,40 @@ h2.info {
 
 ::v-deep body {
   height: 100%;
+}
+
+.upload-images {
+  width: 100%;
+  height: 100px;
+  background: #f1f1f1;
+}
+
+.img-upload-box {
+  position: relative;
+
+  img {
+    height: 150px;
+  }
+
+  button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #023246;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+
+    svg {
+      font-size: 13px;
+    }
+  }
+
 }
 </style>

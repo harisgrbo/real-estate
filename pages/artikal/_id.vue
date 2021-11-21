@@ -136,13 +136,16 @@
               <li>
                 <p class="text-md text-black font-normal">{{ $moment(listing.createdAt).format('LL') }}</p>
               </li>
+              <li>
+                <p class="text-md text-black font-normal">{{ 'Pregleda: ' + view_count }}</p>
+              </li>
             </ul>
             <div class="separator"></div>
             <div class="px-5 lg:px-0 xl:px-0 up:px-0">
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 up:grid-cols-4 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -181,7 +184,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 up:grid-cols-4 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-3 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -512,6 +515,7 @@ import TextField from "../../components/inputs/TextField";
     let listingSaved = false;
     let rating = 0;
     let reviewCount = 0;
+    let view_count = 0;
 
     try {
       let response = await ctx.app.$axios.get('/listings/' + ctx.params.id);
@@ -523,6 +527,7 @@ import TextField from "../../components/inputs/TextField";
       isSaved = response.data.meta.saved;
       rating = response.data.meta.rating || 0;
       reviewCount = response.data.meta.review_count || 0;
+      view_count = response.data.meta.view_count;
     } catch(e) {
       console.log(e)
     }
@@ -535,7 +540,8 @@ import TextField from "../../components/inputs/TextField";
       isFollowed,
       isSaved,
       listingSaved,
-      images
+      images,
+      view_count
     }
   }
 })

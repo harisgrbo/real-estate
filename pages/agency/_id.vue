@@ -42,7 +42,7 @@
           </button>
         </div>
         <div v-else class="w-full">
-          <div class="flex divide-x divide-gray-200 justify-between w-full">
+          <div class="flex divide-x divide-gray-200 justify-between w-full" v-if="$auth.user">
             <button class="flex-1 flex cursor-pointer mr-12 first" @click="$modal.show('contact-user')">
               <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
@@ -125,7 +125,7 @@ import {capitalize} from "@/util/str";
     let meta = {};
 
     try {
-      let response = await ctx.app.$axios.get(`/categories`)
+      let response = await ctx.app.$axios.get(`/users/${ctx.route.params.id}/categories`);
 
       categories = response.data.data;
     } catch (e) {

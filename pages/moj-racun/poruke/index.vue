@@ -6,23 +6,26 @@
         <!-- BEGIN: Chat Side Menu -->
         <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
           <div class="intro-y pr-1">
-            <div class="box p-2">
-              <div class="chat__tabs nav nav-tabs justify-center" role="tablist"> <a id="chats-tab" data-toggle="tab" data-target="#chats" href="javascript:;" class="flex-1 py-2 rounded-md text-center active" role="tab" aria-controls="chats" aria-selected="true">Inbox</a> <a id="friends-tab" data-toggle="tab" data-target="#friends" href="javascript:;" class="flex-1 py-2 rounded-md text-center" role="tab" aria-controls="friends" aria-selected="false">Spašene</a></div>
-            </div>
+            <h2 class="font-medium text-xl">Chat</h2>
           </div>
           <div class="tab-content">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
-              <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
-                <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
-                  </div>
+              <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
+                <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" :class="['intro-x cursor-pointer box relative flex items-center p-5 mt-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
+                  <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full"" src="/noimage.jpeg">
                   <div class="ml-2 overflow-hidden w-full">
                     <div class="flex items-center w-full">
                       <a href="javascript:;" class="font-medium">{{ others(conversation).map(item => item.name).join(',') }}</a>
                       <div class="text-xs text-gray-500 ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">{{ conversation.last_message.content }}</div>
+                    <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
+                      <div class="w-full truncate text-gray-600 mt-0.5">{{ conversation.last_message.content }}</div>
+                      <div v-if="pinned_conversation === conversation">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                   <div v-if="conversation.unread !== 0" class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-17 font-medium -mt-1 -mr-1">{{ conversation.unread }}</div>
                 </div>
@@ -155,18 +158,11 @@
                     <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
                   </div>
                 </div>
-                <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 sm:pt-0 -mx-5 sm:mx-0 px-5 sm:px-0">
-                  <a href="javascript:;" class="w-5 h-5 text-gray-600"> <i data-feather="search" class="w-5 h-5"></i> </a>
-                  <a href="javascript:;" class="w-5 h-5 text-gray-600 ml-5"> <i data-feather="user-plus" class="w-5 h-5"></i> </a>
-                  <div class="dropdown ml-auto sm:ml-3">
-                    <a href="javascript:;" class="dropdown-toggle w-5 h-5 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-5 h-5"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="share-2" class="w-4 h-4 mr-2"></i> Share Contact </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="settings" class="w-4 h-4 mr-2"></i> Settings </a>
-                      </div>
-                    </div>
-                  </div>
+                <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 sm:pt-0 -mx-5 sm:mx-0 px-5 cursor-pointer hover:bg-gray-50 rounded-md" @click="pinConversation(currentConversation)">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  </svg>
+                  <p class="font-medium">{{ pinned_conversation && (pinned_conversation.id === currentConversation.id ) ? 'Izbriši iz pinovanih' : 'Pinuj razgovor'}}</p>
                 </div>
               </div>
               <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
@@ -179,7 +175,7 @@
                       {{ message.content }}
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-600">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
                     <div class="hidden sm:block dropdown ml-3 my-auto">
@@ -248,7 +244,7 @@
                             {{ message.content }}
                             <div class="flex justify-between">
                               <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                              <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-600">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                              <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                             </div>
                           </div>
                           <div class="hidden sm:block dropdown ml-3 my-auto">
@@ -292,7 +288,7 @@
           </div>
         </modal>
       </div>
-    </div>l
+    </div>
   </div>
 </template>
 
@@ -326,9 +322,19 @@ export default class Porukice extends Vue {
   messagesLoaded = true;
   currentConversation = null;
   messageContent = '';
+  pinned_conversation = null;
+  isMounted = false;
 
   mounted() {
     this.realtime();
+
+    let pinned = localStorage.getItem('pinned');
+
+    if (pinned) {
+      this.pinned_conversation = JSON.parse(pinned);
+    }
+
+    this.isMounted = true;
   }
 
   realtime() {
@@ -375,6 +381,21 @@ export default class Porukice extends Vue {
 
   beforeClose() {
     document.body.style.overflow = 'auto';
+  }
+
+  pinConversation(c) {
+
+    if(this.pinned_conversation && (this.pinned_conversation.id === c.id)) {
+      this.pinned_conversation = null;
+
+      localStorage.removeItem('pinned');
+      return
+    }
+    this.pinned_conversation = c;
+
+    if(process.browser) {
+      localStorage.setItem('pinned', JSON.stringify(c))
+    }
   }
 
   others(conversation) {
@@ -583,6 +604,34 @@ export default class Porukice extends Vue {
   transition: 0.3s all ease;
   border:2px solid hsla(218, 34%, 30%, 1);
   background: transparent;
+}
+
+.chat__chat-list {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.conversation-box {
+  display: flex;
+  position: relative;
+
+  &.active-chat {
+    ::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2px;
+      bottom: 0;
+      content: '';
+      background: #023246;
+    }
+  }
+
+  &.pinned {
+    background: #162f730a;
+    order: -1;
+    color: #fff !important;
+  }
 }
 </style>
 

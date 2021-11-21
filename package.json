@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "nuxt",
-    "dev:mobile": "nuxt --hostname '10.201.0.38' --port 8000",
+    "dev:mobile": "nuxt --hostname '172.20.10.2' --port 8000",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
@@ -53,6 +53,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@nuxtjs/device": "^2.0.1",
     "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/laravel-echo": "^1.1.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "autoprefixer": "^10.3.1",

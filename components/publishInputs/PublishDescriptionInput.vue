@@ -1,5 +1,6 @@
 <template>
   <div class="input-wrapper">
+    <label>{{ title }}</label>
     <textarea placeholder="Opišite nekretninu" @input="$emit('input', $event.target.value)">{{ value }}</textarea>
   </div>
 </template>
@@ -64,4 +65,10 @@ span {
   font-size: 16px;
 }
 
+label {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-bottom: 16px;
+}
 </style>

@@ -26,6 +26,9 @@ export default {
       {
         src:
           "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9&callback=initMap"
+      },
+      {
+        src: '/js/gtm.js'
       }
     ]
   },
@@ -63,6 +66,7 @@ export default {
   buildModules: [
     ["@nuxtjs/fontawesome"],
     ["@nuxtjs/tailwindcss"],
+    '@nuxtjs/google-analytics',
     ["@nuxtjs/device"],
     [
       "@nuxtjs/laravel-echo",
@@ -83,6 +87,10 @@ export default {
   moment: {
     defaultLocale: "bs",
     locales: ["bs"]
+  },
+
+  googleAnalytics: {
+    id: 'GTM-KCWQJRR'
   },
 
   fontawesome: {
