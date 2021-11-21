@@ -89,9 +89,9 @@ export default class RegisterForm extends Vue{
     // responseType: 'blob',
   };
 
-  async handlePostRegister() {
-    this.loginPayload.username = this.userPayload.email;
-    this.loginPayload.password = this.userPayload.password;
+  async handlePostRegister(key = 'userPayload') {
+    this.loginPayload.username = this[key].email;
+    this.loginPayload.password = this[key].password;
 
     await this.$auth.loginWith("local", { data: this.loginPayload });
     this.$router.push('/');
@@ -126,8 +126,9 @@ export default class RegisterForm extends Vue{
 
     this.$axios
       .post('/agencies/register', this.realEstateAgencyPayload, this.config)
-      .then(this.handlePostRegister)
-      .catch(error => {
+      .then(() => {
+        this.handlePostRegister('realEstateAgencyPayload')
+      }).catch(error => {
         this.loading = false;
         if (error.response.status === 422) {
           this.$snackbar.show({
