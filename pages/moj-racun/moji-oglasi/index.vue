@@ -21,7 +21,7 @@
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
-import ListingCard from "@/components/listingCard/ListingCard";
+import ListingCard from '@/components/listingCard/ListingCard';
 
 @Component({
   components: {

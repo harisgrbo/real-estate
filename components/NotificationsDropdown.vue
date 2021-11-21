@@ -5,23 +5,25 @@
       <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
     </div>
     <div class="flow-root flex flex-col justify-between h-full mt-7">
-      <div v-if="notifications.length" v-for="notification in notifications" class="p-5 notification hover:shadow-md rounded-md">
-        <div class="flex items-center justify-between">
-          <div class="text-base font-medium truncate text-black" v-if="notification.user">{{ notification.user.name }}</div>
-          <div class="text-gray-800 mt-1">{{ $moment(notification.date).format("DD.MM.YYYY") }}</div>
+      <div>
+        <div v-if="notifications.length" v-for="notification in notifications" class="p-5 notification hover:shadow-md rounded-md">
+          <div class="flex items-center justify-between">
+            <div class="text-base font-medium truncate text-black" v-if="notification.user">{{ notification.user.name }}</div>
+            <div class="text-gray-800 mt-1">{{ $moment(notification.date).format("DD.MM.YYYY") }}</div>
+          </div>
+          <div class="text-gray-800 font-normal mt-1"> {{
+              notification.text
+            }}</div>
+          <div class="font-medium flex mt-5" @click="$emit('clicked')">
+            <nuxt-link :to="notification.action" class="flex justify-between space-x-3">
+              <button type="button" class="btn btn-primary py-1 px-2">Pogledaj</button>
+            </nuxt-link>
+          </div>
         </div>
-        <div class="text-gray-800 font-normal mt-1"> {{
-            notification.text
-          }}</div>
-        <div class="font-medium flex mt-5" @click="$emit('clicked')">
-          <nuxt-link :to="notification.action" class="flex justify-between space-x-3">
-            <button type="button" class="btn btn-primary py-1 px-2">Pogledaj</button>
-          </nuxt-link>
+        <div v-else class="no-notifications flex flex-col items-center">
+          <img src="/bell-notify.png" alt="">
+          <h2 class="mt-2 p-2 text-standard font-medium">Nemate obavijesti</h2>
         </div>
-      </div>
-      <div v-else class="no-notifications flex flex-col items-center">
-        <img src="/bell-notify.png" alt="">
-        <h2 class="mt-2 p-2 text-standard font-medium">Nemate obavijesti</h2>
       </div>
       <ActionButton v-if="notifications.length" :style-options="{ marginBottom: '24px', width: '100%', minHeight: '48px' }" @action="$emit('clear-notifications')" placeholder="Očisti obavijesti" icon="trash-alt"></ActionButton>
     </div>
