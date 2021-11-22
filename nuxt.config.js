@@ -4,7 +4,7 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     __dangerouslyDisableSanitizers: ['script'],
-    title: "eNekretnine.ba - sve nekretnine na jednom mjestu!",
+    title: "mojkvadrat - sve nekretnine na jednom mjestu!",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },

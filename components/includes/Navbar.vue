@@ -13,17 +13,9 @@
            :class="[ focused? 'focused' : '']"
            v-on-clickaway="away"
       >
-        <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']" v-if="!$device.isMobile">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg @click="search" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <p>Pretraži</p>
-        </button>
-        <button @click="search" :class="[ 'search-btn', searchInput.length || selectedCategory !== null || selectedType !== null ? 'expanded' : '']" v-if="$device.isMobile">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </button>
+        </svg>
         <input type="text"
                ref="search"
                v-model="searchInput"
@@ -471,6 +463,7 @@ export default class Navbar extends Vue {
     padding: 0 16px;
     border-bottom: none;
     background: #fff !important;
+    box-shadow: none !important;
   }
 
   .second-row {
@@ -1040,11 +1033,11 @@ export default class Navbar extends Vue {
 
 #modals-container ::v-deep .vm--container ::v-deep .vm--modal {
   @include for-phone-only {
-    top: 110px !important;
-    border-top-left-radius: 15px !important;
-    border-top-right-radius: 15px !important;
-    height: calc(100vh - 100px) !important;
-    padding-bottom: 180px !important;
+    top: 0px !important;
+    border-top-left-radius: 7px !important;
+    border-top-right-radius: 7px !important;
+    height: calc(100vh - 20px) !important;
+    padding-bottom: 50px !important;
   }
 }
 

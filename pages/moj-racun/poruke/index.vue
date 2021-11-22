@@ -505,6 +505,7 @@ export default class Porukice extends Vue {
   min-height: calc(100vh - 80px);
   @include for-phone-only {
     min-height: 100%;
+    background: #fff;
   }
 }
 

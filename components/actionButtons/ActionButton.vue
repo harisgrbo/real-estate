@@ -23,8 +23,13 @@ export default class ActionButton extends Vue {
   }
 }
 </script>
-a
+
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 div {
   width: 100%;
 }
@@ -46,6 +51,13 @@ button {
   background: radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
   background: -moz-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
   background: -webkit-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+
+  @include for-phone-only {
+    background: #fff !important;
+    border: 1px solid #023246;
+    color: #023246;
+  }
+
   svg {
     margin-right: 8px;
   }

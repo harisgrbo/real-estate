@@ -134,7 +134,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ color: '#023246', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>
@@ -432,12 +432,14 @@ aside {
 }
 
 textarea {
+  margin-top: 16px;
   height: 300px;
   font-weight: 500;
   color: #000;
   font-size: 18px;
   border: none;
   background: #f9f9f9;
+  min-height: 400px !important;
 
   &:focus {
     outline: none;

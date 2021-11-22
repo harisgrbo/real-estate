@@ -181,6 +181,7 @@ export default class urediProfil extends Vue {
   background: #f9f9f9;
 
   @include for-phone-only {
+    background: #fff;
     width: 100%;
     padding: 16px;
   }

@@ -60,7 +60,7 @@ export default class mojiOglasi extends Vue {
 
   @include for-phone-only {
     width: 100%;
-    background: #f9f9f9;
+    background: #fff;
     padding: 16px;
   }
 }

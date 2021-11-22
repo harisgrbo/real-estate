@@ -1,10 +1,10 @@
 <template>
   <div class="w-full flex flex-col">
-    <label class="block text-sm font-medium text-gray-700 mb-3">Lokacija</label>
+    <label>Lokacija</label>
     <div class="multiple-select">
       <div class="selected-options" @click="showDropdown = !showDropdown">
         <div class="selected-options-array cursor-pointer">
-          <p v-if="selectedOptions.length === 0" class="text-gray-500">Izaberite lokaciju</p>
+          <p v-if="selectedOptions.length === 0" class="text-gray-900">Izaberite lokaciju</p>
           <div v-for="(item, index) in selectedOptions">{{ item.name }}
             <svg @click="removeFromSelected(item, index)" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 bg-gray-100 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -87,9 +87,17 @@ export default class CitiesMultipleSelect extends Vue{
   flex-direction: column;
   width: 100%;
   height: fit-content;
-  border: 1px solid #000;
-  border-radius: 7px;
-  padding: 12px;
+  border-radius: 4px;
+  background: #f3f4f5;
+  box-shadow: none;
+  box-sizing: border-box;
+  line-height: .733rem;
+  margin: initial;
+  overflow: hidden;
+  padding: 10px;
+  white-space: normal;
+  width: 100%;
+  border: none;
 
   .selected-options {
     width: 100%;
@@ -100,18 +108,20 @@ export default class CitiesMultipleSelect extends Vue{
 
     .selected-options-array {
       display: flex;
-      overflow-y: scroll;
+      overflow-x: scroll;
+      align-items: center;
+      height: 40px;
 
       > div {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 3px 8px;
-        min-width: fit-content;
-        width: fit-content;
-        margin-right: 8px;
         display: flex;
-        flex-direction: row;
         align-items: center;
+        justify-content: flex-start;
+        background: #fff;
+        border-radius: 4px;
+        margin-right: 4px;
+        height: 25px;
+        padding: 0 8px;
+        min-width: fit-content;
       }
     }
 
@@ -128,13 +138,13 @@ export default class CitiesMultipleSelect extends Vue{
     background: #fff;
 
     input {
-      height: 48px;
+      height: 40px;
       width: 100%;
-      border-radius: 7px;
+      border-radius: 4px;
       padding: 0 12px;
-      background: #F3F3F4;
+      background: #fff;
       border: none;
-      margin-top: 8px;
+      border-bottom: 1px solid #f3f4f5;
 
       &:focus {
         outline: none;
@@ -142,27 +152,28 @@ export default class CitiesMultipleSelect extends Vue{
     }
 
     ul {
-      margin-top: 12px;
       width: 100%;
       display: flex;
       flex-direction: column;
+      padding: 10px;
 
       li {
         display: flex;
         align-items: center;
         height: 35px;
         width: 100%;
-        font-weight: 500;
+        font-weight: 400;
+        font-size: 13px;
       }
     }
   }
 }
 
 label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 16px;
+  text-transform: capitalize;
+  margin-bottom: 12px;
   margin-top: 24px;
 }
 

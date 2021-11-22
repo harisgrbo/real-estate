@@ -1,7 +1,7 @@
 <template>
   <div class="terms-filter">
     <label>
-      <span>{{ displayName }}</span>
+      {{ displayName }}
     </label>
     <div v-if="filter.values" class="options-wrap">
       <button
@@ -64,15 +64,15 @@ export default class TermsFilter extends Vue {
   margin-top: 24px;
 
   label {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 16px;
+    text-transform: capitalize;
+    margin-bottom: 12px;
   }
 
   .options-wrap {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-row-gap: 12px;
     grid-column-gap: 12px;
 
@@ -81,28 +81,25 @@ export default class TermsFilter extends Vue {
     }
 
     button {
-      font-family: 'Lato', sans-serif;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 400;
-      font-size: 14px;
-      background: #fff;
-      height: 50px;
-      border: 1px solid #000;
-      border-radius: 10px;
-      color: #000;
+      background: #f3f4f5;
+      border-radius: 4px;
+      box-shadow: none;
+      box-sizing: border-box;
+      height: 40px;
+      line-height: .733rem;
+      margin: initial;
+      overflow: hidden;
+      padding: 1px 2px;
+      white-space: normal;
+      width: 100%;
 
       &:focus {
         outline: none;
       }
 
       &.active {
-        border:2px solid #000;
-        color: #000;
-        background: #f9f9f9;
-        font-weight: 600;
+        background: #cacdd2;
+
       }
     }
   }
