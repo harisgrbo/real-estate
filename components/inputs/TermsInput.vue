@@ -69,26 +69,24 @@ export default {
     }
 
     button {
-      height: 60px;
-      border-radius: 7px;
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      margin-bottom: 0;
-      cursor: pointer;
+      background: #f3f4f5;
+      border-radius: 4px;
+      box-shadow: none;
+      box-sizing: border-box;
+      height: 40px;
+      line-height: .733rem;
+      margin: initial;
+      overflow: hidden;
+      padding: 1px 2px;
+      white-space: normal;
       width: 100%;
-      font-weight: 400;
-      color: #717171;
-      font-size: 16px;
 
       &:focus {
         outline: none;
       }
 
       &.selected {
-        background: #f9f9f9;
-        font-weight: 500;
-        border: 2px solid #000;
-        color: #000;
+        background: #cacdd2;
 
       }
     }

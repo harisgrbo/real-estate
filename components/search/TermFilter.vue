@@ -45,6 +45,8 @@ export default class TermFilter extends Vue {
   label {
     font-weight: 400;
     font-size: 13px;
+    width: 100%;
+    cursor: pointer;
   }
 
 }

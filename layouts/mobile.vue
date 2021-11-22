@@ -106,6 +106,10 @@ export default class Mobile extends Vue {
 .home-wrapper {
   padding-top: 82px !important;
   background: #f9f9f9;
+
+  @include for-phone-only {
+    background: #fff;
+  }
   &.artikal-page {
     padding-top: 0 !important;
     background: #fff;
@@ -177,11 +181,11 @@ export default class Mobile extends Vue {
 
 ::v-deep .vm--modal {
   @include for-phone-only {
-    top: 70px !important;
-    border-top-left-radius: 15px !important;
-    border-top-right-radius: 15px !important;
-    height: calc(100vh - 100px) !important;
-    padding-bottom: 180px !important;
+    top: 40px !important;
+    border-top-left-radius: 7px !important;
+    border-top-right-radius: 7px !important;
+    height: calc(100vh - 20px) !important;
+    padding-bottom: 50px !important;
   }
 }
 

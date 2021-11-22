@@ -26,37 +26,7 @@
       <div class="listing-content-inner">
         <div class="listing-content-wrapper flex flex-row">
           <div class="flex flex-col w-full">
-            <div v-if="!$device.isMobile">
-              <div class="grid-container" v-if="images.length > 1">
-                <div class="img-counter">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <p>{{ images.length }}</p>
-                </div>
-                <div :class="'item' + (index + 1)" v-for="(img, index) in images.slice(0, 4)" @click="openGallery(index)">
-                  <img :src="img.url" alt="">
-                  <div class="more" v-if="index === 3">
-                    {{ images.length - 3 + '+ slika' }}
-                  </div>
-                </div>
-                <client-only>
-                  <light-box
-                    ref="lightbox"
-                    :media="lightboxImages"
-                    :show-light-box="false"
-                    :show-thumbs="true"
-                    close-text="function() {
-                  return 'Zatvori galeriju'
-                  }"
-                  />
-                </client-only>
-              </div>
-              <div v-else class="no-image-grid">
-                <img src="/noimage.jpeg" alt="">
-              </div>
-            </div>
-            <div v-else class="mobile-images">
+            <div class="mobile-images">
               <client-only v-if="images.length >= 1">
                 <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
                   <swiper-slide v-for="(img, index) in images" :key="index">
@@ -134,7 +104,7 @@
                 <p class="text-md text-black font-normal">{{ listing.address }}</p>
               </li>
               <li>
-                <p class="text-md text-black font-normal">{{ $moment(listing.createdAt).format('LL') }}</p>
+                <p class="text-md text-black font-normal">{{ $moment(listing.published_at).format('LL') }}</p>
               </li>
               <li>
                 <p class="text-md text-black font-normal">{{ 'Pregleda: ' + view_count }}</p>
@@ -224,7 +194,7 @@
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
-            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && authUser" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
+            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review w-full">
                 <label>Opišite ukratko vaše iskustvo</label>
@@ -295,7 +265,7 @@
           <div class="user-wrap">
             <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
           </div>
-          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && authUser" class="px-5 lg:px-0 xl:px-0 up:px-0">
+          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user" class="px-5 lg:px-0 xl:px-0 up:px-0">
             <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
             <div class="review">
               <label>Opišite ukratko vaše iskustvo</label>
@@ -568,7 +538,19 @@ export default class Artikal extends Vue {
     pagination: {
       el: '.swiper-pagination',
       dynamicBullets: true
-    }
+    },
+    spaceBetween: 0,
+    loop: true,
+    autoplay: {
+      delay: 7000,
+    },
+    slidesPerView: 1,
+    touchRatio: 0.2,
+    slideToClickedSlide: false,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
   }
   images = []
   places = []
@@ -1037,9 +1019,21 @@ export default class Artikal extends Vue {
 }
 
 .no-image-grid {
-  height: 400px;
-  border-radius: 7px;
+  border-radius: 4px;
   overflow: hidden;
+  width: 796px;
+  max-width: 796px;
+  min-width: 796px;
+  max-height: 520px;
+  height: 520px;
+
+  @include for-phone-only {
+    height: 400px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 400px;
+  }
 
   img {
     height: 100%;
@@ -1311,6 +1305,13 @@ export default class Artikal extends Vue {
       line-height: 21px;
       box-sizing: border-box;
       padding: 24px;
+      min-height: 400px;
+
+
+      @include for-phone-only {
+        padding: 12px;
+      }
+
 
       &:focus {
         outline: none;
@@ -1470,7 +1471,7 @@ export default class Artikal extends Vue {
 }
 
 ::v-deep img.vue-lb-modal-image {
-  border-radius: 7px !important;
+  border-radius: 0px !important;
 
   @include for-phone-only {
     border-radius: 0 !important;
@@ -1600,6 +1601,26 @@ export default class Artikal extends Vue {
     min-height: 400px;
   }
 }
+
+.swiper-container {
+  width: 796px;
+  max-width: 796px;
+  min-width: 796px;
+  max-height: 520px;
+  height: 520px;
+
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @include for-phone-only {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+  }
+}
 @include for-phone-only {
   .mobile-img {
     height: 400px;
@@ -1608,6 +1629,7 @@ export default class Artikal extends Vue {
 
   .swiper-container {
     max-height: 400px;
+    height: 400px;
   }
 
   .swiper-slide {
@@ -1812,11 +1834,11 @@ export default class Artikal extends Vue {
 
 ::v-deep .vm--modal {
   @include for-phone-only {
-    top: 110px !important;
-    border-top-left-radius: 15px !important;
-    border-top-right-radius: 15px !important;
-    height: calc(100vh - 100px) !important;
-    padding-bottom: 180px !important;
+    top: 40px !important;
+    border-top-left-radius: 7px !important;
+    border-top-right-radius: 7px !important;
+    height: calc(100vh - 20px) !important;
+    padding-bottom: 50px !important;
   }
 }
 
@@ -1949,11 +1971,10 @@ export default class Artikal extends Vue {
   justify-content: center;
   background: #f9f9f9;
   z-index: 10;
-  display: none;
   transition: 0.3s all ease;
+  display: flex;
 
   @include for-phone-only {
-    display: flex;
     background: rgba(241, 241, 241, 0.48);
   }
 

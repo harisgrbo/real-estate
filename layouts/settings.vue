@@ -49,6 +49,7 @@ export default class Settings extends Vue {
 
   @include for-phone-only {
     min-height: 100%;
+    background: #fff;
   }
 
   &.no-padding {

@@ -109,7 +109,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+            <action-button class="mt-4" placeholder="Pošalji" @action="sendMessage" :style-options="{ width: '100%'}" :loading="loading"></action-button>
           </div>
         </div>
       </modal>
@@ -486,6 +486,10 @@ export default class Users extends Vue {
   flex-direction: column;
   padding: 0 24px;
 
+  @include for-phone-only {
+    padding: 12px;
+  }
+
   .modal-content {
     padding: 24px 0;
     textarea {
@@ -498,6 +502,11 @@ export default class Users extends Vue {
       line-height: 21px;
       box-sizing: border-box;
       padding: 24px;
+      min-height: 400px;
+
+      @include for-phone-only {
+        padding: 12px;
+      }
 
       &:focus {
         outline: none;

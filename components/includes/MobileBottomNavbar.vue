@@ -162,10 +162,10 @@ export default class MobileBottomNavbar extends Vue {
     align-items: center;
     background: white;
     z-index: 5;
-    padding: 0 24px;
-    border-top-left-radius: 15px;
-    box-shadow: 0px 0px 9px 1px rgb(0 0 0 / 27%);
-    border-top-right-radius: 15px;
+    padding: 0 16px;
+    border-top-left-radius: 0px;
+    box-shadow: 0px 0px 9px 1px rgb(0 0 0 / 9%);
+    border-top-right-radius: 0px;
 
     svg {
       font-size: 20px;
@@ -182,7 +182,7 @@ export default class MobileBottomNavbar extends Vue {
       svg {
         color: #023246 !important;
         background: #f1f1f1;
-        border-radius: 10px;
+        border-radius: 4px;
         padding: 10px;
         height: 43px;
         width: 43px;

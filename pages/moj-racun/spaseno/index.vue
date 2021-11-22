@@ -218,6 +218,7 @@ export default class spaseno extends Vue {
   @include for-phone-only {
     width: 100%;
     padding: 16px;
+    background: #fff;
   }
 }
 .saved-wrapper {
@@ -268,8 +269,9 @@ export default class spaseno extends Vue {
   padding: 0;
 
   @include for-phone-only {
-    grid-template-columns: repeat(1, 1fr);
-    grid-column-gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 12px !important;
+    grid-row-gap: 12px !important;
   }
 }
 
@@ -584,4 +586,9 @@ h1 {
   }
 }
 
+::v-deep .mobile-user {
+  @include for-phone-only {
+    min-width: 100%;
+  }
+}
 </style>

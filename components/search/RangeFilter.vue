@@ -4,14 +4,8 @@
       {{ displayName }}
     </label>
     <div class="input-wrapper">
-      <div>
-        <label>od</label>
-        <input v-model="from" type="number" @change="handleChange">
-      </div>
-      <div>
-        <label>do</label>
-        <input v-model="to" type="number" @change="handleChange">
-      </div>
+      <input v-model="from" type="number" placeholder="Od" @change="handleChange">
+      <input v-model="to" type="number" placeholder="Do" @change="handleChange">
     </div>
   </div>
 </template>
@@ -48,10 +42,10 @@ export default class RangeFilter extends Vue {
   flex-direction: column;
   margin-top: 24px;
   label {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 16px;
+    text-transform: capitalize;
+    margin-bottom: 12px;
   }
 
   small {
@@ -65,16 +59,7 @@ export default class RangeFilter extends Vue {
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 12px;
 
-    > div {
-      display: flex;
-      flex-direction: column;
-      padding: 12px;
-      background: #fff;
-      border: 1px solid #000;
-      border-radius: 10px;
-      font-weight: 600;
-      color: #000;
-      font-size: 18px;
+
 
       label {
         font-size: 12px;
@@ -84,14 +69,22 @@ export default class RangeFilter extends Vue {
       }
 
       input {
-        border: none;
-        display: flex;
+        background: #f3f4f5;
+        border-radius: 4px;
+        box-shadow: none;
+        box-sizing: border-box;
+        height: 40px;
+        line-height: .733rem;
+        margin: initial;
+        overflow: hidden;
+        padding: 1px 10px;
+        white-space: normal;
         width: 100%;
+        border: none;
 
         &:focus {
           outline: none;
         }
-      }
     }
   }
 }
