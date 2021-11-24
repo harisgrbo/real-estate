@@ -192,7 +192,7 @@ a {
       }
 
       button {
-        font-family: 'Lato', sans-serif;
+        font-family: 'Outfit', sans-serif;
         border: none;
         margin-right: 8px;
         border-radius: 5px;
@@ -460,7 +460,7 @@ a {
 
   button {
     height: 48px;
-    background: #023246;
+    background: #1F2937;
     border-radius: 4px;
     border: none;
     width: 100%;

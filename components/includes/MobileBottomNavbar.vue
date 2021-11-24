@@ -180,7 +180,7 @@ export default class MobileBottomNavbar extends Vue {
   a {
     &.nuxt-link-exact-active {
       svg {
-        color: #023246 !important;
+        color: #1F2937 !important;
         background: #f1f1f1;
         border-radius: 4px;
         padding: 10px;

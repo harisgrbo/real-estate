@@ -90,7 +90,7 @@ export default class Categories extends Vue {
 }
 
 .selected {
-  border: 2px solid #023246;
+  border: 2px solid #1F2937;
   font-weight: 600 !important;
 
 

@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', borderRadius: '8px', minHeight: '42px', height: '42px', marginRight: '24px', fontSize: '13px' }" placeholder="Spasi izmjene"></ActionButton>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '8px', minHeight: '42px', height: '42px', marginRight: '24px', fontSize: '13px' }" placeholder="Spasi izmjene"></ActionButton>
       <div class="w-full my-10 flex-col">
         <h1 class="heading">
           Slike
@@ -898,7 +898,7 @@ export default class ListingEdit extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -1258,7 +1258,7 @@ h2.info {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: #023246;
+    background: #1F2937;
     height: 20px;
     width: 20px;
     border-radius: 10px;

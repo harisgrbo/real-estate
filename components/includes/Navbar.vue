@@ -3,9 +3,7 @@
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'" class="flex flex-row items-center">
-          <img :src="[ $device.isMobile ? '/logo-new.png' : '/logo-new.png']" class="main-logo" height="40" alt="">
-          <p class="first-part" v-if="!$device.isMobile">MOJ</p>
-          <p class="second-part" v-if="!$device.isMobile">KVADRAT</p>
+          <img :src="[ $device.isMobile ? '/logo-new.png' : '/msquare.png']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
       <div class="input-wrapper"
@@ -83,7 +81,7 @@
         <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
       </button>
       <div class="auth-buttons" v-if="!$device.isMobile">
-        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #023246', color: '#023246', borderRadius: '8px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
+        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', borderRadius: '8px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
@@ -657,7 +655,7 @@ export default class Navbar extends Vue {
         width: 100%;
 
         button {
-          border: 1px solid #023246;
+          border: 1px solid #1F2937;
           border-radius: 4px;
 
           &:hover {
@@ -940,7 +938,7 @@ export default class Navbar extends Vue {
       height: 30px;
       width: 30px;
       margin-right: 8px;
-      background: #023246 !important;
+      background: #1F2937 !important;
 
       svg {
         color: #fff !important
@@ -1063,14 +1061,14 @@ export default class Navbar extends Vue {
 .first-part {
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: #002F34;
   margin-left: 5px;
 }
 .second-part {
   font-size: 20px;
   font-weight: 500;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: #002F34;
 }
 </style>

@@ -34,7 +34,7 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Outfit', sans-serif;
   height: 48px;
   border-radius: 8px;
   width: fit-content;
@@ -47,15 +47,12 @@ button {
   cursor: pointer;
   justify-content: center;
   transition: 0.3s all ease;
-  background: hsla(218, 34%, 30%, 1);
-  background: radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
-  background: -moz-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
-  background: -webkit-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
+  background: #1F2937;
 
   @include for-phone-only {
     background: #fff !important;
-    border: 1px solid #023246;
-    color: #023246;
+    border: 1px solid #1F2937;
+    color: #1F2937;
   }
 
   svg {

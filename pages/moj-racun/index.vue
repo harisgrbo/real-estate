@@ -192,7 +192,7 @@ export default class accountpage extends Vue {
       }
 
       h2 {
-        //font-family: 'Lato', sans-serif;
+        //font-family: 'Outfit', sans-serif;
         font-weight: 500;
         font-size: 20px;
         margin-bottom: 36px;
@@ -237,7 +237,7 @@ export default class accountpage extends Vue {
   height: 42px;
   width: fit-content;
   padding: 0 16px;
-  border: 2px solid #023246;
+  border: 2px solid #1F2937;
   display: flex;
   align-items: center;
   justify-content: center;

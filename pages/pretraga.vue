@@ -104,7 +104,7 @@
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-5 gap-6 w-full listing-wrap">
             <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
           <client-only>
@@ -363,6 +363,7 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
         results = response.data.data;
+        console.log(response, 'results')
         meta = response.data.meta;
         allAttributes = response.data.meta.attributes;
 
@@ -767,7 +768,7 @@ export default class Homepage extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -867,7 +868,7 @@ export default class Homepage extends Vue {
     background: transparent;
     cursor: pointer;
     transition: 0.3s all ease;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Outfit', sans-serif;
 
     &:hover {
       border: 1px solid #444;
@@ -936,8 +937,8 @@ export default class Homepage extends Vue {
     background: #fff;
     margin-right: 12px;
     border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 300;
     min-width: fit-content;
     cursor: pointer;
     color: #000000;
@@ -946,7 +947,7 @@ export default class Homepage extends Vue {
       background: #fff;
       border: 2px solid #000;
       color: #000;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     &:hover {

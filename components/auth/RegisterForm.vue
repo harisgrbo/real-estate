@@ -18,7 +18,7 @@
         <TextField type="text" v-model="userPayload.name" class="mb-4 mt-1"></TextField>
         <label for="">Šifra</label>
         <TextField type="password" v-model="userPayload.password" class="mb-4 mt-1"></TextField>
-        <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', marginTop: '24px' }" @action="handleUserRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
+        <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', marginTop: '24px' }" @action="handleUserRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
       <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
 
@@ -35,7 +35,7 @@
         <label for="">Šifra</label>
         <TextField type="password" v-model="realEstateAgencyPayload.password" class="mb-4 mt-1"></TextField>
         <PublishDropdown title="Lokacija" class="location" @select-option="handleSelectedCity"></PublishDropdown>
-        <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
+        <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
       <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
     </div>

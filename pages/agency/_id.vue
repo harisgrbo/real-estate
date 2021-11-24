@@ -437,7 +437,7 @@ export default class Agencies extends Vue {
 
         button {
           height: 48px;
-          font-family: 'Lato', sans-serif;
+          font-family: 'Outfit', sans-serif;
           height: 48px;
           border-radius: 8px;
           display: flex;
@@ -449,7 +449,7 @@ export default class Agencies extends Vue {
           justify-content: center;
           transition: 0.3s all ease;
           background: transparent;
-          border: 2px solid #023246;
+          border: 2px solid #1F2937;
           width: 100%;
           margin-right: 0;
 
@@ -579,7 +579,7 @@ export default class Agencies extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;

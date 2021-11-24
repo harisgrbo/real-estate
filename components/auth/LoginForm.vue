@@ -10,7 +10,7 @@
       <TextField type="text" placeholder="Email" v-model="payload.username" class="mb-4 mt-1"></TextField>
       <label for="">Password</label>
       <TextField type="password" placeholder="Lozinka" v-model="payload.password" class="mt-1"></TextField>
-      <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
+      <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
     <nuxt-link class="mt-xl" :to="{ path: '/auth/register' }">Nemaš račun? Registruj se</nuxt-link>
     <Snackbar />
@@ -148,14 +148,14 @@ label {
 .first-part {
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: #002F34;
   margin-left: 5px;
 }
 .second-part {
   font-size: 20px;
   font-weight: 500;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: #002F34;
 }
 
