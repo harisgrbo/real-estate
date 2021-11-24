@@ -400,9 +400,6 @@
       // slidesOffsetAfter: '100px',
       // slidesOffsetBefore: '0px',
       loop: true,
-      autoplay: {
-        delay: 7000,
-      },
       slidesPerView: 6,
       touchRatio: 0.2,
       slideToClickedSlide: false,
@@ -1145,7 +1142,7 @@ ul.most-visited-cats {
 
   &.active {
     color: #fff;
-    background: #023246;
+    background: #1F2937;
     font-weight: 500;
     border-radius: 7px;
   }
@@ -1299,7 +1296,7 @@ ul.most-visited-cats {
 }
 
 button.search {
-  background: #023246 !important;
+  background: #1F2937 !important;
   color: #fff;
   border-radius: 8px !important;
 }

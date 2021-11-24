@@ -15,12 +15,12 @@
       <div class="flex w-full contact">
         <div class="w-full" v-if="$auth.user">
           <div class="w-full flex items-center justify-between" v-if="isMe">
-            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
+            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
             <ActionButton :style-options="{ color: '#fff' }"  placeholder="Izdvoji" @action="handleListingSponsoring" class="w-full ml-sm"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
-            <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
-            <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" :style-options="{ background: 'transparent', border: '2px solid #023246', color: '#023246' }" @action="handleFollow" class="ml-sm"></ActionButton>
+            <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
+            <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" @action="handleFollow" class="ml-sm"></ActionButton>
           </div>
         </div>
 
@@ -134,7 +134,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button :style-options="{ color: '#023246', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ color: '#1F2937', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>

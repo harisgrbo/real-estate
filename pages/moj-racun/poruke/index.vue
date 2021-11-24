@@ -573,7 +573,7 @@ export default class Porukice extends Vue {
 }
 
 .chat .chat__tabs a {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Outfit', sans-serif;
   height: 48px;
   border-radius: 8px;
   width: fit-content;
@@ -582,7 +582,7 @@ export default class Porukice extends Vue {
   font-size: 14px;
   font-weight: 600;
   padding: 0 24px;
-  color: #023246;
+  color: #1F2937;
   cursor: pointer;
   justify-content: center;
   transition: 0.3s all ease;
@@ -590,7 +590,7 @@ export default class Porukice extends Vue {
   color: #848484;
 }
 .chat .chat__tabs a.active {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Outfit', sans-serif;
   height: 48px;
   border-radius: 8px;
   width: fit-content;
@@ -599,7 +599,7 @@ export default class Porukice extends Vue {
   font-size: 14px;
   font-weight: 600;
   padding: 0 24px;
-  color: #023246;
+  color: #1F2937;
   cursor: pointer;
   justify-content: center;
   transition: 0.3s all ease;
@@ -624,7 +624,7 @@ export default class Porukice extends Vue {
       width: 2px;
       bottom: 0;
       content: '';
-      background: #023246;
+      background: #1F2937;
     }
   }
 

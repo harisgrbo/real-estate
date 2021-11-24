@@ -555,7 +555,7 @@ export default class Artikal extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -708,7 +708,7 @@ export default class Artikal extends Vue {
     height: 100px;
     padding: 12px;
     border-radius: 5px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Outfit', sans-serif;
     &:focus {
       outline: none;
     }

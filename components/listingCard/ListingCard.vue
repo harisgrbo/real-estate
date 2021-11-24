@@ -7,6 +7,7 @@
       <div class="blured-background">
         <button @click="$emit('handleAction', listing.id)">{{ action_text }}</button>
       </div>
+
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative" v-if="!$device.isMobile">
           <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
@@ -24,7 +25,7 @@
             ></div>
             <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
-          <img v-else src="/noimage.jpeg" alt="">
+          <img v-else src="/noimage.jpeg"  alt="">
 <!--          <label class="publisher shadow-sm sale" v-if="action">-->
 <!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
 <!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />-->
@@ -44,7 +45,7 @@
           <!--            <span>AKCIJA</span>-->
           <!--          </label>-->
         </div>
-        <div class="listing-card-content">
+        <div class="listing-card-content relative" @mouseover="showTooltip = true" @mouseout="showTooltip = false">
           <div class="flex flex-col justify-between items-start">
             <div class="address title">
               <p>
@@ -52,7 +53,7 @@
               </p>
             </div>
             <div class="icons-date">
-              <div class="important mt-2">
+              <div class="important">
 <!--                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>-->
                 <p class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-show="listing.is_booking" class="pl-2">/ noć</p>
@@ -70,6 +71,18 @@
               {{ attr.value }}
             </div>
           </div>
+          <!--Code Block for gray tooltip starts-->
+          <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative" onmouseover="showTooltip(3)" onfocus="showTooltip(3)" onmouseout="hideTooltip(3)">
+            <div id="tooltip3" role="tooltip" class="w-full z-50 bottom-0 w-64 absolute transition duration-150 ease-in-out left-0 shadow-lg bg-gray-800 p-2 rounded">
+              <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>
+              <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>
+              <div class="flex flex-row items-center justify-start flex-wrap mb-2">
+                <div class="text-xs more-info" v-for="info in normalAttributes">{{ info.value + ", " }}</div>
+              </div>
+            </div>
+          </a>
+          <!--Code Block for gray tooltip ends-->
+
         </div>
       </nuxt-link>
       <Snackbar />
@@ -97,6 +110,7 @@ export default class ListingCard extends Vue{
     sell: 'Prodaja',
     buy: 'Potraznja'
   }
+  showTooltip = false;
   saved = false;
   specialAttributes = [];
   specialAttributesKeys = [
@@ -152,6 +166,10 @@ export default class ListingCard extends Vue{
 
   removeFromSaved(id) {
     this.$emit('remove-from-saved', id)
+  }
+
+  get normalAttributes() {
+    return this.listing.attributes.filter(item => item.value !== true && item.value !== false);
   }
 
 
@@ -211,9 +229,9 @@ export default class ListingCard extends Vue{
       justify-content: center;
       width: fit-content;
       height: 24px;
-      padding: 0 4px;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 0 8px;
+      font-size: 14px;
+      font-weight: 500;
       z-index: 2;
 
       &.type {
@@ -227,7 +245,7 @@ export default class ListingCard extends Vue{
         }
 
         button {
-          font-family: 'Lato', sans-serif;
+          font-family: 'Outfit', sans-serif;
           border: none;
           margin-right: 8px;
           border-radius: 5px;
@@ -321,6 +339,11 @@ export default class ListingCard extends Vue{
       display: flex;
       flex-direction: column;
       padding-top: 10px;
+      min-height: 80px;
+
+      @include for-phone-only {
+        min-height: fit-content;
+      }
       .title-price {
         display: flex;
         align-items: center;
@@ -354,8 +377,8 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           font-weight: 500 !important;
-           font-size: 14px;
+           font-weight: 400 !important;
+           font-size: 16px;
            line-height: 20px !important;
            @include for-phone-only {
              font-weight: 400 !important;
@@ -438,6 +461,7 @@ export default class ListingCard extends Vue{
           flex-direction: row;
           align-items: center;
           justify-content: flex-start;
+          margin-top: 2px;
 
           @include for-phone-only {
             margin-top: 0;
@@ -450,7 +474,7 @@ export default class ListingCard extends Vue{
 
           .new {
             font-size: 15px !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
             margin-left: 0px;
           }
         }
@@ -499,7 +523,7 @@ export default class ListingCard extends Vue{
 
     button {
       height: 48px;
-      background: #023246;
+      background: #1F2937;
       border-radius: 4px;
       border: none;
       width: 100%;
@@ -543,7 +567,7 @@ export default class ListingCard extends Vue{
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 10px;
+    margin-top: 3px;
 
     @include for-phone-only {
       margin-top: 0;
@@ -563,10 +587,11 @@ export default class ListingCard extends Vue{
       width: fit-content;
       margin-right: 8px;
       padding: 0 10px;
-      font-weight: 500;
+      font-weight: 400;
       background: #f9f9f9;
-      font-size: 11px;
+      font-size: 13px;
       line-height: 8px;
+      color: #000;
 
       @include for-phone-only {
         border: none;
@@ -660,5 +685,60 @@ export default class ListingCard extends Vue{
   border-radius: 7px;
   padding: 4px;
   font-weight: 600;
+}
+
+.swiper-lazy-preloader {
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -21px;
+  margin-top: -21px;
+  z-index: 10;
+  transform-origin: 50%;
+  animation: swiper-preloader-spin 1s infinite linear;
+  box-sizing: border-box;
+  border: 4px solid var(--swiper-preloader-color, var(--swiper-theme-color));
+  border-radius: 50%;
+  border-top-color: transparent;
+
+}
+.swiper-lazy-preloader-white {
+  --swiper-preloader-color: #f1f1f1;
+}
+
+@keyframes swiper-preloader-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.tooltip-wrapper {
+  position: absolute;
+  bottom: 0;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  top: inherit;
+
+  #tooltip3 {
+    height: fit-content;
+    overflow-y: scroll;
+    border-radius: 7px;
+
+    p {
+      font-size: 14px !important;
+    }
+  }
+}
+
+.more-info {
+  min-width: fit-content;
+  color: #fff;
+  font-size: 14px !important;
+
 }
 </style>

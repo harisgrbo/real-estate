@@ -1074,12 +1074,12 @@ export default class Objava extends Vue {
             font-weight: 600 !important;
             transition: 0.3s all ease;
             margin-bottom: 0;
-            font-family: 'Lato', sans-serif;
+            font-family: 'Outfit', sans-serif;
             cursor: pointer;
             margin-right: 16px;
-            border: 2px solid #023246;
+            border: 2px solid #1F2937;
             border-radius: 4px;
-            color: #023246;
+            color: #1F2937;
 
             &.back {
               background: transparent !important;
@@ -1201,7 +1201,7 @@ export default class Objava extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 26px;
       box-sizing: border-box;
@@ -1740,7 +1740,7 @@ h2.info {
     transition: left 0.25s ease;
   }
   .switch-input:checked + .switch-label::before {
-    background-color: #023246;
+    background-color: #1F2937;
   }
   .switch-input:checked + .switch-label::after {
     left: 24px;

@@ -16,7 +16,7 @@
         </button>
         <button @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
           <!-- Heroicon name: solid/plus -->
-          <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#023246' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         </button>
@@ -71,7 +71,7 @@
                   </button>
                   <button @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
                     <!-- Heroicon name: solid/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :fill="[ listingSaved ? '#023246' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                   </button>
@@ -188,7 +188,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #023246', color: '#023246' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
             <div class="separator"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Lokacija</h2>
             <div v-if="!$device.isMobile">
@@ -241,7 +241,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('map-modal')" placeholder="Prikaži lokaciju na mapi" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #023246', color: '#023246' }" :loading="false"></ActionButton>
+            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('map-modal')" placeholder="Prikaži lokaciju na mapi" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false"></ActionButton>
             <!--            <div class="separator" v-if="questions.length"></div>-->
 <!--            <h2 class="heading question" v-if="questions.length">Pitanja</h2>-->
 <!--            <div class="separator" v-if="questions.length"></div>-->
@@ -1300,7 +1300,7 @@ export default class Artikal extends Vue {
       width: 100%;
       border: 1px solid #ddd;
       border-radius: 8px;
-      font-family: 'Lato', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
@@ -1518,7 +1518,7 @@ export default class Artikal extends Vue {
     height: 100px;
     padding: 12px;
     border-radius: 5px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Outfit', sans-serif;
     &:focus {
       outline: none;
     }
@@ -1763,7 +1763,7 @@ export default class Artikal extends Vue {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 24px;
@@ -1859,14 +1859,14 @@ export default class Artikal extends Vue {
 
       &.active-place-modal {
         .img-wrapper {
-          background: #023246;
+          background: #1F2937;
           img {
             filter: invert(1);
           }
         }
 
         p {
-          color: #023246;
+          color: #1F2937;
           font-weight: 600!important;
         }
       }

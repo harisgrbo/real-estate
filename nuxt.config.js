@@ -17,11 +17,6 @@ export default {
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       { rel: "preconnect", href: "https://fonts.gstatic.com" },
-      {
-        rel: "stylesheet",
-        href:
-          "https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100&display=swap"
-      }
     ],
     script: [
       {
@@ -53,6 +48,7 @@ export default {
     "@/assets/css/app.css",
     "@/assets/styles/global.scss",
     "@/assets/styles/custom_components.scss",
+    '@/assets/fonts/outfit.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -79,7 +75,6 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-    ["@nuxtjs/fontawesome"],
     ["@nuxtjs/tailwindcss"],
     '@nuxtjs/google-analytics',
     ["@nuxtjs/device"],
@@ -205,9 +200,7 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
 
-  loading: {
-    color: "grey"
-  },
+  loading: '@/components/LoadingBar.vue',
 
   cache: {
     // if you're serving multiple host names (with differing

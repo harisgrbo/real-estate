@@ -134,6 +134,6 @@ export default class mojeRezervacije extends Vue {
 }
 
 a {
-  color: #023246;
+  color: #1F2937;
 }
 </style>

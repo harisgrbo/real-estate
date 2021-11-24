@@ -49,7 +49,6 @@ export default class TextField extends Vue{
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
-  padding: 0 12px;
   background: #F3F3F4;
   flex: 2;
   position: relative;
