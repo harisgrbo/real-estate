@@ -33,6 +33,18 @@
                 </div>
                 <div class="col-span-12 2xl:col-span-6">
                   <div class="mt-3">
+                    <label for="update-profile-form-7" class="form-label">Broj Mobitela</label>
+                    <input type="email" id="update-profile-form-7" class="form-control" v-model="phoneNumber">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
+                  <div class="mt-3">
+                    <label for="update-profile-form-8" class="form-label">Adresa</label>
+                    <input type="email" id="update-profile-form-8" class="form-control" v-model="address">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
+                  <div class="mt-3">
                     <label for="update-profile-form-5" class="form-label">Šifra</label>
                     <input type="password" id="update-profile-form-5" class="form-control" v-model="password">
                   </div>
@@ -88,6 +100,8 @@ export default class urediProfil extends Vue {
   user = {}
   name = '';
   email = '';
+  address = '';
+  phoneNumber = '';
   password = '';
   passwordConfirm = '';
   loading = false;
@@ -119,9 +133,13 @@ export default class urediProfil extends Vue {
   }
 
   setInputs() {
+    console.log(this.$auth.user);
+
     this.name = this.$auth.user.name;
     this.email = this.$auth.user.email;
     this.avatarUrl = this.$auth.user.avatar_url || '';
+    this.phoneNumber = this.$auth.user.phone_number || '';
+    this.address = this.$auth.user.address || '';
   }
 
   async updateProfileInfo() {
@@ -137,6 +155,14 @@ export default class urediProfil extends Vue {
         payload.email = this.email;
       }
 
+      if (this.phoneNumber !== this.$auth.user.phone_number) {
+        payload.phone_number = this.phoneNumber;
+      }
+
+      if (this.address !== this.$auth.user.address) {
+        payload.address = this.address;
+      }
+
       if (this.password.length) {
         if (this.passwordConfirm === this.password) {
           payload.password = this.password;
@@ -149,7 +175,24 @@ export default class urediProfil extends Vue {
         }
       }
 
-      await this.$axios.put('/profile/update', payload)
+      try {
+        await this.$axios.put('/profile/update', payload)
+      } catch (e) {
+        let message = e.response.data.message;
+
+        if (e.response.data.errors.phone_number) {
+          message = "Broj mobitela nije u ispravnom formatu (Npr. +387)"
+        }
+
+        this.$snackbar.show({
+          text: message,
+          timeout: 3000,
+          type: "danger"
+        });
+
+        return;
+      }
+
       await this.$auth.fetchUser();
       this.setInputs();
 
