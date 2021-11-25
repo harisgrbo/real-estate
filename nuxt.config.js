@@ -24,6 +24,9 @@ export default {
           "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9&callback=initMap"
       },
       {
+        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3745186233711216",
+      },
+      {
         hid: 'gtm-script1',
         src: 'https://www.googletagmanager.com/gtag/js?id=G-VMWBZZM8WD',
         defer: true
@@ -169,7 +172,10 @@ export default {
     "nuxt-ssr-cache",
     "@nuxtjs/auth",
     "@nuxtjs/axios",
-    ["nuxt-material-design-icons"]
+    ["nuxt-material-design-icons"],
+    ['@nuxtjs/google-adsense', {
+      id: 'ca-pub-###########'
+    }]
   ],
 
   axios: {
