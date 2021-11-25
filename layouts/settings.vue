@@ -43,7 +43,7 @@ export default class Settings extends Vue {
 .home-wrapper {
   padding-top: 80px !important;
   min-height: calc(100vh - 80px);
-  background: #f9f9f9;
+  background: #fff;
   width: auto;
   padding-bottom: 36px;
 

@@ -4,8 +4,19 @@
         <span class="flex flex-row items-center">{{ translateType() }}
         </span>
       </label>
-      <div class="blured-background">
-        <button @click="$emit('handleAction', listing.id)">{{ action_text }}</button>
+      <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false">
+<!--        <button>-->
+<!--          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />-->
+<!--          </svg>-->
+<!--        </button>-->
+
+        <div v-show="showListingOptions" class="w-full">
+          <action-button class="mt-4" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$emit('edit-listing', listing.id)" :loading="loading"></action-button>
+          <action-button class="mt-4" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}" :loading="loading"></action-button>
+          <action-button class="mt-4" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)" :loading="loading"></action-button>
+          <action-button class="mt-4" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)" :loading="loading"></action-button>
+        </div>
       </div>
 
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
@@ -113,6 +124,7 @@ export default class ListingCard extends Vue{
   showTooltip = false;
   saved = false;
   specialAttributes = [];
+  showListingOptions = false;
   specialAttributesKeys = [
     "Broj soba",
     "Sprat"
@@ -188,7 +200,7 @@ export default class ListingCard extends Vue{
   a {
     position: relative;
     z-index: 1;
-    width: 240px;
+    width: 100%;
     border-radius: 10px;
 
     @include for-phone-only {
@@ -517,9 +529,10 @@ export default class ListingCard extends Vue{
     box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
     padding: 24px;
     box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     transition: 0.3s all ease;
+    flex-direction: column;
 
     button {
       height: 48px;

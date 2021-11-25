@@ -7,7 +7,7 @@
             <div class="flex-1 flex flex-row justify-start user-inner">
               <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
               <div class="ml-4">
-                <h3 class="text-gray-900 text-md font-medium">{{ user.name }}</h3>
+                <h3 class="text-gray-900 text-lg font-normal">{{ user.name }}</h3>
                 <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
                   <dt class="sr-only">Title</dt>
                   <dt class="sr-only">Role</dt>
@@ -44,7 +44,7 @@
         <div v-else class="w-full flex justify-end">
           <div class="flex justify-between w-full buttons" v-if="$auth.user">
             <button class="flex-1 flex cursor-pointer mr-12 first" @click="$modal.show('contact-user')">
-              <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
+              <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-900 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -53,7 +53,7 @@
               </a>
             </button>
             <button class="flex-1 flex cursor-pointer" @click="toggleFollow()">
-              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-900 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -67,12 +67,12 @@
     <div class="content-wrapper">
       <div class="flex flex-row items-center justify-between mb-8 user-options">
         <ul class="category-list w-full">
-          <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+          <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
         </ul>
       </div>
       <div>
         <div v-if="activeTab === 0" class="filters-agency">
-         <div class="content">
+         <div class="content pb-20">
            <div v-if="listings.length || loadingListings" class="grid-layout">
              <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
            </div>
@@ -363,6 +363,8 @@ export default class Agencies extends Vue {
 
       .infos {
         color: #000;
+        font-size: 16px;
+        font-weight: 400;
         @include for-phone-only {
           grid-template-columns: repeat(1, 1fr);
         }

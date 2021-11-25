@@ -9,13 +9,13 @@
     </ul>
     <div class="col-span-12">
       <!-- BEGIN: Display Information -->
-      <div class="intro-y box lg:mt-5">
-        <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+      <div class="intro-y lg:mt-5">
+        <div class="flex items-center pb-5 pl-0 border-b border-gray-200 dark:border-dark-5">
           <h2 class="font-medium text-base mr-auto">
             Osnovni podaci
           </h2>
         </div>
-        <div class="p-5">
+        <div class="w-full">
           <div class="flex flex-col-reverse xl:flex-row flex-col">
             <div class="flex-1 mt-6 xl:mt-0">
               <div class="grid grid-cols-12 gap-x-5">
@@ -44,7 +44,7 @@
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary w-20 mt-3" @click.prevent="updateProfileInfo">Sačuvaj</button>
+              <action-button class="mt-5" @action="updateProfileInfo" placeholder="Sačuvaj"></action-button>
             </div>
             <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
               <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
@@ -53,7 +53,8 @@
                   <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
                 </div>
                 <div class="mx-auto cursor-pointer relative mt-5">
-                  <button type="button" class="btn btn-primary w-full">Promijeni sliku</button>
+                  <action-button @action="updateProfileInfo" placeholder="Promijeni sliku"></action-button>
+
                   <input @change="updateAvatar" type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
                 </div>
               </div>
@@ -178,7 +179,7 @@ export default class urediProfil extends Vue {
 
 .account-wrapper {
   width: auto;
-  background: #f9f9f9;
+  background: #fff;
 
   @include for-phone-only {
     background: #fff;

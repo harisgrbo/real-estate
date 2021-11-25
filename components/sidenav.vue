@@ -10,12 +10,47 @@
           </dd>
         </div>
       </li>
-      <li v-if="$auth.user && $auth.user.user_type === 'agency'">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-        </svg>
-        <nuxt-link to="/moj-racun/dashboard/analitika">Dashboard</nuxt-link>
+      <li v-if="$auth.user && $auth.user.user_type === 'agency'" class="w-full flex flex-col items-start sub-menu">
+        <div class="flex flex-row items-center justify-start w-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <nuxt-link to="/moj-racun/dashboard/analitika">Dashboard</nuxt-link>
+        </div>
+
+        <ul class="w-full inner-ul mt-2">
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+            </svg>
+            <nuxt-link to="/moj-racun/dashboard/analitika">Analitika</nuxt-link>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+            <nuxt-link to="/moj-racun/dashboard/postavke-agencije">Postavke agencije</nuxt-link>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <nuxt-link to="/moj-racun/dashboard/agenti-za-nekretnine">Agenti za nekretnine</nuxt-link>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+            <nuxt-link to="/moj-racun/dashboard/upravljanje-oglasima">Upravljanje oglasima</nuxt-link>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+            <nuxt-link to="/moj-racun/dashboard/sponzorisanje">Sponzorisanje</nuxt-link>
+          </li>
+        </ul>
       </li>
       <li v-if="$auth.user">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -168,6 +203,25 @@ export default class sidenav extends Vue {
       color: #444;
       margin-bottom: 8px;
 
+      &:hover {
+        text-decoration: underline;
+
+        &.sub-menu {
+          text-decoration: none;
+        }
+      }
+
+      &.sub-menu {
+        height: fit-content;
+        margin-bottom: 0;
+
+        li {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
       @include for-phone-only {
         height: 50px;
       }
@@ -197,10 +251,6 @@ export default class sidenav extends Vue {
         text-transform: uppercase;
         font-size: 14px !important;
         font-weight: 600;
-      }
-
-      &:hover {
-        background: #f9f9f9;
       }
 
       &.links {
@@ -312,6 +362,15 @@ button.logout {
 
   svg {
     margin-right: 10px;
+  }
+}
+
+.inner-ul {
+  padding-left: 24px;
+  li {
+    padding: 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
 }
 </style>

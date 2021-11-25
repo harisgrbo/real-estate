@@ -168,9 +168,10 @@ export default class accountpage extends Vue {
         }
         p {
           margin-right: 12px;
+          font-size: 16px;
 
           &:first-child {
-            font-weight: 600;
+            font-weight: 500;
           }
         }
 
