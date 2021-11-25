@@ -19,7 +19,7 @@
                 <h5 class="text-lg">
                   {{ booking.listing.title }}
                 </h5>
-                <p class="hidden text-gray-500 sm:block sm:mt-2">
+                <p class="hidden text-gray-800 sm:block text-lg font-normal sm:mt-2">
                   {{ booking.listing.description }}
                 </p>
               </div>
@@ -37,7 +37,7 @@
               <svg class="w-5 h-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
               </svg>
-              <p class="ml-2 text-sm font-medium text-gray-500">Zahtjev za rezervaciju zaprimljen <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
+              <p class="ml-2 text-md font-normal text-gray-800">Zahtjev za rezervaciju zaprimljen <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
             </div>
 
             <div class="mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
@@ -45,10 +45,14 @@
                 <button @click="confirm(booking)" class="text-indigo-600 whitespace-nowrap hover:text-indigo-500">Prihvati rezervaciju</button>
               </div>
               <div class="flex-1 pl-4 flex justify-center">
-                <button @click="$router.push('/artikal/' + booking.id)" class="text-indigo-600 whitespace-nowrap hover:text-indigo-500">Idi na oglas</button>
+                <button @click="$router.push('/artikal/' + booking.id)" class="text-gray-800 whitespace-nowrap hover:text-gray-800">Idi na oglas</button>
               </div>
               <div class="flex-1 pl-4 flex justify-center">
-                <button @click="cancel(booking, index)" class="text-indigo-600 whitespace-nowrap hover:text-indigo-500">Poništi upit</button>
+                <button @click="cancel(booking, index)" class="text-gray-800 border border-gray-800 p-2 rounded-md flex flex-row items-center whitespace-nowrap hover:bg-gray-800 hover:text-white font-medium">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Poništi upit</button>
               </div>
             </div>
           </div>
@@ -62,9 +66,11 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import Snackbar from "@/components/global/Snackbar";
+import ActionButton from "../../components/actionButtons/ActionButton";
 
 @Component({
   components: {
+    ActionButton,
     Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',

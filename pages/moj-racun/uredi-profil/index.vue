@@ -9,13 +9,13 @@
     </ul>
     <div class="col-span-12">
       <!-- BEGIN: Display Information -->
-      <div class="intro-y box lg:mt-5">
-        <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+      <div class="intro-y lg:mt-5">
+        <div class="flex items-center pb-5 pl-0 border-b border-gray-200 dark:border-dark-5">
           <h2 class="font-medium text-base mr-auto">
             Osnovni podaci
           </h2>
         </div>
-        <div class="p-5">
+        <div class="w-full">
           <div class="flex flex-col-reverse xl:flex-row flex-col">
             <div class="flex-1 mt-6 xl:mt-0">
               <div class="grid grid-cols-12 gap-x-5">
@@ -33,6 +33,18 @@
                 </div>
                 <div class="col-span-12 2xl:col-span-6">
                   <div class="mt-3">
+                    <label for="update-profile-form-7" class="form-label">Broj Mobitela</label>
+                    <input type="email" id="update-profile-form-7" class="form-control" v-model="phoneNumber">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
+                  <div class="mt-3">
+                    <label for="update-profile-form-8" class="form-label">Adresa</label>
+                    <input type="email" id="update-profile-form-8" class="form-control" v-model="address">
+                  </div>
+                </div>
+                <div class="col-span-12 2xl:col-span-6">
+                  <div class="mt-3">
                     <label for="update-profile-form-5" class="form-label">Šifra</label>
                     <input type="password" id="update-profile-form-5" class="form-control" v-model="password">
                   </div>
@@ -44,7 +56,7 @@
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary w-20 mt-3" @click.prevent="updateProfileInfo">Sačuvaj</button>
+              <action-button class="mt-5" @action="updateProfileInfo" placeholder="Sačuvaj"></action-button>
             </div>
             <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
               <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
@@ -53,7 +65,8 @@
                   <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
                 </div>
                 <div class="mx-auto cursor-pointer relative mt-5">
-                  <button type="button" class="btn btn-primary w-full">Promijeni sliku</button>
+                  <action-button @action="updateProfileInfo" placeholder="Promijeni sliku"></action-button>
+
                   <input @change="updateAvatar" type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
                 </div>
               </div>
@@ -87,6 +100,8 @@ export default class urediProfil extends Vue {
   user = {}
   name = '';
   email = '';
+  address = '';
+  phoneNumber = '';
   password = '';
   passwordConfirm = '';
   loading = false;
@@ -118,9 +133,13 @@ export default class urediProfil extends Vue {
   }
 
   setInputs() {
+    console.log(this.$auth.user);
+
     this.name = this.$auth.user.name;
     this.email = this.$auth.user.email;
     this.avatarUrl = this.$auth.user.avatar_url || '';
+    this.phoneNumber = this.$auth.user.phone_number || '';
+    this.address = this.$auth.user.address || '';
   }
 
   async updateProfileInfo() {
@@ -136,6 +155,14 @@ export default class urediProfil extends Vue {
         payload.email = this.email;
       }
 
+      if (this.phoneNumber !== this.$auth.user.phone_number) {
+        payload.phone_number = this.phoneNumber;
+      }
+
+      if (this.address !== this.$auth.user.address) {
+        payload.address = this.address;
+      }
+
       if (this.password.length) {
         if (this.passwordConfirm === this.password) {
           payload.password = this.password;
@@ -148,7 +175,24 @@ export default class urediProfil extends Vue {
         }
       }
 
-      await this.$axios.put('/profile/update', payload)
+      try {
+        await this.$axios.put('/profile/update', payload)
+      } catch (e) {
+        let message = e.response.data.message;
+
+        if (e.response.data.errors.phone_number) {
+          message = "Broj mobitela nije u ispravnom formatu (Npr. +387)"
+        }
+
+        this.$snackbar.show({
+          text: message,
+          timeout: 3000,
+          type: "danger"
+        });
+
+        return;
+      }
+
       await this.$auth.fetchUser();
       this.setInputs();
 
@@ -178,7 +222,7 @@ export default class urediProfil extends Vue {
 
 .account-wrapper {
   width: auto;
-  background: #f9f9f9;
+  background: #fff;
 
   @include for-phone-only {
     background: #fff;

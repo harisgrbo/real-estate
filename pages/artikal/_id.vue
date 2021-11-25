@@ -175,6 +175,93 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Opis</h2>
             <p class="description mx-5 lg:mx-0 xl:mx-0 up:mx-0">{{ listing.description }}</p>
             <div class="separator"></div>
+            <div class="rent" v-if="listing.is_booking && !$device.isMobile && !authUser">
+              <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervišite smještaj</h2>
+              <form @submit.prevent>
+                <div class="price-wrap p-0 flex flex-col justify-start">
+                  <div class="flex flex-row items-center w-full">
+                    <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                    <p class="pl-2">/ noć</p>
+                  </div>
+                  <div v-show="numOfDays" class="mt-2 w-full">
+                    <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
+                  </div>
+                </div>
+                <div class="mb-4" v-if="$auth.user">
+                  <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Rezervišite datum</h2>
+                  <vc-date-picker
+                    :disabled-dates="disabledDates"
+                    :min-date="new Date()"
+                    v-model="range"
+                    :masks="masks"
+                    is-expanded="true"
+                    is-range
+                  >
+                    <template v-slot="{ inputValue, inputEvents, isDragging }">
+                      <div class="flex flex-row justify-start items-center">
+                        <div class="relative flex-grow w-full">
+                          <svg
+                            class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            ></path>
+                          </svg>
+                          <input
+                            class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                            :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                            :value="inputValue.start"
+                            v-on="inputEvents.start"
+                          />
+                        </div>
+                        <span class="flex-shrink-0 m-2">
+              <svg
+                class="w-4 h-4 stroke-current text-gray-600"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </span>
+                        <div class="relative flex-grow w-full">
+                          <svg
+                            class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            ></path>
+                          </svg>
+                          <input
+                            class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                            :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                            :value="inputValue.end"
+                            v-on="inputEvents.end"
+                          />
+                        </div>
+                      </div>
+                    </template>
+                  </vc-date-picker>
+                </div>
+                <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+              </form>
+              <div class="separator"></div>
+            </div>
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Pogledajte šta se nalazi u blizini nekretnine</h2>
             <div class="places" v-if="!$device.isMobile">
               <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2">
@@ -259,7 +346,7 @@
                 <p class="text-xl font-bold">{{ listing.price + ' KM' }}</p>
                 <p class="text-gray-600 font-semibold text-lg ml-2">/ noć</p>
               </div>
-              <ActionButton v-if="$auth.user" placeholder="Rezerviši datum" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
+              <ActionButton v-if="$auth.user" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
           </div>
           <div class="user-wrap">
@@ -374,7 +461,7 @@
                         </div>
                       </div>
                       <div class="mb-4" v-if="$auth.user">
-                        <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Rezervišite datum</h2>
+                        <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h2>
                         <vc-date-picker
                           :disabled-dates="disabledDates"
                           :min-date="new Date()"
@@ -443,7 +530,7 @@
                           </template>
                         </vc-date-picker>
                       </div>
-                      <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                      <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
                     </form>
                   </client-only>
                 </div>

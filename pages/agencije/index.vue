@@ -60,10 +60,11 @@ export default class Agencies extends Vue {
 }
 .account-wrapper-a {
   margin: 0 auto;
+  min-height: 100vh;
   @include for-phone-only {
     padding: 32px 0!important;
     height: 100%;
-    min-height: calc(100vh - 80px);
+    min-height: 100vh;
     overflow: scroll;
   }
 

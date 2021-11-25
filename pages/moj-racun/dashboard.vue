@@ -56,6 +56,7 @@ export default class Dashboard extends Vue {
       icon: '/052-presentation.svg'
     },
   ]
+
   currentTab = 0;
   showUl = true;
 
@@ -67,9 +68,16 @@ export default class Dashboard extends Vue {
 
 <style scoped lang="scss">
 
+a {
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .nuxt-link-active.inner {
   position: relative;
   color: #1F2937;
+  font-size: 16px;
+  font-weight: 500;
 
   &::after {
     content: '';
@@ -122,6 +130,11 @@ ul.expanded {
       height: 100%;
       justify-content:center;
       align-items:center;
+
+      p {
+        font-size: 16px;
+        font-weight: 400;
+      }
 
       img {
         height: 25px;

@@ -7,7 +7,7 @@
         <p>Obavijesti</p>
       </li>
     </ul>
-    <div class="flex flex-row pb-8 justify-between notifications-wrap">
+    <div class="flex flex-row pb-8 justify-between notifications-wrap" v-if="notifications.length">
       <ul class="divide-y divide-gray-200 w-full">
         <li class="notification flex flex-col items-start justify-start relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600" v-for="(notification, index) in notifications" :key="index">
           <div class="flex justify-between w-full items-start space-x-3">
@@ -29,9 +29,7 @@
           </button>
         </li>
       </ul>
-
     </div>
-
   </div>
 </template>
 
