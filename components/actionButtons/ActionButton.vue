@@ -41,7 +41,7 @@ button {
   display: flex;
   align-items: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500 !important;
   padding: 0 24px;
   color: #fff;
   cursor: pointer;
@@ -50,9 +50,8 @@ button {
   background: #1F2937;
 
   @include for-phone-only {
-    background: #fff !important;
-    border: 1px solid #1F2937;
-    color: #1F2937;
+    background: #1F2937 !important;
+    padding: 0 12px !important;
   }
 
   svg {

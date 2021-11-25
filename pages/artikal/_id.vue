@@ -175,8 +175,8 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Opis</h2>
             <p class="description mx-5 lg:mx-0 xl:mx-0 up:mx-0">{{ listing.description }}</p>
             <div class="separator"></div>
-            <div class="rent" v-if="listing.is_booking && !$device.isMobile && !authUser">
-              <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervišite smještaj</h2>
+            <div class="rent" v-if="listing.is_booking && !$device.isMobile">
+              <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezerviši smještaj</h2>
               <form @submit.prevent>
                 <div class="price-wrap p-0 flex flex-col justify-start">
                   <div class="flex flex-row items-center w-full">
@@ -188,7 +188,7 @@
                   </div>
                 </div>
                 <div class="mb-4" v-if="$auth.user">
-                  <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Rezervišite datum</h2>
+                  <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h2>
                   <vc-date-picker
                     :disabled-dates="disabledDates"
                     :min-date="new Date()"
@@ -258,7 +258,7 @@
                     </template>
                   </vc-date-picker>
                 </div>
-                <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', width: '100%' }" :placeholder="$auth.user ? 'Pošalji upit za rezervaciju' : 'Prijavite se da pošaljete upit za rezervaciju'"></ActionButton>
               </form>
               <div class="separator"></div>
             </div>
@@ -444,7 +444,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="booking" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Pošalji upit za rezervaciju</h2>
+                <h2>Rezerviši smještaj</h2>
                 <i class="material-icons" @click.prevent="$modal.hide('booking')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -719,32 +719,36 @@ export default class Artikal extends Vue {
   }
 
   async sendBookingRequest(event) {
-    let start = this.$moment(event ? event.start: this.range.start);
-    let end = this.$moment(event ? event.end: this.range.end);
+    if(this.$auth.user) {
+      let start = this.$moment(event ? event.start: this.range.start);
+      let end = this.$moment(event ? event.end: this.range.end);
 
-    try {
-      let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
-        'starts_at': start.format('D-M-Y'),
-        'ends_at': end.format('D-M-Y')
-      })
-
-      console.log(res);
-
-      this.$snackbar.show({
-        text: "Upit poslan",
-        timeout: 1000,
-        type: "success"
-      });
-    } catch (e) {
-      if (e.response.data.code === 10) {
-        this.$snackbar.show({
-          text: "Već ste poslali upit za ovaj oglas",
-          timeout: 1000,
-          type: "danger"
+      try {
+        let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
+          'starts_at': start.format('D-M-Y'),
+          'ends_at': end.format('D-M-Y')
         })
-      } else {
-        console.log(e.response)
+
+        console.log(res);
+
+        this.$snackbar.show({
+          text: "Upit poslan",
+          timeout: 1000,
+          type: "success"
+        });
+      } catch (e) {
+        if (e.response.data.code === 10) {
+          this.$snackbar.show({
+            text: "Već ste poslali upit za ovaj oglas",
+            timeout: 1000,
+            type: "danger"
+          })
+        } else {
+          console.log(e.response)
+        }
       }
+    } else {
+      await this.$router.push('/auth/login')
     }
   }
 
@@ -2094,7 +2098,7 @@ export default class Artikal extends Vue {
   background: #f9f9f9;
   padding: 12px;
   border-radius: 7px;
-  margin: 0 16px 16px 16px;
+  margin: 0 0px 16px 0;
 
   @include for-phone-only {
     margin: 0 0 16px 0;

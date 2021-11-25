@@ -25,7 +25,7 @@ import PieChart from "@/components/analytics/PieChart";
     StandardChart,
     PieChart
   },
-  layout() { return "home" }
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
 
 export default class Dashboard extends Vue {
@@ -67,6 +67,11 @@ export default class Dashboard extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
 
 a {
   font-size: 16px;
@@ -89,14 +94,24 @@ a {
   }
 }
 
+.content {
+  @include for-phone-only {
+    padding: 0;
+  }
+}
+
 ul.expanded {
-  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 36px;
   border-bottom: 1px solid #EBEBEB !important;
   justify-content: flex-start;
+
+  @include for-phone-only {
+    margin: 0;
+    overflow-x: scroll;
+  }
 
   a {
     font-size: 14px !important;
@@ -108,6 +123,10 @@ ul.expanded {
     cursor: pointer;
     font-weight:500;
     width: fit-content;
+
+    @include for-phone-only {
+      min-width: fit-content;
+    }
 
     &:last-child {
       margin-right: 0;
@@ -144,7 +163,13 @@ ul.expanded {
 }
 
 .account-wrapper-a {
-  padding-top: 120px;
+  padding-top: 40px;
+
+  @include for-phone-only {
+    width: 100%;
+    padding: 16px;
+    background: #fff;
+  }
 }
 
 .dashboard-inner {

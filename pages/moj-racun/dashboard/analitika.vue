@@ -268,6 +268,14 @@ export default class Analitika extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+
 .analitika-wrapper {
   display: flex;
   flex-direction: column;
@@ -286,6 +294,12 @@ export default class Analitika extends Vue {
     grid-column-gap: 36px;
     margin-bottom: 36px;
     box-sizing: border-box;
+  }
+}
+
+.content {
+  @include for-phone-only {
+    padding: 0;
   }
 }
 </style>

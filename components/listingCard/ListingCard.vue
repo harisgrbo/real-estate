@@ -12,10 +12,10 @@
 <!--        </button>-->
 
         <div v-show="showListingOptions" class="w-full">
-          <action-button class="mt-4" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$emit('edit-listing', listing.id)" :loading="loading"></action-button>
-          <action-button class="mt-4" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}" :loading="loading"></action-button>
-          <action-button class="mt-4" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)" :loading="loading"></action-button>
-          <action-button class="mt-4" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)" :loading="loading"></action-button>
+          <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$emit('edit-listing', listing.id)" :loading="loading"></action-button>
+          <action-button class="option-btn" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}" :loading="loading"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)" :loading="loading"></action-button>
+          <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)" :loading="loading"></action-button>
         </div>
       </div>
 
@@ -534,6 +534,10 @@ export default class ListingCard extends Vue{
     transition: 0.3s all ease;
     flex-direction: column;
 
+    @include for-phone-only {
+      padding: 8px;
+    }
+
     button {
       height: 48px;
       background: #1F2937;
@@ -753,5 +757,13 @@ export default class ListingCard extends Vue{
   color: #fff;
   font-size: 14px !important;
 
+}
+
+.option-btn {
+  margin-top: 12px;
+
+  @include for-phone-only {
+    margin-top: 6px;
+  }
 }
 </style>
