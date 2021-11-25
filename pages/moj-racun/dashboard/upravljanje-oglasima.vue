@@ -1,6 +1,6 @@
 <template>
   <div class="upravljanje-wrapper">
-    <div class="grid-cols-6 grid gap-4">
+    <div class="grid-cols-6 grid gap-4 mobile-grid">
       <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal(listing.id)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="delete-listing" :adaptive="true" height="100%">
@@ -102,6 +102,12 @@ export default class UpravljanjeOglasima extends Vue {
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .upravljanje-wrapper {
   display: flex;
   flex-direction: column;
@@ -109,6 +115,19 @@ export default class UpravljanjeOglasima extends Vue {
   box-sizing: border-box;
   width: auto;
   margin: 0 80px;
+
+  @include for-phone-only {
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-grid {
+    @include for-phone-only {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      padding-top: 20px;
+    }
+  }
 
   h2 {
     font-size: 20px;

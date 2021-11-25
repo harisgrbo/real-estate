@@ -3,12 +3,7 @@
     <div class="col-span-12">
       <!-- BEGIN: Display Information -->
       <div class="intro-y box lg:mt-5">
-        <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
-          <h2 class="font-medium text-base mr-auto">
-            Display Information
-          </h2>
-        </div>
-        <div class="p-5">
+        <div class="py-5">
           <div class="flex flex-col-reverse xl:flex-row flex-col">
             <div class="flex-1 mt-6 xl:mt-0">
               <div class="grid grid-cols-12 gap-x-5">
@@ -32,7 +27,7 @@
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary w-20 mt-3" @click="updateProfileInfo">Sačuvaj</button>
+              <button type="button" class="btn bg-gray-800 text-white w-20 mt-3" @click="updateProfileInfo">Sačuvaj</button>
             </div>
           </div>
         </div>
@@ -123,7 +118,18 @@ export default class urediProfil extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.content {
+  @include for-phone-only {
+    padding-top: 0;
+  }
+}
 .box {
   box-shadow: none;
   border-bottom: 1px solid #f1f1f1;

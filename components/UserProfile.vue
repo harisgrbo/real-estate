@@ -30,7 +30,11 @@
 <!--        </button>-->
       </div>
 
-      <div class="rent" v-if="isBooking && !$device.isMobile && !authUser">
+      <div class="rent" v-if="isBooking && !$device.isMobile">
+        <div class="flex flex-row items-center w-full">
+          <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
+          <p class="pl-2">/ noć</p>
+        </div>
       </div>
       <div class="rent" v-else>
         <div class="flex flex-col items-start price-wrap" v-if="!$device.isMobile">
@@ -343,6 +347,10 @@ aside {
 .sticky-top {
   position: sticky;
   top: 100px;
+
+  @include for-phone-only {
+    position: static;
+  }
 }
 
 textarea {
