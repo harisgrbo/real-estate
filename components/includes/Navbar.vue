@@ -87,6 +87,10 @@
           <div v-if="! $auth.user" class="auth-reg">
             <button @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
+          <button v-if="$auth.user" class="login-a" @click="$router.push('/kredit')">
+            <img src="/coins.png" alt="">
+            <p class="text-medium text-gray-800 bg-gray-50 rounded-sm p-3 ml-2">{{ $auth.user.credits }}</p>
+          </button>
           <button v-if="$auth.user" class="login-a">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -203,11 +207,9 @@ export default class Navbar extends Vue {
     document.body.style.overflow = 'hidden';
   }
 
-  beforeClose() {
-    document.body.style.overflow = 'auto';
-  }
-
   async created() {
+
+    console.log(this.$auth.user)
     await this.getSearches()
     await this.getNotifications()
     await this.getUnreadMessagesCount()
@@ -799,6 +801,9 @@ export default class Navbar extends Vue {
         align-items: center;
         border-radius: 0px;
 
+        img {
+          height: 20px
+        }
 
         &.notify {
           position: relative;
