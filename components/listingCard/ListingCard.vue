@@ -1,5 +1,5 @@
 <template>
-    <div class="listing-card-wrapper" :class="[from? 'blured' : '']">
+    <div class="listing-card-wrapper" :class="[from? 'blured' : '', 'sponsored-' + listing.sponsored]">
       <label class="publisher shadow-sm">
         <span class="flex flex-row items-center">{{ translateType() }}
         </span>
@@ -12,10 +12,10 @@
 <!--        </button>-->
 
         <div v-show="showListingOptions" class="w-full">
-          <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$emit('edit-listing', listing.id)" :loading="loading"></action-button>
-          <action-button class="option-btn" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}" :loading="loading"></action-button>
-          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)" :loading="loading"></action-button>
-          <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)" :loading="loading"></action-button>
+          <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$emit('edit-listing', listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
       </div>
 
@@ -217,6 +217,16 @@ export default class ListingCard extends Vue{
     max-width: 100%;
     overflow: hidden;
     height: fit-content;
+    border-radius: 7px;
+
+    &.sponsored-1 {
+      background: rgba(19, 95, 20, 0.05);
+
+      .listing-card-content {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
 
     @include for-phone-only {
       min-width: 100%;
@@ -235,16 +245,23 @@ export default class ListingCard extends Vue{
       top: 8px;
       border-radius: 4px;
       background: #fff;
-      color: #444;
+      color: #000;
       display: flex;
       align-items: center;
       justify-content: center;
       width: fit-content;
-      height: 24px;
-      padding: 0 8px;
-      font-size: 14px;
+      height: 20px;
+      padding: 0 6px;
+      font-size: 12px;
       font-weight: 500;
       z-index: 2;
+
+      @include for-phone-only {
+        font-size: 12px;
+        padding: 0 4px;
+        border-radius: 2px;
+        height: auto;
+      }
 
       &.type {
         background: none;
@@ -352,6 +369,7 @@ export default class ListingCard extends Vue{
       flex-direction: column;
       padding-top: 10px;
       min-height: 80px;
+      padding-bottom: 8px;
 
       @include for-phone-only {
         min-height: fit-content;
@@ -499,7 +517,30 @@ export default class ListingCard extends Vue{
       }
     }
 
+    &.sponsored-2 {
+      background: rgba(19, 95, 20, 0.05);
+      .listing-card-content {
+        padding-left: 8px;
+        padding-right: 8px;
 
+        .address.title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-weight: 500 !important;
+          font-size: 16px !important;
+          line-height: 20px !important;
+          background: #012F34 !important;
+          color: #fff !important;
+
+          p {
+            color: #fff !important;
+            padding: 0 4px;
+          }
+
+        }
+      }
+    }
   }
 
   .icons {

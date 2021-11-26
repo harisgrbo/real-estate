@@ -52,6 +52,13 @@
           </li>
         </ul>
       </li>
+      <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between">
+        <div class="flex flex-row items-center w-full">
+          <img src="/coins.png" alt="">
+          <nuxt-link to="/kredit">Kredit</nuxt-link>
+        </div>
+        <span class="bg-gray-50 p-2 font-semibold text-sm text-gray-800">{{ $auth.user.credits }}</span>
+      </li>
       <li v-if="$auth.user">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -211,6 +218,9 @@ export default class sidenav extends Vue {
         }
       }
 
+      img {
+        height: 20px;
+      }
       &.sub-menu {
         height: fit-content;
         margin-bottom: 0;

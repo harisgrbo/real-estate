@@ -1,75 +1,44 @@
 <template>
   <div class="credit-wrapper">
     <div class="credit-inner">
-      <div class="row">
-        <ul class="types">
-          <li>
-            <h2>Izaberite način kupovine kredita</h2>
-          </li>
-          <li v-for="(tab, index) in tabs" @click="currentTab = index" :key="index" :class="[ currentTab === index ? 'selected' : '' ]">
-            <img :src="tab.img" alt="">
-            <p>{{ tab.type }}</p>
-          </li>
-          <li class="actual">
-            <h2>Trenutno stanje kredita</h2>
-            <b>{{ $auth.user.credits }}</b>
-            <img src="/coinicon.svg" alt="">
-          </li>
-        </ul>
-        <div class="content">
+        <div class="flex mob-credit flex-row w-full justify-between mb-8">
+          <div class="flex flex-row items-center">
+            <img src="/credit-card.svg" alt="" class="mr-4">
+            <p class="text-xl text-gray-800 font-medium">Dopuna kredita karticom</p>
+          </div>
+          <div class="actual flex flex-col p-4 bg-gray-50 rounded-md">
+            <h3 class="text-lg text-gray-800 font-normal">Trenutno stanje kredita</h3>
+            <div class="flex flex-row items-center mt-2">
+              <img height="22px" src="/coins.png" alt="" class="mr-2">
+              <b>{{ $auth.user.credits }}</b>
+            </div>
+          </div>
+        </div>
+        <div class="content-inner">
           <div v-if="currentTab === 0" div="buy-options-wrap">
-            <h2>Izaberite jednu od ponuđenih opcija za dopunu kredita</h2>
+            <h2 class="section-title">Izaberite jednu od ponuđenih opcija za dopunu kredita</h2>
             <div class="buy-options">
-              <button v-for="(option, index) in options" :key="index" @click="selectCard(option)" :class="[ selectedCardOption !== null && selectedCardOption.id === option.id ? 'selected' : '' ]">
-                <div class="value">{{ option.value }}</div>
+              <button v-for="(option, index) in options" :key="index" @click="selectCard(option)" :class="[ selectedCardOption !== null && selectedCardOption.id === option.id ? 'bg-gray-800 text-white selected' : '' ]">
+                <div class="value">{{ option.value + ' kredita' }}</div>
                 <div class="price">
-                  <img src="/coinicon.svg" alt="">
+                  <img src="/coins.png" alt="">
                   <p>{{ option.price }}</p>
                 </div>
               </button>
             </div>
             <h2 v-if="selectedCardOption !== null">Izaberite način kartičnog plaćanja</h2>
             <ul v-if="selectedCardOption !== null" class="cards">
-              <li v-for="(tab, index) in cards" @click="currentCard = index" :key="index" :class="[ currentCard === index ? 'selected-card' : '' ]">
+              <li v-for="(tab, index) in cards" @click="currentCard = index" :key="index" :class="[ currentCard === index ? 'bg-gray-800 text-white selected-card' : '' ]">
                 <img :src="tab.img" alt="">
-                <p>{{ tab.type }}</p>
+                <p v-if="!$device.isMobile">{{ tab.type }}</p>
               </li>
             </ul>
+            <TextField v-model="credits"></TextField>
+            <ActionButton placeholder="Dopuni kredit" @action="handleAction"></ActionButton>
           </div>
-          <div v-if="currentTab === 1">
-            <h2>Izaberite operatera</h2>
-            <ul class="operaters">
-              <li v-for="(tab, index) in operaters" @click="currentOperater = index" :key="index" :class="[ currentOperater === index ? 'selected-card' : '' ]">
-                <img :src="tab.img" alt="">
-                <p>{{ tab.type }}</p>
-              </li>
-            </ul>
-            <div v-if="currentOperater === 0">
-              <div class="buy-options-sms">
-                <button v-for="(option, index) in smsOptions" :key="index" @click="selectSmsOption(option)" :class="[ selectedSmsOption !== null && selectedSmsOption.id === option.id ? 'selected' : '' ]">
-                  <div class="value">
-                    <p>{{ option.value }}</p>
-                    <p>{{ option.price }}</p>
-                  </div>
-                  <div class="price">
-                    <p>posalji {{ option.word }} </p>
-                    <p>na broj {{ option.number }}</p>
-                  </div>
-                </button>
-              </div>
-              <h2>Nakon što pošaljete SMS, u roku od par sekundi ćete dobiti odgovor sa kodom. Unesite ga u polje ispod:</h2>
-
-              <TextField v-model="credits"></TextField>
-              <ActionButton placeholder="Dopuni kredit" @action="handleAction"></ActionButton>
-            </div>
-          </div>
-          <div v-if="currentTab === 2">
-            3
-          </div>
-          <Snackbar></Snackbar>
         </div>
-      </div>
     </div>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -85,7 +54,7 @@ import Snackbar from "@/components/global/Snackbar"
     Snackbar,
     ActionButton
   },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home'
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings'
 })
 export default class Kredit extends Vue {
   tabs = [
@@ -132,42 +101,42 @@ export default class Kredit extends Vue {
   options = [
     {
       id: 1,
-      value: '100 kredita',
+      value: '100',
       price: '5 KM'
     },
     {
       id: 2,
-      value: '200 kredita',
+      value: '200',
       price: '8 KM'
     },
     {
       id: 3,
-      value: '400 kredita',
+      value: '400',
       price: '14 KM'
     },
     {
       id: 4,
-      value: '800 kredita',
+      value: '800',
       price: '30 KM'
     },
     {
       id: 5,
-      value: '1600 kredita',
+      value: '1600',
       price: '55 KM'
     },
     {
       id: 6,
-      value: '3200 kredita',
+      value: '3200',
       price: '80KM'
     },
     {
       id: 7,
-      value: '6400 kredita',
+      value: '6400',
       price: '112 KM'
     },
     {
       id: 8,
-      value: '10000 kredita',
+      value: '10000',
       price: '200 KM'
     },
   ]
@@ -211,6 +180,8 @@ export default class Kredit extends Vue {
 
   selectCard(c) {
     this.selectedCardOption = c;
+
+    this.credits = c.value;
   }
 
   selectSmsOption(c) {
@@ -240,11 +211,23 @@ export default class Kredit extends Vue {
 </script>
 
 <style scoped lang="scss">
+
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .credit-wrapper {
   height: 100%;
   width: 100%;
   min-height: 100%;
-  padding-top: 36px;
+  padding-top: 60px;
+
+  @include for-phone-only {
+    padding-top: 20px;
+    padding-bottom: 120px;
+  }
 
   h2 {
     font-size: 18px;
@@ -255,9 +238,13 @@ export default class Kredit extends Vue {
   .credit-inner {
     display: flex;
     flex-direction: column;
-    width: 1280px;
+    width: 900px;
     margin: 0 auto;
 
+    @include for-phone-only {
+      width: 100%;
+      padding: 0 12px;
+    }
     .row {
       display: flex;
       flex-direction: row;
@@ -267,9 +254,6 @@ export default class Kredit extends Vue {
       display: flex;
       flex-direction: column;
       flex: 2;
-      margin-right: 24px;
-      border-right: 1px solid #f1f1f1;
-      padding-right: 24px;
 
       li {
         display: flex;
@@ -284,10 +268,6 @@ export default class Kredit extends Vue {
           padding: 0;
         }
 
-        p {
-          font-weight:500;
-          font-size: 15px;
-        }
 
         img {
           margin-right: 24px;
@@ -299,31 +279,17 @@ export default class Kredit extends Vue {
           border-radius: 10px;
         }
 
-        &.actual {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          justify-content: space-between;
-          border: 1px solid #444;
-          margin-top: 46px;
-          border-radius: 10px;
-
-          img {
-            margin-right: 0;
-          }
-
-          h2 {
-            font-size: 16px;
-            margin-bottom: 0;
-            margin-top: 0;
-          }
-        }
       }
     }
 
-    .content {
+    .content-inner {
       display: flex;
       flex: 5;
+
+      @include for-phone-only {
+        flex: 1;
+        width: 100%;
+      }
 
       > div {
         width: 100%;
@@ -338,23 +304,28 @@ export default class Kredit extends Vue {
         min-width: 100%;
         margin-bottom: 36px;
 
+        @include for-phone-only {
+          grid-template-columns: repeat(1, 1fr);
+        }
+
         button {
           height: 100px;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          border-radius: 10px;
+          border-radius: 7px;
           border: 1px solid #dcdcdc;
           width: 100%;
-          background: transparent;
           padding: 24px;
           box-sizing: border-box;
           cursor: pointer;
 
           &.selected {
-            border: none;
-            background: #f1f1f1;
+
+            img {
+              filter: invert(1)
+            }
           }
 
           &:focus {
@@ -402,6 +373,13 @@ export default class Kredit extends Vue {
           width: fit-content;
           padding: 8px 24px;
 
+          @include for-phone-only {
+            padding: 8px 12px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+          }
+
           p {
             font-weight:500;
             font-size: 15px;
@@ -419,8 +397,10 @@ export default class Kredit extends Vue {
             }
           }
           &.selected-card {
-            background: #f1f1f1;
-            border-radius: 10px;
+            border-radius: 7px;
+            img[src$='.png'] {
+              filter: invert(1) brightness(100);
+            }
           }
         }
       }
@@ -529,5 +509,24 @@ export default class Kredit extends Vue {
 .buy-options-wrap {
   width: 100%;
   min-width: 100%;
+}
+
+.actual {
+
+  @include for-phone-only {
+    margin-top: 12px;
+  }
+
+  img {
+    height: 25px;
+    margin-right: 12px;
+  }
+}
+
+.mob-credit {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>
