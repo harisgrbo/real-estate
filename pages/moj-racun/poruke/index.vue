@@ -174,7 +174,7 @@
                     <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                       {{ message.content }}
                       <div class="flex justify-between">
-                        <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                        <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
@@ -216,79 +216,87 @@
           </div>
         </div>
         <!-- END: Chat Content -->
-        <modal name="conversations" @before-open="beforeOpen" @before-close="beforeClose" :adaptive="true" height="100%">
-          <div class="modal-inner">
-            <div class="modal-content">
-              <div class="intro-y col-span-12 lg:col-span-8 2xl:col-span-9">
-                <div class="chat__box box">
-                  <!-- BEGIN: Chat Active -->
-                  <div v-if="currentConversation" class="h-full flex flex-col">
-                    <div class="shadow-sm flex flex-col sm:flex-row border-b border-gray-200 dark:border-dark-5 pb-5">
-                      <div class="flex items-center">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
-                          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
-                        </div>
-                        <div class="ml-3 mr-auto flex flex-row items-center justify-between w-full">
-                          <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
-                          <i class="material-icons" @click="$modal.hide('conversations')">close</i>
-                        </div>
-                      </div>
-                    </div>
-                    <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden pt-5 flex-1">
-                      <div v-for="message in messages">
-                        <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
-                          <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                            <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
-                          </div>
-                          <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
-                            {{ message.content }}
-                            <div class="flex justify-between">
-                              <div :class="[isMe(message) ? 'mt-1 text-xs text-theme-33': 'mt-1 text-xs text-gray-600' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                              <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
-                            </div>
-                          </div>
-                          <div class="hidden sm:block dropdown ml-3 my-auto">
-                            <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                            <div class="dropdown-menu w-40">
-                              <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                                <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                                <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="clear-both"></div>
-                      </div>
-                    </div>
-                    <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
-                      <img src="/loader.svg" alt="">
-                    </div>
-                    <div class="pt-4 pb-10 flex items-center justify-between border-t border-gray-200 dark:border-dark-5">
-                      <textarea v-model="messageContent" @keyup.enter="sendMessage" class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Type your message..."></textarea>
-                      <button @click.prevent="sendMessage" class="ml-5 w-auto h-10 px-3 font-semibold sm:h-10 flex bg-theme-17 text-white rounded-md flex-none flex items-center justify-center">Pošalji</button>
-                    </div>
-                  </div>
-                  <!-- END: Chat Active -->
-                  <!-- BEGIN: Chat Default -->
-                  <div v-else class="h-full flex items-center">
-                    <div class="mx-auto text-center">
-                      <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                        <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg">
-                      </div>
-                      <div class="mt-3">
-                        <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
-                        <div class="text-gray-600 mt-1">Klikom na jednu od konverzacija, započni raygovor.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- END: Chat Default -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </modal>
       </div>
     </div>
+    <modal name="conversations" @before-open="beforeOpen" @before-close="beforeClose" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-content">
+          <div class="intro-y col-span-12 lg:col-span-8 2xl:col-span-9">
+            <div class="chat__box box">
+              <!-- BEGIN: Chat Active -->
+              <div v-if="currentConversation" class="h-full flex flex-col">
+                <div class="shadow-sm flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-0 py-3">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
+                    </div>
+                    <div class="ml-3 mr-auto">
+                      <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
+                    </div>
+                  </div>
+                  <div class="flex flex-row items-center">
+                    <div class="flex items-center cursor-pointer" @click="pinConversation(currentConversation)">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" :fill="pinned_conversation && (pinned_conversation.id === currentConversation.id) ? '#1F2937' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                    </div>
+                    <i class="material-icons ml-4" @click="$modal.hide('conversations')">close</i>
+                  </div>
+                </div>
+                <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden pt-5 flex-1">
+                  <div v-for="message in messages">
+                    <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
+                      <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
+                        <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
+                      </div>
+                      <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                        {{ message.content }}
+                        <div class="flex justify-between">
+                          <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        </div>
+                      </div>
+                      <div class="hidden sm:block dropdown ml-3 my-auto">
+                        <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
+                        <div class="dropdown-menu w-40">
+                          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                            <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
+                            <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="clear-both"></div>
+                  </div>
+                </div>
+                <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
+                  <img src="/loader.svg" alt="">
+                </div>
+                <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-200 dark:border-dark-5">
+                  <textarea v-model="messageContent" @keyup.enter="sendMessage" class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Upišite poruku..."></textarea>
+                  <button @click.prevent="sendMessage" class="ml-5 w-auto h-10 px-3 font-semibold sm:h-10 flex bg-theme-17 text-white rounded-md flex-none flex items-center justify-center">Pošalji</button>
+                </div>
+              </div>
+              <!-- END: Chat Active -->
+              <!-- BEGIN: Chat Default -->
+              <div v-else class="h-full flex items-center">
+                <div class="mx-auto text-center">
+                  <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
+                    <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg">
+                  </div>
+                  <div class="mt-3">
+                    <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
+                    <div class="text-gray-600 mt-1">Klikom na jednu od konverzacija, započni raygovor.</div>
+                  </div>
+                </div>
+              </div>
+              <!-- END: Chat Default -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal>
+
   </div>
 </template>
 
@@ -633,6 +641,23 @@ export default class Porukice extends Vue {
     order: -1;
     color: #fff !important;
   }
+}
+
+.vm--modal {
+  max-height: 100% !important;
+  min-height: 100% !important;
+  top: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.vm--container {
+  height: 100% !important;
+  top: 0 !important;
+}
+
+.bg-theme-17 {
+  background: #1F2937 !important;
 }
 </style>
 
