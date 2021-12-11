@@ -88,7 +88,7 @@
               <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>
               <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>
               <div class="flex flex-row items-center justify-start flex-wrap mb-2">
-                <div class="text-xs more-info" v-for="info in normalAttributes">{{ info.value + ", " }}</div>
+                <div class="text-xs more-info" v-for="info in normalAttributes">{{ info.value + ', ' }}</div>
               </div>
             </div>
           </a>

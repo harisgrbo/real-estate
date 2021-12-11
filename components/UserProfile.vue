@@ -24,6 +24,8 @@
           </div>
         </div>
 
+        <button @click="blockUser(user.id)">Blokiraj korisnika</button>
+
 <!--        <button class="report-user" v-if="!isMe">-->
 <!--          <font-awesome-icon icon="user-slash"></font-awesome-icon>-->
 <!--          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
@@ -110,6 +112,16 @@ export default class UserProfile extends Vue {
         end: this.$moment(item.ends_at).toDate(),
       }
     })
+  }
+
+  async blockUser(id) {
+    try {
+      let res = await this.$axios.post('/profile/users/' + id + '/block');
+
+      this.$snackbar.show()
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   user_type(t) {

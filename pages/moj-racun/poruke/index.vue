@@ -164,6 +164,11 @@
                   </svg>
                   <p class="font-medium">{{ pinned_conversation && (pinned_conversation.id === currentConversation.id ) ? 'Izbriši iz pinovanih' : 'Pinuj razgovor'}}</p>
                 </div>
+                <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 sm:pt-0 -mx-5 sm:mx-0 px-5 cursor-pointer hover:bg-gray-50 rounded-md" @click="deleteConversation(currentConversation)">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </div>
               </div>
               <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
                 <div v-for="message in messages">
@@ -195,7 +200,7 @@
                 <img src="/loader.svg" alt="">
               </div>
               <div class="pt-4 pb-10 sm:py-4 flex items-center justify-between border-t border-gray-200 dark:border-dark-5 px-5">
-                <textarea v-model="messageContent" @keyup.enter="sendMessage" class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Type your message..."></textarea>
+                <textarea v-model="messageContent" @keyup.enter="sendMessage" class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Upišite poruku..."></textarea>
                 <button @click.prevent="sendMessage" class="ml-5 w-auto h-10 px-3 font-semibold sm:h-10 flex bg-theme-17 text-white rounded-md flex-none flex items-center justify-center">Pošalji</button>
               </div>
             </div>
@@ -403,6 +408,18 @@ export default class Porukice extends Vue {
 
     if(process.browser) {
       localStorage.setItem('pinned', JSON.stringify(c))
+    }
+  }
+
+  deleteConversation(c) {
+    let index = this.conversations.findIndex(item => item.id === c.id);
+
+    this.$axios.delete('/conversations/' + c.id);
+
+    if (index !== -1) {
+      this.conversations.splice(index, 1);
+
+      this.currentConversation = null;
     }
   }
 
