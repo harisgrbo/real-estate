@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <label class="block text-md font-medium text-gray-700 mb-2">{{ title }}</label>
+    <label class="block text-md font-medium text-gray-700 mb-2">{{ label }}</label>
     <div :class="['input-wrapper', showAutoCompleteDropdown ? 'shadow-sm' : '']">
       <div>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,7 +35,7 @@ import {mixin as clickaway} from "vue-clickaway";
 })
 
 export default class PublishDropdown extends Vue{
-  @Prop({ type: String }) title;
+  @Prop({ type: String }) label;
   @Prop({ type: String }) placeholder;
 
   showAutoCompleteDropdown = false;
@@ -84,6 +84,7 @@ export default class PublishDropdown extends Vue{
   max-width: 600px;
   margin-top: 0;
   min-height: 48px;
+  max-height: 48px;
   height: fit-content;
   border: 1px solid #ddd;
 
