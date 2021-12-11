@@ -37,7 +37,6 @@
             </div>
           </div>
 
-
           <div class="flex items-center justify-end types">
             <div class="inline-block text-left" v-if="!$device.isMobile">
               <div @click="showSortDropdown = !showSortDropdown" class="mr-4 relative z-30">
@@ -85,6 +84,21 @@
           </div>
         </div>
       </div>
+
+
+      <div>
+        Odabrani filter, stavi kruzive ovdje reha
+
+        <ul>
+          <li v-for="filter in queryPayload" v-if="filter">
+            <div>
+              {{ filter.name }} {{ filter.value }}
+              <button @click="queryPayload[filter.name] = null; newSearch();">X</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
       <!-- Filters -->
       <section aria-labelledby="filter-heading">
         <h2 id="filter-heading" class="sr-only">Filters</h2>
@@ -363,7 +377,6 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
         results = response.data.data;
-        console.log(response, 'results')
         meta = response.data.meta;
         allAttributes = response.data.meta.attributes;
 
