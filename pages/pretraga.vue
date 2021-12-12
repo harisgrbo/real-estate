@@ -87,7 +87,7 @@
 
 
       <div class="flex flex-col">
-        <ul class="flex flex-row items-center justify-start w-full selected-filters">
+        <ul class="flex flex-row items-center justify-start w-full selected-filters mt-4">
           <li v-for="filter in queryPayload" v-if="filter && filterResolveValue(filter)" class="py-2 px-3 border border-black mr-3">
             <div class="flex flex-row items-center">
               {{ filterResolveValue(filter) }}
