@@ -88,9 +88,9 @@
 
       <div class="flex flex-col">
         <ul class="flex flex-row items-center justify-start w-full selected-filters">
-          <li v-for="filter in queryPayload" v-if="filter" class="py-2 px-3 border border-black mr-3">
+          <li v-for="filter in queryPayload" v-if="filter && filterResolveValue(filter)" class="py-2 px-3 border border-black mr-3">
             <div class="flex flex-row items-center">
-              {{ filter.value }}
+              {{ filterResolveValue(filter) }}
               <button @click="queryPayload[filter.name] = null; newSearch();">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -241,7 +241,7 @@
                   @input="newSearch"
                 />
 
-                <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
+                <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
 
                 <component
                   class="bb-filters"
@@ -344,6 +344,7 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
     let queryPayload = {};
     let categories = [];
     let cityIds = [];
+    let cityNames = null;
     let selectedCategoryId = null;
     let selectedPreviewType = 'grid';
     let selectedSort = {
@@ -434,9 +435,20 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 
     let categoryTitle = category ? category.title: '';
 
+    if (cityIds.length) {
+      let tmp = [];
+      for(let i = 0; i < cityIds.length; ++i) {
+        let res = (await ctx.app.$axios.get('/cities/' + cityIds[i])).data.data;
+        tmp.push(res.name);
+      }
+
+      cityNames = tmp;
+    }
+
     return {
       loading,
       cityIds,
+      cityNames,
       selectedSort,
       selectedPreviewType,
       categoryTitle,
@@ -518,6 +530,48 @@ export default class Homepage extends Vue {
     } else {
       this.selectedPreviewType = 'grid'
     }
+  }
+
+  filterResolveValue(filter) {
+    if (filter.name === 'category_id') {
+      let name = this.categories.find(item => item.id === filter.value);
+
+      if (name) {
+        return name.title;
+      }
+    } else if (filter.name === 'listing_type_id') {
+      let name = [];
+
+      filter.value.forEach(filterVal => {
+        let listing_type = this.listing_types.find(item => item.id === filterVal);
+
+        if (listing_type) {
+          name.push(listing_type.name)
+        }
+      })
+
+      return name.join(', ');
+    } else if (filter.name === 'price') {
+      let name = "Cijena";
+
+      if (filter.value[0]) {
+        name += " od " + filter.value[0];
+      }
+
+      if (filter.value[1]) {
+        name += " do " + filter.value[1];
+      }
+
+      return name;
+    } else if (filter.name === 'city_id') {
+      if (this.cityNames) {
+        return this.cityNames.join(', ');
+      }
+
+      return null;
+    }
+
+    return filter.value;
   }
 
   handleListingHover(index) {
@@ -629,7 +683,6 @@ export default class Homepage extends Vue {
   }
 
   handleCitiesSearch(cityIds) {
-
     if (cityIds.length) {
       this.queryPayload.city_id = {
         name: "city_id",
@@ -639,7 +692,6 @@ export default class Homepage extends Vue {
     } else {
       delete this.queryPayload.city_id;
     }
-
 
     this.newSearch();
   }

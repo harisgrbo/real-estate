@@ -51,6 +51,7 @@ export default class CitiesMultipleSelect extends Vue{
 
   emitValues() {
     this.$emit('cities', this.selectedOptions.map(item => item.id));
+    this.$emit('citynames', this.selectedOptions.map(item => item.name));
   }
 
   addOptionToSelected(o) {
