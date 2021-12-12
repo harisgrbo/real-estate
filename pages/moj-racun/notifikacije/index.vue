@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications mx-auto w-full">
+  <div class="preview-wrapper-inner mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -10,25 +10,31 @@
     <div class="flex flex-row pb-8 justify-between notifications-wrap" v-if="notifications.length">
       <ul class="divide-y divide-gray-200 w-full">
         <li class="notification flex flex-col items-start justify-start relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600" v-for="(notification, index) in notifications" :key="index">
-          <div class="flex justify-between w-full items-start space-x-3">
-            <div class="min-w-0 flex-1">
-              <a href="#" class="block focus:outline-none">
-                <span class="absolute inset-0" aria-hidden="true"></span>
-                <p class="text-sm font-medium text-gray-900 truncate">{{ notification.data.user.name }}</p>
-              </a>
+          <nuxt-link :to="notification.data.action" class="flex flex-col space-x-3 w-full">
+            <div class="flex justify-between w-full items-start space-x-3">
+              <div class="min-w-0 flex-1">
+                <a href="#" class="block focus:outline-none" v-if="notification.data.user">
+                  <span class="absolute inset-0" aria-hidden="true"></span>
+                  <p class="text-sm font-medium text-gray-900 truncate">{{ notification.data.user.name }}</p>
+                </a>
+              </div>
+              <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(notification.created_at).fromNow() }}</time>
             </div>
-            <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(notification.created_at).fromNow() }}</time>
-          </div>
-          <div class="mt-4">
-            <p class="line-clamp-2 font-normal text-sm text-gray-600 desc">
-              {{ notification.data.text }}
-            </p>
-          </div>
-          <button @action="handleAction(notification.data)" type="button" class="mt-6 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Pogledaj
-          </button>
+            <div class="mt-4">
+              <p class="line-clamp-2 font-normal text-sm text-gray-900 desc">
+                {{ notification.data.text }}
+              </p>
+            </div>
+            <button @action="handleAction(notification.data)" type="button" class="mt-6 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Pogledaj
+            </button>
+          </nuxt-link>
         </li>
       </ul>
+    </div>
+    <div class="flex flex-row pb-8 justify-between notifications-wrap" v-else>
+      <img src="/bell-notify.png" alt="">
+      <h2 class="mt-2 p-2 text-standard font-medium">Nemate obavijesti</h2>
     </div>
   </div>
 </template>
@@ -67,15 +73,23 @@ export default class notifikacije extends Vue {
 </script>
 
 <style scoped lang="scss">
-.notifications-wrap {
-  margin-top: 24px;
-}
-
 @mixin for-phone-only {
   @media (max-width: 599px) {
     @content;
   }
 }
+
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
+}
+
+
 
 
 .notifications {
@@ -119,5 +133,16 @@ h1 {
 
 .postavke {
   height: fit-content;
+}
+
+.notifications-wrap {
+  margin-top: 36px;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+
+  button {
+    width: fit-content;
+  }
 }
 </style>

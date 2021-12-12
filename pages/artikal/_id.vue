@@ -115,12 +115,12 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
-                  <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                  <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
                     <div>
-                      <h3 class="text-sm font-medium text-gray-900">
+                      <h3 class="text-md font-medium text-gray-900">
                         <a href="#" class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
@@ -140,7 +140,7 @@
                 <div
                   v-for="(attr, index) in RentSpecialAttributes"
                   :key="index"
-                  class="flex flex-row items-center p-2 rounded-md border border-gray-400 rent-special"
+                  class="flex flex-row items-center p-2 rounded-sm border border-gray-200 rent-special"
                 >
                   <img :src="'/' + attr.name + '.png'" alt="">
                   <div class="flex flex-row items-center justify-between w-full">
@@ -154,7 +154,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -165,7 +165,7 @@
                           {{ info.name }}
                         </a>
                       </h3>
-                      <p class="mt-1 text-sm text-black font-semibold">{{ attrTranslate(info.value) }}</p>
+                      <p class="mt-1 text-md text-black font-semibold">{{ attrTranslate(info.value) }}</p>
                     </div>
                   </div>
                 </li>
@@ -349,7 +349,7 @@
               <ActionButton v-if="$auth.user" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
           </div>
-          <div class="user-wrap">
+          <div class="user-wrap relative z-10">
             <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user" class="px-5 lg:px-0 xl:px-0 up:px-0">
@@ -1390,12 +1390,12 @@ export default class Artikal extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 4px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
       box-sizing: border-box;
-      padding: 24px;
+      padding: 12px;
       min-height: 400px;
 
 
@@ -1605,10 +1605,10 @@ export default class Artikal extends Vue {
 
   textarea {
     background: #fff;
-    border: 1px solid #dcdcdc;
+    border: 1px solid #ddd;
     height: 100px;
     padding: 12px;
-    border-radius: 5px;
+    border-radius: 4px;
     font-family: 'Outfit', sans-serif;
     &:focus {
       outline: none;
@@ -1691,6 +1691,13 @@ export default class Artikal extends Vue {
   @include for-phone-only {
     min-height: 400px;
   }
+
+
+}
+
+.swiper-lazy {
+  position: relative !important;
+  z-index: 0 !important;
 }
 
 .swiper-container {
@@ -1881,9 +1888,9 @@ export default class Artikal extends Vue {
     width: fit-content;
     min-width: fit-content;
     max-width: fit-content;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #d7d7d7;
     margin-right: 12px;
-    border-radius: 7px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2125,8 +2132,9 @@ export default class Artikal extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 8px;
-    background: #F3F3F4;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #ddd;
     flex: 2;
     position: relative;
     transition: 0.3s all ease;
@@ -2182,14 +2190,15 @@ export default class Artikal extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
-  padding: 0 12px;
-  background: #F3F3F4;
+  border-radius: 4px;
+  padding: 12px;
+  background: #fff;
   flex: 2;
   position: relative;
   transition: 0.3s all ease;
   margin-top: 0;
   min-height: 150px;
+  border: 1px solid #ddd;
   width: 100%;
 }
 

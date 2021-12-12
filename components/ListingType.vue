@@ -65,7 +65,7 @@ export default class ListingType extends Vue{
 .categories-list {
   display: flex;
   flex-direction: column;
-  padding: 0 24px;
+  padding: 12px;
 
   @include for-phone-only {
     padding: 16px !important;

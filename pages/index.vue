@@ -17,14 +17,12 @@
         </ul>
         <div class="flex flex-row items-center w-full inputs">
           <div class="search-inputs">
-            <label>Lokacija</label>
-            <PublishDropdown placeholder="Pretražite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+            <PublishDropdown label="Lokacija" placeholder="Pretražite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
           </div>
           <div>
-            <label>Kategorija</label>
+            <label class="block text-md font-medium text-gray-700 mb-2">Kategorija</label>
 <!--            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>-->
             <fieldset class="w-full">
-              <label for="language" class="sr-only">Language</label>
               <div class="relative">
                 <select id="language" name="language" class="cat-select appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="selectedCategory">
                   <option class="font-medium text-sm" v-for="(category, index) in categories" :key="index" :value="category">{{ category.title }}</option>
@@ -1028,7 +1026,7 @@ ul.most-visited-cats {
     left: 80px;
     right: 80px;
     bottom: -30px;
-    border-radius: 7px;
+    border-radius: 4px;
 
     ul {
       width: fit-content;
@@ -1036,8 +1034,8 @@ ul.most-visited-cats {
       align-items: center;
       justify-content: flex-start;
       background-color: #fff;
-      border-top-left-radius: 7px;
-      border-top-right-radius: 7px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
       height: fit-content;
       overflow: hidden;
       padding: 10px;
@@ -1060,13 +1058,15 @@ ul.most-visited-cats {
     }
 
     select {
-      border-radius: 8px !important;
+      border-radius: 4px !important;
+      border: 1px solid #ddd;
+      cursor: pointer;
     }
 
     .inputs {
-      border-bottom-left-radius: 7px;
-      border-bottom-right-radius: 7px;
-      border-top-right-radius: 7px;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-top-right-radius: 4px;
       height: fit-content;
       padding: 14px;
       align-items: flex-end;
@@ -1080,22 +1080,6 @@ ul.most-visited-cats {
         flex: 1;
         margin-right: 12px;
         padding-right: 12px;
-
-        ::v-deep input {
-          border: none;
-          padding: 0;
-        }
-
-        ::v-deep .input-wrapper {
-          border: none;
-          padding: 0;
-          padding: 0 12px;
-          height: 48px;
-          max-height: 48px !important;
-          min-height: 48px !important;
-          border-radius: 8px;
-          background: #F3F3F4 !important;
-        }
 
         ::v-deep .input-wrapper input {
           height: 48px;
@@ -1113,10 +1097,6 @@ ul.most-visited-cats {
           margin-bottom: 8px;
         }
       }
-    }
-
-    ::v-deep input, select, .input-wrapper {
-      background: #f1f1f1 !important;
     }
 
     button {
@@ -1298,17 +1278,7 @@ ul.most-visited-cats {
 button.search {
   background: #1F2937 !important;
   color: #fff;
-  border-radius: 8px !important;
-}
-
-.search-inputs {
-  ::v-deep .input-wrapper {
-    background: #f1f1f1 !important;
-  }
-
-  ::v-deep .bg-white {
-    background: #f1f1f1 !important;
-  }
+  border-radius: 4px !important;
 }
 
 .mobiile ::v-deep svg {
@@ -1374,5 +1344,9 @@ button.search {
   @include for-phone-only {
     padding-top: 80px;
   }
+}
+
+::v-deep .mobile-user {
+  min-width: 180px;
 }
 </style>

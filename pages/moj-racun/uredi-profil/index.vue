@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper mx-auto w-full">
+  <div class="preview-wrapper-inner mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -7,7 +7,7 @@
         <p>Uredi profil</p>
       </li>
     </ul>
-    <div class="col-span-12">
+    <div class="w-full">
       <!-- BEGIN: Display Information -->
       <div class="intro-y lg:mt-5">
         <div class="flex items-center pb-5 pl-0 border-b border-gray-200 dark:border-dark-5">
@@ -16,49 +16,19 @@
           </h2>
         </div>
         <div class="w-full">
-          <div class="flex flex-col-reverse xl:flex-row flex-col">
-            <div class="flex-1 mt-6 xl:mt-0">
-              <div class="grid grid-cols-12 gap-x-5">
-                <div class="col-span-12 2xl:col-span-6">
-                  <div>
-                    <label for="update-profile-form-1" class="form-label">Ime</label>
-                    <input id="update-profile-form-1" type="text" class="form-control" v-model="name">
-                  </div>
-                </div>
-                <div class="col-span-12 2xl:col-span-6">
-                  <div class="">
-                    <label for="update-profile-form-4" class="form-label">Email</label>
-                    <input type="email" id="update-profile-form-4" class="form-control" v-model="email">
-                  </div>
-                </div>
-                <div class="col-span-12 2xl:col-span-6">
-                  <div class="mt-3">
-                    <label for="update-profile-form-7" class="form-label">Broj Mobitela</label>
-                    <input type="email" id="update-profile-form-7" class="form-control" v-model="phoneNumber">
-                  </div>
-                </div>
-                <div class="col-span-12 2xl:col-span-6">
-                  <div class="mt-3">
-                    <label for="update-profile-form-8" class="form-label">Adresa</label>
-                    <input type="email" id="update-profile-form-8" class="form-control" v-model="address">
-                  </div>
-                </div>
-                <div class="col-span-12 2xl:col-span-6">
-                  <div class="mt-3">
-                    <label for="update-profile-form-5" class="form-label">Šifra</label>
-                    <input type="password" id="update-profile-form-5" class="form-control" v-model="password">
-                  </div>
-                </div>
-                <div class="col-span-12 2xl:col-span-6">
-                  <div class="mt-3">
-                    <label for="update-profile-form-6" class="form-label">Ponovi šifru</label>
-                    <input type="password" id="update-profile-form-6" class="form-control" v-model="passwordConfirm">
-                  </div>
-                </div>
+          <div class="flex row">
+            <div class="flex-1 mt-6 xl:mt-0 w-full">
+              <div class="w-full grid grid-cols-2 gap-4">
+                <TextField type="text" label="Ime" placeholder="john doe" v-model="name"></TextField>
+                <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email"></TextField>
+                <TextField type="number" label="Broj mobitela" placeholder="+387 61 111 222" v-model="phoneNumber"></TextField>
+                <TextField type="text" label="Adresa" placeholder="+387 61 111 222" v-model="address"></TextField>
+                <TextField type="password" label="Password" placeholder="******" v-model="password"></TextField>
+                <TextField type="password" label="Ponovi password" placeholder="******" v-model="passwordConfirm"></TextField>
               </div>
               <action-button class="mt-5" @action="updateProfileInfo" placeholder="Sačuvaj"></action-button>
             </div>
-            <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
+            <div class="flex flex-col ml-6">
               <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
                 <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
                   <img class="rounded-md" alt="Profile picture" :src="avatarUrl !== '' ? avatarUrl: 'dist/images/profile-3.jpg'">
@@ -220,6 +190,16 @@ export default class urediProfil extends Vue {
   }
 }
 
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
+}
+
 .account-wrapper {
   width: auto;
   background: #fff;
@@ -234,16 +214,6 @@ export default class urediProfil extends Vue {
 .heading {
   margin-bottom: 36px;
 }
-  .w-full {
-    display: flex;
-
-    .content {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      row-gap: 32px;
-      column-gap: 24px;
-    }
-  }
 
 h2.heading {
   margin-top: 42px;
@@ -386,42 +356,7 @@ h2.heading {
           }
         }
       }
-
-      .verification-status {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        margin-top: 24px;
-        padding-top: 24px;
-        border-top: 1px solid #ebebeb;
-        align-items: center;
-        justify-content: flex-start;
-
-        img {
-          height: 40px;
-        }
-
-        p {
-          margin-left: 12px;
-        }
-      }
     }
-  }
-}
-
-input {
-  height: 50px;
-  background: #f9f9f9;
-  border-radius: 4px;
-  padding-right: 100px !important;
-  width: 100%;
-  padding: 0 12px;
-  min-width: 100%;
-
-  &:hover,
-  &:focus,
-  &:visited {
-    outline: none;
   }
 }
 

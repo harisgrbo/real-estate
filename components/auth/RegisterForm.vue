@@ -4,7 +4,6 @@
       <img :src="[ $device.isMobile ? '/logo-new.png' : '/logo-new.png']" class="main-logo" height="40" alt="">
     </nuxt-link>
 
-
     <h2 class="mt-4">Registracija</h2>
     <ul class="flex flex-row items-center justify-start bg-gray-50 rounded-md p-2">
       <li v-for="(type, index) in registrationTypes" @click="currentType = index" :key="index" :class="[ currentType === index ? 'active bg-white shadow-sm rounded-md' : '' ]">{{ type }}</li>
@@ -12,12 +11,9 @@
     <!-- User registration -->
     <div v-if="currentType === 0">
       <form @submit.prevent="handleUserRegistration">
-        <label for="">Email</label>
-        <TextField type="text" v-model="userPayload.email" class="mb-4 mt-1"></TextField>
-        <label for="">Korisničko ime</label>
-        <TextField type="text" v-model="userPayload.name" class="mb-4 mt-1"></TextField>
-        <label for="">Šifra</label>
-        <TextField type="password" v-model="userPayload.password" class="mb-4 mt-1"></TextField>
+        <TextField type="text" label="Email" v-model="userPayload.email" class="mb-4 mt-1"></TextField>
+        <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-4 mt-1"></TextField>
+        <TextField type="password" label="Password" v-model="userPayload.password" class="mb-4 mt-1"></TextField>
         <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', marginTop: '24px' }" @action="handleUserRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
       <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
@@ -26,14 +22,10 @@
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
-        <label for="">Ime agencije</label>
-        <TextField type="text" v-model="realEstateAgencyPayload.name" class="mb-4 mt-1"></TextField>
-        <label for="">ID broj</label>
-        <TextField type="number" v-model="realEstateAgencyPayload.external_id" class="mb-4 mt-1"></TextField>
-        <label for="">Email</label>
-        <TextField type="text" v-model="realEstateAgencyPayload.email" class="mb-4 mt-1"></TextField>
-        <label for="">Šifra</label>
-        <TextField type="password" v-model="realEstateAgencyPayload.password" class="mb-4 mt-1"></TextField>
+        <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-4 mt-1"></TextField>
+        <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-4 mt-1"></TextField>
+        <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-4 mt-1"></TextField>
+        <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-4 mt-1"></TextField>
         <PublishDropdown title="Lokacija" class="location" @select-option="handleSelectedCity"></PublishDropdown>
         <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>

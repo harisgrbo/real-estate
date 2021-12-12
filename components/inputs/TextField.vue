@@ -1,11 +1,12 @@
 <template>
-  <div class="relative w-full">
-    <label for="price" class="block text-sm font-medium text-gray-700 mb-3" v-if="label">{{ label }}</label>
+  <div class="relative w-full flex flex-col items-start">
+    <label for="price" class="block text-md font-medium text-gray-900 mb-2" v-if="label">{{ label }}</label>
     <div :class="['block w-full sm:text-sm border-gray-300 rounded-md mt-0 relative rounded-md text-input', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
       </div>
       <input     :type="type"
                  :value="value"
+                 :placeholder="placeholder"
                  @input="updateValue($event.target.value)" id="price" aria-describedby="price-currency">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <span v-if="currency" class="text-gray-500 sm:text-sm font-medium" id="price-currency">
@@ -27,6 +28,7 @@ export default class TextField extends Vue{
   @Prop({ type: String, required: true}) type;
   @Prop({ type: String }) error;
   @Prop({ type: String }) label;
+  @Prop({ type: String }) placeholder;
   @Prop({}) value;
   @Prop({type: Boolean}) currency;
 
@@ -48,13 +50,15 @@ export default class TextField extends Vue{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
-  background: #F3F3F4;
+  border-radius: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
   flex: 2;
   position: relative;
   transition: 0.3s all ease;
   max-width: 600px;
   margin-top: 0;
+  min-height: 48px;
 }
 
 input {
@@ -66,12 +70,13 @@ input {
   font-size: 14px;
 
   &:focus {
-    outline: none;
+    outline: 1px solid #000;
+    border-radius: 4px;
   }
 
 }
 
 ::placeholder {
-  color: #797979;
+  color: #b1b1b1;
 }
 </style>

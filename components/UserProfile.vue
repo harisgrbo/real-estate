@@ -23,7 +23,6 @@
             <ActionButton :placeholder="followed? 'Otprati' : 'Zaprati'" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" @action="handleFollow" class="ml-sm"></ActionButton>
           </div>
         </div>
-
 <!--        <button class="report-user" v-if="!isMe">-->
 <!--          <font-awesome-icon icon="user-slash"></font-awesome-icon>-->
 <!--          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
@@ -52,12 +51,17 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button :style-options="{ color: '#1F2937', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>
     </client-only>
     <Snackbar></Snackbar>
+    <button class="mt-4 report" @click="blockUser(user)" v-if="$auth.user && ($auth.user.id !== user.id)">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="red">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />
+      </svg>
+      Blokiraj korisnika</button>
   </aside>
 </template>
 
@@ -110,6 +114,20 @@ export default class UserProfile extends Vue {
         end: this.$moment(item.ends_at).toDate(),
       }
     })
+  }
+
+  async blockUser(u) {
+    try {
+      let res = await this.$axios.post('/profile/users/' + u.id + '/block');
+
+      this.$snackbar.show({
+        text: "Blokirali ste korisnika " + u.name,
+        timeout: 1000,
+        type: "danger"
+      });
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   user_type(t) {
@@ -315,10 +333,10 @@ aside {
 }
 
 .main-user-wrapper {
-  border: 1px solid rgb(221, 221, 221);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: rgb(0 0 0 / 9%) 0px 1px 3px;
 
   @include for-phone-only {
     box-shadow: none;
@@ -354,19 +372,32 @@ aside {
 }
 
 textarea {
-  margin-top: 16px;
   height: 300px;
   font-weight: 500;
   color: #000;
   font-size: 18px;
-  border: none;
-  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
   min-height: 400px !important;
+  padding: 12px;
 
   &:focus {
     outline: none;
-    border: 2px solid #000;
-    background: #fff;
+  }
+}
+
+.report {
+  color: red;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
 </style>

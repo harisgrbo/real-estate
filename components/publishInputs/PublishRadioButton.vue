@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col">
+  <div class="grid grid-cols-2 gap-3">
     <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-    <label class="w-full border border-gray-200 rounded-tl-md rounded-tr-md relative p-4 flex cursor-pointer" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
+    <label class="w-full border border-gray-400 rounded-sm relative p-4 flex cursor-pointer" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
       <input :id="option.id" :value="option.title" :checked="value && value.id === option.id" type="radio" name="privacy-setting" value="Public access" class="h-6 w-4 mt-0.5 cursor-pointer text-indigo-900 border-gray-300 focus:ring-indigo-900" aria-labelledby="privacy-setting-0-label" aria-describedby="privacy-setting-0-description">
       <div class="ml-3 flex items-center">
         <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
@@ -57,19 +57,19 @@ export default class PublishRadioButton extends Vue{
 
 label {
   background: #FFFFFF !important;
-  color: #222222 !important;
+  color: #000 !important;
   padding: 16px !important;
   width: 100% !important;
   border: 1px solid #DDDDDD !important;
-  min-height: 76px;
-  height: 76px;
+  min-height: 48px;
+  height: 48px;
   justify-content: space-between;
   flex-direction: row-reverse;
   align-items: center;
   border-radius: 15px;
   font-weight: 500 !important;
-  margin-bottom: 16px;
   font-size: 16px;
+  border-radius: 4px;
 
   &.selected {
     background: #f9f9f9 !important;

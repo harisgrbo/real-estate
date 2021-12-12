@@ -28,23 +28,24 @@
               </div>
 
               <h2 class="font-medium text-xl mt-8">Oglasi</h2>
-
-              <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-if="listingsLoaded">
-                <ul role="list" class="grid lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
-                  <li class="relative listing-card w-full min-w-full" v-for="listing in listings">
-                    <ListingCard :listing="listing" :key="listing.id"></ListingCard>
-                  </li>
-                  <!-- More files... -->
-                </ul>
-              </section>
-              <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-else>
-                <ul role="list" class="grid lg:grid-cols-1 lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
-                  <li class="relative listing-card w-full min-w-full" v-for="i in 10">
-                    <skeleton height="315px" width="165px"></skeleton>
-                  </li>
-                  <!-- More files... -->
-                </ul>
-              </section>
+              <div class="min-w-full">
+                <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-if="listingsLoaded">
+                  <ul role="list" class="grid lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
+                    <li class="relative listing-card w-full min-w-full" v-for="listing in listings">
+                      <ListingCard :listing="listing" :key="listing.id"></ListingCard>
+                    </li>
+                    <!-- More files... -->
+                  </ul>
+                </section>
+                <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-else>
+                  <ul role="list" class="grid lg:grid-cols-1 lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
+                    <li class="relative listing-card w-full min-w-full" v-for="i in 10">
+                      <skeleton height="308px" width="256px"></skeleton>
+                    </li>
+                    <!-- More files... -->
+                  </ul>
+                </section>
+              </div>
             </div>
           </main>
 

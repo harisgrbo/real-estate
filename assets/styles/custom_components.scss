@@ -57,11 +57,12 @@
   display: flex;
   align-items: center !important;
   z-index: 9999 !important;
+  min-height: 100vh !important;
 }
 
 .vm--modal {
   max-height: 90% !important;
-  border-radius: 10px !important;
+  border-radius: 4px !important;
   height: fit-content !important;
   overflow: scroll !important;
 
@@ -131,7 +132,7 @@
 }
 
 .breadcrumbs {
-  margin-top: 36px;
+  margin-top: 0;
 
   @include for-phone-only {
     margin-top: 0 !important;
@@ -152,7 +153,7 @@
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 4px;
       font-family: 'Outfit', sans-serif;
       font-size: 15px;
       line-height: 16px;
@@ -162,7 +163,7 @@
 
       &:focus {
         outline: none;
-
+        border: 1px solid #000;
       }
     }
   }
@@ -185,7 +186,7 @@
 
   h2 {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
     color: #000;
     margin-bottom: 0 !important;
 
@@ -204,4 +205,11 @@
 
 textarea, select, input[type="text"] {
   -webkit-appearance: none;
+}
+
+.preview-wrapper-inner {
+  @include for-phone-only {
+    padding: 16px !important;
+    margin-top: 0 !important;
+  }
 }

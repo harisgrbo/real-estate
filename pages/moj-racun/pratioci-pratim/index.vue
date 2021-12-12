@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper w-full mx-auto">
+  <div class="preview-wrapper-inner w-full mx-auto">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -16,7 +16,7 @@
         {{ tab }}
       </li>
     </ul>
-    <div class="saved-content">
+    <div class="saved-content w-full">
       <div v-show="activeTab === 0">
         <div class="grid grid-cols-5 gap-6 mobile-grid w-full" v-if="followers.length">
           <UserCard v-for="user in followers" :id="user.id" :user="user"/>
@@ -105,17 +105,16 @@ export default class pratioci extends Vue {
   }
 }
 
-.account-wrapper {
-  width: auto;
-  background: #f9f9f9;
-
-  @include for-phone-only {
-    width: 100%;
-    background: #fff;
-    padding: 16px;
-    min-height: calc(100vh - 80px);
-  }
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
+
 .cw-ul {
   width: 100%;
   display: flex;

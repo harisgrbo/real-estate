@@ -19,19 +19,19 @@
   src: url('./Outfit-Light.ttf') format('truetype') /* Modern Browsers */
 }
 
-@font-face {
-  font-family: 'Outfit';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./Outfit-Regular.ttf') format('truetype') /* Modern Browsers */
-}
+/*@font-face {*/
+/*  font-family: 'Outfit';*/
+/*  font-style: normal;*/
+/*  font-weight: 400;*/
+/*  src: url('./Outfit-Regular.ttf') format('truetype') !* Modern Browsers *!*/
+/*}*/
 
-@font-face {
-  font-family: 'Outfit';
-  font-style: normal;
-  font-weight: 500;
-  src: url('./Outfit-Medium.ttf') format('truetype') /* Modern Browsers */
-}
+/*@font-face {*/
+/*  font-family: 'Outfit';*/
+/*  font-style: normal;*/
+/*  font-weight: 500;*/
+/*  src: url('./Outfit-Medium.ttf') format('truetype') !* Modern Browsers *!*/
+/*}*/
 
 @font-face {
   font-family: 'Outfit';

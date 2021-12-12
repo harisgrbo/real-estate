@@ -37,7 +37,6 @@
             </div>
           </div>
 
-
           <div class="flex items-center justify-end types">
             <div class="inline-block text-left" v-if="!$device.isMobile">
               <div @click="showSortDropdown = !showSortDropdown" class="mr-4 relative z-30">
@@ -85,6 +84,23 @@
           </div>
         </div>
       </div>
+
+
+      <div class="flex flex-col">
+        <ul class="flex flex-row items-center justify-start w-full selected-filters">
+          <li v-for="filter in queryPayload" v-if="filter" class="py-2 px-3 border border-black mr-3">
+            <div class="flex flex-row items-center">
+              {{ filter.value }}
+              <button @click="queryPayload[filter.name] = null; newSearch();">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
       <!-- Filters -->
       <section aria-labelledby="filter-heading">
         <h2 id="filter-heading" class="sr-only">Filters</h2>
@@ -104,7 +120,7 @@
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-5 gap-6 w-full listing-wrap">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
             <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
           <client-only>
@@ -363,7 +379,6 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
       try {
         let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
         results = response.data.data;
-        console.log(response, 'results')
         meta = response.data.meta;
         allAttributes = response.data.meta.attributes;
 
@@ -744,7 +759,7 @@ export default class Homepage extends Vue {
 .modal-inner {
   display: flex;
   flex-direction: column;
-  padding: 0 24px;
+  padding: 12px;
   position: relative;
 
   @include for-phone-only {
@@ -936,7 +951,7 @@ export default class Homepage extends Vue {
     padding: 0 10px;
     background: #fff;
     margin-right: 12px;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 16px;
     font-weight: 300;
     min-width: fit-content;
@@ -1142,6 +1157,37 @@ export default class Homepage extends Vue {
     margin-top: 8px;
     border: none;
     box-shadow: none;
+  }
+}
+
+.vm--modal {
+  max-height: 90% !important;
+  min-height: fit-content !important;
+  top: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.selected-filters {
+
+  @include for-phone-only {
+    padding: 16px;
+    padding-bottom: 0;
+  }
+  li {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    button {
+      margin-left: 8px;
+      cursor: pointer;
+      padding: 4px;
+
+
+      &:hover {
+        background: #f1f1f1;
+      }
+    }
   }
 }
 </style>

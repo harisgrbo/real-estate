@@ -3,7 +3,7 @@
     <div class="second-row mx-auto w-full">
       <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
         <nuxt-link :to="'/'" class="flex flex-row items-center">
-          <img :src="[ $device.isMobile ? '/logo-new.png' : '/msquare.png']" class="main-logo" height="40" alt="">
+          <img :src="[ $device.isMobile ? '/msquare-mobile.png' : '/msquare.png']" class="main-logo" height="40" alt="">
         </nuxt-link>
       </div>
       <div class="input-wrapper"
@@ -21,26 +21,29 @@
                @input="showSuggests"
                placeholder="Npr. stan Sarajevo.."
         >
-        <span class="relative z-0 inline-flex rounded-md border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">
-          <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-            {{ selectedCategory.title }}
-          </div>
-          <div @click="selectedCategory = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-        </span>
-        <span class="relative z-0 inline-flex rounded-md border border-gray-800 selected-cat-type"  v-if="selectedType !== null">
-          <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-            {{ selectedType.title }}
-          </div>
-          <div @click="selectedType = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-        </span>
+        <div class="flex flex-row">
+          <span class="relative z-0 inline-flex ml-2 rounded-sm border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">
+            <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              {{ selectedCategory.title }}
+            </div>
+            <div @click="selectedCategory = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+          </span>
+          <span class="relative z-0 ml-2 inline-flex rounded-sm border border-gray-800 selected-cat-type"  v-if="selectedType !== null">
+            <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              {{ selectedType.title }}
+            </div>
+            <div @click="selectedType = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+          </span>
+        </div>
+
         <button v-if="focused === true" class="close">
           <i class="material-icons" @click="clearSearchTerm">close</i>
         </button>
@@ -81,15 +84,17 @@
         <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
       </button>
       <div class="auth-buttons" v-if="!$device.isMobile">
-        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', borderRadius: '8px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
+        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
             <button @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
-          <button v-if="$auth.user" class="login-a" @click="$router.push('/kredit')">
-            <img src="/coins.png" alt="">
-            <p class="text-medium text-gray-800 bg-gray-50 rounded-sm p-3 ml-2">{{ $auth.user.credits }}</p>
+          <button v-if="$auth.user" class="login-a mr-2" @click="$router.push('/kredit')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+            </svg>
+            <p class="text-medium text-gray-800 bg-gray-50 rounded-sm p-3 ml-0">{{ $auth.user.credits }}</p>
           </button>
           <button v-if="$auth.user" class="login-a">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
@@ -452,7 +457,7 @@ export default class Navbar extends Vue {
   align-items: center;
   position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 12;
   border-bottom: 1px solid #f1f1f1;
   background: #fff;
   box-sizing: border-box;
@@ -520,8 +525,8 @@ export default class Navbar extends Vue {
     @include for-phone-only {
       img {
         height: 48px;
-        width: 48px;
-        min-width: 48px;
+        width: 58px;
+        min-width: 58px;
         margin-right: 16px;
       }
     }
@@ -538,7 +543,7 @@ export default class Navbar extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 0 12px;
     background: #F3F3F4;
     flex: 2;
@@ -861,7 +866,7 @@ export default class Navbar extends Vue {
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
       z-index: 500;
-      height: calc(100vh - 80px);
+      height: fit-content;
     }
   }
 
