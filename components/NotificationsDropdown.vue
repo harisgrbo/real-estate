@@ -59,7 +59,7 @@ export default class NotificationsDropdown extends Vue {
   overflow-y: scroll;
 
   @include for-phone-only {
-    height: calc(100vh - 260px);
+    height: calc(100vh - 100px);
   }
 
 

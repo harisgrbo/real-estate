@@ -16,9 +16,9 @@
           </h2>
         </div>
         <div class="w-full">
-          <div class="flex row">
+          <div class="options-wrap">
             <div class="flex-1 mt-6 xl:mt-0 w-full">
-              <div class="w-full grid grid-cols-2 gap-4">
+              <div class="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 xl:grid-cols-2 gap-4">
                 <TextField type="text" label="Ime" placeholder="john doe" v-model="name"></TextField>
                 <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email"></TextField>
                 <TextField type="number" label="Broj mobitela" placeholder="+387 61 111 222" v-model="phoneNumber"></TextField>
@@ -26,9 +26,9 @@
                 <TextField type="password" label="Password" placeholder="******" v-model="password"></TextField>
                 <TextField type="password" label="Ponovi password" placeholder="******" v-model="passwordConfirm"></TextField>
               </div>
-              <action-button class="mt-5" @action="updateProfileInfo" placeholder="Sačuvaj"></action-button>
+              <action-button class="mt-5 mb-4" @action="updateProfileInfo" placeholder="Sačuvaj"></action-button>
             </div>
-            <div class="flex flex-col ml-6">
+            <div class="flex flex-col sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 xl:ml-6">
               <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
                 <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
                   <img class="rounded-md" alt="Profile picture" :src="avatarUrl !== '' ? avatarUrl: 'dist/images/profile-3.jpg'">
@@ -371,5 +371,14 @@ h2.heading {
 label {
   margin-bottom: 8px;
   font-weight: 600;
+}
+
+.options-wrap {
+  display: flex;
+  flex-direction: row;
+
+  @include for-phone-only {
+    flex-direction: column;
+  }
 }
 </style>
