@@ -11,45 +11,57 @@
 <!--      </li>-->
 <!--    </ul>-->
     <div class="publish mb-24 p-8">
+      <img src="/white.jpeg" alt="" class="image-bg">
       <div class="quick-search">
-        <ul class="w-full">
-          <li v-for="(tab, index) in tabs" :key="index" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
-        </ul>
-        <div class="flex flex-row items-center w-full inputs">
-          <div class="search-inputs">
-            <PublishDropdown label="Lokacija" placeholder="Pretražite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
-          </div>
-          <div>
-            <label class="block text-md font-medium text-gray-700 mb-2">Kategorija</label>
-<!--            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>-->
-            <fieldset class="w-full">
-              <div class="relative">
-                <select id="language" name="language" class="cat-select appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="selectedCategory">
-                  <option class="font-medium text-sm" v-for="(category, index) in categories" :key="index" :value="category">{{ category.title }}</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
-                  <!-- Heroicon name: solid/chevron-down -->
-                  <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="price-label">
-            <label>Cijena</label>
-            <div class="w-full flex items-center justify-between">
-              <TextField type="number" :currency="true" placeholder="Od" v-model="priceFrom"></TextField>
-              <p class="mx-2">-</p>
-              <TextField type="number" :currency="true" placeholder="Do" v-model="priceTo"></TextField>
-            </div>
-          </div>
-          <button @click="search" class="px-4 search">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <div class="flex flex-col">
+          <h3 class="main-title">Lahkoća kupovine nekretnine iz snova</h3>
+          <div class="flex flex-row items-center mt-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            Pretraži
-          </button>
+            <p class="text-xl font-semibold">70000 objavljenih oglasa</p>
+          </div>
+        </div>
+        <div class="flex flex-col mt-6">
+          <ul class="w-full">
+            <li v-for="(tab, index) in tabs" :key="index" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
+          </ul>
+          <div class="flex flex-row items-center w-full inputs">
+            <div class="search-inputs">
+              <PublishDropdown label="Lokacija" placeholder="Pretražite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+            </div>
+            <div>
+              <label class="block text-md font-medium text-gray-700 mb-2">Kategorija</label>
+              <!--            <TextField type="text" placeholder="Izaberite kategoriju npr. stan"></TextField>-->
+              <fieldset class="w-full">
+                <div class="relative">
+                  <select id="language" name="language" class="cat-select appearance-none block w-full bg-none bg-white rounded-md py-2 h-12 text-base text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="selectedCategory">
+                    <option class="font-medium text-sm" v-for="(category, index) in categories" :key="index" :value="category">{{ category.title }}</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 px-2 flex items-center">
+                    <!-- Heroicon name: solid/chevron-down -->
+                    <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="price-label">
+              <label>Cijena</label>
+              <div class="w-full flex items-center justify-between">
+                <TextField type="number" :currency="true" placeholder="Od" v-model="priceFrom"></TextField>
+                <p class="mx-2">-</p>
+                <TextField type="number" :currency="true" placeholder="Do" v-model="priceTo"></TextField>
+              </div>
+            </div>
+            <button @click="search" class="px-4 search">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              Pretraži
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1010,12 +1022,25 @@ ul.most-visited-cats {
 }
 
 .publish {
-  background-image: url("/snow.jpg");
-  background-repeat: no-repeat;
-  height: 640px;
+  height: 460px;
   background-size: cover;
   background-position: right;
   position: relative;
+  margin: 0 40px;
+  border-radius: 10px;
+  margin-top: 80px;
+  margin-bottom: 0px;
+  padding: 0;
+
+
+  .image-bg {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    height: 456px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 10px;
+  }
 
   @include for-phone-only {
     display: none;
@@ -1023,10 +1048,12 @@ ul.most-visited-cats {
 
   .quick-search {
     position: absolute;
-    left: 80px;
-    right: 80px;
+    left: 40px;
+    right: 40px;
     bottom: -30px;
     border-radius: 4px;
+    height: 490px;
+    padding-top: 36px;
 
     ul {
       width: fit-content;
@@ -1124,7 +1151,7 @@ ul.most-visited-cats {
     color: #fff;
     background: #1F2937;
     font-weight: 500;
-    border-radius: 7px;
+    border-radius: 4px;
   }
 }
 
@@ -1348,5 +1375,13 @@ button.search {
 
 ::v-deep .mobile-user {
   min-width: 180px;
+}
+
+.main-title {
+  font-size: 60px;
+  font-weight: 600;
+  max-width: 600px;
+  line-height: 57px;
+  margin-bottom: 30px
 }
 </style>

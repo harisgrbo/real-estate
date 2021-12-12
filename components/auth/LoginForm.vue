@@ -1,8 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <nuxt-link :to="'/'" class="flex flex-row items-center logo-wrap">
-      <img :src="[ $device.isMobile ? '/logo-new.png' : '/logo-new.png']" class="main-logo" height="40" alt="">
-    </nuxt-link>
+    <img src="/msquare.png" class="img-logo" alt="" @click="$router.push('/')">
 
     <h2 class="mt-4">Dobrodošli!</h2>
     <form @submit.prevent="handleLogin">
@@ -157,10 +155,15 @@ label {
   color: #002F34;
 }
 
-.logo-wrap {
-  height: 80px !important;
-  width: 80px !important;
-  padding-bottom: 36px;
+.img-logo {
+  width: 200px;
+  margin: 0 auto;
+  margin-bottom: 46px;
+
+  @include for-phone-only {
+      height: 48px;
+      margin-right: 16px;
+  }
 
 }
 </style>
