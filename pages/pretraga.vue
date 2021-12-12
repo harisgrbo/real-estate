@@ -569,6 +569,30 @@ export default class Homepage extends Vue {
       }
 
       return null;
+    } else {
+      let attr = this.allAttributes.find(item => item.id === parseInt(filter.name));
+
+      if (attr) {
+        if (filter.type === 'range') {
+          let tmpName = attr.name;
+
+          if (filter.value[0]) {
+            tmpName += " od " + filter.value[0];
+          }
+
+          if (filter.value[1]) {
+            tmpName += " do " + filter.value[1];
+          }
+
+          return tmpName;
+        } else if(filter.type === 'terms') {
+          return attr.name + " " + filter.value.join(', ');
+        }
+
+        return attr.name + " " + filter.value;
+      }
+
+      return null;
     }
 
     return filter.value;
