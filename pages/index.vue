@@ -628,9 +628,9 @@
 
     searchLocation(cityId) {
       let cityFilter = JSON.stringify({
-        type: 'term',
+        type: 'terms',
         name: 'city_id',
-        value: cityId
+        value: [cityId]
       });
 
       this.$router.push(`/pretraga?q=[${cityFilter}]`);
