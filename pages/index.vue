@@ -215,7 +215,7 @@
     </div>
 
     <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
-      <h2 class="section-title">Iznajmljivanje</h2>
+      <h2 class="section-title">Dugoročno izdavanje</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -399,8 +399,8 @@
 
     tabs = [
       'Prodaja',
-      'Iznajmljivanje',
-      'Stan na dan'
+      'Dugoročno izdavanje',
+      'Izdavanje na dan'
     ]
 
     swiperOption = {
