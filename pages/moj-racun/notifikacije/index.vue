@@ -9,12 +9,11 @@
     </ul>
     <div class="flex flex-row pb-8 justify-between notifications-wrap" v-if="notifications.length">
       <ul class="divide-y divide-gray-200 w-full">
-        <li class="notification flex flex-col items-start justify-start relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600" v-for="(notification, index) in notifications" :key="index">
-          <nuxt-link :to="notification.data.action" class="flex flex-col space-x-3 w-full">
-            <div class="flex justify-between w-full items-start space-x-3">
+        <li class="notification flex flex-col items-start justify-start relative bg-white hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600" v-for="(notification, index) in notifications" :key="index">
+          <nuxt-link :to="notification.data.action" class="flex flex-col w-full">
+            <div class="flex justify-between w-full items-start">
               <div class="min-w-0 flex-1">
                 <a href="#" class="block focus:outline-none" v-if="notification.data.user">
-                  <span class="absolute inset-0" aria-hidden="true"></span>
                   <p class="text-sm font-medium text-gray-900 truncate">{{ notification.data.user.name }}</p>
                 </a>
               </div>
@@ -25,7 +24,7 @@
                 {{ notification.data.text }}
               </p>
             </div>
-            <button @action="handleAction(notification.data)" type="button" class="mt-6 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button @action="handleAction(notification.data)" type="button">
               Pogledaj
             </button>
           </nuxt-link>
@@ -92,27 +91,18 @@ export default class notifikacije extends Vue {
 
 
 
-.notifications {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0 80px;
-  min-height: calc(100vh - 80px);
-
-  @include for-phone-only {
-    width: 100%;
-    background: #f9f9f9;
-    padding: 16px;
-  }
-
-  li.notification {
-    height: fit-content;
-    padding-bottom:24px;
+  .notification {
+    margin-bottom: 16px;
     border-bottom: 1px solid #f1f1f1;
+    transition: 0.3s all ease;
+    padding: 12px 12px 16px 12px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-
+    @include for-phone-only {
+      padding: 0 !important;
+      padding-bottom: 24px !important;
+    }
     p {
       font-size: 16px;
       font-weight: 400;
@@ -122,11 +112,8 @@ export default class notifikacije extends Vue {
       }
     }
 
-    ::v-deep button{
-      width: fit-content;
-    }
   }
-}
+
 h1 {
   color: rgb(72, 72, 72) !important;
 }
@@ -142,7 +129,13 @@ h1 {
   background: #fff;
 
   button {
+    height: 44px;
+    border-radius: 4px;
+    background: #1F2937 !important;
     width: fit-content;
+    color: #fff;
+    padding: 0 12px;
+    margin-top: 12px;
   }
 }
 </style>

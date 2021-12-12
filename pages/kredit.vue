@@ -1,5 +1,5 @@
 <template>
-  <div class="credit-wrapper">
+  <div class="preview-wrapper-inner">
     <div class="credit-inner">
         <div class="flex mob-credit flex-row w-full justify-between mb-8">
           <div class="flex flex-row items-center">
@@ -220,11 +220,14 @@ export default class Kredit extends Vue {
   }
 }
 
-.credit-wrapper {
-  height: 100%;
-  width: 100%;
-  min-height: 100%;
-  padding-top: 60px;
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 
   @include for-phone-only {
     padding-top: 20px;
@@ -240,8 +243,7 @@ export default class Kredit extends Vue {
   .credit-inner {
     display: flex;
     flex-direction: column;
-    width: 900px;
-    margin: 0 auto;
+    width: 100%;
 
     @include for-phone-only {
       width: 100%;

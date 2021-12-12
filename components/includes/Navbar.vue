@@ -461,7 +461,7 @@ export default class Navbar extends Vue {
   border-bottom: 1px solid #f1f1f1;
   background: #fff;
   box-sizing: border-box;
-  box-shadow: 0px 5px 9px rgba(0,0,0,0.03) !important;
+  //box-shadow: 0px 5px 9px rgba(0,0,0,0.03) !important;
 
 
   @include for-phone-only {

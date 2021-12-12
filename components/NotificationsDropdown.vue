@@ -59,7 +59,7 @@ export default class NotificationsDropdown extends Vue {
   overflow-y: scroll;
 
   @include for-phone-only {
-    height: calc(100vh - 260px);
+    height: calc(100vh - 100px);
   }
 
 
@@ -86,10 +86,6 @@ ul, .no-notifications {
 }
 
 .btn-primary {
-  background: hsla(218, 34%, 30%, 1);
-  background: radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
-  background: -moz-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
-  background: -webkit-radial-gradient(circle, hsla(218, 34%, 30%, 1) 0%, hsla(217, 47%, 22%, 1) 80%);
   font-size: 13px;
 }
 
@@ -103,6 +99,11 @@ ul, .no-notifications {
   &:hover {
     cursor: pointer;
   }
+
+  @include for-phone-only {
+    padding: 0;
+    padding-bottom: 24px
+  }
 }
 
 .no-notifications {
@@ -114,5 +115,11 @@ ul, .no-notifications {
   h2 {
     font-size: 18px;
   }
+}
+
+button {
+  height: 44px;
+  border-radius: 4px;
+  background: #1F2937 !important;
 }
 </style>
