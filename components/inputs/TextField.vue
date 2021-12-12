@@ -1,6 +1,6 @@
 <template>
-  <div class="relative w-full">
-    <label for="price" class="block text-md font-medium text-gray-700 mb-2" v-if="label">{{ label }}</label>
+  <div class="relative w-full flex flex-col items-start">
+    <label for="price" class="block text-md font-medium text-gray-900 mb-2" v-if="label">{{ label }}</label>
     <div :class="['block w-full sm:text-sm border-gray-300 rounded-md mt-0 relative rounded-md text-input', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']">
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
       </div>
@@ -58,6 +58,7 @@ export default class TextField extends Vue{
   transition: 0.3s all ease;
   max-width: 600px;
   margin-top: 0;
+  min-height: 48px;
 }
 
 input {

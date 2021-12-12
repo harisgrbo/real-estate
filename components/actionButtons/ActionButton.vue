@@ -36,12 +36,12 @@ div {
 button {
   font-family: 'Outfit', sans-serif;
   height: 48px;
-  border-radius: 8px;
+  border-radius: 4px;
   width: fit-content;
   display: flex;
   align-items: center;
   font-size: 14px;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   padding: 0 24px;
   color: #fff;
   cursor: pointer;

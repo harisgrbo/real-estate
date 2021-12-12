@@ -1345,4 +1345,8 @@ button.search {
     padding-top: 80px;
   }
 }
+
+::v-deep .mobile-user {
+  min-width: 180px;
+}
 </style>

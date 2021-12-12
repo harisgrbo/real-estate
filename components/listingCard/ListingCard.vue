@@ -4,18 +4,21 @@
         <span class="flex flex-row items-center">{{ translateType() }}
         </span>
       </label>
-      <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false">
+      <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false" @click.stop>
 <!--        <button>-->
 <!--          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
 <!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />-->
 <!--          </svg>-->
 <!--        </button>-->
 
-        <div v-show="showListingOptions" class="w-full">
+        <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/moji-oglasi'" class="w-full">
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$emit('edit-listing', listing.id)"></action-button>
           <action-button class="option-btn" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}"></action-button>
           <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
+        </div>
+        <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/spaseno'" class="w-full">
+          <action-button class="option-btn" placeholder="Izbrši iz spašenih" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
         </div>
       </div>
 
@@ -187,6 +190,8 @@ export default class ListingCard extends Vue{
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
+
+    console.log(this.$router, 'ruter')
   }
 }
 </script>

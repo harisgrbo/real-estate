@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper mx-auto w-full">
+  <div class="preview-wrapper-inner mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -81,7 +81,7 @@
         </div>
         <div v-show="activeTab === 1">
           <div class="grid-layout" v-if="savedListings.length">
-            <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id" :from="true" @remove-from-saved="handleRemoveListing"></ListingCard>
+            <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id" :from="true" @remove-listing-from-saved="handleRemoveListing"></ListingCard>
           </div>
           <div v-else class="no-image">
             <img src="/nodata.jpeg" alt="no-image">
@@ -211,16 +211,16 @@ export default class spaseno extends Vue {
   }
 }
 
-.account-wrapper {
-  width: auto;
-  background: #fff;
-
-  @include for-phone-only {
-    width: 100%;
-    padding: 16px;
-    background: #fff;
-  }
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
+
 .saved-wrapper {
   ul {
     padding: 0;

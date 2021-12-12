@@ -8,7 +8,7 @@
           <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
           <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id" class="go-to-profile">Idi na profil</nuxt-link>
         </div>
-        <div class="grid grid-cols-4 gap-6 pb-1 mobile-grid">
+        <div class="grid grid-cols-3 gap-6 pb-1 mobile-grid">
           <div  v-for="(tab, index) in tabs"
                 :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 rounded-md">
             <div>
@@ -127,7 +127,7 @@ export default class accountpage extends Vue {
 }
 
 .account-wrapper-a {
-  height: 100%;
+  height: auto;
 
   .account-wrapper-inner {
     display: flex;
@@ -238,12 +238,16 @@ export default class accountpage extends Vue {
   height: 42px;
   width: fit-content;
   padding: 0 16px;
-  border: 2px solid #1F2937;
+  border: 1px solid #1F2937;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 7px;
+  border-radius: 4px;
   font-weight: 500;
+
+  &:hover {
+    background: #fff;
+  }
 }
 </style>
 

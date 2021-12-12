@@ -527,7 +527,6 @@ export default class Porukice extends Vue {
 
 .account-wrapper-a {
   background: #f9f9f9;
-  min-height: calc(100vh - 80px);
   @include for-phone-only {
     min-height: 100%;
     background: #fff;

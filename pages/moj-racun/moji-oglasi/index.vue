@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper mx-auto w-full">
+  <div class="preview-wrapper-inner mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -9,7 +9,7 @@
     </ul>
     <div class="content">
       <div v-if="listings.length" class="grid-cards">
-        <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"/>
+        <ListingCard v-for="listing in listings" :listing="listing" :from="true" :key="listing.id"/>
       </div>
       <div v-else class="no-image">
         <img src="/nodata.jpeg" alt="no-image">
@@ -55,15 +55,16 @@ export default class mojiOglasi extends Vue {
   }
 }
 
-.account-wrapper {
-  width: auto;
-
-  @include for-phone-only {
-    width: 100%;
-    background: #fff;
-    padding: 16px;
-  }
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
+
 
 .content {
   display: flex;
@@ -72,15 +73,15 @@ export default class mojiOglasi extends Vue {
 
   .grid-cards {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 24px;
     grid-row-gap: 24px;
     padding: 0;
 
     @include for-phone-only {
-      grid-template-columns: repeat(1, 1fr);
-      grid-column-gap: 24px;
-      grid-row-gap: 24px;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 12px;
+      grid-row-gap: 12px;
     }
     ::v-deep a {
       width: 100%;

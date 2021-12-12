@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications mx-auto w-full">
+  <div class="preview-wrapper-inner mx-auto w-full">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -31,6 +31,10 @@
           </nuxt-link>
         </li>
       </ul>
+    </div>
+    <div class="flex flex-row pb-8 justify-between notifications-wrap" v-else>
+      <img src="/bell-notify.png" alt="">
+      <h2 class="mt-2 p-2 text-standard font-medium">Nemate obavijesti</h2>
     </div>
   </div>
 </template>
@@ -75,15 +79,16 @@ export default class notifikacije extends Vue {
   }
 }
 
-.notifications-wrap {
-  margin-top: 24px;
-  max-width: 600px;
-  margin: 0 auto;
-
-  @include for-phone-only {
-    max-width: 100%;
-  }
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
+
 
 
 
@@ -128,5 +133,16 @@ h1 {
 
 .postavke {
   height: fit-content;
+}
+
+.notifications-wrap {
+  margin-top: 36px;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+
+  button {
+    width: fit-content;
+  }
 }
 </style>

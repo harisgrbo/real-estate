@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper-a w-full px-20">
+  <div class="account-wrapper-a bg-white w-full px-20">
     <div class="account-wrapper-inner">
       <div class="sidenav w-full">
         <h1 class="heading-account"><b>{{ agencies.length }}</b> agencija za nekretnine</h1>
@@ -60,7 +60,8 @@ export default class Agencies extends Vue {
 }
 .account-wrapper-a {
   margin: 0 auto;
-  min-height: 100vh;
+  margin-top: 36px;
+  background: #fff !important;
   @include for-phone-only {
     padding: 32px 0!important;
     height: 100%;

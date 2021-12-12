@@ -207,7 +207,7 @@ h3 {
 @include for-phone-only {
   .mobile-user {
     width: 100%;
-    min-width: 180px;
+    min-width: auto;
   }
 }
 

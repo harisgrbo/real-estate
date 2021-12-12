@@ -4,8 +4,7 @@
       <h2>Obavijesti</h2>
       <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
     </div>
-    <div class="flow-root flex flex-col justify-between h-full mt-7">
-      <div>
+    <div class="flex flex-col justify-between mt-7">
         <div v-if="notifications.length">
           <div  v-for="notification in notifications" class="p-5 notification hover:shadow-md rounded-md">
             <div class="flex items-center justify-between">
@@ -22,11 +21,10 @@
             </div>
           </div>
         </div>
-        <div v-else class="no-notifications flex flex-col items-center">
+        <div v-else class="flex flex-col items-center no-notifications">
           <img src="/bell-notify.png" alt="">
           <h2 class="mt-2 p-2 text-standard font-medium">Nemate obavijesti</h2>
         </div>
-      </div>
       <ActionButton v-if="notifications.length" :style-options="{ marginBottom: '24px', width: '100%', minHeight: '48px' }" @action="$emit('clear-notifications')" placeholder="Očisti obavijesti" icon="trash-alt"></ActionButton>
     </div>
   </div>
@@ -104,6 +102,17 @@ ul, .no-notifications {
 
   &:hover {
     cursor: pointer;
+  }
+}
+
+.no-notifications {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    font-size: 18px;
   }
 }
 </style>

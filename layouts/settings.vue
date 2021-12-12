@@ -1,7 +1,9 @@
 <template>
-  <div class="home-wrapper">
+  <div class="settings-wrapper">
     <Navbar></Navbar>
-    <Nuxt />
+    <div class="preview-wrapper">
+      <Nuxt />
+    </div>
   </div>
 </template>
 
@@ -40,12 +42,20 @@ export default class Settings extends Vue {
   }
 }
 
-.home-wrapper {
+.settings-wrapper {
   padding-top: 80px !important;
-  min-height: calc(100vh - 80px);
-  background: #fff;
-  width: auto;
+  min-height: 100vh;
+  width: 100%;
+  background: #f9f9f9;
   padding-bottom: 36px;
+
+  .preview-wrapper {
+    margin-top: 80px;
+    width: 1180px;
+    margin: 0 auto;
+    background: #fff;
+    height: fit-content;
+  }
 
   @include for-phone-only {
     min-height: 100%;
