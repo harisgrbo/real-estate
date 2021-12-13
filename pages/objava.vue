@@ -1765,8 +1765,4 @@ h2.info {
   background-color: rgba(2, 50, 70, 0.52) !important;
 }
 
-::v-deep label {
-  margin-top: 16px;
-}
-
 </style>

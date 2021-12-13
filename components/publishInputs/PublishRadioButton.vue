@@ -1,7 +1,7 @@
 <template>
-  <div class="grid grid-cols-2 gap-3">
+  <div class="publish-radio-buttons">
     <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-    <label class="w-full border border-gray-400 rounded-sm relative p-4 flex cursor-pointer" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
+    <label class="w-full border border-gray-400 rounded-sm relative p-4 flex cursor-pointer types" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
       <input :id="option.id" :value="option.title" :checked="value && value.id === option.id" type="radio" name="privacy-setting" value="Public access" class="h-6 w-4 mt-0.5 cursor-pointer text-indigo-900 border-gray-300 focus:ring-indigo-900" aria-labelledby="privacy-setting-0-label" aria-describedby="privacy-setting-0-description">
       <div class="ml-3 flex items-center">
         <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
@@ -196,6 +196,16 @@ $radioActive: #757B9A;
     font-weight: 600;
     color: #000;
     font-size: 18px;
+  }
+}
+
+.publish-radio-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 16px;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 </style>
