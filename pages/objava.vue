@@ -28,7 +28,7 @@
           Označite polja koja vaša nekretnina posjeduje
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_EIGHT">
-          Dodajte slike nekretnine
+          Dodajte slike nekretnine i video link
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_NINE">
           Promocija oglasa
@@ -71,16 +71,11 @@
         <div v-show="currentStep === steps.STEP_THREE" class="step-3 test flex flex-col">
           <div class="inner">
             <div class="relative w-full flex flex-col">
-              <PublishTextInput type="text" title="Adresa" v-model="address" @input.native="showAddressAutocomplete"></PublishTextInput>
-              <ul v-if="recommendedAddresses.length" class="address-dropdown">
-                <li v-for="item in recommendedAddresses" @click="handleSelectedAddress(item)">
-                  {{ item.description }}
-                </li>
-              </ul>
+              <DropdownAutocomplete label="Adresa" @select-option="handleSelectedAddress"></DropdownAutocomplete>
             </div>
             <div class="flex flex-col mt-6">
-              <PublishTextInput type="text" title="Naselje" v-model="district" class="mb-6"></PublishTextInput>
-              <PublishTextInput type="text" title="ZIP" v-model="zip_code"></PublishTextInput>
+              <TextField type="text" label="Naselje" placeholder="Dolac Malta" v-model="district" class="mb-6"></TextField>
+              <TextField type="text" label="ZIP" placeholder="71000" v-model="zip_code"></TextField>
             </div>
           </div>
 
@@ -94,7 +89,7 @@
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner checkboxes">
-            <PublishTextInput type="number" title="Cijena" v-model="price" :currency="true" :square="price_per_square"></PublishTextInput>
+            <TextField type="number" label="Cijena" placeholder="100.000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
             <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
               <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 lg:mb-0 xp:mb-0 up:mb-0 mb-5">
                 <div class="switch">
@@ -137,7 +132,7 @@
 
         <div v-show="currentStep === steps.STEP_SIX" class="step-6 test">
           <div class="inner">
-            <PublishDescriptionInput title="Opis" v-model="description"></PublishDescriptionInput>
+            <TextAreaField label="Opis" v-model="description"></TextAreaField>
           </div>
 
           <div class="button-wrapper">
@@ -180,7 +175,7 @@
               />
             </div>
 
-            <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
+            <h1 class="heading-checkbox mt-4">Nekretnina posjeduje</h1>
             <div class="checkbox-grid">
               <TermInput
                 v-for="attr in termGlobalAttributes"
@@ -201,6 +196,7 @@
                 :key="attr.id"
               />
             </div>
+            <TextAreaField class="mt-4" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="video_url"></TextAreaField>
           </div>
 
           <div class="button-wrapper">
@@ -217,7 +213,6 @@
             <div class="img-upload-wrapper">
               <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
             </div>
-
           </div>
           <div class="button-wrapper">
             <button @click="prevStep" class="back">Nazad
@@ -279,9 +274,17 @@ import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import Dropzone from "nuxt-dropzone";
 import 'nuxt-dropzone/dropzone.css'
+import TextField from "../components/inputs/TextField";
+import PublishDropdown from "../components/publishInputs/PublishDropdown";
+import DropdownAutocomplete from "../components/inputs/DropdownAutocomplete";
+import TextAreaField from "@/components/inputs/TextAreaField";
 
 @Component({
   components: {
+    DropdownAutocomplete,
+    PublishDropdown,
+    TextAreaField,
+    TextField,
     Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton, Dropzone
   },
   middleware: ['auth'],
@@ -320,7 +323,7 @@ export default class Objava extends Vue {
     url: "http://fakeurl.com",
     addRemoveLinks: true,
   };
-
+  video_url = "";
   lat = 43;
   lng = 42;
   uploading = false;
@@ -331,26 +334,7 @@ export default class Objava extends Vue {
   // Completion
   completedAttributes = 0
   selectedAdvertisment = null;
-  advertising_options = [
-    // {
-    //   id: 1,
-    //   text: 'Standardna vidljivost',
-    //   description: 'Oglas nije promovisan',
-    //   img: '/StandardnaObjava.svg',
-    // },
-    // {
-    //   id: 2,
-    //   text: 'Promocija u kategoriji oglasa',
-    //   description: 'Oglas promovisan na pretrazi u kategoriji oglasa',
-    //   img: '/IzdvojenaKategorija.svg'
-    // },
-    // {
-    //   id: 3,
-    //   text: 'Promovisanje u kategoriji oglasa i na početnoj stranici',
-    //   description: 'Oglas promovisan na pretrazi u kategoriji oglasa i na početnoj stranici sa drugom bojom',
-    //   img: '/IzdvojenaKategorijaNaslovna.svg'
-    // },
-  ]
+  advertising_options = []
 
   get stepPercentage() {
     return (1.0 / 8) * 100 * this.currentStep + 1;
@@ -477,6 +461,7 @@ export default class Objava extends Vue {
       address: this.address,
       zip_code: this.zip_code,
       price: this.price,
+      video_url: this.video_url,
       price_per_square: this.price_per_square,
       vat_included: this.vat_included,
       listing_type_id: this.listingType.id,
@@ -1778,6 +1763,10 @@ h2.info {
 
 ::v-deep .dz-details {
   background-color: rgba(2, 50, 70, 0.52) !important;
+}
+
+::v-deep label {
+  margin-top: 16px;
 }
 
 </style>

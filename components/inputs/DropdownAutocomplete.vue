@@ -9,15 +9,18 @@
         </svg>
         <input type="text"
                :placeholder="placeholder"
-               @input="showSuggests"
-               v-model="selectedCity"
+               @input="showAddressAutocomplete"
+               v-model="address"
         >
+        <svg xmlns="http://www.w3.org/2000/svg" :class="['h-6 w-6', recommendedAddresses.length ? 'transform rotate-180' : '']" @click="showAutoCompleteDropdown = !showAutoCompleteDropdown" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
       </div>
       <!-- Autocomplete dropdown -->
       <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">
         <ul>
-          <li v-for="suggest in suggestions" @click="selectOption(suggest)">
-            {{ suggest.name }}
+          <li v-for="address in recommendedAddresses" @click="selectOption(address)">
+            {{ address.description }}
           </li>
         </ul>
       </div>
@@ -37,10 +40,11 @@ import {mixin as clickaway} from "vue-clickaway";
 export default class PublishDropdown extends Vue{
   @Prop({ type: String }) label;
   @Prop({ type: String }) placeholder;
+  @Prop({ type: Array }) options;
 
   showAutoCompleteDropdown = false;
-  suggestions = [];
   selectedCity = '';
+  recommendedAddresses = []
 
   selectOption(s) {
     this.selectedCity = s.name;
@@ -48,14 +52,20 @@ export default class PublishDropdown extends Vue{
     this.showAutoCompleteDropdown = false;
   }
 
-  async showSuggests(e) {
-    let q = e.target.value;
-    if(q.length) {
-      this.showAutoCompleteDropdown = true;
-      let res = await this.$axios.get('/cities?q=' + q);
-      this.suggestions = res.data.data;
-    } else {
-      this.showAutoCompleteDropdown = false;
+  async showAddressAutocomplete() {
+    try {
+      let res = await this.$axios.get('/address/autocomplete/' + this.address);
+      this.recommendedAddresses = res.data.predictions;
+
+      if(this.recommendedAddresses.length > 0) {
+        this.showAutoCompleteDropdown = true;
+      }
+
+      console.log(res)
+
+      console.log(this.recommendedAddresses)
+    } catch(e) {
+      console.log(e)
     }
   }
 

@@ -281,6 +281,11 @@
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
+            <div class="separator"></div>
+            <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video tour</h2>
+            <div v-if="listing.video_url !== null">
+              <div v-html="listing.video_url"></div>
+            </div>
             <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review w-full">
@@ -2202,6 +2207,14 @@ export default class Artikal extends Vue {
   width: 100%;
 }
 
+::v-deep iframe {
+  width: 100% !important;
+  height: 400px;
+
+  @include for-phone-only {
+
+  }
+}
 
 </style>
 
