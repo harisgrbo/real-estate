@@ -55,6 +55,10 @@ export default class Settings extends Vue {
     margin: 0 auto;
     background: #fff;
     height: fit-content;
+
+    @include for-phone-only {
+      width: 100%;
+    }
   }
 
   @include for-phone-only {

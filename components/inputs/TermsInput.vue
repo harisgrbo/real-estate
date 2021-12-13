@@ -1,6 +1,6 @@
 <template>
   <div class="terms-wrapper">
-    <label>{{ attr.name }} {{ attr.required ? '*': '' }}</label>
+    <label class="block text-md font-semibold text-gray-900 mb-2">{{ attr.name }} {{ attr.required ? '*': '' }}</label>
     <div class="option-wrapper">
       <button
         class="select"
@@ -47,21 +47,12 @@ export default {
 .terms-wrapper {
   display: flex;
   flex-direction: column;
-  margin-top: 24px;
-
-  label {
-    font-size: 18px;
-    font-weight: 500;
-    text-transform: capitalize;
-    margin-bottom: 16px;
-  }
 
   .option-wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-row-gap: 24px;
-    grid-column-gap: 24px;
-    margin-bottom: 24px;
+    grid-row-gap: 16px;
+    grid-column-gap: 16px;
 
     @include for-phone-only {
       grid-row-gap: 16px;
@@ -73,7 +64,7 @@ export default {
       border-radius: 4px;
       box-shadow: none;
       box-sizing: border-box;
-      height: 40px;
+      height: 48px;
       line-height: .733rem;
       margin: initial;
       overflow: hidden;
@@ -86,8 +77,8 @@ export default {
       }
 
       &.selected {
-        background: #cacdd2;
-
+        background: #d8d8db;
+        font-weight: 500;
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="input-wrapper">
-    <label>{{ attr.name }} {{ attr.required ? '*': '' }}</label>
+    <label class="block text-md font-semibold text-gray-900 mb-2">{{ attr.name }} {{ attr.required ? '*': '' }}</label>
     <input type="number" v-model="val" @input="handleChange" />
   </div>
 </template>
@@ -38,30 +38,30 @@ export default {
   position: relative;
   margin-bottom: 36px;
 
+
   input {
-    height: 60px;
-    border-radius: 7px;
-    font-weight: 500;
-    color: #000;
-    font-size: 18px;
-    background: #f9f9f9;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 4px;
+    background: #fff;
     border: 1px solid #ddd;
-    padding: 0 24px;
+    flex: 2;
+    position: relative;
+    transition: 0.3s all ease;
+    max-width: 600px;
+    margin-top: 0;
+    min-height: 48px;
+    padding: 0 12px;
 
     &:focus {
-      outline: none;
-      border: 2px solid #000;
-      background: #fff;
+      outline: 1px solid #000;
+      border-radius: 4px;
     }
-    &.hasError {
-      border: 1px solid red;
-    }
+
   }
-  label {
-    font-size: 18px;
-    font-weight: 500;
-    text-transform: capitalize;
-    margin-bottom: 16px;
-  }
+
+
 }
 </style>

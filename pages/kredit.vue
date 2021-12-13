@@ -197,7 +197,7 @@ export default class Kredit extends Vue {
       });
 
       let updatedUser = {...this.$auth.user}
-      updatedUser.credits += this.credits;
+      updatedUser.credits += this.credits.toString();
       this.$auth.setUser(updatedUser)
 
       this.$snackbar.show({
