@@ -336,7 +336,7 @@
   import PremiumAgency from "@/components/PremiumAgency"
   import UserCard from "../components/UserCard";
   import TextField from "@/components/inputs/TextField";
-  import { buildCategory, buildType, buildCity, buildTitle, buildPrice } from "@/util/search";
+  import { buildCategory, buildType, buildCity, buildTitle, buildPrice, buildSquare } from "@/util/search";
   import skeleton from "../components/skeleton";
   import skeletonlocation from "../components/skeletonlocation";
   import CitiesMultipleSelect from "../components/global/CitiesMultipleSelect";
@@ -365,6 +365,8 @@
     ]
     priceFrom = null;
     priceTo = null;
+    squareFrom = null;
+    squareTo = null;
     activeTab = 0;
     categories = []
     selectedCity = null;
@@ -667,6 +669,10 @@
 
       if (this.priceFrom || this.priceTo) {
         filters.push(buildPrice(this.priceFrom, this.priceTo))
+      }
+
+      if (this.squareFrom || this.squareTo) {
+        filters.push(buildSquare(this.squareFrom, this.squareTo));
       }
 
       if (filters.length) {
