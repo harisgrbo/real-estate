@@ -1,10 +1,21 @@
 <template>
   <div :class="['navbar-wrapper w-full lg:px-20 xl:px-20 up:px-20 lg:shadow-sm xl:shadow-sm up:shadow-sm sm:shadow-none max-w-full sm:px-4', this.$route.name === 'index' ? 'only-index' : '']">
     <div class="second-row mx-auto w-full">
-      <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-        <nuxt-link :to="'/'" class="flex flex-row items-center">
-          <img :src="[ $device.isMobile ? '/msquare-mobile.png' : '/msquare.png']" class="main-logo" height="40" alt="">
-        </nuxt-link>
+      <div class="flex flex-row items-center">
+        <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
+          <nuxt-link :to="'/'" class="flex flex-row items-center">
+            <img :src="[ $device.isMobile ? '/msquare-mobile.png' : '/msquare.png']" class="main-logo" height="40" alt="">
+          </nuxt-link>
+        </div>
+      </div>
+      <div class="relative">
+        <div class="flex flex-row items-center ml-4 cursor-pointer hover:bg-gray-50 rounded-sm p-2" @click="showOtherLinksDropdown = !showOtherLinksDropdown">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </div>
+
+        <OtherLinksDropdown v-show="showOtherLinksDropdown"></OtherLinksDropdown>
       </div>
       <div class="input-wrapper"
            @focusin="focused = true"
@@ -145,9 +156,11 @@ import sidenav from "@/components/sidenav"
 import { mixin as clickaway } from 'vue-clickaway';
 import NotificationsDropdown from "@/components/NotificationsDropdown"
 import { buildType, buildCategory, buildTitle } from '@/util/search'
+import OtherLinksDropdown from "../OtherLinksDropdown";
 
 @Component({
   components: {
+    OtherLinksDropdown,
     CategoriesList,
     ListingType,
     NotificationsDropdown,
@@ -168,6 +181,7 @@ export default class Navbar extends Vue {
   searchInput = ""
   savedSearches = []
   showNotifications = false;
+  showOtherLinksDropdown = false;
 
   mounted() {
     this.realtime();
@@ -715,7 +729,7 @@ export default class Navbar extends Vue {
   .auth-buttons {
     display: flex;
     align-items: center;
-    flex: 1;
+    max-width: fit-content;
     justify-content: flex-end;
 
     .inner {
@@ -734,7 +748,7 @@ export default class Navbar extends Vue {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-radius: 8px;
+        border-radius: 4px;
         padding: 0 12px;
         background: #F3F3F4;
         flex: 2;

@@ -160,9 +160,9 @@ export default class ListingCard extends Vue{
     } else if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
     } else if(this.listing.listing_type.shortname === 'booking'){
-      return 'Stan na dan'
+      return 'Izdavanje na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
-      return 'Iznajmljivanje'
+      return 'Dugoročno izdavanje'
     }
   }
 
@@ -639,11 +639,11 @@ export default class ListingCard extends Vue{
 
     > div {
       border: 1px solid #ececec;
-      border-radius: 15px;
+      border-radius: 4px;
       height: 25px;
       width: fit-content;
       margin-right: 8px;
-      padding: 0 10px;
+      padding: 0 4px;
       font-weight: 400;
       background: #f9f9f9;
       font-size: 13px;

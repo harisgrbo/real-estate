@@ -52,7 +52,7 @@
               <button
                 class='flex items-center gap-1 sm:text-lg py-1 px-1 hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
               >
-                <p class="text-sm w-auto font-semibold">{{ listing.price }} KM</p>
+                <p class="text-lg w-auto font-semibold">{{ listing.price }} KM</p>
 
               </button>
             </div>
@@ -147,9 +147,9 @@ export default class HorizontalCard extends Vue{
     } else if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
     } else if(this.listing.listing_type.shortname === 'booking'){
-      return 'Stan na dan'
+      return 'Izdavanje na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
-      return 'Iznajmljivanje'
+      return 'Dugoročno izdavanje'
     }
   }
 

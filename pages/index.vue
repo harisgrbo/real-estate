@@ -48,6 +48,14 @@
               </fieldset>
             </div>
             <div class="price-label">
+              <label>Kvadratura</label>
+              <div class="w-full flex items-center justify-between">
+                <TextField type="number" placeholder="Od" v-model="squareFrom"></TextField>
+                <p class="mx-2">-</p>
+                <TextField type="number" placeholder="Do" v-model="squareTo"></TextField>
+              </div>
+            </div>
+            <div class="price-label">
               <label>Cijena</label>
               <div class="w-full flex items-center justify-between">
                 <TextField type="number" :currency="true" placeholder="Od" v-model="priceFrom"></TextField>
@@ -129,7 +137,7 @@
             </h3>
             <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
           </div>
-          <button @click="searchLocation(city.city.id)" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button @click="searchLocation(city.city.id)" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50">
             Pogledaj više
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -261,7 +269,7 @@
     <div class="agency-wrap">
       <h2>Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
       <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>
-      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           Lista agencija
       </nuxt-link>r
     </div>
