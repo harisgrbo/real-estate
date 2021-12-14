@@ -115,7 +115,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid  md:grid-cols-3 grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -154,7 +154,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -280,6 +280,11 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Lokacija</h2>
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
+            </div>
+            <div class="separator" v-if="listing.video_url !== null"></div>
+            <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video tour</h2>
+            <div v-if="listing.video_url !== null">
+              <div v-html="listing.video_url"></div>
             </div>
             <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
@@ -2202,6 +2207,14 @@ export default class Artikal extends Vue {
   width: 100%;
 }
 
+::v-deep iframe {
+  width: 100% !important;
+  height: 400px;
+
+  @include for-phone-only {
+
+  }
+}
 
 </style>
 

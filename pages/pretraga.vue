@@ -481,11 +481,11 @@ export default class Homepage extends Vue {
       id: 2,
     },
     {
-      name: "Stan na dan",
+      name: "Izdavanje na dan",
       id: 4,
     },
     {
-      name: "Iznajmljivanje (duži period)",
+      name: "Dugoročno izdavanje",
       id: 3,
     },
   ]
@@ -796,6 +796,7 @@ export default class Homepage extends Vue {
     .results {
       display: flex;
       flex-direction: column;
+      padding-bottom: 60px;
 
       &.map {
         display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <div class="publish-wrapper-inner">
+  <div class="preview-wrapper-inner">
     <Snackbar />
     <div class="content-wrapper" v-if="listingLoaded">
       <div class="step-1">
@@ -9,10 +9,10 @@
 
         <div class="grid-filters">
           <InputError :error="errors.district" />
-          <PublishTextInput type="text" title="Naselje" v-model="listing.district"></PublishTextInput>
+          <TextField type="text" label="Naselje" v-model="listing.district"></TextField>
 
           <InputError :error="errors.address" />
-          <PublishTextInput type="text" title="Adresa" v-model="listing.address" @input.native="showAddressAutocomplete"></PublishTextInput>
+          <TextField type="text" label="Adresa" v-model="listing.address" @input.native="showAddressAutocomplete"></TextField>
           <ul v-if="recommendedAddresses.length">
             <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
               {{ item.description }}
@@ -20,44 +20,44 @@
           </ul>
 
           <InputError :error="errors.price" />
-          <PublishTextInput type="number" title="Cijena" v-model="listing.price" :currency="true"></PublishTextInput>
+          <TextField type="number" label="Cijena" v-model="listing.price" :currency="true"></TextField>
         </div>
-        <h2>Lokacija</h2>
-
-        <PublishDropdown placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></PublishDropdown>
+        <DropdownAutocomplete label="Lokacija" placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></DropdownAutocomplete>
 
         <PublishMap :location="listing" @latlng="handleLatLng"></PublishMap>
         <InputError :error="errors.city" />
         <InputError :error="errors.description" />
-        <PublishDescriptionInput title="Opis" v-model="listing.description"></PublishDescriptionInput>
+        <TextAreaField class="mt-4" label="Opis" v-model="listing.description"></TextAreaField>
       </div>
 
       <div class="step-2">
         <h1 class="heading">
           Detaljne informacije oglasa
         </h1>
+        <div class="grid grid-cols-2 gap-x-5 gap-y-5 grid-flow-row auto-rows-auto">
+          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+            <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :init="findValueFromListing(attr.id)"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
 
-        <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-          <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]" />
-          <component
-            :attr="attr"
-            :options="attr"
-            :init="findValueFromListing(attr.id)"
-            :is="filterFor(attr)"
-            @changed="handleChangedAttribute"
-          />
+          <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :init="findValueFromListing(attr.id)"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
         </div>
 
-        <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
-          <InputError :error="errors.attributes[attr.id]" />
-          <component
-            :attr="attr"
-            :init="findValueFromListing(attr.id)"
-            :options="attr"
-            :is="filterFor(attr)"
-            @changed="handleChangedAttribute"
-          />
-        </div>
 
         <h1 class="heading-checkbox">Nekretnina posjeduje</h1>
         <div class="checkbox-grid">
@@ -78,7 +78,6 @@
         </div>
       </div>
 
-      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '8px', minHeight: '42px', height: '42px', marginRight: '24px', fontSize: '13px' }" placeholder="Spasi izmjene"></ActionButton>
       <div class="w-full my-10 flex-col">
         <h1 class="heading">
           Slike
@@ -100,7 +99,7 @@
             </p>
           </div>
         </div>
-        <div class="w-full bg-gray-50 rounded-md p-4 grid grid-cols-4 gap-4">
+        <div class="w-full bg-gray-50 rounded-md p-4 grid grid-cols-5 gap-4">
           <div v-for="(image, index) in listing.images" class="img-upload-box">
             <img :src="image.url" width="300" height="200" />
             <button @click="deleteImage(image, index)">
@@ -111,6 +110,7 @@
           </div>
         </div>
       </div>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '4px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px' }" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -120,17 +120,21 @@ import { Component, Watch, Vue} from "nuxt-property-decorator";
 import Categories from "@/components/publishInputs/Categories";
 import TermsInput from "@/components/inputs/TermsInput"
 import TermInput from "@/components/inputs/TermInput"
+import TextField from "@/components/inputs/TextField";
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
 import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton"
+import TextAreaField from "../../../components/inputs/TextAreaField";
+import DropdownAutocomplete from "../../../components/inputs/DropdownAutocomplete";
 
 @Component({
   components: {
-    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton
+    DropdownAutocomplete,
+    TextAreaField, Categories, TermsInput, TermInput, RangeInput, TextField, InputError, Snackbar, ActionButton
   },
   middleware: ['auth'],
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'publish',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 
   async asyncData(ctx) {
     let attributes = [];
@@ -519,6 +523,8 @@ export default class ListingEdit extends Vue {
   city = null;
 
   handleSelectedCity(f) {
+
+    console.log(f)
     this.city = f;
 
     this.lat = f.location.lat;
@@ -639,6 +645,16 @@ export default class ListingEdit extends Vue {
   }
 }
 
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 0 24px 24px 24px;
+}
+
 .horizontal-progress {
   background: #f1f1f1;
   position: relative;
@@ -756,10 +772,8 @@ export default class ListingEdit extends Vue {
       }
 
       .heading {
-        font-size: 20px;
-        font-weight: 400;
-        border-bottom: 1px solid #f1f1f1;
-        padding-bottom: 24px;
+        font-size: 18px;
+        font-weight: 500;
         margin-bottom: 36px;
 
       }
@@ -972,12 +986,9 @@ export default class ListingEdit extends Vue {
 }
 
 h1.heading {
-  color: #484848 !important;
-  font-weight: 500 !important;
-  padding-bottom: 24px;
-  font-size: 22px !important;
-  border-bottom: 1px solid #EBEBEB !important;
-  position: relative;
+  color: #000 !important;
+  font-weight: 600 !important;
+  font-size: 19px !important;
   margin-top: 24px;
 
   @include for-phone-only {
@@ -987,16 +998,6 @@ h1.heading {
     margin-bottom: 12px !important;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 80px;
-    height: 1px;
-    background: #0B8489;
-  }
 }
 
 ::v-deep .option-wrapper {

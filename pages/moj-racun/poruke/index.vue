@@ -1,25 +1,22 @@
 <template>
-  <div class="account-wrapper-a">
+  <div class="preview-wrapper-inner">
     <!-- BEGIN: Content -->
-    <div class="content px-20 mt-20">
-      <div class="intro-y chat grid grid-cols-12 gap-5 mt-5">
+    <div class="flex w-full">
+      <div class="chat flex flex-row w-full">
         <!-- BEGIN: Chat Side Menu -->
-        <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
-          <div class="intro-y pr-1">
-            <h2 class="font-medium text-xl">Chat</h2>
-          </div>
-          <div class="tab-content">
+        <div class="flex mr-4 flex-col w-2/6 mobile-chat">
+          <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
-              <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
-                <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" :class="['intro-x cursor-pointer box relative flex items-center p-5 mt-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
-                  <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full"" src="/noimage.jpeg">
+              <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
+                <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" :class="['intro-x cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
+                  <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" src="/noimage.jpeg">
                   <div class="ml-2 overflow-hidden w-full">
                     <div class="flex items-center w-full">
-                      <a href="javascript:;" class="font-medium">{{ others(conversation).map(item => item.name).join(',') }}</a>
+                      <a href="javascript:;" class="text-gray-900 font-semibold">{{ others(conversation).map(item => item.name).join(',') }}</a>
                       <div class="text-xs text-gray-500 ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
                     <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
-                      <div class="w-full truncate text-gray-600 mt-0.5">{{ conversation.last_message.content }}</div>
+                      <div class="w-full truncate text-gray-900 mt-0.5">{{ conversation.last_message.content }}</div>
                       <div v-if="pinned_conversation === conversation">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
@@ -145,29 +142,34 @@
         </div>
         <!-- END: Chat Side Menu -->
         <!-- BEGIN: Chat Content -->
-        <div class="intro-y col-span-12 lg:col-span-8 2xl:col-span-9">
-          <div v-if="!$device.isMobile" class="chat__box box">
+        <div class="flex w-full">
+          <div v-if="!$device.isMobile" class="chat__box box w-full">
             <!-- BEGIN: Chat Active -->
             <div v-if="currentConversation" class="h-full flex flex-col">
-              <div class="shadow-sm flex flex-col sm:flex-row border-b border-gray-200 dark:border-dark-5 px-5 py-4">
-                <div class="flex items-center">
-                  <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
-                  </div>
-                  <div class="ml-3 mr-auto">
-                    <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
+              <div class="shadow-sm flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-5 py-4">
+                <div class="flex flex-row items-center">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
+                    </div>
+                    <div class="ml-3 mr-auto">
+                      <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
+                    </div>
                   </div>
                 </div>
-                <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 sm:pt-0 -mx-5 sm:mx-0 px-5 cursor-pointer hover:bg-gray-50 rounded-md" @click="pinConversation(currentConversation)">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                  </svg>
-                  <p class="font-medium">{{ pinned_conversation && (pinned_conversation.id === currentConversation.id ) ? 'Izbriši iz pinovanih' : 'Pinuj razgovor'}}</p>
-                </div>
-                <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 sm:pt-0 -mx-5 sm:mx-0 px-5 cursor-pointer hover:bg-gray-50 rounded-md" @click="deleteConversation(currentConversation)">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
+
+                <div class="flex flex-row items-center">
+                  <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 mr-4 border-gray-200 pt-3 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="pinConversation(currentConversation)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                    </svg>
+                    <p class="font-medium">{{ pinned_conversation && (pinned_conversation.id === currentConversation.id ) ? 'Izbriši iz pinovanih' : 'Pinuj razgovor'}}</p>
+                  </div>
+                  <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 ml-6 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="deleteConversation(currentConversation)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </div>
                 </div>
               </div>
               <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
@@ -199,9 +201,9 @@
               <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
                 <img src="/loader.svg" alt="">
               </div>
-              <div class="pt-4 pb-10 sm:py-4 flex items-center justify-between border-t border-gray-200 dark:border-dark-5 px-5">
-                <textarea v-model="messageContent" @keyup.enter="sendMessage" class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Upišite poruku..."></textarea>
-                <button @click.prevent="sendMessage" class="ml-5 w-auto h-10 px-3 font-semibold sm:h-10 flex bg-theme-17 text-white rounded-md flex-none flex items-center justify-center">Pošalji</button>
+              <div class="pt-4 pb-10 sm:py-4 flex items-start justify-between border-t border-gray-200 dark:border-dark-5 px-5">
+                <textarea v-model="messageContent" @keyup.enter="sendMessage" rows="1" placeholder="Upišite poruku..."></textarea>
+                <ActionButton class="ml-4" @action="sendMessage" placeholder="Pošalji"></ActionButton>
               </div>
             </div>
             <!-- END: Chat Active -->
@@ -243,6 +245,11 @@
                     <div class="flex items-center cursor-pointer" @click="pinConversation(currentConversation)">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" :fill="pinned_conversation && (pinned_conversation.id === currentConversation.id) ? '#1F2937' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                    </div>
+                    <div class="flex items-center sm:ml-auto sm:mt-0 border-t sm:border-0 border-gray-200 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="deleteConversation(currentConversation)">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
                     </div>
                     <i class="material-icons ml-4" @click="$modal.hide('conversations')">close</i>
@@ -308,12 +315,14 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import {v4 as uuidv4} from "uuid";
+import ActionButton from "../../../components/actionButtons/ActionButton";
 
 @Component({
   components: {
+    ActionButton
   },
   middleware: ['auth'],
-  layout() { return "home" },
+  layout() { return "settings" },
   async asyncData(ctx) {
     let conversations = [];
 
@@ -525,12 +534,14 @@ export default class Porukice extends Vue {
   }
 }
 
-.account-wrapper-a {
-  background: #f9f9f9;
-  @include for-phone-only {
-    min-height: 100%;
-    background: #fff;
-  }
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
 
 .chat__box__input {
@@ -574,6 +585,23 @@ export default class Porukice extends Vue {
 
   img {
     height: 30px;
+  }
+}
+
+textarea {
+  padding: 12px;
+  height: 100%;
+  background: transparent;
+  width: 100%;
+  font-weight: 500;
+  font-size: 14px;
+  min-height: 100px;
+  max-height: 100px;
+  border: 1px solid #ddd;
+
+  &:focus {
+    outline: 1px solid #000;
+    border-radius: 4px;
   }
 }
 
@@ -674,6 +702,13 @@ export default class Porukice extends Vue {
 
 .bg-theme-17 {
   background: #1F2937 !important;
+}
+
+.mobile-chat {
+  @include for-phone-only {
+    width: 100%;
+    min-width: 100%;
+  }
 }
 </style>
 
