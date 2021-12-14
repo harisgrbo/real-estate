@@ -21,8 +21,8 @@ function buildTitle(title) {
 function buildType(type) {
   return JSON.stringify({
     name: "listing_type_id",
-    type: "term",
-    value: type.id
+    type: "terms",
+    value: [type.id]
   })
 }
 
