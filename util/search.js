@@ -50,11 +50,20 @@ function buildPrice(from, to) {
   })
 }
 
+function buildSquare(from, to) {
+  return JSON.stringify({
+    name: "1",
+    type: "range",
+    value: [from, to]
+  })
+}
+
 module.exports = {
   buildTitle,
   buildType,
   buildCity,
   buildCategory,
   buildPrice,
-  buildQuery
+  buildQuery,
+  buildSquare
 }
