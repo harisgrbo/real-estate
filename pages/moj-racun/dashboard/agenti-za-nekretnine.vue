@@ -1,12 +1,11 @@
 <template>
-  <div class="account-wrapper mx-auto w-full">
-    <div class="content">
-      <div class="grid grid-cols-12 gap-6 mt-5">
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-          <button class="btn text-white bg-gray-800 shadow-md mr-2">Dodaj novog agenta</button>
+  <div class="w-full">
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+          <action-button placeholder="Dodaj novog agenta"></action-button>
         </div>
         <!-- BEGIN: Users Layout -->
-        <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4" v-for="i in 10">
+        <div class="0 col-span-12 md:col-span-6 lg:col-span-4" v-for="i in 10">
           <div class="box">
             <div class="flex items-start px-5 pt-5">
               <div class="w-full flex flex-col lg:flex-row items-center">
@@ -40,15 +39,16 @@
         </div>
 
       </div>
-    </div>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
+import ActionButton from "../../../components/actionButtons/ActionButton";
 
 @Component({
   components: {
+    ActionButton
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })

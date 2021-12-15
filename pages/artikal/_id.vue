@@ -60,6 +60,7 @@
             <div class="mb-6 px-5 lg:px-0 xl:px-0 up:px-0 mobile-content">
               <div class="article-title">
                 <h2 v-if="listing">{{ listing.title }}</h2>
+
                 <p v-if="$device.isMobile" class="mt-5 text-md text-gray-800 font-medium">{{ listing.address }}</p>
 
                 <div class="flex flex-row items-center" v-if="!$device.isMobile">
@@ -75,6 +76,22 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                   </button>
+                </div>
+              </div>
+              <div class="rent" v-if="listing.is_booking && !$device.isMobile">
+                <div class="flex flex-row items-center w-full">
+                  <p class="text-xl font-bold main-price-label">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                  <p class="pl-2 text-xl font-semibold">/ noć</p>
+                </div>
+              </div>
+              <div class="rent flex flex-row items-center" v-else>
+                <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile">
+                  <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+                  <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
+                </div>
+                <div class="flex flex-col items-start price-wrap ml-4 bg-gray-900 text-white p-2 rounded-md" v-if="listing.hasOwnProperty('discount')">
+                  <p class="text-xl">Popust {{ listing.discount * 100 }}%</p>
+                  <p class="mt-1 text-lg text-black font-semibold main-price-label text-white">{{ numberWithCommas(listing.price - listing.price * listing.discount) }} KM</p>
                 </div>
               </div>
               <div v-if="reviewCount" class="flex flex-row items-center justify-start mt-5">
@@ -115,7 +132,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid  md:grid-cols-3 grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid  md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -133,28 +150,32 @@
               </ul>
             </div>
             <div v-if="RentSpecialAttributes.length">
-              <h2 class="text-xl font-medium text-gray-900 mx-5 lg:mx-0 xl:mx-0 up:mx-0">
+              <h2 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
                 Izdvojene pogodnosti
               </h2>
-              <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 up:grid-cols-4 gap-4 py-6 bg-gray-50 mt-4 rounded-md p-4">
-                <div
-                  v-for="(attr, index) in RentSpecialAttributes"
-                  :key="index"
-                  class="flex flex-row items-center p-2 rounded-sm border border-gray-200 rent-special"
-                >
-                  <img :src="'/' + attr.name + '.png'" alt="">
-                  <div class="flex flex-row items-center justify-between w-full">
-                    <p>{{ attr.name }}</p>
-                    <p v-if="typeof (attr.value) !== 'boolean'" :class="['pl-5', typeof (attr.value) !== 'boolean' ? '' : '']">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
+              <ul role="list" class="mt-3 grid grid-cols-3 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 ammenities">
+                <li  v-for="(attr, index) in RentSpecialAttributes"
+                     :key="index"
+                     class="col-span-1 flex shadow-sm rounded-md">
+                  <div class="flex-shrink-0 p-3 flex items-center border border-gray-100 justify-center w-16 bg-gray-900 text-white text-sm font-medium rounded-l-md">
+                    <img :src="'/' + attr.name + '.png'" alt="">
                   </div>
-                </div>
-              </div>
+                  <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                    <div class="flex-1 px-4 py-2 text-sm truncate">
+                      <a href="#" class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</a>
+                      <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
+                    </div>
+                    <div class="flex-shrink-0 pr-2">
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </div>
             <div class="mt-6 mx-5 lg:mx-0 xl:mx-0 up:mx-0" v-if="checkboxAttributes.length">
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -265,11 +286,11 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Pogledajte šta se nalazi u blizini nekretnine</h2>
             <div class="places" v-if="!$device.isMobile">
               <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2">
-                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md' : '']">{{ translatePlaces(index) }}</li>
+                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md font-semibold' : '']">{{ translatePlaces(index) }}</li>
               </ul>
-              <div class="mt-3">
-                <div class="places-grid bg-gray-50" v-if="selectedPlace !== null">
-                  <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start mb-4">
+              <div>
+                <div class="places-grid" v-if="selectedPlace !== null">
+                  <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
                     <img :src="p.icon" :alt="p.name" class="mr-2">
                     {{ p.name }}</div>
                 </div>
@@ -1932,7 +1953,7 @@ export default class Artikal extends Vue {
 }
 
 .active-place {
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 
 ::v-deep .vm--modal {
@@ -2038,14 +2059,21 @@ export default class Artikal extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
-  padding: 0 12px;
-  background: #F3F3F4;
+  border-radius: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
   flex: 2;
   position: relative;
   transition: 0.3s all ease;
   max-width: 600px;
   margin-top: 0;
+  min-height: 48px;
+  padding: 0 12px;
+
+  &:focus {
+    border: 1px solid #000;
+    outline: none;
+  }
 }
 
 .mobile-content {
@@ -2107,14 +2135,17 @@ export default class Artikal extends Vue {
 }
 
 .price-wrap {
-  background: #f9f9f9;
-  padding: 12px;
-  border-radius: 7px;
-  margin: 0 0px 16px 0;
 
+  margin-top: 8px;
+  margin-bottom: 8px;
   @include for-phone-only {
     margin: 0 0 16px 0;
     padding: 20px;
+  }
+
+  .main-price-label {
+    font-size: 25px;
+    font-weight: 600 !important;
   }
 }
 
@@ -2216,5 +2247,18 @@ export default class Artikal extends Vue {
   }
 }
 
+.ammenities {
+  li {
+    border: 1px solid #f9f9f9;
+    img {
+      filter: invert(1);
+      height: 27px;
+    }
+  }
+}
+
+.cross-price {
+  text-decoration: line-through;
+}
 </style>
 

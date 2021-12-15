@@ -1,20 +1,37 @@
 <template>
-  <div class="flex-1 relative inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium hover:text-gray-500 bg-white user-main-wrap">
-    <div class="w-full mobile-user flex flex-col items-center">
-      <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id">
-        <div class="flex-1 flex flex-col items-center p-2 pt-4">
-          <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
-          <h3 class="mt-6 text-gray-900 text-sm font-medium ">{{ user.name }}</h3>
-          <dl class="mt-1 flex-grow flex flex-col justify-between">
-            <dd class="mt-3">
-              <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
-            </dd>
-          </dl>
+  <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id">
+    <div class="box border shadow-none border-gray-400 hover:shadow-md">
+      <div class="flex items-start px-3 pt-3">
+        <div class="w-full flex flex-col lg:flex-row items-center">
+          <div class="w-16 h-16 image-fit">
+            <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
+          </div>
+          <div class="ml-4 text-center lg:text-left">
+            <p class="font-semibold text-md text-gray-900">{{ user.name }}</p>
+            <div class="text-gray-600 text-sm font-semibold mt-0.5">{{ user_type(user.user_type) }}</div>
+          </div>
         </div>
-      </nuxt-link>
-      <Snackbar></Snackbar>
+      </div>
+      <div class="text-center lg:text-left p-5 pt-2 pb-2">
+        <div class="flex items-center justify-center lg:justify-start text-gray-700 mt-2 w-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <p>{{ user.email }}</p></div>
+        <div class="flex items-center justify-center lg:justify-start text-gray-700 w-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <p class="paragraph">{{ user.location }}</p>
+        </div>
+      </div>
+      <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
+      <button class="btn text-white bg-gray-800 py-1 px-2 mr-2">Poruka</button>
+      <button class="btn btn-outline-secondary py-1 px-2">Profil</button>
     </div>
-  </div>
+    </div>
+  </nuxt-link>
 </template>
 
 <script>
@@ -82,6 +99,10 @@ export default class UserCard extends Vue {
     } catch(e) {
       console.log(e)
     }
+  }
+
+  created() {
+    console.log(this.user)
   }
 
   beforeOpen() {
@@ -174,6 +195,24 @@ export default class UserCard extends Vue {
       background: rgb(247, 247, 247) !important;
       text-decoration: underline;
     }
+  }
+}
+
+.box {
+  border: 1px solid #f1f1f1;
+
+  img {
+    max-width: 60px;
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+  }
+  .paragraph {
+    display: inline-block;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
 }
 

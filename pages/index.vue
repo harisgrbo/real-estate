@@ -321,8 +321,8 @@
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more mr-5" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 gap-4 up:px-20 flex-row overflow-x-scroll w-full agencija">
-      <UserCard class="mr-5" v-for="(agency, index) in agencies" :key="index" :user="agency"/>
+    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 py-2 gap-4 up:px-20 flex-row overflow-x-scroll w-full agencija">
+      <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
 </template>
@@ -1301,7 +1301,7 @@ ul.most-visited-cats {
   padding: 0 12px !important;
   font-size: 14px;
   background: #fff;
-  border-radius: 10px !important;
+  border-radius: 4px !important;
   max-height: 48px;
 }
 

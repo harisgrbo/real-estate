@@ -28,19 +28,6 @@
 <!--          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
 <!--        </button>-->
       </div>
-
-      <div class="rent" v-if="isBooking && !$device.isMobile">
-        <div class="flex flex-row items-center w-full">
-          <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
-          <p class="pl-2">/ noć</p>
-        </div>
-      </div>
-      <div class="rent" v-else>
-        <div class="flex flex-col items-start price-wrap" v-if="!$device.isMobile">
-          <p>Cijena {{ vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
-          <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(price) }} KM</p>
-        </div>
-      </div>
     </div>
     <client-only>
       <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">

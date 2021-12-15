@@ -1,11 +1,21 @@
 <template>
     <div class="listing-card-wrapper" :class="[from? 'blured' : '', 'sponsored-' + listing.sponsored]">
-      <label class="publisher shadow-sm">
-        <span class="flex flex-row items-center">{{ translateType() }}
+      <label class="publisher">
+        <span class="shadow-sm bg-white">
+          <span class="flex flex-row items-center">{{ translateType() }}</span>
+        </span>
+        <span v-if="listing.hasOwnProperty('discount')" class="flex flex-row items-center bg-red-600 shadow-sm ml-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#fff">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+          </svg>
+          <p class="text-white font-semibold">
+            Akcija{{ ' -' + listing.discount * 100 + '%' }}
+          </p>
         </span>
       </label>
       <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false" @click.stop>
-        <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/moji-oglasi'" class="w-full">
+        <div v-show="showListingOptions && ($router.history.current.fullPath === '/moj-racun/moji-oglasi' || $router.history.current.fullPath === '/moj-racun/dashboard/upravljanje-oglasima')" class="w-full">
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/uredjivanje/' + listing.id)"></action-button>
           <action-button class="option-btn" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}"></action-button>
           <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
@@ -60,10 +70,15 @@
                 {{ listing.title }}
               </p>
             </div>
-            <div class="icons-date">
+            <div class="icons-date flex flex-row items-center justify-between w-full">
               <div class="important">
 <!--                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>-->
-                <p class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+                <p :class="['new', listing.hasOwnProperty('discount') ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+                <p v-show="listing.is_booking" class="pl-2">/ noć</p>
+              </div>
+              <div class="important" v-if="listing.hasOwnProperty('discount')">
+                <!--                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>-->
+                <p class="new">{{ parseInt(listing.price - listing.price * listing.discount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-show="listing.is_booking" class="pl-2">/ noć</p>
               </div>
             </div>
@@ -184,8 +199,6 @@ export default class ListingCard extends Vue{
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
-
-    console.log(this.$router, 'ruter')
   }
 }
 </script>
@@ -240,11 +253,8 @@ export default class ListingCard extends Vue{
 
     label {
       position: absolute;
-      left: 8px;
+      left: 4px;
       top: 8px;
-      border-radius: 4px;
-      background: #fff;
-      color: #000;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -254,6 +264,12 @@ export default class ListingCard extends Vue{
       font-size: 12px;
       font-weight: 500;
       z-index: 2;
+
+      span {
+        border-radius: 4px;
+        color: #000;
+        padding: 0 3px
+      }
 
       @include for-phone-only {
         font-size: 12px;
@@ -312,9 +328,12 @@ export default class ListingCard extends Vue{
 
       &.publisher {
         top: 8px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
         svg {
-          margin-right: 8px;
+          margin-right: 3px;
         }
 
         &.sale {
@@ -805,5 +824,9 @@ export default class ListingCard extends Vue{
   @include for-phone-only {
     margin-top: 6px;
   }
+}
+
+.cross {
+  text-decoration: line-through;
 }
 </style>

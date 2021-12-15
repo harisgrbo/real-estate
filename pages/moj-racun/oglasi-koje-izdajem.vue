@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper">
+  <div class="preview-wrapper-inner">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -133,14 +133,14 @@ export default class mojeRezervacije extends Vue {
     @content;
   }
 }
-
-.account-wrapper {
-  width: auto;
-  min-height: calc(100vh - 80px);
-
-  @include for-phone-only {
-    min-height: 100%;
-  }
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
 
 a {

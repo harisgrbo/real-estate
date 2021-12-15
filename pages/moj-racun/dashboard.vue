@@ -1,7 +1,6 @@
 <template>
-  <div class="account-wrapper-a">
-    <div class="content">
-      <ul class="expanded mx-20">
+  <div class="preview-wrapper-inner flex col items-start justify-start">
+      <ul class="expanded">
         <nuxt-link class="inner" :to="{ path: `/moj-racun/dashboard/${link.slug}`}" v-for="(link, index) in links" :key="index">
           <li>
               <p>{{ link.name }}</p>
@@ -11,7 +10,6 @@
       <div class="dashboard-inner">
         <nuxt-child></nuxt-child>
       </div>
-    </div>
   </div>
 </template>
 
@@ -78,6 +76,16 @@ a {
   font-weight: 400;
 }
 
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
+}
+
 .nuxt-link-active.inner {
   position: relative;
   color: #1F2937;
@@ -102,6 +110,7 @@ a {
 
 ul.expanded {
   display: flex;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   margin-bottom: 36px;

@@ -1,41 +1,13 @@
 <template>
-  <div class="account-wrapper">
-    <div class="col-span-12">
-      <!-- BEGIN: Display Information -->
-      <div class="intro-y box lg:mt-5">
-        <div class="py-5">
-          <div class="flex flex-col-reverse xl:flex-row flex-col">
-            <div class="flex-1 mt-6 xl:mt-0">
-              <div class="grid grid-cols-12 gap-x-5">
-                <div class="col-span-12 2xl:col-span-6">
-                  <div>
-                    <label for="update-profile-form-1" class="form-label">ID Broj</label>
-                    <input id="update-profile-form-1" type="text" class="form-control" v-model="id">
-                  </div>
-                </div>
-                <div class="col-span-12 2xl:col-span-6">
-
-                  <div class="">
-                    <label for="update-profile-form-4" class="form-label">Lokacija</label>
-                    <input id="update-profile-form-4" type="text" class="form-control" v-model="location">
-                  </div>
-                </div>
-                <div class="col-span-12">
-                  <div class="mt-3">
-                    <label for="update-profile-form-5" class="form-label">Opis</label>
-                    <textarea id="update-profile-form-5" class="form-control" v-model="description"></textarea>
-                  </div>
-                </div>
-              </div>
-              <button type="button" class="btn bg-gray-800 text-white w-20 mt-3" @click="updateProfileInfo">Sačuvaj</button>
-            </div>
-          </div>
-        </div>
+    <div class="w-full">
+      <div class="grid grid-cols-2 gap-4">
+        <TextField v-model="id" label="ID broj" placeholder="1234567"></TextField>
+        <TextField v-model="location" label="Lokacija" placeholder="Sarajevo"></TextField>
       </div>
-      <!-- END: Display Information -->
+      <TextAreaField class="mt-4" v-model="description" label="Opis" placeholder="Opis.."></TextAreaField>
+      <action-button @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
+      <Snackbar></Snackbar>
     </div>
-    <Snackbar></Snackbar>
-  </div>
 </template>
 
 <script>
@@ -43,9 +15,11 @@ import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import Snackbar from "@/components/global/Snackbar";
+import TextAreaField from "../../../components/inputs/TextAreaField";
 
 @Component({
   components: {
+    TextAreaField,
     TextField,
     ActionButton,
     Snackbar

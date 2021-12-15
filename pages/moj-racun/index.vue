@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper-a">
+  <div class="account-wrapper-a preview-wrapper-inner">
     <div class="account-wrapper-inner">
       <div class="sidenav">
         <h1 class="heading-account">Moj račun</h1>
@@ -126,16 +126,21 @@ export default class accountpage extends Vue {
   }
 }
 
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
+}
+
 .account-wrapper-a {
   height: auto;
 
   .account-wrapper-inner {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-    width: auto;
-    margin: 0 80px;
-    box-sizing: border-box;
+    width: 100%;
 
     @include for-phone-only {
       width: 100%;
@@ -149,7 +154,6 @@ export default class accountpage extends Vue {
       box-sizing: border-box;
       border-radius: 10px;
       flex-direction: column;
-      padding-top: 36px;
 
       @include for-phone-only {
         padding: 16px;
