@@ -20,7 +20,7 @@
         <div class="modal-inner">
 <!--          <i class="material-icons" @click.prevent="$modal.hide('sidebar')">close</i>-->
           <div class="modal-content">
-            <sidenav></sidenav>
+            <sidenav @close-sidenav="$modal.hide('sidebar')"></sidenav>
           </div>
         </div>
       </modal>
