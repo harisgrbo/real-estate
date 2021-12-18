@@ -1,8 +1,8 @@
 <template>
-  <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id">
+  <nuxt-link class="user-profile" :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id">
     <div class="box border shadow-none border-gray-400 hover:shadow-md">
       <div class="flex items-start px-3 pt-3">
-        <div class="w-full flex flex-col lg:flex-row items-center">
+        <div class="w-full flex flex-row  items-center">
           <div class="w-16 h-16 image-fit">
             <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
           </div>
@@ -18,7 +18,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
           <p>{{ user.email }}</p></div>
-        <div class="flex items-center justify-start lg:justify-start text-gray-700 w-full">
+        <div class="flex items-center justify-start text-gray-700 w-full">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -121,83 +121,6 @@ export default class UserCard extends Vue {
     @content;
   }
 }
-.user-profile {
-  display: flex;
-  flex-direction: row;
-  padding: 12px;
-  //box-shadow: rgb(0 0 0 / 7%) 0px 0px 8px;
-  border-radius: 10px;
-  border: 1px solid #ebebeb;
-  min-width: 486px;
-  width: 486px;
-  height: 200px;
-
-  .user-info {
-    display: flex;
-    flex-direction: row;
-
-    .rating {
-      font-size: 12px !important;
-      padding-left: 4px;
-    }
-
-    > div {
-      display: flex;
-      flex-direction: column;
-
-      p {
-        font-size: 16px;
-
-        &:first-child {
-          margin-bottom: 12px;
-          font-weight: 500;
-        }
-      }
-    }
-  }
-
-  ul {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ebebeb;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    margin-top: 12px;
-    margin-bottom: 12px;
-
-    li {
-      font-size: 14px;
-    }
-  }
-
-  .save {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    padding: 6px 12px;
-    border-radius: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    justify-content: flex-start;
-    width: fit-content;
-
-    svg {
-      color: #444;
-      height: 16px;
-      margin-right: 8px;
-    }
-
-    &:hover {
-      background: rgb(247, 247, 247) !important;
-      text-decoration: underline;
-    }
-  }
-}
-
 .box {
   border: 1px solid #f1f1f1;
 
@@ -208,6 +131,7 @@ export default class UserCard extends Vue {
     min-width: 60px;
   }
   .paragraph {
+    text-align: left;
     display: inline-block;
     width: 180px;
     white-space: nowrap;
