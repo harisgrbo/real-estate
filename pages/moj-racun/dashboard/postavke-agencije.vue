@@ -2,10 +2,11 @@
     <div class="w-full">
       <div class="grid grid-cols-2 gap-4">
         <TextField v-model="id" label="ID broj" placeholder="1234567"></TextField>
+        <TextField v-model="web" label="Web adresa" placeholder="www.adresa.ba"></TextField>
         <TextField v-model="location" label="Lokacija" placeholder="Sarajevo"></TextField>
       </div>
       <TextAreaField class="mt-4" v-model="description" label="Opis" placeholder="Opis.."></TextAreaField>
-      <action-button @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
+      <action-button :loading="loading" @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
       <Snackbar></Snackbar>
     </div>
 </template>
@@ -32,11 +33,14 @@ export default class urediProfil extends Vue {
   location = '';
   description = '';
   loading = false;
+  web = '';
   agency = {
     external_id: '',
     location: '',
-    description: ''
+    description: '',
+    web: ''
   };
+  loading = false;
 
   async created() {
     await this.fetchMyAgency();
@@ -46,7 +50,8 @@ export default class urediProfil extends Vue {
   setInputs() {
     this.id = this.agency.external_id;
     this.location = this.agency.location;
-    this.description = this.agency.description
+    this.description = this.agency.description;
+    this.web = this.agency.web;
   }
 
   async fetchMyAgency() {
@@ -68,6 +73,10 @@ export default class urediProfil extends Vue {
 
       if (this.location !== this.agency.location) {
         payload.location = this.location;
+      }
+
+      if (this.web !== this.agency.web) {
+        payload.web = this.web;
       }
 
       if (this.description !== this.agency.description) {

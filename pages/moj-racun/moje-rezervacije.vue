@@ -23,7 +23,7 @@
                   {{ booking.total_price }} KM za {{ booking.days }} dana
                 </p>
               </div>
-              <p class="text-gray-900 sm:block sm:mt-2">
+              <p class="text-gray-900 sm:block sm:mt-2 opis">
                 {{ booking.listing.description }}
               </p>
               <p class="text-gray-900 sm:block sm:mt-2">
@@ -136,5 +136,14 @@ export default class mojeRezervacije extends Vue {
 
 a {
   color: #1F2937;
+}
+
+.opis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 </style>

@@ -24,6 +24,7 @@ import PieChart from "@/components/analytics/PieChart";
     PieChart
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
+  middleware: ['auth']
 })
 
 export default class Dashboard extends Vue {

@@ -196,7 +196,7 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Opis</h2>
             <p class="description mx-5 lg:mx-0 xl:mx-0 up:mx-0">{{ listing.description }}</p>
             <div class="separator"></div>
-            <div class="rent" v-if="listing.is_booking && !$device.isMobile">
+            <div class="rent" v-if="listing.is_booking && !$device.isMobile && $auth.user && $auth.user.id !== listing.user.id">
               <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezerviši smještaj</h2>
               <form @submit.prevent>
                 <div class="price-wrap p-0 flex flex-col justify-start">

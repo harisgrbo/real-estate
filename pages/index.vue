@@ -504,6 +504,8 @@
         let res = await this.$axios.get('/profile/followed/listings')
         this.followedUserListings = res.data.data;
 
+        console.log(this.followedUserListings, 'followani')
+
         this.followedUserListingsLoaded = true;
       } catch (e) {
         console.log(e)
@@ -529,6 +531,8 @@
       try {
         let res = await this.$axios.get('/listings/rent')
         this.listings_rent = res.data.data;
+
+        console.log(res.data.data, 'rent')
 
         this.rentLoaded = true;
       } catch (e) {

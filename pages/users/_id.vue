@@ -5,9 +5,9 @@
       <div class="flex-1 flex flex-col">
 
         <!-- Main content -->
-        <div class="flex-1 flex items-stretch mobile-flex">
-          <main class="overflow-y-auto">
-            <div class="max-w-7xl mx-auto main-container-user">
+        <div class="flex-1 flex items-stretch mobile-flex w-full max-w-7xl m-auto">
+          <main class="overflow-y-auto w-full">
+            <div class="w-full mx-auto main-container-user">
               <div class="flex" v-if="!$device.isMobile">
                 <div class="ml-6 bg-gray-100 p-0.5 rounded-lg flex items-center sm:hidden">
                   <button type="button" class="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -30,15 +30,21 @@
               <h2 class="font-medium text-xl mt-8">Oglasi</h2>
               <div class="min-w-full">
                 <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-if="listingsLoaded">
-                  <ul role="list" class="grid lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
+                  <ul role="list" class="grid lg:grid-cols-3 up:grid-cols-3 up:grid-cols-3 gap-5 gap-x-6 listings-user-wrap" v-if="listings.length">
                     <li class="relative listing-card w-full min-w-full" v-for="listing in listings">
                       <ListingCard :listing="listing" :key="listing.id"></ListingCard>
                     </li>
                     <!-- More files... -->
                   </ul>
+                  <div v-else class="w-full flex items-center justify-center min-w-full">
+                    <div class="no-image">
+                      <img src="/nodata.jpeg" alt="no-image">
+                      <p>Nemate aktivnih oglasa</p>
+                    </div>
+                  </div>
                 </section>
                 <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-else>
-                  <ul role="list" class="grid lg:grid-cols-1 lg:grid-cols-4 up:grid-cols-4 up:grid-cols-4 gap-5 gap-x-6 listings-user-wrap">
+                  <ul role="list" class="grid lg:grid-cols-3 up:grid-cols-3 up:grid-cols-3 gap-5 gap-x-6 listings-user-wrap">
                     <li class="relative listing-card w-full min-w-full" v-for="i in 10">
                       <skeleton height="308px" width="256px"></skeleton>
                     </li>
@@ -55,16 +61,42 @@
               <div class="flex-1 flex flex-row justify-start p-0 xl:p-8 lg:p-8 up:p-8 pt-0 inner">
                 <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
                 <div class="w-full inner">
-                  <h3 class="cursor-pointer text-gray-900 text-md font-medium text-left text-lg">{{ user.name }}</h3>
-                  <dl class="mt-1 flex-grow flex flex-col justify-between text-left">
-                    <dd class="mt-1">
-                      <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+                  <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
+                    <div class="flex flex-row items-center justify-between w-full">
+                      <h2 class="text-lg font-medium text-black leading-5">{{ user.name }}</h2>
+                      <dd>
+                        <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+                      </dd>
+                    </div>
+                    <dd class="mt-1 flex flex-row items-center justify-start">
+                      <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+                      {{ user.online ? 'Online' : 'Offline' }}
                     </dd>
-                  </dl>
+                  </div>
+                  <div class="pl-4">
+                    <div class="flex items-center justify-center lg:justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                      </svg>
+                      <p>{{ user.working_agency.name }}</p></div>
+                    <div class="flex items-center justify-center lg:justify-start text-gray-700 mt-2 w-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <p>{{ user.email }}</p></div>
+<!--                    <div class="flex items-center justify-center lg:justify-start text-gray-700 w-full" v-if="user.location !== null">-->
+<!--                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />-->
+<!--                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />-->
+<!--                      </svg>-->
+<!--                      <p class="paragraph">{{ user.location }}</p>-->
+<!--                    </div>-->
+
+                  </div>
                   <div class="flex flex-row items-center justify-between mt-4 w-full" v-if="this.$auth.user">
                     <div class="flex flex-row items-center justify-between w-full" v-if="$auth.user.id !== user.id">
                       <div class="flex-1 flex cursor-pointer" @click="$modal.show('contact-user')">
-                        <nuxt-link to="" class="mr-2 relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                        <nuxt-link to="" class="mr-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
                           <!-- Heroicon name: solid/mail -->
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -73,7 +105,7 @@
                         </nuxt-link>
                       </div>
                       <div class="flex-1 flex cursor-pointer" @click="toggleFollow()">
-                        <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="ml-2 relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                        <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="ml-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
@@ -83,7 +115,7 @@
                     </div>
                     <div class="flex flex-row items-center justify-between w-full" v-else>
                       <div class="flex-1 flex cursor-pointer w-full" @click="$modal.show('contact-user')">
-                        <nuxt-link to="/moj-racun/uredi-profil" class="mr-2 relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                        <nuxt-link to="/moj-racun/uredi-profil" class="mr-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
                           <!-- Heroicon name: solid/mail -->
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -163,6 +195,10 @@ export default class Users extends Vue {
     if(this.$auth.user) {
       return this.$auth.user.id === this.user.id;
     }
+  }
+
+  goToUser(id) {
+      this.$router.push('/agency/' + id)
   }
 
   async created() {
@@ -258,8 +294,10 @@ export default class Users extends Vue {
   user_type(t) {
     if(t === 'agency') {
       return 'Agencija'
-    } else {
+    } else if(t === 'user'){
       return 'Korisnik'
+    } else {
+      return 'Agent'
     }
   }
 
@@ -645,7 +683,7 @@ aside {
   padding: 24px;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 8px !important;
   box-sizing: border-box;
-  margin-top: 95px;
+  margin-top: 90px;
   position: sticky;
   top: 90px;
   margin-left: 36px;
@@ -708,4 +746,26 @@ aside {
     max-width: 100%;
   }
 }
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  img {
+    height: 400px;
+
+    @include for-phone-only {
+      height: 250px;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 24px;
+  }
+}
+
 </style>

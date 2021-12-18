@@ -181,64 +181,16 @@
                 </h2>
               </div>
               <div class="mt-5">
-                <div class="">
+                <div class="" v-for="agent in agents">
                   <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
                     <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                      <img alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-7.jpg">
+                      <img alt="Icewall Tailwind HTML Admin Template" :src="[ agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg']">
                     </div>
                     <div class="ml-4 mr-auto">
-                      <div class="font-medium">Angelina Jolie</div>
-                      <div class="text-gray-600 text-xs mt-0.5">25 March 2022</div>
+                      <div class="font-medium">{{ agent.name }}</div>
+                      <div class="text-gray-600 text-xs mt-0.5">{{ agent.email }}</div>
                     </div>
-                    <div class="py-1 px-2 rounded-full text-xs bg-theme-10 text-white cursor-pointer font-medium">137 Sales</div>
-                  </div>
-                </div>
-                <div class="">
-                  <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
-                    <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                      <img alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-11.jpg">
-                    </div>
-                    <div class="ml-4 mr-auto">
-                      <div class="font-medium">John Travolta</div>
-                      <div class="text-gray-600 text-xs mt-0.5">15 February 2021</div>
-                    </div>
-                    <div class="py-1 px-2 rounded-full text-xs bg-theme-10 text-white cursor-pointer font-medium">137 Sales</div>
-                  </div>
-                </div>
-                <div class="">
-                  <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
-                    <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                      <img alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-11.jpg">
-                    </div>
-                    <div class="ml-4 mr-auto">
-                      <div class="font-medium">Angelina Jolie</div>
-                      <div class="text-gray-600 text-xs mt-0.5">31 August 2022</div>
-                    </div>
-                    <div class="py-1 px-2 rounded-full text-xs bg-theme-10 text-white cursor-pointer font-medium">137 Sales</div>
-                  </div>
-                </div>
-                <div class="">
-                  <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
-                    <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                      <img alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-2.jpg">
-                    </div>
-                    <div class="ml-4 mr-auto">
-                      <div class="font-medium">Tom Cruise</div>
-                      <div class="text-gray-600 text-xs mt-0.5">13 December 2021</div>
-                    </div>
-                    <div class="py-1 px-2 rounded-full text-xs bg-theme-10 text-white cursor-pointer font-medium">137 Sales</div>
-                  </div>
-                </div>
-                <div class="">
-                  <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
-                    <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                      <img alt="Icewall Tailwind HTML Admin Template" src="dist/images/profile-2.jpg">
-                    </div>
-                    <div class="ml-4 mr-auto">
-                      <div class="font-medium">Tom Cruise</div>
-                      <div class="text-gray-600 text-xs mt-0.5">13 December 2021</div>
-                    </div>
-                    <div class="py-1 px-2 rounded-full text-xs bg-theme-10 text-white cursor-pointer font-medium">137 Sales</div>
+                    <div class="py-1 px-2 rounded-full text-xs bg-theme-10 text-white cursor-pointer font-medium">137 oglasa</div>
                   </div>
                 </div>
               </div>
@@ -262,9 +214,22 @@ import SearchMap from "@/components/googleMap/SearchMap";
 
 export default class Analitika extends Vue {
   listings = [];
+  agents = [];
 
+  async getAllAgents() {
+    try {
+      let res = await this.$axios.get('/agents');
+
+      this.agents = res.data.data;
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
   async created() {
     await this.fetchUserListings()
+    await this.getAllAgents();
+
   }
 
   async fetchUserListings() {

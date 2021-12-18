@@ -8,31 +8,32 @@
           </nuxt-link>
         </div>
       </div>
-      <div class="relative">
-        <div class="flex flex-row items-center ml-4 cursor-pointer hover:bg-gray-50 rounded-sm p-2" @click="showOtherLinksDropdown = !showOtherLinksDropdown">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-          </svg>
-        </div>
+      <div class="flex items-center justify-center w-full">
+        <div class="relative mr-2">
+          <div class="flex flex-row items-center ml-4 cursor-pointer hover:bg-gray-50 rounded-sm p-2" @click="showOtherLinksDropdown = !showOtherLinksDropdown">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </div>
 
-        <OtherLinksDropdown v-show="showOtherLinksDropdown"></OtherLinksDropdown>
-      </div>
-      <div class="input-wrapper"
-           @focusin="focused = true"
-           :class="[ focused? 'focused' : '']"
-           v-on-clickaway="away"
-      >
-        <svg @click="search" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <input type="text"
-               ref="search"
-               v-model="searchInput"
-               @keyup.enter="search"
-               @input="showSuggests"
-               placeholder="Npr. stan Sarajevo.."
+          <OtherLinksDropdown v-show="showOtherLinksDropdown"></OtherLinksDropdown>
+        </div>
+        <div class="input-wrapper"
+             @focusin="focused = true"
+             :class="[ focused? 'focused' : '']"
+             v-on-clickaway="away"
         >
-        <div class="flex flex-row">
+          <svg @click="search" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text"
+                 ref="search"
+                 v-model="searchInput"
+                 @keyup.enter="search"
+                 @input="showSuggests"
+                 placeholder="Npr. stan Sarajevo.."
+          >
+          <div class="flex flex-row">
           <span class="relative z-0 inline-flex ml-2 rounded-sm border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">
             <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
               {{ selectedCategory.title }}
@@ -43,7 +44,7 @@
               </svg>
             </div>
           </span>
-          <span class="relative z-0 ml-2 inline-flex rounded-sm border border-gray-800 selected-cat-type"  v-if="selectedType !== null">
+            <span class="relative z-0 ml-2 inline-flex rounded-sm border border-gray-800 selected-cat-type"  v-if="selectedType !== null">
             <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
               {{ selectedType.title }}
             </div>
@@ -53,39 +54,40 @@
               </svg>
             </div>
           </span>
-        </div>
+          </div>
 
-        <button v-if="focused === true" class="close">
-          <i class="material-icons" @click="clearSearchTerm">close</i>
-        </button>
-        <!-- Autocomplete dropdown -->
-        <div class="autocomplete-dropdown" v-if="focused === true">
-          <div class="quick-filters">
-            <div class="flex flex-row items-center">
-              <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
-                {{ selectedCategory !== null ? selectedCategory.title : 'Kategorija' }}
-              </button>
-              <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ selectedType !== null ? selectedType.title : 'Vrsta oglasa' }}
+          <button v-if="focused === true" class="close">
+            <i class="material-icons" @click="clearSearchTerm">close</i>
+          </button>
+          <!-- Autocomplete dropdown -->
+          <div class="autocomplete-dropdown" v-if="focused === true">
+            <div class="quick-filters">
+              <div class="flex flex-row items-center">
+                <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
+                  {{ selectedCategory !== null ? selectedCategory.title : 'Kategorija' }}
+                </button>
+                <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  {{ selectedType !== null ? selectedType.title : 'Vrsta oglasa' }}
+                </button>
+              </div>
+              <button @click="selectedType = null; selectedCategory = null" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Očisti filtere
               </button>
             </div>
-            <button @click="selectedType = null; selectedCategory = null" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Očisti filtere
-            </button>
+            <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>
+            <ul v-if="$auth.user && savedSearches.length" class="saved-searches">
+              <li v-for="search in savedSearches" :key="search.id" @click="goToSearch(search)">
+                <p>{{ search.description }}</p>
+                <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
+              </li>
+            </ul>
+            <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
+            <ul>
+              <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearchFromSuggestion(suggest)">
+                {{ suggest }}
+              </li>
+            </ul>
           </div>
-          <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>
-          <ul v-if="$auth.user && savedSearches.length" class="saved-searches">
-            <li v-for="search in savedSearches" :key="search.id" @click="goToSearch(search)">
-              <p>{{ search.description }}</p>
-              <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
-            </li>
-          </ul>
-          <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
-          <ul>
-            <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearchFromSuggestion(suggest)">
-              {{ suggest }}
-            </li>
-          </ul>
         </div>
       </div>
       <button v-if="$auth.user && $device.isMobile" class="login-a notify relative" @click="$modal.show('notifications')">
