@@ -47,6 +47,7 @@ export default class Auth extends Vue {
   @include for-phone-only {
     flex-direction: column;
     align-items: flex-end;
+    height: 100%;
   }
   .form-wrap {
     display: flex;

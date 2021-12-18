@@ -109,6 +109,7 @@ export default class Mobile extends Vue {
 
   @include for-phone-only {
     background: #fff;
+    padding-bottom: 100px;
   }
   &.artikal-page {
     padding-top: 0 !important;
