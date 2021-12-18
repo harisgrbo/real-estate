@@ -51,7 +51,7 @@
             </nuxt-link>
           </button>
         </div>
-        <div v-else class="w-full flex justify-end">
+        <div v-else class="w-full flex justify-end on-mobile">
           <div class="flex justify-between w-full buttons" v-if="$auth.user">
             <button class="flex-1 flex cursor-pointer mr-4 first" @click="$modal.show('contact-user')">
               <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-900 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
@@ -355,7 +355,7 @@ export default class Agencies extends Vue {
       display: flex;
       flex-direction: column;
       background: #fff;
-      padding: 16px;
+      padding: 0px;
     }
 
     .user-inner {
@@ -432,6 +432,12 @@ export default class Agencies extends Vue {
           .buttons {
             display: flex;
 
+            @include for-phone-only {
+              width: 100%;
+              max-width: 100% !important;
+              min-width: 100%;
+            }
+
             span {
               margin-right: 8px;
               display: flex;
@@ -463,21 +469,6 @@ export default class Agencies extends Vue {
         align-items: center;
 
         button {
-          font-family: 'Outfit', sans-serif;
-          height: 48px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          padding: 0 24px;
-          color: #fff;
-          cursor: pointer;
-          justify-content: center;
-          transition: 0.3s all ease;
-          background: transparent;
-          border: 2px solid #1F2937;
-          width: 100%;
-          margin-right: 0;
 
           &.first {
             margin-right: 8px;
@@ -592,32 +583,35 @@ export default class Agencies extends Vue {
     }
   }
 }
-
 .modal-inner {
   display: flex;
   flex-direction: column;
-  padding: 0 24px;
+  padding: 16px;
+  height: fit-content;
 
   .modal-content {
-    padding: 24px 0;
+    padding: 16px 0 0 0;
+    overflow-y: scroll;
     textarea {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 4px;
       font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 21px;
+      font-size: 15px;
+      line-height: 16px;
       box-sizing: border-box;
-      padding: 24px;
+      padding: 12px;
+      min-height: 400px;
 
       &:focus {
         outline: none;
-
+        border: 1px solid #000;
       }
     }
   }
 }
+
 
 .save {
   display: flex;
@@ -738,6 +732,10 @@ export default class Agencies extends Vue {
 
 .buttons {
   max-width: fit-content;
+
+  @include for-phone-only {
+    max-width: 100%;
+  }
 }
 
 .about-us-btn button {
@@ -748,6 +746,23 @@ export default class Agencies extends Vue {
 .agency-banner {
   height: 300px;
   border-radius: 8px;
+
+  @include for-phone-only {
+    height: 150px;
+  }
 }
 
+.on-mobile {
+  @include for-phone-only {
+    width: 100%;
+    justify-content: space-between;
+
+    button {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      background: #f9f9f9;
+    }
+  }
+}
 </style>
