@@ -363,7 +363,6 @@ button.logout {
   height: 40px;
   font-size: 15px;
   font-weight: 400;
-  padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: flex-start;

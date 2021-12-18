@@ -733,6 +733,7 @@ export default class Navbar extends Vue {
     align-items: center;
     max-width: fit-content;
     justify-content: flex-end;
+    min-width: fit-content;
 
     .inner {
       display: flex;
@@ -744,6 +745,7 @@ export default class Navbar extends Vue {
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      min-width: fit-content;
 
       button {
         height: 48px;
@@ -752,6 +754,7 @@ export default class Navbar extends Vue {
         justify-content: space-between;
         border-radius: 4px;
         padding: 0 12px;
+        min-width: fit-content;
         background: #F3F3F4;
         flex: 2;
         position: relative;

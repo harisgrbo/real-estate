@@ -61,7 +61,7 @@
               <div class="article-title">
                 <h2 v-if="listing">{{ listing.title }}</h2>
 
-                <p v-if="$device.isMobile" class="mt-5 text-md text-gray-800 font-medium">{{ listing.address }}</p>
+                <p v-if="$device.isMobile" class="mt-4 text-md text-gray-900 font-medium">{{ listing.address }}</p>
 
                 <div class="flex flex-row items-center" v-if="!$device.isMobile">
                   <button type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -84,14 +84,18 @@
                   <p class="pl-2 text-xl font-semibold">/ noć</p>
                 </div>
               </div>
-              <div class="rent flex flex-row items-center" v-else>
+              <div class="rent flex flex-row justify-between p-2 mt-4 bg-gray-200 items-center" v-else>
                 <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile">
                   <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
                 </div>
-                <div class="flex flex-col items-start price-wrap ml-4 bg-gray-900 text-white p-2 rounded-md" v-if="listing.hasOwnProperty('discount')">
+                <div class="flex flex-col mobile-discount items-start price-wrap" v-if="$device.isMobile">
+                  <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+                  <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
+                </div>
+                <div class="mobile-discount flex flex-col items-start price-wrap sm:ml-0 md:ml-4 lg:ml-4 up:ml-4 xl:ml-4 text-gray-900 rounded-md" v-if="listing.hasOwnProperty('discount')">
                   <p class="text-xl">Popust {{ listing.discount * 100 }}%</p>
-                  <p class="mt-1 text-lg text-black font-semibold main-price-label text-white">{{ numberWithCommas(listing.price - listing.price * listing.discount) }} KM</p>
+                  <p class="mt-1 text-lg text-black font-semibold main-price-label">{{ numberWithCommas(listing.price - listing.price * listing.discount) }} KM</p>
                 </div>
               </div>
               <div v-if="reviewCount" class="flex flex-row items-center justify-start mt-5">
@@ -105,10 +109,6 @@
                   ({{ reviewCount }} dojmova)
                 </a>
               </div>
-            </div>
-            <div class="flex flex-col items-start price-wrap" v-if="$device.isMobile">
-              <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
-              <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(listing.price) }} KM</p>
             </div>
             <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
               <li>
@@ -132,7 +132,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid  md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -153,7 +153,7 @@
               <h2 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
                 Izdvojene pogodnosti
               </h2>
-              <ul role="list" class="mt-3 grid grid-cols-3 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 ammenities">
+              <ul role="list" class="mt-3 grid grid-cols-2 gap-5 sm:gap-6 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 ammenities">
                 <li  v-for="(attr, index) in RentSpecialAttributes"
                      :key="index"
                      class="col-span-1 flex shadow-sm rounded-md">
@@ -175,7 +175,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -1661,8 +1661,8 @@ export default class Artikal extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.6) !important;
-    border-radius: 10px !important;
+    background: #fff !important;
+    border-radius: 15px !important;
   }
   svg {
     font-size: 22px !important;
@@ -2143,6 +2143,13 @@ export default class Artikal extends Vue {
     padding: 20px;
   }
 
+  &.mobile-discount {
+    @include for-phone-only {
+      padding: 0;
+      margin-bottom: 0;
+    }
+  }
+
   .main-price-label {
     font-size: 25px;
     font-weight: 600 !important;
@@ -2248,6 +2255,9 @@ export default class Artikal extends Vue {
 }
 
 .ammenities {
+  @include for-phone-only {
+    margin: 0 16px;
+  }
   li {
     border: 1px solid #f9f9f9;
     img {

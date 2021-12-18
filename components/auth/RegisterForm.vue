@@ -24,7 +24,7 @@
         <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-4 mt-1"></TextField>
         <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-4 mt-1"></TextField>
         <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-4 mt-1"></TextField>
-        <PublishDropdown title="Lokacija" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+        <PublishDropdown label="Lokacija" class="location" @select-option="handleSelectedCity"></PublishDropdown>
         <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
       <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
@@ -208,9 +208,10 @@ export default class RegisterForm extends Vue{
 
   @include for-phone-only {
     width: 100%;
-    padding: 24px 16px;
-    height: 100vh;
+    padding: 36px 16px;
+    height: auto;
     overflow-y: scroll;
+    justify-content: center;
   }
 
   h2 {
@@ -223,15 +224,21 @@ export default class RegisterForm extends Vue{
     display: flex;
     margin-bottom: 24px;
     height: 50px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
 
     li {
-      width: fit-content;
+      flex: 1;
       margin-right: 10px;
       padding: 8px;
       font-size: 14px;
       font-weight: 500;
       color: #797979;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:last-child {
         margin-right: 0;
@@ -239,7 +246,8 @@ export default class RegisterForm extends Vue{
 
       &.active {
         font-weight: 600;
-        color: #000;
+        color: #fff;
+        background: #012F34;
       }
     }
   }
@@ -296,7 +304,6 @@ label {
 
   @include for-phone-only {
     height: 48px;
-    margin-right: 16px;
   }
 
 }

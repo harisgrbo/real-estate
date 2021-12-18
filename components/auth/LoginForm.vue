@@ -2,7 +2,7 @@
   <div class="form-wrapper">
     <img src="/msquare.png" class="img-logo" alt="" @click="$router.push('/')">
 
-    <h2 class="mt-4">Dobrodošli!</h2>
+    <h2 class="mt-4">Prijava</h2>
     <form @submit.prevent="handleLogin">
       <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-4 mt-1"></TextField>
       <TextField type="password" label="Password" placeholder="Password" v-model="payload.password" class="mt-1"></TextField>
@@ -92,6 +92,7 @@ export default class LoginForm extends Vue{
     padding: 24px 16px;
     height: 100%;
     min-height: 100vh;
+    justify-content: center;
 
 
   }
@@ -162,7 +163,6 @@ label {
 
   @include for-phone-only {
       height: 48px;
-      margin-right: 16px;
   }
 
 }

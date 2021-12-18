@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 xl:grid-cols-2 up:grid-cols-2 gap-4">
         <TextField v-model="id" label="ID broj" placeholder="1234567"></TextField>
         <TextField v-model="web" label="Web adresa" placeholder="www.adresa.ba"></TextField>
         <TextField v-model="location" label="Lokacija" placeholder="Sarajevo"></TextField>
