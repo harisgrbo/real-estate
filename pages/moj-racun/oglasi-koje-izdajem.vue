@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper">
+  <div class="preview-wrapper-inner">
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
@@ -19,12 +19,12 @@
                 <h5 class="text-lg">
                   {{ booking.listing.title }}
                 </h5>
-                <p class="hidden text-gray-800 sm:block text-lg font-normal sm:mt-2">
+                <p class="hidden text-gray-800 sm:block text-lg font-normal sm:mt-2 opis">
                   {{ booking.listing.description }}
                 </p>
               </div>
               <p class="mt-2 sm:mt-0 text-lg font-semibold price">
-                {{ booking.total_price }} KM za {{ booking.days }} dana
+                {{ booking.total_price }} KM za {{ booking.days }} noćenja
               </p>
             </div>
             <vc-date-picker :value="getDatesFromBooking(booking)" title-position="left" is-range/>
@@ -133,14 +133,14 @@ export default class mojeRezervacije extends Vue {
     @content;
   }
 }
-
-.account-wrapper {
-  width: auto;
-  min-height: calc(100vh - 80px);
-
-  @include for-phone-only {
-    min-height: 100%;
-  }
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
 
 a {
@@ -207,5 +207,14 @@ li {
       }
     }
   }
+}
+
+.opis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 </style>

@@ -48,6 +48,14 @@
               </fieldset>
             </div>
             <div class="price-label">
+              <label>Kvadratura</label>
+              <div class="w-full flex items-center justify-between">
+                <TextField type="number" placeholder="Od" v-model="squareFrom"></TextField>
+                <p class="mx-2">-</p>
+                <TextField type="number" placeholder="Do" v-model="squareTo"></TextField>
+              </div>
+            </div>
+            <div class="price-label">
               <label>Cijena</label>
               <div class="w-full flex items-center justify-between">
                 <TextField type="number" :currency="true" placeholder="Od" v-model="priceFrom"></TextField>
@@ -129,7 +137,7 @@
             </h3>
             <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(2) }} KM/m2</p>
           </div>
-          <button @click="searchLocation(city.city.id)" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button @click="searchLocation(city.city.id)" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50">
             Pogledaj više
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -261,7 +269,7 @@
     <div class="agency-wrap">
       <h2>Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
       <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>
-      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           Lista agencija
       </nuxt-link>r
     </div>
@@ -313,8 +321,8 @@
       <h2 class="section-title">Agencije</h2>
       <nuxt-link class="more mr-5" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 gap-4 up:px-20 flex-row overflow-x-scroll w-full agencija">
-      <UserCard class="mr-5" v-for="(agency, index) in agencies" :key="index" :user="agency"/>
+    <div class="flex items-center justify-start mb-4 lg:px-20 xl:px-20 py-2 gap-4 up:px-20 flex-row overflow-x-scroll w-full agencija">
+      <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
 </template>
@@ -328,7 +336,7 @@
   import PremiumAgency from "@/components/PremiumAgency"
   import UserCard from "../components/UserCard";
   import TextField from "@/components/inputs/TextField";
-  import { buildCategory, buildType, buildCity, buildTitle, buildPrice } from "@/util/search";
+  import { buildCategory, buildType, buildCity, buildTitle, buildPrice, buildSquare } from "@/util/search";
   import skeleton from "../components/skeleton";
   import skeletonlocation from "../components/skeletonlocation";
   import CitiesMultipleSelect from "../components/global/CitiesMultipleSelect";
@@ -357,6 +365,8 @@
     ]
     priceFrom = null;
     priceTo = null;
+    squareFrom = null;
+    squareTo = null;
     activeTab = 0;
     categories = []
     selectedCity = null;
@@ -494,6 +504,8 @@
         let res = await this.$axios.get('/profile/followed/listings')
         this.followedUserListings = res.data.data;
 
+        console.log(this.followedUserListings, 'followani')
+
         this.followedUserListingsLoaded = true;
       } catch (e) {
         console.log(e)
@@ -519,6 +531,8 @@
       try {
         let res = await this.$axios.get('/listings/rent')
         this.listings_rent = res.data.data;
+
+        console.log(res.data.data, 'rent')
 
         this.rentLoaded = true;
       } catch (e) {
@@ -659,6 +673,10 @@
 
       if (this.priceFrom || this.priceTo) {
         filters.push(buildPrice(this.priceFrom, this.priceTo))
+      }
+
+      if (this.squareFrom || this.squareTo) {
+        filters.push(buildSquare(this.squareFrom, this.squareTo));
       }
 
       if (filters.length) {
@@ -1293,7 +1311,7 @@ ul.most-visited-cats {
   padding: 0 12px !important;
   font-size: 14px;
   background: #fff;
-  border-radius: 10px !important;
+  border-radius: 4px !important;
   max-height: 48px;
 }
 

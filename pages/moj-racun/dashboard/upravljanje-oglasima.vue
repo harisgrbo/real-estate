@@ -1,7 +1,11 @@
 <template>
-  <div class="upravljanje-wrapper">
-    <div class="grid-cols-6 grid gap-4 mobile-grid">
+  <div class="upravljanje-wrapper w-full">
+    <div class="grid-cols-4 grid gap-4 mobile-grid" v-if="listings.length">
       <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal(listing.id)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
+    </div>
+    <div class="no-image" v-else>
+      <img src="/nodata.jpeg" alt="no-image">
+      <p>Nemate objavljenih oglasa</p>
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="delete-listing" :adaptive="true" height="100%">
       <div class="modal-inner">
@@ -111,10 +115,6 @@ export default class UpravljanjeOglasima extends Vue {
 .upravljanje-wrapper {
   display: flex;
   flex-direction: column;
-  padding-top: 36px;
-  box-sizing: border-box;
-  width: auto;
-  margin: 0 80px;
 
   @include for-phone-only {
     padding: 0;
@@ -139,5 +139,27 @@ export default class UpravljanjeOglasima extends Vue {
 
 .grid-layout {
   padding: 0 !important;
+}
+
+.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-bottom: 80px;
+
+  img {
+    height: 400px;
+
+    @include for-phone-only {
+      height: 250px;
+    }
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 0px;
+  }
 }
 </style>

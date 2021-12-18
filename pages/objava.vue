@@ -479,9 +479,9 @@ export default class Objava extends Vue {
     } catch (e) {
       console.log(e)
 
-      alert("Objava je neuspjela, pokusajte ponovo");
+      // alert("Objava je neuspjela, pokusajte ponovo");
 
-      location.reload();
+      // location.reload();
     }
   }
 

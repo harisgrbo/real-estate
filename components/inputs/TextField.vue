@@ -13,6 +13,9 @@
           KM
            <p v-if="showSquareM" class="pl-1">/ m²</p>
         </span>
+        <span v-if="discount" class="text-gray-500 sm:text-sm font-medium flex flex-row items-center" id="price-currency">
+          %
+        </span>
       </div>
     </div>
     <p v-if="error" class="mt-2 text-sm text-red-600" id="email-error">{{ error }}</p>
@@ -31,6 +34,7 @@ export default class TextField extends Vue{
   @Prop({ type: String }) label;
   @Prop({ type: String }) placeholder;
   @Prop({ type: Boolean }) square;
+  @Prop({ type: Boolean }) discount;
   @Prop({}) value;
   @Prop({type: Boolean}) currency;
 

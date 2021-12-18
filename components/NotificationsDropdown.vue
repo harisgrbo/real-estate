@@ -57,6 +57,7 @@ export default class NotificationsDropdown extends Vue {
 .notifications-dropdown {
   height: 100vh;
   overflow-y: scroll;
+  background: #fff;
 
   @include for-phone-only {
     height: calc(100vh - 100px);

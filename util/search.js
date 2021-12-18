@@ -21,8 +21,8 @@ function buildTitle(title) {
 function buildType(type) {
   return JSON.stringify({
     name: "listing_type_id",
-    type: "term",
-    value: type.id
+    type: "terms",
+    value: [type.id]
   })
 }
 
@@ -50,11 +50,20 @@ function buildPrice(from, to) {
   })
 }
 
+function buildSquare(from, to) {
+  return JSON.stringify({
+    name: "1",
+    type: "range",
+    value: [from, to]
+  })
+}
+
 module.exports = {
   buildTitle,
   buildType,
   buildCity,
   buildCategory,
   buildPrice,
-  buildQuery
+  buildQuery,
+  buildSquare
 }

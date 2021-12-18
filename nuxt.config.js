@@ -227,7 +227,7 @@ export default {
       // /^\/page3\/\d+$/,
 
       // to cache only root route, use a regular expression
-      /^\/$/
+      '/'
     ],
 
     store: {

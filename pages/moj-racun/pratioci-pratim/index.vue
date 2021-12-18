@@ -170,6 +170,7 @@ h1 {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding-bottom: 80px;
 
   img {
     height: 400px;
@@ -182,7 +183,6 @@ h1 {
   p {
     font-size: 20px;
     font-weight: 500;
-    margin-top: 24px;
   }
 }
 

@@ -8,13 +8,23 @@
       </li>
     </ul>
     <div class="content">
-      <div v-if="listings.length" class="grid-cards">
+      <div v-if="listingsLoaded" class="grid-cards">
         <ListingCard v-for="listing in listings" :listing="listing" :from="true" :key="listing.id"/>
+      </div>
+      <div v-else class="grid-cards">
+        <ListingCard v-for="listing in listings" :listing="listing" :from="true" :key="listing.id"/>
+        <Skeleton :height="$device.isMobile ? '337px' : '368px'" :width="$device.isMobile ? '165px' : '265px'" v-for="i in 20"></Skeleton>
       </div>
       <div v-else class="no-image">
         <img src="/nodata.jpeg" alt="no-image">
         <p>Nemate spšenih pretraga</p>
       </div>
+      <Pagination
+        v-if="listingMeta !== null && listingMeta.total > 20"
+        ref="pagination"
+        :current-page="currentPage"
+        :total-pages="listingMeta.last_page"
+        @page-change="pageChangeHandler" />
     </div>
   </div>
 </template>
@@ -22,29 +32,42 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import ListingCard from '@/components/listingCard/ListingCard';
+import Pagination from "../../../components/pagination";
 
 @Component({
   components: {
+    Pagination,
     ListingCard
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
-  async asyncData(ctx) {
-    let listings = [];
+})
+export default class mojiOglasi extends Vue {
+  currentPage = 1;
+  listings = []
+  listingsLoaded = false;
+  listingMeta = {}
 
+  async created() {
+    await this.fetchUserListings();
+  }
+
+  async fetchUserListings(p = 1) {
+    this.listingsLoaded = false;
     try {
-      let res = await ctx.app.$axios.get('/profile/listings');
-      listings = res.data.data;
+      let res = await this.$axios.get(`/profile/listings?page=${p}`);
+      console.log(res)
+      this.listings = res.data.data;
+      this.listingMeta = res.data.meta;
+      this.listingsLoaded = true;
     } catch(e) {
       console.log(e)
     }
-
-    return {
-      listings
-    }
   }
-})
-export default class mojiOglasi extends Vue {
 
+  async pageChangeHandler(selectedPage) {
+    this.currentPage = selectedPage;
+    await this.fetchUserListings(this.currentPage);
+  }
 }
 </script>
 

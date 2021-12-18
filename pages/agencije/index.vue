@@ -4,7 +4,7 @@
       <div class="sidenav w-full">
         <h1 class="heading-account"><b>{{ agencies.length }}</b> agencija za nekretnine</h1>
         <div class="grid-layout" v-if="agenciesLoaded">
-          <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="card" />
+          <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="agency.id" />
         </div>
         <div class="grid-layout" v-else>
           <skeleton v-for="i in 10" height="323px" width="264px"></skeleton>
@@ -227,7 +227,7 @@ a {
 
 
 .grid-layout {
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   padding: 0 !important;
   grid-row-gap: 24px;
   grid-column-gap: 24px;

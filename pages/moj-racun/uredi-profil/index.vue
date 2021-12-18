@@ -21,8 +21,8 @@
               <div class="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 xl:grid-cols-2 gap-4">
                 <TextField type="text" label="Ime" placeholder="john doe" v-model="name"></TextField>
                 <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email"></TextField>
-                <TextField type="number" label="Broj mobitela" placeholder="+387 61 111 222" v-model="phoneNumber"></TextField>
-                <TextField type="text" label="Adresa" placeholder="+387 61 111 222" v-model="address"></TextField>
+                <TextField type="text" label="Broj mobitela" placeholder="+387 61 111 222" v-model="phoneNumber"></TextField>
+                <TextField type="text" label="Adresa" placeholder="ulica i broj.." v-model="address"></TextField>
                 <TextField type="password" label="Password" placeholder="******" v-model="password"></TextField>
                 <TextField type="password" label="Ponovi password" placeholder="******" v-model="passwordConfirm"></TextField>
               </div>
@@ -103,8 +103,8 @@ export default class urediProfil extends Vue {
   }
 
   setInputs() {
-    console.log(this.$auth.user);
 
+    console.log(this.$auth.user)
     this.name = this.$auth.user.name;
     this.email = this.$auth.user.email;
     this.avatarUrl = this.$auth.user.avatar_url || '';

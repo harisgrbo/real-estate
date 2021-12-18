@@ -2,13 +2,19 @@
   <aside class="ml-0 lg:ml-6 xl:ml-6 up:ml-6 sticky-top">
     <div class="main-user-wrapper">
       <div class="flex flex-row">
-        <div class="flex w-14 h-14 items-center justify-center rounded-full overflow-hidden">
+        <div class="flex w-14 min-w-14 h-14 items-center justify-center rounded-full overflow-hidden img-wrap">
           <img :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="" class="object-contain">
         </div>
-        <div class="flex flex-col items-start justify-start h-14 pl-4">
-          <h2 @click="goToUser()" class="text-lg font-medium text-black leading-5">{{ user.name }}</h2>
-          <dd class="mt-3">
-            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+        <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
+          <div class="flex flex-row items-center justify-between w-full cursor-pointer">
+            <h2 @click="goToUser()" class="text-lg font-medium text-black leading-5">{{ user.name }}</h2>
+            <dd>
+              <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+            </dd>
+          </div>
+          <dd class="mt-1 flex flex-row items-center justify-start">
+            <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+            {{ user.online ? 'Online' : 'Offline' }}
           </dd>
         </div>
       </div>
@@ -27,19 +33,6 @@
 <!--          <font-awesome-icon icon="user-slash"></font-awesome-icon>-->
 <!--          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
 <!--        </button>-->
-      </div>
-
-      <div class="rent" v-if="isBooking && !$device.isMobile">
-        <div class="flex flex-row items-center w-full">
-          <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
-          <p class="pl-2">/ noć</p>
-        </div>
-      </div>
-      <div class="rent" v-else>
-        <div class="flex flex-col items-start price-wrap" v-if="!$device.isMobile">
-          <p>Cijena {{ vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
-          <p class="mt-1 text-lg text-black font-semibold">{{ numberWithCommas(price) }} KM</p>
-        </div>
       </div>
     </div>
     <client-only>
@@ -133,8 +126,10 @@ export default class UserProfile extends Vue {
   user_type(t) {
     if(t === 'agency') {
       return 'Agencija'
-    } else {
+    } else if(t === 'user') {
       return 'Korisnik'
+    } else {
+      return 'Agent'
     }
   }
 
@@ -399,5 +394,9 @@ textarea {
     text-decoration: underline;
     cursor: pointer;
   }
+}
+
+.img-wrap {
+  min-width: 56px;
 }
 </style>

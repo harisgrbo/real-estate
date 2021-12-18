@@ -1,20 +1,28 @@
 <template>
-  <div class="user-profile-wrapper w-full px-20 pt-20">
-    <div class="user-content-wrapper">
+  <div class="user-profile-wrapper w-full px-20 pt-8">
+    <div class="agency-banner" :style="{ backgroundImage: 'url(' + 'https://prostor.ba/assets/img/12h_banner_desktop.jpg?v=1.1' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="user-content-wrapper mt-8" >
       <div class="first-col">
         <aside class="w-96 bg-white overflow-y-auto">
           <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
             <div class="flex-1 flex flex-row justify-start user-inner">
-              <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+              <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
               <div class="ml-4">
                 <h3 class="text-gray-900 text-lg font-normal">{{ user.name }}</h3>
+                <dd class="mt-1 flex flex-row items-center justify-start">
+                  <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+                  {{ user.online ? 'Online' : 'Offline' }}
+                </dd>
                 <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
                   <dt class="sr-only">Title</dt>
                   <dt class="sr-only">Role</dt>
-                  <dd class="mt-3">
+                  <dd class="mt-1">
                     <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
                   </dd>
                 </dl>
+                <div class="about-us-btn">
+                  <action-button placeholder="O nama" @action="$modal.show('about-agency')"></action-button>
+                </div>
               </div>
             </div>
           </div>
@@ -22,18 +30,20 @@
 
       </div>
       <div class="second-col">
-        <div class="grid grid-cols-2 gap-4 text-sm font-medium text-gray-500 infos">
-          <div>agencija@agencija.com</div>
-          <div>Sarajevo, Alojza Benca 2</div>
-          <div>www.agencijatest.ba</div>
-          <div>+387 33 223-333</div>
+        <div class="grid grid-cols-1 gap-4 text-sm font-medium text-gray-500 infos">
+          <div v-if="user.email !== null">{{ user.email }}</div>
+          <div v-if="user.address !== null">{{ user.address }}</div>
+          <div v-if="user.web !== null">{{ user.web }}</div>
+          <div v-if="user.location !== null">{{ user.location }}</div>
+          <div v-if="user.phone_number !== null">{{ user.phone_number }}</div>
         </div>
       </div>
 
+<!--      {{ user }}-->
       <div class="third-col">
-        <div v-if="isMe" class="w-full">
-          <button class="-ml-px w-0 flex-1 flex cursor-pointer">
-            <nuxt-link to="/moj-racun/uredi-profil" icon="user-plus" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+        <div v-if="isMe" class="w-full flex justify-end">
+          <button class="-ml-px flex-1 flex cursor-pointer">
+            <nuxt-link to="/moj-racun/uredi-profil" icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -43,7 +53,7 @@
         </div>
         <div v-else class="w-full flex justify-end">
           <div class="flex justify-between w-full buttons" v-if="$auth.user">
-            <button class="flex-1 flex cursor-pointer mr-12 first" @click="$modal.show('contact-user')">
+            <button class="flex-1 flex cursor-pointer mr-4 first" @click="$modal.show('contact-user')">
               <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-900 font-medium border border-transparent rounded-bl-lg hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,6 +106,17 @@
         </div>
       </div>
     </modal>
+    <modal @before-open="beforeOpen" @before-close="beforeClose" name="about-agency" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <h2>O nama</h2>
+          <i class="material-icons" @click="$modal.hide('about-agency')">close</i>
+        </div>
+        <div class="modal-content">
+          <p>{{ user.description }}</p>
+        </div>
+      </div>
+    </modal>
     <Snackbar></Snackbar>
   </div>
 </template>
@@ -114,9 +135,10 @@ import TermsFilter from "@/components/search/TermsFilter";
 import Pagination from "@/components/pagination";
 import {buildQuery} from "@/util/search";
 import {capitalize} from "@/util/str";
+import ActionButton from "../../components/actionButtons/ActionButton";
 
 @Component({
-  components: {ListingCard, Snackbar, PublishMap, UserMedals, TextField, Pagination},
+  components: {ActionButton, ListingCard, Snackbar, PublishMap, UserMedals, TextField, Pagination},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   watchQuery: true,
   async asyncData(ctx) {
@@ -133,7 +155,7 @@ import {capitalize} from "@/util/str";
     }
 
     try {
-      let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
+      let response = await ctx.app.$axios.get('/agencies/' + ctx.route.params.id)
       user = response.data.data;
       meta = response.data.meta;
     } catch(e) {
@@ -191,6 +213,8 @@ export default class Agencies extends Vue {
     this.fetchUserListings(this.user.id, null);
     this.isFollowed = this.meta.followed;
     // await this.fetchUserListings(this.$route.params.id)
+
+    console.log(this.user, 'user')
   }
 
   get isMe() {
@@ -243,7 +267,7 @@ export default class Agencies extends Vue {
   toggleFollow() {
     if (this.isFollowed === false) {
       try {
-        this.$axios.post('/users/' + this.user.id + '/follow');
+        this.$axios.post('/agencies/' + this.user.id + '/follow');
 
         this.$snackbar.show({
           text: "uspješno ste zapratili korisnika " + this.user.name,
@@ -257,7 +281,7 @@ export default class Agencies extends Vue {
       }
     } else {
       try {
-        this.$axios.delete('/users/' + this.user.id + '/follow');
+        this.$axios.delete('/agencies/' + this.user.id + '/follow');
 
         this.$snackbar.show({
           text: "uspješno ste otpratili korisnika " + this.user.name,
@@ -307,6 +331,7 @@ export default class Agencies extends Vue {
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
+  max-width: 1180px;
 
   @include for-phone-only {
     padding: 16px;
@@ -438,7 +463,6 @@ export default class Agencies extends Vue {
         align-items: center;
 
         button {
-          height: 48px;
           font-family: 'Outfit', sans-serif;
           height: 48px;
           border-radius: 8px;
@@ -547,7 +571,7 @@ export default class Agencies extends Vue {
     box-sizing: border-box;
 
     .grid-layout {
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       grid-column-gap: 24px;
       padding: 0;
 
@@ -714,6 +738,16 @@ export default class Agencies extends Vue {
 
 .buttons {
   max-width: fit-content;
+}
+
+.about-us-btn button {
+  height: 36px;
+  margin-top: 12px
+}
+
+.agency-banner {
+  height: 300px;
+  border-radius: 8px;
 }
 
 </style>

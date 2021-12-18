@@ -1,59 +1,143 @@
 <template>
-  <div class="account-wrapper mx-auto w-full">
-    <div class="content">
-      <div class="grid grid-cols-12 gap-6 mt-5">
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-          <button class="btn text-white bg-gray-800 shadow-md mr-2">Dodaj novog agenta</button>
+  <div class="w-full">
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+          <action-button placeholder="Dodaj novog agenta" @action="$modal.show('agent')"></action-button>
         </div>
+
+        <client-only>
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="agent" :adaptive="true" height="100%">
+            <div class="modal-inner">
+              <div class="modal-header">
+                <h2>Dodavanje novog agenta</h2>
+                <i class="material-icons" @click="$modal.hide('agent')">close</i>
+              </div>
+              <div class="modal-content">
+                <TextField type="text" label="Ime i prezime" placeholder="John Doe" v-model="payload.name" class="mb-4 mt-1"></TextField>
+                <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.email" class="mb-4 mt-1"></TextField>
+                <ActionButton placeholder="Dodaj agenta" @action="addNewAgent(); $modal.hide('agent')"></ActionButton>
+              </div>
+            </div>
+
+          </modal>
+        </client-only>
         <!-- BEGIN: Users Layout -->
-        <div class="intro-y col-span-12 md:col-span-6 lg:col-span-4" v-for="i in 10">
+        <div class="0 col-span-12 md:col-span-6 lg:col-span-4" v-for="agent in agents">
           <div class="box">
             <div class="flex items-start px-5 pt-5">
               <div class="w-full flex flex-col lg:flex-row items-center">
                 <div class="w-16 h-16 image-fit">
-                  <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/profile-14.jpg">
+                  <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg']">
                 </div>
                 <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
-                  <a href="" class="font-medium">Leonardo DiCaprio</a>
+                  <a href="" class="font-medium">{{ agent.name }}</a>
                   <div class="text-gray-600 text-xs mt-0.5">Agent</div>
+                  <div class="bg-red-600 text-white rounded-sm font-semibold px-2 mt-1" v-if="agent.last_time_active_at === null">NEAKTIVAN</div>
                 </div>
               </div>
               <div class="absolute right-0 top-0 mr-5 mt-3 dropdown">
                 <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-300"></i> </a>
-                <div class="dropdown-menu w-40">
-                  <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="edit-2" class="w-4 h-4 mr-2"></i> Edit </a>
-                    <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                  </div>
-                </div>
               </div>
             </div>
             <div class="text-center lg:text-left p-5">
-              <div>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem </div>
-              <div class="flex items-center justify-center lg:justify-start text-gray-600 mt-5">leonardodicaprio@left4code.com </div>
+              <div class="flex items-center justify-center lg:justify-start text-gray-700 mt-2 w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <p>{{ agent.email }}</p></div>
             </div>
             <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
-              <button class="btn text-white bg-gray-800 py-1 px-2 mr-2">Poruka</button>
-              <button class="btn btn-outline-secondary py-1 px-2">Profil</button>
+              <button class="btn text-white bg-gray-800 py-1 px-2 mr-2" @click="removeAgent(agent.id)">Izbriši agenta</button>
+              <button class="btn btn-outline-secondary py-1 px-2" @click="$router.push('/users/' + agent.id)">Profil</button>
             </div>
           </div>
         </div>
-
+        <Snackbar></Snackbar>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
+import ActionButton from "../../../components/actionButtons/ActionButton";
+import TextField from "../../../components/inputs/TextField";
+import Snackbar from "../../../components/global/Snackbar";
 
 @Component({
   components: {
+    TextField,
+    ActionButton,
+    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })
 export default class mojiOglasi extends Vue {
+  payload = {}
+  agents = []
+  temporary_agent = {}
+  password = ''
 
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
+  }
+
+  async created() {
+    await this.getAllAgents();
+  }
+
+  async getAllAgents() {
+    try {
+      let res = await this.$axios.get('/agents');
+
+      this.agents = res.data.data;
+
+      console.log(this.agents)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async removeAgent(id) {
+    try {
+      let index = this.agents.findIndex(item => item.id === id);
+
+      await this.$axios.delete('/agents/' + id);
+
+      this.agents.splice(index, 1)
+
+      this.$snackbar.show({
+        text: "Uspješno ste izbrisali agenta",
+        timeout: 1000,
+        type: "success"
+      });
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async addNewAgent() {
+    try {
+      let res = await this.$axios.post('/agents', {
+        name: this.payload.name,
+        email: this.payload.email
+      })
+
+      this.agents.push(res.data.data);
+
+      this.$snackbar.show({
+        text: "Uspješno ste dodali novog agenta, koji će dobiti pristupne podatke na email",
+        timeout: 1000,
+        type: "success"
+      });
+    } catch(e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 

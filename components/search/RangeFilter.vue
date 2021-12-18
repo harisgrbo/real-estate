@@ -73,7 +73,7 @@ export default class RangeFilter extends Vue {
         border-radius: 4px;
         box-shadow: none;
         box-sizing: border-box;
-        height: 40px;
+        height: 48px;
         line-height: .733rem;
         margin: initial;
         overflow: hidden;
