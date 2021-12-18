@@ -9,11 +9,11 @@
                  :placeholder="placeholder"
                  @input="updateValue($event.target.value)" id="price" aria-describedby="price-currency">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-        <span v-if="currency" class="text-gray-500 sm:text-sm font-medium flex flex-row items-center" id="price-currency">
+        <span v-if="currency" class="text-gray-900 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
           KM
            <p v-if="showSquareM" class="pl-1">/ m²</p>
         </span>
-        <span v-if="discount" class="text-gray-500 sm:text-sm font-medium flex flex-row items-center" id="price-currency">
+        <span v-if="discount" class="text-gray-900 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
           %
         </span>
       </div>

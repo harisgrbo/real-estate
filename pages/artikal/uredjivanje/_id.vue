@@ -103,6 +103,7 @@
         <PublishMap :location="listing" @latlng="handleLatLng"></PublishMap>
         <InputError :error="errors.city" />
         <InputError :error="errors.description" />
+        <TextAreaField class="mt-4" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="listing.video_url"></TextAreaField>
         <TextAreaField class="mt-4" label="Opis" v-model="listing.description"></TextAreaField>
       </div>
 
@@ -110,7 +111,7 @@
         <h1 class="heading">
           Detaljne informacije oglasa
         </h1>
-        <div class="grid grid-cols-2 gap-x-5 gap-y-5 grid-flow-row auto-rows-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 up:grid-cols-2 gap-x-5 gap-y-5 grid-flow-row auto-rows-auto">
           <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
             <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]" />
             <component
@@ -159,23 +160,20 @@
           Slike
         </h1>
         <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md mb-10">
-          <div class="space-y-1 text-center">
+          <label for="upload" class="space-y-1 text-center">
             <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
               <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <div class="flex text-sm text-gray-600">
+            <div class="flex flex-col text-sm text-gray-600">
               <label class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600">
-                <span>Upload a file</span>
-                <input type="file" accept="image/*" @change="uploadImages" multiple ref="upload">
+                <span>Ubaci slike</span>
+                <input type="file" class="hidden" accept="image/*" @change="uploadImages" multiple ref="upload">
               </label>
-              <p class="pl-1">or drag and drop</p>
+              <p class="pl-1">ili prenesi ovdje</p>
             </div>
-            <p class="text-xs text-gray-500">
-              PNG, JPG, GIF up to 10MB
-            </p>
-          </div>
+          </label>
         </div>
-        <div class="w-full bg-gray-50 rounded-md p-4 grid grid-cols-5 gap-4">
+        <div class="w-full rounded-md grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-4">
           <div v-for="(image, index) in listing.images" class="img-upload-box">
             <img :src="image.url" width="300" height="200" />
             <button @click="deleteImage(image, index)">
@@ -186,7 +184,7 @@
           </div>
         </div>
       </div>
-      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '4px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px' }" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '4px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -877,6 +875,9 @@ export default class ListingEdit extends Vue {
         font-weight: 500;
         margin-bottom: 36px;
 
+        @include for-phone-only {
+          margin-top: 12px;
+        }
       }
 
       h2 {
@@ -1095,7 +1096,7 @@ h1.heading {
   @include for-phone-only {
     font-size: 18px !important;
     padding-bottom: 12px !important;
-    margin-top: 12px !important;
+    margin-top: 24px !important;
     margin-bottom: 12px !important;
   }
 
@@ -1368,7 +1369,7 @@ h2.info {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 9;
     cursor: pointer;
 
     svg {

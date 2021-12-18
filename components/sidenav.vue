@@ -394,4 +394,10 @@ button.logout {
     padding-bottom: 4px;
   }
 }
+
+.sidenav-wrapper {
+  @include for-phone-only {
+    padding-bottom: 80px;
+  }
+}
 </style>

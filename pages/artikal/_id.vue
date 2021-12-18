@@ -132,7 +132,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="border-t border-b border-gray-200 py-6 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -157,15 +157,13 @@
                 <li  v-for="(attr, index) in RentSpecialAttributes"
                      :key="index"
                      class="col-span-1 flex shadow-sm rounded-md">
-                  <div class="flex-shrink-0 p-3 flex items-center border border-gray-100 justify-center w-16 bg-gray-900 text-white text-sm font-medium rounded-l-md">
+                  <div class="flex-shrink-0 p-1 md:p-3 lg:p-3 xl:p-3 up:p-3 flex items-center border border-gray-100 justify-center w-10 md:w-16 xl:w-16 up:w-16 lg:w-16 bg-gray-900 text-white text-sm font-medium rounded-l-md">
                     <img :src="'/' + attr.name + '.png'" alt="">
                   </div>
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                    <div class="flex-1 px-4 py-2 text-sm truncate">
+                    <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
                       <a href="#" class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</a>
                       <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
-                    </div>
-                    <div class="flex-shrink-0 pr-2">
                     </div>
                   </div>
                 </li>
@@ -175,7 +173,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -296,25 +294,20 @@
                 </div>
               </div>
             </div>
-            <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
-            <div class="separator"></div>
+            <ActionButton class="mx-5 mb-4" v-if="$device.isMobile" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+            <div class="separator" v-if="!$device.isMobile"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Lokacija</h2>
             <div v-if="!$device.isMobile">
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
             <div class="separator" v-if="listing.video_url !== null"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video tour</h2>
-            <div v-if="listing.video_url !== null">
-              <div v-html="listing.video_url"></div>
-            </div>
             <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review w-full">
-                <label>Opišite ukratko vaše iskustvo</label>
-                <textarea class="review-textarea mb-3" type="text" v-model="review_description"></textarea>
-                <label>Ocjena za nekretninu</label>
+                <TextAreaField label="Opišite ukratko vaše iskustvo" v-model="review_description"></TextAreaField>
+                <label class="block text-md font-semibold text-gray-900 mt-4">Ocjena za nekretninu</label>
                 <div class="w-full flex flex-row items-center justify-start">
-                  <svg v-for="i in 5" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="yellow" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg v-for="i in 5" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
                     <path v-show="i <= review_rating" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                   </svg>
                 </div>
@@ -366,7 +359,14 @@
 <!--              <textarea v-model="questionTerm"></textarea>-->
 <!--              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>-->
 <!--            </div>-->
-            <div class="separator"></div>
+            <div class="separator" v-if="listing.video_url !== null"></div>
+            <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0">
+              <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video tour</h2>
+              <div v-if="listing.video_url !== null">
+                <div v-html="listing.video_url"></div>
+              </div>
+            </div>
+
             <div v-if="listing.is_booking && $device.isMobile && !authUser" :class="['book-article', showBooking ? 'show' : 'hide']">
               <div class="flex flex-row items-center justify-star">
                 <p class="text-xl font-bold">{{ listing.price + ' KM' }}</p>
@@ -378,20 +378,22 @@
           <div class="user-wrap relative z-10">
             <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
           </div>
-          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user" class="px-5 lg:px-0 xl:px-0 up:px-0">
-            <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
-            <div class="review">
-              <label>Opišite ukratko vaše iskustvo</label>
-              <textarea class="mb-3" type="text" v-model="review_description"></textarea>
-              <label>Ocjena za nekretninu</label>
-              <TextField type="number" placeholder="Ocjena od 1 do 5" v-model="review_rating"></TextField>
+          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
+            <div class="separator"></div>
+            <h2 class="text-xl font-medium text-gray-900 mb-6 px-5 lg:px-0 xl:px-0 up:px-0">Dojmovi</h2>
+            <div class="review w-full px-5 lg:px-0 xl:px-0 up:px-0">
+              <TextAreaField label="Opišite ukratko vaše iskustvo" v-model="review_description"></TextAreaField>
+              <label class="block text-md font-semibold text-gray-900 mt-4">Ocjena za nekretninu</label>
+              <div class="w-full flex flex-row items-center justify-start">
+                <svg v-for="i in 5" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
+                  <path v-show="i <= review_rating" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+              </div>
+              <input class="review-input" type="range" min="1" max="5" placeholder="Ocjena od 1 do 5" v-model="review_rating" />
               <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
-
             </div>
-            <div v-if="listing_reviews.length" class="bg-white">
+            <div v-if="listing_reviews.length" class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0">
               <div>
-                <h2 class="sr-only">Customer Reviews</h2>
-
                 <div v-for="review in listing_reviews">
                   <div class="flex text-sm text-gray-500 space-x-4">
                     <div class="flex-none py-10">
@@ -578,9 +580,11 @@ import UserProfile from "@/components/UserProfile"
 import SingleQuestion from "@/components/SingleQuestion"
 import RealEstateLocationMap from "@/components/RealEstateLocationMap";
 import TextField from "../../components/inputs/TextField";
+import TextAreaField from "../../components/inputs/TextAreaField";
 
 @Component({
   components: {
+    TextAreaField,
     TextField,
     ActionButton,
     Snackbar,
@@ -1439,7 +1443,7 @@ export default class Artikal extends Vue {
 }
 
 .separator {
-  border-top: 1px solid #ECECEC;
+  border-top: 5px solid #ECECEC;
   margin: 32px 0;
   height: 1px;
   width: 100%;
@@ -2034,7 +2038,7 @@ export default class Artikal extends Vue {
   position: fixed;
   top: 16px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
-  z-index: 10;
+  z-index: 20;
   background: #fff;
   border-radius: 4px;
   left: 16px;
@@ -2161,35 +2165,6 @@ export default class Artikal extends Vue {
   min-height: 400px;
 }
 
-.review {
-  display: flex;
-  flex-direction: column;
-
-  label {
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  textarea {
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 4px;
-    background: #fff;
-    border: 1px solid #ddd;
-    flex: 2;
-    position: relative;
-    transition: 0.3s all ease;
-    margin-top: 0;
-    padding: 12px;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-}
 
 .rent-special {
   border: 1px solid #dcdcdc;
@@ -2219,14 +2194,16 @@ export default class Artikal extends Vue {
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
-  padding: 0 12px;
-  background: #F3F3F4;
   flex: 2;
   position: relative;
   transition: 0.3s all ease;
   margin-top: 0;
   width: 200px;
   min-height: 48px;
+
+  @include for-phone-only {
+    width: 100%;
+  }
 }
 
 .review-textarea {
@@ -2263,12 +2240,105 @@ export default class Artikal extends Vue {
     img {
       filter: invert(1);
       height: 27px;
+
+      @include for-phone-only {
+        height: 19px;
+      }
     }
   }
 }
 
 .cross-price {
   text-decoration: line-through;
+}
+
+input[type=range] {
+  height: 25px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #435266;
+  border-radius: 1px;
+  border: 0px solid #000000;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #1F2937;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -7px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #1F2937;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #2497E3;
+  border-radius: 1px;
+  border: 0px solid #000000;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #2497E3;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #A1D0FF;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #2497E3;
+  border: 0px solid #000000;
+  border-radius: 2px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-fill-upper {
+  background: #2497E3;
+  border: 0px solid #000000;
+  border-radius: 2px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #2497E3;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #A1D0FF;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #2497E3;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #2497E3;
 }
 </style>
 
