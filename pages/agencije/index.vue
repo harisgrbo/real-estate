@@ -1,5 +1,5 @@
 <template>
-  <div class="account-wrapper-a bg-white w-full px-20">
+  <div class="preview-wrapper-inner bg-white w-full px-20">
     <div class="account-wrapper-inner">
       <div class="sidenav w-full">
         <h1 class="heading-account"><b>{{ agencies.length }}</b> agencija za nekretnine</h1>
@@ -23,7 +23,7 @@ import skeleton from "../../components/skeleton";
 
 @Component({
   components: { Navbar, skeleton, AgencyCard, UserCard },
-  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 
 })
 
@@ -58,16 +58,7 @@ export default class Agencies extends Vue {
     @content;
   }
 }
-.account-wrapper-a {
-  margin: 0 auto;
-  margin-top: 36px;
-  background: #fff !important;
-  @include for-phone-only {
-    padding: 32px 0!important;
-    height: 100%;
-    min-height: 100vh;
-    overflow: scroll;
-  }
+.preview-wrapper-inner {
 
   .account-wrapper-inner {
     display: flex;
@@ -89,7 +80,6 @@ export default class Agencies extends Vue {
       flex-direction: column;
 
       @include for-phone-only {
-        padding: 12px;
       }
 
       h1 {
@@ -239,7 +229,7 @@ a {
   }
 
   @include for-phone-only {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-row-gap: 16px;
     grid-column-gap: 16px;
   }
@@ -261,6 +251,16 @@ a {
   @include for-phone-only {
     min-width: 100%;
   }
+}
+
+.preview-wrapper-inner {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 4px;
+  padding: 24px;
 }
 </style>
 
