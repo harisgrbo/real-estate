@@ -4,12 +4,12 @@
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
         <font-awesome-icon icon="angle-right"></font-awesome-icon>
-        <p>Pratim/pratioci</p>
+        <p>Blokirani korisnici</p>
       </li>
     </ul>
     <div class="saved-content w-full">
       <div>
-        <div class="grid grid-cols-5 gap-6 mobile-grid w-full" v-if="blockedUsers.length">
+        <div class="mobile-grid w-full" v-if="blockedUsers.length">
           <UserCard v-for="user in blockedUsers" :id="user.id" :user="user"/>
         </div>
         <div v-else class="no-image">
@@ -148,15 +148,16 @@ h1 {
     margin-top: 24px;
   }
 }
-
 .mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
   @include for-phone-only {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 14px;
   }
 }
-
 .saved-content {
   margin-top: 36px;
 }

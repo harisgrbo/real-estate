@@ -26,7 +26,7 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
               </svg>
-              {{ selectedSort.name }}
+              {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
             </button>
             <div v-if="showSortDropdown" class=" w-full origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
               <div class="py-4 grid grid-cols-2 gap-4 sort-mobile" role="none">
@@ -236,6 +236,7 @@
                   :attr="false"
                   :filter="{name: 'price', display_name: 'Cijena'}"
                   @input="newSearch"
+                  @close-filters="$modal.hide('search-filters')"
                 />
 
                 <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
@@ -251,7 +252,10 @@
                   @clear="queryPayload[attr.id] = null; newSearch()"
                   @input="newSearch"
                 />
-                <ActionButton class="refresh" placeholder="Osvježi" @action="newSearch()"></ActionButton>
+                <div class="fixed bottom-4 left-0 right-0 bottom-refresh">
+                  <ActionButton class="refresh" placeholder="Osvježi i zatvori" :style-options="{ width: '100%' }" @action="newSearch(); $modal.hide('search-filters')"></ActionButton>
+
+                </div>
 
               </div>
             </div>
@@ -1154,13 +1158,22 @@ export default class Homepage extends Vue {
   min-width: fit-content;
 }
 
-.refresh {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-  right: 16px;
-  width: auto;
+.bottom-refresh {
+  display: none;
+  padding: 0 16px;
+
+  @include for-phone-only {
+    display: flex;
+  }
+  .refresh {
+    @include for-phone-only {
+      display: flex;
+      width: 100%;
+    }
+
+  }
 }
+
 
 .toggle-map-wrapper {
   background: #f9f9f9;

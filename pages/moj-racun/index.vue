@@ -156,7 +156,7 @@ export default class accountpage extends Vue {
       flex-direction: column;
 
       @include for-phone-only {
-        padding: 16px;
+        padding: 0px;
       }
 
 

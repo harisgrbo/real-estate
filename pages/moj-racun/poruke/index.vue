@@ -595,9 +595,11 @@ textarea {
   width: 100%;
   font-weight: 500;
   font-size: 14px;
-  min-height: 100px;
-  max-height: 100px;
+  min-height: 50px;
+  border-radius: 4px;
+  max-height: 50px;
   border: 1px solid #ddd;
+  background: #f9f9f9;
 
   &:focus {
     outline: 1px solid #000;
@@ -705,6 +707,7 @@ textarea {
 }
 
 .mobile-chat {
+  min-width: 370px;
   @include for-phone-only {
     width: 100%;
     min-width: 100%;
