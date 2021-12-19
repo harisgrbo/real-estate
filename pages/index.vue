@@ -199,8 +199,8 @@
     <div class="flex flex-col mb-16 mt-8 popular">
       <div class="w-full flex items-center justify-between lg:px-20 up:px-20 xl:px-20 mx-auto mb-4">
         <h2 class="section-title popular-cats">Popularne kategorije</h2>
-        <div class="flex flex-row items-center" v-if="!$device.isMobile">
-          <nuxt-link class="more" to="/pretraga">Više kategorija</nuxt-link>
+        <div class="flex flex-row items-center">
+          <nuxt-link class="more" to="/pretraga">Sve kategorija</nuxt-link>
           </div>
       </div>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
@@ -947,7 +947,9 @@ ul.most-visited-cats {
 
   @include for-phone-only {
     margin: 0px;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
   }
   .flow-root {
     min-width: 100%;
@@ -970,11 +972,14 @@ ul.most-visited-cats {
     justify-content: space-between;
 
     @include for-phone-only {
-      min-height: 100px;
-      height: 150px;
+      min-height: 180px;
+      height: 180px;
       max-height: 150px;
       font-size: 18px;
       padding: 16px;
+      max-width: 250px;
+      min-width: 250px;
+      width: 250px;
     }
 
     button {

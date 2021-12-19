@@ -4,35 +4,47 @@
       {{ displayName }}
     </label>
     <div class="input-wrapper">
-      <input v-model="from" type="number" placeholder="Od" @change="handleChange">
-      <input v-model="to" type="number" placeholder="Do" @change="handleChange">
+      <input v-model="from" type="number" placeholder="Od" @input="showConfirmButton">
+      <input v-model="to" type="number" placeholder="Do" @input="showConfirmButton">
     </div>
+    <action-button v-show="showBtn" :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Osvježi rezultate" @action="handleBtn"></action-button>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 import FilterMixin from "./FilterMixin.js";
+import ActionButton from "../actionButtons/ActionButton";
 
 @Component({
+  components: {ActionButton},
   mixins: [FilterMixin]
 })
 export default class RangeFilter extends Vue {
   from = null
   to = null
+  showBtn = false;
 
   created() {
     this.from = this.set ? this.value.value[0] : null;
     this.to = this.set ? this.value.value[1] : null;
   }
 
-  handleChange(e) {
+  handleChange() {
     this.$emit(
       "input",
       this.buildValue("range", [parseFloat(this.from), parseFloat(this.to)])
     );
   }
 
+  showConfirmButton() {
+    this.showBtn = true;
+  }
+
+  handleBtn() {
+    this.showBtn = false;
+    this.handleChange();
+  }
 };
 </script>
 

@@ -1,9 +1,9 @@
 <template>
   <div class="search-wrapper w-full relative flex flex-col">
-    <div class="search-heading lg:px-20 xl:px-20 up:px-20 sm:px-5 py-4 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
+    <div class="search-heading lg:px-20 xl:px-20 up:px-20 sm:px-5 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="border-b border-gray-200">
       </div>
-      <div class="w-full relative">
+      <div class="w-full relative search-options">
         <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
@@ -21,16 +21,16 @@
             </svg>
             Filteri
           </button>
-          <div v-if="$device.isMobile">
+          <div v-if="$device.isMobile" class="mobile-fit">
             <button @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
               </svg>
-              {{ selectedSort !== "" ? selected_sort.name : 'Sortiraj' }}
+              {{ selectedSort.name }}
             </button>
             <div v-if="showSortDropdown" class=" w-full origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-              <div class="py-1" role="none">
-                <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-900 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.name === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
+              <div class="py-4 grid grid-cols-2 gap-4 sort-mobile" role="none">
+                <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-900 border border-gray-400 block flex items-center justify-start px-4 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold add-border' : '']" role="menuitem" @click.prevent="selectSort(item)">
                   {{ item.name }}
                 </a>
               </div>
@@ -40,7 +40,7 @@
           <div class="flex items-center justify-end types">
             <div class="inline-block text-left" v-if="!$device.isMobile">
               <div @click="showSortDropdown = !showSortDropdown" class="mr-4 relative z-30">
-                <button type="button" class="group inline-flex justify-center text-sm w-full font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 font-semibold text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                <button type="button" class="group inline-flex justify-center text-sm w-full font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
                   </svg>
@@ -51,7 +51,7 @@
                   </svg>
                 </button>
                 <div v-if="showSortDropdown" class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                  <div class="py-1" role="none">
+                  <div class="py-4" role="none">
                     <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
                       {{ item.name }}
                     </a>
@@ -73,7 +73,7 @@
                 <form class="space-y-4">
                   <div class="flex items-center cursor-pointer" v-for="item in listing_types">
                     <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" @click="addOrRemoveFromListTypes(item.id)" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
-                    <label :for="'filter-category-' + item.id" class="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap">
+                    <label :for="'filter-category-' + item.id" class="ml-3 pr-6 text-sm font-medium cursor-pointer text-gray-900 whitespace-nowrap">
                       {{ item.name }}
                     </label>
                   </div>
@@ -87,7 +87,7 @@
 
 
       <div class="flex flex-col">
-        <ul class="flex flex-row items-center justify-start w-full selected-filters mt-4">
+        <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 md:mt-4 lg:mt-4 up:mt-4 xl:mt-4">
           <li v-for="filter in queryPayload" v-if="filter && filterResolveValue(filter)" class="py-2 px-3 border border-black mr-3">
             <div class="flex flex-row items-center">
               {{ filterResolveValue(filter) }}
@@ -218,9 +218,6 @@
 
             <div class="modal-content">
               <div class="filters rounded-md">
-                <div v-show="loading" class="loading-wrapper">
-                  <img src="/loader.svg" alt="">
-                </div>
                 <div v-show="! selectedCategoryId" class="rounded-md bg-green-50 p-4">
                   <div class="flex">
                     <div class="flex-shrink-0">
@@ -587,6 +584,8 @@ export default class Homepage extends Vue {
           return tmpName;
         } else if(filter.type === 'terms') {
           return attr.name + " " + filter.value.join(', ');
+        } else if(filter.type === 'term') {
+          return attr.name;
         }
 
         return attr.name + " " + filter.value;
@@ -761,6 +760,11 @@ export default class Homepage extends Vue {
   position: sticky;
   top: 0;
   z-index: 9;
+
+  @include for-phone-only {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }
 
 .search-wrapper {
@@ -777,7 +781,7 @@ export default class Homepage extends Vue {
     height: 100%;
 
     @include for-phone-only {
-      padding-bottom: 180px;
+      padding-bottom: 0px;
       padding-top: 12px;
     }
 
@@ -1246,14 +1250,22 @@ export default class Homepage extends Vue {
 }
 
 .selected-filters {
+  margin-top: 16px;
 
   @include for-phone-only {
     padding: 16px;
     padding-bottom: 0;
+    width: 100%;
+    overflow-x: scroll;
+    margin-top: 0;
   }
   li {
     border: 1px solid #ddd;
     border-radius: 4px;
+
+    @include for-phone-only {
+      min-width: fit-content;
+    }
 
     button {
       margin-left: 8px;
@@ -1265,6 +1277,42 @@ export default class Homepage extends Vue {
         background: #f1f1f1;
       }
     }
+  }
+}
+
+.search-options {
+  @include for-phone-only {
+    button {
+      border-radius: 4px;
+      background: #f9f9f9;
+      font-weight: 600;
+    }
+  }
+}
+
+.sort-mobile {
+  padding: 16px;
+
+  a {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 48px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.add-border {
+      border: 1px solid #000;
+      font-weight: 600;
+    }
+  }
+}
+
+.mobile-fit {
+  @include for-phone-only {
+    min-width: fit-content;
   }
 }
 </style>
