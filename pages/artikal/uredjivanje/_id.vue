@@ -173,7 +173,7 @@
             </div>
           </label>
         </div>
-        <div class="w-full rounded-md grid grid-cols-2 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 up:grid-cols-5 gap-4">
+        <div class="w-full rounded-md mobile-image-grid">
           <div v-for="(image, index) in listing.images" class="img-upload-box">
             <img :src="image.url" width="300" height="200" />
             <button @click="deleteImage(image, index)">
@@ -270,7 +270,12 @@ export default class ListingEdit extends Vue {
         ends_at: end.format('D-M-Y')
       });
 
-      console.log(res)
+      this.$snackbar.show({
+        text: "Uspješno ste dodali popust na oglas",
+        timeout: 3000,
+        type: "success"
+      });
+
     } catch(e) {
       console.log(e)
     }
@@ -1376,6 +1381,19 @@ h2.info {
       font-size: 13px;
     }
   }
+}
 
+.mobile-image-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 14px;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+label {
+  font-size: 16px;
 }
 </style>

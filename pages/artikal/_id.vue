@@ -79,25 +79,25 @@
                 </div>
               </div>
               <div class="rent" v-if="listing.is_booking && !$device.isMobile">
-                <div class="flex flex-row items-center w-full">
+                <div class="flex flex-row items-center w-full price-wrap p-2 bg-gray-100">
                   <p class="text-xl font-bold main-price-label">{{ numberWithCommas(listing.price) + ' KM'}}</p>
                   <p class="pl-2 text-xl font-semibold">/ noć</p>
                 </div>
               </div>
-              <div class="rent flex flex-row justify-start p-2 mt-4 bg-gray-200 items-center" v-else>
+              <div class="rent flex flex-row justify-start p-2 mt-4 bg-gray-100 items-center" v-else>
                 <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile">
                   <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
                 </div>
-                <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile && listing.price_per_square !== null && !listing.hasOwnProperty('discount')">
+                <div class="flex flex-col items-start price-wrap p-2 bg-gray-100 mr-4" v-if="!$device.isMobile && listing.price_per_square !== null && !listing.hasOwnProperty('discount')">
                   <p>Cijena po kvadratu {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ Math.ceil(listing.price_per_square) }} KM</p>
                 </div>
-                <div class="flex flex-col mobile-discount items-start price-wrap" v-if="$device.isMobile">
+                <div class="flex flex-col mobile-discount items-start p-2 bg-gray-100 price-wrap" v-if="$device.isMobile">
                   <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
                 </div>
-                <div class="mobile-discount flex flex-col items-start price-wrap sm:ml-0 md:ml-4 lg:ml-4 up:ml-4 xl:ml-4 text-gray-900 rounded-md" v-if="listing.hasOwnProperty('discount')">
+                <div class="mobile-discount flex flex-col items-start p-2 bg-gray-100 price-wrap sm:ml-0 md:ml-4 lg:ml-4 up:ml-4 xl:ml-4 text-gray-900 rounded-md" v-if="listing.hasOwnProperty('discount')">
                   <p class="text-xl">Popust {{ listing.discount * 100 }}%</p>
                   <p class="mt-1 text-lg text-black font-semibold main-price-label">{{ numberWithCommas(listing.price - listing.price * listing.discount) }} KM</p>
                 </div>
@@ -136,7 +136,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
               </h2>
-              <ul role="list" class="border-t border-b border-gray-200 py-6 grid grid-cols-2  md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="border-t border-b border-gray-200 py-6 mobile-grid">
                 <li class="flow-root" v-for="info in normalAttributes">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -157,7 +157,7 @@
               <h2 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
                 Izdvojene pogodnosti
               </h2>
-              <ul role="list" class="mt-3 grid grid-cols-2 gap-5 sm:gap-6 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 lg:grid-cols-4 ammenities">
+              <ul role="list" class="mt-3 mobile-grid ammenities">
                 <li  v-for="(attr, index) in RentSpecialAttributes"
                      :key="index"
                      class="col-span-1 flex shadow-sm rounded-md">
@@ -177,7 +177,7 @@
               <h2 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
               </h2>
-              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-6">
+              <ul role="list" class="mt-6 border-t border-b border-gray-200 py-0 mobile-grid">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
@@ -195,7 +195,7 @@
               </ul>
             </div>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Opis</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h2>
             <p class="description mx-5 lg:mx-0 xl:mx-0 up:mx-0">{{ listing.description }}</p>
             <div class="separator"></div>
             <div class="rent" v-if="listing.is_booking && !$device.isMobile && $auth.user && $auth.user.id !== listing.user.id">
@@ -1447,10 +1447,15 @@ export default class Artikal extends Vue {
 }
 
 .separator {
-  border-top: 5px solid #ECECEC;
+  border-top: 1px solid #ECECEC;
   margin: 32px 0;
   height: 1px;
   width: 100%;
+
+  @include for-phone-only {
+    border-top: 5px solid #ECECEC;
+
+  }
 }
 
 ::v-deep .user-profile {
@@ -1792,7 +1797,7 @@ export default class Artikal extends Vue {
 }
 .places-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 24px;
   grid-row-gap: 32px;
   border-radius: 8px;
@@ -1922,13 +1927,16 @@ export default class Artikal extends Vue {
     width: fit-content;
     min-width: fit-content;
     max-width: fit-content;
-    border: 1px solid #d7d7d7;
+    border: 1px solid #f1f1f1;
     margin-right: 12px;
     border-radius: 4px;
+    background: #f9f9f9;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
+    padding: 5px 12px;
+    font-weight: 500;
+    font-size: 13px;
 
     p {
       line-height: 18px;
@@ -1937,8 +1945,8 @@ export default class Artikal extends Vue {
       }
 
       &:last-child {
-        font-size: 15px;
-        font-weight: 400;
+        font-size: 14px;
+        font-weight: 500;
       }
     }
   }
@@ -2243,7 +2251,7 @@ export default class Artikal extends Vue {
     border: 1px solid #f9f9f9;
     img {
       filter: invert(1);
-      height: 27px;
+      height: 22px;
 
       @include for-phone-only {
         height: 19px;
@@ -2343,6 +2351,16 @@ input[type=range]:focus::-ms-fill-lower {
 }
 input[type=range]:focus::-ms-fill-upper {
   background: #2497E3;
+}
+
+.mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 14px;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
 

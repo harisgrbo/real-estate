@@ -6,16 +6,18 @@
     <div class="input-wrapper">
       <input v-model="from" type="number" placeholder="Od" @input="showConfirmButton">
       <input v-model="to" type="number" placeholder="Do" @input="showConfirmButton">
-      <button v-show="showBtn" @click="handleBtn">Osvjezi</button>
     </div>
+    <action-button v-show="showBtn" :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Osvježi rezultate" @action="handleBtn"></action-button>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 import FilterMixin from "./FilterMixin.js";
+import ActionButton from "../actionButtons/ActionButton";
 
 @Component({
+  components: {ActionButton},
   mixins: [FilterMixin]
 })
 export default class RangeFilter extends Vue {

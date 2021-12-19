@@ -528,6 +528,7 @@ export default class Navbar extends Vue {
     justify-content: flex-start;
     cursor: pointer;
     align-items: center;
+    min-width: fit-content;
 
     @include for-phone-only {
       width: fit-content;
@@ -536,6 +537,7 @@ export default class Navbar extends Vue {
 
     img {
       height: 40px;
+      min-width: fit-content;
     }
 
     @include for-phone-only {
