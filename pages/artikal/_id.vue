@@ -84,10 +84,14 @@
                   <p class="pl-2 text-xl font-semibold">/ noć</p>
                 </div>
               </div>
-              <div class="rent flex flex-row justify-between p-2 mt-4 bg-gray-200 items-center" v-else>
+              <div class="rent flex flex-row justify-start p-2 mt-4 bg-gray-200 items-center" v-else>
                 <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile">
                   <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
+                </div>
+                <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile && listing.price_per_square !== null && !listing.hasOwnProperty('discount')">
+                  <p>Cijena po kvadratu {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+                  <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ Math.ceil(listing.price_per_square) }} KM</p>
                 </div>
                 <div class="flex flex-col mobile-discount items-start price-wrap" v-if="$device.isMobile">
                   <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
