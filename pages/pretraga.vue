@@ -587,6 +587,8 @@ export default class Homepage extends Vue {
           return tmpName;
         } else if(filter.type === 'terms') {
           return attr.name + " " + filter.value.join(', ');
+        } else if(filter.type === 'term') {
+          return attr.name;
         }
 
         return attr.name + " " + filter.value;

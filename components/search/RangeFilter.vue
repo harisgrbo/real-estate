@@ -4,8 +4,9 @@
       {{ displayName }}
     </label>
     <div class="input-wrapper">
-      <input v-model="from" type="number" placeholder="Od" @change="handleChange">
-      <input v-model="to" type="number" placeholder="Do" @change="handleChange">
+      <input v-model="from" type="number" placeholder="Od" @input="showConfirmButton">
+      <input v-model="to" type="number" placeholder="Do" @input="showConfirmButton">
+      <button v-show="showBtn" @click="handleBtn">Osvjezi</button>
     </div>
   </div>
 </template>
@@ -20,19 +21,28 @@ import FilterMixin from "./FilterMixin.js";
 export default class RangeFilter extends Vue {
   from = null
   to = null
+  showBtn = false;
 
   created() {
     this.from = this.set ? this.value.value[0] : null;
     this.to = this.set ? this.value.value[1] : null;
   }
 
-  handleChange(e) {
+  handleChange() {
     this.$emit(
       "input",
       this.buildValue("range", [parseFloat(this.from), parseFloat(this.to)])
     );
   }
 
+  showConfirmButton() {
+    this.showBtn = true;
+  }
+
+  handleBtn() {
+    this.showBtn = false;
+    this.handleChange();
+  }
 };
 </script>
 
