@@ -1250,10 +1250,16 @@ export default class Homepage extends Vue {
   @include for-phone-only {
     padding: 16px;
     padding-bottom: 0;
+    width: 100%;
+    overflow-x: scroll;
   }
   li {
     border: 1px solid #ddd;
     border-radius: 4px;
+
+    @include for-phone-only {
+      min-width: fit-content;
+    }
 
     button {
       margin-left: 8px;
