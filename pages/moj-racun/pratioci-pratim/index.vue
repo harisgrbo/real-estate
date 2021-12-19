@@ -18,7 +18,7 @@
     </ul>
     <div class="saved-content w-full">
       <div v-show="activeTab === 0">
-        <div class="grid grid-cols-5 gap-6 mobile-grid w-full" v-if="followers.length">
+        <div class="mobile-grid w-full" v-if="followers.length">
           <UserCard v-for="user in followers" :id="user.id" :user="user"/>
           <!-- More people... -->
         </div>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div v-show="activeTab === 1">
-        <div class="grid grid-cols-5 gap-6 mobile-grid w-full" v-if="followed.length">
+        <div class="mobile-grid w-full" v-if="followed.length">
           <UserCard v-for="user in followed" :id="user.id" :user="user"/>
         </div>
         <div v-else class="no-image">
@@ -187,10 +187,13 @@ h1 {
 }
 
 .mobile-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
   @include for-phone-only {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 14px;
   }
 }
 </style>

@@ -216,7 +216,7 @@ export default class sidenav extends Vue {
       cursor: pointer;
       border-radius: 5px;
       color: #444;
-      margin-bottom: 8px;
+      margin-bottom: 0px;
 
       &:hover {
         text-decoration: underline;

@@ -2163,6 +2163,10 @@ export default class Artikal extends Vue {
     @include for-phone-only {
       padding: 0;
       margin-bottom: 0;
+
+      &:last-child {
+        margin-left: 16px;
+      }
     }
   }
 

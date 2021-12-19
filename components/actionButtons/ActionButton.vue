@@ -63,7 +63,8 @@ button {
     outline: none;
   }
   img {
-    height: 70%;
+    height: 60%;
+    filter: brightness(100);
   }
 }
 </style>

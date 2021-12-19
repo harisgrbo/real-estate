@@ -44,6 +44,8 @@ export default class RangeFilter extends Vue {
   handleBtn() {
     this.showBtn = false;
     this.handleChange();
+
+    this.$emit('close-filters')
   }
 };
 </script>

@@ -247,7 +247,7 @@ export default class RegisterForm extends Vue{
       &.active {
         font-weight: 600;
         color: #fff;
-        background: #012F34;
+        background: #1F2937;
       }
     }
   }

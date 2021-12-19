@@ -20,9 +20,6 @@
                     <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
                   </dd>
                 </dl>
-                <div class="about-us-btn">
-                  <action-button placeholder="O nama" @action="$modal.show('about-agency')"></action-button>
-                </div>
               </div>
             </div>
           </div>
@@ -73,6 +70,16 @@
           </div>
         </div>
       </div>
+      <div class="about-us-btn">
+        <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')">
+          <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-900 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+            <span class="ml-3">O nama</span>
+          </div>
+        </button>
+      </div>
     </div>
     <div class="content-wrapper">
       <div class="flex flex-row items-center justify-between mb-8 user-options">
@@ -102,7 +109,7 @@
         </div>
         <div class="modal-content">
           <textarea v-model="message"></textarea>
-          <action-button placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+          <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
         </div>
       </div>
     </modal>
@@ -361,6 +368,12 @@ export default class Agencies extends Vue {
     .user-inner {
       @include for-phone-only {
         display: flex;
+      }
+
+      img {
+        height: 80px;
+        width: 80px;
+        min-width: 80px;
       }
     }
 
@@ -739,8 +752,13 @@ export default class Agencies extends Vue {
 }
 
 .about-us-btn button {
-  height: 36px;
-  margin-top: 12px
+  margin-top: 12px;
+  display: flex;
+  flex: 1;
+  width: 100%;
+  background: #f9f9f9;
+  align-items: center;
+  justify-content: center;
 }
 
 .agency-banner {
