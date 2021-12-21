@@ -266,13 +266,31 @@
         </div>
       </div>
     </div>
-    <div class="agency-wrap">
-      <h2>Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
-      <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>
-      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Lista agencija
-      </nuxt-link>r
+<!--    <div class="agency-wrap">-->
+<!--      <h2>Želite pomoć pri prodaji ili kupovini nekretnine?</h2>-->
+<!--      <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>-->
+<!--      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
+<!--          Lista agencija-->
+<!--      </nuxt-link>-->
+<!--    </div>-->
+
+    <div class="bg-white agency-wrap">
+      <div aria-hidden="true" class="relative">
+        <img src="/agency-new.jpeg" alt="" class="w-full h-96 object-center object-cover rounded-t-md">
+        <div class="absolute inset-0 bg-gradient-to-t from-white"></div>
+      </div>
+
+      <div class="relative -mt-24 max-w-7xl mx-auto pb-16 px-4 sm:pb-24 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mx-auto text-center lg:max-w-4xl">
+          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
+          <h2 class="text-xl font-semibold tracking-tight text-gray-900 sm:text-4xl mt-4">Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</h2>
+          <nuxt-link to="/agencije" class="inline-flex mt-4 items-center px-3 py-3 border bg-gray-900 text-white shadow-sm text-sm leading-4 font-medium rounded-sm hover:bg-gray-800 rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Lista agencija
+          </nuxt-link>
+        </div>
+      </div>
     </div>
+
     <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
       <h2 class="section-title">Izdavanje na dan</h2>
       <div class="flex flex-row items-center mr-5">
@@ -1206,73 +1224,13 @@ ul.most-visited-cats {
 }
 
 .agency-wrap {
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  background-image: url("/agency-new.jpeg");
-  position: relative;
-  margin: 100px 80px;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0 80px;
-  border-radius: 7px;
+  margin: 30px 80px;
 
   @include for-phone-only {
-    padding: 0 16px;
     margin: 48px 0;
-    object-fit: contain;
-    border-radius: 0px;
-    height: 300px;
-    margin-top: 24px;
   }
 
-  &::after {
-    position: absolute;
-    content: '';
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    background: rgba(0, 0, 0, 0.44);
-    backdrop-filter: blur(6px);
-    border-radius: 10px;
 
-    @include for-phone-only {
-      border-radius: 4px;
-    }
-  }
-
-  h2 {
-    font-size: 48px;
-    font-weight: 500;
-    color: #fff;
-    position: relative;
-    z-index: 1;
-
-    @include for-phone-only {
-      font-size: 31px;
-      line-height: 36px;
-    }
-  }
-
-  p {
-    margin: 32px 0;
-    font-size: 24px;
-    font-weight: 500;
-    color: #fff;
-    position: relative;
-    z-index: 1;
-
-    @include for-phone-only {
-      font-size: 18px;
-      line-height: 21px;
-    }
-  }
-
-  a {
-    position: relative;
-    z-index: 1;
-  }
 }
 
 .overlay-searched {
@@ -1343,9 +1301,9 @@ button.search {
 }
 
 ::v-deep .listing-card-wrapper {
-  max-width: 240px;
-  min-width: 240px;
-  width: 240px;
+  max-width: 240px !important;
+  min-width: 240px !important;
+  width: 240px !important;
 
   img.slider-img {
     max-width: 240px;

@@ -285,9 +285,12 @@
               </form>
               <div class="separator"></div>
             </div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">Pogledajte šta se nalazi u blizini nekretnine</h2>
+            <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">{{ listing.is_booking ? 'Zanimljivosti u krugu od 2km' : 'Pogledajte šta se nalazi u blizini nekretnine' }}</h2>
             <div class="places" v-if="!$device.isMobile">
-              <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2">
+              <ul class="flex flex-row items-center justify-start" v-if="listing.is_booking">
+                <li v-for="(place, index) in places.results" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md font-semibold' : '']">{{ place.name }}</li>
+              </ul>
+              <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2" v-else>
                 <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md font-semibold' : '']">{{ translatePlaces(index) }}</li>
               </ul>
               <div>
@@ -696,6 +699,7 @@ export default class Artikal extends Vue {
     "Fen"
   ];
 
+  poi_places = [];
   bookings = [];
 
   swiperOptionCard = {
@@ -893,6 +897,15 @@ export default class Artikal extends Vue {
     }
   }
 
+  async fetchPoiPlaces() {
+    try {
+      let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
+      this.poi_places = res;
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   selectPlace(p, i) {
     this.selectedPlace = p;
     this.x = i;
@@ -1070,6 +1083,7 @@ export default class Artikal extends Vue {
     }
 
     await this.fetchPlaces();
+    await this.fetchPoiPlaces();
 
     for (let key of Object.keys(this.places)) {
       if (this.places[key].results.length) {
@@ -1077,8 +1091,6 @@ export default class Artikal extends Vue {
         break;
       }
     }
-
-    console.log(this.listing, 'listing')
 
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
@@ -1954,6 +1966,7 @@ export default class Artikal extends Vue {
 
 .places-ul {
   display: flex;
+  height: fit-content;
 
   li {
     width: fit-content;
