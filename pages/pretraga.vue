@@ -764,6 +764,10 @@ export default class Homepage extends Vue {
   position: sticky;
   top: 0;
   z-index: 9;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 80px;
 
   @include for-phone-only {
     padding-top: 12px;
@@ -1037,7 +1041,7 @@ export default class Homepage extends Vue {
     background: #fff;
     margin-right: 12px;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
     min-width: fit-content;
     cursor: pointer;
