@@ -255,7 +255,7 @@
                     <i class="material-icons ml-4" @click="$modal.hide('conversations')">close</i>
                   </div>
                 </div>
-                <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden pt-5 flex-1">
+                <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden pt-5 flex-1 mobile-height">
                   <div v-for="message in messages">
                     <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                       <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
@@ -284,9 +284,23 @@
                 <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
                   <img src="/loader.svg" alt="">
                 </div>
-                <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-200 dark:border-dark-5">
-                  <textarea v-model="messageContent" @keyup.enter="sendMessage" class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0" rows="1" placeholder="Upišite poruku..."></textarea>
-                  <button @click.prevent="sendMessage" class="ml-5 w-auto h-10 px-3 font-semibold sm:h-10 flex bg-theme-17 text-white rounded-md flex-none flex items-center justify-center">Pošalji</button>
+                <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 mobile-message-wrapper">
+                  <VEmojiPicker
+                    v-if="showEmoji"
+                    @select="selectEmoji"
+                    v-on-clickaway="away"
+                  />
+                  <div class="w-full flex items-center justify-between">
+                    <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
+                    <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                    </button>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                 </div>
               </div>
               <!-- END: Chat Active -->
@@ -316,11 +330,13 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import {v4 as uuidv4} from "uuid";
 import ActionButton from "../../../components/actionButtons/ActionButton";
+import {mixin as clickaway} from "vue-clickaway";
 
 @Component({
   components: {
     ActionButton
   },
+  mixins: [clickaway],
   middleware: ['auth'],
   layout() { return "settings" },
   async asyncData(ctx) {
@@ -339,13 +355,15 @@ import ActionButton from "../../../components/actionButtons/ActionButton";
   }
 })
 
-export default class Porukice extends Vue {
+export default class Poruke extends Vue {
   messages = [];
   messagesLoaded = true;
   currentConversation = null;
   messageContent = '';
   pinned_conversation = null;
   isMounted = false;
+  search = '';
+  showEmoji = false;
 
   mounted() {
     this.realtime();
@@ -358,6 +376,16 @@ export default class Porukice extends Vue {
 
     this.isMounted = true;
   }
+
+  selectEmoji(emoji) {
+    this.messageContent += emoji.data;
+  }
+
+  away() {
+    this.showEmoji = false;
+  }
+
+
 
   realtime() {
     this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
@@ -617,7 +645,7 @@ textarea {
 
 .chat__box.box {
   @include for-phone-only {
-    height: 683px !important;
+    height: auto !important;
   }
 }
 
@@ -690,8 +718,8 @@ textarea {
 }
 
 .vm--modal {
-  max-height: 100% !important;
-  min-height: 100% !important;
+  max-height: 100vh !important;
+  min-height: 100vh !important;
   top: 0 !important;
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
@@ -711,6 +739,39 @@ textarea {
   @include for-phone-only {
     width: 100%;
     min-width: 100%;
+  }
+}
+
+.mobile-height {
+  height: 500px !important;
+  max-height: 500px !important;
+}
+
+#EmojiPicker {
+  @include for-phone-only {
+    position: absolute;
+    bottom: 113px;
+    width: 100%;
+    background: #fff;
+    border: none;
+    padding: 0;
+  }
+}
+
+.mobile-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #f1f1f1;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  input {
+    height: 48px;
+    min-height: 48px;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 </style>
