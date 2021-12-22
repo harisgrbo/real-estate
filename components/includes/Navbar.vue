@@ -158,9 +158,11 @@ import { mixin as clickaway } from 'vue-clickaway';
 import NotificationsDropdown from "@/components/NotificationsDropdown"
 import { buildType, buildCategory, buildTitle } from '@/util/search'
 import OtherLinksDropdown from "../OtherLinksDropdown";
+import ActionButton from "@/components/actionButtons/ActionButton";
 
 @Component({
   components: {
+    ActionButton,
     OtherLinksDropdown,
     CategoriesList,
     ListingType,

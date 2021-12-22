@@ -760,6 +760,8 @@ export default class Objava extends Vue {
   }
 
   async handleSelectedAddress(item) {
+    console.log(item, 'hendlarone');
+
     try {
       let res = await this.$axios.get('/address/details/' + item.place_id)
 
