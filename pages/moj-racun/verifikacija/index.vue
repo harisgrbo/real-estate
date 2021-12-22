@@ -3,7 +3,9 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Verifikacija</p>
       </li>
     </ul>
@@ -67,20 +69,12 @@ export default class Verifikacija extends Vue {
     this.$modal.show('verification');
   }
 
-  onChange(v) {
-    console.log("onChange ", v);
-  }
-
   beforeOpen() {
     document.body.style.overflow = 'hidden';
   }
 
   beforeClose() {
     document.body.style.overflow = 'auto';
-  }
-
-  onComplete(v) {
-    console.log("onComplete ", v);
   }
 }
 </script>

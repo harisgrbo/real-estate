@@ -7,7 +7,7 @@
           <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="agency.id" />
         </div>
         <div class="grid-layout" v-else>
-          <skeleton v-for="i in 10" height="323px" width="264px"></skeleton>
+          <skeleton v-for="(i, index) in 10" :key="index" height="323px" width="264px"></skeleton>
         </div>
       </div>
     </div>

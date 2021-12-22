@@ -40,7 +40,7 @@
       <div class="third-col">
         <div v-if="isMe" class="w-full flex flex-end grid grid-cols-2 gap-4">
           <button class="-ml-px flex-1 flex cursor-pointer">
-            <nuxt-link to="/moj-racun/uredi-profil" icon="user-plus" class="relative flex-1 inline-flex bg-gray-800 text-white items-center justify-center py-4 text-sm font-medium rounded-sm border border-transparent hover:text-gray-500">
+            <nuxt-link to="/moj-racun/uredi-profil" icon="user-plus" class="relative flex-1 inline-flex bg-gray-800 text-white items-center py-2 justify-center text-sm font-medium rounded-sm border border-transparent hover:text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -48,7 +48,7 @@
             </nuxt-link>
           </button>
           <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')">
-            <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 bg-gray-800 text-white text-sm font-medium border border-transparent rounded-sm hover:text-gray-500">
+            <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center bg-gray-800 text-white text-sm py-2 font-medium border border-transparent rounded-sm hover:text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
               </svg>
@@ -59,7 +59,7 @@
         <div v-else class="w-full flex justify-end on-mobile">
           <div class="w-full grid grid-cols-2 gap-4" v-if="$auth.user">
             <button class="flex-1 flex cursor-pointer mr-4 first" @click="$modal.show('contact-user')">
-              <a class="relative flex-1 inline-flex items-center justify-center py-4 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
+              <a class="relative flex-1 inline-flex items-center justify-center py-2 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -68,7 +68,7 @@
               </a>
             </button>
             <button class="flex-1 flex cursor-pointer" @click="toggleFollow()">
-              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500">
+              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-2 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -76,7 +76,7 @@
               </div>
             </button>
             <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')">
-              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-4 bg-gray-800 text-white text-sm font-medium border border-transparent rounded-sm hover:text-gray-500">
+              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-2 bg-gray-800 text-white text-sm font-medium border border-transparent rounded-sm hover:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                 </svg>
@@ -90,12 +90,13 @@
     <div class="content-wrapper">
       <div class="flex flex-row items-center justify-between mb-8 user-options">
         <ul class="category-list w-full">
-          <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+          <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
         </ul>
       </div>
       <div>
         <div v-if="activeTab === 0" class="filters-agency">
          <div class="content pb-20">
+           <h2 class="mb-4">Oglasi ({{ listings.length }})</h2>
            <div v-if="listings.length || loadingListings" class="grid-layout">
              <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
            </div>

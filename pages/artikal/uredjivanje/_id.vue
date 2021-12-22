@@ -14,7 +14,7 @@
           <InputError :error="errors.address" />
           <TextField type="text" label="Adresa" v-model="listing.address" @input.native="showAddressAutocomplete"></TextField>
           <ul v-if="recommendedAddresses.length">
-            <li v-for="item in recommendedAddresses" @click="address = item.description; recommendedAddresses = []">
+            <li v-for="item in recommendedAddresses" :key="item.id" @click="address = item.description; recommendedAddresses = []">
               {{ item.description }}
             </li>
           </ul>
@@ -174,7 +174,7 @@
           </label>
         </div>
         <div class="w-full rounded-md mobile-image-grid">
-          <div v-for="(image, index) in listing.images" class="img-upload-box">
+          <div v-for="(image, index) in listing.images" :key="index" class="img-upload-box">
             <img :src="image.url" width="300" height="200" />
             <button @click="deleteImage(image, index)">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -305,8 +305,6 @@ export default class ListingEdit extends Vue {
     try {
       let res = await this.$axios.post('/listings/' + this.listing.id + '/images', form, { headers })
 
-      console.log(res, 'response images')
-
       this.listing.images = this.listing.images.concat(res.data.data)
     } catch(e) {
       console.log(e)
@@ -415,8 +413,6 @@ export default class ListingEdit extends Vue {
       attributes: this.prepareAttributes(),
     }
 
-    console.log(payload)
-
     try {
       let response = await this.$axios.put('/listings/' + this.listing.id, payload);
 
@@ -442,8 +438,6 @@ export default class ListingEdit extends Vue {
     try {
       let res = await this.$axios.get('/sponsorship/packages');
       this.advertising_options = res.data.data;
-
-      console.log(this.advertising_options, 'packages')
     } catch(e) {
       console.log(e)
     }
@@ -506,10 +500,6 @@ export default class ListingEdit extends Vue {
     try {
       let res = await this.$axios.get('/address/autocomplete/' + this.address);
       this.recommendedAddresses = res.data.predictions;
-
-      console.log(res)
-
-      console.log(this.recommendedAddresses)
     } catch(e) {
       console.log(e)
     }
@@ -585,7 +575,6 @@ export default class ListingEdit extends Vue {
     try {
       let response = await this.$axios.get('/categories/' + this.listing.category.id + '/attributes');
       this.categoryAttributes = response.data.data;
-      console.log(response, 'atributi kategorije')
     } catch(e) {
       console.log(e)
     }
@@ -595,7 +584,6 @@ export default class ListingEdit extends Vue {
     try {
       let response = await this.$axios.get('/listing_types/' + this.listing.listingType.id + '/attributes')
       this.listingTypeAttributes = response.data.data;
-      console.log(response)
     } catch(e) {
       console.log(e)
     }
@@ -627,8 +615,6 @@ export default class ListingEdit extends Vue {
   city = null;
 
   handleSelectedCity(f) {
-
-    console.log(f)
     this.city = f;
 
     this.lat = f.location.lat;

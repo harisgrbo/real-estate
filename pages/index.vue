@@ -99,7 +99,7 @@
         </client-only>
         <client-only v-else>
           <swiper class="swiper" :options="swiperOption">
-            <swiper-slide v-for="i in 6">
+            <swiper-slide v-for="(i, index) in 6" :key="index">
               <skeleton height="370px" width="240px"></skeleton>
             </swiper-slide>
           </swiper>
@@ -112,7 +112,7 @@
           </div>
         </div>
         <div v-else class="flex flex-row overflow-y-scroll">
-          <div  v-for="i in 5" class="skeleton-wrap mr-5">
+          <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
             <skeleton height="232px" width="240px"></skeleton>
           </div>
         </div>
@@ -147,7 +147,7 @@
       </ul>
 
       <div v-else role="list" class="pl-5 most-visited mt-5 sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="i in 6">
+        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="(i, index) in 6" :key="index">
           <skeleton height="262px" width="440px"></skeleton>
         </div>
       </div>
@@ -178,7 +178,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="i in 6">
+          <swiper-slide v-for="(i, index) in 6" :key="index">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -191,7 +191,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll mx-5">
-        <div  v-for="i in 5" class="skeleton-wrap mr-5">
+        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
           <skeleton height="232px" width="240px"></skeleton>
         </div>
       </div>
@@ -248,7 +248,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="i in 6">
+          <swiper-slide v-for="(i, index) in 6" :key="index">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -261,7 +261,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll">
-        <div  v-for="i in 5" class="skeleton-wrap mr-5">
+        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
           <skeleton height="232px" width="240px"></skeleton>
         </div>
       </div>
@@ -317,7 +317,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="i in 6">
+          <swiper-slide v-for="(i, index) in 6" :key="index">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -330,7 +330,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll ml-5">
-        <div  v-for="i in 5" class="skeleton-wrap mr-5">
+        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
           <skeleton height="232px" width="240px"></skeleton>
         </div>
       </div>
@@ -522,8 +522,6 @@
         let res = await this.$axios.get('/profile/followed/listings')
         this.followedUserListings = res.data.data;
 
-        console.log(this.followedUserListings, 'followani')
-
         this.followedUserListingsLoaded = true;
       } catch (e) {
         console.log(e)
@@ -549,8 +547,6 @@
       try {
         let res = await this.$axios.get('/listings/rent')
         this.listings_rent = res.data.data;
-
-        console.log(res.data.data, 'rent')
 
         this.rentLoaded = true;
       } catch (e) {
@@ -620,8 +616,6 @@
         this.top_locations = res.data.data;
 
         this.locationsLoaded = true;
-
-        console.log(res.data.data);
 
       } catch (e) {
         console.log(e)

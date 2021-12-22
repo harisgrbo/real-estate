@@ -625,10 +625,6 @@ export default class Objava extends Vue {
     try {
       let res = await this.$axios.get('/address/autocomplete/' + this.address);
       this.recommendedAddresses = res.data.predictions;
-
-      console.log(res)
-
-      console.log(this.recommendedAddresses)
     } catch(e) {
       console.log(e)
     }
@@ -698,7 +694,6 @@ export default class Objava extends Vue {
     try {
       let response = await this.$axios.get('/categories/' + this.category.id + '/attributes');
       this.categoryAttributes = response.data.data;
-      console.log(response, 'atributi kategorije')
     } catch(e) {
       console.log(e)
     }
@@ -708,7 +703,6 @@ export default class Objava extends Vue {
     try {
       let response = await this.$axios.get('/listing_types/' + this.listingType.id + '/attributes')
       this.listingTypeAttributes = response.data.data;
-      console.log(response)
     } catch(e) {
       console.log(e)
     }
@@ -719,12 +713,8 @@ export default class Objava extends Vue {
     let flag = true;
 
     allAttributes.forEach(item => {
-      console.log(item)
-
       if (item.required) {
         const val = this.attributePayload[item.id];
-
-        console.log(val)
 
         flag = (val !== null) && (val !== undefined);
 

@@ -19,7 +19,7 @@
       <!-- Autocomplete dropdown -->
       <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">
         <ul>
-          <li v-for="address in recommendedAddresses" @click="selectOption(address)">
+          <li v-for="address in recommendedAddresses" :key="address.id" @click="selectOption(address)">
             {{ address.description }}
           </li>
         </ul>
@@ -61,9 +61,6 @@ export default class PublishDropdown extends Vue{
         this.showAutoCompleteDropdown = true;
       }
 
-      console.log(res)
-
-      console.log(this.recommendedAddresses)
     } catch(e) {
       console.log(e)
     }

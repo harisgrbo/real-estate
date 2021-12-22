@@ -99,10 +99,6 @@ export default class UserCard extends Vue {
     }
   }
 
-  created() {
-    console.log(this.user)
-  }
-
   beforeOpen() {
     document.body.style.overflow = 'hidden';
   }

@@ -78,7 +78,6 @@
             <ul v-if="$auth.user && savedSearches.length" class="saved-searches">
               <li v-for="search in savedSearches" :key="search.id" @click="goToSearch(search)">
                 <p>{{ search.description }}</p>
-                <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
               </li>
             </ul>
             <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
@@ -229,8 +228,6 @@ export default class Navbar extends Vue {
   }
 
   async created() {
-
-    console.log(this.$auth.user)
     await this.getSearches()
     await this.getNotifications()
     await this.getUnreadMessagesCount()
@@ -427,7 +424,6 @@ export default class Navbar extends Vue {
       try {
         let res = await this.$axios.get('/listings/completion?q=' + q);
         this.suggestions = res.data;
-        console.log(res)
       } catch (e) {
         console.log(e)
       }

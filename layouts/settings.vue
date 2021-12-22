@@ -1,7 +1,7 @@
 <template>
   <div class="settings-wrapper">
     <Navbar></Navbar>
-    <div class="preview-wrapper">
+    <div :class="['preview-wrapper', $route.path === '/moj-racun/poruke' ? 'messages' : '']">
       <Nuxt />
     </div>
   </div>
@@ -55,6 +55,11 @@ export default class Settings extends Vue {
     margin: 0 auto;
     background: #fff;
     height: fit-content;
+
+    &.messages {
+      background: transparent;
+      padding-bottom: 0;
+    }
 
     @include for-phone-only {
       width: 100%;

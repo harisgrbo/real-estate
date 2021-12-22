@@ -78,7 +78,6 @@ export default {
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-    ["@nuxtjs/fontawesome"],
     ["@nuxtjs/tailwindcss"],
     '@nuxtjs/google-analytics',
     ["@nuxtjs/device"],
@@ -107,66 +106,6 @@ export default {
     id: 'G-VMWBZZM8WD'
   },
 
-  fontawesome: {
-    icons: {
-      solid: [
-        "faAngleRight",
-        "faAngleLeft",
-        "faUtensils",
-        "faShoppingCart",
-        "faGraduationCap",
-        "faReceipt",
-        "faSortDown",
-        "faCoffee",
-        "faCloudUploadAlt",
-        "faHome",
-        "faChartLine",
-        "faArrowCircleRight",
-        "faImages",
-        "faReply",
-        "faTrashAlt",
-        "faMinusCircle",
-        "faUserSlash",
-        "faReplyAll",
-        "faEllipsisV",
-        "faThLarge",
-        "faSearch",
-        "faStar",
-        "faGrin",
-        "faPaperclip",
-        "faPaperPlane",
-        "faBell",
-        "faTh",
-        "faCog",
-        "faBars",
-        "faUser",
-        "faUserPlus",
-        "faEnvelope",
-        "faPlus",
-        "faUserCircle",
-        "faUserCog",
-        "faBullhorn",
-        "faDoorClosed",
-        "faVectorSquare",
-        "faHeart",
-        "faCoins",
-        "faFileUpload",
-        "faShareSquare",
-        "faThumbsUp",
-        "faEnvelopeOpenText",
-        "faHouseUser",
-        "faUserTimes",
-        "faCheckSquare",
-        "faUserCheck",
-        "faFlag",
-        "faUserSecret",
-        "faKey",
-        "faBed",
-        "faBuilding",
-        "faRulerCombined"
-      ]
-    }
-  },
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     "nuxt-ssr-cache",

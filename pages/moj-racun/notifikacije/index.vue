@@ -3,7 +3,9 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Obavijesti</p>
       </li>
     </ul>
@@ -62,8 +64,6 @@ export default class notifikacije extends Vue {
     try {
       let res = await this.$axios.get('/profile/notifications')
       this.notifications = res.data.data;
-
-      console.log(res)
     } catch(e) {
       console.log(e)
     }

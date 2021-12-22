@@ -22,7 +22,7 @@
           </modal>
         </client-only>
         <!-- BEGIN: Users Layout -->
-        <div class="0 col-span-12 md:col-span-6 lg:col-span-4" v-for="agent in agents">
+        <div class="0 col-span-12 md:col-span-6 lg:col-span-4" v-for="agent in agents" :key="agent.id">
           <div class="box">
             <div class="flex items-start px-5 pt-5">
               <div class="w-full flex flex-col lg:flex-row items-center">
@@ -95,7 +95,6 @@ export default class mojiOglasi extends Vue {
 
       this.agents = res.data.data;
 
-      console.log(this.agents)
     } catch (e) {
       console.log(e)
     }

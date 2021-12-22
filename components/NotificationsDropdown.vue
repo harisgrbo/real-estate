@@ -6,7 +6,7 @@
     </div>
     <div class="flex flex-col justify-between mt-7">
         <div v-if="notifications.length">
-          <div  v-for="notification in notifications" class="p-5 notification hover:shadow-md rounded-md">
+          <div  v-for="notification in notifications" :key="notification.id" class="p-5 notification hover:shadow-md rounded-md">
             <div class="flex items-center justify-between">
               <div class="text-base font-medium truncate text-black" v-if="notification.user">{{ notification.user.name }}</div>
               <div class="text-gray-800 mt-1">{{ $moment(notification.date).format("DD.MM.YYYY") }}</div>

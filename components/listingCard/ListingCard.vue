@@ -2,7 +2,7 @@
     <div class="listing-card-wrapper" :class="[from? 'blured' : '', 'sponsored-' + listing.sponsored]">
       <label class="publisher">
         <span class="shadow-sm bg-white">
-          <span class="flex flex-row items-center">{{ translateType() }}</span>
+          {{ translateType() }}
         </span>
         <span v-if="listing.hasOwnProperty('discount')" class="flex flex-row items-center bg-red-600 shadow-sm ml-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#fff">
@@ -100,7 +100,7 @@
               <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>
               <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>
               <div class="flex flex-row items-center justify-start flex-wrap mb-2">
-                <div class="text-xs more-info" v-for="info in normalAttributes">{{ info.value + ', ' }}</div>
+                <div class="text-xs more-info" v-for="info in normalAttributes" :key="info.id">{{ info.value + ', ' }}</div>
               </div>
             </div>
           </a>
@@ -268,7 +268,7 @@ export default class ListingCard extends Vue{
       span {
         border-radius: 4px;
         color: #000;
-        padding: 0 3px
+        padding: 4px
       }
 
       @include for-phone-only {

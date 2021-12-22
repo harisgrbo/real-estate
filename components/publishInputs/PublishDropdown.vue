@@ -16,7 +16,7 @@
       <!-- Autocomplete dropdown -->
       <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">
         <ul>
-          <li v-for="suggest in suggestions" @click="selectOption(suggest)">
+          <li v-for="suggest in suggestions" :key="suggest.id" @click="selectOption(suggest)">
             {{ suggest.name }}
           </li>
         </ul>

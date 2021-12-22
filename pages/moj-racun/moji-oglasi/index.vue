@@ -3,7 +3,9 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Moji oglasi</p>
       </li>
     </ul>
@@ -13,7 +15,7 @@
       </div>
       <div v-else class="grid-cards">
         <ListingCard v-for="listing in listings" :listing="listing" :from="true" :key="listing.id"/>
-        <Skeleton :height="$device.isMobile ? '337px' : '368px'" :width="$device.isMobile ? '165px' : '265px'" v-for="i in 20"></Skeleton>
+        <Skeleton :height="$device.isMobile ? '337px' : '368px'" :width="$device.isMobile ? '165px' : '265px'" v-for="(i, index) in 20" :key="index"></Skeleton>
       </div>
       <div v-else class="no-image">
         <img src="/nodata.jpeg" alt="no-image">
@@ -55,7 +57,6 @@ export default class mojiOglasi extends Vue {
     this.listingsLoaded = false;
     try {
       let res = await this.$axios.get(`/profile/listings?page=${p}`);
-      console.log(res)
       this.listings = res.data.data;
       this.listingMeta = res.data.meta;
       this.listingsLoaded = true;

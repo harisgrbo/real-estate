@@ -3,13 +3,16 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Spašeno</p>
       </li>
     </ul>
     <div class="content-wrapper">
       <ul class="cw-ul">
         <li v-for="(tab, index) in tabs"
+            :key="index"
             @click="activeTab = index"
             :class="[activeTab === index? 'active' : '']"
         >
@@ -46,7 +49,7 @@
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-for="search in searches">
+                    <tr v-for="search in searches" :key="search.id">
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {{ search.description }}
                       </td>
@@ -133,8 +136,6 @@ export default class spaseno extends Vue {
     try {
       let res = await this.$axios.get('/profile/saved/searches');
       this.searches = res.data.data;
-
-      console.log(res)
       this.searchesLoaded = true;
     } catch(e) {
       console.log(e)
@@ -151,10 +152,7 @@ export default class spaseno extends Vue {
   }
 
   goToSearch(s) {
-    console.log('radi', s)
-
     this.$router.push('/pretraga' + s.query);
-    console.log('radi', s)
   }
 
   async deleteSingleSearch(id) {

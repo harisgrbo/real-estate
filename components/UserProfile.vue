@@ -97,7 +97,6 @@ export default class UserProfile extends Vue {
   }
 
   handleListingSponsoring() {
-    console.log(sponzorisano)
   }
 
   get disabledDates() {

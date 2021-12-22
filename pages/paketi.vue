@@ -4,7 +4,7 @@
       <p>Kako biste finalizirali registraciju agencije i imali sve pogodnosti odaberite jedan od ponuđenih paketa, do tada se Vaš profil tretira kao obično korisnik.</p>
     </div>
     <div class="packages">
-      <a href="#top" v-for="pkg in packages">
+      <a href="#top" v-for="pkg in packages" :key="pkg.id">
         <Package :package-type="pkg.package_type" :price="pkg.price"></Package>
       </a>
     </div>

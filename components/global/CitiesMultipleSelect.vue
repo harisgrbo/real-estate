@@ -5,7 +5,7 @@
       <div class="selected-options" @click="showDropdown = !showDropdown">
         <div class="selected-options-array cursor-pointer">
           <p v-if="selectedOptions.length === 0" class="text-gray-900">Izaberite lokaciju</p>
-          <div v-for="(item, index) in selectedOptions">{{ item.name }}
+          <div v-for="(item, index) in selectedOptions" :key="index">{{ item.name }}
             <svg @click="removeFromSelected(item, index)" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 bg-gray-100 rounded-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -21,7 +21,7 @@
                  type="text"
         >
         <ul v-show="cities.length">
-          <li v-for="option in cities" class="cursor-pointer" @click="addOptionToSelected(option)">{{ option.name }}</li>
+          <li v-for="option in cities" :key="option.id" class="cursor-pointer" @click="addOptionToSelected(option)">{{ option.name }}</li>
         </ul>
       </div>
     </div>
