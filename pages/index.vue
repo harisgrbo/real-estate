@@ -348,6 +348,7 @@
 <script>
   import { Component, Vue} from "nuxt-property-decorator";
   import ListingCard from "@/components/listingCard/ListingCard";
+  import PublishDropdown from "@/components/publishInputs/PublishDropdown";
   import Categories from "~/components/publishInputs/Categories";
   import PublishShortcut from "@/components/publish/PublishShortcut";
   import MostVisitedCard from "@/components/MostVisitedCard"
@@ -367,6 +368,7 @@
       Categories,
       ListingCard,
       PublishShortcut,
+      PublishDropdown,
       MostVisitedCard,
       PremiumAgency,
       skeleton,
