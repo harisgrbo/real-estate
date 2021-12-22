@@ -615,6 +615,8 @@
         let res = await this.$axios.get('/top/locations')
         this.top_locations = res.data.data;
 
+        console.log(this.top_locations)
+
         this.locationsLoaded = true;
 
       } catch (e) {

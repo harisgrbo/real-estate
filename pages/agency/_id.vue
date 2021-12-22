@@ -264,7 +264,7 @@ export default class Agencies extends Vue {
       this.loading = false;
 
       this.$snackbar.show({
-        text: "uspješno ste poslali poruku korisniku " + this.user.name,
+        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
         timeout: 1000,
         type: "success"
       });
@@ -282,7 +282,7 @@ export default class Agencies extends Vue {
         this.$axios.post('/agencies/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "uspješno ste zapratili korisnika " + this.user.name,
+          text: "Uspješno ste zapratili korisnika " + this.user.name,
           timeout: 1000,
           type: "success"
         });
@@ -296,7 +296,7 @@ export default class Agencies extends Vue {
         this.$axios.delete('/agencies/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "uspješno ste otpratili korisnika " + this.user.name,
+          text: "Uspješno ste otpratili korisnika " + this.user.name,
           timeout: 1000,
           type: "success"
         });

@@ -86,7 +86,7 @@ export default class urediProfil extends Vue {
       await this.$axios.put('/profile/agency', payload)
 
       this.$snackbar.show({
-        text: "Uspjesno ste se spasili izmjene!",
+        text: "Uspješno ste se spasili izmjene!",
         timeout: 3000,
         type: "success"
       });

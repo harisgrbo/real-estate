@@ -87,7 +87,7 @@ export default class UserCard extends Vue {
       this.loading = false;
 
       this.$snackbar.show({
-        text: "uspješno ste poslali poruku korisniku " + this.user.name,
+        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
         timeout: 1000,
         type: "success"
       });

@@ -139,7 +139,7 @@ export default class urediProfil extends Vue {
           payload.password = this.password;
         } else {
           this.$snackbar.show({
-            text: "Sifre nisu iste",
+            text: "Šifre nisu iste",
             timeout: 1000,
             type: "danger"
           })
@@ -168,7 +168,7 @@ export default class urediProfil extends Vue {
       this.setInputs();
 
       this.$snackbar.show({
-        text: "Uspjesno ste se spasili izmjene!",
+        text: "Uspješno ste se spasili izmjene!",
         timeout: 3000,
         type: "success"
       });

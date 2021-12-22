@@ -28,10 +28,10 @@
           Označite polja koja vaša nekretnina posjeduje
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_EIGHT">
-          Dodajte slike nekretnine i video link
+          Dodajte slike nekretnine
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_NINE">
-          Promocija oglasa
+          Sponzorisanje oglasa
         </h2>
       </div>
       <div class="content-wrapper">
@@ -430,7 +430,7 @@ export default class Objava extends Vue {
 
   snackbarValidationError(param = false) {
     this.$snackbar.show({
-      text: param || "Imate greske",
+      text: param || "Imate greške",
       timeout: 1000,
       type: "danger"
     });

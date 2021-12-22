@@ -741,7 +741,7 @@ export default class Homepage extends Vue {
       this.$modal.hide('save-search')
 
       this.$snackbar.show({
-        text: "Uspjesno ste spasili pretragu",
+        text: "Uspješno ste spasili pretragu",
         timeout: 1000,
         type: "success"
       });

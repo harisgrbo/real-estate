@@ -380,7 +380,7 @@ export default class ListingEdit extends Vue {
 
   snackbarValidationError() {
     this.$snackbar.show({
-      text: "Imate greske",
+      text: "Imate greške",
       timeout: 1000,
       type: "error"
     });

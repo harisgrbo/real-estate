@@ -156,7 +156,7 @@ export default class HorizontalCard extends Vue{
       .then(() => {
         this.saved = true;
         this.$snackbar.show({
-          text: "Uspjesno ste se spasili artikal!",
+          text: "Uspješno ste se spasili artikal!",
           timeout: 3000,
           type: "success"
         });

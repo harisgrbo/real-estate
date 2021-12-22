@@ -1,31 +1,21 @@
 <template>
   <div class="preview-wrapper-inner mx-auto w-full">
-    <ul class="breadcrumbs">
-      <li>
-        <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-        <p>Moji oglasi</p>
-      </li>
-    </ul>
-    <div class="content">
-      <div v-if="listingsLoaded" class="grid-cards">
-        <ListingCard v-for="listing in listings" @highlight-listing="$router.push('/sponzorisanje/' + listing.id)" :listing="listing" :from="true" :key="listing.id"/>
+    <div class="inner">
+      <div class="advertising-options">
+        <ul>
+          <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
+            <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
+            <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
+            <div class="text-wrapper">
+              <p>{{ option.title }}</p>
+              <!--                      <p>{{ option.description }}</p>-->
+            </div>
+          </li>
+        </ul>
       </div>
-      <div v-else class="grid-cards">
-        <Skeleton :height="$device.isMobile ? '337px' : '368px'" :width="$device.isMobile ? '165px' : '265px'" v-for="(i, index) in 20" :key="index"></Skeleton>
+      <div class="advertising-calculator">
+        <ActionButton placeholder="Sponzoriši" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }" @action="highlightListing"></ActionButton>
       </div>
-      <div v-else class="no-image">
-        <img src="/nodata.jpeg" alt="no-image">
-        <p>Nemate spšenih pretraga</p>
-      </div>
-      <Pagination
-        v-if="listingMeta !== null && listingMeta.total > 20"
-        ref="pagination"
-        :current-page="currentPage"
-        :total-pages="listingMeta.last_page"
-        @page-change="pageChangeHandler" />
     </div>
   </div>
 </template>
@@ -37,38 +27,51 @@ import Pagination from "../../../components/pagination";
 
 @Component({
   components: {
-    Pagination,
-    ListingCard
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
   middleware: ['auth']
 })
-export default class mojiOglasi extends Vue {
-  currentPage = 1;
-  listings = []
-  listingsLoaded = false;
-  listingMeta = {}
+export default class Sponzorisanje extends Vue {
+  advertising_options = [];
+  selectedAdvertisment = null;
 
   async created() {
-    await this.fetchUserListings();
+    await this.fetchSponsorship()
   }
 
-  async fetchUserListings(p = 1) {
-    this.listingsLoaded = false;
+  async fetchSponsorship() {
     try {
-      let res = await this.$axios.get(`/profile/listings?page=${p}`);
-      this.listings = res.data.data;
-      this.listingMeta = res.data.meta;
-      this.listingsLoaded = true;
+      let res = await this.$axios.get('/sponsorship/packages');
+      this.advertising_options = res.data.data;
+
+      if (this.advertising_options.length) {
+        this.selectedAdvertisment = this.advertising_options[0].id;
+      }
     } catch(e) {
       console.log(e)
     }
   }
 
-  async pageChangeHandler(selectedPage) {
-    this.currentPage = selectedPage;
-    await this.fetchUserListings(this.currentPage);
+  selectAdvertisment(o) {
+    this.selectedAdvertisment = o.id;
   }
+
+  async highlightListing() {
+    try {
+      let res = await this.$axios.post('/listings/' + this.$route.params.id + '/sponsor', {
+        sponsorship_id: this.selectedAdvertisment
+      })
+
+      this.$snackbar.show({
+        text: "Uspješno ste se sponzorisali oglas",
+        timeout: 3000,
+        type: "success"
+      });
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
 }
 </script>
 

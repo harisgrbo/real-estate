@@ -22,7 +22,7 @@
         <div class="w-full" v-if="$auth.user">
           <div class="w-full flex items-center justify-between" v-if="isMe">
             <ActionButton :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
-            <ActionButton :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="handleListingSponsoring" class="w-full ml-sm"></ActionButton>
+            <ActionButton :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$emit('highlight-listing')" class="w-full ml-sm"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
             <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
@@ -232,7 +232,7 @@ export default class UserProfile extends Vue {
       this.loading = false;
 
       this.$snackbar.show({
-        text: "uspješno ste poslali poruku korisniku " + this.user.name,
+        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
         timeout: 1000,
         type: "success"
       });

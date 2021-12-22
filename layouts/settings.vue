@@ -4,6 +4,7 @@
     <div :class="['preview-wrapper', $route.path === '/moj-racun/poruke' ? 'messages' : '']">
       <Nuxt />
     </div>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -11,9 +12,10 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import Footer from "@/components/Footer"
+import Snackbar from "@/components/global/Snackbar"
 
 @Component({
-  components: {Navbar, Footer}
+  components: {Navbar, Footer, Snackbar}
 })
 
 export default class Settings extends Vue {

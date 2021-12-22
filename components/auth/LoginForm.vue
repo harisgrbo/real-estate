@@ -43,7 +43,7 @@ export default class LoginForm extends Vue{
     } catch(e) {
       if (e.response.status === 400) {
         this.$snackbar.show({
-          text: "Pogresni podaci",
+          text: "Pogrešni podaci",
           timeout: 1000,
           type: 'danger'
         })
