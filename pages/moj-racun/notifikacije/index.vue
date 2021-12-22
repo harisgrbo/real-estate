@@ -33,7 +33,7 @@
     </div>
     <div class="flex flex-row pb-8 justify-between notifications-wrap" v-else>
       <img src="/bell-notify.png" alt="">
-      <h2 class="mt-2 p-2 text-standard font-medium">Nemate obavijesti</h2>
+      <h2 class="mt-2 p-2 text-standard text-gray-800 font-medium">Nemate obavijesti</h2>
     </div>
   </div>
 </template>
