@@ -36,18 +36,17 @@ import {mixin as clickaway} from "vue-clickaway";
   mixins: [ clickaway ],
 
 })
-
 export default class PublishDropdown extends Vue{
   @Prop({ type: String }) label;
   @Prop({ type: String }) placeholder;
   @Prop({ type: Array }) options;
 
   showAutoCompleteDropdown = false;
-  selectedCity = '';
+  address = '';
   recommendedAddresses = []
 
   selectOption(s) {
-    this.selectedCity = s.name;
+    this.address = s.description;
     this.$emit('select-option', s);
     this.showAutoCompleteDropdown = false;
   }
