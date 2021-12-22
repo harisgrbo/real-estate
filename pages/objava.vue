@@ -278,9 +278,13 @@ import TextField from "../components/inputs/TextField";
 import PublishDropdown from "../components/publishInputs/PublishDropdown";
 import DropdownAutocomplete from "../components/inputs/DropdownAutocomplete";
 import TextAreaField from "@/components/inputs/TextAreaField";
+import PublishRadioButton from "@/components/publishInputs/PublishRadioButton";
+import PublishMap from "@/components/publish/PublishMap";
 
 @Component({
   components: {
+    PublishMap,
+    PublishRadioButton,
     DropdownAutocomplete,
     PublishDropdown,
     TextAreaField,
@@ -792,7 +796,7 @@ export default class Objava extends Vue {
   description = null;
 
   @Watch('district')
-  handledistrictChange(newVal, oldVal) {
+  handleDistrictChange(newVal, oldVal) {
     this.errors.district.error = false;
   }
 
