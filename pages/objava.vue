@@ -341,7 +341,11 @@ export default class Objava extends Vue {
   advertising_options = []
 
   get stepPercentage() {
-    return (1.0 / 9) * 100 * this.currentStep + 1;
+    let calc = (1.0 / 8) * 100 * this.currentStep + 1;
+
+    if (calc >= 100) return 100;
+
+    return calc;
   }
 
   get notRenting() {

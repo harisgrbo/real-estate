@@ -618,9 +618,11 @@ import SingleQuestion from "@/components/SingleQuestion"
 import RealEstateLocationMap from "@/components/RealEstateLocationMap";
 import TextField from "../../components/inputs/TextField";
 import TextAreaField from "../../components/inputs/TextAreaField";
+import Skeleton from "@/components/skeleton";
 
 @Component({
   components: {
+    Skeleton,
     TextAreaField,
     TextField,
     ActionButton,
