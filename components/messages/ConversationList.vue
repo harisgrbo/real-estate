@@ -1,6 +1,7 @@
 <template>
   <ul class="border-b border-gray-200 divide-y divide-gray-200 py-4">
     <li v-for="(conversation, index) in conversations"
+        :key="index"
         @click="setSelectedConversation(conversation, index)"
         :class="[ (conversation.id === (value ? value.id: null)) ? 'active' : '']"
         class="relative bg-white py-5 px-6 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600">

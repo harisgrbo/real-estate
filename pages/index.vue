@@ -99,7 +99,7 @@
         </client-only>
         <client-only v-else>
           <swiper class="swiper" :options="swiperOption">
-            <swiper-slide v-for="i in 6">
+            <swiper-slide v-for="(i, index) in 6" :key="index">
               <skeleton height="370px" width="240px"></skeleton>
             </swiper-slide>
           </swiper>
@@ -112,7 +112,7 @@
           </div>
         </div>
         <div v-else class="flex flex-row overflow-y-scroll">
-          <div  v-for="i in 5" class="skeleton-wrap mr-5">
+          <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
             <skeleton height="232px" width="240px"></skeleton>
           </div>
         </div>
@@ -147,7 +147,7 @@
       </ul>
 
       <div v-else role="list" class="pl-5 most-visited mt-5 sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="i in 6">
+        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="(i, index) in 6" :key="index">
           <skeleton height="262px" width="440px"></skeleton>
         </div>
       </div>
@@ -178,7 +178,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="i in 6">
+          <swiper-slide v-for="(i, index) in 6" :key="index">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -191,7 +191,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll mx-5">
-        <div  v-for="i in 5" class="skeleton-wrap mr-5">
+        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
           <skeleton height="232px" width="240px"></skeleton>
         </div>
       </div>
@@ -248,7 +248,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="i in 6">
+          <swiper-slide v-for="(i, index) in 6" :key="index">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -261,7 +261,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll">
-        <div  v-for="i in 5" class="skeleton-wrap mr-5">
+        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
           <skeleton height="232px" width="240px"></skeleton>
         </div>
       </div>
@@ -282,8 +282,8 @@
 
       <div class="relative -mt-24 max-w-7xl mx-auto pb-16 px-4 sm:pb-24 sm:px-6 lg:px-8">
         <div class="max-w-2xl mx-auto text-center lg:max-w-4xl">
-          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
-          <h2 class="text-xl font-semibold tracking-tight text-gray-900 sm:text-4xl mt-4">Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</h2>
+          <h2 class="text-3xl font-bold tracking-tight text-gray-900">Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
+          <h2 class="text-2xl font-medium tracking-tight text-gray-900 mt-4">Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</h2>
           <nuxt-link to="/agencije" class="inline-flex mt-4 items-center px-3 py-3 border bg-gray-900 text-white shadow-sm text-sm leading-4 font-medium rounded-sm hover:bg-gray-800 rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Lista agencija
           </nuxt-link>
@@ -317,7 +317,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="i in 6">
+          <swiper-slide v-for="(i, index) in 6" :key="index">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -330,7 +330,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll ml-5">
-        <div  v-for="i in 5" class="skeleton-wrap mr-5">
+        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
           <skeleton height="232px" width="240px"></skeleton>
         </div>
       </div>
@@ -347,7 +347,9 @@
 
 <script>
   import { Component, Vue} from "nuxt-property-decorator";
+  import ActionButton from "@/components/actionButtons/ActionButton";
   import ListingCard from "@/components/listingCard/ListingCard";
+  import PublishDropdown from "@/components/publishInputs/PublishDropdown";
   import Categories from "~/components/publishInputs/Categories";
   import PublishShortcut from "@/components/publish/PublishShortcut";
   import MostVisitedCard from "@/components/MostVisitedCard"
@@ -367,6 +369,8 @@
       Categories,
       ListingCard,
       PublishShortcut,
+      ActionButton,
+      PublishDropdown,
       MostVisitedCard,
       PremiumAgency,
       skeleton,
@@ -522,8 +526,6 @@
         let res = await this.$axios.get('/profile/followed/listings')
         this.followedUserListings = res.data.data;
 
-        console.log(this.followedUserListings, 'followani')
-
         this.followedUserListingsLoaded = true;
       } catch (e) {
         console.log(e)
@@ -549,8 +551,6 @@
       try {
         let res = await this.$axios.get('/listings/rent')
         this.listings_rent = res.data.data;
-
-        console.log(res.data.data, 'rent')
 
         this.rentLoaded = true;
       } catch (e) {
@@ -619,9 +619,9 @@
         let res = await this.$axios.get('/top/locations')
         this.top_locations = res.data.data;
 
-        this.locationsLoaded = true;
+        console.log(this.top_locations)
 
-        console.log(res.data.data);
+        this.locationsLoaded = true;
 
       } catch (e) {
         console.log(e)

@@ -3,7 +3,9 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Pratim/pratioci</p>
       </li>
     </ul>
@@ -19,7 +21,7 @@
     <div class="saved-content w-full">
       <div v-show="activeTab === 0">
         <div class="mobile-grid w-full" v-if="followers.length">
-          <UserCard v-for="user in followers" :id="user.id" :user="user"/>
+          <UserCard v-for="user in followers" :key="user.id" :id="user.id" :user="user"/>
           <!-- More people... -->
         </div>
         <div v-else class="no-image">
@@ -29,7 +31,7 @@
       </div>
       <div v-show="activeTab === 1">
         <div class="mobile-grid w-full" v-if="followed.length">
-          <UserCard v-for="user in followed" :id="user.id" :user="user"/>
+          <UserCard v-for="user in followed" :key="user.id" :id="user.id" :user="user"/>
         </div>
         <div v-else class="no-image">
           <img src="/nodata.jpeg" alt="no-image">
@@ -71,7 +73,6 @@ export default class pratioci extends Vue {
     try {
       let response = await this.$axios.get('/profile/followed');
       this.followed = response.data.data;
-      console.log(response.data.data)
     } catch(e) {
       console.log(e)
     }
@@ -81,8 +82,6 @@ export default class pratioci extends Vue {
     try {
       let response = await this.$axios.get('/profile/followers');
       this.followers = response.data.data;
-
-      console.log(this.followers)
     } catch(e) {
       console.log(e)
     }

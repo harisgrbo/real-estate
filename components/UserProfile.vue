@@ -3,7 +3,7 @@
     <div class="main-user-wrapper">
       <div class="flex flex-row">
         <div class="flex w-14 min-w-14 h-14 items-center justify-center rounded-full overflow-hidden img-wrap">
-          <img :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="" class="object-contain">
+          <img :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="" class="object-contain w-full min-w-full">
         </div>
         <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
           <div class="flex flex-row items-center justify-between w-full cursor-pointer">
@@ -22,7 +22,7 @@
         <div class="w-full" v-if="$auth.user">
           <div class="w-full flex items-center justify-between" v-if="isMe">
             <ActionButton :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
-            <ActionButton :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="handleListingSponsoring" class="w-full ml-sm"></ActionButton>
+            <ActionButton :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$emit('highlight-listing')" class="w-full ml-sm"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
             <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
@@ -97,7 +97,6 @@ export default class UserProfile extends Vue {
   }
 
   handleListingSponsoring() {
-    console.log(sponzorisano)
   }
 
   get disabledDates() {
@@ -233,7 +232,7 @@ export default class UserProfile extends Vue {
       this.loading = false;
 
       this.$snackbar.show({
-        text: "uspješno ste poslali poruku korisniku " + this.user.name,
+        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
         timeout: 1000,
         type: "success"
       });

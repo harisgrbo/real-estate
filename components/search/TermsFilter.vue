@@ -6,6 +6,7 @@
     <div v-if="filter.values" class="options-wrap">
       <button
         v-for="option in filter.values"
+        :key="option.id"
         :class="options.indexOf(option) >= 0 ? 'active': ''"
         @click="handleChange($event, option)"
       >{{ option }}</button>
@@ -35,7 +36,6 @@ export default class TermsFilter extends Vue {
     if (this.options.length) {
       this.$emit("input", this.buildValue("terms", this.options));
     } else {
-      console.log("clear");
       this.clear();
     }
   }

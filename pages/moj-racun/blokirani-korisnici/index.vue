@@ -3,14 +3,16 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Blokirani korisnici</p>
       </li>
     </ul>
     <div class="saved-content w-full">
       <div>
         <div class="mobile-grid w-full" v-if="blockedUsers.length">
-          <UserCard v-for="user in blockedUsers" :id="user.id" :user="user"/>
+          <UserCard placeholder="Odblokiraj" @do-action="unblockUser(user)" v-for="user in blockedUsers" :key="user.id" :id="user.id" :user="user"/>
         </div>
         <div v-else class="no-image">
           <img src="/nodata.jpeg" alt="no-image">
@@ -18,6 +20,7 @@
         </div>
       </div>
     </div>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -25,10 +28,12 @@
 import { Component, Vue} from "nuxt-property-decorator";
 
 import UserCard from "@/components/UserCard";
+import Snackbar from "@/components/global/Snackbar"
 
 @Component({
   components: {
     UserCard,
+    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
@@ -45,7 +50,6 @@ export default class blokiraniKorisnici extends Vue {
     try {
       let response = await this.$axios.get('/profile/users/blocked');
       this.blockedUsers = response.data.data;
-      console.log(response.data.data)
     } catch(e) {
       console.log(e)
     }
@@ -56,6 +60,26 @@ export default class blokiraniKorisnici extends Vue {
       return 'Agencija'
     } else {
       return 'Korisnik'
+    }
+  }
+
+  async unblockUser(u) {
+    try {
+      let index = this.blockedUsers.findIndex(item => item.id === u.id);
+
+      let res = await this.$axios.delete('/profile/users/' + u.id + '/block');
+
+      this.blockedUsers.splice(index, 1)
+
+
+      this.$snackbar.show({
+        text: "Odblokirali ste korisnika " + u.name,
+        timeout: 1000,
+        type: "success"
+      });
+
+    } catch(e) {
+      console.log(e)
     }
   }
 }

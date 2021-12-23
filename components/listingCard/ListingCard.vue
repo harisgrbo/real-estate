@@ -2,7 +2,7 @@
     <div class="listing-card-wrapper" :class="[from? 'blured' : '', 'sponsored-' + listing.sponsored]">
       <label class="publisher">
         <span class="shadow-sm bg-white">
-          <span class="flex flex-row items-center">{{ translateType() }}</span>
+          {{ translateType() }}
         </span>
         <span v-if="listing.hasOwnProperty('discount')" class="flex flex-row items-center bg-red-600 shadow-sm ml-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#fff">
@@ -100,7 +100,7 @@
               <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>
               <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>
               <div class="flex flex-row items-center justify-start flex-wrap mb-2">
-                <div class="text-xs more-info" v-for="info in normalAttributes">{{ info.value + ', ' }}</div>
+                <div class="text-xs more-info" v-for="info in normalAttributes" :key="info.id">{{ info.value + ', ' }}</div>
               </div>
             </div>
           </a>
@@ -115,9 +115,10 @@
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import Snackbar from "@/components/global/Snackbar";
+import ActionButton from "@/components/actionButtons/ActionButton";
 
 @Component({
-  components: {Snackbar}
+  components: {Snackbar, ActionButton}
 })
 
 export default class ListingCard extends Vue{
@@ -268,7 +269,7 @@ export default class ListingCard extends Vue{
       span {
         border-radius: 4px;
         color: #000;
-        padding: 0 3px
+        padding: 4px
       }
 
       @include for-phone-only {
@@ -409,8 +410,8 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 400 !important;
-          font-size: 16px !important;
+          font-weight: 200 !important;
+          font-size: 18px !important;
           line-height: 20px !important;
 
         }
@@ -425,8 +426,8 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           font-weight: 400 !important;
-           font-size: 16px;
+           font-weight: 200 !important;
+           font-size: 18px;
            line-height: 20px !important;
            @include for-phone-only {
              font-weight: 400 !important;
@@ -521,9 +522,10 @@ export default class ListingCard extends Vue{
           }
 
           .new {
-            font-size: 15px !important;
-            font-weight: 700 !important;
+            font-size: 18px !important;
+            font-weight: 600 !important;
             margin-left: 0px;
+            margin: 4px 0;
           }
         }
 
@@ -545,8 +547,8 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 500 !important;
-          font-size: 16px !important;
+          font-weight: 200 !important;
+          font-size: 18px !important;
           line-height: 20px !important;
           background: #012F34 !important;
           color: #fff !important;
@@ -654,6 +656,8 @@ export default class ListingCard extends Vue{
       width: 12px !important;
       border-radius: 0 !important;
       margin-right: 4px;
+      object-fit: contain !important;
+      min-width: 12px !important;
     }
 
     > div {

@@ -8,7 +8,7 @@
           <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
-                <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" :class="['intro-x cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
+                <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" src="/noimage.jpeg">
                   <div class="ml-2 overflow-hidden w-full">
                     <div class="flex items-center w-full">
@@ -28,125 +28,15 @@
                 </div>
               </div>
             </div>
-            <div id="friends" class="tab-pane" role="tabpanel" aria-labelledby="friends-tab">
-              <div class="pr-1">
-                <div class="box p-5 mt-5">
-                  <div class="relative text-gray-700 dark:text-gray-300">
-                    <input type="text" class="form-control py-3 px-4 border-transparent bg-gray-200 pr-10 placeholder-theme-8" placeholder="Search for messages or users...">
-                    <i class="w-4 h-4 hidden sm:absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
-                  </div>
-                  <button type="button" class="btn btn-primary w-full mt-3">Invite Friends</button>
-                </div>
-              </div>
-              <div class="chat__user-list overflow-y-auto scrollbar-hidden pr-1 pt-1">
-                <div class="mt-4 text-gray-600">A</div>
-                <div class="cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center"> <a href="" class="font-medium">Russell Crowe</a> </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Last seen 2 hours ago</div>
-                  </div>
-                  <div class="dropdown ml-auto">
-                    <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-300"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="share-2" class="w-4 h-4 mr-2"></i> Share Contact </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="copy" class="w-4 h-4 mr-2"></i> Copy Contact </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center"> <a href="" class="font-medium">Johnny Depp</a> </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Last seen 2 hours ago</div>
-                  </div>
-                  <div class="dropdown ml-auto">
-                    <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-300"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="share-2" class="w-4 h-4 mr-2"></i> Share Contact </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="copy" class="w-4 h-4 mr-2"></i> Copy Contact </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mt-4 text-gray-600">B</div>
-                <div class="cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-10.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center"> <a href="" class="font-medium">Kevin Spacey</a> </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Last seen 2 hours ago</div>
-                  </div>
-                  <div class="dropdown ml-auto">
-                    <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-300"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="share-2" class="w-4 h-4 mr-2"></i> Share Contact </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="copy" class="w-4 h-4 mr-2"></i> Copy Contact </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-7.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center"> <a href="" class="font-medium">Robert De Niro</a> </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Last seen 2 hours ago</div>
-                  </div>
-                  <div class="dropdown ml-auto">
-                    <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-300"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="share-2" class="w-4 h-4 mr-2"></i> Share Contact </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="copy" class="w-4 h-4 mr-2"></i> Copy Contact </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cursor-pointer box relative flex items-center p-5 mt-5">
-                  <div class="w-12 h-12 flex-none image-fit mr-1">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-12.jpg">
-                    <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-                  </div>
-                  <div class="ml-2 overflow-hidden">
-                    <div class="flex items-center"> <a href="" class="font-medium">Tom Cruise</a> </div>
-                    <div class="w-full truncate text-gray-600 mt-0.5">Last seen 2 hours ago</div>
-                  </div>
-                  <div class="dropdown ml-auto">
-                    <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-700 dark:text-gray-300"></i> </a>
-                    <div class="dropdown-menu w-40">
-                      <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="share-2" class="w-4 h-4 mr-2"></i> Share Contact </a>
-                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="copy" class="w-4 h-4 mr-2"></i> Copy Contact </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <!-- END: Chat Side Menu -->
         <!-- BEGIN: Chat Content -->
-        <div class="flex w-full">
-          <div v-if="!$device.isMobile" class="chat__box box w-full">
+        <div class="flex w-full relative">
+          <div v-if="!$device.isMobile" class="chat__box box w-full bg-white">
             <!-- BEGIN: Chat Active -->
             <div v-if="currentConversation" class="h-full flex flex-col">
-              <div class="shadow-sm flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-5 py-4">
+              <div class="border border-gray-200 flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-5 py-4">
                 <div class="flex flex-row items-center">
                   <div class="flex items-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
@@ -173,7 +63,7 @@
                 </div>
               </div>
               <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
-                <div v-for="message in messages">
+                <div v-for="message in messages" :key="message.id">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
@@ -185,15 +75,6 @@
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
-                    <div class="hidden sm:block dropdown ml-3 my-auto">
-                      <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                      <div class="dropdown-menu w-40">
-                        <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                          <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                          <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   <div class="clear-both"></div>
                 </div>
@@ -201,14 +82,28 @@
               <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
                 <img src="/loader.svg" alt="">
               </div>
-              <div class="pt-4 pb-10 sm:py-4 flex items-start justify-between border-t border-gray-200 dark:border-dark-5 px-5">
-                <textarea v-model="messageContent" @keyup.enter="sendMessage" rows="1" placeholder="Upišite poruku..."></textarea>
-                <ActionButton class="ml-4" @action="sendMessage" placeholder="Pošalji"></ActionButton>
+              <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
+                <VEmojiPicker
+                  v-if="showEmoji"
+                  @select="selectEmoji"
+                  v-on-clickaway="away"
+                />
+                <div class="w-full flex items-center justify-between">
+                  <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
+                  <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </button>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
             </div>
             <!-- END: Chat Active -->
             <!-- BEGIN: Chat Default -->
-            <div v-else class="h-full flex items-center">
+            <div v-else class="h-full flex items-center bg-white">
               <div class="mx-auto text-center">
                 <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
                   <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg">
@@ -228,11 +123,11 @@
     <modal name="conversations" @before-open="beforeOpen" @before-close="beforeClose" :adaptive="true" height="100%">
       <div class="modal-inner">
         <div class="modal-content">
-          <div class="intro-y col-span-12 lg:col-span-8 2xl:col-span-9">
+          <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
             <div class="chat__box box">
               <!-- BEGIN: Chat Active -->
-              <div v-if="currentConversation" class="h-full flex flex-col">
-                <div class="shadow-sm flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-0 py-3">
+              <div v-if="currentConversation" class="h-full flex flex-col bg-white">
+                <div class="shadow-sm mb-4 flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-0 py-3">
                   <div class="flex items-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
@@ -256,7 +151,7 @@
                   </div>
                 </div>
                 <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden pt-5 flex-1 mobile-height">
-                  <div v-for="message in messages">
+                  <div v-for="message in messages" :key="message.id">
                     <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                       <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                         <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
@@ -266,15 +161,6 @@
                         <div class="flex justify-between">
                           <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                           <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
-                        </div>
-                      </div>
-                      <div class="hidden sm:block dropdown ml-3 my-auto">
-                        <a href="javascript:;" class="dropdown-toggle w-4 h-4 text-gray-600" aria-expanded="false"> <i data-feather="more-vertical" class="w-4 h-4"></i> </a>
-                        <div class="dropdown-menu w-40">
-                          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                            <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="corner-up-left" class="w-4 h-4 mr-2"></i> Reply </a>
-                            <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="trash" class="w-4 h-4 mr-2"></i> Delete </a>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -563,13 +449,16 @@ export default class Poruke extends Vue {
 }
 
 .preview-wrapper-inner {
-  margin-top: 32px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   border-radius: 4px;
   padding: 24px;
+
+  @include for-phone-only {
+    padding: 16px 0 !important;
+  }
 }
 
 .chat__box__input {
@@ -649,6 +538,16 @@ textarea {
   }
 }
 
+.box {
+  margin-bottom: 16px;
+  @include for-phone-only {
+    box-shadow: none;
+    border-bottom: 1px solid #f1f1f1;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+}
+
 .modal-inner .modal-content {
   padding: 0;
   padding-bottom: 16px;
@@ -692,6 +591,12 @@ textarea {
 .chat__chat-list {
   display: flex !important;
   flex-direction: column !important;
+
+  @include for-phone-only {
+    padding-top: 16px;
+    height: 100vh;
+    overflow-y: scroll;
+  }
 }
 
 .conversation-box {
@@ -748,14 +653,14 @@ textarea {
 }
 
 #EmojiPicker {
-  @include for-phone-only {
-    position: absolute;
-    bottom: 113px;
-    width: 100%;
-    background: #fff;
-    border: none;
-    padding: 0;
-  }
+  position: absolute;
+  bottom: 113px;
+  background: #fff;
+  border: none;
+  padding: 0;
+  right: 16px;
+  left: 16px;
+  width: auto;
 }
 
 .mobile-message-wrapper {
@@ -773,6 +678,12 @@ textarea {
       outline: none;
     }
   }
+}
+
+img {
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
 }
 </style>
 

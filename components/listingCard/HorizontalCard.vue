@@ -119,7 +119,6 @@ export default class HorizontalCard extends Vue{
 
   created() {
     this.specialAttributes = this.getSpecialAttributes().slice();
-    console.log(this.listing)
   }
 
   differenceInPrice(a, b) {
@@ -132,8 +131,6 @@ export default class HorizontalCard extends Vue{
     return this.listing.attributes.filter((item) => {
       return this.specialAttributesKeys.indexOf(item.name) !== -1;
     });
-
-    console.log(this.specialAttributes, 'special')
   }
 
   get listingType() {
@@ -159,13 +156,12 @@ export default class HorizontalCard extends Vue{
       .then(() => {
         this.saved = true;
         this.$snackbar.show({
-          text: "Uspjesno ste se spasili artikal!",
+          text: "Uspješno ste se spasili artikal!",
           timeout: 3000,
           type: "success"
         });
       })
       .catch(error => {
-        console.log(error)
         this.$snackbar.show({
           text: "Test",
           timeout: 3000,

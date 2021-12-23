@@ -98,7 +98,7 @@ export default class RegisterForm extends Vue{
         this.loading = false;
         if (error.response.status === 422) {
           this.$snackbar.show({
-            text: "Unijeli ste pogresne informacije!",
+            text: "Unijeli ste pogrešne informacije!",
             timeout: 3000,
             type: "danger"
           });
@@ -122,7 +122,7 @@ export default class RegisterForm extends Vue{
         this.loading = false;
         if (error.response.status === 422) {
           this.$snackbar.show({
-            text: "Unijeli ste pogresne informacije!",
+            text: "Unijeli ste pogrešne informacije!",
             timeout: 3000,
             type: "danger"
           });

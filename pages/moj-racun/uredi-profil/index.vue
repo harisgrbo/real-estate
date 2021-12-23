@@ -3,7 +3,9 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Uredi profil</p>
       </li>
     </ul>
@@ -104,7 +106,6 @@ export default class urediProfil extends Vue {
 
   setInputs() {
 
-    console.log(this.$auth.user)
     this.name = this.$auth.user.name;
     this.email = this.$auth.user.email;
     this.avatarUrl = this.$auth.user.avatar_url || '';
@@ -138,7 +139,7 @@ export default class urediProfil extends Vue {
           payload.password = this.password;
         } else {
           this.$snackbar.show({
-            text: "Sifre nisu iste",
+            text: "Šifre nisu iste",
             timeout: 1000,
             type: "danger"
           })
@@ -167,7 +168,7 @@ export default class urediProfil extends Vue {
       this.setInputs();
 
       this.$snackbar.show({
-        text: "Uspjesno ste se spasili izmjene!",
+        text: "Uspješno ste se spasili izmjene!",
         timeout: 3000,
         type: "success"
       });

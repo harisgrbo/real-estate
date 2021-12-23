@@ -31,7 +31,7 @@
               <div class="min-w-full">
                 <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-if="listingsLoaded">
                   <ul role="list" class="grid lg:grid-cols-3 up:grid-cols-3 up:grid-cols-3 gap-5 gap-x-6 listings-user-wrap" v-if="listings.length">
-                    <li class="relative listing-card w-full min-w-full" v-for="listing in listings">
+                    <li class="relative listing-card w-full min-w-full" v-for="listing in listings" :key="listing.id">
                       <ListingCard :listing="listing" :key="listing.id"></ListingCard>
                     </li>
                     <!-- More files... -->
@@ -45,7 +45,7 @@
                 </section>
                 <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-else>
                   <ul role="list" class="grid lg:grid-cols-3 up:grid-cols-3 up:grid-cols-3 gap-5 gap-x-6 listings-user-wrap">
-                    <li class="relative listing-card w-full min-w-full" v-for="i in 10">
+                    <li class="relative listing-card w-full min-w-full" v-for="(i, index) in 10" :key="index">
                       <skeleton height="308px" width="256px"></skeleton>
                     </li>
                     <!-- More files... -->
@@ -198,7 +198,6 @@ export default class Users extends Vue {
   }
 
   async created() {
-    console.log(this.user, 'user')
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
   }
@@ -232,7 +231,7 @@ export default class Users extends Vue {
       this.loading = false;
 
       this.$snackbar.show({
-        text: "uspješno ste poslali poruku korisniku " + this.user.name,
+        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
         timeout: 1000,
         type: "success"
       });
@@ -250,7 +249,7 @@ export default class Users extends Vue {
         this.$axios.post('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "uspješno ste zapratili korisnika " + this.user.name,
+          text: "Uspješno ste zapratili korisnika " + this.user.name,
           timeout: 1000,
           type: "success"
         });
@@ -264,7 +263,7 @@ export default class Users extends Vue {
         this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "uspješno ste otpratili korisnika " + this.user.name,
+          text: "Uspješno ste otpratili korisnika " + this.user.name,
           timeout: 1000,
           type: "success"
         });

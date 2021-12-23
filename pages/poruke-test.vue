@@ -21,7 +21,7 @@
                 </div>
               </div>
               <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
-                <div v-for="(conversation, index) in conversations" @click="handleSelectedConversation(conversation, index)" class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
+                <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" class="intro-x cursor-pointer box relative flex items-center p-5 mt-5">
                   <div class="w-12 h-12 flex-none image-fit mr-1">
                     <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-10.jpg">
                     <div class="w-3 h-3 bg-theme-10 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
@@ -180,7 +180,7 @@
                 </div>
               </div>
               <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
-                <div v-for="message in messages">
+                <div v-for="message in messages" :key="message.id">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="dist/images/profile-1.jpg">

@@ -45,10 +45,10 @@
                   </div>
                   <div class="mt-4">
                     <div class="-mx-2 -my-1.5 flex">
-                      <button type="button" class="bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600 cursor-not-allowed">
+                      <button type="button" class="bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600">
                         Obnovi
                       </button>
-                      <button type="button" class="ml-3 bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600 cursor-not-allowed">
+                      <button @click="$router.push('/sponzorisanje/' + this.$route.params.id)" type="button" class="ml-3 bg-green-50 px-2 py-1.5 rounded-md text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600">
                         Sponzoriši
                       </button>
                     </div>
@@ -167,7 +167,7 @@
                 Informacije o nekretnini
               </h2>
               <ul role="list" class="border-t border-b border-gray-200 py-6 mobile-grid">
-                <li class="flow-root" v-for="info in normalAttributes">
+                <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
                     <div>
@@ -318,14 +318,14 @@
             <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="!$device.isMobile">{{ listing.is_booking ? 'Zanimljivosti u krugu od 2km' : 'Pogledajte šta se nalazi u blizini nekretnine' }}</h2>
             <div class="places" v-if="!$device.isMobile">
               <ul class="flex flex-row items-center justify-start" v-if="listing.is_booking">
-                <li v-for="(place, index) in places.results" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md font-semibold' : '']">{{ place.name }}</li>
+                <li v-for="(place, index) in places.results" :key="index" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md font-semibold' : '']">{{ place.name }}</li>
               </ul>
               <ul class="flex flex-row items-center justify-start places-ul bg-gray-50 rounded-md p-2" v-else>
-                <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md font-semibold' : '']">{{ translatePlaces(index) }}</li>
+                <li v-for="(place, index) in places" :key="index" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active-place bg-white shadow-sm rounded-md font-semibold' : '']">{{ translatePlaces(index) }}</li>
               </ul>
               <div>
                 <div class="places-grid" v-if="selectedPlace !== null">
-                  <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
+                  <div v-for="p in selectedPlace" :key="p.id" class="flex flex-row items-center justify-start">
                     <img :src="p.icon" :alt="p.name" class="mr-2">
                     {{ p.name }}</div>
                 </div>
@@ -338,13 +338,13 @@
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
             <div class="separator" v-if="listing.video_url !== null"></div>
-            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
+            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review w-full">
                 <TextAreaField label="Opišite ukratko vaše iskustvo" v-model="review_description"></TextAreaField>
                 <label class="block text-md font-semibold text-gray-900 mt-4">Ocjena za nekretninu</label>
                 <div class="w-full flex flex-row items-center justify-start">
-                  <svg v-for="i in 5" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
+                  <svg v-for="(i, index) in 5" :key="index" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
                     <path v-show="i <= review_rating" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                   </svg>
                 </div>
@@ -353,7 +353,7 @@
               </div>
               <div v-if="listing_reviews.length" class="bg-white">
                 <div>
-                  <div v-for="review in listing_reviews">
+                  <div v-for="review in listing_reviews" :key="review.id">
                     <div class="flex text-sm text-gray-500 space-x-4">
                       <div class="flex-none py-10">
                         <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
@@ -368,7 +368,7 @@
 
                             Active: "text-yellow-400", Default: "text-gray-300"
                           -->
-                          <svg v-for="i in review.rating" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <svg v-for="(i, index) in review.rating" :key="index" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
 
@@ -413,7 +413,7 @@
             </div>
           </div>
           <div class="user-wrap relative z-10">
-            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
+            <UserProfile @highlight-listing="$router.push('/sponzorisanje/' + $route.params.id)" :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator"></div>
@@ -422,7 +422,7 @@
               <TextAreaField label="Opišite ukratko vaše iskustvo" v-model="review_description"></TextAreaField>
               <label class="block text-md font-semibold text-gray-900 mt-4">Ocjena za nekretninu</label>
               <div class="w-full flex flex-row items-center justify-start">
-                <svg v-for="i in 5" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
+                <svg v-for="(i, index) in 5" :key="index" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
                   <path v-show="i <= review_rating" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               </div>
@@ -431,7 +431,7 @@
             </div>
             <div v-if="listing_reviews.length" class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0">
               <div>
-                <div v-for="review in listing_reviews">
+                <div v-for="review in listing_reviews" :key="review.id">
                   <div class="flex text-sm text-gray-500 space-x-4">
                     <div class="flex-none py-10">
                       <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
@@ -446,7 +446,7 @@
 
                           Active: "text-yellow-400", Default: "text-gray-300"
                         -->
-                        <svg v-for="i in review.rating" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <svg v-for="(i, index) in review.rating" :key="index" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
 
@@ -474,7 +474,7 @@
               <div class="modal-content places-modal">
                 <div class="filters rounded-md">
                   <ul class="flex flex-row items-center justify-start">
-                    <li v-for="(place, index) in places" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer modal-place', index === x ? 'active-place-modal bg-white shadow-sm rounded-md' : '']">
+                    <li v-for="(place, index) in places" :key="index" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer modal-place', index === x ? 'active-place-modal bg-white shadow-sm rounded-md' : '']">
                       <div class="img-wrapper shadow-lg rounded-full">
                         <img :src="'/' + translatePlaces(index) + '.svg'" alt="">
                       </div>
@@ -483,7 +483,7 @@
                   </ul>
                   <div class="mt-3">
                     <div class="places-grid" v-if="selectedPlace !== null">
-                      <div v-for="p in selectedPlace" class="flex flex-row items-center justify-start">
+                      <div v-for="(p, index) in selectedPlace" :key="index" class="flex flex-row items-center justify-start">
                         <img :src="p.icon" :alt="p.name" class="mr-2">
                         {{ p.name }}
                       </div>
@@ -618,9 +618,11 @@ import SingleQuestion from "@/components/SingleQuestion"
 import RealEstateLocationMap from "@/components/RealEstateLocationMap";
 import TextField from "../../components/inputs/TextField";
 import TextAreaField from "../../components/inputs/TextAreaField";
+import Skeleton from "@/components/skeleton";
 
 @Component({
   components: {
+    Skeleton,
     TextAreaField,
     TextField,
     ActionButton,
@@ -797,8 +799,6 @@ export default class Artikal extends Vue {
           'ends_at': end.format('D-M-Y')
         })
 
-        console.log(res);
-
         this.$snackbar.show({
           text: "Upit poslan",
           timeout: 1000,
@@ -890,7 +890,6 @@ export default class Artikal extends Vue {
   }
 
   toggleBookingModal() {
-    console.log('radi')
     this.$modal.show('booking')
   }
 
@@ -1338,7 +1337,6 @@ export default class Artikal extends Vue {
         flex-direction: row;
         width: 100%;
         padding-bottom: 32px;
-        padding-top: 60px;
 
         @include for-phone-only {
           width: 100%;

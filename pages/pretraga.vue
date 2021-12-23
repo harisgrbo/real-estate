@@ -6,7 +6,7 @@
       <div class="w-full relative search-options">
         <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
-            <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+            <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}</li>
           </ul>
           <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,7 +30,7 @@
             </button>
             <div v-if="showSortDropdown" class=" w-full origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
               <div class="py-4 grid grid-cols-2 gap-4 sort-mobile" role="none">
-                <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-900 border border-gray-400 block flex items-center justify-start px-4 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold add-border' : '']" role="menuitem" @click.prevent="selectSort(item)">
+                <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-900 border border-gray-400 block flex items-center justify-start px-4 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold add-border' : '']" role="menuitem" @click.prevent="selectSort(item)">
                   {{ item.name }}
                 </a>
               </div>
@@ -52,7 +52,7 @@
                 </button>
                 <div v-if="showSortDropdown" class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                   <div class="py-4" role="none">
-                    <a v-for="(item, index) in sort_types" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
+                    <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
                       {{ item.name }}
                     </a>
                   </div>
@@ -71,7 +71,7 @@
               </button>
               <div v-if="showTypeDropdown" class="origin-top-right listing-types top-9 right-4 absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <form class="space-y-4">
-                  <div class="flex items-center cursor-pointer" v-for="item in listing_types">
+                  <div class="flex items-center cursor-pointer" v-for="item in listing_types" :key="item.id">
                     <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" @click="addOrRemoveFromListTypes(item.id)" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
                     <label :for="'filter-category-' + item.id" class="ml-3 pr-6 text-sm font-medium cursor-pointer text-gray-900 whitespace-nowrap">
                       {{ item.name }}
@@ -88,7 +88,7 @@
 
       <div class="flex flex-col">
         <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 md:mt-4 lg:mt-4 up:mt-4 xl:mt-4">
-          <li v-for="filter in queryPayload" v-if="filter && filterResolveValue(filter)" class="py-2 px-3 border border-black mr-3">
+          <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)" class="py-2 px-3 border border-black mr-3">
             <div class="flex flex-row items-center">
               {{ filterResolveValue(filter) }}
               <button @click="queryPayload[filter.name] = null; newSearch();">
@@ -741,7 +741,7 @@ export default class Homepage extends Vue {
       this.$modal.hide('save-search')
 
       this.$snackbar.show({
-        text: "Uspjesno ste spasili pretragu",
+        text: "Uspješno ste spasili pretragu",
         timeout: 1000,
         type: "success"
       });
@@ -764,6 +764,10 @@ export default class Homepage extends Vue {
   position: sticky;
   top: 0;
   z-index: 9;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 80px;
 
   @include for-phone-only {
     padding-top: 12px;
@@ -1037,7 +1041,7 @@ export default class Homepage extends Vue {
     background: #fff;
     margin-right: 12px;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
     min-width: fit-content;
     cursor: pointer;

@@ -78,7 +78,6 @@
             <ul v-if="$auth.user && savedSearches.length" class="saved-searches">
               <li v-for="search in savedSearches" :key="search.id" @click="goToSearch(search)">
                 <p>{{ search.description }}</p>
-                <font-awesome-icon icon="arrow-circle-right"></font-awesome-icon>
               </li>
             </ul>
             <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
@@ -121,10 +120,24 @@
             </svg>
             <p class="notify" v-if="notifications.length">{{ notifications.length }}</p>
           </button>
-          <button v-if="$auth.user" class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <button v-if="$auth.user" class="login-wrapper">
+           <span class="rounded-full text-gray-800 bg-gray-50 font-medium text-sm flex items-center cursor-pointer active:bg-gray-300 transition duration-300 ease w-max">
+            <img class="rounded-full w-9 h-9 min-w-9 max-w-9 navbar-avatar" alt="A"
+                 :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" />
+            <span class="flex items-center pl-3 py-2">
+              {{ $auth.user.name }}
+            </span>
+            <button class="bg-transparent hover focus:outline-none" v-if="showUserDropdown === false" @click="showUserDropdown = true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+             <button class="bg-transparent hover focus:outline-none" v-else @click="showUserDropdown = false">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </span>
           </button>
           <!-- User dropdown -->
           <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
@@ -146,6 +159,7 @@
         <NotificationsDropdown @clicked="$modal.hide('notifications')" :notifications="notifications" @close-notifications="$modal.hide('notifications')" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
       </modal>
     </client-only>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -159,9 +173,13 @@ import { mixin as clickaway } from 'vue-clickaway';
 import NotificationsDropdown from "@/components/NotificationsDropdown"
 import { buildType, buildCategory, buildTitle } from '@/util/search'
 import OtherLinksDropdown from "../OtherLinksDropdown";
+import ActionButton from "@/components/actionButtons/ActionButton";
+import Snackbar from "@/components/global/Snackbar"
 
 @Component({
   components: {
+    ActionButton,
+    Snackbar,
     OtherLinksDropdown,
     CategoriesList,
     ListingType,
@@ -229,8 +247,6 @@ export default class Navbar extends Vue {
   }
 
   async created() {
-
-    console.log(this.$auth.user)
     await this.getSearches()
     await this.getNotifications()
     await this.getUnreadMessagesCount()
@@ -427,7 +443,6 @@ export default class Navbar extends Vue {
       try {
         let res = await this.$axios.get('/listings/completion?q=' + q);
         this.suggestions = res.data;
-        console.log(res)
       } catch (e) {
         console.log(e)
       }
@@ -1101,5 +1116,12 @@ export default class Navbar extends Vue {
   font-weight: 500;
   font-family: 'Outfit', sans-serif;
   color: #002F34;
+}
+
+.navbar-avatar {
+  min-height: 36px;
+  max-height: 36px;
+  min-width: 36px;
+  max-width: 36px;
 }
 </style>

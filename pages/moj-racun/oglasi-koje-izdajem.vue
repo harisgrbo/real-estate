@@ -3,13 +3,15 @@
     <ul class="breadcrumbs">
       <li>
         <nuxt-link to="/moj-racun">Moj račun</nuxt-link>
-        <font-awesome-icon icon="angle-right"></font-awesome-icon>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
         <p>Oglasi koje izdajem - upiti za rezervacije</p>
       </li>
     </ul>
     <div class="w-full mt-5">
       <ul role="list" class="divide-y divide-gray-200">
-        <li v-for="(booking, index) in bookings" class="p-4 sm:p-6 bg-white shadow-sm rounded-md">
+        <li v-for="(booking, index) in bookings" :key="index" class="p-4 sm:p-6 bg-white shadow-sm rounded-md">
           <div class="flex items-center sm:items-start inner">
             <div class="flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40 listing">
               <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="w-full h-full object-center object-cover">

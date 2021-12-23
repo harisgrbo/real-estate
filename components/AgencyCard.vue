@@ -14,7 +14,6 @@
     </div>
     <div class="buttons">
       <ActionButton placeholder="Zaprati" @action="removeUser"></ActionButton>
-      <font-awesome-icon icon="heart"></font-awesome-icon>
     </div>
   </div>
 </template>

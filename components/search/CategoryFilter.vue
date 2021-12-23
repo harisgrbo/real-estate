@@ -3,6 +3,7 @@
     <ul class="flex flex-row items-center justify-start w-full pb-4">
       <li
         v-for="category in categories"
+        :key="category.id"
         :class="['font-normal text-sm mr-4 cursor-pointer', value && category.id === value.value ? 'rounded-4 p-2 bg-gray-100' : '']"
         @click="handleChange($event, category.id)"
       >{{ category.title }}

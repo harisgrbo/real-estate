@@ -77,7 +77,7 @@
         </div>
       </li>
 
-      <li v-if="message.children && message.children.length" v-for="reply in message.children">
+      <li v-if="message.children && message.children.length" v-for="reply in message.children" :key="reply.id">
         <div class="relative pb-8">
           <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
           <div class="relative flex items-start space-x-3">

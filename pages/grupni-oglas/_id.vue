@@ -3,8 +3,10 @@
     <div class="listing-content">
       <div class="grid-container">
         <div class="img-counter">
-          <font-awesome-icon icon="images">
-          </font-awesome-icon>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
           <p>{{ images.length }}</p>
         </div>
         <!--        <div class="img-counter show-more">-->
@@ -12,7 +14,7 @@
         <!--          </font-awesome-icon>-->
         <!--          <p>Pogledaj sve slike</p>-->
         <!--        </div>-->
-        <div :class="'item' + img.id" v-for="(img, index) in images">
+        <div :class="'item' + img.id" v-for="(img, index) in images" :key="index">
           <img :src="img.name" alt="" @click="openGallery(index)">
         </div>
         <client-only>
@@ -33,15 +35,12 @@
             <h2>{{ listing.title }}</h2>
             <div class="buttons" v-if="$auth.user">
               <button>
-                <font-awesome-icon icon="minus-circle"></font-awesome-icon>
                 Prijavi oglas
               </button>
               <button v-if="listing.user.id !== $auth.user.id" @click="toggleSaveListing" :class="listingSaved? 'listing-saved' : ''">
-                <font-awesome-icon icon="heart"></font-awesome-icon>
                 {{ listingSaved? 'Izbriši iz spašenih' : 'Spasi oglas'}}
               </button>
               <button v-if="listing.user.id !== $auth.user.id">
-                <font-awesome-icon icon="share-square"></font-awesome-icon>
                 Podijeli
               </button>
             </div>
@@ -204,8 +203,6 @@ export default class Artikal extends Vue {
       let res = await this.$axios.get('/listings/' + this.$route.params.id + '/questions');
       this.questions = res.data.data;
 
-      console.log(this.questions)
-
     } catch(e) {
       console.log(e)
     }
@@ -255,7 +252,7 @@ export default class Artikal extends Vue {
         await this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$snackbar.show({
-          text: "uspješno ste otpratili " + this.user.name,
+          text: "Uspješno ste otpratili " + this.user.name,
           timeout: 1000,
           type: "success"
         });
@@ -310,7 +307,6 @@ export default class Artikal extends Vue {
 
   async created() {
     await this.getQuestions();
-    console.log(this.listing.attributes)
     this.isUserFollowed = this.isFollowed;
   }
 

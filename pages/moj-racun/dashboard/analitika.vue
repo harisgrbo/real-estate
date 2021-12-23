@@ -181,7 +181,7 @@
                 </h2>
               </div>
               <div class="mt-5">
-                <div class="" v-for="agent in agents">
+                <div class="" v-for="agent in agents" :key="agent.id">
                   <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
                     <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
                       <img alt="Icewall Tailwind HTML Admin Template" :src="[ agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg']">
@@ -237,8 +237,6 @@ export default class Analitika extends Vue {
       let res = await this.$axios.get('/profile/listings');
 
       this.listings = res.data.data;
-
-      console.log(this.listings)
     } catch(e)  {
       console.log(e)
     }

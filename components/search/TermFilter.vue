@@ -3,7 +3,7 @@
       <label :for="'checkbox' + $vnode.key">{{ displayName }} </label>
       <select v-if="filter.values" @change="handleChange">
           <option value="">...</option>
-          <option v-for="option in filter.values" :value="option">{{ option }}</option>
+          <option v-for="option in filter.values" :key="option.id" :value="option">{{ option }}</option>
       </select>
       <input :id="'checkbox' + $vnode.key" v-else v-model="checked" type="checkbox" @input="handleChange" />
     </div>

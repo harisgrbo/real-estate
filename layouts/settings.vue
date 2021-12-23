@@ -1,9 +1,10 @@
 <template>
   <div class="settings-wrapper">
     <Navbar></Navbar>
-    <div class="preview-wrapper">
+    <div :class="['preview-wrapper', $route.path === '/moj-racun/poruke' ? 'messages' : '']">
       <Nuxt />
     </div>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -11,9 +12,10 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import Footer from "@/components/Footer"
+import Snackbar from "@/components/global/Snackbar"
 
 @Component({
-  components: {Navbar, Footer}
+  components: {Navbar, Footer, Snackbar}
 })
 
 export default class Settings extends Vue {
@@ -55,6 +57,11 @@ export default class Settings extends Vue {
     margin: 0 auto;
     background: #fff;
     height: fit-content;
+
+    &.messages {
+      background: transparent;
+      padding-bottom: 0;
+    }
 
     @include for-phone-only {
       width: 100%;
