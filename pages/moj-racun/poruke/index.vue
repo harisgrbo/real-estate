@@ -32,7 +32,7 @@
         </div>
         <!-- END: Chat Side Menu -->
         <!-- BEGIN: Chat Content -->
-        <div class="flex w-full">
+        <div class="flex w-full relative">
           <div v-if="!$device.isMobile" class="chat__box box w-full bg-white">
             <!-- BEGIN: Chat Active -->
             <div v-if="currentConversation" class="h-full flex flex-col">
@@ -655,10 +655,12 @@ textarea {
 #EmojiPicker {
   position: absolute;
   bottom: 113px;
-  width: 100%;
   background: #fff;
   border: none;
   padding: 0;
+  right: 16px;
+  left: 16px;
+  width: auto;
 }
 
 .mobile-message-wrapper {
