@@ -1,7 +1,7 @@
 <template>
   <div class="categories-list-wrap w-full">
     <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-3 w-full">
-      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flex flex-row-reverse border rounded-sm"
+      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flex hover:shadow-md flex-row-reverse border rounded-sm"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
         <div class="w-full ml-3">
             <a href="#" class="focus:outline-none">
@@ -115,8 +115,13 @@ ul li {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 12px;
   cursor: pointer;
+  border-radius: 6px;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px !important;
+  }
   @include for-phone-only {
     background: #f9f9f9 !important;
     color: #222222 !important;
