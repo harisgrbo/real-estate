@@ -338,7 +338,7 @@
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
             <div class="separator" v-if="listing.video_url !== null"></div>
-            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 mt-20 lg:px-0 xl:px-0 up:px-0 w-full">
+            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 lg:px-0 xl:px-0 up:px-0 w-full">
               <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
               <div class="review w-full">
                 <TextAreaField label="Opišite ukratko vaše iskustvo" v-model="review_description"></TextAreaField>

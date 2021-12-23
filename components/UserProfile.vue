@@ -3,7 +3,7 @@
     <div class="main-user-wrapper">
       <div class="flex flex-row">
         <div class="flex w-14 min-w-14 h-14 items-center justify-center rounded-full overflow-hidden img-wrap">
-          <img :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="" class="object-contain">
+          <img :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="" class="object-contain w-full min-w-full">
         </div>
         <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
           <div class="flex flex-row items-center justify-between w-full cursor-pointer">
