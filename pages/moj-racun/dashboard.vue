@@ -49,11 +49,6 @@ export default class Dashboard extends Vue {
       slug: 'upravljanje-oglasima',
       icon: '/052-presentation.svg'
     },
-    {
-      name: 'Sponzorisanje',
-      slug: 'izdvajanje',
-      icon: '/052-presentation.svg'
-    },
   ]
 
   currentTab = 0;

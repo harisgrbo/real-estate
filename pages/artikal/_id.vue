@@ -1335,7 +1335,6 @@ export default class Artikal extends Vue {
         flex-direction: row;
         width: 100%;
         padding-bottom: 32px;
-        padding-top: 60px;
 
         @include for-phone-only {
           width: 100%;

@@ -111,6 +111,12 @@ export default class accountpage extends Vue {
         icon: "014-browser-6.svg",
         desc: 'Glavni dashboard, statistika oglasa, agenti za nekretnine'
       });
+
+      let index = this.tabs.findIndex(item => item.name === 'Moji oglasi');
+
+      if (index !== -1) {
+        this.tabs.splice(index, 1);
+      }
     }
   }
 }

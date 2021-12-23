@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <label class="block text-md font-semibold text-gray-900 mb-2">{{ label }}</label>
+    <label class="block text-md font-medium text-gray-700 mb-2">{{ label }}</label>
     <div :class="['input-wrapper', showAutoCompleteDropdown ? 'shadow-sm' : '']">
       <div>
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

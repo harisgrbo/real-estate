@@ -12,7 +12,7 @@
     <div class="saved-content w-full">
       <div>
         <div class="mobile-grid w-full" v-if="blockedUsers.length">
-          <UserCard v-for="user in blockedUsers" :key="user.id" :id="user.id" :user="user"/>
+          <UserCard placeholder="Odblokiraj" @do-action="unblockUser(user)" v-for="user in blockedUsers" :key="user.id" :id="user.id" :user="user"/>
         </div>
         <div v-else class="no-image">
           <img src="/nodata.jpeg" alt="no-image">
@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -27,10 +28,12 @@
 import { Component, Vue} from "nuxt-property-decorator";
 
 import UserCard from "@/components/UserCard";
+import Snackbar from "@/components/global/Snackbar"
 
 @Component({
   components: {
     UserCard,
+    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
@@ -57,6 +60,26 @@ export default class blokiraniKorisnici extends Vue {
       return 'Agencija'
     } else {
       return 'Korisnik'
+    }
+  }
+
+  async unblockUser(u) {
+    try {
+      let index = this.blockedUsers.findIndex(item => item.id === u.id);
+
+      let res = await this.$axios.delete('/profile/users/' + u.id + '/block');
+
+      this.blockedUsers.splice(index, 1)
+
+
+      this.$snackbar.show({
+        text: "Odblokirali ste korisnika " + u.name,
+        timeout: 1000,
+        type: "success"
+      });
+
+    } catch(e) {
+      console.log(e)
     }
   }
 }
