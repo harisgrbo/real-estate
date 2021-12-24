@@ -675,8 +675,6 @@
     search() {
       let filters  = [];
 
-      filters.push(buildTitle(this.selectedCategory ? this.selectedCategory.singular: "Stan"));
-
       if (this.selectedCategory) {
         filters.push(buildCategory(this.selectedCategory));
       }
