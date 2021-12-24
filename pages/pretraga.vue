@@ -1,6 +1,6 @@
 <template>
   <div class="search-wrapper w-full relative flex flex-col">
-    <div class="search-heading lg:px-20 xl:px-20 up:px-20 sm:px-5 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
+    <div class="search-heading sm:px-5 lg:px-20 xl:px-20 up:px-20 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="w-full relative search-options">
         <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
@@ -36,27 +36,7 @@
           </div>
 
           <div class="flex items-center justify-end types">
-            <div class="inline-block text-left" v-if="!$device.isMobile">
-              <div @click="showSortDropdown = !showSortDropdown" class="mr-4 relative z-30">
-                <button type="button" class="group inline-flex justify-center text-sm w-full font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                  </svg>
-                  {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
-                  <!-- Heroicon name: solid/chevron-down -->
-                  <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-                <div v-if="showSortDropdown" class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                  <div class="py-4" role="none">
-                    <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
-                      {{ item.name }}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <div class="flex w-full text-left type">
               <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
@@ -107,13 +87,34 @@
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4">
         <h1 class="font-semibold text-lg">{{ meta.total }} rezultata</h1>
-        <div class="toggle-map-wrapper" v-if="!$device.isMobile">
-          <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
-            </svg>
-            {{ type.name }}
-          </button>
+        <div class="flex flex-row items-center">
+          <div class="inline-block text-left mr-2 relative" v-if="!$device.isMobile">
+            <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+              </svg>
+              {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
+              <!-- Heroicon name: solid/chevron-down -->
+              <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div v-if="showSortDropdown" class="origin-top-right z-10 listing-types top-9 right-4 absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <div role="none">
+                <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
+                  {{ item.name }}
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="toggle-map-wrapper" v-if="!$device.isMobile">
+            <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
+              </svg>
+              {{ type.name }}
+            </button>
+          </div>
         </div>
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
@@ -768,7 +769,6 @@ export default class Homepage extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 80px;
 
   @include for-phone-only {
     padding-top: 12px;
