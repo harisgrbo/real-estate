@@ -89,7 +89,7 @@
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner checkboxes">
-            <TextField type="number" label="Cijena" placeholder="100.000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
+            <TextField type="number" :label="listingType !== null && listingType.shortname === 'booking' ? 'Cijena noćenja' : 'Cijena'" placeholder="100.000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
             <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
               <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 lg:mb-0 xp:mb-0 up:mb-0 mb-5">
                 <div class="switch">
@@ -104,7 +104,6 @@
                   <label for="switch-2" class="switch-label">Switch</label>
                 </div>
                 Cijena po kvadratu
-
               </div>
             </div>
           </div>
@@ -356,7 +355,7 @@ export default class Objava extends Vue {
 
   get notRenting() {
     if (this.listingType) {
-      return this.listingType.shortname !== 'rent' && this.listingType.shorntame !== 'rent-for-a-day';
+      return this.listingType.shortname !== 'rent' && this.listingType.shortname !== 'booking';
     }
 
     return true;

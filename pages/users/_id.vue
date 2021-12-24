@@ -58,7 +58,7 @@
           <!-- Details sidebar -->
           <aside class="user-wrap rounded-lg bg-white p-0 w-full lg:px-4 up:px-4 xl:px-4 ml-6 overflow-y-auto">
             <div class="col-span-1 flex flex-col text-center bg-white divide-y divide-gray-200">
-              <div class="flex-1 flex flex-row justify-start p-0 xl:p-8 lg:p-8 up:p-8 pt-0 inner">
+              <div class="flex-1 flex flex-row justify-start p-0 pt-0 inner">
                 <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
                 <div class="w-full inner">
                   <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
@@ -685,6 +685,10 @@ aside {
 
   img {
     margin-right: 16px;
+    height: 80px;
+    max-height: 80px;
+    min-width: 80px;
+    max-width: 80px;
   }
 
   @include for-phone-only {

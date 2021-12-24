@@ -176,7 +176,7 @@ export default class ListingCard extends Vue{
     } else if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
     } else if(this.listing.listing_type.shortname === 'booking'){
-      return 'Izdavanje na dan'
+      return 'Stan na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
       return 'Dugoročno izdavanje'
     }

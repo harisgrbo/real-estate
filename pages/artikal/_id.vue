@@ -14,7 +14,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </button>
-        <button @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
+        <button v-if="$auth.user" @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
           <!-- Heroicon name: solid/plus -->
           <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -172,7 +172,7 @@
 
                     <div>
                       <h3 class="text-md font-medium text-gray-900">
-                        <a href="#" class="focus:outline-none">
+                        <a class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
                         </a>
@@ -183,7 +183,7 @@
                 </li>
               </ul>
             </div>
-            <div v-if="RentSpecialAttributes.length">
+            <div v-if="RentSpecialAttributes.length && listing.listing_type.shortname !== 'sell'">
               <h2 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
                 Izdvojene pogodnosti
               </h2>
@@ -196,7 +196,7 @@
                   </div>
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                     <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
-                      <a href="#" class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</a>
+                      <a class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</a>
                       <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
                     </div>
                   </div>
@@ -213,7 +213,7 @@
 
                     <div>
                       <h3 class="text-sm font-medium text-gray-900">
-                        <a href="#" class="focus:outline-none">
+                        <a class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
                         </a>
@@ -338,20 +338,8 @@
               <RealEstateLocationMap v-if="listing" :location="listing.location"></RealEstateLocationMap>
             </div>
             <div class="separator" v-if="listing.video_url !== null"></div>
-            <div id="dojmovi" v-if="(listing.is_rent || listing.is_booking) && !$device.isMobile && $auth.user" class="px-5 lg:px-0 xl:px-0 up:px-0 w-full">
-              <h2 class="text-xl font-medium text-gray-900 mb-6">Dojmovi</h2>
-              <div class="review w-full">
-                <TextAreaField label="Opišite ukratko vaše iskustvo" v-model="review_description"></TextAreaField>
-                <label class="block text-md font-semibold text-gray-900 mt-4">Ocjena za nekretninu</label>
-                <div class="w-full flex flex-row items-center justify-start">
-                  <svg v-for="(i, index) in 5" :key="index" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
-                    <path v-show="i <= review_rating" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                  </svg>
-                </div>
-                <input class="review-input" type="range" min="1" max="5" placeholder="Ocjena od 1 do 5" v-model="review_rating" />
-                <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
-              </div>
-              <div v-if="listing_reviews.length" class="bg-white">
+            <ActionButton v-if="listing.listing_type.shortname === 'booking'" placeholder="Ostavite dojam" @action="$modal.show('leave-review')"></ActionButton>
+            <div v-if="listing_reviews.length" class="bg-white">
                 <div>
                   <div v-for="review in listing_reviews" :key="review.id">
                     <div class="flex text-sm text-gray-500 space-x-4">
@@ -361,20 +349,11 @@
                       <div class="flex-1 py-10">
                         <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
                         <p><time>{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
-
                         <div class="flex items-center mt-4">
-                          <!--
-                            Heroicon name: solid/star
-
-                            Active: "text-yellow-400", Default: "text-gray-300"
-                          -->
                           <svg v-for="(i, index) in review.rating" :key="index" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
-
-                          <!-- Heroicon name: solid/star -->
                         </div>
-
                         <div class="mt-4 prose prose-sm max-w-none text-black">
                           <p>{{ review.review }}</p>
                         </div>
@@ -383,19 +362,7 @@
                   </div>
                 </div>
               </div>
-            </div>
             <ActionButton class="mx-5" v-if="$device.isMobile" @action="$modal.show('map-modal')" placeholder="Prikaži lokaciju na mapi" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false"></ActionButton>
-            <!--            <div class="separator" v-if="questions.length"></div>-->
-<!--            <h2 class="heading question" v-if="questions.length">Pitanja</h2>-->
-<!--            <div class="separator" v-if="questions.length"></div>-->
-<!--            <h2 class="heading" v-if="listing.questions_disabled === true">-->
-<!--              Korisnik je zabranio javna pitanja-->
-<!--            </h2>-->
-<!--            <SingleQuestion v-if="questions.length" v-for="question in questions" :message="question" :key="question.id" :owner="owner"></SingleQuestion>-->
-<!--            <div class="question-create" v-if="$auth.user && listing.questions_disabled === false && owner === false">-->
-<!--              <textarea v-model="questionTerm"></textarea>-->
-<!--              <ActionButton placeholder="Postavi pitanje" @action="askQuestion"></ActionButton>-->
-<!--            </div>-->
             <div class="separator" v-if="listing.video_url !== null"></div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0">
               <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video tour</h2>
@@ -462,7 +429,6 @@
               </div>
             </div>
           </div>
-
         </div>
         <client-only>
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="places" :adaptive="true" height="100%">
@@ -495,6 +461,27 @@
           </modal>
         </client-only>
         <client-only>
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="leave-review" :adaptive="true" height="100%">
+            <div class="modal-inner">
+              <div class="modal-header">
+                <h2>Ostavite dojam</h2>
+                <i class="material-icons" @click.prevent="$modal.hide('leave-review')">close</i>
+              </div>
+              <div class="modal-content places-modal">
+                <TextAreaField label="Opišite ukratko vaše iskustvo" v-model="review_description"></TextAreaField>
+                <label class="block text-md font-semibold text-gray-900 mt-4">Ocjena za nekretninu</label>
+                <div class="w-full flex flex-row items-center justify-start">
+                  <svg v-for="(i, index) in 5" :key="index" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="#1F2937" viewBox="0 0 24 24" stroke="#fff">
+                    <path v-show="i <= review_rating" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                  </svg>
+                </div>
+                <input class="review-input" type="range" min="1" max="5" placeholder="Ocjena od 1 do 5" v-model="review_rating" />
+                <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
+              </div>
+            </div>
+          </modal>
+        </client-only>
+        <client-only>
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="map-modal" :adaptive="true" height="100%">
             <div class="modal-inner map">
               <i class="material-icons" @click.prevent="$modal.hide('map-modal')">close</i>
@@ -504,7 +491,6 @@
             </div>
           </modal>
         </client-only>
-
         <client-only>
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="booking" :adaptive="true" height="100%">
             <div class="modal-inner">
@@ -604,6 +590,7 @@
           </modal>
         </client-only>
       </div>
+
     </div>
     <Snackbar></Snackbar>
   </div>
@@ -642,10 +629,12 @@ import Skeleton from "@/components/skeleton";
     let rating = 0;
     let reviewCount = 0;
     let view_count = 0;
+    let listing_meta = null;
 
     try {
       let response = await ctx.app.$axios.get('/listings/' + ctx.params.id);
       listing = response.data.data;
+      listing_meta = response.data.meta;
       listingSaved = response.data.meta.saved;
       user = listing.user;
       images = listing.images;
@@ -667,7 +656,8 @@ import Skeleton from "@/components/skeleton";
       isSaved,
       listingSaved,
       images,
-      view_count
+      view_count,
+      listing_meta
     }
   }
 })
@@ -966,6 +956,8 @@ export default class Artikal extends Vue {
       })
 
       this.listing_reviews.push(res.data.data);
+
+      this.review_rating = ''
     } catch(e) {
       console.log(e)
     }
@@ -1105,6 +1097,9 @@ export default class Artikal extends Vue {
   }
 
   async created() {
+
+    console.log(this.listing_meta, 'meta')
+
     this.RentSpecialAttributes = this.getSpecialAttributes();
 
     if (this.listing.listing_type.shortname === 'booking') {
