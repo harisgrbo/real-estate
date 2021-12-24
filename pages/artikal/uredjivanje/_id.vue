@@ -104,7 +104,12 @@
         <InputError :error="errors.city" />
         <InputError :error="errors.description" />
         <TextAreaField class="mt-4" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="listing.video_url"></TextAreaField>
-        <TextAreaField class="mt-4" label="Opis" v-model="listing.description"></TextAreaField>
+        <client-only>
+          <div class="pt-4">
+            <label class="block text-md font-semibold text-gray-900 mb-2">Opis</label>
+            <vue-editor v-model="listing.description"/>
+          </div>
+        </client-only>
       </div>
 
       <div class="step-2">
