@@ -176,7 +176,7 @@ export default class ListingCard extends Vue{
     } else if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
     } else if(this.listing.listing_type.shortname === 'booking'){
-      return 'Izdavanje na dan'
+      return 'Stan na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
       return 'Dugoročno izdavanje'
     }
@@ -410,8 +410,8 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 400 !important;
-          font-size: 16px !important;
+          font-weight: 200 !important;
+          font-size: 18px !important;
           line-height: 20px !important;
 
         }
@@ -426,8 +426,8 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           font-weight: 400 !important;
-           font-size: 16px;
+           font-weight: 200 !important;
+           font-size: 18px;
            line-height: 20px !important;
            @include for-phone-only {
              font-weight: 400 !important;
@@ -522,9 +522,10 @@ export default class ListingCard extends Vue{
           }
 
           .new {
-            font-size: 15px !important;
-            font-weight: 700 !important;
+            font-size: 18px !important;
+            font-weight: 600 !important;
             margin-left: 0px;
+            margin: 4px 0;
           }
         }
 
@@ -546,8 +547,8 @@ export default class ListingCard extends Vue{
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          font-weight: 500 !important;
-          font-size: 16px !important;
+          font-weight: 200 !important;
+          font-size: 18px !important;
           line-height: 20px !important;
           background: #012F34 !important;
           color: #fff !important;
@@ -655,6 +656,8 @@ export default class ListingCard extends Vue{
       width: 12px !important;
       border-radius: 0 !important;
       margin-right: 4px;
+      object-fit: contain !important;
+      min-width: 12px !important;
     }
 
     > div {

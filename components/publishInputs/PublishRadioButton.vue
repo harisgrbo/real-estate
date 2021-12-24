@@ -1,16 +1,20 @@
 <template>
   <div class="publish-radio-buttons">
-    <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-    <label class="w-full border border-gray-400 rounded-sm relative p-4 flex cursor-pointer types" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
-      <input :id="option.id" :value="option.title" :checked="value && value.id === option.id" type="radio" name="privacy-setting" value="Public access" class="h-6 w-4 mt-0.5 cursor-pointer text-indigo-900 border-gray-300 focus:ring-indigo-900" aria-labelledby="privacy-setting-0-label" aria-describedby="privacy-setting-0-description">
-      <div class="ml-3 flex items-center">
-        <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
-        <!-- Checked: "text-indigo-700", Not Checked: "text-gray-500" -->
-        <span id="text-standard font-semibold">
+    <div class="bg-white rounded-md grid grid-cols-1 gap-4">
+      <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
+      <label class="relative p-4 flex cursor-pointer focus:outline-none border border-gray-100 rounded-sm hover:shadow-sm cursor-pointer" v-for="option in options" :class="[value && value.id === option.id? 'selected': '']" :key="option.id" @change="selectOption(option)">
+        <input :id="option.id" :value="option.title" :checked="value && value.id === option.id" type="radio"  class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-600 border-gray-300 focus:ring-indigo-500" aria-labelledby="privacy-setting-0-label" aria-describedby="privacy-setting-0-description">
+        <div class="ml-3 flex flex-col">
+          <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
+          <span id="privacy-setting-0-label" class="block text-sm font-medium">
           {{ option.title }}
         </span>
-      </div>
-    </label>
+          <!-- Checked: "text-indigo-700", Not Checked: "text-gray-500" -->
+          <span id="privacy-setting-0-description" class="block text-sm">
+        </span>
+        </div>
+      </label>
+    </div>
   </div>
 </template>
 
@@ -34,21 +38,6 @@ export default class PublishRadioButton extends Vue{
 
 <style scoped lang="scss">
 
-@mixin for-laptop {
-  @media (min-width: 768px) and (max-width: 1023px) {
-    @content;
-  }
-}
-@mixin for-desktop-up {
-  @media (min-width: 1200px) {
-    @content;
-  }
-}
-@mixin for-big-desktop-up {
-  @media (min-width: 1800px) {
-    @content;
-  }
-}
 @mixin for-phone-only {
   @media (max-width: 599px) {
     @content;
@@ -56,156 +45,7 @@ export default class PublishRadioButton extends Vue{
 }
 
 label {
-  background: #FFFFFF !important;
-  color: #000 !important;
-  padding: 16px !important;
-  width: 100% !important;
-  border: 1px solid #DDDDDD !important;
-  min-height: 48px;
-  height: 48px;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-  align-items: center;
-  border-radius: 15px;
-  font-weight: 500 !important;
-  font-size: 16px;
+  border: 1px solid #f1f1f1;
   border-radius: 4px;
-
-  &.selected {
-    background: #f9f9f9 !important;
-    border: 2px solid #000 !important;
-    font-weight: 600 !important;
-
-  }
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-}
-.radio-wrapper {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-
-  @include for-phone-only {
-    flex-direction: column;
-  }
-}
-
-
-
-$radioSize: 22px;
-$radioBorder: #757B9A;
-$radioActive: #757B9A;
-
-.radio {
-  display: flex;
-  flex: 1;
-  height: 58px !important;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  margin-right: 12px;
-  transition: 0.1s all ease;
-  box-sizing: border-box;
-  cursor: pointer;
-  &:last-child {
-    margin-right: 0;
-  }
-  @include for-phone-only {
-    height: 50px;
-    min-height: 50px;
-    margin-right: 0;
-    margin-bottom: 12px;
-    font-size: 14px;
-  }
-  &.selected {
-    border: 1px solid #757B9A;
-    box-shadow: rgba(0, 0, 0, 0.09) 0px 1px 12px;
-    box-sizing: border-box;
-    background: #f9f9f9;
-    span {
-      color: #444;
-      font-weight: 400;
-    }
-  }
-  input {
-    display: none;
-    & + span {
-      line-height: $radioSize;
-      height: $radioSize;
-      display: block;
-      position: relative;
-      &:not(:empty) {
-        padding-left: 0;
-      }
-      &:before,
-      &:after {
-        content: '';
-        width: $radioSize;
-        height: $radioSize;
-        display: block;
-        border-radius: 50%;
-        right: 0;
-        top: 0;
-        position: absolute;
-      }
-      &:before {
-        background: $radioBorder;
-        transition: background .2s ease, transform .4s cubic-bezier(.175, .885, .32, 2);
-      }
-      &:after {
-        background: #fff;
-        transform: scale(.78);
-        transition: transform .6s cubic-bezier(.175, .885, .32, 1.4);
-      }
-    }
-    &:checked + span {
-      &:before {
-        transform: scale(1.04);
-        background: $radioActive;
-      }
-      &:after {
-        transform: scale(.4);
-        transition: transform .3s ease;
-      }
-    }
-  }
-  &:hover {
-    input {
-      & + span {
-        &:before {
-          transform: scale(.92);
-        }
-        &:after {
-          transform: scale(.74);
-        }
-      }
-      &:checked + span {
-        &:after {
-          transform: scale(.4);
-        }
-      }
-    }
-  }
-  span {
-    width: 100%;
-    font-weight: 600;
-    color: #000;
-    font-size: 18px;
-  }
-}
-
-.publish-radio-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 16px;
-
-  @include for-phone-only {
-    grid-template-columns: repeat(1, 1fr);
-  }
 }
 </style>

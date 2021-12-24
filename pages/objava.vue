@@ -25,7 +25,7 @@
           Opišite vašu nekretninu
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
-          Označite polja koja vaša nekretnina posjeduje
+          Detaljne informacije nekretnine
         </h2>
         <h2 class="test" v-if="currentStep === steps.STEP_EIGHT">
           Dodajte slike nekretnine
@@ -89,7 +89,7 @@
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner checkboxes">
-            <TextField type="number" label="Cijena" placeholder="100.000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
+            <TextField type="number" :label="listingType !== null && listingType.shortname === 'booking' ? 'Cijena noćenja' : 'Cijena'" placeholder="100.000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
             <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
               <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 lg:mb-0 xp:mb-0 up:mb-0 mb-5">
                 <div class="switch">
@@ -104,7 +104,6 @@
                   <label for="switch-2" class="switch-label">Switch</label>
                 </div>
                 Cijena po kvadratu
-
               </div>
             </div>
           </div>
@@ -196,7 +195,7 @@
                 :key="attr.id"
               />
             </div>
-            <TextAreaField class="mt-4" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="video_url"></TextAreaField>
+            <TextAreaField class="mt-4" label="Youtube iframe (video)" type="text" placeholder="https://youtube.com/1wts5" v-model="video_url"></TextAreaField>
           </div>
 
           <div class="button-wrapper">
@@ -326,7 +325,13 @@ export default class Objava extends Vue {
   dropzoneOptions = {
     url: "http://fakeurl.com",
     addRemoveLinks: true,
+    dictDefaultMessage: "<svg xmlns=\"http://www.w3.org/2000/svg\" className=\"h-6 w-6\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n" +
+      "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12\" />\n" +
+      "</svg>" +
+      "<p>Izaberi slike ili ih prenesi ovdje</p>"
   };
+
+
   video_url = "";
   lat = 43;
   lng = 42;
@@ -350,7 +355,7 @@ export default class Objava extends Vue {
 
   get notRenting() {
     if (this.listingType) {
-      return this.listingType.shortname !== 'rent' && this.listingType.shorntame !== 'rent-for-a-day';
+      return this.listingType.shortname !== 'rent' && this.listingType.shortname !== 'booking';
     }
 
     return true;
@@ -1108,10 +1113,10 @@ export default class Objava extends Vue {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-row-gap: 24px;
-    grid-column-gap: 46px;
+    grid-column-gap: 16px;
 
     @include for-phone-only {
-      grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       grid-row-gap: 32px;
     }
   }
@@ -1745,6 +1750,14 @@ h2.info {
   padding: 12px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  border-radius: 4px;
+
+  &:hover {
+    background: #fff;
+    border: 2px dashed #012F34;
+
+  }
 
   @include for-phone-only {
     grid-template-columns: repeat(2, 1fr);
@@ -1763,4 +1776,26 @@ h2.info {
   background-color: rgba(2, 50, 70, 0.52) !important;
 }
 
+::v-deep label {
+  font-size: 16px;
+  font-weight: 400 !important;
+}
+
+.step-7 ::v-deep label {
+  margin-top: 24px;
+}
+
+::v-deep .dz-default .dz-message span{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+::v-deep .dz-default svg {
+  height: 30px;
+  color: #d9d9d9;
+  margin: 0 auto;
+  margin-bottom: 12px;
+}
 </style>

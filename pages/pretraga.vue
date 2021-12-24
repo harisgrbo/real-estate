@@ -1,8 +1,6 @@
 <template>
   <div class="search-wrapper w-full relative flex flex-col">
     <div class="search-heading lg:px-20 xl:px-20 up:px-20 sm:px-5 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
-      <div class="border-b border-gray-200">
-      </div>
       <div class="w-full relative search-options">
         <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
@@ -86,7 +84,7 @@
       </div>
 
 
-      <div class="flex flex-col">
+      <div class="flex flex-row items-center justify-start w-full">
         <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 md:mt-4 lg:mt-4 up:mt-4 xl:mt-4">
           <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)" class="py-2 px-3 border border-black mr-3">
             <div class="flex flex-row items-center">
@@ -482,7 +480,7 @@ export default class Homepage extends Vue {
       id: 2,
     },
     {
-      name: "Izdavanje na dan",
+      name: "Stan na dan",
       id: 4,
     },
     {
@@ -765,7 +763,7 @@ export default class Homepage extends Vue {
   top: 0;
   z-index: 9;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   padding: 12px 80px;
 

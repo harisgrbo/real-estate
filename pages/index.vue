@@ -50,9 +50,9 @@
             <div class="price-label">
               <label>Kvadratura</label>
               <div class="w-full flex items-center justify-between">
-                <TextField type="number" placeholder="Od" v-model="squareFrom"></TextField>
+                <TextField type="number" placeholder="Od" v-model.lazy="squareFrom"></TextField>
                 <p class="mx-2">-</p>
-                <TextField type="number" placeholder="Do" v-model="squareTo"></TextField>
+                <TextField type="number" placeholder="Do" v-model.lazy="squareTo"></TextField>
               </div>
             </div>
             <div class="price-label">
@@ -282,8 +282,8 @@
 
       <div class="relative -mt-24 max-w-7xl mx-auto pb-16 px-4 sm:pb-24 sm:px-6 lg:px-8">
         <div class="max-w-2xl mx-auto text-center lg:max-w-4xl">
-          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
-          <h2 class="text-xl font-semibold tracking-tight text-gray-900 sm:text-4xl mt-4">Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</h2>
+          <h2 class="text-3xl font-bold tracking-tight text-gray-900">Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
+          <h2 class="text-2xl font-medium tracking-tight text-gray-900 mt-4">Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</h2>
           <nuxt-link to="/agencije" class="inline-flex mt-4 items-center px-3 py-3 border bg-gray-900 text-white shadow-sm text-sm leading-4 font-medium rounded-sm hover:bg-gray-800 rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Lista agencija
           </nuxt-link>
@@ -292,7 +292,7 @@
     </div>
 
     <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
-      <h2 class="section-title">Izdavanje na dan</h2>
+      <h2 class="section-title">Stan na dan</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -432,7 +432,7 @@
     tabs = [
       'Prodaja',
       'Dugoročno izdavanje',
-      'Izdavanje na dan'
+      'Stan na dan'
     ]
 
     swiperOption = {
