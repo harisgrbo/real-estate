@@ -183,7 +183,7 @@ export default class Kredit extends Vue {
   selectCard(c) {
     this.selectedCardOption = c;
 
-    this.credits = c.value;
+    this.credits = parseInt(c.value);
   }
 
   selectSmsOption(c) {
@@ -197,7 +197,8 @@ export default class Kredit extends Vue {
       });
 
       let updatedUser = {...this.$auth.user}
-      updatedUser.credits += this.credits.toString();
+      updatedUser.credits = parseInt(updatedUser.credits);
+      updatedUser.credits += this.credits;
       this.$auth.setUser(updatedUser)
 
       this.$snackbar.show({

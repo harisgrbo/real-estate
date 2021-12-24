@@ -50,9 +50,9 @@
             <div class="price-label">
               <label>Kvadratura</label>
               <div class="w-full flex items-center justify-between">
-                <TextField type="number" placeholder="Od" v-model="squareFrom"></TextField>
+                <TextField type="number" placeholder="Od" v-model.lazy="squareFrom"></TextField>
                 <p class="mx-2">-</p>
-                <TextField type="number" placeholder="Do" v-model="squareTo"></TextField>
+                <TextField type="number" placeholder="Do" v-model.lazy="squareTo"></TextField>
               </div>
             </div>
             <div class="price-label">
@@ -292,7 +292,7 @@
     </div>
 
     <div class="flex items-center justify-between mb-4 lg:px-20 xl:px-20 up:px-20">
-      <h2 class="section-title">Izdavanje na dan</h2>
+      <h2 class="section-title">Stan na dan</h2>
       <div class="flex flex-row items-center mr-5">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -432,7 +432,7 @@
     tabs = [
       'Prodaja',
       'Dugoročno izdavanje',
-      'Izdavanje na dan'
+      'Stan na dan'
     ]
 
     swiperOption = {

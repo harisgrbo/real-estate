@@ -8,11 +8,12 @@
           <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
+                <h2 class="text-xl mb-4 font-medium">Razgovori</h2>
                 <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
-                  <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" src="/noimage.jpeg">
+                  <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full">
                     <div class="flex items-center w-full">
-                      <a href="javascript:;" class="text-gray-900 font-semibold">{{ others(conversation).map(item => item.name).join(',') }}</a>
+                      <a class="text-gray-900 font-medium">{{ others(conversation).map(item => item.name).join(',') }}</a>
                       <div class="text-xs text-gray-500 ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
                     <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
@@ -66,7 +67,7 @@
                 <div v-for="message in messages" :key="message.id">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="isMe(message) ? (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg') : (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg')">
                     </div>
                     <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                       {{ message.content }}
@@ -96,7 +97,7 @@
                     </svg>
                   </button>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-2 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -105,8 +106,8 @@
             <!-- BEGIN: Chat Default -->
             <div v-else class="h-full flex items-center bg-white">
               <div class="mx-auto text-center">
-                <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                  <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg">
+                <div class="w-16 h-16 min-w-16 max-w-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
+                  <img class="h-full w-full" alt="Icewall Tailwind HTML Admin Template" :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']">
                 </div>
                 <div class="mt-3">
                   <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
@@ -457,7 +458,7 @@ export default class Poruke extends Vue {
   padding: 24px;
 
   @include for-phone-only {
-    padding: 16px 0 !important;
+    padding: 16px !important;
   }
 }
 
