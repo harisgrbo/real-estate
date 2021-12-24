@@ -93,7 +93,9 @@ export default class RegisterForm extends Vue{
 
     this.$axios
       .post('/users/register', this.userPayload, this.config)
-      .then(this.handlePostRegister)
+      .then(() => {
+        this.handlePostRegister();
+      })
       .catch(error => {
         this.loading = false;
         if (error.response && error.response.status === 422) {
