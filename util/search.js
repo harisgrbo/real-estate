@@ -7,6 +7,8 @@ function buildQuery(queryPayload) {
     }
   }
 
+  if (arr.length === 0) return '';
+
   return JSON.stringify(arr);
 }
 

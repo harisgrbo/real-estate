@@ -1,6 +1,6 @@
 <template>
   <div class="search-wrapper w-full relative flex flex-col">
-    <div class="search-heading lg:px-20 xl:px-20 up:px-20 sm:px-5 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
+    <div class="search-heading sm:px-5 py-2 lg:px-20 xl:px-20 up:px-20 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="w-full relative search-options">
         <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
@@ -13,14 +13,14 @@
             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
           </button>
 
-          <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
+          <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-md px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
             Filteri
           </button>
           <div v-if="$device.isMobile" class="mobile-fit">
-            <button @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
+            <button @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-md px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
               </svg>
@@ -36,29 +36,9 @@
           </div>
 
           <div class="flex items-center justify-end types">
-            <div class="inline-block text-left" v-if="!$device.isMobile">
-              <div @click="showSortDropdown = !showSortDropdown" class="mr-4 relative z-30">
-                <button type="button" class="group inline-flex justify-center text-sm w-full font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                  </svg>
-                  {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
-                  <!-- Heroicon name: solid/chevron-down -->
-                  <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-                <div v-if="showSortDropdown" class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                  <div class="py-4" role="none">
-                    <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-500 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort === index ? 'font-medium text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
-                      {{ item.name }}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <div class="flex w-full text-left type">
-              <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100" aria-expanded="false">
+              <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-md px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
 
                 <span class="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes && selectedTypes.length ? selectedTypes.length : '0' }}</span>
@@ -67,7 +47,7 @@
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                 </svg>
               </button>
-              <div v-if="showTypeDropdown" class="origin-top-right listing-types top-9 right-4 absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div v-if="showTypeDropdown" class="origin-top-right listing-types top-9 absolute right-0 mt-2 bg-white rounded-md shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <form class="space-y-4">
                   <div class="flex items-center cursor-pointer" v-for="item in listing_types" :key="item.id">
                     <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" @click="addOrRemoveFromListTypes(item.id)" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
@@ -106,19 +86,40 @@
     </div>
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4">
-        <h1 class="font-semibold text-lg">{{ meta.total }} rezultata</h1>
-        <div class="toggle-map-wrapper" v-if="!$device.isMobile">
-          <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
-            </svg>
-            {{ type.name }}
-          </button>
+        <h1 class="font-medium text-lg">{{ meta.total }} rezultata</h1>
+        <div class="flex flex-row items-center">
+          <div class="inline-block text-left mr-2 relative" v-if="!$device.isMobile">
+            <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-md px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+              </svg>
+              {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
+              <!-- Heroicon name: solid/chevron-down -->
+              <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div v-if="showSortDropdown" class="origin-top-right min-w-min z-10 listing-types top-9 absolute mt-2 bg-white rounded-md shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <div role="none">
+                <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-500 px-4 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
+                  {{ item.name }}
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="toggle-map-wrapper" v-if="!$device.isMobile">
+            <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
+              </svg>
+              {{ type.name }}
+            </button>
+          </div>
         </div>
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-5 gap-4 w-full listing-wrap">
             <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
           <client-only>
@@ -352,55 +353,58 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
       order: 'asc'
     }
 
-    if (ctx.route.query.q) {
-      let query = decodeURIComponent(ctx.route.query.q)
-      page = ctx.route.query.page || '1';
-      page = parseInt(page)
+    let query = decodeURIComponent(ctx.route.query.q)
+    page = ctx.route.query.page || '1';
+    page = parseInt(page)
 
-      if (ctx.route.query.preview) {
-        selectedPreviewType = ctx.route.query.preview;
+    if (ctx.route.query.preview) {
+      selectedPreviewType = ctx.route.query.preview;
+    }
+
+    let sortQuery = '';
+
+    if (ctx.route.query.sort) {
+      let order = ctx.route.query.order || 'desc';
+
+      selectedSort = {
+        name: order === 'asc' ? "Najniža cijena": "Najviša cijena",
+        value: order === 'asc' ? 1: 2,
+        sort: 'price',
+        order: order
       }
 
-      let sortQuery = '';
+      sortQuery = `&sort=price&order=${order}`;
+    }
 
-      if (ctx.route.query.sort) {
-        let order = ctx.route.query.order || 'desc';
+    if (! ctx.route.query.q) {
+      ctx.route.query.q = '';
+    }
 
-        selectedSort = {
-          name: order === 'asc' ? "Najniža cijena": "Najviša cijena",
-          value: order === 'asc' ? 1: 2,
-          sort: 'price',
-          order: order
+    try {
+      let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
+      results = response.data.data;
+
+      meta = response.data.meta;
+      allAttributes = response.data.meta.attributes;
+
+      query = JSON.parse(query)
+
+      query.forEach(item => {
+        if (item.name === 'category_id') {
+          selectedCategoryId = item.value;
         }
 
-        sortQuery = `&sort=price&order=${order}`;
-      }
+        if (item.name === 'city_id') {
+          cityIds = item.value;
+        }
 
-      try {
-        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
-        results = response.data.data;
-        meta = response.data.meta;
-        allAttributes = response.data.meta.attributes;
+        queryPayload[item.name] = Object.assign({}, item);
+      });
 
-        query = JSON.parse(query)
-
-        query.forEach(item => {
-          if (item.name === 'category_id') {
-            selectedCategoryId = item.value;
-          }
-
-          if (item.name === 'city_id') {
-            cityIds = item.value;
-          }
-
-          queryPayload[item.name] = Object.assign({}, item);
-        });
-
-        loading = false;
-      } catch (e) {
-        console.log(e)
-        // @TODO: Error handling
-      }
+      loading = false;
+    } catch (e) {
+      console.log(e)
+      // @TODO: Error handling
     }
 
     // get cats
@@ -694,13 +698,15 @@ export default class Homepage extends Vue {
   }
 
   handleSelectedCategory(cat) {
-    this.queryPayload = {
-      category_id: {
-        name: "category_id",
-        type: "term",
-        value: cat.id
-      }
+    this.queryPayload.category_id = {
+      name: "category_id",
+      type: "term",
+      value: cat.id
     }
+
+    this.allAttributes.forEach(item => {
+      delete this.queryPayload[item.name];
+    })
 
     this.$modal.hide('cats-modal')
 
@@ -765,7 +771,6 @@ export default class Homepage extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 80px;
 
   @include for-phone-only {
     padding-top: 12px;
@@ -1037,7 +1042,6 @@ export default class Homepage extends Vue {
     height: 44px;
     padding: 0 10px;
     background: #fff;
-    margin-right: 12px;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 300;

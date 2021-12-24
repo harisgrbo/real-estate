@@ -89,7 +89,7 @@
 
         <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
           <div class="inner checkboxes">
-            <TextField type="number" :label="listingType !== null && listingType.shortname === 'booking' ? 'Cijena noćenja' : 'Cijena'" placeholder="100.000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
+            <TextField type="number" :label="listingType !== null && listingType.shortname === 'booking' ? 'Cijena noćenja' : 'Cijena'" placeholder="100000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
             <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
               <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 lg:mb-0 xp:mb-0 up:mb-0 mb-5">
                 <div class="switch">
@@ -131,7 +131,9 @@
 
         <div v-show="currentStep === steps.STEP_SIX" class="step-6 test">
           <div class="inner">
-            <TextAreaField label="Opis" v-model="description"></TextAreaField>
+            <client-only>
+              <vue-editor v-model="description"/>
+            </client-only>
           </div>
 
           <div class="button-wrapper">
@@ -1797,5 +1799,21 @@ h2.info {
   color: #d9d9d9;
   margin: 0 auto;
   margin-bottom: 12px;
+}
+
+.step-6 {
+  align-items: flex-start;
+
+  .inner{
+    height: 100%;
+    padding-top: 80px;
+    ::v-deep .quillWrapper {
+      height: 500px;
+
+      @include for-phone-only {
+        height: 300px;
+      }
+    }
+  }
 }
 </style>

@@ -93,10 +93,12 @@ export default class RegisterForm extends Vue{
 
     this.$axios
       .post('/users/register', this.userPayload, this.config)
-      .then(this.handlePostRegister)
+      .then(() => {
+        this.handlePostRegister();
+      })
       .catch(error => {
         this.loading = false;
-        if (error.response.status === 422) {
+        if (error.response && error.response.status === 422) {
           this.$snackbar.show({
             text: "Unijeli ste pogrešne informacije!",
             timeout: 3000,
@@ -120,7 +122,7 @@ export default class RegisterForm extends Vue{
         this.handlePostRegister('realEstateAgencyPayload')
       }).catch(error => {
         this.loading = false;
-        if (error.response.status === 422) {
+        if (error.response && error.response.status === 422) {
           this.$snackbar.show({
             text: "Unijeli ste pogrešne informacije!",
             timeout: 3000,
@@ -248,6 +250,7 @@ export default class RegisterForm extends Vue{
         font-weight: 600;
         color: #fff;
         background: #1F2937;
+        padding: 13px 0;
       }
     }
   }

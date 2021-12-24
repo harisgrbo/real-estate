@@ -44,7 +44,8 @@
     "vue-radial-progress": "^0.3.2",
     "vue-security-code": "^1.0.3",
     "vue-verification-code-input": "^1.0.0",
-    "vue2-circle-progress": "^1.2.3"
+    "vue2-circle-progress": "^1.2.3",
+    "vue2-editor": "^2.10.3"
   },
   "devDependencies": {
     "@nuxtjs/device": "^2.0.1",
