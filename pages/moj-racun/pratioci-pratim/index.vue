@@ -35,7 +35,7 @@
         </div>
         <div v-else class="no-image">
           <img src="/nodata.jpeg" alt="no-image">
-          <p>Nemate pratilaca</p>
+          <p>Ne pratite nikoga</p>
         </div>
       </div>
     </div>

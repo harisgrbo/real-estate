@@ -63,6 +63,7 @@ export default {
       mode: "client"
     },
     { src: "~plugins/swiper.js", mode: "client" },
+    { src: "~plugins/vue2-editor.js", mode: "client" },
     { src: "~plugins/modal.js", mode: "client" },
     { src: "~plugins/datepicker.js", mode: "client" },
     { src: "~plugins/infiniteloading.js", mode: "client" },

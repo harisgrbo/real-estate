@@ -14,7 +14,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </button>
-        <button v-if="$auth.user" @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
+        <button v-if="$auth.user && $auth.user.id !== listing.user.id" @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
           <!-- Heroicon name: solid/plus -->
           <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -100,7 +100,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </button>
-                  <button @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
+                  <button v-if="$auth.user && $auth.user.id !== listing.user.id" @click="toggleSaveListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
                     <!-- Heroicon name: solid/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -226,7 +226,13 @@
             </div>
             <div class="separator"></div>
             <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h2>
-            <p class="description mx-5 lg:mx-0 xl:mx-0 up:mx-0">{{ listing.description }}</p>
+            <p :class="['description mx-5 lg:mx-0 xl:mx-0 up:mx-0', descriptionRows > 200 ? 'minimize' : 'maximize']" id="opis" v-html="listing.description"></p>
+            <span v-show="descriptionRows > 200" @click="$modal.show('detailed-desc')" class="py-4 flex flex-row items-center show-more min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
+              Prikaži više
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
             <div class="separator"></div>
             <div class="rent" v-if="listing.is_booking && !$device.isMobile && $auth.user && $auth.user.id !== listing.user.id">
               <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezerviši smještaj</h2>
@@ -247,8 +253,8 @@
                     :min-date="new Date()"
                     v-model="range"
                     :masks="masks"
-                    is-expanded="true"
                     is-range
+                    ref="picker"
                   >
                     <template v-slot="{ inputValue, inputEvents, isDragging }">
                       <div class="flex flex-row justify-start items-center">
@@ -274,18 +280,18 @@
                           />
                         </div>
                         <span class="flex-shrink-0 m-2">
-              <svg
-                class="w-4 h-4 stroke-current text-gray-600"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </span>
+                        <svg
+                          class="w-4 h-4 stroke-current text-gray-600"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      </span>
                         <div class="relative flex-grow w-full">
                           <svg
                             class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
@@ -325,9 +331,18 @@
               </ul>
               <div>
                 <div class="places-grid" v-if="selectedPlace !== null">
-                  <div v-for="p in selectedPlace" :key="p.id" class="flex flex-row items-center justify-start">
-                    <img :src="p.icon" :alt="p.name" class="mr-2">
-                    {{ p.name }}</div>
+                  <div v-for="p in selectedPlace" :key="p.id" class="flex flex-col items-start justify-start">
+                    <div class="flex flex-row items-center">
+                      <img :src="p.icon" :alt="p.name" class="mr-2">
+                      {{ p.name }}
+                    </div>
+                    <div class="flex mt-1 flex-row items-center">
+                      <svg class="text-yellow-300 h-4 w-4 mr-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      {{ p.rating }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -519,6 +534,9 @@
                           v-model="range"
                           :masks="masks"
                           is-range
+                          is-inline
+                          popover.visibility="visible"
+                          :popover="{ visibility: 'click' }"
                         >
                           <template v-slot="{ inputValue, inputEvents, isDragging }">
                             <div class="flex flex-row justify-start items-center">
@@ -589,6 +607,19 @@
             </div>
           </modal>
         </client-only>
+        <client-only>
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="detailed-desc" :adaptive="true" height="100%">
+            <div class="modal-inner">
+              <div class="modal-header">
+                <h2>Detaljni opis</h2>
+                <i class="material-icons" @click.prevent="$modal.hide('detailed-desc')">close</i>
+              </div>
+              <div class="modal-content places-modal">
+                <p class="description" v-html="listing.description"></p>
+              </div>
+            </div>
+          </modal>
+        </client-only>
       </div>
 
     </div>
@@ -606,6 +637,8 @@ import RealEstateLocationMap from "@/components/RealEstateLocationMap";
 import TextField from "../../components/inputs/TextField";
 import TextAreaField from "../../components/inputs/TextAreaField";
 import Skeleton from "@/components/skeleton";
+
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 @Component({
   components: {
@@ -710,6 +743,7 @@ export default class Artikal extends Vue {
   masks = {
     input: 'DD-MM-YYYY',
   }
+  descriptionRows = 0;
   RentSpecialAttributes = []
   RentSpecialAttributesKeys = [
     "Klima",
@@ -1098,8 +1132,6 @@ export default class Artikal extends Vue {
 
   async created() {
 
-    console.log(this.listing_meta, 'meta')
-
     this.RentSpecialAttributes = this.getSpecialAttributes();
 
     if (this.listing.listing_type.shortname === 'booking') {
@@ -1118,6 +1150,12 @@ export default class Artikal extends Vue {
 
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
+
+    let desc_h = document.getElementById('opis').getClientRects();
+
+    this.descriptionRows = desc_h[0].height;
+
+    console.log(this.descriptionRows, 'koliko')
   }
 
   get listingType() {
@@ -1389,8 +1427,15 @@ export default class Artikal extends Vue {
         flex-wrap: wrap;
       }
       .description {
-        line-height: 21px;
+        line-height: 25px;
         line-break: anywhere;
+        //max-height: 200px;
+        //overflow: hidden;
+
+        &.minimize {
+          max-height: 200px;
+          overflow: hidden;
+        }
       }
 
     }
@@ -1417,7 +1462,7 @@ export default class Artikal extends Vue {
 .modal-inner {
   display: flex;
   flex-direction: column;
-  padding: 0 24px;
+  padding: 16px;
 
   @include for-phone-only {
     padding: 12px;
@@ -1530,6 +1575,11 @@ export default class Artikal extends Vue {
       border: 1px solid #dcdcdc;
     }
   }
+}
+
+
+::v-deep .vc-popover-content-wrapper {
+  display: flex;
 }
 
 .detailed-info {
@@ -1883,7 +1933,7 @@ export default class Artikal extends Vue {
 
   .places-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 24px;
     grid-row-gap: 32px;
     padding: 16px;
@@ -2400,6 +2450,15 @@ input[type=range]:focus::-ms-fill-upper {
 
   @include for-phone-only {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.show-more {
+  min-width: fit-content;
+  max-width: fit-content;
+
+  @include for-phone-only {
+    margin-left: 16px;
   }
 }
 </style>

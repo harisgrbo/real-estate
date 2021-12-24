@@ -200,7 +200,7 @@
       <div class="w-full flex items-center justify-between lg:px-20 up:px-20 xl:px-20 mx-auto mb-4">
         <h2 class="section-title popular-cats">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
-          <nuxt-link class="more" to="/pretraga">Sve kategorija</nuxt-link>
+          <nuxt-link class="more" to="/pretraga">Sve kategorije</nuxt-link>
           </div>
       </div>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
