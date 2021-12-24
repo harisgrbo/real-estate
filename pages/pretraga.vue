@@ -1,6 +1,6 @@
 <template>
   <div class="search-wrapper w-full relative flex flex-col">
-    <div class="search-heading sm:px-5 lg:px-20 xl:px-20 up:px-20 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
+    <div class="search-heading sm:px-5 py-2 lg:px-20 xl:px-20 up:px-20 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="w-full relative search-options">
         <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
@@ -86,7 +86,7 @@
     </div>
     <div class="content lg:px-20 xl:px-20 up:px-20 px-5 w-full mx-auto">
       <div class="w-full flex items-center justify-between mb-4">
-        <h1 class="font-semibold text-lg">{{ meta.total }} rezultata</h1>
+        <h1 class="font-medium text-lg">{{ meta.total }} rezultata</h1>
         <div class="flex flex-row items-center">
           <div class="inline-block text-left mr-2 relative" v-if="!$device.isMobile">
             <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-md px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
@@ -119,7 +119,7 @@
       </div>
       <div class="results" v-if="selectedPreviewType === 'grid'">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-6 w-full listing-wrap">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-5 gap-4 w-full listing-wrap">
             <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
           <client-only>
@@ -1042,7 +1042,6 @@ export default class Homepage extends Vue {
     height: 44px;
     padding: 0 10px;
     background: #fff;
-    margin-right: 12px;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 300;

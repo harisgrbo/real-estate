@@ -250,6 +250,7 @@ export default class RegisterForm extends Vue{
         font-weight: 600;
         color: #fff;
         background: #1F2937;
+        padding: 13px 0;
       }
     }
   }
