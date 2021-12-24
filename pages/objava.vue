@@ -1809,6 +1809,10 @@ h2.info {
     padding-top: 80px;
     ::v-deep .quillWrapper {
       height: 500px;
+
+      @include for-phone-only {
+        height: 300px;
+      }
     }
   }
 }
