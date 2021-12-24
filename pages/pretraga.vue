@@ -697,13 +697,15 @@ export default class Homepage extends Vue {
   }
 
   handleSelectedCategory(cat) {
-    this.queryPayload = {
-      category_id: {
-        name: "category_id",
-        type: "term",
-        value: cat.id
-      }
+    this.queryPayload.category_id = {
+      name: "category_id",
+      type: "term",
+      value: cat.id
     }
+
+    this.allAttributes.forEach(item => {
+      delete this.queryPayload[item.name];
+    })
 
     this.$modal.hide('cats-modal')
 
