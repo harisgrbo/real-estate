@@ -352,55 +352,58 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
       order: 'asc'
     }
 
-    if (ctx.route.query.q) {
-      let query = decodeURIComponent(ctx.route.query.q)
-      page = ctx.route.query.page || '1';
-      page = parseInt(page)
+    let query = decodeURIComponent(ctx.route.query.q)
+    page = ctx.route.query.page || '1';
+    page = parseInt(page)
 
-      if (ctx.route.query.preview) {
-        selectedPreviewType = ctx.route.query.preview;
+    if (ctx.route.query.preview) {
+      selectedPreviewType = ctx.route.query.preview;
+    }
+
+    let sortQuery = '';
+
+    if (ctx.route.query.sort) {
+      let order = ctx.route.query.order || 'desc';
+
+      selectedSort = {
+        name: order === 'asc' ? "Najniža cijena": "Najviša cijena",
+        value: order === 'asc' ? 1: 2,
+        sort: 'price',
+        order: order
       }
 
-      let sortQuery = '';
+      sortQuery = `&sort=price&order=${order}`;
+    }
 
-      if (ctx.route.query.sort) {
-        let order = ctx.route.query.order || 'desc';
+    if (! ctx.route.query.q) {
+      ctx.route.query.q = '';
+    }
 
-        selectedSort = {
-          name: order === 'asc' ? "Najniža cijena": "Najviša cijena",
-          value: order === 'asc' ? 1: 2,
-          sort: 'price',
-          order: order
+    try {
+      let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
+      results = response.data.data;
+
+      meta = response.data.meta;
+      allAttributes = response.data.meta.attributes;
+
+      query = JSON.parse(query)
+
+      query.forEach(item => {
+        if (item.name === 'category_id') {
+          selectedCategoryId = item.value;
         }
 
-        sortQuery = `&sort=price&order=${order}`;
-      }
+        if (item.name === 'city_id') {
+          cityIds = item.value;
+        }
 
-      try {
-        let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
-        results = response.data.data;
-        meta = response.data.meta;
-        allAttributes = response.data.meta.attributes;
+        queryPayload[item.name] = Object.assign({}, item);
+      });
 
-        query = JSON.parse(query)
-
-        query.forEach(item => {
-          if (item.name === 'category_id') {
-            selectedCategoryId = item.value;
-          }
-
-          if (item.name === 'city_id') {
-            cityIds = item.value;
-          }
-
-          queryPayload[item.name] = Object.assign({}, item);
-        });
-
-        loading = false;
-      } catch (e) {
-        console.log(e)
-        // @TODO: Error handling
-      }
+      loading = false;
+    } catch (e) {
+      console.log(e)
+      // @TODO: Error handling
     }
 
     // get cats
