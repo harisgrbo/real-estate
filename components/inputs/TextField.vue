@@ -7,7 +7,7 @@
       <input     :type="type"
                  :value="value"
                  :placeholder="placeholder"
-                 @input="updateValue($event.target.value)" id="price" aria-describedby="price-currency">
+                 @change="updateValue($event.target.value)" id="price" aria-describedby="price-currency">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <span v-if="currency" class="text-gray-900 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
           KM
@@ -27,7 +27,6 @@ import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 
 @Component({
 })
-
 export default class TextField extends Vue{
   @Prop({ type: String, required: true}) type;
   @Prop({ type: String }) error;

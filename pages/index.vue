@@ -50,9 +50,9 @@
             <div class="price-label">
               <label>Kvadratura</label>
               <div class="w-full flex items-center justify-between">
-                <TextField type="number" placeholder="Od" v-model.lazy="squareFrom"></TextField>
+                <TextField type="number" placeholder="Od" v-model="squareFrom"></TextField>
                 <p class="mx-2">-</p>
-                <TextField type="number" placeholder="Do" v-model.lazy="squareTo"></TextField>
+                <TextField type="number" placeholder="Do" v-model="squareTo"></TextField>
               </div>
             </div>
             <div class="price-label">
