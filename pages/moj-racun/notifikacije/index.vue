@@ -33,18 +33,18 @@
         </li>
       </ul>
     </div>
-    <div class="flex flex-row pb-8 justify-between notifications-wrap" v-else>
-      <img src="/bell-notify.png" alt="">
-      <h2 class="mt-2 p-2 text-standard text-gray-800 font-medium">Nemate obavijesti</h2>
-    </div>
+    <NotFound v-else src="/notifications.svg" text="Nemate obavijesti"></NotFound>
+
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })

@@ -24,19 +24,14 @@
           <UserCard v-for="user in followers" :key="user.id" :id="user.id" :user="user"/>
           <!-- More people... -->
         </div>
-        <div v-else class="no-image">
-          <img src="/nodata.jpeg" alt="no-image">
-          <p>Nemate pratilaca</p>
-        </div>
+        <NotFound v-else src="/followers.svg" text="Nemate pratilaca"></NotFound>
+
       </div>
       <div v-show="activeTab === 1">
         <div class="mobile-grid w-full" v-if="followed.length">
           <UserCard v-for="user in followed" :key="user.id" :id="user.id" :user="user"/>
         </div>
-        <div v-else class="no-image">
-          <img src="/nodata.jpeg" alt="no-image">
-          <p>Ne pratite nikoga</p>
-        </div>
+        <NotFound v-else src="/followers.svg" text="Ne pratite nikoga"></NotFound>
       </div>
     </div>
   </div>
@@ -46,9 +41,11 @@
 import { Component, Vue} from "nuxt-property-decorator";
 
 import UserCard from "@/components/UserCard";
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     UserCard,
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',

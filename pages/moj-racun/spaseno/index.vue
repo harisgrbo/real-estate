@@ -77,19 +77,14 @@
               </div>
             </div>
           </div>
-          <div v-else class="no-image">
-            <img src="/nodata.jpeg" alt="no-image">
-            <p>Nemate spašenih pretraga</p>
-          </div>
+          <NotFound v-else src="/saved.svg" text="Nemate spašenih pretraga"></NotFound>
+
         </div>
         <div v-show="activeTab === 1">
           <div class="grid-layout" v-if="savedListings.length">
             <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id" :from="true" @remove-listing-from-saved="handleRemoveListing"></ListingCard>
           </div>
-          <div v-else class="no-image">
-            <img src="/nodata.jpeg" alt="no-image">
-            <p>Nemate spašenih oglasa</p>
-          </div>
+          <NotFound v-else src="/saved.svg" text="Nemate spašenih oglasa"></NotFound>
         </div>
       </div>
     </div>
@@ -102,9 +97,11 @@ import { Component, Vue} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import SavedUserCard from "@/components/UserCard"
 import Snackbar from "@/components/global/Snackbar";
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     SavedUserCard,
     ListingCard,
     Snackbar

@@ -14,7 +14,7 @@
             </svg>
           </div>
 
-          <OtherLinksDropdown v-show="showOtherLinksDropdown"></OtherLinksDropdown>
+          <OtherLinksDropdown @close-links="showOtherLinksDropdown = false" v-if="showOtherLinksDropdown"></OtherLinksDropdown>
         </div>
         <div class="input-wrapper"
              @focusin="focused = true"
