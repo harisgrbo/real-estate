@@ -3,12 +3,10 @@
     <div class="second-row mx-auto w-full">
       <div class="flex flex-row items-center">
         <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-          <nuxt-link :to="'/'" class="flex flex-row items-center">
-            <img :src="[ $device.isMobile ? '/msquare-mobile.png' : '/msquare.png']" class="main-logo" height="40" alt="">
-          </nuxt-link>
+          <img @click="$router.push('/')" :src="[ $device.isMobile ? '/msquare-mobile.png' : '/msquare.png']" class="main-logo" height="40" alt="">
         </div>
       </div>
-      <div class="flex items-center justify-center w-full">
+      <div class="flex items-center justify-center w-full centralize">
         <div class="relative mr-2" v-if="!$device.isMobile">
           <div class="flex flex-row items-center ml-4 cursor-pointer hover:bg-gray-50 rounded-sm p-2" @click="showOtherLinksDropdown = !showOtherLinksDropdown">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1122,5 +1120,9 @@ export default class Navbar extends Vue {
   max-height: 36px;
   min-width: 36px;
   max-width: 36px;
+}
+
+.centralize {
+  //flex: 2;
 }
 </style>
