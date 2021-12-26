@@ -232,14 +232,17 @@
             </span>
             </div>
             <div class="separator"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h2>
-            <p :class="['description mx-5 lg:mx-0 xl:mx-0 up:mx-0', descriptionRows > 200 ? 'minimize' : 'maximize']" id="opis" v-html="listing.description"></p>
-            <span v-show="descriptionRows > 200" @click="$modal.show('detailed-desc')" class="py-4 rounded-md flex flex-row items-center show-more-btn min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
+            <client-only>
+              <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h2>
+              <p :class="['description mx-5 lg:mx-0 xl:mx-0 up:mx-0', descriptionRows > 200 ? 'minimize' : 'maximize']" id="opis" v-html="listing.description"></p>
+              <span v-show="descriptionRows > 200" @click="$modal.show('detailed-desc')" class="py-4 rounded-md flex flex-row items-center show-more-btn min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
               Prikaži više
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
               </svg>
             </span>
+            </client-only>
+
             <div class="separator"></div>
             <div class="rent" v-if="listing.is_booking && !$device.isMobile && $auth.user && $auth.user.id !== listing.user.id">
               <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezerviši smještaj</h2>
@@ -1207,9 +1210,12 @@ export default class Artikal extends Vue {
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
 
-    let desc_h = document.getElementById('opis').getClientRects();
+    if(process.browser) {
+      let desc_h = document.getElementById('opis').getClientRects();
 
-    this.descriptionRows = desc_h[0].height;
+      this.descriptionRows = desc_h[0].height;
+
+    }
 
     console.log(this.descriptionRows, 'koliko')
   }

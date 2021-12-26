@@ -1,6 +1,5 @@
 <template>
     <button @click="action" :style="styleOptions" :disabled="loading === true">
-      <font-awesome-icon v-if="icon" :icon="icon"></font-awesome-icon>
       <span v-if="loading === false">{{ placeholder }}</span>
       <img v-else src="/loader.svg" alt="">
     </button>
@@ -13,7 +12,6 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 })
 export default class ActionButton extends Vue {
   @Prop({ type: String }) placeholder;
-  @Prop({ type: String }) icon;
   @Prop({ type: Object, default: ()=>{}}) styleOptions;
   @Prop({ type: Boolean, default: false }) loading
 
