@@ -13,6 +13,9 @@
             Akcija{{ ' -' + listing.discount * 100 + '%' }}
           </p>
         </span>
+        <span class="country">
+          <img :src="'/' + listing.city.country.shortname + '.svg'" alt="">
+        </span>
       </label>
       <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false" @click.stop>
         <div v-show="showListingOptions && ($router.history.current.fullPath === '/moj-racun/moji-oglasi' || $router.history.current.fullPath === '/moj-racun/dashboard/upravljanje-oglasima')" class="w-full">
@@ -293,7 +296,7 @@ export default class ListingCard extends Vue{
           font-family: 'Outfit', sans-serif;
           border: none;
           margin-right: 8px;
-          border-radius: 5px;
+          border-radius: 2px;
           background: #fff;
           //box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
           color: #444;
@@ -367,6 +370,18 @@ export default class ListingCard extends Vue{
 
         span {
           text-transform: capitalize;
+        }
+      }
+
+      .country {
+        bottom: 0;
+        right: 8px;
+        border-radius: 2px;
+
+        img {
+          height: 18px;
+          width: fit-content;
+          border-radius: 2px !important;
         }
       }
     }

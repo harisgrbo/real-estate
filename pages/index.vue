@@ -50,9 +50,9 @@
             <div class="price-label">
               <label>Kvadratura</label>
               <div class="w-full flex items-center justify-between">
-                <TextField type="number" placeholder="Od" v-model.lazy="squareFrom"></TextField>
+                <TextField type="number" placeholder="Od" v-model="squareFrom"></TextField>
                 <p class="mx-2">-</p>
-                <TextField type="number" placeholder="Do" v-model.lazy="squareTo"></TextField>
+                <TextField type="number" placeholder="Do" v-model="squareTo"></TextField>
               </div>
             </div>
             <div class="price-label">
@@ -212,7 +212,7 @@
             <h3 class="font-medium">
               {{ cat.name }}
             </h3>
-            <p class="mt-1 text-lg text-white" v-if="!$device.isMobile">{{ cat.text + ' oglasa u kategoriji ' + cat.name }}</p>
+            <p class="mt-1 text-lg text-white" v-if="!$device.isMobile">{{ cat.text + ' oglasa u kategoriji ' + cat.name + ' sa prosječnom cijenom po kvadratu od 3200KM' }}</p>
           </div>
           <button @click="searchCategory(cat)" type="button" class="inline-flex items-center px-3 py-2 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-800 bg-white hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Pretraži
@@ -407,25 +407,25 @@
         id: 1,
         name: 'Stanovi',
         img: '/flat.jpeg',
-        text: 'Preko 2000'
+        text: '2000'
       },
       {
         id: 2,
         name: 'Kuće',
-        img: '/house.jpg',
-        text: 'Preko 2000'
+        img: '/house.jpeg',
+        text: '2000'
       },
       {
         id: 4,
         name: 'Garaže',
-        img: '/garage.jpg',
-        text: 'Preko 2000'
+        img: '/garage.jpeg',
+        text: '2000'
       },
       {
         id: 6,
         name: 'Apartmani',
-        img: '/rooms.jpg',
-        text: 'Preko 2000'
+        img: '/apartmani.jpeg',
+        text: '2000'
       },
     ]
 
@@ -911,7 +911,7 @@ h2.heading {
   min-height: 262px;
   width: 440px;
   height: 262px;
-  border-radius: 7px;
+  border-radius: 4px;
   object-fit: cover;
   object-fit: cover;
   background-position: center;
@@ -969,23 +969,24 @@ ul.most-visited-cats {
   }
   .flow-root {
     min-width: 100%;
-    min-height: 362px;
+    min-height: 262px;
     width: 100%;
     max-height: 100%;
-    height: 362px;
-    border-radius: 7px;
+    height: 262px;
+    border-radius: 4px;
     object-fit: cover;
     object-fit: cover;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    padding: 24px;
+    padding: 12px;
     font-size: 26px;
     line-height: 30px;
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
 
     @include for-phone-only {
       min-height: 180px;
@@ -1000,6 +1001,17 @@ ul.most-visited-cats {
 
     button {
       width: fit-content;
+    }
+
+    p {
+      font-size: 17px;
+      font-weight: 200;
+      line-height: 20px;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
     }
   }
 }
@@ -1196,13 +1208,13 @@ ul.most-visited-cats {
 
 .overlay {
   background: rgb(0,0,0);
-  background: linear-gradient(180deg, rgba(0,0,0,0.53125) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(255,255,255,0) 100%);
   position: absolute;
-  top: -24px;
-  left: -24px;
-  right: -24px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  top: -12px;
+  left: -12px;
+  right: -12px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   z-index: 0;
   height: 160px;
 
@@ -1238,8 +1250,8 @@ ul.most-visited-cats {
   top: 0px;
   left: 0px;
   right: 0px;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   z-index: 0;
   height: 70px;
 }

@@ -14,10 +14,7 @@
         <div class="mobile-grid w-full" v-if="blockedUsers.length">
           <UserCard placeholder="Odblokiraj" @do-action="unblockUser(user)" v-for="user in blockedUsers" :key="user.id" :id="user.id" :user="user"/>
         </div>
-        <div v-else class="no-image">
-          <img src="/nodata.jpeg" alt="no-image">
-          <p>Nemate blokiranih korisnika</p>
-        </div>
+        <NotFound v-else src="/blocked.svg" text="Nemate blokiranih korisnika"></NotFound>
       </div>
     </div>
     <Snackbar></Snackbar>
@@ -29,9 +26,11 @@ import { Component, Vue} from "nuxt-property-decorator";
 
 import UserCard from "@/components/UserCard";
 import Snackbar from "@/components/global/Snackbar"
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     UserCard,
     Snackbar
   },

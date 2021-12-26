@@ -10,16 +10,17 @@
       </li>
     </ul>
     <div class="content">
-      <div v-if="listingsLoaded" class="grid-cards">
-        <ListingCard v-for="listing in listings" @highlight-listing="$router.push('/sponzorisanje/' + listing.id)" :listing="listing" :from="true" :key="listing.id"/>
+      <div v-if="listingsLoaded">
+        <div class="grid-cards">
+          <ListingCard v-for="listing in listings" @highlight-listing="$router.push('/sponzorisanje/' + listing.id)" :listing="listing" :from="true" :key="listing.id"/>
+        </div>
+        <NotFound v-if="listings.length === 0" src="/nodata.svg" text="Nemate objavljenih oglasa"></NotFound>
       </div>
+
       <div v-else class="grid-cards">
         <Skeleton :height="$device.isMobile ? '337px' : '368px'" :width="$device.isMobile ? '165px' : '265px'" v-for="(i, index) in 20" :key="index"></Skeleton>
       </div>
-      <div v-else class="no-image">
-        <img src="/nodata.jpeg" alt="no-image">
-        <p>Nemate spšenih pretraga</p>
-      </div>
+
       <Pagination
         v-if="listingMeta !== null && listingMeta.total > 20"
         ref="pagination"
@@ -34,9 +35,11 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import ListingCard from '@/components/listingCard/ListingCard';
 import Pagination from "../../../components/pagination";
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     Pagination,
     ListingCard
   },

@@ -131,10 +131,8 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <div v-else class="divide-y divide-gray-200 flex flex-col min-h-full w-full items-center justify-center">
-          <img class="no-results" src="/no-results.svg" alt="">
-          <p class="mt-4 text-lg font-normal">Nema rezultata</p>
-        </div>
+        <NotFound v-else src="/nosearchresults.svg" text="Nema rezultata"></NotFound>
+
       </div>
       <div class="results map" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
@@ -152,8 +150,8 @@
           <img class="no-results" src="/no-results.svg" alt="">
           <p class="mt-4 text-lg font-normal">Nema rezultata</p>
         </div>
-        <div class="map-wrapper">
-          <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
+        <div v-if="results.length" class="map-wrapper">
+          <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>
       </div>
     </div>
@@ -312,9 +310,11 @@ import ActionButton from "@/components/actionButtons/ActionButton"
 import HorizontalCard from "../components/listingCard/HorizontalCard";
 import SearchMap from "../components/googleMap/SearchMap";
 import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
+import NotFound from "../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     CitiesMultipleSelect,
     SearchMap,
     HorizontalCard,
@@ -346,7 +346,7 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
     let cityIds = [];
     let cityNames = null;
     let selectedCategoryId = null;
-    let selectedPreviewType = 'grid';
+    let selectedPreviewType = 'map';
     let selectedSort = {
       name: "Najnovije",
       value: 0,

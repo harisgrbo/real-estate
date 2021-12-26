@@ -22,7 +22,7 @@
           </div>
         </div>
         <div v-else class="flex flex-col items-center no-notifications">
-          <img src="/bell-notify.png" alt="">
+          <img src="/notifications.svg" alt="">
           <h2 class="mt-2 p-2 text-standard text-gray-800 font-medium">Nemate obavijesti</h2>
         </div>
       <ActionButton v-if="notifications.length" :style-options="{ marginBottom: '24px', width: '100%', minHeight: '48px' }" @action="$emit('clear-notifications')" placeholder="Očisti obavijesti" icon="trash-alt"></ActionButton>
@@ -72,7 +72,8 @@ export default class NotificationsDropdown extends Vue {
   justify-content: center;
 
   img {
-    height: 60px;
+    height: 80px !important;
+    min-width: fit-content !important;
   }
 
   @include for-phone-only {

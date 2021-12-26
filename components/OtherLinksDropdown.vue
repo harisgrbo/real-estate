@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0">
+  <div class="absolute z-10 left-0 transform mt-3 px-2 w-screen max-w-md sm:px-0" v-on-clickaway="away">
     <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
       <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
         <a href="#" class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50 transition ease-in-out duration-150">
@@ -120,13 +120,18 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import Footer from "@/components/Footer"
+import { mixin as clickaway } from 'vue-clickaway';
 
 @Component({
   components: {Navbar, Footer},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
+  mixins: [clickaway]
 })
 
 export default class OtherLinksDropdown extends Vue {
+  away() {
+    this.$emit('close-links');
+  }
 }
 </script>
 
