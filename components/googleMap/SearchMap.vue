@@ -21,7 +21,7 @@ export default class SearchMap extends Vue{
   map = null;
   markers = [];
   markerCluster = null;
-  zoom = 16;
+  zoom = 12;
   lastOpenedInfoWindow = null;
 
   mounted() {
@@ -71,10 +71,10 @@ export default class SearchMap extends Vue{
   }
 
   initMarkers() {
-    const uluru = { lat: 43.8563, lng: 18.4131 };
+    const uluru = this.center;
 
     const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 16,
+      zoom: this.zoom,
       center: uluru,
       mapId: '90b8b95b1bbd0bc9'
     });

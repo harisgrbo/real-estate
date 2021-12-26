@@ -150,8 +150,8 @@
           <img class="no-results" src="/no-results.svg" alt="">
           <p class="mt-4 text-lg font-normal">Nema rezultata</p>
         </div>
-        <div class="map-wrapper">
-          <SearchMap :locations="results" :current="currentResultIndex"></SearchMap>
+        <div v-if="results.length" class="map-wrapper">
+          <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>
       </div>
     </div>
@@ -346,7 +346,7 @@ import NotFound from "../components/global/NotFound";
     let cityIds = [];
     let cityNames = null;
     let selectedCategoryId = null;
-    let selectedPreviewType = 'grid';
+    let selectedPreviewType = 'map';
     let selectedSort = {
       name: "Najnovije",
       value: 0,
