@@ -81,15 +81,38 @@ export default class SearchMap extends Vue{
 
     this.map = map;
 
-    const svgMarker = {
-      path: "M12 22c0 18 20 40 20 40s20-22 20-40a20 20 0 0 0-40 0zm12 0a8 8 0 1 1 8 8 8 8 0 0 1-8-8z",
-      fillColor: "#234176",
-      fillOpacity: 1,
-      strokeColor: "#234176",
-      strokeWeight: 3,
-      rotation: 0,
-      scale: 0.7,
-      anchor: new google.maps.Point(15, 30),
+    // const svgMarker = {
+    //   path: "M12 22c0 18 20 40 20 40s20-22 20-40a20 20 0 0 0-40 0zm12 0a8 8 0 1 1 8 8 8 8 0 0 1-8-8z",
+    //   fillColor: "#234176",
+    //   fillOpacity: 1,
+    //   strokeColor: "#234176",
+    //   strokeWeight: 3,
+    //   rotation: 0,
+    //   scale: 0.7,
+    //   anchor: new google.maps.Point(15, 30),
+    //   label: {
+    //     text: "\ue530", // codepoint from https://fonts.google.com/icons
+    //     fontFamily: "Material Icons",
+    //     color: "#ffffff",
+    //     fontSize: "18px",
+    //   },
+    //   title: "Material Icon Font Marker",
+    // };
+
+    // const svgMarker = new google.maps.Marker({
+    //   animation: google.maps.Animation.DROP,
+    //   draggable: isDraggable,
+    //   icon: clickIcon,
+    //   label: {
+    //     text: labels[labelIndex++ % labels.length],
+    //     color: 'black',
+    //     fontSize: '15px',
+    //     fontWeight: 'bold'
+    //   }
+    // });
+
+    const image = {
+      url: 'http://www.homedepot.com/catalog/swatchImages/35/04/04a604de-8b52-4cd8-a394-6286f00b438d_35.jpg',
     };
 
 
@@ -102,8 +125,15 @@ export default class SearchMap extends Vue{
       let marker = new google.maps.Marker({
         position: loc,
         map: map,
-        icon: svgMarker,
         clickable: true,
+        icon: image,
+        label: {
+          text: item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'KM' ,
+          color: 'black',
+          fontSize: '15px',
+          fontWeight: 'bold',
+          className: 'marker-label'
+        }
       });
 
       let self = this;
@@ -160,5 +190,26 @@ export default class SearchMap extends Vue{
   font-weight: bold !important;
   outline: none !important;
   border: none !important;
+}
+
+::v-deep .marker-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 28px;
+  box-shadow: rgb(0 0 0 / 4%) 0px 0px 0px 1px inset, rgb(0 0 0 / 18%) 0px 2px 4px;
+  color: rgb(255, 255, 255);
+  height: 28px;
+  padding: 0px 8px;
+  position: relative;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 250ms cubic-bezier(0, 0, 0.1, 1) 0s;
+  transition: 0.3s all ease;
+
+  &:hover {
+    transform: scale(1.4);
+  }
 }
 </style>

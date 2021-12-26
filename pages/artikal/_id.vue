@@ -160,6 +160,9 @@
               <li>
                 <p class="text-md text-black font-normal">{{ 'Pregleda: ' + view_count }}</p>
               </li>
+              <li v-if="listing.city.country !== null">
+                <p class="text-md text-black font-normal">{{ listing.city.country.name }}</p>
+              </li>
             </ul>
             <div class="separator"></div>
             <div class="px-5 lg:px-0 xl:px-0 up:px-0">
