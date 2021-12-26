@@ -32,6 +32,7 @@ export default class NotFound extends Vue {
   justify-content: center;
   flex-direction: column;
   min-height: 500px;
+  width: 100%;
 
   img {
     height: 100px !important;

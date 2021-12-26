@@ -119,7 +119,7 @@ export default {
   ],
 
   axios: {
-    baseURL: "https://polar-cove-31327.herokuapp.com/"
+    baseURL: "https://polar-cove-31327.herokuapp.com/",
   },
 
   auth: {

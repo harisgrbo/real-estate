@@ -103,13 +103,13 @@
           </a>
         </div>
         <div class="flow-root">
-          <a href="#" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-white bg-gray-900 hover:bg-gray-800 transition ease-in-out duration-150">
+          <nuxt-link :to="'/objava'" class="-m-3 p-3 flex items-center rounded-md text-base font-medium text-white bg-gray-900 hover:bg-gray-800 transition ease-in-out duration-150">
 
             <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="#fff">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
             </svg>
             <span class="ml-3">Objavite nekretninu</span>
-          </a>
+          </nuxt-link>
         </div>
       </div>
     </div>

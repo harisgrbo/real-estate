@@ -10,36 +10,41 @@
       </li>
     </ul>
     <div class="w-full mt-5">
-      <ul role="list" class="divide-y divide-gray-200">
-        <li v-for="(booking, index) in bookings" :key="index" class="p-4 sm:p-6 bg-white shadow-sm rounded-md">
-          <div class="flex items-center sm:items-start inner">
-            <div class="flex-shrink-0 w-20 h-20 bg-gray-200 rounded-lg overflow-hidden sm:w-40 sm:h-40 listing">
-              <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="w-full h-full object-center object-cover">
+      <ul role="list" class="divide-y orders divide-gray-200">
+        <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
+          <div class="flex items-center sm:items-start">
+            <div class="flex-shrink-0 h-25 bg-gray-200 rounded-lg overflow-hidden main-image-wrap">
+              <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="w-full h-full">
             </div>
-            <div class="flex-1 ml-6 text-sm mr-5 listing-content">
-              <div class="font-medium text-gray-900 flex-col sm:flex sm:justify-between">
+            <div class="flex-1 ml-6 text-sm w-full">
+              <div class="font-medium text-gray-900 sm:flex sm:justify-between">
                 <h5 class="text-lg">
                   {{ booking.listing.title }}
                 </h5>
-                <p class="hidden text-gray-800 sm:block text-lg font-normal sm:mt-2 opis">
-                  {{ booking.listing.description }}
+                <p class="mt-2 sm:mt-0 text-lg font-medium">
+                  {{ booking.total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM za {{ booking.days }} dana
                 </p>
               </div>
-              <p class="mt-2 sm:mt-0 text-lg font-semibold price">
-                {{ booking.total_price }} KM za {{ booking.days }} noćenja
+              <p class="text-gray-900 sm:block sm:mt-2 opis">
+                {{ booking.listing.description }}
               </p>
-            </div>
-            <vc-date-picker :value="getDatesFromBooking(booking)" title-position="left" is-range/>
+              <p class="text-gray-900 sm:block sm:mt-2">
+                {{ booking.listing.address }}
+              </p>
 
+            </div>
+            <div class="pl-6">
+              <vc-date-picker :value="getDatesFromBooking(booking)" title-position="left" is-range/>
+            </div>
           </div>
 
-          <div class="mt-6 sm:flex sm:justify-between">
+          <div class="sm:flex sm:justify-between">
             <div class="flex items-center">
               <!-- Heroicon name: solid/check-circle -->
               <svg class="w-5 h-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
               </svg>
-              <p class="ml-2 text-md font-normal text-gray-800">Zahtjev za rezervaciju zaprimljen <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
+              <p class="ml-2 text-sm font-medium text-gray-500">Poslali ste ponudu <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
             </div>
 
             <div class="mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
@@ -135,6 +140,13 @@ export default class mojeRezervacije extends Vue {
     @content;
   }
 }
+
+ul.orders li {
+  border-bottom: 1px solid #f1f1f1;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
 .preview-wrapper-inner {
   margin-top: 32px;
   display: flex;
@@ -143,72 +155,15 @@ export default class mojeRezervacije extends Vue {
   flex-direction: column;
   border-radius: 4px;
   padding: 24px;
+
+  h5 {
+    font-size: 20px;
+    font-weight: 300;
+  }
 }
 
 a {
   color: #1F2937;
-}
-
-.listing {
-  height: 270px;
-  width: 220px;
-}
-
-.listing-content {
-  height: 270px;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-}
-
-.price {
-  height: 60px;
-  width: fit-content;
-  background: #f9f9f9;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  padding: 0 24px;
-}
-
-li {
-
-  @include for-phone-only {
-    margin: 16px;
-  }
-  .inner {
-    @include for-phone-only {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .listing {
-      @include for-phone-only {
-        height: 150px;
-        width: 100%;
-      }
-    }
-
-    .listing-content {
-      @include for-phone-only {
-        width: 100%;
-
-
-        h5 {
-          margin-top: 12px;
-        }
-
-        .price {
-          width: 100%;
-          justify-content: flex-start;
-          margin-bottom: 16px
-        }
-
-      }
-    }
-  }
 }
 
 .opis {
@@ -217,6 +172,64 @@ li {
   display: -webkit-box;
   -webkit-line-clamp: 4; /* number of lines to show */
   line-clamp: 4;
+  font-weight: 200;
+  font-size: 17px;
+  margin: 16px 0;
   -webkit-box-orient: vertical;
 }
+
+.main-image-wrap {
+  width: 30%;
+  height: 180px;
+  border-radius: 4px;
+
+  img {
+    width: 100%;
+    object-fit: cover !important;
+  }
+}
+
+.special {
+  div {
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    height: 25px;
+    width: fit-content;
+    margin-right: 8px;
+    padding: 0 4px;
+    font-weight: 300 !important;
+    background: #f9f9f9;
+    font-size: 13px;
+    line-height: 8px;
+    color: #000;
+
+    img {
+      height: 14px;
+      max-width: fit-content;
+    }
+
+    @include for-phone-only {
+      border: none;
+      padding: 0;
+      background: transparent;
+
+    }
+  }
+
+  a {
+    &:hover {
+      color: #012F34 !important;
+      text-decoration: underline !important;
+    }
+  }
+}
+
+::v-deep .vc-container.vc-blue {
+  border: none !important;
+}
+
+::v-deep .vc-header {
+  padding: 0 !important;
+}
 </style>
+
