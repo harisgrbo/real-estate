@@ -118,7 +118,7 @@
             </svg>
             <span class="notify" v-if="notifications.length">{{ notifications.length }}</span>
           </button>
-          <div v-if="$auth.user" class="login-wrapper" @click="showUserDropdown = !showUserDropdown">
+          <div v-if="$auth.user" class="login-wrapper bg-gray-50 rounded-full" @click="showUserDropdown = !showUserDropdown">
             <img class="rounded-full w-9 h-9 min-w-9 max-w-9 navbar-avatar" alt="A"
                  :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" />
             <span class="flex items-center pl-3 py-2">
@@ -781,13 +781,12 @@ export default class Navbar extends Vue {
     }
 
     .login-wrapper {
-      border-radius: 8px;
+      border-radius: 20px;
       height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-left: 16px;
-      background: none;
       padding-right: 0;
 
       svg {
