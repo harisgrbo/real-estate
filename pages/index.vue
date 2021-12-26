@@ -19,7 +19,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            <p class="text-xl font-semibold">70000 objavljenih oglasa</p>
+            <p class="text-xl font-semibold">{{ totalListings }} objavljenih oglasa</p>
           </div>
         </div>
         <div class="flex flex-col mt-6">
@@ -205,14 +205,14 @@
       </div>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
         <li class="flow-root justify-between flex flex-col" v-for="(cat, index) in most_visited_cats" :key="index"
-            :style="{ backgroundImage: 'url(' + cat.img + ')' }"
+            :style="{ backgroundImage: 'url(' + cat.title + '.jpeg)' }"
         >
           <div class="relative overlay-out">
             <div class="overlay"></div>
             <h3 class="font-medium">
-              {{ cat.name }}
+              {{ cat.title }}
             </h3>
-            <p class="mt-1 text-lg text-white" v-if="!$device.isMobile">{{ cat.text + ' oglasa u kategoriji ' + cat.name + ' sa prosječnom cijenom po kvadratu od 3200KM' }}</p>
+            <p class="mt-1 text-lg text-white" v-if="!$device.isMobile">{{ cat.listings + ' oglasa u kategoriji ' + cat.title  }}</p>
           </div>
           <button @click="searchCategory(cat)" type="button" class="inline-flex items-center px-3 py-2 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-800 bg-white hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Pretraži
@@ -403,30 +403,30 @@
     rentPerDayLoaded = false;
     quickSearchTab = 0;
     most_visited_cats = [
-      {
-        id: 1,
-        name: 'Stanovi',
-        img: '/flat.jpeg',
-        text: '2000'
-      },
-      {
-        id: 2,
-        name: 'Kuće',
-        img: '/house.jpeg',
-        text: '2000'
-      },
-      {
-        id: 4,
-        name: 'Garaže',
-        img: '/garage.jpeg',
-        text: '2000'
-      },
-      {
-        id: 6,
-        name: 'Apartmani',
-        img: '/apartmani.jpeg',
-        text: '2000'
-      },
+      // {
+      //   id: 1,
+      //   name: 'Stanovi',
+      //   img: '/flat.jpeg',
+      //   text: '2000'
+      // },
+      // {
+      //   id: 2,
+      //   name: 'Kuće',
+      //   img: '/house.jpeg',
+      //   text: '2000'
+      // },
+      // {
+      //   id: 4,
+      //   name: 'Garaže',
+      //   img: '/garage.jpeg',
+      //   text: '2000'
+      // },
+      // {
+      //   id: 6,
+      //   name: 'Apartmani',
+      //   img: '/apartmani.jpeg',
+      //   text: '2000'
+      // },
     ]
 
     tabs = [
@@ -464,6 +464,7 @@
       }
     }
     listings = []
+    totalListings = 0;
     agency_listings = []
     meta = null
     page = 1
@@ -499,6 +500,7 @@
     created() {
       this.fetchCategories()
       this.fetchHomeListings();
+      this.fetchMostVisitedCats();
       this.fetchSelling();
       this.fetchRenting();
       this.fetchFollowedUserListings();
@@ -517,7 +519,18 @@
       } catch (e) {
         console.log(e)
       }
+    }
 
+    async fetchMostVisitedCats() {
+      try {
+        let res = await this.$axios.get('/categories/popular')
+        this.most_visited_cats = res.data.data.categories
+        this.totalListings = res.data.data.total_listings
+
+        console.log(this.most_visited_cats, 'most visited')
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     async fetchFollowedUserListings() {
