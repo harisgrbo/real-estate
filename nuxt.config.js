@@ -42,7 +42,8 @@ export default {
         `,
         type: 'text/javascript',
         charset: 'utf-8'
-      }
+      },
+      { src: "https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js" }
     ]
   },
 

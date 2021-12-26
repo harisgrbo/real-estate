@@ -81,40 +81,9 @@ export default class SearchMap extends Vue{
 
     this.map = map;
 
-    // const svgMarker = {
-    //   path: "M12 22c0 18 20 40 20 40s20-22 20-40a20 20 0 0 0-40 0zm12 0a8 8 0 1 1 8 8 8 8 0 0 1-8-8z",
-    //   fillColor: "#234176",
-    //   fillOpacity: 1,
-    //   strokeColor: "#234176",
-    //   strokeWeight: 3,
-    //   rotation: 0,
-    //   scale: 0.7,
-    //   anchor: new google.maps.Point(15, 30),
-    //   label: {
-    //     text: "\ue530", // codepoint from https://fonts.google.com/icons
-    //     fontFamily: "Material Icons",
-    //     color: "#ffffff",
-    //     fontSize: "18px",
-    //   },
-    //   title: "Material Icon Font Marker",
-    // };
-
-    // const svgMarker = new google.maps.Marker({
-    //   animation: google.maps.Animation.DROP,
-    //   draggable: isDraggable,
-    //   icon: clickIcon,
-    //   label: {
-    //     text: labels[labelIndex++ % labels.length],
-    //     color: 'black',
-    //     fontSize: '15px',
-    //     fontWeight: 'bold'
-    //   }
-    // });
-
     const image = {
       url: 'http://www.homedepot.com/catalog/swatchImages/35/04/04a604de-8b52-4cd8-a394-6286f00b438d_35.jpg',
     };
-
 
     this.markers = this.locations.map(item => {
       let loc = {
@@ -128,7 +97,7 @@ export default class SearchMap extends Vue{
         clickable: true,
         icon: image,
         label: {
-          text: item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'KM' ,
+          text: item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' KM' ,
           color: 'black',
           fontSize: '15px',
           fontWeight: 'bold',

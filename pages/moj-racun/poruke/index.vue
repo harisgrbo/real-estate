@@ -17,7 +17,14 @@
                       <div class="text-xs text-gray-500 ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
                     <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
-                      <div class="w-full truncate text-gray-900 mt-0.5">{{ conversation.last_message.content }}</div>
+                      <div class="w-full flex items-center flex-row truncate text-sm text-gray-900 mt-0.5" v-if="conversation.last_message.message_type === 'image'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="$modal.show('send-image')">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg> Korisnik je poslao sliku
+                      </div>
+                      <div class="w-full truncate text-gray-900 mt-0.5" v-else>
+                        {{ conversation.last_message.content }}
+                      </div>
                       <div v-if="pinned_conversation === conversation">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
@@ -69,8 +76,15 @@
                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="isMe(message) ? (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg') : (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg')">
                     </div>
-                    <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                    <div v-if="message.message_type && message.message_type !== 'image'" :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                       {{ message.content }}
+                      <div class="flex justify-between">
+                        <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                      </div>
+                    </div>
+                    <div v-else :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      <img :src="message.content" alt="">
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
@@ -88,6 +102,7 @@
                   v-if="showEmoji"
                   @select="selectEmoji"
                   v-on-clickaway="away"
+                  :showSearch="false"
                 />
                 <div class="w-full flex items-center justify-between">
                   <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
@@ -97,11 +112,17 @@
                     </svg>
                   </button>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-2 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <div class="flex flex-row items-center justify-start relative mt-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="$modal.show('send-image')">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
               </div>
             </div>
+
             <!-- END: Chat Active -->
             <!-- BEGIN: Chat Default -->
             <div v-else class="h-full flex items-center bg-white">
@@ -174,6 +195,7 @@
                 <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 mobile-message-wrapper">
                   <VEmojiPicker
                     v-if="showEmoji"
+                    :showSearch="false"
                     @select="selectEmoji"
                     v-on-clickaway="away"
                   />
@@ -209,7 +231,39 @@
         </div>
       </div>
     </modal>
+    <client-only>
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="send-image" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Slanje slike</h2>
+            <i class="material-icons" @click.prevent="$modal.hide('send-image')">close</i>
+          </div>
+          <div class="modal-content places-modal">
+              <div
+                class="h-266 sm:h-190 w-full rounded input-wrapper-image"
+              >
+                <input
+                  ref="image"
+                  type="file"
+                  @change="preview"
+                />
+              </div>
+              <img id="image" :src="imgSrc" class="mt-md" />
 
+              <div class="flex flex-row items-center justify-between mt-md">
+                <ActionButton
+                  placeholder="Posalji"
+                  @action="upload(imgBlob); showImageUpload = false;"
+                />
+                <ActionButton
+                  placeholder="Odustani"
+                  @action="showImagePreviewModal = false; imgSrc = ''"
+                />
+              </div>
+          </div>
+        </div>
+      </modal>
+    </client-only>
   </div>
 </template>
 
@@ -251,6 +305,9 @@ export default class Poruke extends Vue {
   isMounted = false;
   search = '';
   showEmoji = false;
+  imgSrc = ""
+  imgBlob = null;
+  showImageUpload = false;
 
   mounted() {
     this.realtime();
@@ -272,7 +329,52 @@ export default class Poruke extends Vue {
     this.showEmoji = false;
   }
 
+  preview(e) {
+    this.imgSrc = URL.createObjectURL(e.target.files[0]);
+    this.imgBlob = e.target.files[0];
+  }
 
+  async upload(e) {
+    let formData = new FormData();
+    let key = uuidv4();
+
+    formData.append("file", e);
+    formData.append("type", 'image');
+    formData.append("content", 'a');
+    formData.append("sender", this.$auth.user);
+    formData.append("initial_key", key);
+
+    try {
+      this.messages.push({
+        sender: this.$auth.user,
+        content: "Uploading...",
+        id: key,
+        delivered: false
+      })
+
+      this.scrollBottom();
+
+      let res = await this.$axios.post('/conversations/' + this.currentConversation.id + '/messages',
+        formData
+      );
+
+      let messageId = res.data.data.id;
+      key = res.data.meta;
+
+      let message = this.messages.find(item => item.id === key);
+
+      if (message) {
+        message.id = messageId;
+        message.content = res.data.data.content;
+        message.message_type = 'image';
+        message.delivered = true;
+      }
+
+      this.$modal.hide('send-image')
+    } catch(e) {
+      console.log(e)
+    }
+  }
 
   realtime() {
     this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
@@ -622,14 +724,16 @@ textarea {
     color: #fff !important;
   }
 }
-
-.vm--modal {
-  max-height: 100vh !important;
-  min-height: 100vh !important;
-  top: 0 !important;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
+@include for-phone-only {
+  .vm--modal {
+    max-height: 100vh !important;
+    min-height: 100vh !important;
+    top: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
 }
+
 
 .vm--container {
   height: 100% !important;
@@ -685,6 +789,29 @@ img {
   height: 50px;
   width: 50px;
   min-width: 50px;
+}
+
+.image-preview-modal {
+  position: absolute;
+  bottom: 94px;
+  width: 400px;
+  height: fit-content;
+  overflow-y: scroll;
+  background: #fff;
+  border-radius: 4px;
+
+  @include for-phone-only {
+    left: 0;
+    width: 100%;
+    bottom: 74px;
+  }
+
+}
+
+#image {
+  height: 300px;
+  width: fit-content;
+  margin: 0 auto;
 }
 </style>
 
