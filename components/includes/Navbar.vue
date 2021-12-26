@@ -104,7 +104,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
             </svg>
-            <span class="text-medium text-gray-800 bg-gray-50 rounded-sm p-3 ml-0">{{ $auth.user.credits }}</span>
+            <span class="text-medium text-gray-800 bg-gray-50 rounded-sm px-3 py-1 ml-0">{{ $auth.user.credits }}</span>
           </button>
           <button v-if="$auth.user" class="login-a">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
@@ -118,7 +118,7 @@
             </svg>
             <span class="notify" v-if="notifications.length">{{ notifications.length }}</span>
           </button>
-          <div v-if="$auth.user" class="login-wrapper bg-gray-50 rounded-full" @click="showUserDropdown = !showUserDropdown">
+          <div v-if="$auth.user" class="login-wrapper bg-gray-50 rounded-full cursor-pointer" @click="showUserDropdown = !showUserDropdown">
             <img class="rounded-full w-9 h-9 min-w-9 max-w-9 navbar-avatar" alt="A"
                  :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" />
             <span class="flex items-center pl-3 py-2">

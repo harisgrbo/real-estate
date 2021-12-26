@@ -13,8 +13,8 @@
             Akcija{{ ' -' + listing.discount * 100 + '%' }}
           </p>
         </span>
-        <span class="country">
-          <img :src="'/' + listing.city.country.shortname + '.svg'" alt="">
+        <span class="flex flex-row items-center bg-white shadow-sm ml-2">
+          {{ listing.city.country.shortname }}
         </span>
       </label>
       <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false" @click.stop>
@@ -98,7 +98,7 @@
             </div>
           </div>
           <!--Code Block for gray tooltip starts-->
-          <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative" onmouseover="showTooltip(3)" onfocus="showTooltip(3)" onmouseout="hideTooltip(3)">
+          <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative">
             <div id="tooltip3" role="tooltip" class="w-full z-50 bottom-0 w-64 absolute transition duration-150 ease-in-out left-0 shadow-lg bg-gray-800 p-2 rounded">
               <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>
               <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>
@@ -107,8 +107,6 @@
               </div>
             </div>
           </a>
-          <!--Code Block for gray tooltip ends-->
-
         </div>
       </nuxt-link>
       <Snackbar />
@@ -377,12 +375,6 @@ export default class ListingCard extends Vue{
         bottom: 0;
         right: 8px;
         border-radius: 2px;
-
-        img {
-          height: 18px;
-          width: fit-content;
-          border-radius: 2px !important;
-        }
       }
     }
 

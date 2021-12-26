@@ -9,14 +9,14 @@
           <div  v-for="notification in notifications" :key="notification.id" class="p-5 notification hover:shadow-md rounded-md">
             <div class="flex items-center justify-between">
               <div class="text-base font-medium truncate text-black" v-if="notification.user">{{ notification.user.name }}</div>
-              <div class="text-gray-800 mt-1">{{ $moment(notification.date).format("DD.MM.YYYY") }}</div>
+              <div class="text-gray-400 text-sm mt-1">{{ $moment(notification.date).format("DD.MM.YYYY") }}</div>
             </div>
-            <div class="text-gray-800 font-normal mt-1"> {{
+            <div class="text-gray-600 text-sm font-normal mt-1"> {{
                 notification.text
               }}</div>
             <div class="font-medium flex mt-5" @click="$emit('clicked')">
               <nuxt-link :to="notification.action" class="flex justify-between space-x-3">
-                <button type="button" class="btn btn-primary py-1 px-2">Pogledaj</button>
+                <button type="button" class="btn btn-primary py-1 px-2 text-white hover:text-white">Pogledaj</button>
               </nuxt-link>
             </div>
           </div>

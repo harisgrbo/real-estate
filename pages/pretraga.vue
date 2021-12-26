@@ -134,7 +134,7 @@
         <NotFound v-else src="/nosearchresults.svg" text="Nema rezultata"></NotFound>
 
       </div>
-      <div class="results map" v-else>
+      <div class="results map w-full" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
           <HorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           <client-only>
@@ -146,10 +146,7 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <div v-else class="divide-y divide-gray-200 flex flex-col min-h-full w-full items-center justify-center">
-          <img class="no-results" src="/no-results.svg" alt="">
-          <p class="mt-4 text-lg font-normal">Nema rezultata</p>
-        </div>
+        <NotFound v-else src="/nosearchresults.svg" text="Nema rezultata"></NotFound>
         <div v-if="results.length" class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>
