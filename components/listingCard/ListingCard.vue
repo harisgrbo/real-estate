@@ -150,7 +150,9 @@ export default class ListingCard extends Vue{
 
   mounted() {
     this.$nextTick(()=> {
-      this.custom_swiper = this.$refs.swiper;
+      if(this.$refs.swiper !== undefined) {
+        this.custom_swiper = this.$refs.swiper;
+      }
 
     })
   }
