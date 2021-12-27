@@ -7,8 +7,8 @@
         <div class="flex mr-4 flex-col w-2/6 mobile-chat">
           <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
+              <h2 class="text-xl mb-4 font-medium">Razgovori</h2>
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
-                <h2 class="text-xl mb-4 font-medium">Razgovori</h2>
                 <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full">
@@ -83,8 +83,14 @@
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
-                    <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-theme-17 px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
-                      <img v-if="message.content.mime.substr(0, 5) === 'image'" class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
+                    <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-theme-17 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      <div v-if="message.content.mime.substr(0, 5) === 'image'" >
+                        <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
+                        <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>Otvori u novom tabu</a>
+                      </div>
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
@@ -761,6 +767,12 @@ textarea {
 
 .bg-theme-17 {
   background: #1F2937 !important;
+
+  &.me {
+    a {
+      color: #fff !important;
+    }
+  }
 }
 
 .mobile-chat {
@@ -842,7 +854,7 @@ img {
 
 .image-gallery {
   position: fixed;
-  z-index: 10;
+  z-index: 20;
   background: rgba(0, 0, 0, 0.38);
   left: 0;
   right: 0;
@@ -861,7 +873,7 @@ img {
 
   img {
     &.main-image {
-      height: fit-content;
+      height: 90vh;
       width: fit-content;
     }
     &.close {
@@ -880,6 +892,11 @@ img {
       filter: invert(1) brightness(0);
     }
   }
+}
+
+.tab-link {
+  text-decoration: underline !important;
+  font-size: 12px;
 }
 </style>
 
