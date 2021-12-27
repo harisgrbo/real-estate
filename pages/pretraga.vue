@@ -131,7 +131,7 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <NotFound v-else src="/nosearchresults.svg" text="Nema rezultata"></NotFound>
+        <NotFound v-else src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
 
       </div>
       <div class="results map w-full" v-else>
@@ -146,7 +146,7 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <NotFound v-else src="/nosearchresults.svg" text="Nema rezultata"></NotFound>
+        <NotFound v-else src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
         <div v-if="results.length" class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>

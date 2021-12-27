@@ -30,41 +30,19 @@
       </div>
 
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
-        <div class="overflow-hidden relative" v-if="!$device.isMobile">
-          <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
+        <div class="overflow-hidden relative" @mouseenter="handleCardHover" @mouseleave="handleCardHoverDone" v-if="!$device.isMobile">
+          <swiper v-if="listing.images.length" class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>
             <swiper-slide v-for="(img, index) in listing.images" :key="index">
               <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
               <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             </swiper-slide>
-            <div
-              class="swiper-button-prev swiper-button-white"
-              slot="button-prev"
-            ></div>
-            <div
-              class="swiper-button-next swiper-button-white"
-              slot="button-next"
-            ></div>
             <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
           <img v-else src="/noimage.jpeg"  alt="">
-<!--          <label class="publisher shadow-sm sale" v-if="action">-->
-<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />-->
-<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />-->
-<!--            </svg>-->
-<!--            <span>AKCIJA</span>-->
-<!--          </label>-->
         </div>
         <div class="overflow-hidden relative image-wrapper bg-gray-50" v-else>
           <img class="main-image" :src="listing.images[0].url" v-if="listing.images.length" alt="">
           <img class="main-image" v-else src="/noimage.jpeg" alt="">
-          <!--          <label class="publisher shadow-sm sale" v-if="action">-->
-          <!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-          <!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />-->
-          <!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />-->
-          <!--            </svg>-->
-          <!--            <span>AKCIJA</span>-->
-          <!--          </label>-->
         </div>
         <div class="listing-card-content relative" @mouseover="showTooltip = true" @mouseout="showTooltip = false">
           <div class="flex flex-col justify-between items-start">
@@ -75,12 +53,10 @@
             </div>
             <div class="icons-date flex flex-row items-center justify-between w-full">
               <div class="important">
-<!--                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>-->
                 <p :class="['new', listing.hasOwnProperty('discount') ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-show="listing.is_booking" class="pl-2">/ noć</p>
               </div>
               <div class="important" v-if="listing.hasOwnProperty('discount')">
-                <!--                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>-->
                 <p class="new">{{ parseInt(listing.price - listing.price * listing.discount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-show="listing.is_booking" class="pl-2">/ noć</p>
               </div>
@@ -97,7 +73,6 @@
               {{ attr.value }}
             </div>
           </div>
-          <!--Code Block for gray tooltip starts-->
           <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative">
             <div id="tooltip3" role="tooltip" class="w-full z-50 bottom-0 w-64 absolute transition duration-150 ease-in-out left-0 shadow-lg bg-gray-800 p-2 rounded">
               <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>
@@ -135,6 +110,7 @@ export default class ListingCard extends Vue{
     sell: 'Prodaja',
     buy: 'Potraznja'
   }
+  custom_swiper = null;
   showTooltip = false;
   saved = false;
   specialAttributes = [];
@@ -150,18 +126,19 @@ export default class ListingCard extends Vue{
     // slidesOffsetAfter: '100px',
     // slidesOffsetBefore: '0px',
     loop: true,
-    autoplay: false,
     slidesPerView: 1,
     pagination: {
       el: ".swiper-pagination",
       dynamicBullets: true,
     },
+    autoplay: false,
+    speed: 400,
     touchRatio: 0.2,
     slideToClickedSlide: true,
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
+    // navigation: {
+    //   nextEl: '.swiper-button-next',
+    //   prevEl: '.swiper-button-prev'
+    // },
     preloadImages: false,
     lazy: {
       //  tell swiper to load images before they appear
@@ -169,6 +146,27 @@ export default class ListingCard extends Vue{
       // amount of images to load
       loadPrevNextAmount: 1,
     },
+  }
+
+  mounted() {
+    this.$nextTick(()=> {
+      this.custom_swiper = this.$refs.swiper;
+
+    })
+  }
+
+  handleCardHover() {
+    if(this.custom_swiper !== null) {
+      this.custom_swiper.$swiper.autoplay.start();
+    }
+
+    console.log(this.custom_swiper.$swiper)
+  }
+
+  handleCardHoverDone() {
+    if(this.custom_swiper !== null) {
+      this.custom_swiper.$swiper.autoplay.stop();
+    }
   }
 
   translateType() {

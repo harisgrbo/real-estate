@@ -68,7 +68,7 @@ export default class UserCard extends Vue {
 
       await this.$axios.post('/conversations/' + conversation.id + '/messages', {
         content: this.message,
-        initial_key: Math.floor(Math.random() * 100).toString()
+        key: Math.floor(Math.random() * 100).toString()
       });
 
       this.$modal.hide('contact-user');
