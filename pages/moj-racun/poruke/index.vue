@@ -7,8 +7,8 @@
         <div class="flex mr-4 flex-col w-2/6 mobile-chat">
           <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
+              <h2 class="text-xl mb-4 font-medium">Razgovori</h2>
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
-                <h2 class="text-xl mb-4 font-medium">Razgovori</h2>
                 <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full">
@@ -17,7 +17,7 @@
                       <div class="text-xs text-gray-500 ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
                     <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
-                      <div class="w-full flex items-center flex-row truncate text-sm text-gray-900 mt-0.5" v-if="conversation.last_message.message_type === 'image'">
+                      <div class="w-full flex items-center flex-row truncate text-sm text-gray-900 mt-0.5" v-if="conversation.last_message.message_type === 'media' && conversation.last_message.content.mime.substr(0, 5) === 'image'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="$modal.show('send-image')">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg> Korisnik je poslao sliku
@@ -76,15 +76,21 @@
                     <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="isMe(message) ? (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg') : (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg')">
                     </div>
-                    <div v-if="message.message_type && message.message_type !== 'image'" :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                    <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-theme-17 px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                       {{ message.content }}
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
-                    <div v-else :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
-                      <img :src="message.content" alt="">
+                    <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-theme-17 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      <div v-if="message.content.mime.substr(0, 5) === 'image'" >
+                        <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
+                        <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                          </svg>Otvori u novom tabu</a>
+                      </div>
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
@@ -178,7 +184,7 @@
                       <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                         <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
                       </div>
-                      <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-3 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                         {{ message.content }}
                         <div class="flex justify-between">
                           <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
@@ -264,6 +270,12 @@
         </div>
       </modal>
     </client-only>
+    <div v-if="openImageGallery" class="image-gallery" @click="openImageGallery = false; selectedImage = ''">
+      <div class="img-wrap">
+        <img src="/svg/close.svg" alt="" class="close">
+        <img :src="selectedImage" alt="" class="main-image">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -308,6 +320,8 @@ export default class Poruke extends Vue {
   imgSrc = ""
   imgBlob = null;
   showImageUpload = false;
+  openImageGallery = false;
+  selectedImage = ''
 
   mounted() {
     this.realtime();
@@ -331,6 +345,10 @@ export default class Poruke extends Vue {
 
   preview(e) {
     this.imgSrc = URL.createObjectURL(e.target.files[0]);
+
+
+    console.log(this.imgSrc, 'slika')
+    console.log(e, 'sta je ovo')
     this.imgBlob = e.target.files[0];
   }
 
@@ -342,10 +360,11 @@ export default class Poruke extends Vue {
     formData.append("type", 'image');
     formData.append("content", 'a');
     formData.append("sender", this.$auth.user);
-    formData.append("initial_key", key);
+    formData.append("key", key);
 
     try {
       this.messages.push({
+        message_type: "text",
         sender: this.$auth.user,
         content: "Uploading...",
         id: key,
@@ -355,18 +374,23 @@ export default class Poruke extends Vue {
       this.scrollBottom();
 
       let res = await this.$axios.post('/conversations/' + this.currentConversation.id + '/messages',
-        formData
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       let messageId = res.data.data.id;
-      key = res.data.meta;
+      key = res.data.data.key;
 
       let message = this.messages.find(item => item.id === key);
 
       if (message) {
         message.id = messageId;
         message.content = res.data.data.content;
-        message.message_type = 'image';
+        message.message_type = 'media';
         message.delivered = true;
       }
 
@@ -498,6 +522,7 @@ export default class Poruke extends Vue {
 
     try {
       this.messages.push({
+        message_type: 'text',
         sender: this.$auth.user,
         content: this.messageContent,
         id: key,
@@ -510,12 +535,12 @@ export default class Poruke extends Vue {
       this.messageContent = '';
 
       let res = await this.$axios.post('/conversations/' + this.currentConversation.id + '/messages', {
-        initial_key: key,
+        key: key,
         content: content
       });
 
       let messageId = res.data.data.id;
-      key = res.data.meta;
+      key = res.data.data.key;
 
       let message = this.messages.find(item => item.id === key);
 
@@ -742,6 +767,12 @@ textarea {
 
 .bg-theme-17 {
   background: #1F2937 !important;
+
+  &.me {
+    a {
+      color: #fff !important;
+    }
+  }
 }
 
 .mobile-chat {
@@ -812,6 +843,60 @@ img {
   height: 300px;
   width: fit-content;
   margin: 0 auto;
+}
+
+.message-image {
+  height: 200px;
+  width: fit-content;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.image-gallery {
+  position: fixed;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.38);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .img-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  img {
+    &.main-image {
+      height: 90vh;
+      width: fit-content;
+    }
+    &.close {
+      margin-bottom: 24px;
+      cursor: pointer;
+    }
+  }
+
+  button {
+    &:hover,
+    &:focus {
+      outline: none;
+    }
+
+    svg {
+      filter: invert(1) brightness(0);
+    }
+  }
+}
+
+.tab-link {
+  text-decoration: underline !important;
+  font-size: 12px;
 }
 </style>
 

@@ -14,28 +14,32 @@
 </template>
 
 <script>
-export default {
-  name: "TermsInput",
-  props: ["attr", 'init'],
-  data() {
-    return {
-      val: null
-    };
+import { Component, Vue, Watch, Prop} from "nuxt-property-decorator";
+
+@Component({
+  components: {
   },
+})
+
+export default class TermsInput extends Vue {
+  @Prop() attr;
+  @Prop() init;
+
+  val = null;
+
   created() {
     this.val = this.init;
-  },
-  methods: {
-    selectOption(o) {
-      this.val = o;
-      this.$emit('changed', {
-        id: this.attr.id,
-        name: this.attr.name,
-        value: this.val
-      })
-    }
   }
-};
+
+  selectOption(o) {
+    this.val = o;
+    this.$emit('changed', {
+      id: this.attr.id,
+      name: this.attr.name,
+      value: this.val
+    })
+  }
+}
 </script>
 
 <style scoped lang="scss">
