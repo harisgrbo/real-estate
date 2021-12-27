@@ -5,7 +5,7 @@
     </div>
     <div class="no-image" v-else>
       <img src="/nodata.jpeg" alt="no-image">
-      <p>Nemate objavljenih oglasa</p>
+      <NotFound v-if="listings.length === 0" src="/realestatenoresults.svg" text="Nemate objavljenih oglasa"></NotFound>
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="delete-listing" :adaptive="true" height="100%">
       <div class="modal-inner">
@@ -29,9 +29,11 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import ListingOptionsModal from "@/components/ListingOptionsModal"
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     ListingCard,
     ListingOptionsModal
   },

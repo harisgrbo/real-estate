@@ -30,8 +30,8 @@
       </div>
 
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
-        <div class="overflow-hidden relative" @mouseenter="handleCardHover" @mouseleave="handleCardHoverDone" v-if="!$device.isMobile">
-          <swiper v-if="listing.images.length" class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>
+        <div class="overflow-hidden relative" v-if="!$device.isMobile">
+          <swiper v-if="listing.images.length" class="swiper" ref="swiper" @mouseenter="handleCardHover" @mouseleave="handleCardHoverDone" :options="swiperOptionCard" @click.native.stop>
             <swiper-slide v-for="(img, index) in listing.images" :key="index">
               <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
               <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>

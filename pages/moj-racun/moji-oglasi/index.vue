@@ -14,7 +14,7 @@
         <div class="grid-cards">
           <ListingCard v-for="listing in listings" @highlight-listing="$router.push('/sponzorisanje/' + listing.id)" :listing="listing" :from="true" :key="listing.id"/>
         </div>
-        <NotFound v-if="listings.length === 0" src="/nodata.svg" text="Nemate objavljenih oglasa"></NotFound>
+        <NotFound v-if="listings.length === 0" src="/realestatenoresults.svg" text="Nemate objavljenih oglasa"></NotFound>
       </div>
 
       <div v-else class="grid-cards">
