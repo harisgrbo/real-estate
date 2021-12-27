@@ -377,7 +377,7 @@ export default class Poruke extends Vue {
       );
 
       let messageId = res.data.data.id;
-      key = res.data.meta;
+      key = res.data.data.key;
 
       let message = this.messages.find(item => item.id === key);
 
