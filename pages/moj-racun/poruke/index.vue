@@ -419,6 +419,7 @@ export default class Poruke extends Vue {
         conversation.unread = this.conversations[index].unread;
 
         if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
+          message.message_type = message.type
           this.messages.push(message)
           this.scrollBottom();
         } else if (this.currentConversation.id !== conversation.id) {
