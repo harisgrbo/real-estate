@@ -358,6 +358,7 @@ export default class Poruke extends Vue {
 
     try {
       this.messages.push({
+        message_type: "text",
         sender: this.$auth.user,
         content: "Uploading...",
         id: key,
@@ -383,7 +384,7 @@ export default class Poruke extends Vue {
       if (message) {
         message.id = messageId;
         message.content = res.data.data.content;
-        message.message_type = 'image';
+        message.message_type = 'media';
         message.delivered = true;
       }
 
@@ -419,7 +420,6 @@ export default class Poruke extends Vue {
         conversation.unread = this.conversations[index].unread;
 
         if (this.currentConversation.id === conversation.id && message.sender.id !== this.$auth.user.id) {
-          message.message_type = message.type
           this.messages.push(message)
           this.scrollBottom();
         } else if (this.currentConversation.id !== conversation.id) {
