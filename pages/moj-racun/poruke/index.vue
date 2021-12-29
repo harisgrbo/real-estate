@@ -178,14 +178,27 @@
                     <i class="material-icons ml-4" @click="$modal.hide('conversations')">close</i>
                   </div>
                 </div>
-                <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden pt-5 flex-1 mobile-height">
+                <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
                   <div v-for="message in messages" :key="message.id">
-                    <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
+                    <div :class="[isMe(message) ? 'float-right' : 'flat-left']" class="chat__box__text-box flex items-end mb-4">
                       <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                        <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
+                        <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="isMe(message) ? (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg') : (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg')">
                       </div>
-                      <div :class="[isMe(message) ? 'bg-theme-17 px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-theme-17 px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                         {{ message.content }}
+                        <div class="flex justify-between">
+                          <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        </div>
+                      </div>
+                      <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-theme-17 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                        <div v-if="message.content.mime.substr(0, 5) === 'image'" >
+                          <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
+                          <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>Otvori u novom tabu</a>
+                        </div>
                         <div class="flex justify-between">
                           <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                           <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
@@ -195,15 +208,15 @@
                     <div class="clear-both"></div>
                   </div>
                 </div>
-                <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
+                <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden pt-5 flex-1">
                   <img src="/loader.svg" alt="">
                 </div>
-                <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 mobile-message-wrapper">
+                <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
                   <VEmojiPicker
                     v-if="showEmoji"
-                    :showSearch="false"
                     @select="selectEmoji"
                     v-on-clickaway="away"
+                    :showSearch="false"
                   />
                   <div class="w-full flex items-center justify-between">
                     <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
@@ -213,9 +226,14 @@
                       </svg>
                     </button>
                   </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                  <div class="flex flex-row items-center justify-start relative mt-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="$modal.show('send-image')">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
               <!-- END: Chat Active -->
@@ -244,24 +262,30 @@
             <h2>Slanje slike</h2>
             <i class="material-icons" @click.prevent="$modal.hide('send-image')">close</i>
           </div>
-          <div class="modal-content places-modal">
-              <div
-                class="h-266 sm:h-190 w-full rounded input-wrapper-image"
-              >
+          <div class="modal-content places-modal pt-4">
+              <label for="upload" class="image-upload-wrapper">
                 <input
-                  ref="image"
+                  id="upload"
                   type="file"
                   @change="preview"
+                  class="hidden"
                 />
-              </div>
-              <img id="image" :src="imgSrc" class="mt-md" />
-
+                <img v-if="imgSrc.length" id="image" :src="imgSrc" class="mt-md" />
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="#012f34">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </label>
               <div class="flex flex-row items-center justify-between mt-md">
                 <ActionButton
-                  placeholder="Posalji"
+                  class="w-full mr-2"
+                  placeholder="Pošalji"
+                  :style-options="{width: '100%'}"
                   @action="upload(imgBlob); showImageUpload = false;"
                 />
                 <ActionButton
+                  class="w-full ml-2"
+                  :style-options="{width: '100%'}"
                   placeholder="Odustani"
                   @action="showImagePreviewModal = false; imgSrc = ''"
                 />
@@ -897,6 +921,28 @@ img {
 .tab-link {
   text-decoration: underline !important;
   font-size: 12px;
+}
+
+.upload-image {
+  border: 2px dashed #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.image-upload-wrapper {
+  background: #f9f9f9;
+  border: 2px dashed #f1f1f1;
+  border-radius: 4px;
+  height: 100%;
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+
 }
 </style>
 
