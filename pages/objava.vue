@@ -670,7 +670,11 @@ export default class Objava extends Vue {
   }
 
   handleChangedAttribute(e) {
-    this.attributePayload[e.id] = e;
+    if (e.value == null) {
+      delete this.attributePayload[e.id];
+    } else {
+      this.attributePayload[e.id] = e;
+    }
 
     if (e) {
       this.completedAttributes = Object.keys(this.attributePayload).length

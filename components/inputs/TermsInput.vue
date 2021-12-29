@@ -32,6 +32,17 @@ export default class TermsInput extends Vue {
   }
 
   selectOption(o) {
+    if (this.val == o) {
+      this.val = null;
+      this.$emit('changed', {
+        id: this.attr.id,
+        name: this.attr.name,
+        value: null
+      });
+
+      return;
+    }
+
     this.val = o;
     this.$emit('changed', {
       id: this.attr.id,
