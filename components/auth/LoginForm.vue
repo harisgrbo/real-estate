@@ -6,7 +6,7 @@
     <form @submit.prevent="handleLogin">
       <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-4 mt-1"></TextField>
       <TextField type="password" label="Password" placeholder="Password" v-model="payload.password" class="mt-1"></TextField>
-      <ActionButton class="w-full hover:bg-gray-100" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
+      <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
     <nuxt-link class="mt-xl" :to="{ path: '/auth/register' }">Nemaš račun? Registruj se</nuxt-link>
     <Snackbar />
