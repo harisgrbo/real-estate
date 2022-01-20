@@ -95,12 +95,12 @@ export default class accountpage extends Vue {
       icon: '049-laptop.svg',
       desc: 'Upravljanje obavijestima'
     },
-    {
-      name: "Privatnost",
-      slug: "privatnost",
-      icon: '025-laptop-6.svg',
-      desc: 'Postavke privatnosti'
-    },
+    // {
+    //   name: "Privatnost",
+    //   slug: "privatnost",
+    //   icon: '025-laptop-6.svg',
+    //   desc: 'Postavke privatnosti'
+    // },
   ]
 
   created() {

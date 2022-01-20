@@ -62,6 +62,7 @@ export default class TermsFilter extends Vue {
   display: flex;
   flex-direction: column;
   margin-top: 24px;
+  font-size: 14px;
 
   label {
     font-size: 14px;
