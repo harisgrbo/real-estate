@@ -323,7 +323,7 @@ export default class Navbar extends Vue {
 
   async handleReadMessageNotifications() {
     try {
-      await this.$axios.post('/profile/message/read');
+      await this.$axios.post('/profile/messages/read');
     } catch (e) {
       console.log(e)
     }
