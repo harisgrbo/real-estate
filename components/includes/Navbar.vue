@@ -224,6 +224,8 @@ export default class Navbar extends Vue {
         if (notification.type === 'App\\Notifications\\NewMessageNotification') {
           if (this.$route.fullPath !== '/moj-racun/poruke') {
             this.messagesCount++;
+          } else {
+            this.handleReadMessageNotifications();
           }
         } else {
           this.notifications.unshift(notification)
@@ -309,13 +311,21 @@ export default class Navbar extends Vue {
     this.$router.push('/pretraga?q=[' + q + ']');
   }
 
-    async handleCloseNotifications() {
+  async handleCloseNotifications() {
     try {
       await this.$axios.post('/profile/notifications/read');
     } catch (e) {
       console.log(e)
     } finally {
       this.showNotifications = false;
+    }
+  }
+
+  async handleReadMessageNotifications() {
+    try {
+      await this.$axios.post('/profile/message/read');
+    } catch (e) {
+      console.log(e)
     }
   }
 
