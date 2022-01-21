@@ -20,7 +20,7 @@
       <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false" @click.stop>
         <div v-show="showListingOptions && ($router.history.current.fullPath === '/moj-racun/moji-oglasi' || $router.history.current.fullPath === '/moj-racun/dashboard/upravljanje-oglasima')" class="w-full">
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/uredjivanje/' + listing.id)"></action-button>
-<!--          <action-button class="option-btn" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}"></action-button>-->
+          <action-button class="option-btn" placeholder="Završi oglas" @action="$emit('finish-listing')" :style-options="{ width: '100%'}"></action-button>
           <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
