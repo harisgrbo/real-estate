@@ -7,7 +7,6 @@
         <div class="flex mr-4 flex-col w-2/6 mobile-chat">
           <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
-              <h2 class="text-xl mb-4 font-medium">Razgovori</h2>
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
                 <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
@@ -607,6 +606,7 @@ export default class Poruke extends Vue {
   flex-direction: column;
   border-radius: 4px;
   padding: 24px;
+  margin-top: 0 !important;
 
   @include for-phone-only {
     padding: 16px !important;

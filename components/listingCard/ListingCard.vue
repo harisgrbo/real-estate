@@ -20,7 +20,7 @@
       <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false" @click.stop>
         <div v-show="showListingOptions && ($router.history.current.fullPath === '/moj-racun/moji-oglasi' || $router.history.current.fullPath === '/moj-racun/dashboard/upravljanje-oglasima')" class="w-full">
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/uredjivanje/' + listing.id)"></action-button>
-          <action-button class="option-btn" placeholder="Sponzoriši oglas" @action="$emit('highlight-listing')" :style-options="{ width: '100%'}"></action-button>
+          <action-button class="option-btn" placeholder="Završi oglas" @action="$emit('finish-listing')" :style-options="{ width: '100%'}"></action-button>
           <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
@@ -31,14 +31,17 @@
 
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative" v-if="!$device.isMobile">
-          <swiper v-if="listing.images.length" class="swiper" ref="swiper" @mouseenter="handleCardHover" @mouseleave="handleCardHoverDone" :options="swiperOptionCard" @click.native.stop>
-            <swiper-slide v-for="(img, index) in listing.images" :key="index">
-              <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
-              <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
+          <div v-if="listing.images.length" @mouseenter="handleCardHover" @mouseleave="handleCardHoverDone">
+            <swiper  class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>
+              <swiper-slide v-for="(img, index) in listing.images" :key="index">
+                <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              </swiper-slide>
+              <div class="swiper-pagination" slot="pagination"></div>
+            </swiper>
+          </div>
           <img v-else src="/noimage.jpeg"  alt="">
+
         </div>
         <div class="overflow-hidden relative image-wrapper bg-gray-50" v-else>
           <img class="main-image" :src="listing.images[0].url" v-if="listing.images.length" alt="">
@@ -69,19 +72,21 @@
               class="flex flex-row items-center mr-2"
             >
               <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-              <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
               {{ attr.value }}
+              <p v-if="attr.name === 'Kvadratura'">
+                m²
+              </p>
             </div>
           </div>
-          <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative">
-            <div id="tooltip3" role="tooltip" class="w-full z-50 bottom-0 w-64 absolute transition duration-150 ease-in-out left-0 shadow-lg bg-gray-800 p-2 rounded">
-              <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>
-              <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>
-              <div class="flex flex-row items-center justify-start flex-wrap mb-2">
-                <div class="text-xs more-info" v-for="info in normalAttributes" :key="info.id">{{ info.value + ', ' }}</div>
-              </div>
-            </div>
-          </a>
+<!--          <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative">-->
+<!--            <div id="tooltip3" role="tooltip" class="w-full z-50 bottom-0 w-64 absolute transition duration-150 ease-in-out left-0 shadow-lg bg-gray-800 p-2 rounded">-->
+<!--              <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>-->
+<!--              <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>-->
+<!--              <div class="flex flex-row items-center justify-start flex-wrap mb-2">-->
+<!--                <div class="text-xs more-info" v-for="info in normalAttributes" :key="info.id">{{ info.value + ', ' }}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </a>-->
         </div>
       </nuxt-link>
       <Snackbar />
@@ -117,7 +122,7 @@ export default class ListingCard extends Vue{
   showListingOptions = false;
   specialAttributesKeys = [
     "Broj soba",
-    "Sprat"
+    "Kvadratura"
   ];
   swiperOptionCard = {
     spaceBetween: 0,
@@ -153,16 +158,17 @@ export default class ListingCard extends Vue{
       if(this.$refs.swiper !== undefined) {
         this.custom_swiper = this.$refs.swiper;
       }
-
     })
   }
 
   handleCardHover() {
+    console.log(this.custom_swiper.$swiper)
+
     if(this.custom_swiper !== null) {
       this.custom_swiper.$swiper.autoplay.start();
+      this.custom_swiper.$swiper.params.autoplay.delay = 600;
     }
 
-    console.log(this.custom_swiper.$swiper)
   }
 
   handleCardHoverDone() {
@@ -233,14 +239,14 @@ export default class ListingCard extends Vue{
     height: fit-content;
     border-radius: 7px;
 
-    &.sponsored-1 {
-      background: rgba(19, 95, 20, 0.05);
-
-      .listing-card-content {
-        padding-left: 8px;
-        padding-right: 8px;
-      }
-    }
+    //&.sponsored-1 {
+    //  background: rgba(19, 95, 20, 0.05);
+    //
+    //  .listing-card-content {
+    //    padding-left: 8px;
+    //    padding-right: 8px;
+    //  }
+    //}
 
     @include for-phone-only {
       min-width: 100%;
@@ -433,8 +439,8 @@ export default class ListingCard extends Vue{
 
         &.title {
          p {
-           font-weight: 200 !important;
-           font-size: 18px;
+           font-weight: 300 !important;
+           font-size: 16px;
            line-height: 20px !important;
            @include for-phone-only {
              font-weight: 400 !important;
@@ -544,30 +550,30 @@ export default class ListingCard extends Vue{
       }
     }
 
-    &.sponsored-2 {
-      background: rgba(19, 95, 20, 0.05);
-      .listing-card-content {
-        padding-left: 8px;
-        padding-right: 8px;
-
-        .address.title {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          font-weight: 200 !important;
-          font-size: 18px !important;
-          line-height: 20px !important;
-          background: #012F34 !important;
-          color: #fff !important;
-
-          p {
-            color: #fff !important;
-            padding: 0 4px;
-          }
-
-        }
-      }
-    }
+    //&.sponsored-2 {
+    //  background: rgba(19, 95, 20, 0.05);
+    //  .listing-card-content {
+    //    padding-left: 8px;
+    //    padding-right: 8px;
+    //
+    //    .address.title {
+    //      white-space: nowrap;
+    //      overflow: hidden;
+    //      text-overflow: ellipsis;
+    //      font-weight: 200 !important;
+    //      font-size: 18px !important;
+    //      line-height: 20px !important;
+    //      background: #012F34 !important;
+    //      color: #fff !important;
+    //
+    //      p {
+    //        color: #fff !important;
+    //        padding: 0 4px;
+    //      }
+    //
+    //    }
+    //  }
+    //}
   }
 
   .icons {

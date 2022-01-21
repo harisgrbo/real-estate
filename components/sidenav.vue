@@ -52,15 +52,15 @@
           </li>
         </ul>
       </li>
-      <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between">
-        <div class="flex flex-row items-center w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-          </svg>
-          <nuxt-link to="/kredit">Kredit</nuxt-link>
-        </div>
-        <span class="bg-gray-50 p-2 font-semibold text-sm text-gray-800">{{ $auth.user.credits }}</span>
-      </li>
+<!--      <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between">-->
+<!--        <div class="flex flex-row items-center w-full">-->
+<!--          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />-->
+<!--          </svg>-->
+<!--          <nuxt-link to="/kredit">Kredit</nuxt-link>-->
+<!--        </div>-->
+<!--        <span class="bg-gray-50 p-2 font-semibold text-sm text-gray-800">{{ $auth.user.credits }}</span>-->
+<!--      </li>-->
       <li v-if="$auth.user && $auth.user.user_type !== 'agency'">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -96,13 +96,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
         </svg>
-        <nuxt-link to="/moj-racun/moje-rezervacije" class="font-medium">Moji upiti za rezervacije</nuxt-link>
+        <nuxt-link to="/moj-racun/moje-rezervacije" class="font-medium">Moje rezervacije</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
-        <nuxt-link to="/moj-racun/oglasi-koje-izdajem" class="font-medium">Oglasi koje izdajem (upiti)</nuxt-link>
+        <nuxt-link to="/moj-racun/oglasi-koje-izdajem" class="font-medium">Zahtjevi za rezervacije</nuxt-link>
       </li>
       <li v-if="$auth.user" @click="logout()" class="text-red-600">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -282,7 +282,7 @@ export default class sidenav extends Vue {
       &.user-label {
         height: fit-content;
         cursor: pointer;
-        padding: 16px;
+        padding-bottom: 12px;
 
 
         @include for-phone-only {

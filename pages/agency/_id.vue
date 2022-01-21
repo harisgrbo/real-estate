@@ -100,10 +100,7 @@
            <div v-if="listings.length || loadingListings" class="grid-layout">
              <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
            </div>
-           <div v-else class="no-image">
-             <img src="/nodata.jpeg" alt="no-image">
-             <p>{{ $auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa' }}</p>
-           </div>
+           <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
          </div>
         </div>
       </div>
@@ -150,9 +147,10 @@ import Pagination from "@/components/pagination";
 import {buildQuery} from "@/util/search";
 import {capitalize} from "@/util/str";
 import ActionButton from "../../components/actionButtons/ActionButton";
+import NotFound from "../../components/global/NotFound";
 
 @Component({
-  components: {ActionButton, ListingCard, Snackbar, PublishMap, UserMedals, TextField, Pagination},
+  components: {NotFound, ActionButton, ListingCard, Snackbar, PublishMap, UserMedals, TextField, Pagination},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   watchQuery: true,
   async asyncData(ctx) {

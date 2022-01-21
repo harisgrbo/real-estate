@@ -100,12 +100,12 @@
           <div v-if="! $auth.user" class="auth-reg">
             <button @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
-          <button v-if="$auth.user" class="login-a mr-2" @click="$router.push('/kredit')">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-            </svg>
-            <span class="text-medium text-gray-800 bg-gray-50 rounded-sm px-3 py-1 ml-0">{{ $auth.user.credits }}</span>
-          </button>
+<!--          <button v-if="$auth.user" class="login-a mr-2" @click="$router.push('/kredit')">-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />-->
+<!--            </svg>-->
+<!--            <span class="text-medium text-gray-800 bg-gray-50 rounded-sm px-3 py-1 ml-0">{{ $auth.user.credits }}</span>-->
+<!--          </button>-->
           <button v-if="$auth.user" class="login-a">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -224,6 +224,8 @@ export default class Navbar extends Vue {
         if (notification.type === 'App\\Notifications\\NewMessageNotification') {
           if (this.$route.fullPath !== '/moj-racun/poruke') {
             this.messagesCount++;
+          } else {
+            this.handleReadMessageNotifications();
           }
         } else {
           this.notifications.unshift(notification)
@@ -309,13 +311,21 @@ export default class Navbar extends Vue {
     this.$router.push('/pretraga?q=[' + q + ']');
   }
 
-    async handleCloseNotifications() {
+  async handleCloseNotifications() {
     try {
       await this.$axios.post('/profile/notifications/read');
     } catch (e) {
       console.log(e)
     } finally {
       this.showNotifications = false;
+    }
+  }
+
+  async handleReadMessageNotifications() {
+    try {
+      await this.$axios.post('/profile/messages/read');
+    } catch (e) {
+      console.log(e)
     }
   }
 

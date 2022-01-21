@@ -30,9 +30,9 @@
         <h2 class="test" v-if="currentStep === steps.STEP_EIGHT">
           Dodajte slike nekretnine
         </h2>
-        <h2 class="test" v-if="currentStep === steps.STEP_NINE">
-          Sponzorisanje oglasa
-        </h2>
+<!--        <h2 class="test" v-if="currentStep === steps.STEP_NINE">-->
+<!--          Sponzorisanje oglasa-->
+<!--        </h2>-->
       </div>
       <div class="content-wrapper">
         <div class="loader-wrapper">
@@ -225,40 +225,40 @@
 
         <!-- izdvajanje -->
 
-        <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
-          <div class="advertising-options-wrapper">
-            <div class="inner">
-              <div class="advertising-options">
-                <ul>
-                  <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
-                    <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
-                    <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
-                    <div class="text-wrapper">
-                      <p>{{ option.title }}</p>
-<!--                      <p>{{ option.description }}</p>-->
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div class="advertising-calculator">
-                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>
-              </div>
-            </div>
+<!--        <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">-->
+<!--          <div class="advertising-options-wrapper">-->
+<!--            <div class="inner">-->
+<!--              <div class="advertising-options">-->
+<!--                <ul>-->
+<!--                  <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">-->
+<!--                    <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">-->
+<!--                    <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">-->
+<!--                    <div class="text-wrapper">-->
+<!--                      <p>{{ option.title }}</p>-->
+<!--&lt;!&ndash;                      <p>{{ option.description }}</p>&ndash;&gt;-->
+<!--                    </div>-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </div>-->
+<!--              <div class="advertising-calculator">-->
+<!--                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="button-wrapper">
-              <button @click="prevStep" class="back">Nazad
-              </button>
-              <button @click="nextStep">Dalje
-              </button>
-            </div>
-          </div>
+<!--            <div class="button-wrapper">-->
+<!--              <button @click="prevStep" class="back">Nazad-->
+<!--              </button>-->
+<!--              <button @click="nextStep">Dalje-->
+<!--              </button>-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>
-          </div>
-        </div>
+<!--          <div class="button-wrapper">-->
+<!--            <button @click="prevStep" class="back">Nazad-->
+<!--            </button>-->
+<!--            <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     <Snackbar />
   </div>
@@ -461,8 +461,7 @@ export default class Objava extends Vue {
     STEP_SIX: 6,
     STEP_SEVEN: 7,
     STEP_EIGHT: 8,
-    STEP_NINE: 9,
-    TOTAL_STEPS: 9
+    TOTAL_STEPS: 8
   }
 
   currentStep = this.steps.STEP_ONE;

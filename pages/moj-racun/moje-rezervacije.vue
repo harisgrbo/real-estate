@@ -13,24 +13,22 @@
       <ul role="list" class="divide-y orders divide-gray-200">
         <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
           <div class="flex items-center sm:items-start">
-            <div class="flex-shrink-0 h-25 bg-gray-200 rounded-lg overflow-hidden main-image-wrap">
-              <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="w-full h-full">
-            </div>
+            <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" class="main" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.">
             <div class="flex-1 ml-6 text-sm w-full">
               <div class="font-medium text-gray-900 sm:flex sm:justify-between">
-                <h5 class="text-lg">
-                  {{ booking.listing.title }} - {{ booking.confirmed ? 'Prihvaćeno' : 'Čeka se potvrda' }}
+                <h5 class="text-md">
+                  {{ booking.listing.title }} -
+                  <span>{{ booking.confirmed ? 'Prihvaćeno' : 'Čeka se potvrda' }}</span>
                 </h5>
                 <p class="mt-2 sm:mt-0 text-lg font-medium">
                   {{ booking.total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM za {{ booking.days }} dana
                 </p>
               </div>
-              <p class="text-gray-900 sm:block sm:mt-2 opis">
-                {{ booking.listing.description }}
-              </p>
-              <p class="text-gray-900 sm:block sm:mt-2">
+              <p class="text-gray-900 sm:block opis">
                 {{ booking.listing.address }}
               </p>
+              <div class="text-gray-900 sm:block sm:mt-2 opis" v-html="booking.listing.description">
+              </div>
               <div class="w-full mt-4 flex items-center justify-start special">
                 <div
                   v-for="(attr, index) in getSpecialAttributes(booking.listing)"
@@ -39,28 +37,48 @@
                 >
                   <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
                   <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
-                  <p class="pl-2 font-semibold">{{ attr.value }}</p>
+                  <img v-if="attr.name === 'Broj kreveta'" src="/bed.svg" alt="">
+                  <p class="pl-2 font-medium">{{ attr.value }}</p>
+                  <p v-if="attr.name === 'Kvadratura'">
+                    m²
+                  </p>
                 </div>
               </div>
-
-            </div>
-          </div>
-
-          <div class="mt-6 sm:flex sm:justify-between">
-            <div class="flex items-center">
-              <!-- Heroicon name: solid/check-circle -->
-              <svg class="w-5 h-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <p class="ml-2 text-sm font-medium text-gray-500">Poslali ste ponudu <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
-            </div>
-
-            <div class="mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
-              <div class="min-w-min flex justify-center">
-                <nuxt-link :to="`/artikal/${booking.listing.id}`" class="whitespace-nowrap hover:text-gray-800 hover:bg-gray-50 py-4 px-4">Pogledaj oglas</nuxt-link>
+              <div v-if="RentSpecialAttributes.length && listing.listing_type.shortname !== 'sell'">
+                <h2 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
+                  Izdvojene pogodnosti
+                </h2>
+                <ul role="list" class="mt-3 mobile-grid ammenities">
+                  <li  v-for="(attr, index) in getRentSpecialAttributes(booking.listing.attributes)"
+                       :key="index"
+                       class="col-span-1 flex shadow-sm rounded-md">
+                    <img :src="'/' + attr.name + '.png'" alt="">
+                    <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                      <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
+                        <a class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</a>
+                        <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
               </div>
-              <div class="flex-1 pl-4 flex justify-center">
-                <ActionButton placeholder="Poništi upit" :style-options="{ minWidth: 'fit-content'}" @action="cancel(booking, index)"></ActionButton>
+              <div class="mt-6 sm:flex sm:justify-between">
+                <div class="flex items-center">
+                  <!-- Heroicon name: solid/check-circle -->
+                  <svg class="w-5 h-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <p class="ml-2 text-sm font-medium text-gray-500">Poslali ste ponudu <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
+                </div>
+
+                <div class="mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
+                  <div class="min-w-min flex justify-center">
+                    <nuxt-link :to="`/artikal/${booking.listing.id}`" class="whitespace-nowrap hover:text-gray-800 hover:bg-gray-50 py-4 px-4">Pogledaj oglas</nuxt-link>
+                  </div>
+                  <div class="flex-1 pl-4 flex justify-center">
+                    <ActionButton placeholder="Poništi upit" :style-options="{ minWidth: 'fit-content'}" @action="cancel(booking, index)"></ActionButton>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -100,7 +118,19 @@ import ActionButton from "../../components/actionButtons/ActionButton";
 export default class mojeRezervacije extends Vue {
   specialAttributesKeys = [
     "Broj soba",
-    "Sprat"
+    "Sprat",
+    "Kvadratura",
+    "Broj kreveta"
+  ];
+  RentSpecialAttributes = []
+  RentSpecialAttributesKeys = [
+    "Klima",
+    "Wifi",
+    "Broj kreveta",
+    "Pegla",
+    "Ves masina",
+    "Kuhinja",
+    "Fen"
   ];
 
   getSpecialAttributes(listing) {
@@ -109,6 +139,14 @@ export default class mojeRezervacije extends Vue {
       return this.specialAttributesKeys.indexOf(item.name) !== -1;
     });
   }
+
+  getRentSpecialAttributes(listing) {
+    if (!this.listing.attributes) return [];
+    return listing.attributes.filter((item) => {
+      return this.RentSpecialAttributesKeys.indexOf(item.name) !== -1;
+    });
+  }
+
 
   async cancel(booking, index) {
     try {
@@ -133,6 +171,11 @@ ul.orders li {
   border-bottom: 1px solid #f1f1f1;
   padding-bottom: 16px;
   margin-bottom: 16px;
+
+  .main {
+    height: 200px;
+    width: 240px;
+  }
 }
 
 .preview-wrapper-inner {
@@ -148,6 +191,11 @@ ul.orders li {
     font-size: 20px;
     font-weight: 300;
   }
+
+  span {
+    background: #012F34;
+    color: #fff;
+  }
 }
 
 a {
@@ -161,7 +209,7 @@ a {
   -webkit-line-clamp: 4; /* number of lines to show */
   line-clamp: 4;
   font-weight: 200;
-  font-size: 17px;
+  font-size: 15px;
   margin: 16px 0;
   -webkit-box-orient: vertical;
 }
@@ -172,8 +220,12 @@ a {
   border-radius: 4px;
 
   img {
-    width: 100%;
+    width: 180px;
     object-fit: cover !important;
+
+    @include for-phone-only {
+      width: 100%;
+    }
   }
 }
 
