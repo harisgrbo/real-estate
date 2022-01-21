@@ -435,7 +435,7 @@
               <div class="modal-content places-modal">
                 <div class="filters rounded-md">
                   <div class="places-grid" v-if="selectedPlace !== null">
-                    <div v-for="p in places['']" :key="p.id" class="flex flex-col items-start justify-start">
+                    <div v-for="p in bookingPoi()" :key="p.id" class="flex flex-col items-start justify-start">
                       <div class="flex flex-row items-center">
                         <img :src="p.icon" :alt="p.name" class="mr-2">
                         {{ p.name }}
@@ -793,6 +793,22 @@ export default class Artikal extends Vue {
     },
   }
 
+  bookingPoi() {
+    let places = this.places;
+
+    let keys = Object.keys(places)
+
+    for (let index in keys) {
+      let key = keys[index];
+
+      if (key.substr(0, 6) === 'things') {
+        return places[key].results;
+      }
+    }
+
+    return [];
+  }
+
   beforeOpen() {
     document.body.style.overflow = 'hidden';
   }
@@ -936,15 +952,17 @@ export default class Artikal extends Vue {
 
   translatePlaces(key) {
     if(key === 'atm') {
-      return key = 'Bankomati'
+      return 'Bankomati'
     } else if(key === 'school') {
-      return key = 'Škole'
+      return 'Škole'
     } else if(key === 'cafe') {
-      return key = 'Kafići'
+      return 'Kafići'
     } else if(key === 'restaurant') {
-      return key = 'Restorani'
+      return 'Restorani'
     } else if(key === 'shopping_mall') {
-      return key = 'Šoping centri'
+      return 'Šoping centri'
+    } else if(key.substr(0, 6) === 'things') {
+      return 'Sta raditi u blizini'
     }
   }
 
@@ -952,15 +970,6 @@ export default class Artikal extends Vue {
     try {
       let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
       this.places = res;
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
-  async fetchPoiPlaces() {
-    try {
-      let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
-      this.poi_places = res;
     } catch(e) {
       console.log(e)
     }
@@ -1146,7 +1155,8 @@ export default class Artikal extends Vue {
     }
 
     await this.fetchPlaces();
-    await this.fetchPoiPlaces();
+
+    console.log(this.places, 'sdsfsfs');
 
     for (let key of Object.keys(this.places)) {
       if (this.places[key].results.length) {
