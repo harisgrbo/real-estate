@@ -1351,6 +1351,7 @@ h2.info {
 
   img {
     height: 150px;
+    width: 100%;
   }
 
   button {

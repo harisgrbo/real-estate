@@ -254,6 +254,100 @@
                 <div v-html="listing.video_url"></div>
               </div>
             </div>
+            <div v-if="listing.is_booking && !authUser && !$device.isMobile" class="modal-content places-modal">
+              <div class="separator"></div>
+              <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervacija smještaja</h2>
+              <div class="filters rounded-md">
+                <client-only>
+                  <form @submit.prevent>
+                    <div class="price-wrap flex flex-col justify-start">
+                      <div class="flex flex-row items-center w-full">
+                        <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                        <p class="pl-2">/ noć</p>
+                      </div>
+                      <div v-show="numOfDays" class="mt-2 w-full">
+                        <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
+                      </div>
+                    </div>
+                    <div class="mb-4" v-if="$auth.user">
+                      <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h2>
+                      <vc-date-picker
+                        :disabled-dates="disabledDates"
+                        :min-date="new Date()"
+                        v-model="range"
+                        :masks="masks"
+                        is-range
+                        is-inline
+                        popover.visibility="visible"
+                        :popover="{ visibility: 'click' }"
+                      >
+                        <template v-slot="{ inputValue, inputEvents, isDragging }">
+                          <div class="flex flex-row justify-start items-center">
+                            <div class="relative flex-grow w-full">
+                              <svg
+                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                ></path>
+                              </svg>
+                              <input
+                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                                :value="inputValue.start"
+                                v-on="inputEvents.start"
+                              />
+                            </div>
+                            <span class="flex-shrink-0 m-2">
+              <svg
+                class="w-4 h-4 stroke-current text-gray-600"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </span>
+                            <div class="relative flex-grow w-full">
+                              <svg
+                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                ></path>
+                              </svg>
+                              <input
+                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                                :value="inputValue.end"
+                                v-on="inputEvents.end"
+                              />
+                            </div>
+                          </div>
+                        </template>
+                      </vc-date-picker>
+                    </div>
+                    <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                  </form>
+                </client-only>
+              </div>
+            </div>
+
 
             <div v-if="listing.is_booking && !authUser && $device.isMobile" :class="['book-article', showBooking ? 'show' : 'hide']">
               <div class="flex flex-row items-center justify-star">
@@ -341,7 +435,7 @@
               <div class="modal-content places-modal">
                 <div class="filters rounded-md">
                   <div class="places-grid" v-if="selectedPlace !== null">
-                    <div v-for="p in selectedPlace" :key="p.id" class="flex flex-col items-start justify-start">
+                    <div v-for="p in places['']" :key="p.id" class="flex flex-col items-start justify-start">
                       <div class="flex flex-row items-center">
                         <img :src="p.icon" :alt="p.name" class="mr-2">
                         {{ p.name }}
@@ -2193,6 +2287,11 @@ export default class Artikal extends Vue {
 .mobile-images {
   background: #f9f9f9;
   min-height: 400px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 
