@@ -8,7 +8,7 @@
         </svg>
       </button>
       <div class="flex flex-row items-center">
-        <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button @click="shareListing()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <!-- Heroicon name: solid/plus -->
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -134,16 +134,10 @@
                 <p class="text-md text-black font-normal">{{ listing.city.country.name }}</p>
               </li>
             </ul>
-            <div class="flex flex-row items-center justify-start mt-4">
-              <button class="show-map-button" @click="$modal.show('map-modal')">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="#fff">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                Prikaži lokaciju na mapi
-              </button>
-              <ActionButton class="mx-5" v-if="!$device.isMobile && !listing.is_booking" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
-              <ActionButton class="mx-5" v-if="!$device.isMobile && listing.is_booking" @action="$modal.show('places-poi')"  placeholder="Zanimljivosti u krugu od 2km" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+            <div class="mt-4 mobile-places-btn">
+              <ActionButton @action="$modal.show('map-modal')"  placeholder="Prikaži lokaciju na mapi" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+              <ActionButton v-if="!listing.is_booking" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+              <ActionButton v-if="listing.is_booking" @action="$modal.show('places-poi')"  placeholder="Zanimljivosti u krugu od 2km" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
             </div>
             <div class="separator"></div>
             <div class="px-5 lg:px-0 xl:px-0 up:px-0">
@@ -155,7 +149,7 @@
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
 
                     <div>
-                      <h3 class="text-md font-medium text-gray-900">
+                      <h3 class="text-sm font-medium text-gray-900">
                         <a class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
@@ -351,8 +345,8 @@
 
             <div v-if="listing.is_booking && !authUser && $device.isMobile" :class="['book-article', showBooking ? 'show' : 'hide']">
               <div class="flex flex-row items-center justify-star">
-                <p class="text-xl font-bold">{{ listing.price + ' KM' }}</p>
-                <p class="text-gray-600 font-semibold text-lg ml-2">/ noć</p>
+                <p class="text-2xl font-thin">{{ listing.price + ' KM' }}</p>
+                <p class="text-black font-medium text-lg ml-2">/ noć</p>
               </div>
               <ActionButton v-if="$auth.user" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
@@ -833,6 +827,19 @@ export default class Artikal extends Vue {
 
   beforeClose() {
     document.body.style.overflow = 'auto';
+  }
+
+  shareListing() {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: this.listing.title,
+          text: this.listing.description ? this.listing.description : "",
+          url: window.location.href,
+        })
+        .then(() => console.log("Successful share"))
+        .catch((error) => console.log("Error sharing", error));
+    }
   }
 
   async sendBookingRequest(event) {
@@ -2169,13 +2176,13 @@ export default class Artikal extends Vue {
 
 .book-article {
   position: fixed;
-  top: 16px;
+  top: 0px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
   z-index: 20;
   background: #fff;
   border-radius: 4px;
-  left: 16px;
-  right: 16px;
+  left: 0px;
+  right: 0px;
   padding: 12px;
   display: flex;
   align-items: center;
@@ -2534,11 +2541,22 @@ input[type=range]:focus::-ms-fill-upper {
   justify-content: center;
   color: #fff;
   font-size: 13px;
+}
 
+.mobile-places-btn {
   @include for-phone-only {
-    margin-left: 16px;
-    width: auto;
-    margin-right: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    button {
+      width: auto;
+      margin: 0 16px;
+
+      &:last-child {
+        margin-top: 16px;
+      }
+    }
   }
 }
 </style>

@@ -96,13 +96,13 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
         </svg>
-        <nuxt-link to="/moj-racun/moje-rezervacije" class="font-medium">Moji upiti za rezervacije</nuxt-link>
+        <nuxt-link to="/moj-racun/moje-rezervacije" class="font-medium">Moje rezervacije</nuxt-link>
       </li>
       <li v-if="$auth.user">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
-        <nuxt-link to="/moj-racun/oglasi-koje-izdajem" class="font-medium">Oglasi koje izdajem (upiti)</nuxt-link>
+        <nuxt-link to="/moj-racun/oglasi-koje-izdajem" class="font-medium">Zahtjevi za rezervacije</nuxt-link>
       </li>
       <li v-if="$auth.user" @click="logout()" class="text-red-600">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
