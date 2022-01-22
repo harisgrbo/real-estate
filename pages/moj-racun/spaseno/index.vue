@@ -242,7 +242,7 @@ export default class spaseno extends Vue {
 
       &.active {
         font-weight: 600 !important;
-        color: #012F34 !important;
+        color: #1F2937 !important;
         position: relative;
 
         &::after {

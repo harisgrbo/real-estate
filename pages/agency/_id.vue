@@ -2,45 +2,45 @@
   <div class="user-profile-wrapper w-full px-20 pt-8">
     <div class="agency-banner" :style="{ backgroundImage: 'url(' + 'https://prostor.ba/assets/img/12h_banner_desktop.jpg?v=1.1' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="user-content-wrapper mt-8" >
-      <div class="first-col">
-        <aside class="w-96 bg-white overflow-y-auto">
-          <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
-            <div class="flex-1 flex flex-row justify-start user-inner">
-              <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
-              <div class="ml-4">
-                <h3 class="text-gray-900 text-lg font-normal">{{ user.name }}</h3>
-                <dd class="mt-1 flex flex-row items-center justify-start">
-                  <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
-                  {{ user.online ? 'Online' : 'Offline' }}
-                </dd>
-                <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
-                  <dt class="sr-only">Title</dt>
-                  <dt class="sr-only">Role</dt>
-                  <dd class="mt-1">
-                    <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
+      <div class="flex flex-row items-center justify-start">
+        <div class="first-col">
+          <aside class="w-96 bg-white overflow-y-auto">
+            <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
+              <div class="flex-1 flex flex-row justify-start user-inner">
+                <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                <div class="ml-4">
+                  <h3 class="text-gray-900 text-lg font-normal">{{ user.name }}</h3>
+                  <dd class="mt-1 flex flex-row items-center justify-start">
+                    <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+                    {{ user.online ? 'Online' : 'Offline' }}
                   </dd>
-                </dl>
+                  <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
+                    <dt class="sr-only">Title</dt>
+                    <dt class="sr-only">Role</dt>
+                    <dd class="mt-2">
+                      <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
+                    </dd>
+                  </dl>
+                </div>
               </div>
             </div>
-          </div>
-        </aside>
+          </aside>
 
-      </div>
-      <div class="second-col">
-        <div class="grid grid-cols-1 gap-4 text-sm font-medium text-gray-500 infos">
-          <div v-if="user.email !== null">{{ user.email }}</div>
-          <div v-if="user.address !== null">{{ user.address }}</div>
-          <div v-if="user.web !== null">{{ user.web }}</div>
-          <div v-if="user.location !== null">{{ user.location }}</div>
-          <div v-if="user.phone_number !== null">{{ user.phone_number }}</div>
+        </div>
+        <div class="second-col">
+          <div class="grid grid-cols-1 gap-4 text-sm font-medium text-gray-500 infos">
+            <div v-if="user.email !== null">{{ user.email }}</div>
+            <div v-if="user.address !== null">{{ user.address }}</div>
+            <div v-if="user.web !== null">{{ user.web }}</div>
+            <div v-if="user.location !== null">{{ user.location }}</div>
+            <div v-if="user.phone_number !== null">{{ user.phone_number }}</div>
+          </div>
         </div>
       </div>
-
-<!--      {{ user }}-->
       <div class="third-col">
-        <div v-if="isMe" class="w-full flex flex-end grid grid-cols-2 gap-4">
-          <button class="-ml-px flex-1 flex cursor-pointer">
-            <nuxt-link to="/moj-racun/uredi-profil" icon="user-plus" class="relative flex-1 inline-flex bg-gray-800 text-white items-center py-2 justify-center text-sm font-medium rounded-sm border border-transparent hover:text-gray-500">
+        <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
+          <button class="flex-1 flex cursor-pointer">
+            <nuxt-link to="/moj-racun/uredi-profil" icon="user-plus" class="relative flex-1 inline-flex bg-gray-800 text-white items-center py-2 px-2 justify-center text-sm font-medium rounded-sm border border-transparent hover:text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
@@ -48,7 +48,7 @@
             </nuxt-link>
           </button>
           <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')">
-            <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center bg-gray-800 text-white text-sm py-2 font-medium border border-transparent rounded-sm hover:text-gray-500">
+            <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center bg-gray-800 text-white text-sm py-2 px-2 font-medium border border-transparent rounded-sm hover:text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
               </svg>
@@ -56,19 +56,19 @@
             </div>
           </button>
         </div>
-        <div v-else class="w-full flex justify-end on-mobile">
-          <div class="w-full grid grid-cols-2 gap-4" v-if="$auth.user">
-            <button class="flex-1 flex cursor-pointer mr-4 first" @click="$modal.show('contact-user')">
-              <a class="relative flex-1 inline-flex items-center justify-center py-2 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
+        <div v-else class="w-full flex flex-row items-center justify-start mt-4">
+          <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
+            <button class="flex-1 flex cursor-pointer first" @click="$modal.show('contact-user')">
+              <div class="relative flex-1 inline-flex items-center justify-center py-2 text-sm bg-gray-800 text-white px-2 font-medium border border-transparent rounded-sm hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
                 <span class="ml-3">Poruka</span>
-              </a>
+              </div>
             </button>
             <button class="flex-1 flex cursor-pointer" @click="toggleFollow()">
-              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-2 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500">
+              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center px-2 py-2 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -76,7 +76,7 @@
               </div>
             </button>
             <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')">
-              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center py-2 bg-gray-800 text-white text-sm font-medium border border-transparent rounded-sm hover:text-gray-500">
+              <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center px-2 py-2 bg-gray-800 text-white text-sm font-medium border border-transparent rounded-sm hover:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                 </svg>
@@ -349,7 +349,7 @@ export default class Agencies extends Vue {
 
   .user-content-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     //border: 1px solid rgb(221, 221, 221);
     border-radius: 12px;
     justify-content: space-between;
@@ -374,9 +374,15 @@ export default class Agencies extends Vue {
       }
 
       img {
-        height: 80px;
-        width: 80px;
-        min-width: 80px;
+        height: 120px;
+        width: 120px;
+        min-width: 120px;
+
+        @include for-phone-only {
+          height: 80px;
+          width: 80px;
+          min-width: 80px;
+        }
       }
     }
 
@@ -409,6 +415,11 @@ export default class Agencies extends Vue {
         @include for-phone-only {
           grid-template-columns: repeat(1, 1fr);
         }
+      }
+
+      div {
+        font-size: 14px;
+        font-weight: 300;
       }
 
       h2 {
@@ -784,6 +795,14 @@ export default class Agencies extends Vue {
       width: 100%;
       background: #f9f9f9;
     }
+  }
+}
+
+.buttons-user {
+  button {
+    width: fit-content;
+    margin-right: 14px;
+    max-width: fit-content;
   }
 }
 </style>

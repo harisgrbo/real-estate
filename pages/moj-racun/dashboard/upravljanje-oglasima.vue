@@ -1,7 +1,7 @@
 <template>
   <div class="upravljanje-wrapper w-full">
     <div class="grid-cols-4 grid gap-4 mobile-grid" v-if="listings.length">
-      <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal(listing.id)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
+      <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal(listing.id)" @edit-listing="handleEditListing($event)" @finish-listing="handleFinishListing(listing)" action_text="Opcije oglasa" :key="listing.id"/>
     </div>
     <div class="no-image" v-else>
       <img src="/nodata.jpeg" alt="no-image">
@@ -53,6 +53,22 @@ export default class UpravljanjeOglasima extends Vue {
 
       this.listings = res.data.data;
     } catch(e)  {
+      console.log(e)
+    }
+  }
+
+  async handleFinishListing(l) {
+    try {
+      await this.$axios.post('/listings/' + l.id + '/complete');
+
+      this.$snackbar.show({
+        text: "Oglas završen",
+        timeout: 1000,
+        type: "success"
+      });
+
+      l.completed_at = 'sad';
+    } catch(e) {
       console.log(e)
     }
   }

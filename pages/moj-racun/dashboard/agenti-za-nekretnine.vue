@@ -22,21 +22,18 @@
           </modal>
         </client-only>
         <!-- BEGIN: Users Layout -->
-        <div class="0 col-span-12 md:col-span-6 lg:col-span-4" v-for="agent in agents" :key="agent.id">
+        <div class="col-span-12 md:col-span-6 lg:col-span-4" v-for="agent in agents" :key="agent.id">
           <div class="box">
             <div class="flex items-start px-5 pt-5">
               <div class="w-full flex flex-col lg:flex-row items-center">
-                <div class="w-16 h-16 image-fit">
-                  <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg']">
-                </div>
+                <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full agent-image" :src="[ agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg']">
                 <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
                   <a href="" class="font-medium">{{ agent.name }}</a>
-                  <div class="text-gray-600 text-xs mt-0.5">Agent</div>
+                  <dd class="mt-3">
+                    <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agent</span>
+                  </dd>
                   <div class="bg-red-600 text-white rounded-sm font-semibold px-2 mt-1" v-if="agent.last_time_active_at === null">NEAKTIVAN</div>
                 </div>
-              </div>
-              <div class="absolute right-0 top-0 mr-5 mt-3 dropdown">
-                <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false"> <i data-feather="more-horizontal" class="w-5 h-5 text-gray-600 dark:text-gray-300"></i> </a>
               </div>
             </div>
             <div class="text-center lg:text-left p-5">
@@ -46,9 +43,9 @@
                 </svg>
                 <p>{{ agent.email }}</p></div>
             </div>
-            <div class="text-center lg:text-right p-5 border-t border-gray-200 dark:border-dark-5">
-              <button class="btn text-white bg-gray-800 py-1 px-2 mr-2" @click="removeAgent(agent.id)">Izbriši agenta</button>
-              <button class="btn btn-outline-secondary py-1 px-2" @click="$router.push('/users/' + agent.id)">Profil</button>
+            <div class="flex flex-row items-center justify-between px-4 pb-4">
+              <action-button placeholder="Izbriši agenta" :style-options="{ width: '100%', marginRight: '8px'}" @action="removeAgent(agent.id)"></action-button>
+              <action-button placeholder="Profil" :style-options="{ width: '100%', marginLeft: '8px'}" @action="$router.push('/users/' + agent.id)"></action-button>
             </div>
           </div>
         </div>
@@ -210,6 +207,11 @@ h1 {
   justify-content: space-between;
   border: 1px solid #f1f1f1;
   box-shadow: none;
+}
+
+.agent-image {
+  height: 80px;
+  width: 80px;
 }
 
 </style>

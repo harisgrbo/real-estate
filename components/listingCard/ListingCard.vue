@@ -16,11 +16,14 @@
         <span class="flex flex-row items-center bg-white shadow-sm ml-2">
           {{ listing.city.country.shortname }}
         </span>
+        <span v-if="listing.completed_at" class="flex flex-row items-center bg-red-600 text-white shadow-sm ml-2 finished">
+          ZAVRŠEN
+        </span>
       </label>
       <div class="blured-background" @mouseover="showListingOptions = true" @mouseleave="showListingOptions = false" @click.stop>
         <div v-show="showListingOptions && ($router.history.current.fullPath === '/moj-racun/moji-oglasi' || $router.history.current.fullPath === '/moj-racun/dashboard/upravljanje-oglasima')" class="w-full">
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/uredjivanje/' + listing.id)"></action-button>
-          <action-button class="option-btn" placeholder="Završi oglas" @action="$emit('finish-listing')" :style-options="{ width: '100%'}"></action-button>
+          <action-button v-if="listing.completed_at === null" class="option-btn" placeholder="Završi oglas" @action="$emit('finish-listing', listing.id)" :style-options="{ width: '100%'}"></action-button>
           <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
@@ -382,6 +385,10 @@ export default class ListingCard extends Vue{
         right: 8px;
         border-radius: 2px;
       }
+
+      span.finished {
+        color: #fff;
+      }
     }
 
     img {
@@ -563,7 +570,7 @@ export default class ListingCard extends Vue{
     //      font-weight: 200 !important;
     //      font-size: 18px !important;
     //      line-height: 20px !important;
-    //      background: #012F34 !important;
+    //      background: #1F2937 !important;
     //      color: #fff !important;
     //
     //      p {
