@@ -1154,7 +1154,6 @@ export default class Artikal extends Vue {
   }
 
   async created() {
-
     this.RentSpecialAttributes = this.getSpecialAttributes();
 
     if (this.listing.listing_type.shortname === 'booking') {
@@ -1162,8 +1161,6 @@ export default class Artikal extends Vue {
     }
 
     await this.fetchPlaces();
-
-    console.log(this.places, 'sdsfsfs');
 
     for (let key of Object.keys(this.places)) {
       if (this.places[key].results.length) {
@@ -1175,14 +1172,12 @@ export default class Artikal extends Vue {
     await this.fetchReviews();
     this.isUserFollowed = this.isFollowed;
 
-    if(process.browser) {
-      let desc_h = document.getElementById('opis').getClientRects();
+    if (process.browser) {
+      let desc_h = document.getElementById('opis');
 
-      this.descriptionRows = desc_h[0].height;
-
+      if (desc_h)
+        this.descriptionRows = desc_h.getClientRects()[0].height;
     }
-
-    console.log(this.descriptionRows, 'koliko')
   }
 
   get listingType() {
