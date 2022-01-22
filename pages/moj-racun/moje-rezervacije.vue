@@ -12,14 +12,16 @@
     <div class="w-full mt-5">
       <ul role="list" class="divide-y orders divide-gray-200">
         <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
-          <div class="flex items-center sm:items-start">
+          <div class="flex items-center sm:items-start mobile-box">
             <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" class="main" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.">
-            <div class="flex-1 ml-6 text-sm w-full">
+            <div class="flex-1 sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 text-sm w-full">
               <div class="font-medium text-gray-900 sm:flex sm:justify-between">
-                <h5 class="text-md">
-                  {{ booking.listing.title }} -
-                  <span>{{ booking.confirmed ? 'Prihvaćeno' : 'Čeka se potvrda' }}</span>
-                </h5>
+                <div class="flex flex-col items-start justify-start">
+                  <h5 class="text-md">
+                    {{ booking.listing.title }} -
+                  </h5>
+                  <span class="approval">{{ booking.confirmed ? 'Prihvaćeno' : 'Čeka se potvrda' }}</span>
+                </div>
                 <p class="mt-2 sm:mt-0 text-lg font-medium">
                   {{ booking.total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM za {{ booking.days }} dana
                 </p>
@@ -71,11 +73,11 @@
                   <p class="ml-2 text-sm font-medium text-gray-500">Poslali ste ponudu <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
                 </div>
 
-                <div class="mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
+                <div class="mt-6 border-t border-gray-200 pt-4 flex items-center flex justify-between space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
                   <div class="min-w-min flex justify-center">
                     <nuxt-link :to="`/artikal/${booking.listing.id}`" class="whitespace-nowrap hover:text-gray-800 hover:bg-gray-50 py-4 px-4">Pogledaj oglas</nuxt-link>
                   </div>
-                  <div class="flex-1 pl-4 flex justify-center">
+                  <div class="flex-1 pl-4 flex justify-end">
                     <ActionButton placeholder="Poništi upit" :style-options="{ minWidth: 'fit-content'}" @action="cancel(booking, index)"></ActionButton>
                   </div>
                 </div>
@@ -175,6 +177,12 @@ ul.orders li {
   .main {
     height: 200px;
     width: 240px;
+
+    @include for-phone-only {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 24px;
+    }
   }
 }
 
@@ -246,6 +254,8 @@ a {
     img {
       height: 14px;
       max-width: fit-content !important;
+      max-width: 15px;
+      min-width: 15px;
     }
 
     @include for-phone-only {
@@ -261,6 +271,21 @@ a {
       color: #1F2937 !important;
       text-decoration: underline !important;
     }
+  }
+}
+
+.mobile-box {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.approval {
+  @include for-phone-only {
+    margin-top: 12px;
+    padding: 0 12px;
+    border-radius: 4px;
   }
 }
 </style>

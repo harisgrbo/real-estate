@@ -2,7 +2,7 @@
   <div class="user-profile-wrapper w-full px-20 pt-8">
     <div class="agency-banner" :style="{ backgroundImage: 'url(' + 'https://prostor.ba/assets/img/12h_banner_desktop.jpg?v=1.1' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="user-content-wrapper mt-8" >
-      <div class="flex flex-row items-center justify-start">
+      <div class="flex flex-row items-center justify-start mobile-spans">
         <div class="first-col">
           <aside class="w-96 bg-white overflow-y-auto">
             <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
@@ -41,15 +41,15 @@
         <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
           <button class="flex-1 flex cursor-pointer">
             <nuxt-link to="/moj-racun/uredi-profil" icon="user-plus" class="relative flex-1 inline-flex bg-gray-800 text-white items-center py-2 px-2 justify-center text-sm font-medium rounded-sm border border-transparent hover:text-gray-500">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span class="ml-3">Uredi profil</span>
             </nuxt-link>
           </button>
-          <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')">
+          <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')" v-if="user.description">
             <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center bg-gray-800 text-white text-sm py-2 px-2 font-medium border border-transparent rounded-sm hover:text-gray-500">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
               </svg>
               <span class="ml-3">O nama</span>
@@ -61,7 +61,7 @@
             <button class="flex-1 flex cursor-pointer first" @click="$modal.show('contact-user')">
               <div class="relative flex-1 inline-flex items-center justify-center py-2 text-sm bg-gray-800 text-white px-2 font-medium border border-transparent rounded-sm hover:text-gray-500" @action="$modal.show('contact-user')" placeholder="Uredi profil" icon="paper-plane">
                 <!-- Heroicon name: solid/mail -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
                 <span class="ml-3">Poruka</span>
@@ -69,7 +69,7 @@
             </button>
             <button class="flex-1 flex cursor-pointer" @click="toggleFollow()">
               <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center px-2 py-2 text-sm bg-gray-800 text-white font-medium border border-transparent rounded-sm hover:text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 <span class="ml-3">{{ isFollowed? 'Otprati' : 'Zaprati' }}</span>
@@ -77,7 +77,7 @@
             </button>
             <button class="flex-1 flex cursor-pointer" @click="$modal.show('about-agency')">
               <div icon="user-plus" class="relative flex-1 inline-flex items-center justify-center px-2 py-2 bg-gray-800 text-white text-sm font-medium border border-transparent rounded-sm hover:text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                 </svg>
                 <span class="ml-3">O nama</span>
@@ -88,22 +88,41 @@
       </div>
     </div>
     <div class="content-wrapper">
-      <div class="flex flex-row items-center justify-between mb-8 user-options">
-        <ul class="category-list w-full">
-          <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
-        </ul>
-      </div>
-      <div>
-        <div v-if="activeTab === 0" class="filters-agency">
-         <div class="content pb-20">
-           <h2 class="mb-4">Oglasi ({{ listings.length }})</h2>
-           <div v-if="listings.length || loadingListings" class="grid-layout">
-             <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
-           </div>
-           <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
-         </div>
+      <ul class="flex w-full items-center main-tabs">
+        <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
+      </ul>
+      <div v-if="selected_tab === 0">
+        <div class="flex flex-row items-center justify-between mb-8 user-options">
+          <ul class="category-list w-full">
+            <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+          </ul>
+        </div>
+        <div>
+          <div class="filters-agency">
+            <div class="content pb-20">
+              <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
+              <div v-if="listings.length || loadingListings" class="grid-layout">
+                <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+              </div>
+              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
+            </div>
+          </div>
         </div>
       </div>
+      <div v-else>
+        <div>
+          <div class="filters-agency">
+            <div class="content pb-20">
+              <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+              <div v-if="completed_listings.length" class="grid-layout">
+                <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
+              </div>
+              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa'"></NotFound>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
       <div class="modal-inner">
@@ -183,24 +202,25 @@ import NotFound from "../../components/global/NotFound";
 })
 export default class Agencies extends Vue {
   loadingListings = false;
-  activeTab = 0
   isFollowed = ''
   message = '';
   loading = false;
   followLoading = false;
   listings = []
+  completed_listings = []
   finishedListings = []
   feedback = []
-  tabs = [
-    "Aktivni oglasi",
-    "Završeni oglasi",
-  ]
   city = {
     location: {
       lat: parseFloat("43.8575641"),
       lng: parseFloat("18.4149369")
     }
   }
+  selected_tab = 0;
+  tabs = [
+    'Aktivni oglasi',
+    'Završeni'
+  ]
   selectedCategoryId = null;
 
   async handleSelectedCategory(cat) {
@@ -224,6 +244,7 @@ export default class Agencies extends Vue {
   async created() {
 
     await this.fetchUserListings(this.$route.params.id, null);
+    await this.fetchUserFinishedListings(this.$route.params.id)
     this.isFollowed = this.meta.followed;
   }
 
@@ -310,7 +331,7 @@ export default class Agencies extends Vue {
     this.loadingListings = true;
 
     try {
-      let url = '/users/' + id + '/listings';
+      let url = '/users/' + id + '/listings/active';
 
       if (catId) {
         url += '?category_id=' + catId;
@@ -318,6 +339,21 @@ export default class Agencies extends Vue {
 
       let response = await this.$axios.get(url)
       this.listings = response.data.data;
+    } catch(e) {
+      console.log(e)
+    } finally {
+      this.loadingListings = false;
+    }
+  }
+
+  async fetchUserFinishedListings(id, catId) {
+    this.loadingListings = true;
+
+    try {
+      let url = '/users/' + id + '/listings/completed';
+
+      let response = await this.$axios.get(url)
+      this.completed_listings = response.data.data;
     } catch(e) {
       console.log(e)
     } finally {
@@ -391,6 +427,7 @@ export default class Agencies extends Vue {
 
       @include for-phone-only {
         padding-bottom: 24px;
+        width: 100%;
         margin-bottom: 12px;
         border-bottom: 1px solid #f1f1f1;
       }
@@ -406,6 +443,7 @@ export default class Agencies extends Vue {
         padding: 0;
         margin-top: 12px;
         margin-bottom: 20px;
+        width: 100%;
       }
 
       .infos {
@@ -799,10 +837,52 @@ export default class Agencies extends Vue {
 }
 
 .buttons-user {
+  @include for-phone-only {
+    width: 100%;
+  }
   button {
     width: fit-content;
-    margin-right: 14px;
+    margin-right: 8px;
     max-width: fit-content;
+    border-radius: 4px !important;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    @include for-phone-only {
+      width: auto;
+      min-width: auto;
+      max-width: 100%
+    }
   }
 }
+
+.main-tabs {
+  margin-bottom: 24px;
+  li {
+    border: 1px solid #f9f9f9;
+    cursor: pointer;
+
+    &.active-tab {
+      font-weight: 600;
+      background: #f9f9f9;
+      border-radius: 4px;
+    }
+
+  }
+}
+
+.mobile-spans {
+  @include for-phone-only {
+    flex-direction: column;
+  }
+}
+
+aside {
+  @include for-phone-only {
+    width: 100%;
+  }
+}
+
 </style>

@@ -116,6 +116,7 @@ ul.expanded {
   @include for-phone-only {
     margin: 0;
     overflow-x: scroll;
+    margin-bottom: 24px;
   }
 
   a {
