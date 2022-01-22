@@ -30,7 +30,7 @@
               <client-only v-if="images.length >= 1">
                 <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
                   <swiper-slide v-for="(img, index) in images" :key="index">
-                    <img class="swiper-lazy" :src="img.url" alt="" @click="openGallery(index)">
+                    <img class="swiper-lazy" :alt="listing.title + 'stan mojkvadrat stanovi sarajevo'" :src="img.url" alt="" @click="openGallery(index)">
                     <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                   </swiper-slide>
                   <div
@@ -141,9 +141,9 @@
             </div>
             <div class="separator"></div>
             <div class="px-5 lg:px-0 xl:px-0 up:px-0">
-              <h2 class="text-xl font-medium text-gray-900">
+              <h3 class="text-xl font-medium text-gray-900">
                 Informacije o nekretnini
-              </h2>
+              </h3>
               <ul role="list" class="border-t border-b border-gray-200 py-6 mobile-grid">
                 <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
@@ -162,9 +162,9 @@
               </ul>
             </div>
             <div v-if="RentSpecialAttributes.length && listing.listing_type.shortname !== 'sell'">
-              <h2 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
+              <h3 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
                 Izdvojene pogodnosti
-              </h2>
+              </h3>
               <ul role="list" class="mt-3 mobile-grid ammenities">
                 <li  v-for="(attr, index) in RentSpecialAttributes"
                      :key="index"
@@ -180,9 +180,9 @@
               </ul>
             </div>
             <div class="mt-6 mx-5 lg:mx-0 xl:mx-0 up:mx-0" v-if="checkboxAttributes.length">
-              <h2 class="text-xl font-medium text-gray-900">
+              <h3 class="text-xl font-medium text-gray-900">
                 Nekretnina posjeduje
-              </h2>
+              </h3>
               <ul role="list" :class="['mt-6 border-t border-b border-gray-200 py-0 mobile-grid', checkboxAttributes.length > 10 ? 'compress' : '']">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
@@ -208,7 +208,7 @@
             </div>
             <div class="separator"></div>
             <client-only>
-              <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h2>
+              <h3 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h3>
               <p :class="['description mx-5 lg:mx-0 xl:mx-0 up:mx-0', descriptionRows > 200 ? 'minimize' : 'maximize']" id="opis" v-html="listing.description"></p>
               <span v-show="descriptionRows > 200" @click="$modal.show('detailed-desc')" class="py-4 rounded-md flex flex-row items-center show-more-btn min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
               Prikaži više
@@ -243,14 +243,14 @@
                 </div>
               </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0">
-              <h2 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video</h2>
+              <h3 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video</h3>
               <div v-if="listing.video_url !== null">
                 <div v-html="listing.video_url"></div>
               </div>
             </div>
             <div v-if="listing.is_booking && !authUser && !$device.isMobile" class="modal-content places-modal">
               <div class="separator"></div>
-              <h2 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervacija smještaja</h2>
+              <h3 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervacija smještaja</h3>
               <div class="filters rounded-md">
                 <client-only>
                   <form @submit.prevent>
@@ -264,7 +264,7 @@
                       </div>
                     </div>
                     <div class="mb-4" v-if="$auth.user">
-                      <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h2>
+                      <h3 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h3>
                       <vc-date-picker
                         :disabled-dates="disabledDates"
                         :min-date="new Date()"
@@ -357,7 +357,7 @@
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator" v-if="listing_reviews.length"></div>
-            <h2 class="text-xl font-medium text-gray-900 mb-6 px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">Dojmovi</h2>
+            <h3 class="text-xl font-medium text-gray-900 mb-6 px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">Dojmovi</h3>
             <div v-if="listing_reviews.length" class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0">
               <div>
                 <div v-for="review in listing_reviews" :key="review.id">
@@ -396,7 +396,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="places" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>U blizini</h2>
+                <h3>U blizini</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('places')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -423,7 +423,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="places-poi" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Zanimljivosti u blizini nekretnine</h2>
+                <h3>Zanimljivosti u blizini nekretnine</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('places-poi')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -451,7 +451,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="leave-review" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Ostavite dojam</h2>
+                <h3>Ostavite dojam</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('leave-review')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -482,7 +482,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="booking" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Rezerviši smještaj</h2>
+                <h3>Rezerviši smještaj</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('booking')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -499,7 +499,7 @@
                         </div>
                       </div>
                       <div class="mb-4" v-if="$auth.user">
-                        <h2 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h2>
+                        <h3 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h3>
                         <vc-date-picker
                           :disabled-dates="disabledDates"
                           :min-date="new Date()"
@@ -583,7 +583,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="detailed-desc" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Detaljni opis</h2>
+                <h3>Detaljni opis</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('detailed-desc')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -597,7 +597,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="detailed-attributes" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h2>Nekretnina posjeduje</h2>
+                <h3>Nekretnina posjeduje</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('detailed-attributes')">close</i>
               </div>
               <div class="modal-content">
@@ -651,6 +651,17 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
     UserProfile,
     SingleQuestion,
     RealEstateLocationMap
+  },
+  head() {
+    return {
+      title: this.listing.title + " - " + this.listing.category.title + " - " + "MojKvadrat.ba",
+      meta: [
+        {
+          hid: this.listing.description ? this.listing.description : "",
+          name: this.listing.description ? this.listing.description : "",
+        },
+      ],
+    };
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
