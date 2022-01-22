@@ -280,7 +280,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-white"></div>
       </div>
 
-      <div class="relative -mt-24 max-w-7xl mx-auto pb-16 px-4 sm:pb-24 sm:px-6 lg:px-8">
+      <div class="relative -mt-24 max-w-7xl mx-auto pb-8 px-4 sm:pb-24 sm:px-6 lg:px-8">
         <div class="max-w-2xl mx-auto text-center lg:max-w-4xl">
           <h2 class="text-3xl font-bold tracking-tight text-gray-900">Želite pomoć pri prodaji ili kupovini nekretnine?</h2>
           <h2 class="text-2xl font-medium tracking-tight text-gray-900 mt-4">Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</h2>

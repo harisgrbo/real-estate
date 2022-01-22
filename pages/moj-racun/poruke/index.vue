@@ -62,7 +62,7 @@
                     </svg>
                     <p class="font-medium">{{ pinned_conversation && (pinned_conversation.id === currentConversation.id ) ? 'Izbriši iz pinovanih' : 'Pinuj razgovor'}}</p>
                   </div>
-                  <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 ml-6 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="deleteConversation(currentConversation)">
+                  <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 ml-6 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="$modal.show('delete-conversation')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
@@ -169,7 +169,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                       </svg>
                     </div>
-                    <div class="flex items-center sm:ml-auto sm:mt-0 border-t sm:border-0 border-gray-200 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="deleteConversation(currentConversation)">
+                    <div class="flex items-center sm:ml-auto sm:mt-0 border-t sm:border-0 border-gray-200 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="$modal.show('delete-conversation')">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
@@ -289,6 +289,37 @@
                   @action="showImagePreviewModal = false; imgSrc = ''"
                 />
               </div>
+          </div>
+        </div>
+      </modal>
+    </client-only>
+    <client-only>
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="delete-conversation" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Brisanje razgovora</h2>
+            <i class="material-icons" @click.prevent="$modal.hide('delete-conversation')">close</i>
+          </div>
+          <div class="modal-content places-modal pt-4">
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 mt-4">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <!-- Heroicon name: solid/exclamation -->
+                  <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm text-yellow-700">
+                    Da li ste sigurni da želite izbrisati razgovor
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-row items-center justify-between">
+              <action-button :style-options="{ marginRight: '8px', width: '100%' }" @action="deleteConversation(currentConversation); $modal.hide('delete-conversation')" placeholder="Da"></action-button>
+              <action-button :style-options="{ marginLeft: '8px', width: '100%' }" placeholder="Ne" @action="$modal.hide('delete-conversation')"></action-button>
+            </div>
           </div>
         </div>
       </modal>
@@ -878,7 +909,7 @@ img {
 
 .image-gallery {
   position: fixed;
-  z-index: 20;
+  z-index: 9999;
   background: rgba(0, 0, 0, 0.38);
   left: 0;
   right: 0;
@@ -897,7 +928,7 @@ img {
 
   img {
     &.main-image {
-      height: 90vh;
+      height: 70vh;
       width: fit-content;
     }
     &.close {

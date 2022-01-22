@@ -1,5 +1,5 @@
 <template>
-  <div class="listing-wrapper mx-auto w-full">
+  <div class="listing-wrapper mx-auto w-full" v-if="!error">
     <div v-if="$device.isMobile" class="mobile-topbar">
       <button @click="$router.go(-1)" type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <!-- Heroicon name: solid/plus -->
@@ -664,6 +664,7 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
     let reviewCount = 0;
     let view_count = 0;
     let listing_meta = null;
+    let error = false
 
     try {
       let response = await ctx.app.$axios.get('/listings/' + ctx.params.id);
@@ -678,11 +679,12 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
       reviewCount = response.data.meta.review_count || 0;
       view_count = response.data.meta.view_count;
     } catch(e) {
-      console.log(e)
+      error = true;
     }
 
     return {
       rating,
+      error,
       reviewCount,
       listing,
       user,
@@ -944,6 +946,9 @@ export default class Artikal extends Vue {
   }
 
   mounted() {
+    if(this.error) {
+      this.$router.push('/404')
+    }
     if(this.$device.isMobile) {
       window.addEventListener('scroll', this.handleScroll, true)
     }
@@ -1168,6 +1173,10 @@ export default class Artikal extends Vue {
   }
 
   async created() {
+
+    if(this.error) {
+      return
+    }
 
     this.RentSpecialAttributes = this.getSpecialAttributes();
 
@@ -2577,6 +2586,13 @@ input[type=range]:focus::-ms-fill-upper {
         margin-top: 16px;
       }
     }
+  }
+}
+::v-deep .vue-lb-content {
+  img {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
   }
 }
 </style>

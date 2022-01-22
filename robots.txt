@@ -1,0 +1,16 @@
+# Block all user agents
+User-agent: *
+User-agent: AdsBot-Google
+Disallow: /poruke
+Disallow: /moj-racun
+Disallow: /moj-racun/uredi-profil
+Disallow: /moj-racun/spaseno
+Disallow: /moj-racun/pratioci-pratim
+Disallow: /moj-racun/blokirani-korisnici
+Disallow: /moj-racun/obavijesti
+Disallow: /moj-racun/moje-rezervacije
+Disallow: /moj-racun/oglasi-koje-izdajem
+Disallow: /mojracun/dashboard/analitika
+Disallow: /mojracun/dashboard/postavke-agencije
+Disallow: /mojracun/dashboard/agenti-za-nekretnine
+Disallow: /mojracun/dashboard/upravljanje-oglasima

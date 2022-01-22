@@ -111,6 +111,7 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     "nuxt-ssr-cache",
+    '@nuxtjs/sitemap',
     "@nuxtjs/auth",
     "@nuxtjs/axios",
     ["nuxt-material-design-icons"],
@@ -118,6 +119,20 @@ export default {
       id: 'ca-pub-###########'
     }]
   ],
+
+  sitemap: {
+    hostname: 'https://mojkvadrat.ba',
+    gzip: true,
+    exclude: [
+      '/exclude-one',
+      '/exclude-two'
+    ],
+    defaults: {
+      changefreq: 'daily',
+      priority: 1,
+      lastmod: new Date()
+    }
+  },
 
   axios: {
     baseURL: "https://polar-cove-31327.herokuapp.com/",

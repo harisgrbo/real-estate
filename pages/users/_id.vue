@@ -27,25 +27,37 @@
                 </div>
               </div>
 
-              <h2 class="font-medium text-xl mt-8">Oglasi</h2>
-              <div class="min-w-full">
-                <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-if="listingsLoaded">
-                  <ul role="list" class="grid lg:grid-cols-3 up:grid-cols-3 up:grid-cols-3 gap-5 gap-x-6 listings-user-wrap" v-if="listings.length">
-                    <li class="relative listing-card w-full min-w-full" v-for="listing in listings" :key="listing.id">
-                      <ListingCard :listing="listing" :key="listing.id"></ListingCard>
-                    </li>
-                    <!-- More files... -->
-                  </ul>
-                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
-                </section>
-                <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-else>
-                  <ul role="list" class="grid lg:grid-cols-3 up:grid-cols-3 up:grid-cols-3 gap-5 gap-x-6 listings-user-wrap">
-                    <li class="relative listing-card w-full min-w-full" v-for="(i, index) in 10" :key="index">
-                      <skeleton height="308px" width="256px"></skeleton>
-                    </li>
-                    <!-- More files... -->
-                  </ul>
-                </section>
+              <div class="content-wrapper">
+                <ul class="flex w-full items-center main-tabs">
+                  <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
+                </ul>
+                <div v-if="selected_tab === 0">
+                  <div>
+                    <div class="filters-agency">
+                      <div class="content pb-20">
+                        <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
+                        <div v-if="listings.length || loadingListings" class="grid-layout">
+                          <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+                        </div>
+                        <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa'"></NotFound>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-else>
+                  <div>
+                    <div class="filters-agency">
+                      <div class="content pb-20">
+                        <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+                        <div v-if="completed_listings.length" class="grid-layout">
+                          <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
+                        </div>
+                        <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Korisnik nema završenih oglasa'"></NotFound>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </main>
@@ -83,7 +95,7 @@
                   </div>
                 </div>
               </div>
-              <div class="flex flex-row items-center justify-between mt-4 w-full" v-if="this.$auth.user">
+              <div class="flex flex-row items-center justify-between mt-2 w-full" v-if="this.$auth.user">
                 <div class="flex flex-row items-center grid grid-cols-2 gap-x-4 justify-between w-full" v-if="$auth.user.id !== user.id">
                   <button class="flex-1 flex cursor-pointer" @click="$modal.show('contact-user')">
                     <nuxt-link to="" class="mr-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
@@ -104,7 +116,7 @@
                   </button>
                 </div>
                 <div class="flex flex-row items-center justify-between w-full" v-else>
-                  <action-button class="mt-4" placeholder="Uredi profil" @action="$modal.show('contact-user')" :style-options="{ width: '100%', background: '#1F2937', color: '#fff'}"></action-button>
+                  <action-button class="mt-4" placeholder="Uredi profil" @action="$router.push('/moj-racun/uredi-profil')" :style-options="{ width: '100%', background: '#1F2937', color: '#fff'}"></action-button>
                 </div>
               </div>
             </div>
@@ -168,9 +180,14 @@ export default class Users extends Vue {
   followLoading = false;
   listings = []
   finishedListings = []
+  completed_listings = []
   feedback = []
   listingsLoaded = false;
-
+  selected_tab = 0;
+  tabs = [
+    'Aktivni oglasi',
+    'Završeni'
+  ]
   get isMe() {
     if(this.$auth.user) {
       return this.$auth.user.id === this.user.id;
@@ -283,8 +300,19 @@ export default class Users extends Vue {
   async fetchUserListings(id) {
     this.listingsLoaded = false;
     try {
-      let response = await this.$axios.get('/users/' + id + '/listings')
+      let response = await this.$axios.get('/users/' + id + '/listings/active')
       this.listings = response.data.data;
+      this.listingsLoaded = true;
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  async fetchUserFinishedListings(id) {
+    this.listingsLoaded = false;
+    try {
+      let response = await this.$axios.get('/users/' + id + '/listings/completed')
+      this.completed_listings = response.data.data;
       this.listingsLoaded = true;
     } catch(e) {
       console.log(e)
@@ -418,67 +446,6 @@ export default class Users extends Vue {
   }
 
 
-  .content-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-
-    @include for-phone-only {
-      padding: 0px;
-      padding-top: 36px;
-      padding-bottom: 120px;
-    }
-
-    ul {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-bottom: 36px;
-      margin-top: 36px;
-      border-bottom: 1px solid #EBEBEB !important;
-
-      @include for-phone-only {
-        overflow-x: scroll ;
-      }
-
-      li {
-        margin-right: 24px;
-        padding-bottom: 8px;
-        height: 40px;
-        position: relative;
-        cursor: pointer;
-        text-transform: capitalize;
-        font-weight:500 !important;
-        font-size: 16px !important;
-        line-height: 24px !important;
-        color: #848484;
-
-        @include for-phone-only {
-          min-width: fit-content;
-        }
-
-        &:last-child {
-          margin-right: 0;
-        }
-
-        &.active {
-          color: #0d0c22;
-        }
-      }
-    }
-
-    .grid-layout {
-      grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) );
-      padding: 0;
-
-      @include for-phone-only {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        grid-column-gap: 12px !important;
-      }
-    }
-  }
 }
 
 .modal-inner {
@@ -727,6 +694,38 @@ aside {
     font-size: 20px;
     font-weight: 500;
     margin-top: 24px;
+  }
+}
+
+
+.main-tabs {
+  margin-bottom: 24px;
+  li {
+    border: 1px solid #f9f9f9;
+    cursor: pointer;
+
+    &.active-tab {
+      font-weight: 600;
+      background: #f9f9f9;
+      border-radius: 4px;
+    }
+
+  }
+}
+
+.content-wrapper {
+  margin-top: 80px;
+}
+
+.grid-layout {
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 24px;
+  padding: 0;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 12px;
+    grid-row: 16px;
   }
 }
 

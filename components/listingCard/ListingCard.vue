@@ -1,22 +1,22 @@
 <template>
     <div class="listing-card-wrapper" :class="[from? 'blured' : '', 'sponsored-' + listing.sponsored]">
       <label class="publisher">
-        <span class="shadow-sm bg-white">
+        <span class="shadow-sm bg-white mr-2">
           {{ translateType() }}
         </span>
-        <span v-if="listing.hasOwnProperty('discount')" class="flex flex-row items-center bg-red-600 shadow-sm ml-2">
+        <span v-if="listing.hasOwnProperty('discount')" class="flex flex-row items-center bg-red-600 shadow-sm mr-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#fff">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
           </svg>
-          <p class="text-white font-semibold">
+          <p class="text-white font-medium">
             Akcija{{ ' -' + listing.discount * 100 + '%' }}
           </p>
         </span>
-        <span class="flex flex-row items-center bg-white shadow-sm ml-2">
+        <span class="flex flex-row items-center bg-white shadow-sm mr-2">
           {{ listing.city.country.shortname }}
         </span>
-        <span v-if="listing.completed_at" class="flex flex-row items-center bg-red-600 text-white shadow-sm ml-2 finished">
+        <span v-if="listing.completed_at" class="flex flex-row items-center bg-red-600 text-white shadow-sm mr-2 finished">
           ZAVRŠEN
         </span>
       </label>
@@ -338,13 +338,19 @@ export default class ListingCard extends Vue{
       }
 
       &.publisher {
-        top: 8px;
+        top: 0px;
         display: flex;
         flex-direction: row;
         align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-start;
 
         svg {
           margin-right: 3px;
+        }
+
+        span {
+          margin-top: 8px;
         }
 
         &.sale {
@@ -362,21 +368,6 @@ export default class ListingCard extends Vue{
           @include for-phone-only {
             top: 102px;
           }
-        }
-      }
-
-      &.sponsored {
-        right: 8px !important;
-        left: inherit;
-        background: #D63946;
-        color: #fff;
-
-        svg {
-          margin-rigth: 4px;
-        }
-
-        span {
-          text-transform: capitalize;
         }
       }
 
@@ -536,16 +527,15 @@ export default class ListingCard extends Vue{
             margin-top: 0;
           }
 
-          p {
-            font-size: 16px !important;
-            font-weight: 400;
-          }
-
           .new {
-            font-size: 18px !important;
+            font-size: 16px;
             font-weight: 600 !important;
             margin-left: 0px;
             margin: 4px 0;
+
+            &.cross {
+              font-size: 13px !important;
+            }
           }
         }
 
@@ -850,7 +840,8 @@ export default class ListingCard extends Vue{
   }
 }
 
-.cross {
+.new.cross {
   text-decoration: line-through;
+  font-size: 13px !important;
 }
 </style>
