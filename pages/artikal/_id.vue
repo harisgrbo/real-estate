@@ -353,7 +353,7 @@
 
           </div>
           <div class="user-wrap relative z-10">
-            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
+            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator" v-if="listing_reviews.length"></div>
@@ -429,7 +429,7 @@
               <div class="modal-content places-modal">
                 <div class="filters rounded-md">
                   <div class="places-grid" v-if="selectedPlace !== null">
-                    <div v-for="p in places['']" :key="p.id" class="flex flex-col items-start justify-start">
+                    <div v-for="p in bookingPoi()" :key="p.id" class="flex flex-col items-start justify-start">
                       <div class="flex flex-row items-center">
                         <img :src="p.icon" :alt="p.name" class="mr-2">
                         {{ p.name }}
@@ -787,12 +787,42 @@ export default class Artikal extends Vue {
     },
   }
 
+  bookingPoi() {
+    let places = this.places;
+
+    let keys = Object.keys(places)
+
+    for (let index in keys) {
+      let key = keys[index];
+
+      if (key.substr(0, 6) === 'things') {
+        return places[key].results;
+      }
+    }
+
+    return [];
+  }
+
   beforeOpen() {
     document.body.style.overflow = 'hidden';
   }
 
   beforeClose() {
     document.body.style.overflow = 'auto';
+  }
+
+  async handleFinishListing() {
+    try {
+      await this.$axios.post('/listings/' + this.listing.id + '/complete');
+
+      this.$snackbar.show({
+        text: "Oglas završen",
+        timeout: 1000,
+        type: "success"
+      });
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   async fetchBookings() {
@@ -943,15 +973,17 @@ export default class Artikal extends Vue {
 
   translatePlaces(key) {
     if(key === 'atm') {
-      return key = 'Bankomati'
+      return 'Bankomati'
     } else if(key === 'school') {
-      return key = 'Škole'
+      return 'Škole'
     } else if(key === 'cafe') {
-      return key = 'Kafići'
+      return 'Kafići'
     } else if(key === 'restaurant') {
-      return key = 'Restorani'
+      return 'Restorani'
     } else if(key === 'shopping_mall') {
-      return key = 'Šoping centri'
+      return 'Šoping centri'
+    } else if(key.substr(0, 6) === 'things') {
+      return 'Sta raditi u blizini'
     }
   }
 
@@ -959,15 +991,6 @@ export default class Artikal extends Vue {
     try {
       let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
       this.places = res;
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
-  async fetchPoiPlaces() {
-    try {
-      let res = await this.$axios.$get('/listings/' + this.listing.id + '/places');
-      this.poi_places = res;
     } catch(e) {
       console.log(e)
     }
@@ -1153,7 +1176,8 @@ export default class Artikal extends Vue {
     }
 
     await this.fetchPlaces();
-    await this.fetchPoiPlaces();
+
+    console.log(this.places, 'sdsfsfs');
 
     for (let key of Object.keys(this.places)) {
       if (this.places[key].results.length) {
@@ -2495,7 +2519,7 @@ input[type=range]:focus::-ms-fill-upper {
 .show-more-btn {
   min-width: fit-content;
   max-width: fit-content;
-  border: 1px solid #012F34;
+  border: 1px solid #1F2937;
   height: 48px;
   display: flex;
   align-items: center;
@@ -2524,7 +2548,7 @@ input[type=range]:focus::-ms-fill-upper {
   width: fit-content;
   height: 48px;
   border-radius: 4px;
-  background: #012F34;
+  background: #1F2937;
   padding: 0 12px;
   display: flex;
   align-items: center;
@@ -2534,6 +2558,12 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .mobile-places-btn {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-right: 16px;
+  }
   @include for-phone-only {
     display: flex;
     flex-direction: column;

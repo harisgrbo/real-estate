@@ -224,7 +224,7 @@ a {
 
   a {
     &:hover {
-      color: #012F34 !important;
+      color: #1F2937 !important;
       text-decoration: underline !important;
     }
   }

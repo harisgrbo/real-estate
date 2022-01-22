@@ -193,7 +193,7 @@ ul.orders li {
   }
 
   span {
-    background: #012F34;
+    background: #1F2937;
     color: #fff;
   }
 }
@@ -258,7 +258,7 @@ a {
 
   a {
     &:hover {
-      color: #012F34 !important;
+      color: #1F2937 !important;
       text-decoration: underline !important;
     }
   }

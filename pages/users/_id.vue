@@ -36,12 +36,7 @@
                     </li>
                     <!-- More files... -->
                   </ul>
-                  <div v-else class="w-full flex items-center justify-center min-w-full">
-                    <div class="no-image">
-                      <img src="/nodata.jpeg" alt="no-image">
-                      <p>Nemate aktivnih oglasa</p>
-                    </div>
-                  </div>
+                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
                 </section>
                 <section class="mt-8 pb-16" aria-labelledby="gallery-heading" v-else>
                   <ul role="list" class="grid lg:grid-cols-3 up:grid-cols-3 up:grid-cols-3 gap-5 gap-x-6 listings-user-wrap">
@@ -75,18 +70,16 @@
                   </div>
                   <div class="pl-4">
                     <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                       </svg>
                       <p>{{ user.working_agency.name }}</p>
                     </div>
                     <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.hasOwnProperty('email')">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       <p>{{ user.email }}</p></div>
-
-
                   </div>
                 </div>
               </div>
@@ -111,19 +104,9 @@
                   </button>
                 </div>
                 <div class="flex flex-row items-center justify-between w-full" v-else>
-                  <button class="flex-1 flex cursor-pointer w-full" @click="$modal.show('contact-user')">
-                    <nuxt-link to="/moj-racun/uredi-profil" class="mr-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                      <!-- Heroicon name: solid/mail -->
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                      </svg>
-                      <span class="ml-3">Uredi profil</span>
-                    </nuxt-link>
-                  </button>
+                  <action-button class="mt-4" placeholder="Uredi profil" @action="$modal.show('contact-user')" :style-options="{ width: '100%', background: '#1F2937', color: '#fff'}"></action-button>
                 </div>
-
               </div>
-
             </div>
           </aside>
         </div>
@@ -152,9 +135,10 @@ import ListingCard from "@/components/listingCard/ListingCard";
 import Snackbar from "@/components/global/Snackbar";
 import UserCard from "../../components/UserCard";
 import skeleton from "../../components/skeleton";
+import NotFound from "../../components/global/NotFound";
 
 @Component({
-  components: {UserCard, ListingCard, Snackbar, skeleton},
+  components: {NotFound, UserCard, ListingCard, Snackbar, skeleton},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let user = null
@@ -425,24 +409,6 @@ export default class Users extends Vue {
       display: flex;
       flex-direction: row;
 
-      button {
-        margin-top: 12px !important;
-        width: fit-content;
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 20px;
-        height: 40px;
-        background: #f9f9f9;
-        color: #000;
-
-        &:first-child {
-          margin-right: 16px;
-        }
-
-        &:hover {
-          background: #e7e7e9;
-        }
-      }
     }
   }
 
@@ -762,16 +728,6 @@ aside {
     font-weight: 500;
     margin-top: 24px;
   }
-}
-
-button {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  background: #f9f9f9 !important;
-  align-items: center;
-  justify-content: center;
-  height: 48px;
 }
 
 </style>
