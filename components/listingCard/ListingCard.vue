@@ -141,7 +141,7 @@ export default class ListingCard extends Vue{
     },
     autoplay: false,
     speed: 400,
-    touchRatio: 0.2,
+    touchRatio: 0,
     slideToClickedSlide: true,
     // navigation: {
     //   nextEl: '.swiper-button-next',
@@ -165,9 +165,7 @@ export default class ListingCard extends Vue{
   }
 
   handleCardHover() {
-    console.log(this.custom_swiper.$swiper)
-
-    if(this.custom_swiper !== null) {
+    if (this.custom_swiper !== null && this.custom_swiper.$swiper.autoplay) {
       this.custom_swiper.$swiper.autoplay.start();
       this.custom_swiper.$swiper.params.autoplay.delay = 600;
     }

@@ -443,7 +443,7 @@
       // slidesOffsetBefore: '0px',
       loop: true,
       slidesPerView: 6,
-      touchRatio: 0.2,
+      touchRatio: 1,
       slideToClickedSlide: false,
       navigation: {
         nextEl: '.swiper-button-next',
