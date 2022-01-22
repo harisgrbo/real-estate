@@ -353,7 +353,7 @@
 
           </div>
           <div class="user-wrap relative z-10">
-            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest"></UserProfile>
+            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator" v-if="listing_reviews.length"></div>
@@ -809,6 +809,20 @@ export default class Artikal extends Vue {
 
   beforeClose() {
     document.body.style.overflow = 'auto';
+  }
+
+  async handleFinishListing() {
+    try {
+      await this.$axios.post('/listings/' + this.listing.id + '/complete');
+
+      this.$snackbar.show({
+        text: "Oglas završen",
+        timeout: 1000,
+        type: "success"
+      });
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   async fetchBookings() {
@@ -2500,7 +2514,7 @@ input[type=range]:focus::-ms-fill-upper {
 .show-more-btn {
   min-width: fit-content;
   max-width: fit-content;
-  border: 1px solid #012F34;
+  border: 1px solid #1F2937;
   height: 48px;
   display: flex;
   align-items: center;
@@ -2529,7 +2543,7 @@ input[type=range]:focus::-ms-fill-upper {
   width: fit-content;
   height: 48px;
   border-radius: 4px;
-  background: #012F34;
+  background: #1F2937;
   padding: 0 12px;
   display: flex;
   align-items: center;
@@ -2539,6 +2553,12 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .mobile-places-btn {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-right: 16px;
+  }
   @include for-phone-only {
     display: flex;
     flex-direction: column;

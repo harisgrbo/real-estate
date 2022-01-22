@@ -1,24 +1,26 @@
 <template>
   <div class="border-t border-gray-200 flex w-full items-center justify-between my-20">
-    <div class="-mt-px rounded-sm flex justify-end items-center justify-center text-black">
-      <a @click.prevent="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1" href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+    <button class="-mt-px rounded-sm flex justify-end items-center justify-center text-black" @click.prevent="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1">
+      <a href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#1F2937" aria-hidden="true">
           <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
         </svg>
       </a>
+    </button>
+    <div class="flex items-center justify-center">
+      <button class="md:-mt-px md:flex flex items-center justify-between rounded-full p-2 py-2"  @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index">
+        <a class="mr-4 link" :class="['border-transparent text-gray-900 font-semibold hover:text-gray-700 hover:border-gray-300', page === currentPage ? 'active text-indigo-600': '']" href="#">
+          {{ page }}
+        </a>
+      </button>
     </div>
-    <div class="md:-mt-px md:flex flex items-center justify-between rounded-full p-2 py-2">
-      <a class="mr-4 link" @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index" :class="['border-transparent text-gray-900 font-semibold hover:text-gray-700 hover:border-gray-300', page === currentPage ? 'active text-indigo-600': '']" href="#">
-        {{ page }}
-      </a>
-    </div>
-    <div class="-mt-px rounded-full flex justify-end items-center justify-center text-black">
-      <a @click.prevent="handlePageClick(currentPage + 1)" href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+    <button class="-mt-px rounded-full flex justify-end items-center justify-center text-black" @click.prevent="handlePageClick(currentPage + 1)">
+      <a  href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#1F2937" aria-hidden="true">
           <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
       </a>
-    </div>
+    </button>
   </div>
 </template>
 

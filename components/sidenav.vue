@@ -10,7 +10,7 @@
       <li v-if="$auth.user" class="user-label" @click="goToUSer">
         <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
         <div class="user-wrap">
-          <h2 @click="goToUser()" class="text-lg font-medium text-black leading-5">{{ $auth.user.name }}</h2>
+          <h2 class="text-lg font-medium text-black leading-5">{{ $auth.user.name }}</h2>
           <dd class="mt-3">
             <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type($auth.user.user_type) }}</span>
           </dd>
@@ -134,11 +134,13 @@ export default class sidenav extends Vue {
     this.$router.push('/auth/login');
   }
 
-  transformType() {
-    if(this.$auth.user.user_type === 'user') {
-      return 'Fizicko lice'
-    } else {
+  user_type(t) {
+    if(t === 'agency') {
       return 'Agencija'
+    } else if(t === 'user') {
+      return 'Korisnik'
+    } else {
+      return 'Agent'
     }
   }
 
@@ -156,13 +158,6 @@ export default class sidenav extends Vue {
     this.$modal.hide('sidebar')
   }
 
-  user_type(t) {
-    if(t === 'agency') {
-      return 'Agencija'
-    } else {
-      return 'Korisnik'
-    }
-  }
 }
 </script>
 

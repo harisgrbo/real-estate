@@ -5,21 +5,24 @@
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({
   components: {
   },
-  layout() { return "home" }
 })
 
 export default class PieChart extends Vue {
-  series = [44, 55, 41, 17, 15]
+  @Prop({type: Object, default: () => null}) data;
+
+  series = [];
+
   chartOptions = {
     chart: {
-      width: '100%',
+      width: '500px',
       type: 'donut',
     },
+    labels: [],
     plotOptions: {
       pie: {
         startAngle: -90,
@@ -27,19 +30,21 @@ export default class PieChart extends Vue {
       }
     },
     dataLabels: {
-      enabled: false
+      enabled: true
     },
     fill: {
       type: 'gradient',
     },
     legend: {
-      formatter: function (val, opts) {
-        return val + " - " + opts.w.globals.series[opts.seriesIndex]
-      }
-    },
-    title: {
-      text: 'Broj prodanih oglasa po kategoriji nekretnine'
+      position: 'right',
+      offsetY: 0,
+      height: 230,
     }
+  }
+
+  created() {
+    this.series = Object.values(this.data);
+    this.chartOptions.labels = Object.keys(this.data);
   }
 }
 </script>
@@ -49,8 +54,8 @@ export default class PieChart extends Vue {
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
   border-radius: 10px;
   padding-top: 12px;
-  margin-top: 36px;
-  width: 100%;
+  margin-top: 24px;
+  width: 500;
   box-sizing: border-box;
 }
 </style>

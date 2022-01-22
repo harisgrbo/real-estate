@@ -1760,7 +1760,7 @@ h2.info {
 
   &:hover {
     background: #fff;
-    border: 2px dashed #012F34;
+    border: 2px dashed #1F2937;
 
   }
 
