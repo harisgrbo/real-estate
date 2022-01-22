@@ -186,6 +186,8 @@
               @input="newSearch"
             />
 
+            <CountriesMultipleSelect />
+
             <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
             <component
@@ -232,6 +234,8 @@
                   @input="newSearch"
                   @close-filters="$modal.hide('search-filters')"
                 />
+
+                <CountriesMultipleSelect :initial-country-ids="countryIds" @countries="handleCountriesSearch" />
 
                 <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
 
@@ -308,9 +312,11 @@ import HorizontalCard from "../components/listingCard/HorizontalCard";
 import SearchMap from "../components/googleMap/SearchMap";
 import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 import NotFound from "../components/global/NotFound";
+import CountriesMultipleSelect from "@/components/global/CountriesMultipleSelect";
 
 @Component({
   components: {
+    CountriesMultipleSelect,
     NotFound,
     CitiesMultipleSelect,
     SearchMap,
@@ -341,7 +347,9 @@ import NotFound from "../components/global/NotFound";
     let queryPayload = {};
     let categories = [];
     let cityIds = [];
+    let countryIds = [];
     let cityNames = null;
+    let countryNames = null;
     let selectedCategoryId = null;
     let selectedPreviewType = 'map';
     let selectedSort = {
@@ -395,6 +403,10 @@ import NotFound from "../components/global/NotFound";
           cityIds = item.value;
         }
 
+        if (item.name === 'country_id') {
+          countryIds = item.value;
+        }
+
         queryPayload[item.name] = Object.assign({}, item);
       });
 
@@ -445,10 +457,22 @@ import NotFound from "../components/global/NotFound";
       cityNames = tmp;
     }
 
+    if (countryIds.length) {
+      let tmp = [];
+      for(let i = 0; i < countryIds.length; ++i) {
+        let res = (await ctx.app.$axios.get('/countries/' + countryIds[i])).data.data;
+        tmp.push(res.name);
+      }
+
+      countryNames = tmp;
+    }
+
     return {
       loading,
+      countryIds,
       cityIds,
       cityNames,
+      countryNames,
       selectedSort,
       selectedPreviewType,
       categoryTitle,
@@ -562,6 +586,12 @@ export default class Homepage extends Vue {
     } else if (filter.name === 'city_id') {
       if (this.cityNames) {
         return this.cityNames.join(', ');
+      }
+
+      return null;
+    } else if (filter.name === 'country_id') {
+      if (this.countryNames) {
+        return this.countryNames.join(', ');
       }
 
       return null;
@@ -702,6 +732,20 @@ export default class Homepage extends Vue {
     })
 
     this.$modal.hide('cats-modal')
+
+    this.newSearch();
+  }
+
+  handleCountriesSearch(countryIds) {
+    if (countryIds.length) {
+      this.queryPayload.country_id = {
+        name: 'country_id',
+        type: 'terms',
+        value: countryIds
+      }
+    } else {
+      delete this.queryPayload.country_id;
+    }
 
     this.newSearch();
   }
