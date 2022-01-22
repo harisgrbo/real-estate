@@ -57,24 +57,24 @@
 <!--            </div>-->
             <!-- END: Sales Report -->
             <!-- BEGIN: Weekly Top Seller -->
-            <div class="up:col-span-6 lg:col-span-6 xl:col-span-6 sm:col-span-12 mt-8">
+            <div v-if="listings_per_category" class="up:col-span-6 lg:col-span-6 xl:col-span-6 sm:col-span-12 mt-8">
               <div class="flex items-center h-10">
                 <h2 class="text-lg font-medium truncate mr-5">
                   Broj oglasa po kategorijama
                 </h2>
               </div>
-              <PieChart></PieChart>
+              <PieChart :data="listings_per_category"></PieChart>
 
             </div>
             <!-- END: Weekly Top Seller -->
             <!-- BEGIN: Sales Report -->
-            <div class="up:col-span-6 lg:col-span-6 xl:col-span-6 sm:col-span-12 mt-8">
+            <div v-if="listings_per_category" class="up:col-span-6 lg:col-span-6 xl:col-span-6 sm:col-span-12 mt-8">
               <div class=" flex items-center h-10">
                 <h2 class="text-lg font-medium truncate mr-5">
                   Broj oglasa po lokacijama
                 </h2>
               </div>
-              <PieChart></PieChart>
+              <PieChart :data="listings_per_category"></PieChart>
 
             </div>
             <!-- END: Sales Report -->
@@ -136,6 +136,7 @@ export default class Analitika extends Vue {
   agents = [];
   total_views = 0;
   completed_listings = 0;
+  listings_per_category = null;
   chartData = {
     Books: 24,
     Magazine: 30,
@@ -152,11 +153,12 @@ export default class Analitika extends Vue {
       console.log(e)
     }
   }
-  async created() {
+   async created() {
     await this.fetchUserListings()
-    await this.getAllAgents();
-    await this.fetchTotalListingViews();
-    await this.fetchTotalFinishedListings();
+    this.getAllAgents();
+    this.fetchTotalListingViews();
+    this.fetchTotalFinishedListings();
+    this.fetchListingsPerCategory();
   }
 
   async fetchUserListings() {
@@ -186,6 +188,16 @@ export default class Analitika extends Vue {
 
       this.completed_listings = res.data;
 
+    } catch(e)  {
+      console.log(e)
+    }
+  }
+
+  async fetchListingsPerCategory() {
+    try {
+      let res = await this.$axios.get('/analytics/categories');
+
+      this.listings_per_category = res.data.data;
     } catch(e)  {
       console.log(e)
     }

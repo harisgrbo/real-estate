@@ -1,11 +1,11 @@
 <template>
   <div id="chart">
-    <apexchart type="donut" height="300" :options="chartOptions" :series="series" :labels="labels"></apexchart>
+    <apexchart type="donut" height="300" :options="chartOptions" :series="series"></apexchart>
   </div>
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({
   components: {
@@ -13,14 +13,16 @@ import { Component, Vue} from "nuxt-property-decorator";
 })
 
 export default class PieChart extends Vue {
-  series = [23, 11, 54, 72, 12]
-  labels = ["Apple", "Mango", "Banana", "Papaya", "Orange"]
+  @Prop({type: Object, default: () => null}) data;
+
+  series = [];
 
   chartOptions = {
     chart: {
       width: '500px',
       type: 'donut',
     },
+    labels: [],
     plotOptions: {
       pie: {
         startAngle: -90,
@@ -38,6 +40,11 @@ export default class PieChart extends Vue {
       offsetY: 0,
       height: 230,
     }
+  }
+
+  created() {
+    this.series = Object.values(this.data);
+    this.chartOptions.labels = Object.keys(this.data);
   }
 }
 </script>
