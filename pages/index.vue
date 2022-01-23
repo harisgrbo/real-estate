@@ -93,7 +93,7 @@
         <client-only v-if="followedUserListingsLoaded">
           <swiper class="swiper" :options="swiperOption">
             <swiper-slide v-for="listing in followedUserListings" :key="listing.id">
-              <ListingCard :listing="listing" :type="listing.user.user_type"/>
+              <ListingCard :listing="listing"/>
             </swiper-slide>
           </swiper>
         </client-only>
@@ -108,7 +108,7 @@
       <div class="pl-5 lg:px-20 xl:px-20 up:px-20 mb-0 mobile" v-else>
         <div v-if="followedUserListingsLoaded" class="flex flex-row overflow-y-scroll">
           <div v-for="listing in followedUserListings" :key="listing.id" class="mr-5">
-            <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
+            <ListingCard :action="true" :listing="listing" />
           </div>
         </div>
         <div v-else class="flex flex-row overflow-y-scroll">
@@ -172,7 +172,7 @@
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
-            <ListingCard :listing="listing" :type="listing.user.user_type"/>
+            <ListingCard :listing="listing" />
           </swiper-slide>
         </swiper>
       </client-only>
@@ -187,7 +187,7 @@
     <div class="lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full mobile" v-else>
       <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_sell" :key="listing.id" class="mr-5">
-          <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
+          <ListingCard :action="true" :listing="listing" />
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll mx-5">
@@ -242,7 +242,7 @@
       <client-only v-if="rentLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
-            <ListingCard :listing="listing" :type="listing.user.user_type"/>
+            <ListingCard :listing="listing" />
           </swiper-slide>
         </swiper>
       </client-only>
@@ -257,7 +257,7 @@
     <div class="pl-5 lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
       <div v-if="rentLoaded" class="flex flex-row overflow-y-scroll">
         <div v-for="listing in listings_rent" :key="listing.id" class="mr-5">
-          <ListingCard :action="true" :listing="listing" :type="listing.user.user_type"/>
+          <ListingCard :action="true" :listing="listing" />
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll">
@@ -326,7 +326,7 @@
     <div class="lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
       <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-5">
-          <ListingCard :action="false" :listing="listing" :type="listing.user.user_type"/>
+          <ListingCard :action="false" :listing="listing" />
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll ml-5">
@@ -377,6 +377,16 @@
       skeletonlocation
     },
     layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
+    head: {
+      title: "MojKvadrat.ba",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "Sve nekretnine na jednom mjestu!",
+        },
+      ],
+    },
   })
 
   export default class Homepage extends Vue {
@@ -443,7 +453,7 @@
       // slidesOffsetBefore: '0px',
       loop: true,
       slidesPerView: 6,
-      touchRatio: 1,
+      touchRatio: 0.2,
       slideToClickedSlide: false,
       navigation: {
         nextEl: '.swiper-button-next',
@@ -527,7 +537,6 @@
         this.most_visited_cats = res.data.data.categories
         this.totalListings = res.data.data.total_listings
 
-        console.log(this.most_visited_cats, 'most visited')
       } catch (e) {
         console.log(e)
       }
@@ -632,7 +641,6 @@
         let res = await this.$axios.get('/top/locations')
         this.top_locations = res.data.data;
 
-        console.log(this.top_locations)
 
         this.locationsLoaded = true;
 

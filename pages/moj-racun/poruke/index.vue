@@ -401,8 +401,6 @@ export default class Poruke extends Vue {
     this.imgSrc = URL.createObjectURL(e.target.files[0]);
 
 
-    console.log(this.imgSrc, 'slika')
-    console.log(e, 'sta je ovo')
     this.imgBlob = e.target.files[0];
   }
 

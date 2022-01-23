@@ -107,7 +107,6 @@ import ActionButton from "../../components/actionButtons/ActionButton";
       let res = await ctx.$axios.get('/bookings');
 
       bookings = res.data.data;
-      console.log(bookings, 'test')
     } catch (e) {
       console.log(e);
     }
