@@ -150,10 +150,10 @@
 
                     <div>
                       <h3 class="text-sm font-medium text-gray-900">
-                        <a class="focus:outline-none">
+                        <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
-                        </a>
+                        </div>
                       </h3>
                       <p class="mt-1 text-sm text-black font-semibold">{{ info.value }}</p>
                     </div>
@@ -172,7 +172,7 @@
                   <img :src="'/' + attr.name + '.png'" alt="">
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                     <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
-                      <a class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</a>
+                      <div class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</div>
                       <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
                     </div>
                   </div>
@@ -189,10 +189,10 @@
 
                     <div>
                       <h3 class="text-sm font-medium text-gray-900">
-                        <a class="focus:outline-none">
+                        <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
-                        </a>
+                        </div>
                       </h3>
                       <p class="mt-1 text-md text-black font-semibold">{{ attrTranslate(info.value) }}</p>
                     </div>
@@ -654,11 +654,11 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
   },
   head() {
     return {
-      title: this.listing.title + " - " + this.listing.category.title + " - " + "MojKvadrat.ba",
+      title: this.listing ? (this.listing.title + " - " + (this.listing.category ? this.listing.category.title : '') + " - " + "MojKvadrat.ba") : "MojKvadrat.ba",
       meta: [
         {
-          hid: this.listing.description ? this.listing.description : "",
-          name: this.listing.description ? this.listing.description : "",
+          hid: this.listing ? this.listing.description : "",
+          name: this.listing ? this.listing.description : "",
         },
       ],
     };

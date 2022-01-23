@@ -130,6 +130,9 @@ export default class mojiOglasi extends Vue {
         timeout: 1000,
         type: "success"
       });
+
+      this.payload.name = '';
+      this.payload.email = '';
     } catch(e) {
       console.log(e)
     }
