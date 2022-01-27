@@ -225,40 +225,40 @@
 
         <!-- izdvajanje -->
 
-<!--        <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">-->
-<!--          <div class="advertising-options-wrapper">-->
-<!--            <div class="inner">-->
-<!--              <div class="advertising-options">-->
-<!--                <ul>-->
-<!--                  <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">-->
-<!--                    <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">-->
-<!--                    <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">-->
-<!--                    <div class="text-wrapper">-->
-<!--                      <p>{{ option.title }}</p>-->
-<!--&lt;!&ndash;                      <p>{{ option.description }}</p>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--              </div>-->
-<!--              <div class="advertising-calculator">-->
-<!--                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>-->
-<!--              </div>-->
-<!--            </div>-->
+        <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
+          <div class="advertising-options-wrapper">
+            <div class="inner">
+              <div class="advertising-options">
+                <ul>
+                  <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisement(option)" :class="[selectedAdvertisement === option.id ? 'selected' : '']">
+                    <img :src="selectedAdvertisement === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
+                    <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
+                    <div class="text-wrapper">
+                      <p>{{ option.title }}</p>
+<!--                      <p>{{ option.description }}</p>-->
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="advertising-calculator">
+                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>
+              </div>
+            </div>
 
-<!--            <div class="button-wrapper">-->
-<!--              <button @click="prevStep" class="back">Nazad-->
-<!--              </button>-->
-<!--              <button @click="nextStep">Dalje-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </div>-->
+            <div class="button-wrapper">
+              <button @click="prevStep" class="back">Nazad
+              </button>
+              <button @click="nextStep">Dalje
+              </button>
+            </div>
+          </div>
 
-<!--          <div class="button-wrapper">-->
-<!--            <button @click="prevStep" class="back">Nazad-->
-<!--            </button>-->
-<!--            <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>-->
-<!--          </div>-->
-<!--        </div>-->
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+            </button>
+            <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>
+          </div>
+        </div>
       </div>
     <Snackbar />
   </div>
@@ -344,11 +344,11 @@ export default class Objava extends Vue {
 
   // Completion
   completedAttributes = 0
-  selectedAdvertisment = null;
+  selectedAdvertisement = null;
   advertising_options = []
 
   get stepPercentage() {
-    let calc = (1.0 / 8) * 100 * this.currentStep + 1;
+    let calc = (1.0 / 10) * 100 * this.currentStep + 1;
 
     if (calc >= 100) return 100;
 
@@ -385,8 +385,8 @@ export default class Objava extends Vue {
     formData.append('image', file);
   }
 
-  selectAdvertisment(o) {
-    this.selectedAdvertisment = o.id;
+  selectAdvertisement(o) {
+    this.selectedAdvertisement = o.id;
   }
 
   get allAttributes() {
@@ -461,7 +461,8 @@ export default class Objava extends Vue {
     STEP_SIX: 6,
     STEP_SEVEN: 7,
     STEP_EIGHT: 8,
-    TOTAL_STEPS: 8
+    STEP_NINE: 9,
+    TOTAL_STEPS: 10
   }
 
   currentStep = this.steps.STEP_ONE;
@@ -491,11 +492,9 @@ export default class Objava extends Vue {
 
       this.listingId = response.data.data.id;
     } catch (e) {
-      console.log(e)
+      alert("Objava je neuspjela, pokusajte ponovo");
 
-      // alert("Objava je neuspjela, pokusajte ponovo");
-
-      // location.reload();
+      location.reload();
     }
   }
 
@@ -509,7 +508,7 @@ export default class Objava extends Vue {
       this.advertising_options = res.data.data;
 
       if (this.advertising_options.length) {
-        this.selectedAdvertisment = this.advertising_options[0].id;
+        this.selectedAdvertisement = this.advertising_options[0].id;
       }
     } catch(e) {
       console.log(e)
@@ -597,10 +596,22 @@ export default class Objava extends Vue {
             return;
           }
 
+          await this.sponsor(this.listingId);
+
           break;
       }
 
       this.currentStep++;
+    }
+  }
+
+  async sponsor(listingId) {
+    try {
+      await this.$axios.post(`/listings/${listingId}/sponsor`, {
+        sponsorship_id: this.selectedAdvertisement
+      })
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -835,7 +846,7 @@ export default class Objava extends Vue {
   }
 
   validateSponsorship() {
-    return this.selectedAdvertisment !== null;
+    return this.selectedAdvertisement !== null;
   }
 
   validateDistrict() {
