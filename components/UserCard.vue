@@ -49,10 +49,10 @@ export default class UserCard extends Vue {
 
   async sendMessage() {
     if(this.message.length === 0) {
-      this.$snackbar.show({
-        text: "Morate upisati poruku",
-        timeout: 1000,
-        type: "danger"
+      this.$toast.open({
+        message: 'Morate upisati poruku',
+        type: 'warning',
+        duration: 5000
       });
 
       return
@@ -75,10 +75,10 @@ export default class UserCard extends Vue {
 
       this.loading = false;
 
-      this.$snackbar.show({
-        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste poslali poruku korisniku " + this.user.name,
+        type: 'success',
+        duration: 5000
       });
 
 

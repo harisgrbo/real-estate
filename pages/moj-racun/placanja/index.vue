@@ -6,7 +6,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
-        <p>Spašeno</p>
+        <p>Plaćanja</p>
       </li>
     </ul>
     <div class="content-wrapper">
@@ -21,73 +21,100 @@
       </ul>
       <div class="saved-content">
         <div v-show="activeTab === 0">
-          <div class="flex flex-col" v-if="searches.length">
-            <div class="overflow-x-auto">
-              <div class="py-2 align-middle inline-block min-w-full">
+          <h3 class="mb-4 font-medium text-lg">Unesite iznos koji želite uplatiti na račun</h3>
+          <TextField type="text" label="Iznos u KM" placeholder="npr 5" v-model="balance" class="mb-4 mt-1"></TextField>
+          <action-button @action="$modal.show('deposit')" placeholder="Uplati"></action-button>
+        </div>
+        <div v-show="activeTab === 1">
+          <div class="flex flex-col" v-if="logs.length">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
                       <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Naziv pretrage
+                        #ID
                       </th>
                       <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Title
+                        Količina u KM
                       </th>
                       <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Filteri
+                        Prethodno stanje
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Novo stanje
                       </th>
                       <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Datum
                       </th>
-                      <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                      </th>
-                      <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Edit</span>
+                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Vrsta
                       </th>
                     </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-for="search in searches" :key="search.id">
+                    <tbody>
+                    <!-- Odd row -->
+                    <tr class="bg-white" v-for="(log, index) in logs" :key="index">
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {{ search.description }}
+                        {{ log.id }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        Regional Paradigm Technician
+                        {{ log.amount }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        Novogradnja
+                        {{ log.old_balance }}
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {{ $moment(search.created_at).format('DD.MM.YYYY u HH:MM') }}
+                        {{ log.new_balance }}
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" @click="goToSearch(search)">
-                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Idi na pretragu</a>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ $moment(log.created_at).lang("de").format('LLL') }}
                       </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" @click="deleteSingleSearch(search.id)">
-                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Izbrisi</a>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ log.log_type }}
                       </td>
                     </tr>
-
-                    <!-- More people... -->
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
           </div>
-          <NotFound v-else src="/saved.svg" text="Nemate spašenih pretraga"></NotFound>
 
-        </div>
-        <div v-show="activeTab === 1">
-          <div class="grid-layout" v-if="savedListings.length">
-            <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id" :from="true" @remove-listing-from-saved="handleRemoveListing"></ListingCard>
-          </div>
-          <NotFound v-else src="/saved.svg" text="Nemate spašenih oglasa"></NotFound>
+          <NotFound v-else src="/saved.svg" text="Nemate historije uplata"></NotFound>
         </div>
       </div>
     </div>
+    <modal @before-open="beforeOpen" @before-close="beforeClose" name="deposit" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <h2>Uplata sredstava</h2>
+          <i class="material-icons" @click.prevent="$modal.hide('deposit')">close</i>
+        </div>
+        <div class="modal-content places-modal pt-4">
+          <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4 mt-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <!-- Heroicon name: solid/exclamation -->
+                <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-yellow-700">
+                  Da li ste sigurni da želite uplatiti sredstva na račun, ova akcija se ne može vratiti!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-row items-center justify-between">
+            <action-button :style-options="{ marginRight: '8px', width: '100%' }" @action="deposit(); $modal.hide('deposit')" placeholder="Da"></action-button>
+            <action-button :style-options="{ marginLeft: '8px', width: '100%' }" placeholder="Ne" @action="$modal.hide('deposit')"></action-button>
+          </div>
+        </div>
+      </div>
+    </modal>
     <snackbar></snackbar>
   </div>
 </template>
@@ -98,9 +125,13 @@ import ListingCard from "@/components/listingCard/ListingCard";
 import SavedUserCard from "@/components/UserCard"
 import Snackbar from "@/components/global/Snackbar";
 import NotFound from "../../../components/global/NotFound";
+import TextField from "../../../components/inputs/TextField";
+import ActionButton from "../../../components/actionButtons/ActionButton";
 
 @Component({
   components: {
+    ActionButton,
+    TextField,
     NotFound,
     SavedUserCard,
     ListingCard,
@@ -109,11 +140,11 @@ import NotFound from "../../../components/global/NotFound";
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
 
-export default class spaseno extends Vue {
+export default class placanja extends Vue {
 
   tabs = [
-    'Pretrage',
-    'Oglasi'
+    'Uplata sredstava na račun',
+    'Historija uplata'
   ]
   searchesLoaded = false;
   savedUsers = [];
@@ -121,77 +152,56 @@ export default class spaseno extends Vue {
   savedSearches = [];
   activeTab = 0;
   searches = [];
+  balance = 0;
+  logs = []
+  log_type = '';
+  id = 0
+  old_balance = ''
+  new_balance = ''
+  amount = 'iznos uplate'
+  description = 'opis'
+  created_at = ''
+
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
+  }
 
   async created() {
-    // await this.fetchSavedUsers();
-    await this.fetchSavedListings();
-    await this.getSearches();
+    await this.fetchLogs()
   }
 
-  async getSearches() {
-    this.searchesLoaded = false;
+  async fetchLogs() {
     try {
-      let res = await this.$axios.get('/profile/saved/searches');
-      this.searches = res.data.data;
-      this.searchesLoaded = true;
+      let res = await this.$axios.get('/wallet/logs');
+
+      this.logs = res.data.data;
+
+      console.log(this.logs)
     } catch(e) {
       console.log(e)
     }
   }
 
-  async fetchSavedUsers() {
+  async deposit() {
     try {
-      let response = await this.$axios.get('/profile/saved/users');
-      this.savedUsers = response.data.data;
-    } catch(e) {
-      console.log(e)
-    }
-  }
+      let res = await this.$axios.post('/wallet/deposit', {
+        amount: this.balance
+      })
 
-  goToSearch(s) {
-    this.$router.push('/pretraga' + s.query);
-  }
-
-  async deleteSingleSearch(id) {
-    try {
-      await this.$axios.delete('/profile/saved/searches/' + id);
-
-      let index = this.searches.findIndex(item => item.id === id)
-
-      this.searches.splice(index, 1)
+      this.$auth.fetchUser();
 
       this.$snackbar.show({
-        text: "Uspješno ste izbrisali pretragu iz spašenih",
-        closeWait: 100000,
+        text: 'Uspješno ste izvršili uplatu sredstava na račun',
+        timeout: 3000,
         type: "success"
       });
-    } catch(e) {
-      console.log(e)
-    }
-  }
 
-  async handleRemoveListing(e) {
-    try {
-      await this.$axios.delete('/listings/' + e + '/save');
 
-      let index = this.savedListings.findIndex(item => item.id === e)
-
-      this.savedListings.splice(index, 1)
-
-      this.$snackbar.show({
-        text: "Uspješno ste izbrisali oglas iz spašenih",
-        timeout: 1000,
-        type: "success"
-      });
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
-  async fetchSavedListings() {
-    try {
-      let response = await this.$axios.get('/listings/saved');
-      this.savedListings = response.data.data;
     } catch(e) {
       console.log(e)
     }
@@ -489,7 +499,7 @@ export default class spaseno extends Vue {
               &.delete {
 
                 svg {
-                   color: red;
+                  color: red;
                 }
               }
             }

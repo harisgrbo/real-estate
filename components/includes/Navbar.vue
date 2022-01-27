@@ -1,22 +1,19 @@
 <template>
-  <div :class="['navbar-wrapper w-full lg:px-20 xl:px-20 up:px-20 lg:shadow-sm xl:shadow-sm up:shadow-sm sm:shadow-none max-w-full sm:px-4', this.$route.name === 'index' ? 'only-index' : '']">
-    <div class="second-row mx-auto w-full">
+  <div :class="['navbar-wrapper w-full lg:shadow-sm xl:shadow-sm up:shadow-sm sm:shadow-none max-w-full', this.$route.name === 'index' ? 'only-index' : '']">
+    <div :class="['second-row mx-auto w-full', this.$route.name === 'pretraga' ? 'only-search' : '']">
       <div class="flex flex-row items-center">
         <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-          <img @click="$router.push('/')" :src="[ $device.isMobile ? '/msquare-mobile.png' : '/msquare.png']" class="main-logo" height="40" alt="">
+          <img @click="$router.push('/')" :src="[ $device.isMobile ? '/msquare-mobile.png' : '/mojkvadrat-logo-new.png']" class="main-logo" height="40" alt="">
+        </div>
+        <div class="relative flex flex-row items-center ml-10" v-if="!$device.isMobile">
+          <nuxt-link to="/oglasavanje" class="ml-2 uppercase hover:underline text-black font-light text-sm mr-4">Oglašavanje</nuxt-link>
+          <nuxt-link to="/agencije" class="ml-2 font-light uppercase text-black hover:underline text-sm mr-4">Agencije</nuxt-link>
+          <nuxt-link to="/paketi" class="ml-2 font-light uppercase text-black hover:underline text-sm mr-4">Paketi</nuxt-link>
+          <nuxt-link to="/zasto-se-registrovati" class="ml-2 uppercase text-black hover:underline font-light text-sm mr-4">Zašto se registrovati</nuxt-link>
         </div>
       </div>
       <div class="flex items-center justify-center flex-1 centralize">
-        <div class="relative mr-2" v-if="!$device.isMobile">
-          <div class="flex flex-row items-center ml-4 cursor-pointer hover:bg-gray-50 rounded-sm p-2" @click="showOtherLinksDropdown = !showOtherLinksDropdown">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-            </svg>
-          </div>
-
-          <OtherLinksDropdown @close-links="showOtherLinksDropdown = false" v-if="showOtherLinksDropdown"></OtherLinksDropdown>
-        </div>
-        <div class="input-wrapper"
+        <div v-if="$device.isMobile" class="input-wrapper"
              @focusin="focused = true"
              :class="[ focused? 'focused' : '']"
              v-on-clickaway="away"
@@ -87,60 +84,55 @@
           </div>
         </div>
       </div>
-      <button v-if="$auth.user && $device.isMobile" class="login-a notify relative" @click="$modal.show('notifications')">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
+      <button v-if="$auth.user && $device.isMobile" class="login-a relative" @click="$modal.show('notifications')">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-3" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
         <div class="notify" v-if="notifications.length">{{ notifications.length }}</div>
       </button>
-      <div class="auth-buttons" v-if="!$device.isMobile">
-        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
+      <div class="auth-buttons relative" v-if="!$device.isMobile">
+        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', borderRadius: '10px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
             <button @click="$router.push('/auth/login')">Prijavi se</button>
           </div>
-<!--          <button v-if="$auth.user" class="login-a mr-2" @click="$router.push('/kredit')">-->
-<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />-->
-<!--            </svg>-->
-<!--            <span class="text-medium text-gray-800 bg-gray-50 rounded-sm px-3 py-1 ml-0">{{ $auth.user.credits }}</span>-->
-<!--          </button>-->
+          <button v-if="$auth.user" class="login-a mr-2" @click="$router.push('/moj-racun/placanja')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span class="text-medium text-gray-800 bg-gray-50 rounded-sm px-1 py-1 ml-0">{{ $auth.user.wallet.balance + ' KM' }}</span>
+          </button>
           <button v-if="$auth.user" class="login-a">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor"  @click="goToMessages()">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
             <span class="notify" v-if="messagesCount">{{ messagesCount }}</span>
           </button>
-          <button v-if="$auth.user" class="login-a notify" @click="showNotifications = true">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button v-if="$auth.user" class="login-a" @click="showNotifications = true">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
             <span class="notify" v-if="notifications.length">{{ notifications.length }}</span>
           </button>
-          <div v-if="$auth.user" class="login-wrapper bg-gray-50 rounded-full cursor-pointer" @click="showUserDropdown = !showUserDropdown">
+          <div v-if="$auth.user" class="login-wrapper rounded-full cursor-pointer" @click="showUserDropdown = !showUserDropdown">
             <img class="rounded-full w-9 h-9 min-w-9 max-w-9 navbar-avatar" alt="A"
                  :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" />
             <span class="flex items-center pl-3 py-2">
               {{ $auth.user.name }}
             </span>
-            <button class="bg-transparent hover focus:outline-none" v-if="showUserDropdown === false">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-             <button class="bg-transparent hover focus:outline-none" v-else>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <button class="bg-transparent hover focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" :class="['h-4 w-4', showUserDropdown ? 'transform rotate-180' : '']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
             </div>
-          <!-- User dropdown -->
           <div class="user-dropdown" v-if="showUserDropdown" v-on-clickaway="closeSidebar">
             <sidenav></sidenav>
           </div>
+          <!-- User dropdown -->
           <client-only>
-            <div :class="[ 'notification', showNotifications ? 'extend' : '' ]">
+            <div class="user-dropdown" v-if="showNotifications" v-on-clickaway="handleCloseNotifications">
               <NotificationsDropdown @clicked="$modal.hide('notifications')" :notifications="notifications" @close-notifications="handleCloseNotifications" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
             </div>
           </client-only>
@@ -347,11 +339,11 @@ export default class Navbar extends Vue {
   }
 
   snackbarNotification(text) {
-    this.$snackbar.show({
-      text: text,
-      timeout: 1000,
-      type: "success"
-    })
+    this.$toast.open({
+      message: text,
+      type: 'info',
+      duration: 5000
+    });
   }
 
   away() {
@@ -512,10 +504,15 @@ export default class Navbar extends Vue {
   .second-row {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 1280px;
+    margin: 0 auto;
     justify-content: space-between;
     background: #fff;
     height: 100%;
+
+    &.only-search {
+      width: 100%;
+    }
 
     @include for-phone-only {
       padding: 0 !important;
@@ -847,6 +844,7 @@ export default class Navbar extends Vue {
         display: flex;
         align-items: center;
         border-radius: 0px;
+        position: relative;
 
         img {
           height: 20px
@@ -891,8 +889,8 @@ export default class Navbar extends Vue {
     }
 
     .user-dropdown {
-      position: fixed;
-      top: 80px;
+      position: absolute;
+      top: 60px;
       padding: 12px;
       background: #fff;
       width: 340px;
@@ -905,8 +903,7 @@ export default class Navbar extends Vue {
       height: -webkit-fit-content;
       height: -moz-fit-content;
       height: fit-content;
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
+      border-radius: 8px;
       z-index: 500;
       height: fit-content;
     }
@@ -1093,21 +1090,22 @@ export default class Navbar extends Vue {
 
 .relative {
   z-index: 0;
-  .notify {
-    height: 14px;
-    width: 14px;
-    border-radius: 7px;
-    font-weight: 600;
-    color: #fff;
-    background: #D63946;
-    position: absolute;
-    font-size: 10px;
-    top: -1px;
-    left: 25px;
-    text-align: center;
-    line-height: 14px;
+}
 
-  }
+.notify {
+  height: 14px;
+  width: 14px;
+  border-radius: 7px;
+  font-weight: 600;
+  color: #fff;
+  background: #D63946;
+  position: absolute;
+  font-size: 10px;
+  top: -1px;
+  left: 20px;
+  text-align: center;
+  line-height: 14px;
+
 }
 
 .first-part {

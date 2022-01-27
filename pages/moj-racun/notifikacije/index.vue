@@ -84,7 +84,7 @@ export default class notifikacije extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 }
 
@@ -130,7 +130,7 @@ h1 {
 
   button {
     height: 44px;
-    border-radius: 4px;
+    border-radius: 10px;
     background: #1F2937 !important;
     width: fit-content;
     color: #fff;

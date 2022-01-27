@@ -159,7 +159,7 @@ ul.orders li {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 
   h5 {
@@ -187,7 +187,7 @@ a {
 .main-image-wrap {
   width: 30%;
   height: 180px;
-  border-radius: 4px;
+  border-radius: 10px;
 
   img {
     width: 100%;
@@ -198,7 +198,7 @@ a {
 .special {
   div {
     border: 1px solid #ececec;
-    border-radius: 4px;
+    border-radius: 10px;
     height: 25px;
     width: fit-content;
     margin-right: 8px;

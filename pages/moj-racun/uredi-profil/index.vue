@@ -138,11 +138,12 @@ export default class urediProfil extends Vue {
         if (this.passwordConfirm === this.password) {
           payload.password = this.password;
         } else {
-          this.$snackbar.show({
-            text: "Šifre nisu iste",
-            timeout: 1000,
-            type: "danger"
-          })
+
+          this.$toast.open({
+            message: "Šifre nisu iste",
+            type: 'warning',
+            duration: 5000
+          });
         }
       }
 
@@ -155,10 +156,10 @@ export default class urediProfil extends Vue {
           message = "Broj mobitela nije u ispravnom formatu (Npr. +387)"
         }
 
-        this.$snackbar.show({
-          text: message,
-          timeout: 3000,
-          type: "danger"
+        this.$toast.open({
+          message: message,
+          type: 'warning',
+          duration: 5000
         });
 
         return;
@@ -197,7 +198,7 @@ export default class urediProfil extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 }
 

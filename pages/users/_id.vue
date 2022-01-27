@@ -463,7 +463,7 @@ export default class Users extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 10px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -707,7 +707,7 @@ aside {
     &.active-tab {
       font-weight: 600;
       background: #f9f9f9;
-      border-radius: 4px;
+      border-radius: 10px;
     }
 
   }
@@ -718,7 +718,7 @@ aside {
 }
 
 .grid-layout {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 24px;
   padding: 0;
 
