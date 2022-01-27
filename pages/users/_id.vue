@@ -144,13 +144,12 @@
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
-import Snackbar from "@/components/global/Snackbar";
 import UserCard from "../../components/UserCard";
 import skeleton from "../../components/skeleton";
 import NotFound from "../../components/global/NotFound";
 
 @Component({
-  components: {NotFound, UserCard, ListingCard, Snackbar, skeleton},
+  components: {NotFound, UserCard, ListingCard, skeleton},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let user = null
@@ -205,10 +204,11 @@ export default class Users extends Vue {
 
   async sendMessage() {
     if(this.message.length === 0) {
-      this.$snackbar.show({
-        text: "Morate upisati poruku",
-        timeout: 1000,
-        type: "danger"
+
+      this.$toast.open({
+        message: "Morate upisati poruku",
+        type: 'warning',
+        duration: 5000
       });
 
       return
@@ -231,12 +231,11 @@ export default class Users extends Vue {
 
       this.loading = false;
 
-      this.$snackbar.show({
-        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste poslali poruku korisniku " + this.user.name,
+        type: 'warning',
+        duration: 5000
       });
-
 
       this.message = '';
     } catch(e) {
@@ -249,10 +248,10 @@ export default class Users extends Vue {
       try {
         this.$axios.post('/users/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste zapratili korisnika " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste zapratili korisnika " + this.user.name,
+          type: 'warning',
+          duration: 5000
         });
 
         this.isFollowed = true;
@@ -263,10 +262,10 @@ export default class Users extends Vue {
       try {
         this.$axios.delete('/users/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste otpratili korisnika " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste otpratili korisnika " + this.user.name,
+          type: 'warning',
+          duration: 5000
         });
 
         this.isFollowed = false;

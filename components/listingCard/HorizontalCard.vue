@@ -62,17 +62,15 @@
           </div>
         </div>
       </div>
-      <Snackbar />
     </nuxt-link>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 
 @Component({
-  components: {Snackbar}
+  components: {}
 })
 
 export default class HorizontalCard extends Vue{

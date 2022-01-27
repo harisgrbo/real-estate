@@ -48,7 +48,6 @@
       </div>
       <!-- END: Display Information -->
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -56,13 +55,11 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton"
-import Snackbar from "@/components/global/Snackbar";
 
 @Component({
   components: {
     TextField,
     ActionButton,
-    Snackbar
   },
   middleware: ['auth'],
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
@@ -168,10 +165,10 @@ export default class urediProfil extends Vue {
       await this.$auth.fetchUser();
       this.setInputs();
 
-      this.$snackbar.show({
-        text: "Uspješno ste se spasili izmjene!",
-        timeout: 3000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste se spasili izmjene",
+        type: 'warning',
+        duration: 5000
       });
 
       this.loading = false;

@@ -7,7 +7,6 @@
       </div>
       <TextAreaField class="mt-4" v-model="description" label="Opis" placeholder="Opis.."></TextAreaField>
       <action-button :loading="loading" @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
-      <Snackbar></Snackbar>
     </div>
 </template>
 
@@ -15,7 +14,6 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton"
-import Snackbar from "@/components/global/Snackbar";
 import TextAreaField from "../../../components/inputs/TextAreaField";
 
 @Component({
@@ -23,7 +21,6 @@ import TextAreaField from "../../../components/inputs/TextAreaField";
     TextAreaField,
     TextField,
     ActionButton,
-    Snackbar
   },
   middleware: ['auth'],
   layout() { return "home" }
@@ -85,10 +82,10 @@ export default class urediProfil extends Vue {
 
       await this.$axios.put('/profile/agency', payload)
 
-      this.$snackbar.show({
-        text: "Uspješno ste se spasili izmjene!",
-        timeout: 3000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste se spasili izmjene!",
+        type: 'success',
+        duration: 5000
       });
 
       this.loading = false;

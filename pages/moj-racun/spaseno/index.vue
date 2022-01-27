@@ -88,7 +88,6 @@
         </div>
       </div>
     </div>
-    <snackbar></snackbar>
   </div>
 </template>
 
@@ -96,7 +95,6 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import SavedUserCard from "@/components/UserCard"
-import Snackbar from "@/components/global/Snackbar";
 import NotFound from "../../../components/global/NotFound";
 
 @Component({
@@ -104,7 +102,6 @@ import NotFound from "../../../components/global/NotFound";
     NotFound,
     SavedUserCard,
     ListingCard,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
@@ -160,10 +157,10 @@ export default class spaseno extends Vue {
 
       this.searches.splice(index, 1)
 
-      this.$snackbar.show({
-        text: "Uspješno ste izbrisali pretragu iz spašenih",
-        closeWait: 100000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste izbrisali pretragu iz spašenih",
+        type: 'success',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)
@@ -178,10 +175,10 @@ export default class spaseno extends Vue {
 
       this.savedListings.splice(index, 1)
 
-      this.$snackbar.show({
-        text: "Uspješno ste izbrisali oglas iz spašenih",
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste izbrisali oglas iz spašenih",
+        type: 'success',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)

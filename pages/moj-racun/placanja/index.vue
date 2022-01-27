@@ -115,7 +115,6 @@
         </div>
       </div>
     </modal>
-    <snackbar></snackbar>
   </div>
 </template>
 
@@ -123,7 +122,6 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import SavedUserCard from "@/components/UserCard"
-import Snackbar from "@/components/global/Snackbar";
 import NotFound from "../../../components/global/NotFound";
 import TextField from "../../../components/inputs/TextField";
 import ActionButton from "../../../components/actionButtons/ActionButton";
@@ -135,7 +133,6 @@ import ActionButton from "../../../components/actionButtons/ActionButton";
     NotFound,
     SavedUserCard,
     ListingCard,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
@@ -195,13 +192,11 @@ export default class placanja extends Vue {
 
       this.$auth.fetchUser();
 
-      this.$snackbar.show({
-        text: 'Uspješno ste izvršili uplatu sredstava na račun',
-        timeout: 3000,
-        type: "success"
+      this.$toast.open({
+        message: 'Uspješno ste izvršili uplatu sredstava na račun',
+        type: 'success',
+        duration: 5000
       });
-
-
     } catch(e) {
       console.log(e)
     }

@@ -1,6 +1,5 @@
 <template>
   <div class="preview-wrapper-inner">
-    <Snackbar />
     <div class="content-wrapper w-full" v-if="listingLoaded">
       <div class="step-1">
         <h1 class="heading">
@@ -202,7 +201,6 @@ import TermInput from "@/components/inputs/TermInput"
 import TextField from "@/components/inputs/TextField";
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
-import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import TextAreaField from "../../../components/inputs/TextAreaField";
 import DropdownAutocomplete from "../../../components/inputs/DropdownAutocomplete";
@@ -210,7 +208,7 @@ import DropdownAutocomplete from "../../../components/inputs/DropdownAutocomplet
 @Component({
   components: {
     DropdownAutocomplete,
-    TextAreaField, Categories, TermsInput, TermInput, RangeInput, TextField, InputError, Snackbar, ActionButton
+    TextAreaField, Categories, TermsInput, TermInput, RangeInput, TextField, InputError, ActionButton
   },
   middleware: ['auth'],
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
@@ -275,10 +273,11 @@ export default class ListingEdit extends Vue {
         ends_at: end.format('D-M-Y')
       });
 
-      this.$snackbar.show({
-        text: "Uspješno ste dodali popust na oglas",
-        timeout: 3000,
-        type: "success"
+
+      this.$toast.open({
+        message: "Uspješno ste dodali popust na oglas",
+        type: 'success',
+        duration: 5000
       });
 
     } catch(e) {
@@ -384,10 +383,11 @@ export default class ListingEdit extends Vue {
   }
 
   snackbarValidationError() {
-    this.$snackbar.show({
-      text: "Imate greške",
-      timeout: 1000,
-      type: "error"
+
+    this.$toast.open({
+      message: "Imate greške",
+      type: 'error',
+      duration: 5000
     });
   }
 
@@ -423,10 +423,10 @@ export default class ListingEdit extends Vue {
 
       this.listing = response.data.data;
 
-      this.$snackbar.show({
-        text: "Uspješno ste spasili izmjene",
-        timeout: 3000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste spasili izmjene",
+        type: 'success',
+        duration: 5000
       });
 
       this.$router.push('/artikal/' + this.listing.id)

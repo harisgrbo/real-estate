@@ -66,19 +66,16 @@
         </li>
       </ul>
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "../../components/actionButtons/ActionButton";
 
 @Component({
   components: {
     ActionButton,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
   middleware: ['auth'],
@@ -122,11 +119,11 @@ export default class mojeRezervacije extends Vue {
 
       await this.$axios.post('/bookings/' + booking.id);
 
-      this.$snackbar.show({
-        text: "Uspješno ste prihvatili upit",
-        timeout: 1000,
-        type: "success"
-      })
+      this.$toast.open({
+        message: "Uspješno ste prihvatili upit",
+        type: 'success',
+        duration: 5000
+      });
     } catch (e) {
       console.log(e)
     }

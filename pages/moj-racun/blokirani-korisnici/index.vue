@@ -17,7 +17,6 @@
         <NotFound v-else src="/blocked.svg" text="Nemate blokiranih korisnika"></NotFound>
       </div>
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -25,14 +24,12 @@
 import { Component, Vue} from "nuxt-property-decorator";
 
 import UserCard from "@/components/UserCard";
-import Snackbar from "@/components/global/Snackbar"
 import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
     NotFound,
     UserCard,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
 })
@@ -70,11 +67,10 @@ export default class blokiraniKorisnici extends Vue {
 
       this.blockedUsers.splice(index, 1)
 
-
-      this.$snackbar.show({
-        text: "Odblokirali ste korisnika " + u.name,
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Odblokirali ste korisnika " + u.name,
+        type: 'success',
+        duration: 5000
       });
 
     } catch(e) {

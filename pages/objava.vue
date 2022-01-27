@@ -261,7 +261,6 @@
           </div>
         </div>
       </div>
-    <Snackbar />
   </div>
 </template>
 
@@ -272,7 +271,6 @@ import TermsInput from "@/components/inputs/TermsInput"
 import TermInput from "@/components/inputs/TermInput"
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
-import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import Dropzone from "nuxt-dropzone";
 import 'nuxt-dropzone/dropzone.css'
@@ -291,7 +289,7 @@ import PublishMap from "@/components/publish/PublishMap";
     PublishDropdown,
     TextAreaField,
     TextField,
-    Categories, TermsInput, TermInput, RangeInput, InputError, Snackbar, ActionButton, Dropzone
+    Categories, TermsInput, TermInput, RangeInput, InputError, ActionButton, Dropzone
   },
   middleware: ['auth'],
   layout: 'objava',
@@ -446,10 +444,11 @@ export default class Objava extends Vue {
   }
 
   snackbarValidationError(param = false) {
-    this.$snackbar.show({
-      text: param || "Imate greške",
-      timeout: 1000,
-      type: "danger"
+
+    this.$toast.open({
+      message: param || "Imate greške",
+      type: 'error',
+      duration: 5000
     });
   }
 

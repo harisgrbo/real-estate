@@ -11,7 +11,6 @@
     <div class="flex items-center justify-center login-u">
       <p>Nemaš račun?</p><nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
     </div>
-    <Snackbar />
   </div>
 </template>
 

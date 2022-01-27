@@ -40,7 +40,6 @@
           </div>
         </div>
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -48,12 +47,10 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField"
 import ActionButton from "@/components/actionButtons/ActionButton"
-import Snackbar from "@/components/global/Snackbar"
 
 @Component({
   components: {
     TextField,
-    Snackbar,
     ActionButton
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings'
@@ -201,10 +198,11 @@ export default class Kredit extends Vue {
       updatedUser.credits += this.credits;
       this.$auth.setUser(updatedUser)
 
-      this.$snackbar.show({
-        text: "Uspješno ste dopunili kredit",
-        timeout: 1000,
-        type: "success"
+
+      this.$toast.open({
+        message: "Uspješno ste uplatili sredstva na račun",
+        type: 'success',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)

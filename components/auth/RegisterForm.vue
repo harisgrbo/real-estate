@@ -37,7 +37,6 @@
     <div class="flex items-center justify-center login-u">
       <p>Imaš račun?</p><nuxt-link :to="{ path: '/auth/login' }">Prijavi se</nuxt-link>
     </div>
-    <Snackbar />
   </div>
 </template>
 
@@ -45,11 +44,10 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton";
-import Snackbar from "@/components/global/Snackbar";
 import PublishDropdown from "@/components/publishInputs/PublishDropdown"
 
 @Component({
-  components: {ActionButton, TextField, Snackbar, PublishDropdown}
+  components: {ActionButton, TextField, PublishDropdown}
 })
 
 export default class RegisterForm extends Vue{

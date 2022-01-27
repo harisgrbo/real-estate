@@ -92,17 +92,15 @@
 <!--          </a>-->
         </div>
       </nuxt-link>
-      <Snackbar />
     </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton";
 
 @Component({
-  components: {Snackbar, ActionButton}
+  components: {ActionButton}
 })
 
 export default class ListingCard extends Vue{

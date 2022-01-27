@@ -42,16 +42,14 @@
         </div>
       </div>
     </nuxt-link>
-    <Snackbar />
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 
 @Component({
-  components: {Snackbar}
+  components: {}
 })
 
 export default class Slide extends Vue{

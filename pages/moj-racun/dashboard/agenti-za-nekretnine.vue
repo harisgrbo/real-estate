@@ -49,7 +49,6 @@
             </div>
           </div>
         </div>
-        <Snackbar></Snackbar>
       </div>
   </div>
 </template>
@@ -58,13 +57,11 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "../../../components/actionButtons/ActionButton";
 import TextField from "../../../components/inputs/TextField";
-import Snackbar from "../../../components/global/Snackbar";
 
 @Component({
   components: {
     TextField,
     ActionButton,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })

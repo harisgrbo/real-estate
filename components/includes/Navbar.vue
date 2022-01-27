@@ -149,7 +149,6 @@
         <NotificationsDropdown @clicked="$modal.hide('notifications')" :notifications="notifications" @close-notifications="$modal.hide('notifications')" @clear-notifications="handleClearNotifications"></NotificationsDropdown>
       </modal>
     </client-only>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -164,12 +163,10 @@ import NotificationsDropdown from "@/components/NotificationsDropdown"
 import { buildType, buildCategory, buildTitle } from '@/util/search'
 import OtherLinksDropdown from "../OtherLinksDropdown";
 import ActionButton from "@/components/actionButtons/ActionButton";
-import Snackbar from "@/components/global/Snackbar"
 
 @Component({
   components: {
     ActionButton,
-    Snackbar,
     OtherLinksDropdown,
     CategoriesList,
     ListingType,

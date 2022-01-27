@@ -147,14 +147,12 @@
         </div>
       </div>
     </modal>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
-import Snackbar from "@/components/global/Snackbar";
 import PublishMap from "@/components/publish/PublishMap";
 import UserMedals from "@/components/UserMedals"
 import TextField from "@/components/inputs/TextField";
@@ -169,7 +167,7 @@ import ActionButton from "../../components/actionButtons/ActionButton";
 import NotFound from "../../components/global/NotFound";
 
 @Component({
-  components: {NotFound, ActionButton, ListingCard, Snackbar, PublishMap, UserMedals, TextField, Pagination},
+  components: {NotFound, ActionButton, ListingCard, PublishMap, UserMedals, TextField, Pagination},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   watchQuery: true,
   async asyncData(ctx) {

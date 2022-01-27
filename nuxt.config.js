@@ -59,7 +59,6 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    "~plugins/snackbar/index.js",
     "~plugins/moment.js",
     {
       src: "~plugins/progress.js",

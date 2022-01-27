@@ -62,10 +62,10 @@ export default class Sponzorisanje extends Vue {
         sponsorship_id: this.selectedAdvertisment
       })
 
-      this.$snackbar.show({
-        text: "Uspješno ste se sponzorisali oglas",
-        timeout: 3000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste se sponzorisali oglas",
+        type: 'error',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)

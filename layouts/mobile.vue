@@ -25,7 +25,6 @@
         </div>
       </modal>
     </client-only>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -34,10 +33,9 @@ import {Component, Vue, Watch} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
 import sidenav from "@/components/sidenav"
-import Snackbar from "../components/global/Snackbar";
 
 @Component({
-  components: {Navbar, MobileBottomNavbar, sidenav, Snackbar}
+  components: {Navbar, MobileBottomNavbar, sidenav}
 })
 
 export default class Mobile extends Vue {

@@ -619,16 +619,13 @@
           </modal>
         </client-only>
       </div>
-
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "@/components/actionButtons/ActionButton";
-import Snackbar from "@/components/global/Snackbar";
 import UserProfile from "@/components/UserProfile"
 import SingleQuestion from "@/components/SingleQuestion"
 import RealEstateLocationMap from "@/components/RealEstateLocationMap";
@@ -644,7 +641,6 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
     TextAreaField,
     TextField,
     ActionButton,
-    Snackbar,
     UserProfile,
     SingleQuestion,
     RealEstateLocationMap
@@ -1096,22 +1092,20 @@ export default class Artikal extends Vue {
       if(!this.listingSaved) {
         await this.$axios.post('/listings/' + this.listing.id + '/save');
 
-        this.$snackbar.show({
-          text: "Uspješno ste spasili oglas " + this.listing.title,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste spasili oglas " + this.listing.title,
+          type: 'success',
+          duration: 5000
         });
-
-        "Već ste poslali upit za ovaj oglas",
 
         this.listingSaved = true;
       } else {
         await this.$axios.delete('/listings/' + this.listing.id + '/save');
 
-        this.$snackbar.show({
-          text: "Uspješno ste izbrisali oglas " + this.listing.title + " iz spašenih",
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste izbrisali oglas " + this.listing.title + " iz spašenih",
+          type: 'success',
+          duration: 5000
         });
 
         this.listingSaved = false;
@@ -1128,20 +1122,20 @@ export default class Artikal extends Vue {
       if(this.isFollowed) {
         await this.$axios.delete('/users/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste otpratili " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste otpratili " + this.user.name,
+          type: 'success',
+          duration: 5000
         });
 
         this.isFollowed = false;
       } else {
         await this.$axios.post('/users/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste zapratili " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste zapratili " + this.user.name,
+          type: 'success',
+          duration: 5000
         });
 
         this.isFollowed = true;

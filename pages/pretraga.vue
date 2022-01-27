@@ -210,7 +210,6 @@
           </div>
         </div>
       </modal>
-      <Snackbar></Snackbar>
       <client-only>
         <modal @before-open="beforeOpen" @before-close="beforeClose" name="search-filters" :adaptive="true" height="100%">
           <div class="modal-inner relative">
@@ -319,7 +318,6 @@ import TermFilter from "@/components/search/TermFilter";
 import TermsFilter from "@/components/search/TermsFilter";
 import { buildQuery, buildCategory } from "@/util/search";
 import { capitalize } from "@/util/str";
-import Snackbar from "@/components/global/Snackbar";
 import Pagination from "@/components/pagination";
 import ListingCard from "../components/listingCard/ListingCard";
 import skeleton from "../components/skeleton";
@@ -345,7 +343,6 @@ import CountriesMultipleSelect from "@/components/global/CountriesMultipleSelect
     TermFilter,
     skeleton,
     TermsFilter,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'search',
 
@@ -787,20 +784,21 @@ export default class Homepage extends Vue {
         description: this.searchName
       });
 
-      this.$snackbar.show({
-        text: "Uspješno ste snimili pretragu",
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste snimili pretragu",
+        type: 'error',
+        duration: 5000
       });
 
       this.searchName = '';
 
       this.$modal.hide('save-search')
 
-      this.$snackbar.show({
-        text: "Uspješno ste spasili pretragu",
-        timeout: 1000,
-        type: "success"
+
+      this.$toast.open({
+        message: "Uspješno ste spasili pretragu",
+        type: 'error',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)
