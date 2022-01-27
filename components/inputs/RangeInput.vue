@@ -1,7 +1,9 @@
 <template>
-  <div class="input-wrapper">
-    <label class="block text-md font-semibold text-gray-900 mb-2">{{ attr.name }} {{ attr.required ? '*': '' }}</label>
-    <input type="number" v-model="val" @input="handleChange" />
+  <div class="relative main-input-wrap border text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+    <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">{{ attr.name }} {{ attr.required ? '*': '' }}</label>
+    <input
+      type="number" v-model="val" @input="handleChange"
+      name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
   </div>
 </template>
 
@@ -32,35 +34,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  position: relative;
 
-
+.text-wrap {
+  min-height: 36px;
+  border: 1px solid #f1f1f1 !important;
+  width: 100%;
   input {
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 4px;
-    background: #fff;
-    border: 1px solid #ddd;
-    flex: 2;
-    position: relative;
-    transition: 0.3s all ease;
-    max-width: 600px;
-    margin-top: 0;
-    min-height: 48px;
-    padding: 0 12px;
-
-    &:focus {
-      outline: 1px solid #000;
-      border-radius: 4px;
-    }
-
+    min-height: 36px !important;
   }
+}
 
+label {
+  font-size: 14px;
+}
 
+::placeholder {
+  color: #b1b1b1;
 }
 </style>

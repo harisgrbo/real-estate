@@ -1,13 +1,11 @@
 <template>
-  <div class="relative w-full flex flex-col items-start">
-    <label for="price" class="block text-md font-semibold text-gray-900 mb-2" v-if="label">{{ label }}</label>
-    <div :class="['block w-full min-w-full sm:text-sm border-gray-300 rounded-md mt-0 relative rounded-md text-input', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']">
-      <textarea
-       :value="value"
-       :placeholder="placeholder"
-       @input="updateValue($event.target.value)"
-      ></textarea>
-    </div>
+  <div class="relative main-input-wrap border text-wrap border-gray-300 rounded-md shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+    <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500" v-if="label">{{ label }}</label>
+    <textarea
+      :value="value"
+      :placeholder="placeholder"
+      @input="updateValue($event.target.value)"
+      name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"></textarea>
     <p v-if="error" class="mt-2 text-sm text-red-600" id="email-error">{{ error }}</p>
   </div>
 </template>
@@ -38,43 +36,20 @@ export default class TextAreaField extends Vue{
 </script>
 
 <style scoped lang="scss">
-@mixin for-phone-only {
-  @media (max-width: 599px) {
-    @content;
-  }
-}
 
-.text-input {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 4px;
-  background: #fff;
-  border: 1px solid #ddd;
-  flex: 2;
-  position: relative;
-  transition: 0.3s all ease;
-  max-width: 600px;
-  margin-top: 0;
-  min-height: 48px;
-}
-
-textarea {
-  padding: 12px;
-  height: 100%;
-  background: transparent;
+.text-wrap {
+  min-height: 180px;
+  border: 1px solid #f1f1f1 !important;
   width: 100%;
-  font-weight: 500;
-  font-size: 14px;
-  min-height: 250px;
-  min-width: 100%;
-
-  &:focus {
-    outline: 1px solid #000;
-    border-radius: 4px;
+  textarea {
+    padding: 16px;
+    min-height: 180px !important;
+    background: #fff !important;
   }
+}
 
+label {
+  font-size: 14px;
 }
 
 ::placeholder {

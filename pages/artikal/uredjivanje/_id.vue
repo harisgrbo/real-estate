@@ -27,7 +27,7 @@
               <action-button class="ml-4" @action="addDiscount" v-if="discount.length" placeholder="Potvrdi popust"></action-button>
             </div>
             <div class="mt-3" v-if="discount.length">
-              <label class="block text-md font-semibold text-gray-900 mb-2">Period akcije</label>
+              <label class="block text-md font-medium text-gray-900 mb-2">Period akcije</label>
               <vc-date-picker
                 :min-date="new Date()"
                 v-model="range"
@@ -106,7 +106,7 @@
         <TextAreaField class="mt-4" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="listing.video_url"></TextAreaField>
         <client-only>
           <div class="pt-4">
-            <label class="block text-md font-semibold text-gray-900 mb-2">Opis</label>
+            <label class="block text-md font-medium text-gray-900 mb-2">Opis</label>
             <vue-editor v-model="listing.description"/>
           </div>
         </client-only>
@@ -189,7 +189,7 @@
           </div>
         </div>
       </div>
-      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '4px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '10px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -746,7 +746,7 @@ export default class ListingEdit extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 0 24px 24px 24px;
 }
 
@@ -1009,7 +1009,7 @@ export default class ListingEdit extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 10px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;

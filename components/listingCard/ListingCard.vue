@@ -240,14 +240,14 @@ export default class ListingCard extends Vue{
     height: fit-content;
     border-radius: 7px;
 
-    //&.sponsored-1 {
-    //  background: rgba(19, 95, 20, 0.05);
-    //
-    //  .listing-card-content {
-    //    padding-left: 8px;
-    //    padding-right: 8px;
-    //  }
-    //}
+    &.sponsored-1 {
+      background: rgba(19, 95, 20, 0.05);
+
+      .listing-card-content {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
 
     @include for-phone-only {
       min-width: 100%;
@@ -545,30 +545,30 @@ export default class ListingCard extends Vue{
       }
     }
 
-    //&.sponsored-2 {
-    //  background: rgba(19, 95, 20, 0.05);
-    //  .listing-card-content {
-    //    padding-left: 8px;
-    //    padding-right: 8px;
-    //
-    //    .address.title {
-    //      white-space: nowrap;
-    //      overflow: hidden;
-    //      text-overflow: ellipsis;
-    //      font-weight: 200 !important;
-    //      font-size: 18px !important;
-    //      line-height: 20px !important;
-    //      background: #1F2937 !important;
-    //      color: #fff !important;
-    //
-    //      p {
-    //        color: #fff !important;
-    //        padding: 0 4px;
-    //      }
-    //
-    //    }
-    //  }
-    //}
+    &.sponsored-2 {
+      background: rgba(19, 95, 20, 0.05);
+      .listing-card-content {
+        padding-left: 8px;
+        padding-right: 8px;
+
+        .address.title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-weight: 200 !important;
+          font-size: 18px !important;
+          line-height: 20px !important;
+          background: #1F2937 !important;
+          color: #fff !important;
+
+          p {
+            color: #fff !important;
+            padding: 0 4px;
+          }
+
+        }
+      }
+    }
   }
 
   .icons {

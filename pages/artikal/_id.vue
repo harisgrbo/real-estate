@@ -1,5 +1,5 @@
 <template>
-  <div class="listing-wrapper mx-auto w-full" v-if="!error">
+  <div class="listing-wrapper mx-auto w-1280" v-if="!error">
     <div v-if="$device.isMobile" class="mobile-topbar">
       <button @click="$router.go(-1)" type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <!-- Heroicon name: solid/plus -->
@@ -26,6 +26,22 @@
       <div class="listing-content-inner">
         <div class="listing-content-wrapper relative flex flex-row">
           <div class="flex flex-col w-full relative">
+            <div class="w-full" v-if="!$device.isMobile">
+              <h2 v-if="listing">{{ listing.title }}</h2>
+              <div class="w-full flex flex-row justify-between items-center my-4">
+                <p class="min-w-min text-md text-gray-700 font-normal underline">{{ listing.address }}</p>
+                <div class="flex flex-row items-center min-w-min" v-if="!$device.isMobile">
+                  <button v-if="$auth.user && $auth.user.id !== listing.user.id" @click="toggleSaveListing()" type="button" class="flex items-center">
+                    <!-- Heroicon name: solid/plus -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span class="save-listing">{{ listingSaved ? 'Izbriši iz spašenih' : 'Spasi oglas' }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="mobile-images">
               <client-only v-if="images.length >= 1">
                 <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
@@ -58,26 +74,6 @@
               </div>
             </div>
             <div class="mb-6 px-5 lg:px-0 xl:px-0 up:px-0 mobile-content">
-              <div class="article-title">
-                <h2 v-if="listing">{{ listing.title }}</h2>
-
-                <p v-if="$device.isMobile" class="mt-4 text-md text-gray-900 font-medium">{{ listing.address }}</p>
-
-                <div class="flex flex-row items-center" v-if="!$device.isMobile">
-                  <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <!-- Heroicon name: solid/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </button>
-                  <button v-if="$auth.user && $auth.user.id !== listing.user.id" @click="toggleSaveListing()" type="button" class="ml-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300">
-                    <!-- Heroicon name: solid/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
               <div class="rent" v-if="listing.is_booking && !$device.isMobile">
                 <div class="flex flex-row items-center w-full price-wrap p-2 bg-gray-50">
                   <p class="text-xl font-bold main-price-label">{{ numberWithCommas(listing.price) + ' KM'}}</p>
@@ -86,15 +82,15 @@
               </div>
               <div class="rent flex flex-row justify-start mt-4 sm:bg-white items-center" v-else>
                 <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile">
-                  <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+                  <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : '' }}</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
                 </div>
                 <div class="flex flex-col items-start price-wrap p-2  mr-4" v-if="!$device.isMobile && listing.price_per_square !== null && !listing.hasOwnProperty('discount')">
-                  <p>Cijena po kvadratu {{ listing.vat_included ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+                  <p>Cijena po kvadratu</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ Math.ceil(listing.price_per_square) }} KM</p>
                 </div>
                 <div class="flex flex-col mobile-discount items-start p-2  price-wrap" v-if="$device.isMobile">
-                  <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : 'bez uračunatog PDV-a' }}</p>
+                  <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : '' }}</p>
                   <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
                 </div>
                 <div class="mobile-discount flex flex-col items-start p-2 price-wrap sm:ml-0 md:ml-4 lg:ml-4 up:ml-4 xl:ml-4 text-gray-900 rounded-md" v-if="listing.hasOwnProperty('discount')">
@@ -141,34 +137,34 @@
             </div>
             <div class="separator"></div>
             <div class="px-5 lg:px-0 xl:px-0 up:px-0">
-              <h3 class="text-xl font-medium text-gray-900">
-                Informacije o nekretnini
+              <h3 class="text-2xl font-semibold text-gray-900">
+                Opšte informacije
               </h3>
               <ul role="list" class="border-t border-b border-gray-200 py-6 mobile-grid">
                 <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
-                  <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-sm hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
-
+                  <div class="relative -m-2 p-2 flex items-center space-x-4">
                     <div>
-                      <h3 class="text-sm font-medium text-gray-900">
+                      <h3 class="text-md font-normal text-gray-900">
                         <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
                         </div>
                       </h3>
-                      <p class="mt-1 text-sm text-black font-semibold">{{ info.value }}</p>
+                      <p class="mt-1 text-lg text-black font-medium">{{ info.value }}</p>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
             <div v-if="RentSpecialAttributes.length && listing.listing_type.shortname !== 'sell'">
-              <h3 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
-                Izdvojene pogodnosti
+              <div class="separator"></div>
+              <h3 class="text-2xl font-semibold text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
+                Šta ovaj smještaj nudi
               </h3>
               <ul role="list" class="mt-3 mobile-grid ammenities">
                 <li  v-for="(attr, index) in RentSpecialAttributes"
                      :key="index"
-                     class="col-span-1 flex shadow-sm rounded-md">
+                     class="col-span-1 flex">
                   <img :src="'/' + attr.name + '.png'" alt="">
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                     <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
@@ -180,21 +176,22 @@
               </ul>
             </div>
             <div class="mt-6 mx-5 lg:mx-0 xl:mx-0 up:mx-0" v-if="checkboxAttributes.length">
-              <h3 class="text-xl font-medium text-gray-900">
+              <div class="separator"></div>
+              <h3 class="text-2xl font-semibold text-gray-900">
                 Nekretnina posjeduje
               </h3>
               <ul role="list" :class="['mt-6 border-t border-b border-gray-200 py-0 mobile-grid', checkboxAttributes.length > 10 ? 'compress' : '']">
                 <li class="flow-root" v-for="(info, index) in checkboxAttributes" :key="index">
-                  <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl hover:bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500">
+                  <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl">
 
                     <div>
-                      <h3 class="text-sm font-medium text-gray-900">
+                      <h3 class="text-md font-normal text-gray-900">
                         <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
                         </div>
                       </h3>
-                      <p class="mt-1 text-md text-black font-semibold">{{ attrTranslate(info.value) }}</p>
+                      <p class="mt-1 text-lg text-black font-medium">{{ attrTranslate(info.value) }}</p>
                     </div>
                   </div>
                 </li>
@@ -208,7 +205,7 @@
             </div>
             <div class="separator"></div>
             <client-only>
-              <h3 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h3>
+              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Detaljni opis</h3>
               <p :class="['description mx-5 lg:mx-0 xl:mx-0 up:mx-0', descriptionRows > 200 ? 'minimize' : 'maximize']" id="opis" v-html="listing.description"></p>
               <span v-show="descriptionRows > 200" @click="$modal.show('detailed-desc')" class="py-4 rounded-md flex flex-row items-center show-more-btn min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
               Prikaži više
@@ -248,99 +245,99 @@
                 <div v-html="listing.video_url"></div>
               </div>
             </div>
-            <div v-if="listing.is_booking && !authUser && !$device.isMobile" class="modal-content places-modal">
-              <div class="separator"></div>
-              <h3 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervacija smještaja</h3>
-              <div class="filters rounded-md">
-                <client-only>
-                  <form @submit.prevent>
-                    <div class="price-wrap flex flex-col justify-start">
-                      <div class="flex flex-row items-center w-full">
-                        <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>
-                        <p class="pl-2">/ noć</p>
-                      </div>
-                      <div v-show="numOfDays" class="mt-2 w-full">
-                        <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
-                      </div>
-                    </div>
-                    <div class="mb-4" v-if="$auth.user">
-                      <h3 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h3>
-                      <vc-date-picker
-                        :disabled-dates="disabledDates"
-                        :min-date="new Date()"
-                        v-model="range"
-                        :masks="masks"
-                        is-range
-                        is-inline
-                        popover.visibility="visible"
-                        :popover="{ visibility: 'click' }"
-                      >
-                        <template v-slot="{ inputValue, inputEvents, isDragging }">
-                          <div class="flex flex-row justify-start items-center">
-                            <div class="relative flex-grow w-full">
-                              <svg
-                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                                fill="none"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                ></path>
-                              </svg>
-                              <input
-                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
-                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                                :value="inputValue.start"
-                                v-on="inputEvents.start"
-                              />
-                            </div>
-                            <span class="flex-shrink-0 m-2">
-              <svg
-                class="w-4 h-4 stroke-current text-gray-600"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </span>
-                            <div class="relative flex-grow w-full">
-                              <svg
-                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                                fill="none"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                ></path>
-                              </svg>
-                              <input
-                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
-                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                                :value="inputValue.end"
-                                v-on="inputEvents.end"
-                              />
-                            </div>
-                          </div>
-                        </template>
-                      </vc-date-picker>
-                    </div>
-                    <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
-                  </form>
-                </client-only>
-              </div>
-            </div>
+<!--            <div v-if="listing.is_booking && !authUser && !$device.isMobile" class="modal-content places-modal">-->
+<!--              <div class="separator"></div>-->
+<!--              <h3 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervacija smještaja</h3>-->
+<!--              <div class="filters rounded-md">-->
+<!--                <client-only>-->
+<!--                  <form @submit.prevent>-->
+<!--                    <div class="price-wrap flex flex-col justify-start">-->
+<!--                      <div class="flex flex-row items-center w-full">-->
+<!--                        <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>-->
+<!--                        <p class="pl-2">/ noć</p>-->
+<!--                      </div>-->
+<!--                      <div v-show="numOfDays" class="mt-2 w-full">-->
+<!--                        <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div class="mb-4" v-if="$auth.user">-->
+<!--                      <h3 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h3>-->
+<!--                      <vc-date-picker-->
+<!--                        :disabled-dates="disabledDates"-->
+<!--                        :min-date="new Date()"-->
+<!--                        v-model="range"-->
+<!--                        :masks="masks"-->
+<!--                        is-range-->
+<!--                        is-inline-->
+<!--                        popover.visibility="visible"-->
+<!--                        :popover="{ visibility: 'click' }"-->
+<!--                      >-->
+<!--                        <template v-slot="{ inputValue, inputEvents, isDragging }">-->
+<!--                          <div class="flex flex-row justify-start items-center">-->
+<!--                            <div class="relative flex-grow w-full">-->
+<!--                              <svg-->
+<!--                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"-->
+<!--                                fill="none"-->
+<!--                                stroke-linecap="round"-->
+<!--                                stroke-linejoin="round"-->
+<!--                                stroke-width="2"-->
+<!--                                viewBox="0 0 24 24"-->
+<!--                                stroke="currentColor"-->
+<!--                              >-->
+<!--                                <path-->
+<!--                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"-->
+<!--                                ></path>-->
+<!--                              </svg>-->
+<!--                              <input-->
+<!--                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"-->
+<!--                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"-->
+<!--                                :value="inputValue.start"-->
+<!--                                v-on="inputEvents.start"-->
+<!--                              />-->
+<!--                            </div>-->
+<!--                            <span class="flex-shrink-0 m-2">-->
+<!--              <svg-->
+<!--                class="w-4 h-4 stroke-current text-gray-600"-->
+<!--                viewBox="0 0 24 24"-->
+<!--              >-->
+<!--                <path-->
+<!--                  stroke-linecap="round"-->
+<!--                  stroke-linejoin="round"-->
+<!--                  stroke-width="2"-->
+<!--                  d="M14 5l7 7m0 0l-7 7m7-7H3"-->
+<!--                />-->
+<!--              </svg>-->
+<!--            </span>-->
+<!--                            <div class="relative flex-grow w-full">-->
+<!--                              <svg-->
+<!--                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"-->
+<!--                                fill="none"-->
+<!--                                stroke-linecap="round"-->
+<!--                                stroke-linejoin="round"-->
+<!--                                stroke-width="2"-->
+<!--                                viewBox="0 0 24 24"-->
+<!--                                stroke="currentColor"-->
+<!--                              >-->
+<!--                                <path-->
+<!--                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"-->
+<!--                                ></path>-->
+<!--                              </svg>-->
+<!--                              <input-->
+<!--                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"-->
+<!--                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"-->
+<!--                                :value="inputValue.end"-->
+<!--                                v-on="inputEvents.end"-->
+<!--                              />-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </template>-->
+<!--                      </vc-date-picker>-->
+<!--                    </div>-->
+<!--                    <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>-->
+<!--                  </form>-->
+<!--                </client-only>-->
+<!--              </div>-->
+<!--            </div>-->
 
 
             <div v-if="listing.is_booking && !authUser && $device.isMobile" :class="['book-article', showBooking ? 'show' : 'hide']">
@@ -353,7 +350,7 @@
 
           </div>
           <div class="user-wrap relative z-10">
-            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @booking="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
+            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator" v-if="listing_reviews.length"></div>
@@ -828,10 +825,10 @@ export default class Artikal extends Vue {
     try {
       await this.$axios.post('/listings/' + this.listing.id + '/complete');
 
-      this.$snackbar.show({
-        text: "Oglas završen",
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Oglas završen",
+        type: 'success',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)
@@ -880,18 +877,18 @@ export default class Artikal extends Vue {
           'ends_at': end.format('D-M-Y')
         })
 
-        this.$snackbar.show({
-          text: "Upit poslan",
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Upit za rezervaciju poslan",
+          type: 'success',
+          duration: 5000
         });
       } catch (e) {
         if (e.response.data.code === 10) {
-          this.$snackbar.show({
-            text: "Već ste poslali upit za ovaj oglas",
-            timeout: 1000,
-            type: "danger"
-          })
+          this.$toast.open({
+            message: "Već ste poslali upit za ovaj oglas",
+            type: 'warning',
+            duration: 5000
+          });
         } else {
           console.log(e.response)
         }
@@ -1105,6 +1102,8 @@ export default class Artikal extends Vue {
           type: "success"
         });
 
+        "Već ste poslali upit za ovaj oglas",
+
         this.listingSaved = true;
       } else {
         await this.$axios.delete('/listings/' + this.listing.id + '/save');
@@ -1227,58 +1226,24 @@ export default class Artikal extends Vue {
     @content;
   }
 }
-
-.item1 {
-  grid-area: main;
-
-  img {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    height: 400px;
-    cursor: pointer;
-
-    @include for-phone-only {
-      border-radius: 0;
-    }
-  }
-}
-.item2 {
-  grid-area: small1;
-  img {
-    border-top-right-radius: 10px;
-    @include for-phone-only {
-      border-radius: 0;
-    }
-  }
-}
-.item3 {
-  grid-area: small2;
-  img {
-    border-radius: 0px;
-
-    @include for-phone-only {
-      border-radius: 0;
-    }
-  }
-}
-.item4 {
-  grid-area: small3;
-  img {
-    border-top-right-radius: 0px;
-
-  }
+h2 {
+  color: #000 !important;
+  font-size: 25px;
+  font-weight: 500 !important;
+  padding: 0px !important;
+  display: inline !important;
 
   @include for-phone-only {
-    border-radius: 0;
+    font-size: 21px;
   }
 }
 
 .no-image-grid {
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
   width: 796px;
-  max-width: 796px;
-  min-width: 796px;
+  max-width: 100%;
+  min-width: 100%;
   max-height: 520px;
   height: 520px;
 
@@ -1294,6 +1259,7 @@ export default class Artikal extends Vue {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    min-width: 100% !important;
   }
 }
 
@@ -1393,7 +1359,6 @@ export default class Artikal extends Vue {
 .listing-wrapper {
   display: flex;
   flex-direction: row;
-  max-width: 1180px;
 
   @include for-phone-only {
     flex-direction: column;
@@ -1450,17 +1415,7 @@ export default class Artikal extends Vue {
           justify-content: center;
         }
 
-        h2 {
-          color: #000 !important;
-          font-size: 25px;
-          font-weight: 500 !important;
-          padding: 0px !important;
-          display: inline !important;
 
-          @include for-phone-only {
-            font-size: 21px;
-          }
-        }
       }
       h4 {
         font-size: 14px;
@@ -1545,7 +1500,7 @@ export default class Artikal extends Vue {
       position: absolute;
       top: 0;
       background: #fff;
-      border-radius: 4px;
+      border-radius: 10px;
       width: 30px;
       height: 30px;
       display: flex;
@@ -1565,7 +1520,7 @@ export default class Artikal extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 4px;
+      border-radius: 10px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -1588,8 +1543,8 @@ export default class Artikal extends Vue {
 }
 
 .separator {
-  border-top: 1px solid #ECECEC;
-  margin: 32px 0;
+  border-top: 1px solid rgb(221, 221, 221);
+  margin: 48px 0;
   height: 1px;
   width: 100%;
 }
@@ -1788,7 +1743,7 @@ export default class Artikal extends Vue {
     border: 1px solid #ddd;
     height: 100px;
     padding: 12px;
-    border-radius: 4px;
+    border-radius: 10px;
     font-family: 'Outfit', sans-serif;
     &:focus {
       outline: none;
@@ -1941,7 +1896,7 @@ export default class Artikal extends Vue {
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 24px;
   grid-row-gap: 32px;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 32px 0;
 
   @include for-phone-only {
@@ -1978,7 +1933,7 @@ export default class Artikal extends Vue {
       color: #444;
       padding: 12px;
       background: #f1f1f1;
-      border-radius: 8px;
+      border-radius: 10px;
     }
   }
 }
@@ -1992,7 +1947,7 @@ export default class Artikal extends Vue {
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 24px;
     grid-row-gap: 32px;
-    border-radius: 8px;
+    border-radius: 10px;
 
     @include for-phone-only {
       grid-template-columns: repeat(1, 1fr);
@@ -2028,7 +1983,7 @@ export default class Artikal extends Vue {
         color: #444;
         padding: 12px;
         background: #f1f1f1;
-        border-radius: 8px;
+        border-radius: 10px;
       }
     }
   }
@@ -2039,7 +1994,7 @@ export default class Artikal extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 10px;
     font-family: 'Outfit', sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -2075,7 +2030,7 @@ export default class Artikal extends Vue {
     max-width: fit-content;
     border: 1px solid #f1f1f1;
     margin-right: 12px;
-    border-radius: 4px;
+    border-radius: 10px;
     background: #f9f9f9;
     display: flex;
     align-items: center;
@@ -2209,7 +2164,7 @@ export default class Artikal extends Vue {
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
   z-index: 20;
   background: #fff;
-  border-radius: 4px;
+  border-radius: 10px;
   left: 0px;
   right: 0px;
   padding: 12px;
@@ -2232,7 +2187,7 @@ export default class Artikal extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 4px;
+  border-radius: 10px;
   background: #fff;
   border: 1px solid #ddd;
   flex: 2;
@@ -2242,6 +2197,8 @@ export default class Artikal extends Vue {
   margin-top: 0;
   min-height: 48px;
   padding: 0 12px;
+  border-radius: 10px;
+
 
   &:focus {
     border: 1px solid #000;
@@ -2268,7 +2225,7 @@ export default class Artikal extends Vue {
   height: 30px;
   max-height: 30px;
   width: 30px;
-  border-radius: 7px;
+  border-radius: 10px;
   padding: 0 !important;
   display: flex;
   align-items: center;
@@ -2336,7 +2293,8 @@ export default class Artikal extends Vue {
 
   img {
     height: 100%;
-    width: 100%;
+    width: auto;
+    margin: 0 auto
   }
 }
 
@@ -2368,7 +2326,7 @@ export default class Artikal extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
+  border-radius: 10px;
   flex: 2;
   position: relative;
   transition: 0.3s all ease;
@@ -2385,7 +2343,7 @@ export default class Artikal extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 12px;
   background: #fff;
   flex: 2;
@@ -2411,15 +2369,14 @@ export default class Artikal extends Vue {
     margin: 0 16px;
   }
   li {
-    border: 1px solid #f9f9f9;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 12px;
     img {
-      height: 22px;
-      max-width: 20px !important;
-      min-width: 20px !important;
+      height: 40px;
+      max-width: 40px !important;
+      min-width: 40px !important;
 
       @include for-phone-only {
         height: 19px;
@@ -2529,6 +2486,10 @@ input[type=range]:focus::-ms-fill-upper {
   @include for-phone-only {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  &.ammenities {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .show-more-btn {
@@ -2562,7 +2523,7 @@ input[type=range]:focus::-ms-fill-upper {
 .show-map-button {
   width: fit-content;
   height: 48px;
-  border-radius: 4px;
+  border-radius: 10px;
   background: #1F2937;
   padding: 0 12px;
   display: flex;
@@ -2599,6 +2560,14 @@ input[type=range]:focus::-ms-fill-upper {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
+  }
+}
+
+.save-listing {
+  min-width: fit-content;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 </style>

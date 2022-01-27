@@ -66,6 +66,12 @@ export default class accountpage extends Vue {
       desc: 'Spašeni korisnici, pretrage i oglasi'
     },
     {
+      name: "Plaćanja",
+      slug: 'placanja',
+      icon: '033-laptop-5.svg',
+      desc: 'Spašeni korisnici, pretrage i oglasi'
+    },
+    {
       name: "Pratioci/Pratim",
       slug: 'pratioci-pratim',
       icon: '034-rating-2.svg',
@@ -86,7 +92,7 @@ export default class accountpage extends Vue {
     {
       name: "Blokirani korisnici",
       slug: "blokirani-korisnici",
-      icon: '033-laptop-5.svg',
+      icon: '028-browser.svg',
       desc: 'Lista blokiranih korisnika'
     },
     {
@@ -138,7 +144,7 @@ export default class accountpage extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 }
 
@@ -252,7 +258,7 @@ export default class accountpage extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 10px;
   font-weight: 500;
 
   &:hover {

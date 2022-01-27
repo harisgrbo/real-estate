@@ -144,7 +144,7 @@
 .modal-inner {
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 24px;
   height: fit-content;
 
   .modal-content {
@@ -173,9 +173,10 @@
 .modal-header {
   display: flex;
   align-items: center;
-  height: 40px;
+  height: fit-content;
   justify-content: space-between;
   padding: 0px;
+  margin-bottom: 16px;
 
   @include for-phone-only {
     display: flex;
@@ -186,8 +187,8 @@
   }
 
   h2 {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 500;
     color: #000;
     margin-bottom: 0 !important;
 
@@ -238,4 +239,18 @@ input[type=number] {
 
 .no-image img {
   width: fit-content !important;
+}
+
+input {
+  &:focus-visible {
+    outline: none;
+    border: none;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }

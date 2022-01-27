@@ -1,5 +1,5 @@
 <template>
-  <div class="notifications-dropdown modal-inner">
+  <div class="notifications-dropdown">
     <div class="modal-header">
       <h2>Obavijesti</h2>
       <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
@@ -55,7 +55,9 @@ export default class NotificationsDropdown extends Vue {
 }
 
 .notifications-dropdown {
-  height: 100vh;
+  height: fit-content;
+  max-height: 600px;
+  overflow: scroll;
   overflow-y: scroll;
   background: #fff;
 
@@ -70,6 +72,8 @@ export default class NotificationsDropdown extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 60px 0;
+
 
   img {
     height: 80px !important;
@@ -84,7 +88,7 @@ export default class NotificationsDropdown extends Vue {
 }
 
 ul, .no-notifications {
-  height: calc(100vh - 340px);
+  height: auto;
 }
 
 .btn-primary {
@@ -109,7 +113,6 @@ ul, .no-notifications {
 }
 
 .no-notifications {
-  min-height: calc(100vh - 200px);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -25,11 +25,13 @@ export default {
       },
       {
         src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3745186233711216",
+        async: true
       },
       {
         hid: 'gtm-script1',
         src: 'https://www.googletagmanager.com/gtag/js?id=G-VMWBZZM8WD',
-        defer: true
+        defer: true,
+        async: true
       },
       {
         hid: 'gtm-script2',
@@ -72,6 +74,7 @@ export default {
     { src: "~plugins/security-code.js", mode: "client" },
     { src: "~plugins/apex-charts.js", mode: "client" },
     { src: "~plugins/emoji.js", mode: "client" },
+    { src: "~plugins/toast.js", mode: "client" },
     { src: "~plugins/calendar.js", mode: "client" }
   ],
 
@@ -114,9 +117,9 @@ export default {
     "@nuxtjs/auth",
     "@nuxtjs/axios",
     ["nuxt-material-design-icons"],
-    ['@nuxtjs/google-adsense', {
-      id: 'ca-pub-###########'
-    }]
+    // ['@nuxtjs/google-adsense', {
+    //   id: 'ca-pub-3745186233711216'
+    // }]
   ],
 
   sitemap: {

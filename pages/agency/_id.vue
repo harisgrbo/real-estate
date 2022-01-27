@@ -256,10 +256,10 @@ export default class Agencies extends Vue {
 
   async sendMessage() {
     if(this.message.length === 0) {
-      this.$snackbar.show({
-        text: "Morate upisati poruku",
-        timeout: 1000,
-        type: "danger"
+      this.$toast.open({
+        message: "Morate upisati poruku",
+        type: 'warning',
+        duration: 5000
       });
 
       return
@@ -282,10 +282,10 @@ export default class Agencies extends Vue {
 
       this.loading = false;
 
-      this.$snackbar.show({
-        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste poslali poruku korisniku " + this.user.name,
+        type: 'success',
+        duration: 5000
       });
 
 
@@ -300,10 +300,10 @@ export default class Agencies extends Vue {
       try {
         this.$axios.post('/agencies/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste zapratili korisnika " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste zapratili korisnika" + this.user.name,
+          type: 'success',
+          duration: 5000
         });
 
         this.isFollowed = true;
@@ -314,10 +314,10 @@ export default class Agencies extends Vue {
       try {
         this.$axios.delete('/agencies/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste otpratili korisnika " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste otpratili korisnika" + this.user.name,
+          type: 'success',
+          duration: 5000
         });
 
         this.isFollowed = false;
@@ -661,7 +661,7 @@ export default class Agencies extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 4px;
+      border-radius: 10px;
       font-family: 'Outfit', sans-serif;
       font-size: 15px;
       line-height: 16px;
@@ -775,7 +775,7 @@ export default class Agencies extends Vue {
     padding: 0 10px;
     background: #fff;
     margin-right: 12px;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 14px;
     font-weight: 600;
     min-width: fit-content;
@@ -815,7 +815,7 @@ export default class Agencies extends Vue {
 
 .agency-banner {
   height: 300px;
-  border-radius: 4px;
+  border-radius: 10px;
 
   @include for-phone-only {
     height: 150px;
@@ -867,7 +867,7 @@ export default class Agencies extends Vue {
     &.active-tab {
       font-weight: 600;
       background: #f9f9f9;
-      border-radius: 4px;
+      border-radius: 10px;
     }
 
   }

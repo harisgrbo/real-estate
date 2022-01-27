@@ -34,7 +34,7 @@ div {
 button {
   font-family: 'Outfit', sans-serif;
   height: 48px;
-  border-radius: 4px;
+  border-radius: 10px;
   width: fit-content;
   display: flex;
   align-items: center;

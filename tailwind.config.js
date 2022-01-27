@@ -9,7 +9,11 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {}
+    extend: {
+      width: {
+        '1280': '1280px'
+      }
+    }
   },
   variants: {
     extend: {}

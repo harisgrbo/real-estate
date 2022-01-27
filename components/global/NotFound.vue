@@ -41,7 +41,7 @@ export default class NotFound extends Vue {
 
   p {
     font-size: 20px;
-    font-weight: 200;
+    font-weight: 400;
     margin-top: 24px;
   }
 }

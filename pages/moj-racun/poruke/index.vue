@@ -2,7 +2,7 @@
   <div class="preview-wrapper-inner">
     <!-- BEGIN: Content -->
     <div class="flex w-full">
-      <div class="chat flex flex-row w-full">
+      <div v-if="conversations.length > 0" class="chat flex flex-row w-full">
         <!-- BEGIN: Chat Side Menu -->
         <div class="flex mr-4 flex-col w-2/6 mobile-chat">
           <div class="tab-content w-full">
@@ -39,11 +39,11 @@
         </div>
         <!-- END: Chat Side Menu -->
         <!-- BEGIN: Chat Content -->
-        <div class="flex w-full relative">
+        <div class="flex w-full relative shadow-md rounded-md">
           <div v-if="!$device.isMobile" class="chat__box box w-full bg-white">
             <!-- BEGIN: Chat Active -->
             <div v-if="currentConversation" class="h-full flex flex-col">
-              <div class="border border-gray-200 flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-5 py-4">
+              <div class="border border-gray-200 flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-5 py-4 rounded-tl-md rounded-tr-md">
                 <div class="flex flex-row items-center">
                   <div class="flex items-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
@@ -56,14 +56,14 @@
                 </div>
 
                 <div class="flex flex-row items-center">
-                  <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 mr-4 border-gray-200 pt-3 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="pinConversation(currentConversation)">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 mr-6 border-gray-200 pt-3 sm:pt-0 px-1 cursor-pointer hover:bg-gray-50 rounded-md" @click="pinConversation(currentConversation)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                     </svg>
-                    <p class="font-medium">{{ pinned_conversation && (pinned_conversation.id === currentConversation.id ) ? 'Izbriši iz pinovanih' : 'Pinuj razgovor'}}</p>
+                    <p class="font-medium text-sm">{{ pinned_conversation && (pinned_conversation.id === currentConversation.id ) ? 'Izbriši iz pinovanih' : 'Pinuj razgovor'}}</p>
                   </div>
                   <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 border-gray-200 pt-3 ml-6 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="$modal.show('delete-conversation')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
                   </div>
@@ -72,17 +72,14 @@
               <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
                 <div v-for="message in messages" :key="message.id">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
-                    <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="isMe(message) ? (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg') : (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg')">
-                    </div>
-                    <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-theme-17 px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                    <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-theme-17 p-2 text-gray-900 rounded-l-md text-sm rounded-t-md text-right' : 'shadow-md p-2 text-sm font-medium text-gray-700 rounded-r-md rounded-t-md']">
                       {{ message.content }}
                       <div class="flex justify-between">
-                        <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
-                    <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-theme-17 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                    <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'shadow-md px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                       <div v-if="message.content.mime.substr(0, 5) === 'image'" >
                         <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
                         <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
@@ -146,6 +143,7 @@
         </div>
         <!-- END: Chat Content -->
       </div>
+      <NotFound v-else src="/no-messages.svg" text="Nemate poruka"></NotFound>
     </div>
     <modal name="conversations" @before-open="beforeOpen" @before-close="beforeClose" :adaptive="true" height="100%">
       <div class="modal-inner">
@@ -153,8 +151,8 @@
           <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
             <div class="chat__box box">
               <!-- BEGIN: Chat Active -->
-              <div v-if="currentConversation" class="h-full flex flex-col bg-white">
-                <div class="shadow-sm mb-4 flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-0 py-3">
+              <div v-if="currentConversation" class="h-full flex flex-col bg-white rounded-md">
+                <div class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 px-0 py-3">
                   <div class="flex items-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
@@ -183,14 +181,14 @@
                       <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
                         <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="isMe(message) ? (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg') : (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg')">
                       </div>
-                      <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-theme-17 px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
                         {{ message.content }}
                         <div class="flex justify-between">
                           <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                           <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                         </div>
                       </div>
-                      <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-theme-17 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                      <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md rounded-t-md']">
                         <div v-if="message.content.mime.substr(0, 5) === 'image'" >
                           <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
                           <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
@@ -338,9 +336,11 @@ import { Component, Vue} from "nuxt-property-decorator";
 import {v4 as uuidv4} from "uuid";
 import ActionButton from "../../../components/actionButtons/ActionButton";
 import {mixin as clickaway} from "vue-clickaway";
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     ActionButton
   },
   mixins: [clickaway],
@@ -453,6 +453,7 @@ export default class Poruke extends Vue {
   }
 
   realtime() {
+
     this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
       if (notification.type === 'broadcast.message') {
         let message = notification.message;
@@ -633,8 +634,8 @@ export default class Poruke extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
-  padding: 24px;
+  border-radius: 10px;
+  padding: 24px 0 !important;
   margin-top: 0 !important;
 
   @include for-phone-only {
@@ -646,7 +647,7 @@ export default class Poruke extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #F3F3F4;
   position: relative;
   transition: 0.3s all ease;
@@ -664,7 +665,7 @@ export default class Poruke extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 0 12px;
   background: #F3F3F4;
   flex: 2;
@@ -694,14 +695,14 @@ textarea {
   font-weight: 500;
   font-size: 14px;
   min-height: 50px;
-  border-radius: 4px;
+  border-radius: 10px;
   max-height: 50px;
   border: 1px solid #ddd;
   background: #f9f9f9;
 
   &:focus {
     outline: 1px solid #000;
-    border-radius: 4px;
+    border-radius: 10px;
   }
 }
 
@@ -737,7 +738,7 @@ textarea {
 .chat .chat__tabs a {
   font-family: 'Outfit', sans-serif;
   height: 48px;
-  border-radius: 8px;
+  border-radius: 10px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -754,7 +755,7 @@ textarea {
 .chat .chat__tabs a.active {
   font-family: 'Outfit', sans-serif;
   height: 48px;
-  border-radius: 8px;
+  border-radius: 10px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -819,11 +820,11 @@ textarea {
 }
 
 .bg-theme-17 {
-  background: #1F2937 !important;
+  background: #f1f1f1 !important;
 
   &.me {
     a {
-      color: #fff !important;
+      color: #1F2937 !important;
     }
   }
 }
@@ -882,7 +883,7 @@ img {
   height: fit-content;
   overflow-y: scroll;
   background: #fff;
-  border-radius: 4px;
+  border-radius: 10px;
 
   @include for-phone-only {
     left: 0;
@@ -901,7 +902,7 @@ img {
 .message-image {
   height: 200px;
   width: fit-content;
-  border-radius: 4px;
+  border-radius: 10px;
   margin-bottom: 4px;
 }
 
@@ -963,7 +964,7 @@ img {
 .image-upload-wrapper {
   background: #f9f9f9;
   border: 2px dashed #f1f1f1;
-  border-radius: 4px;
+  border-radius: 10px;
   height: 100%;
   width: 100%;
   min-height: 300px;

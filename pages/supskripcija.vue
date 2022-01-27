@@ -224,7 +224,7 @@ export default class Supskripcija extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 }
 </style>
