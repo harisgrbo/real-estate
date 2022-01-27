@@ -226,13 +226,15 @@
           </div>
         </div>
 
+        <!-- izdvajanje -->
+
         <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
           <div class="advertising-options-wrapper">
             <div class="inner">
               <div class="advertising-options">
                 <ul>
-                  <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)" :class="[selectedAdvertisment === option.id ? 'selected' : '']">
-                    <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
+                  <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisement(option)" :class="[selectedAdvertisement === option.id ? 'selected' : '']">
+                    <img :src="selectedAdvertisement === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
                     <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
                     <div class="text-wrapper">
                       <p>{{ option.title }}</p>
@@ -344,11 +346,11 @@ export default class Objava extends Vue {
 
   // Completion
   completedAttributes = 0
-  selectedAdvertisment = null;
+  selectedAdvertisement = null;
   advertising_options = []
 
   get stepPercentage() {
-    let calc = (1.0 / 9) * 100 * this.currentStep + 1;
+    let calc = (1.0 / 10) * 100 * this.currentStep + 1;
 
     if (calc >= 100) return 100;
 
@@ -385,8 +387,8 @@ export default class Objava extends Vue {
     formData.append('image', file);
   }
 
-  selectAdvertisment(o) {
-    this.selectedAdvertisment = o.id;
+  selectAdvertisement(o) {
+    this.selectedAdvertisement = o.id;
   }
 
   get allAttributes() {
@@ -463,7 +465,7 @@ export default class Objava extends Vue {
     STEP_SEVEN: 7,
     STEP_EIGHT: 8,
     STEP_NINE: 9,
-    TOTAL_STEPS: 9
+    TOTAL_STEPS: 10
   }
 
   currentStep = this.steps.STEP_ONE;
@@ -493,11 +495,9 @@ export default class Objava extends Vue {
 
       this.listingId = response.data.data.id;
     } catch (e) {
-      console.log(e)
+      alert("Objava je neuspjela, pokusajte ponovo");
 
-      // alert("Objava je neuspjela, pokusajte ponovo");
-
-      // location.reload();
+      location.reload();
     }
   }
 
@@ -511,21 +511,25 @@ export default class Objava extends Vue {
       this.advertising_options = res.data.data;
 
       if (this.advertising_options.length) {
-        this.selectedAdvertisment = this.advertising_options[0].id;
+        this.selectedAdvertisement = this.advertising_options[0].id;
       }
     } catch(e) {
       console.log(e)
     }
   }
 
+  async finish() {
+    if (this.listingId) {
+      this.finishLoader = true;
+      await this.$router.push('/artikal/' + this.listingId)
+    } else {
+      this.snackbarValidationError("Artikal nije uspjesno objavljen")
+    }
+  }
+
   async nextStep() {
-    if (this.currentStep === this.steps.TOTAL_STEPS) {
-      if (this.listingId) {
-        this.finishLoader = true;
-        await this.$router.push('/artikal/' + this.listingId)
-      } else {
-        this.snackbarValidationError("Artikal nije uspjesno objavljen")
-      }
+    if (this.currentStep >= this.steps.TOTAL_STEPS) {
+      await this.finish();
     } else {
       switch (this.currentStep) {
         case this.steps.STEP_ONE:
@@ -594,15 +598,39 @@ export default class Objava extends Vue {
           break;
         case this.steps.STEP_NINE:
           if(! this.validateMany(['sponsorship'])) {
-            this.snackbarValidationError("Niste odabrali plan objave");
-
+            await this.finish();
             return;
           }
+
+          let success = await this.sponsor(this.listingId);
+
+          if (! success) {
+            // Ovdje dodaj poruku nemate para
+            return;
+          }
+
+          await this.finish();
 
           break;
       }
 
       this.currentStep++;
+    }
+  }
+
+  async sponsor(listingId) {
+    try {
+      await this.$axios.post(`/listings/${listingId}/sponsor`, {
+        sponsorship_id: this.selectedAdvertisement
+      })
+
+      await this.$auth.fetchUser();
+
+      return true;
+    } catch (e) {
+      console.log(e);
+
+      return false;
     }
   }
 
@@ -837,7 +865,7 @@ export default class Objava extends Vue {
   }
 
   validateSponsorship() {
-    return this.selectedAdvertisment !== null;
+    return this.selectedAdvertisement !== null;
   }
 
   validateDistrict() {
