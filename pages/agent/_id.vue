@@ -1,159 +1,148 @@
 <template>
-  <div class="user-profile-wrapper mx-auto pt-0">
-    <div class="agency-banner" :style="{ backgroundImage: 'url(' + '/agencijabg.jpeg' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
-    <div class="flex flex-col w-1280 mx-auto">
-      <div class="user-content-wrapper mt-8" >
-        <div class="flex flex-row items-center justify-start mobile-spans">
-          <div class="first-col">
-            <aside class="w-96 bg-white overflow-y-auto">
-              <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
-                <div class="flex-1 flex flex-row justify-start user-inner">
-                  <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
-                  <div class="ml-6">
-                    <h3 class="text-gray-900 text-xl font-semibold">{{ user.name }}</h3>
-                    <dd class="mt-1 flex flex-row items-center justify-start text-sm">
-                      <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
-                      {{ user.online ? 'Online' : 'Offline' }}
+  <div class="user-profile-wrapper w-full px-20 pt-8">
+    <div class="user-content-wrapper mt-8" >
+      <div class="flex flex-row items-center justify-start mobile-spans">
+        <div class="first-col">
+          <aside class="w-96 bg-white overflow-y-auto">
+            <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
+              <div class="flex-1 flex flex-row justify-start user-inner">
+                <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                <div class="ml-6">
+                  <h3 class="text-gray-900 text-xl font-semibold">{{ user.name }}</h3>
+                  <dd class="mt-1 flex flex-row items-center justify-start text-sm">
+                    <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+                    {{ user.online ? 'Online' : 'Offline' }}
+                  </dd>
+                  <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
+                    <dd class="mt-2">
+                      <span class="px-2 py-1 text-green-800 text-xs font-semibold bg-green-100 rounded-full">Agent</span>
                     </dd>
-                    <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
-                      <dd class="mt-2">
-                        <span class="px-2 py-1 text-green-800 text-xs font-semibold bg-green-100 rounded-full">Agencija</span>
-                      </dd>
-                    </dl>
-                  </div>
+                  </dl>
                 </div>
               </div>
-            </aside>
-
-          </div>
-          <div class="second-col">
-            <div class="grid grid-cols-1 gap-4 text-sm font-medium text-gray-300 infos">
-              <div v-if="user.email !== null" class="flex flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                {{ user.email }}</div>
-              <div v-if="user.address !== null" class="flex flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                {{ user.address }}</div>
-              <div v-if="user.location !== null" class="flex flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                {{ user.location }}</div>
-              <div v-if="user.web !== null" class="flex flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
-                {{ user.web }}</div>
-              <div v-if="user.phone_number !== null" class="flex flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                {{ user.phone_number }}</div>
             </div>
+          </aside>
+
+        </div>
+        <div class="second-col">
+          <div class="grid grid-cols-1 gap-4 text-sm font-medium text-gray-300 infos">
+
+            <div v-if="user.working_agency !== null" class="flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              {{ user.working_agency.name }}</div>
+            <div v-if="user.email !== null" class="flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              {{ user.email }}</div>
+            <div v-if="user.address !== null" class="flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {{ user.address }}</div>
+            <div v-if="user.location !== null" class="flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {{ user.location }}</div>
+            <div v-if="user.web !== null" class="flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+              </svg>
+              {{ user.web }}</div>
+            <div v-if="user.phone_number !== null" class="flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              {{ user.phone_number }}</div>
           </div>
         </div>
-        <div class="third-col">
-          <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
-            <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+      </div>
+      <div class="third-col">
+        <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
+          <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+          <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+        </div>
+        <div v-else class="w-full flex flex-row items-center justify-start mt-4">
+          <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
+            <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
             <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
           </div>
-          <div v-else class="w-full flex flex-row items-center justify-start mt-4">
-            <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
-              <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <div class="rounded-md bg-blue-50 p-3">
-                <div class="flex">
-                  <div class="flex-shrink-0">
-                    <!-- Heroicon name: solid/information-circle -->
-                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <div class="ml-3 flex-1 md:flex md:justify-between">
-                    <p class="text-sm text-blue-700">
-                      Korisnik odgovara u roku od 10 sati
-                    </p>
-                  </div>
-                </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-6">
+      <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+          <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+            Ukupno oglasa
+          </dt>
+          <dd class="mt-1 text-3xl font-semibold text-gray-900">
+            71,897
+          </dd>
+        </div>
+
+        <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+          <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+            Aktivni oglasi
+          </dt>
+          <dd class="mt-1 text-3xl font-semibold text-gray-900">
+            71,897
+          </dd>
+        </div>
+
+        <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+          <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+            Završeni oglasi
+          </dt>
+          <dd class="mt-1 text-3xl font-semibold text-gray-900">
+            71,897
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="content-wrapper">
+      <ul class="flex w-full items-center main-tabs">
+        <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
+      </ul>
+      <div v-if="selected_tab === 0">
+        <div class="flex flex-row items-center justify-between mb-8 user-options">
+          <ul class="category-list w-full">
+            <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+          </ul>
+        </div>
+        <div>
+          <div class="filters-agency">
+            <div class="content pb-20">
+              <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
+              <div v-if="listings.length || loadingListings" class="grid-layout">
+                <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
               </div>
+              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
             </div>
           </div>
         </div>
       </div>
-      <div class="mb-6">
-        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
-              Ukupno oglasa
-            </dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">
-              71,897
-            </dd>
-          </div>
-
-          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
-              Aktivni oglasi
-            </dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">
-              71,897
-            </dd>
-          </div>
-
-          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
-              Završeni oglasi
-            </dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">
-              71,897
-            </dd>
-          </div>
-        </dl>
-      </div>
-      <div class="content-wrapper">
-        <ul class="flex w-full items-center main-tabs">
-          <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
-        </ul>
-        <div v-if="selected_tab === 0">
-          <div class="flex flex-row items-center justify-between mb-8 user-options">
-            <ul class="category-list w-full">
-              <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
-            </ul>
-          </div>
-          <div>
-            <div class="filters-agency">
-              <div class="content pb-20">
-                <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
-                <div v-if="listings.length || loadingListings" class="grid-layout">
-                  <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
-                </div>
-                <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
+      <div v-else>
+        <div>
+          <div class="filters-agency">
+            <div class="content pb-20">
+              <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+              <div v-if="completed_listings.length" class="grid-layout">
+                <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
               </div>
+              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa'"></NotFound>
             </div>
           </div>
         </div>
-        <div v-else>
-          <div>
-            <div class="filters-agency">
-              <div class="content pb-20">
-                <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
-                <div v-if="completed_listings.length" class="grid-layout">
-                  <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
-                </div>
-                <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa'"></NotFound>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
+
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
       <div class="modal-inner">
@@ -406,6 +395,7 @@ export default class Agencies extends Vue {
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
+  max-width: 1180px;
 
   @include for-phone-only {
     padding: 16px;
@@ -774,7 +764,8 @@ export default class Agencies extends Vue {
 }
 
 .agency-banner {
-  height: 400px;
+  height: 300px;
+  border-radius: 10px;
 
   @include for-phone-only {
     height: 150px;

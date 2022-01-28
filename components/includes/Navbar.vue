@@ -96,6 +96,8 @@
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
             <button @click="$router.push('/auth/login')">Prijavi se</button>
+            <p class="mx-4">|</p>
+            <button @click="$router.push('/auth/register')">Registruj se</button>
           </div>
           <button v-if="$auth.user" class="login-a mr-2" @click="$router.push('/moj-racun/placanja')">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -770,16 +772,17 @@ export default class Navbar extends Vue {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-radius: 4px;
-        padding: 0 12px;
         min-width: fit-content;
-        background: #F3F3F4;
         flex: 2;
         position: relative;
         transition: 0.3s all ease;
 
         &:hover {
-          background: #e0e0e0 !important;
+          text-decoration: underline;
+        }
+
+        &:last-child {
+          margin-left: 0 !important;
         }
       }
     }

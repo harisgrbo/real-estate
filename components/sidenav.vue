@@ -7,7 +7,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </li>
-      <li v-if="$auth.user" class="user-label" @click="goToUSer">
+      <li v-if="$auth.user" class="user-label" @click="goToUser">
         <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
         <div class="user-wrap">
           <h2 class="text-lg font-medium text-black leading-5">{{ $auth.user.name }}</h2>
@@ -144,14 +144,18 @@ export default class sidenav extends Vue {
     }
   }
 
-  goToUSer() {
-     if(this.$auth.user) {
-       if(this.$auth.user.user_type === 'agency') {
-         this.$router.push('/agency/' + this.$auth.user.id)
-       } else {
-         this.$router.push('/users/' + this.$auth.user.id)
-       }
-     }
+  goToUser() {
+    if(this.$auth.user) {
+      if(this.$auth.user.user_type === 'agency') {
+        this.$router.push('/agency/' + this.$auth.user.id)
+      } else if(this.$auth.user.user_type === 'agent'){
+        this.$router.push('/agent/' + this.$auth.user.id)
+      } else {
+        this.$router.push('/users/' + this.$auth.user.id)
+      }
+    } else {
+      this.$router.push('/auth/login')
+    }
   }
 
   closeSidebar() {

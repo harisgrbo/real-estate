@@ -24,8 +24,8 @@
           </div>
         </div>
       </div>
-      <div class="flex w-full contact">
-        <div class="w-full" v-if="$auth.user">
+      <div class="flex w-full contact" v-if="$auth.user">
+        <div class="w-full">
           <div class="w-full flex flex-col items-center justify-between" v-if="isMe">
             <div class="w-full flex items-center justify-center">
               <ActionButton :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi"></ActionButton>
@@ -373,10 +373,16 @@ export default class UserProfile extends Vue {
   }
 
   goToUser() {
-    if(this.user.user_type === 'agency') {
-      this.$router.push('/agency/' + this.user.id)
+    if(this.$auth.user) {
+      if(this.$auth.user.user_type === 'agency') {
+        this.$router.push('/agency/' + this.$auth.user.id)
+      } else if(this.$auth.user.user_type === 'agent'){
+        this.$router.push('/agent/' + this.$auth.user.id)
+      } else {
+        this.$router.push('/users/' + this.$auth.user.id)
+      }
     } else {
-      this.$router.push('/users/' + this.user.id)
+      this.$router.push('/auth/login')
     }
   }
 

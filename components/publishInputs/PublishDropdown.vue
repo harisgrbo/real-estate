@@ -1,26 +1,20 @@
 <template>
-  <div class="main-wrapper">
-    <label class="block text-md font-medium text-gray-700 mb-2">{{ label }}</label>
-    <div :class="['input-wrapper', showAutoCompleteDropdown ? 'shadow-sm' : '']">
-      <div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <input type="text"
-               :placeholder="placeholder"
-               @input="showSuggests"
-               v-model="selectedCity"
-        >
-      </div>
-      <!-- Autocomplete dropdown -->
-      <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">
-        <ul>
-          <li v-for="suggest in suggestions" :key="suggest.id" @click="selectOption(suggest)">
-            {{ suggest.name }}
-          </li>
-        </ul>
-      </div>
+  <div class="relative w-full flex flex-col items-start">
+    <div class="relative border text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+      <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500" v-if="label">{{ label }}</label>
+      <input
+        type="text"
+        :placeholder="placeholder"
+        @input="showSuggests"
+        v-model="selectedCity"
+        name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+    </div>
+    <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">
+      <ul>
+        <li v-for="suggest in suggestions" :key="suggest.id" @click="selectOption(suggest)">
+          {{ suggest.name }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -66,97 +60,69 @@ export default class PublishDropdown extends Vue{
 </script>
 
 <style scoped lang="scss">
-.main-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-.input-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 4px;
-  padding: 0 12px;
-  background: #fff;
-  flex: 2;
-  position: relative;
-  transition: 0.3s all ease;
-  max-width: 600px;
-  margin-top: 0;
-  min-height: 48px;
-  max-height: 48px;
-  height: fit-content;
-  border: 1px solid #ddd;
-
-  div {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-    justify-content: flex-start;
-    border-radius: 10px;
-  }
-  input {
-    width: 100%;
-    border: none;
-    height: 100%;
-    font-size: 14px;
-    font-weight: 500;
-    background: transparent;
-    border: none !important;
-    &:focus {
-      outline: none;
-    }
-  }
-  i {
-    font-size: 16px !important;
-    color: #757B9A;
-    margin-right: 10px;
-  }
-
-  .autocomplete-dropdown {
-    background: #fff;
-    width: 100%;
-    height: fit-content;
-    position: absolute;
-    top: 49px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    padding: 12px;
-    left: 0;
-    z-index: 1;
-    ul {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      max-height: 300px;
-      overflow: scroll;
-      padding: 0px 0;
-
-      li {
-        width: 100%;
-        font-size: 14px;
-        font-weight: 500;
-        color: #444;
-        border-radius: 4px;
-        padding: 8px;
-        cursor: pointer;
-
-        &:last-child {
-          margin-bottom: 0 !important;
-        }
-
-        &:hover {
-          background: #f9f9f9;
-        }
-      }
-    }
-  }
-}
 
 ::placeholder {
   font-size: 14px;
   font-weight: 500;
   color: #000;
+}
+
+.text-wrap {
+  min-height: 36px;
+  border: 1px solid #f1f1f1 !important;
+  width: 100%;
+  input {
+    min-height: 36px !important;
+  }
+}
+
+.autocomplete-dropdown {
+  background: #fff;
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  position: absolute;
+  top: 59px;
+  border-radius: 8px;
+  border: 1px solid #f1f1f1;
+  padding: 4px;
+  left: 0;
+  z-index: 1;
+  ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    overflow: scroll;
+    padding: 0px 0;
+
+    li {
+      width: 100%;
+      font-size: 14px;
+      font-weight: 500;
+      color: #444;
+      border-radius: 4px;
+      padding: 8px;
+      cursor: pointer;
+
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+
+      &:hover {
+        background: #f9f9f9;
+      }
+    }
+  }
+}
+
+
+label {
+  font-size: 14px;
+}
+
+::placeholder {
+  color: #b1b1b1;
 }
 </style>

@@ -4,7 +4,7 @@
 
     <h2 class="mt-4">Prijava</h2>
     <form @submit.prevent="handleLogin">
-      <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-4 mt-1"></TextField>
+      <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-6 mt-1"></TextField>
       <TextField type="password" label="Password" placeholder="Password" v-model="payload.password" class="mt-1"></TextField>
       <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
@@ -81,12 +81,12 @@ export default class LoginForm extends Vue{
 .form-wrapper {
   width: 70%;
   margin: 0 auto;
-  height: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   overflow-y: scroll;
   padding: 10px;
+  height: 100vh;
+  justify-content: center;
 
 
   @include for-phone-only {

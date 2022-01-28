@@ -9,10 +9,10 @@
     <!-- User registration -->
     <div v-if="currentType === 0">
       <form @submit.prevent="handleUserRegistration">
-        <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-4 mt-1"></TextField>
-        <TextField type="text" label="Email" v-model="userPayload.email" class="mb-4 mt-1"></TextField>
-        <TextField type="password" label="Password" v-model="userPayload.password" class="mb-4 mt-1"></TextField>
-        <label class="flex flex-row items-center cursor-pointer">
+        <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-6 mt-1"></TextField>
+        <TextField type="text" label="Email" v-model="userPayload.email" class="mb-6 mt-1"></TextField>
+        <TextField type="password" label="Password" v-model="userPayload.password" class="mb-6 mt-1"></TextField>
+        <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
           Prihvatam uslove korištenja
         </label>
@@ -22,12 +22,12 @@
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
-        <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-4 mt-1"></TextField>
-<!--        <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-4 mt-1"></TextField>-->
-        <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-4 mt-1"></TextField>
-        <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-4 mt-1"></TextField>
-        <PublishDropdown label="Lokacija" class="location mb-2" @select-option="handleSelectedCity"></PublishDropdown>
-        <label class="flex flex-row items-center cursor-pointer">
+        <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
+        <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-4 mt-1"></TextField>
+        <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
+        <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
+        <PublishDropdown label="Lokacija" class="location mb-4" @select-option="handleSelectedCity"></PublishDropdown>
+        <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
           Prihvatam uslove korištenja
         </label>
@@ -171,13 +171,12 @@ export default class RegisterForm extends Vue{
 .form-wrapper {
   width: 70%;
   margin: 0 auto;
-  height: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
   overflow-y: scroll;
   padding: 10px;
+  height: 100vh;
+  justify-content: center;
 
   @include for-phone-only {
     width: 100%;

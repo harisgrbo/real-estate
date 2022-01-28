@@ -74,6 +74,7 @@
               :key="index"
               class="flex flex-row items-center mr-2"
             >
+              <img v-if="attr.name === 'Broj kreveta'" src="/bed.svg" alt="">
               <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
               {{ attr.value }}
               <p v-if="attr.name === 'Kvadratura'">
@@ -81,15 +82,6 @@
               </p>
             </div>
           </div>
-<!--          <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative">-->
-<!--            <div id="tooltip3" role="tooltip" class="w-full z-50 bottom-0 w-64 absolute transition duration-150 ease-in-out left-0 shadow-lg bg-gray-800 p-2 rounded">-->
-<!--              <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>-->
-<!--              <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>-->
-<!--              <div class="flex flex-row items-center justify-start flex-wrap mb-2">-->
-<!--                <div class="text-xs more-info" v-for="info in normalAttributes" :key="info.id">{{ info.value + ', ' }}</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </a>-->
         </div>
       </nuxt-link>
     </div>
@@ -123,7 +115,8 @@ export default class ListingCard extends Vue{
   showListingOptions = false;
   specialAttributesKeys = [
     "Broj soba",
-    "Kvadratura"
+    "Kvadratura",
+    "Broj kreveta"
   ];
   swiperOptionCard = {
     spaceBetween: 0,
@@ -659,7 +652,7 @@ export default class ListingCard extends Vue{
 
     img {
       height: 12px !important;
-      width: 12px !important;
+      width: 14px !important;
       border-radius: 0 !important;
       margin-right: 4px;
       object-fit: contain !important;
@@ -674,7 +667,7 @@ export default class ListingCard extends Vue{
       margin-right: 8px;
       padding: 0 4px;
       font-weight: 400;
-      background: #f9f9f9;
+      background: #fff;
       font-size: 13px;
       line-height: 8px;
       color: #000;
