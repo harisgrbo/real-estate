@@ -208,10 +208,18 @@ export default class Navbar extends Vue {
     window.removeEventListener("scroll", this.onScroll);
   }
 
+  notificationFilter = {};
 
   realtime() {
     if (this.$auth.user) {
       this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
+
+        if (this.notificationFilter[notification.id]) {
+          return;
+        } else {
+          this.notificationFilter[notification.id] = true;
+        }
+
         if (notification.type === 'App\\Notifications\\NewMessageNotification') {
           if (this.$route.fullPath !== '/moj-racun/poruke') {
             this.messagesCount++;
