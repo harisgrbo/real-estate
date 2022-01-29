@@ -183,10 +183,16 @@
             </div>
           </div>
           <div v-show="numOfDays" class="mb-4 w-full flex total flex-col">
-            <span class="text-md font-light mb-3">Troškovi</span>
-            <div class="flex w-full flex-row items-center justify-between">
-              <p class="font-thin text-md">{{ price }} KM x {{ numOfDays }} dana</p>
-              <p class="font-medium text-md">{{ numberWithCommas(totalBookingPrice) + ' KM' }}</p>
+            <span class="text-lg font-medium mb-4">Troškovi</span>
+            <div class="flex w-full flex-col items-start justify-between">
+              <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Cijena:
+                <span>
+                  {{ price + ' KM' }} {{ perguest ? 'po osobi' : '' }}
+                </span>
+              </div>
+              <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj noćenja: <span>{{ numOfDays }}</span></div>
+              <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj gostiju: <span>{{ number_of_guests }}</span></div>
+              <div class="font-light total text-md w-full flex flex-row items-center justify-between pt-3 mt-3 border-t border-gray-400">Ukupno:  <span class="font-semibold text-lg">{{ numberWithCommas(totalBookingPrice) + ' KM'  }}</span></div>
             </div>
           </div>
           <ActionButton @action="handleBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
@@ -312,7 +318,11 @@ export default class UserProfile extends Vue {
   }
 
   get totalBookingPrice() {
-    return this.price * this.numOfDays;
+    if(this.perguest) {
+      return this.price * this.numOfDays * this.number_of_guests;
+    } else {
+      return this.price * this.numOfDays
+    }
   }
 
   onDayClick(day) {
@@ -574,5 +584,9 @@ textarea {
   background: #f9f9f9;
   border-radius: 6px;
   padding: 12px;
+}
+
+.total {
+  border-top: 1px solid #f1f1f1;
 }
 </style>
