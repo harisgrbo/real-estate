@@ -1,35 +1,42 @@
 <template>
   <div class="form-wrapper">
-    <img src="/msquare.png" class="img-logo" alt="" @click="$router.push('/')">
+    <img src="/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
 
     <h2 class="mt-4">Registracija</h2>
-    <ul class="flex flex-row items-center justify-start bg-gray-50 rounded-md p-2">
-      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :key="index" :class="[ currentType === index ? 'active bg-white shadow-sm rounded-md' : '' ]">{{ type }}</li>
+    <ul class="flex flex-row items-center justify-start">
+      <li v-for="(type, index) in registrationTypes" @click="currentType = index" :key="index" :class="[ currentType === index ? 'active bg-white rounded-sm' : '' ]">{{ type }}</li>
     </ul>
     <!-- User registration -->
     <div v-if="currentType === 0">
       <form @submit.prevent="handleUserRegistration">
-        <TextField type="text" label="Email" v-model="userPayload.email" class="mb-4 mt-1"></TextField>
-        <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-4 mt-1"></TextField>
-        <TextField type="password" label="Password" v-model="userPayload.password" class="mb-4 mt-1"></TextField>
+        <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-6 mt-1"></TextField>
+        <TextField type="text" label="Email" v-model="userPayload.email" class="mb-6 mt-1"></TextField>
+        <TextField type="password" label="Password" v-model="userPayload.password" class="mb-6 mt-1"></TextField>
+        <label class="flex flex-row items-center cursor-pointer mt-2">
+          <input type="checkbox" class="mr-1">
+          Prihvatam uslove korištenja
+        </label>
         <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" @action="handleUserRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
-      <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
-
     </div>
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
-        <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-4 mt-1"></TextField>
+        <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
         <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-4 mt-1"></TextField>
-        <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-4 mt-1"></TextField>
-        <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-4 mt-1"></TextField>
-        <PublishDropdown label="Lokacija" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+        <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
+        <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
+        <PublishDropdown label="Lokacija" class="location mb-4" @select-option="handleSelectedCity"></PublishDropdown>
+        <label class="flex flex-row items-center cursor-pointer mt-2">
+          <input type="checkbox" class="mr-1">
+          Prihvatam uslove korištenja
+        </label>
         <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </form>
-      <nuxt-link :to="{ path: '/auth/login' }">Imaš račun? Loguj se</nuxt-link>
     </div>
-    <Snackbar />
+    <div class="flex items-center justify-center login-u">
+      <p>Imaš račun?</p><nuxt-link :to="{ path: '/auth/login' }">Prijavi se</nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -37,11 +44,10 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton";
-import Snackbar from "@/components/global/Snackbar";
 import PublishDropdown from "@/components/publishInputs/PublishDropdown"
 
 @Component({
-  components: {ActionButton, TextField, Snackbar, PublishDropdown}
+  components: {ActionButton, TextField, PublishDropdown}
 })
 
 export default class RegisterForm extends Vue{
@@ -61,7 +67,6 @@ export default class RegisterForm extends Vue{
   }
   realEstateAgencyPayload = {
     name: '',
-    external_id: '',
     email: '',
     password: '',
     location: ''
@@ -99,10 +104,11 @@ export default class RegisterForm extends Vue{
       .catch(error => {
         this.loading = false;
         if (error.response && error.response.status === 422) {
-          this.$snackbar.show({
-            text: "Unijeli ste pogrešne informacije!",
-            timeout: 3000,
-            type: "danger"
+
+          this.$toast.open({
+            message: "Unijeli ste pogrešne informacije!",
+            type: 'error',
+            duration: 5000
           });
         }
       })
@@ -123,10 +129,10 @@ export default class RegisterForm extends Vue{
       }).catch(error => {
         this.loading = false;
         if (error.response && error.response.status === 422) {
-          this.$snackbar.show({
-            text: "Unijeli ste pogrešne informacije!",
-            timeout: 3000,
-            type: "danger"
+          this.$toast.open({
+            message: "Unijeli ste pogrešne informacije!",
+            type: 'error',
+            duration: 5000
           });
         }
       })
@@ -162,51 +168,15 @@ export default class RegisterForm extends Vue{
   margin: auto
 }
 
-//.form-wrapper {
-//  width: 70%;
-//  margin: 0 auto;
-//  height: 80%;
-//  display: flex;
-//  flex-direction: column;
-//  justify-content: space-between;
-//
-//  @include for-phone-only {
-//    width: 100%;
-//    padding: 0 12px;
-//    box-sizing: border-box;
-//    height: 100%;
-//  }
-//  div {
-//    display: flex;
-//    flex-direction: column;
-//    justify-content: space-between;
-//    width: 100%;
-//  }
-//  h2 {
-//    font-weight: 500;
-//    font-size: 20px;
-//    margin-bottom: 24px;
-//    text-align: left;
-//  }
-//  a {
-//    text-decoration: none;
-//    color: #434343 !important;
-//    text-align: center;
-//    font-weight: 500;
-//    width: fit-content;
-//    font-size: 14px;
-//  }
-//}
-
 .form-wrapper {
   width: 70%;
   margin: 0 auto;
-  height: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
   overflow-y: scroll;
+  padding: 10px;
+  height: 100vh;
+  justify-content: center;
 
   @include for-phone-only {
     width: 100%;
@@ -217,9 +187,9 @@ export default class RegisterForm extends Vue{
   }
 
   h2 {
-    font-weight: 600;
-    font-size: 36px;
-    margin-bottom: 42px;
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 36px;
     text-align: left;
   }
   ul {
@@ -248,31 +218,11 @@ export default class RegisterForm extends Vue{
 
       &.active {
         font-weight: 600;
-        color: #fff;
-        background: #1F2937;
+        color: #444;
+        border: 1px solid #000;
         padding: 13px 0;
+        border-radius: 4px;
       }
-    }
-  }
-
-  a {
-    text-decoration: none;
-    color: #000 !important;
-    text-align: center;
-    font-weight: 500;
-    font-size: 16px;
-    margin: 0 auto;
-    margin-top: 24px;
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      cursor: pointer;
-      background: #f9f9f9;
-      border-radius: 7px;
     }
   }
 }
@@ -284,8 +234,9 @@ button {
 }
 
 label {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 15px;
+  margin: 8px 0;
 }
 
 .logo {
@@ -301,13 +252,33 @@ label {
 }
 
 .img-logo {
-  width: 200px;
+  width: 160px;
   margin: 0 auto;
   margin-bottom: 46px;
+  cursor: pointer;
 
   @include for-phone-only {
     height: 48px;
   }
 
+}
+
+.login-u {
+  width: 100%;
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 1px solid #f1f1f1;
+  p {
+    min-width: fit-content;
+    margin-right: 8px;
+    color: #727272;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 }
 </style>

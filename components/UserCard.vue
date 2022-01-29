@@ -1,22 +1,35 @@
 <template>
-  <div class="user-profile">
-    <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="flex flex-col items-center">
-      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
-      <p class="font-semibold text-md text-gray-900 my-4">{{ user.name }}</p>
-      <dd class="mt-2">
-        <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
-      </dd>
+  <div class="box shadow-md hover:shadow-lg">
+    <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="flex flex-col items-center w-full">
+      <div class="flex items-start px-5 pt-5 w-full">
+        <div class="w-full flex justify-start w-full flex-row items-start">
+          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
+          <div class="ml-4 text-left mt-0">
+            <a href="" class="font-medium">{{ user.name }}</a>
+            <dd class="mt-3">
+              <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
+            </dd>
+          </div>
+        </div>
+      </div>
+      <div class="text-left px-5 pb-5 info w-full mt-4">
+        <div class="flex items-start justify-center flex-col text-gray-700 mt-2 w-full">
+          <div class="flex flex-row items-center mb-1 text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <p>{{ user.email }}</p>
+          </div>
+          <div class="flex flex-row items-center text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <p>{{ user.location }}</p>
+          </div>
+        </div>
+      </div>
     </nuxt-link>
-      <div class="text-center lg:text-left pt-2 pb-2" v-if="user.hasOwnProperty('email')">
-        <div class="flex items-center justify-start text-gray-700 mt-2 w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-          <p>{{ user.email }}</p></div>
-      </div>
-      <div class="flex flex-row items-center justify-center my-4 w-full" v-if="placeholder">
-        <action-button :placeholder="placeholder" :style-options="{ width: '100%' }" @action="$emit('do-action')"></action-button>
-      </div>
   </div>
 </template>
 
@@ -49,10 +62,10 @@ export default class UserCard extends Vue {
 
   async sendMessage() {
     if(this.message.length === 0) {
-      this.$snackbar.show({
-        text: "Morate upisati poruku",
-        timeout: 1000,
-        type: "danger"
+      this.$toast.open({
+        message: 'Morate upisati poruku',
+        type: 'warning',
+        duration: 5000
       });
 
       return
@@ -75,10 +88,10 @@ export default class UserCard extends Vue {
 
       this.loading = false;
 
-      this.$snackbar.show({
-        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste poslali poruku korisniku " + this.user.name,
+        type: 'success',
+        duration: 5000
       });
 
 
@@ -105,62 +118,51 @@ export default class UserCard extends Vue {
   }
 }
 
-.user-profile {
-  min-width: 240px;
-  width: 240px;
-  height: 260px;
-  border-radius: 4px;
-  border: 1px solid #f1f1f1;
-  min-height: 200px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+.box {
+  border-radius: 10px;
+  min-width: 360px;
+  width: 360px;
+  max-width: 360px;
+  height: 166px;
+  max-height: 166px;
+  min-height: 166px;
+  position: relative;
+  z-index: 10;
+
+  &:last-child {
+    margin-right: 12px;
+  }
+
+
+  @include for-phone-only {
+    min-width: 260px;
+    width: 260px;
+    max-width: 260px;
+  }
 }
 
+img {
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
+}
 
-  img {
-    max-width: 90px;
-    width: 90px;
-    height: 90px;
-    min-width: 90px;
-    min-height: 90px;
-  }
-  .paragraph {
-    text-align: left;
-    display: inline-block;
-    width: 180px;
-    white-space: nowrap;
-    overflow: hidden !important;
-    text-overflow: ellipsis;
-  }
-
-
-h3 {
+.info p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+  max-width: 300px;
 
-.mobile-buttons {
   @include for-phone-only {
-    display: flex;
-    flex-direction: column;
+    max-width: 180px;
   }
 }
 
-@include for-phone-only {
-  .mobile-user {
-    width: 100%;
-    min-width: auto;
+.info-box {
+  border-right: 1px solid #f1f1f1;
+
+  &:last-child {
+    border-right: 0;
   }
 }
-
-.user-main-wrap {
-  margin-right: 0;
-  border: 1px solid #f1f1f1;
-  border-radius: 7px;
-}
-
 </style>

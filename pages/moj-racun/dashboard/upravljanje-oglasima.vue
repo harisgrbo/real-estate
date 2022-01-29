@@ -61,10 +61,10 @@ export default class UpravljanjeOglasima extends Vue {
     try {
       await this.$axios.post('/listings/' + l.id + '/complete');
 
-      this.$snackbar.show({
-        text: "Oglas završen",
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: 'Oglas završen',
+        type: 'success',
+        duration: 5000
       });
 
       l.completed_at = 'sad';
@@ -98,10 +98,10 @@ export default class UpravljanjeOglasima extends Vue {
 
       this.$modal.hide('delete-listing')
 
-      this.$snackbar.show({
-        text: "Uspješno ste izbrisali oglas",
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: 'Uspješno ste izbrisali oglas',
+        type: 'success',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)

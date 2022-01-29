@@ -137,7 +137,7 @@ export default class Agencies extends Vue {
           line-height: 40px;
           font-weight: 400;
           box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
-          border-radius: 8px;
+          border-radius: 10px;
           box-sizing: border-box;
           cursor: pointer;
 
@@ -259,7 +259,7 @@ a {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 }
 </style>

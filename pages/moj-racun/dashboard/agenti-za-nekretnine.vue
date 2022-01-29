@@ -49,7 +49,6 @@
             </div>
           </div>
         </div>
-        <Snackbar></Snackbar>
       </div>
   </div>
 </template>
@@ -58,13 +57,11 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "../../../components/actionButtons/ActionButton";
 import TextField from "../../../components/inputs/TextField";
-import Snackbar from "../../../components/global/Snackbar";
 
 @Component({
   components: {
     TextField,
     ActionButton,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })
@@ -105,10 +102,10 @@ export default class mojiOglasi extends Vue {
 
       this.agents.splice(index, 1)
 
-      this.$snackbar.show({
-        text: "Uspješno ste izbrisali agenta",
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste izbrisali agenta",
+        type: 'success',
+        duration: 5000
       });
 
     } catch (e) {
@@ -125,10 +122,10 @@ export default class mojiOglasi extends Vue {
 
       this.agents.push(res.data.data);
 
-      this.$snackbar.show({
-        text: "Uspješno ste dodali novog agenta, koji će dobiti pristupne podatke na email",
-        timeout: 1000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste dodali novog agenta, koji će dobiti pristupne podatke na email",
+        type: 'success',
+        duration: 5000
       });
 
       this.payload.name = '';

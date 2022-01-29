@@ -1,15 +1,15 @@
 <template>
   <div class="relative w-full flex flex-col items-start">
-    <label for="price" class="block text-md font-semibold text-gray-900 mb-2" v-if="label">{{ label }}</label>
-    <div :class="['block w-full sm:text-sm border-gray-300 rounded-md mt-0 relative rounded-md text-input', error && error.length ? 'border-red-300 text-red-900 placeholder-red-300' : '']">
-      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-      </div>
-      <input     :type="type"
-                 :value="value"
-                 :placeholder="placeholder"
-                 @change="updateValue($event.target.value)" id="price" aria-describedby="price-currency">
+    <div class="relative border text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+      <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500" v-if="label">{{ label }}</label>
+      <input
+        :type="type"
+        :value="value"
+        :placeholder="placeholder"
+        @change="updateValue($event.target.value)"
+        name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-        <span v-if="currency" class="text-gray-900 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
+        <span v-if="currency" class="text-gray-500 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
           KM
            <p v-if="showSquareM" class="pl-1">/ m²</p>
         </span>
@@ -57,36 +57,17 @@ export default class TextField extends Vue{
   }
 }
 
-.text-input {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 4px;
-  background: #fff;
-  border: 1px solid #ddd;
-  flex: 2;
-  position: relative;
-  transition: 0.3s all ease;
-  max-width: 600px;
-  margin-top: 0;
-  min-height: 48px;
+.text-wrap {
+  min-height: 36px;
+  border: 1px solid #f1f1f1 !important;
+  width: 100%;
+  input {
+    min-height: 36px !important;
+  }
 }
 
-input {
-  padding: 0 12px;
-  height: 100%;
-  background: transparent;
-  width: 100%;
-  font-weight: 500;
+label {
   font-size: 14px;
-  min-height: 48px;
-
-  &:focus {
-    outline: 1px solid #000;
-    border-radius: 4px;
-  }
-
 }
 
 ::placeholder {

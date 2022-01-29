@@ -1,6 +1,5 @@
 <template>
   <div class="preview-wrapper-inner">
-    <Snackbar />
     <div class="content-wrapper w-full" v-if="listingLoaded">
       <div class="step-1">
         <h1 class="heading">
@@ -27,7 +26,7 @@
               <action-button class="ml-4" @action="addDiscount" v-if="discount.length" placeholder="Potvrdi popust"></action-button>
             </div>
             <div class="mt-3" v-if="discount.length">
-              <label class="block text-md font-semibold text-gray-900 mb-2">Period akcije</label>
+              <label class="block text-md font-medium text-gray-900 mb-2">Period akcije</label>
               <vc-date-picker
                 :min-date="new Date()"
                 v-model="range"
@@ -106,7 +105,7 @@
         <TextAreaField class="mt-4" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="listing.video_url"></TextAreaField>
         <client-only>
           <div class="pt-4">
-            <label class="block text-md font-semibold text-gray-900 mb-2">Opis</label>
+            <label class="block text-md font-medium text-gray-900 mb-2">Opis</label>
             <vue-editor v-model="listing.description"/>
           </div>
         </client-only>
@@ -189,7 +188,7 @@
           </div>
         </div>
       </div>
-      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '4px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '10px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -202,7 +201,6 @@ import TermInput from "@/components/inputs/TermInput"
 import TextField from "@/components/inputs/TextField";
 import RangeInput from "@/components/inputs/RangeInput"
 import InputError from "@/components/inputs/InputError"
-import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import TextAreaField from "../../../components/inputs/TextAreaField";
 import DropdownAutocomplete from "../../../components/inputs/DropdownAutocomplete";
@@ -210,7 +208,7 @@ import DropdownAutocomplete from "../../../components/inputs/DropdownAutocomplet
 @Component({
   components: {
     DropdownAutocomplete,
-    TextAreaField, Categories, TermsInput, TermInput, RangeInput, TextField, InputError, Snackbar, ActionButton
+    TextAreaField, Categories, TermsInput, TermInput, RangeInput, TextField, InputError, ActionButton
   },
   middleware: ['auth'],
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
@@ -275,10 +273,11 @@ export default class ListingEdit extends Vue {
         ends_at: end.format('D-M-Y')
       });
 
-      this.$snackbar.show({
-        text: "Uspješno ste dodali popust na oglas",
-        timeout: 3000,
-        type: "success"
+
+      this.$toast.open({
+        message: "Uspješno ste dodali popust na oglas",
+        type: 'success',
+        duration: 5000
       });
 
     } catch(e) {
@@ -384,10 +383,11 @@ export default class ListingEdit extends Vue {
   }
 
   snackbarValidationError() {
-    this.$snackbar.show({
-      text: "Imate greške",
-      timeout: 1000,
-      type: "error"
+
+    this.$toast.open({
+      message: "Imate greške",
+      type: 'error',
+      duration: 5000
     });
   }
 
@@ -423,10 +423,10 @@ export default class ListingEdit extends Vue {
 
       this.listing = response.data.data;
 
-      this.$snackbar.show({
-        text: "Uspješno ste spasili izmjene",
-        timeout: 3000,
-        type: "success"
+      this.$toast.open({
+        message: "Uspješno ste spasili izmjene",
+        type: 'success',
+        duration: 5000
       });
 
       this.$router.push('/artikal/' + this.listing.id)
@@ -746,7 +746,7 @@ export default class ListingEdit extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 0 24px 24px 24px;
 }
 
@@ -1009,7 +1009,7 @@ export default class ListingEdit extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 8px;
+      border-radius: 10px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;

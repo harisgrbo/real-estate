@@ -6,7 +6,7 @@
         <div class="info">
           <p>{{ $auth.user.name }},</p>
           <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
-          <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id" class="go-to-profile">Idi na profil</nuxt-link>
+          <button @click="goToUser()" class="go-to-profile">Idi na profil</button>
         </div>
         <div class="grid grid-cols-3 gap-6 pb-1 mobile-grid">
           <div  v-for="(tab, index) in tabs"
@@ -66,6 +66,12 @@ export default class accountpage extends Vue {
       desc: 'Spašeni korisnici, pretrage i oglasi'
     },
     {
+      name: "Plaćanja",
+      slug: 'placanja',
+      icon: '033-laptop-5.svg',
+      desc: 'Spašeni korisnici, pretrage i oglasi'
+    },
+    {
       name: "Pratioci/Pratim",
       slug: 'pratioci-pratim',
       icon: '034-rating-2.svg',
@@ -86,7 +92,7 @@ export default class accountpage extends Vue {
     {
       name: "Blokirani korisnici",
       slug: "blokirani-korisnici",
-      icon: '033-laptop-5.svg',
+      icon: '028-browser.svg',
       desc: 'Lista blokiranih korisnika'
     },
     {
@@ -102,6 +108,20 @@ export default class accountpage extends Vue {
     //   desc: 'Postavke privatnosti'
     // },
   ]
+
+  goToUser() {
+    if(this.$auth.user) {
+      if(this.$auth.user.user_type === 'agency') {
+        this.$router.push('/agency/' + this.$auth.user.id)
+      } else if(this.$auth.user.user_type === 'agent'){
+        this.$router.push('/agent/' + this.$auth.user.id)
+      } else {
+        this.$router.push('/users/' + this.$auth.user.id)
+      }
+    } else {
+      this.$router.push('/auth/login')
+    }
+  }
 
   created() {
     if (this.$auth.user && this.$auth.user.user_type === 'agency') {
@@ -138,7 +158,7 @@ export default class accountpage extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 }
 
@@ -252,7 +272,7 @@ export default class accountpage extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 10px;
   font-weight: 500;
 
   &:hover {

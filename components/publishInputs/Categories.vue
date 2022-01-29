@@ -1,18 +1,13 @@
 <template>
   <div class="categories-list-wrap w-full">
-    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-3 w-full">
-      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="flex hover:shadow-md flex-row-reverse border rounded-sm"
+    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-6 w-full">
+      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="relative border text-wrap border-gray-300 rounded-md px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-indigo-900 focus-within:ring-indigo-900 focus-within:border-indigo-900"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
         <div class="w-full ml-3">
-            <a href="#" class="focus:outline-none">
-              <span aria-hidden="true"></span>
-              {{ cat.title }}
-            </a>
+          {{ cat.title }}
         </div>
-        <div class="relative flex items-center space-x-4 rounded-md hover:bg-gray-50">
-          <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg p-1 svg-wrap">
-            <img :src="'/cats/' + cat.slug + '.png'" alt="">
-          </div>
+        <div class="flex-shrink-0 flex items-center justify-center h-14 w-14 rounded-lg p-1 svg-wrap">
+          <img :src="'/cats/' + cat.slug + '.png'" alt="">
         </div>
       </li>
     </ul>
@@ -115,13 +110,10 @@ ul li {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
-  padding: 12px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px !important;
 
-  &:hover {
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px !important;
-  }
   @include for-phone-only {
     background: #f9f9f9 !important;
     color: #222222 !important;

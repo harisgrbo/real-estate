@@ -41,11 +41,14 @@
                 <button
                   v-for="(attr, index) in specialAttributes"
                   :key="index"
-                  class='px-2 flex items-center gap-1 sm:text-lg border border-gray-300 py-0 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500 flex flex-row items-center mr-2'
+                  class='px-2 flex items-center gap-1 sm:text-lg py-0 rounded-full transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500 flex flex-row items-center mr-2'
                 >
                   <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
                   <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
                   {{ attr.value }}
+                  <p v-if="attr.name === 'Kvadratura'">
+                    m²
+                  </p>
                 </button>
             </div>
             <div class="flex flex-row items-center">
@@ -59,17 +62,15 @@
           </div>
         </div>
       </div>
-      <Snackbar />
     </nuxt-link>
   </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 
 @Component({
-  components: {Snackbar}
+  components: {}
 })
 
 export default class HorizontalCard extends Vue{
@@ -155,17 +156,18 @@ export default class HorizontalCard extends Vue{
       .post('/listings/save/' + this.listing.id)
       .then(() => {
         this.saved = true;
-        this.$snackbar.show({
-          text: "Uspješno ste se spasili artikal!",
-          timeout: 3000,
-          type: "success"
+
+        this.$toast.open({
+          message: "Uspješno ste se spasili artikal!",
+          type: 'success',
+          duration: 5000
         });
       })
       .catch(error => {
-        this.$snackbar.show({
-          text: "Test",
-          timeout: 3000,
-          type: "danger"
+        this.$toast.open({
+          message: "Greška",
+          type: 'error',
+          duration: 5000
         });
       })
   }
@@ -669,12 +671,15 @@ padding-left: 16px;
   }
 
   > button {
-    border: 1px solid #ececec;
     width: fit-content;
     margin-right: 8px;
     font-weight: 500;
-    background: #f9f9f9;
     font-size: 13px;
+    max-width: fit-content;
+
+    img {
+      min-width: 12px;
+    }
   }
 }
 

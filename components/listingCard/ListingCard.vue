@@ -74,6 +74,7 @@
               :key="index"
               class="flex flex-row items-center mr-2"
             >
+              <img v-if="attr.name === 'Broj kreveta'" src="/bed.svg" alt="">
               <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
               {{ attr.value }}
               <p v-if="attr.name === 'Kvadratura'">
@@ -81,28 +82,17 @@
               </p>
             </div>
           </div>
-<!--          <a v-show="showTooltip && !$device.isMobile" tabindex="0" aria-label="tooltip 3" role="link" class="tooltip-wrapper focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative">-->
-<!--            <div id="tooltip3" role="tooltip" class="w-full z-50 bottom-0 w-64 absolute transition duration-150 ease-in-out left-0 shadow-lg bg-gray-800 p-2 rounded">-->
-<!--              <p class="text-sm font-medium text-white pb-1">{{ listing.title }}</p>-->
-<!--              <p class="text-xs leading-4 text-white pb-3">{{ listing.address  }}</p>-->
-<!--              <div class="flex flex-row items-center justify-start flex-wrap mb-2">-->
-<!--                <div class="text-xs more-info" v-for="info in normalAttributes" :key="info.id">{{ info.value + ', ' }}</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </a>-->
         </div>
       </nuxt-link>
-      <Snackbar />
     </div>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "@/components/actionButtons/ActionButton";
 
 @Component({
-  components: {Snackbar, ActionButton}
+  components: {ActionButton}
 })
 
 export default class ListingCard extends Vue{
@@ -121,11 +111,12 @@ export default class ListingCard extends Vue{
   custom_swiper = null;
   showTooltip = false;
   saved = false;
-  specialAttributes = [];
   showListingOptions = false;
+  specialAttributes = [];
   specialAttributesKeys = [
     "Broj soba",
-    "Kvadratura"
+    "Kvadratura",
+    "Broj kreveta"
   ];
   swiperOptionCard = {
     spaceBetween: 0,
@@ -240,14 +231,14 @@ export default class ListingCard extends Vue{
     height: fit-content;
     border-radius: 7px;
 
-    //&.sponsored-1 {
-    //  background: rgba(19, 95, 20, 0.05);
-    //
-    //  .listing-card-content {
-    //    padding-left: 8px;
-    //    padding-right: 8px;
-    //  }
-    //}
+    &.sponsored-1 {
+      background: rgba(19, 95, 20, 0.05);
+
+      .listing-card-content {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
 
     @include for-phone-only {
       min-width: 100%;
@@ -545,30 +536,30 @@ export default class ListingCard extends Vue{
       }
     }
 
-    //&.sponsored-2 {
-    //  background: rgba(19, 95, 20, 0.05);
-    //  .listing-card-content {
-    //    padding-left: 8px;
-    //    padding-right: 8px;
-    //
-    //    .address.title {
-    //      white-space: nowrap;
-    //      overflow: hidden;
-    //      text-overflow: ellipsis;
-    //      font-weight: 200 !important;
-    //      font-size: 18px !important;
-    //      line-height: 20px !important;
-    //      background: #1F2937 !important;
-    //      color: #fff !important;
-    //
-    //      p {
-    //        color: #fff !important;
-    //        padding: 0 4px;
-    //      }
-    //
-    //    }
-    //  }
-    //}
+    &.sponsored-2 {
+      background: rgba(19, 95, 20, 0.05);
+      .listing-card-content {
+        padding-left: 8px;
+        padding-right: 8px;
+
+        .address.title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-weight: 200 !important;
+          font-size: 18px !important;
+          line-height: 20px !important;
+          background: #1F2937 !important;
+          color: #fff !important;
+
+          p {
+            color: #fff !important;
+            padding: 0 4px;
+          }
+
+        }
+      }
+    }
   }
 
   .icons {
@@ -661,7 +652,7 @@ export default class ListingCard extends Vue{
 
     img {
       height: 12px !important;
-      width: 12px !important;
+      width: 14px !important;
       border-radius: 0 !important;
       margin-right: 4px;
       object-fit: contain !important;
@@ -676,7 +667,7 @@ export default class ListingCard extends Vue{
       margin-right: 8px;
       padding: 0 4px;
       font-weight: 400;
-      background: #f9f9f9;
+      background: #fff;
       font-size: 13px;
       line-height: 8px;
       color: #000;

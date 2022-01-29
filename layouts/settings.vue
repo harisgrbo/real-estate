@@ -4,7 +4,6 @@
     <div :class="['preview-wrapper', $route.path === '/moj-racun/poruke' ? 'messages' : '']">
       <Nuxt />
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -12,10 +11,9 @@
 import { Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import Footer from "@/components/Footer"
-import Snackbar from "@/components/global/Snackbar"
 
 @Component({
-  components: {Navbar, Footer, Snackbar}
+  components: {Navbar, Footer}
 })
 
 export default class Settings extends Vue {
@@ -45,15 +43,14 @@ export default class Settings extends Vue {
 }
 
 .settings-wrapper {
-  padding-top: 120px !important;
+  padding-top: 80px !important;
   min-height: 100vh;
   width: 100%;
-  background: #f9f9f9;
-  padding-bottom: 36px;
+  padding-bottom: 0px;
 
   .preview-wrapper {
     margin-top: 80px;
-    width: 1180px;
+    width: 1280px;
     margin: 0 auto;
     background: #fff;
     height: fit-content;
@@ -61,6 +58,8 @@ export default class Settings extends Vue {
     &.messages {
       background: transparent;
       padding-bottom: 0;
+      width: 1280px;
+      margin: 0 auto;
     }
 
     @include for-phone-only {

@@ -66,19 +66,16 @@
         </li>
       </ul>
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 import ActionButton from "../../components/actionButtons/ActionButton";
 
 @Component({
   components: {
     ActionButton,
-    Snackbar
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
   middleware: ['auth'],
@@ -122,11 +119,11 @@ export default class mojeRezervacije extends Vue {
 
       await this.$axios.post('/bookings/' + booking.id);
 
-      this.$snackbar.show({
-        text: "Uspješno ste prihvatili upit",
-        timeout: 1000,
-        type: "success"
-      })
+      this.$toast.open({
+        message: "Uspješno ste prihvatili upit",
+        type: 'success',
+        duration: 5000
+      });
     } catch (e) {
       console.log(e)
     }
@@ -159,7 +156,7 @@ ul.orders li {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 
   h5 {
@@ -187,7 +184,7 @@ a {
 .main-image-wrap {
   width: 30%;
   height: 180px;
-  border-radius: 4px;
+  border-radius: 10px;
 
   img {
     width: 100%;
@@ -198,7 +195,7 @@ a {
 .special {
   div {
     border: 1px solid #ececec;
-    border-radius: 4px;
+    border-radius: 10px;
     height: 25px;
     width: fit-content;
     margin-right: 8px;

@@ -12,8 +12,8 @@
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
             </dd>
           </div>
-          <dd class="mt-1 flex flex-row items-center justify-start">
-            <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+          <dd class="mt-1 flex flex-row items-center justify-start text-sm">
+            <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
             {{ user.online ? 'Online' : 'Offline' }}
           </dd>
           <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
@@ -24,11 +24,32 @@
           </div>
         </div>
       </div>
-      <div class="flex w-full contact">
-        <div class="w-full" v-if="$auth.user">
-          <div class="w-full flex items-center justify-between" v-if="isMe">
-            <ActionButton :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi oglas"></ActionButton>
-            <ActionButton :style-options="{ color: '#fff' }"  placeholder="Završi oglas" @action="$emit('finish-listing')" class="w-full ml-sm"></ActionButton>
+      <div class="flex w-full contact" v-if="$auth.user">
+        <div class="w-full">
+          <div class="w-full flex flex-col items-center justify-between" v-if="isMe">
+            <div class="w-full flex items-center justify-center">
+              <ActionButton :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi"></ActionButton>
+              <ActionButton :style-options="{ color: '#fff', background: 'red' }"  placeholder="Završi" @action="$emit('finish-listing')" class="w-full ml-sm"></ActionButton>
+            </div>
+            <div class="rounded-md bg-blue-50 p-2 mt-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <!-- Heroicon name: solid/information-circle -->
+                  <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div class="ml-3 flex-1 md:flex md:justify-between">
+                  <p class="text-sm text-blue-700">
+                    Sponzorisanjem oglasa, posjećenost oglasa je veća za 60%
+                  </p>
+                  <p class="mt-3 text-sm md:mt-0 md:ml-6">
+                    <nuxt-link to="/sponzorisanje-oglasa" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">Više <span aria-hidden="true">&rarr;</span></nuxt-link>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <ActionButton :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$emit('sponsor-listing')" class="w-full"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
             <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
@@ -55,25 +76,136 @@
         </div>
       </modal>
     </client-only>
-    <Snackbar></Snackbar>
-    <button class="mt-4 report" @click="blockUser(user)" v-if="$auth.user && ($auth.user.id !== user.id)">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="red">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />
-      </svg>
-      Blokiraj korisnika</button>
+<!--    <button class="mt-4 report" @click="blockUser(user)" v-if="$auth.user && ($auth.user.id !== user.id)">-->
+<!--      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />-->
+<!--      </svg>-->
+<!--      Blokiraj korisnika</button>-->
+    <div class="booking rounded-md" v-if="isBooking && !isMe && !$device.isMobile">
+      <client-only>
+        <form @submit.prevent>
+          <div class="price-wrap flex flex-col justify-start mb-4">
+            <div class="flex flex-row items-center w-full">
+              <p class="text-xl font-medium">{{ numberWithCommas(price) + ' KM'}}</p>
+              <p class="pl-2 text-lg font-thin">/ noć {{ perguest ? 'po osobi' : '' }}</p>
+            </div>
+          </div>
+          <div class="mb-4 picker-wrap" v-if="$auth.user">
+            <vc-date-picker
+              :disabled-dates="disabledDates"
+              :min-date="new Date()"
+              v-model="range"
+              :masks="masks"
+              locale="sr-Latn-RS"
+              is-range
+              is-inline
+              popover.visibility="visible"
+              :popover="{ visibility: 'click' }"
+            >
+              <template v-slot="{ inputValue, inputEvents, isDragging }">
+                <div class="flex flex-row justify-start items-center">
+                  <div class="flex flex-col">
+                    <label class="text-xs text-gray-400 font-medium mb-2 uppercase">dolazak</label>
+                    <div class="relative flex-grow w-full">
+                      <svg
+                        class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                      </svg>
+                      <input
+                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
+                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                        :value="inputValue.start"
+                        v-on="inputEvents.start"
+                      />
+                    </div>
+                  </div>
+
+                  <span class="flex-shrink-0 m-2">
+                    <svg
+                class="w-4 h-4 stroke-current text-gray-600"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+                  </span>
+                  <div class="flex flex-col">
+                    <label class="text-xs text-gray-400 font-medium mb-2 uppercase">odlazak</label>
+                    <div class="relative flex-grow w-full">
+                      <svg
+                        class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                      </svg>
+                      <input
+                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
+                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                        :value="inputValue.end"
+                        v-on="inputEvents.end"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </vc-date-picker>
+            <div class="flex flex-col">
+              <label class="text-xs text-gray-400 font-medium mb-2 uppercase mt-4">Broj gostiju</label>
+              <div class="relative flex-grow w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-600 w-4 h-full mx-2 absolute pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <input
+                  class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
+                  :value="number_of_guests"
+                />
+              </div>
+            </div>
+          </div>
+          <div v-show="numOfDays" class="mb-4 w-full flex total flex-col">
+            <span class="text-md font-light mb-3">Troškovi</span>
+            <div class="flex w-full flex-row items-center justify-between">
+              <p class="font-thin text-md">{{ price }} KM x {{ numOfDays }} dana</p>
+              <p class="font-medium text-md">{{ numberWithCommas(totalBookingPrice) + ' KM' }}</p>
+            </div>
+          </div>
+          <ActionButton @action="$emit('send-booking-request', this.number_of_guests)" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+        </form>
+      </client-only>
+    </div>
   </aside>
 </template>
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
-import Snackbar from "@/components/global/Snackbar";
 import UserMedals from "@/components/UserMedals";
 import ActionButton from "./actionButtons/ActionButton";
+import TextField from "./inputs/TextField";
 
 @Component({
   components: {
+    TextField,
     ActionButton,
-    Snackbar,
     UserMedals
   },
 })
@@ -85,6 +217,7 @@ export default class UserProfile extends Vue {
   @Prop({}) isRent;
   @Prop({}) isBooking;
   @Prop({}) type;
+  @Prop() perguest
   @Prop() id;
   @Prop() price;
   @Prop({ type: Boolean }) vat;
@@ -101,6 +234,7 @@ export default class UserProfile extends Vue {
   masks = {
     input: 'DD-MM-YYYY',
   }
+  number_of_guests = 1
 
   handleListingSponsoring() {
   }
@@ -118,11 +252,12 @@ export default class UserProfile extends Vue {
     try {
       let res = await this.$axios.post('/profile/users/' + u.id + '/block');
 
-      this.$snackbar.show({
-        text: "Blokirali ste korisnika " + u.name,
-        timeout: 1000,
-        type: "danger"
+      this.$toast.open({
+        message: "Blokirali ste korisnika " + u.name,
+        type: 'success',
+        duration: 5000
       });
+
     } catch(e) {
       console.log(e)
     }
@@ -132,7 +267,7 @@ export default class UserProfile extends Vue {
     if(t === 'agency') {
       return 'Agencija'
     } else if(t === 'user') {
-      return 'Korisnik'
+      return 'korisnik'
     } else {
       return 'Agent'
     }
@@ -211,10 +346,11 @@ export default class UserProfile extends Vue {
 
   async sendMessage() {
     if(this.message.length === 0) {
-      this.$snackbar.show({
-        text: "Morate upisati poruku",
-        timeout: 1000,
-        type: "danger"
+
+      this.$toast.open({
+        message: "Morate upisati poruku",
+        type: 'warning',
+        duration: 5000
       });
 
       return
@@ -237,10 +373,11 @@ export default class UserProfile extends Vue {
 
       this.loading = false;
 
-      this.$snackbar.show({
-        text: "Uspješno ste poslali poruku korisniku " + this.user.name,
-        timeout: 1000,
-        type: "success"
+
+      this.$toast.open({
+        message: "Uspješno ste poslali poruku korisniku " + this.user.name,
+        type: 'success',
+        duration: 5000
       });
 
 
@@ -251,10 +388,16 @@ export default class UserProfile extends Vue {
   }
 
   goToUser() {
-    if(this.user.user_type === 'agency') {
-      this.$router.push('/agency/' + this.user.id)
+    if(this.$auth.user) {
+      if(this.$auth.user.user_type === 'agency') {
+        this.$router.push('/agency/' + this.$auth.user.id)
+      } else if(this.$auth.user.user_type === 'agent'){
+        this.$router.push('/agent/' + this.$auth.user.id)
+      } else {
+        this.$router.push('/users/' + this.$auth.user.id)
+      }
     } else {
-      this.$router.push('/users/' + this.user.id)
+      this.$router.push('/auth/login')
     }
   }
 
@@ -263,20 +406,20 @@ export default class UserProfile extends Vue {
       if(this.followed) {
         await this.$axios.delete('/users/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste otpratili " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste otpratili " + this.user.name,
+          type: 'success',
+          duration: 5000
         });
 
         this.followed = false;
       } else {
         await this.$axios.post('/users/' + this.user.id + '/follow');
 
-        this.$snackbar.show({
-          text: "Uspješno ste zapratili " + this.user.name,
-          timeout: 1000,
-          type: "success"
+        this.$toast.open({
+          message: "Uspješno ste zapratili " + this.user.name,
+          type: 'success',
+          duration: 5000
         });
 
         this.followed = true;
@@ -333,15 +476,17 @@ aside {
 }
 
 .main-user-wrapper {
-  border: 1px solid #ebebeb;
-  border-radius: 4px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 10px;
   padding: 16px;
-  box-shadow: rgb(0 0 0 / 9%) 0px 1px 3px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+  margin-bottom: 26px;
 
   @include for-phone-only {
     box-shadow: none;
     border: none;
-    padding: 16px;
+    padding: 24px 16px;
+    margin-bottom: 0;
   }
 
   img {
@@ -351,15 +496,14 @@ aside {
 }
 
 .price-wrap {
-  background: #f9f9f9;
-  padding: 12px;
-  border-radius: 7px;
+
 }
 
 .date-input {
-  height: 50px;
-  background: #f9f9f9;
+  height: 40px;
+  background: #fff;
   font-size: 13px;
+  border-radius: 10px;
 }
 
 .sticky-top {
@@ -403,5 +547,24 @@ textarea {
 
 .img-wrap {
   min-width: 56px;
+}
+
+.booking {
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+}
+
+.total {
+  border-top: 1px solid rgb(221, 221, 221);
+  padding-top: 16px;
+  margin-top: 24px;
+}
+
+.picker-wrap {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 12px;
 }
 </style>

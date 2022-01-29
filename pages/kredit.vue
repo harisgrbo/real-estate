@@ -40,7 +40,6 @@
           </div>
         </div>
     </div>
-    <Snackbar></Snackbar>
   </div>
 </template>
 
@@ -48,12 +47,10 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField"
 import ActionButton from "@/components/actionButtons/ActionButton"
-import Snackbar from "@/components/global/Snackbar"
 
 @Component({
   components: {
     TextField,
-    Snackbar,
     ActionButton
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings'
@@ -201,10 +198,11 @@ export default class Kredit extends Vue {
       updatedUser.credits += this.credits;
       this.$auth.setUser(updatedUser)
 
-      this.$snackbar.show({
-        text: "Uspješno ste dopunili kredit",
-        timeout: 1000,
-        type: "success"
+
+      this.$toast.open({
+        message: "Uspješno ste uplatili sredstva na račun",
+        type: 'success',
+        duration: 5000
       });
     } catch(e) {
       console.log(e)
@@ -227,7 +225,7 @@ export default class Kredit extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 24px;
 
   @include for-phone-only {
@@ -319,7 +317,7 @@ export default class Kredit extends Vue {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          border-radius: 7px;
+          border-radius: 10px;
           border: 1px solid #dcdcdc;
           width: 100%;
           padding: 24px;
@@ -402,7 +400,7 @@ export default class Kredit extends Vue {
             }
           }
           &.selected-card {
-            border-radius: 7px;
+            border-radius: 10px;
             img[src$='.png'] {
               filter: invert(1) brightness(100);
             }

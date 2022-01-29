@@ -1,15 +1,16 @@
 <template>
   <div class="form-wrapper">
-    <img src="/msquare.png" class="img-logo" alt="" @click="$router.push('/')">
+    <img src="/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
 
     <h2 class="mt-4">Prijava</h2>
     <form @submit.prevent="handleLogin">
-      <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-4 mt-1"></TextField>
+      <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-6 mt-1"></TextField>
       <TextField type="password" label="Password" placeholder="Password" v-model="payload.password" class="mt-1"></TextField>
       <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
-    <nuxt-link class="mt-xl" :to="{ path: '/auth/register' }">Nemaš račun? Registruj se</nuxt-link>
-    <Snackbar />
+    <div class="flex items-center justify-center login-u">
+      <p>Nemaš račun?</p><nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -42,11 +43,11 @@ export default class LoginForm extends Vue{
       this.$router.push('/')
     } catch(e) {
       if (e.response.status === 400) {
-        this.$snackbar.show({
-          text: "Pogrešni podaci",
-          timeout: 1000,
-          type: 'danger'
-        })
+        this.$toast.open({
+          message: "Pogrešni podaci",
+          type: 'error',
+          duration: 5000
+        });
       }
 
       this.loading = false;
@@ -80,11 +81,12 @@ export default class LoginForm extends Vue{
 .form-wrapper {
   width: 70%;
   margin: 0 auto;
-  height: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   overflow-y: scroll;
+  padding: 10px;
+  height: 100vh;
+  justify-content: center;
 
 
   @include for-phone-only {
@@ -98,30 +100,10 @@ export default class LoginForm extends Vue{
   }
 
   h2 {
-    font-weight: 600;
-    font-size: 36px;
-    margin-bottom: 42px;
-    text-align: left;
-  }
-  a {
-    text-decoration: none;
-    color: #000 !important;
-    text-align: center;
     font-weight: 500;
-    font-size: 16px;
-    margin: 0 auto;
-    margin-top: 42px;
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      cursor: pointer;
-      background: #f9f9f9;
-      border-radius: 7px;
-    }
+    font-size: 24px;
+    margin-bottom: 36px;
+    text-align: left;
   }
 }
 
@@ -157,13 +139,33 @@ label {
 }
 
 .img-logo {
-  width: 200px;
+  width: 160px;
   margin: 0 auto;
   margin-bottom: 46px;
+  cursor: pointer;
 
   @include for-phone-only {
       height: 48px;
   }
 
+}
+
+.login-u {
+  width: 100%;
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 1px solid #f1f1f1;
+  p {
+    min-width: fit-content;
+    margin-right: 8px;
+    color: #727272;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 }
 </style>
