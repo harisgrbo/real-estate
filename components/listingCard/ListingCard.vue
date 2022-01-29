@@ -111,8 +111,8 @@ export default class ListingCard extends Vue{
   custom_swiper = null;
   showTooltip = false;
   saved = false;
-  specialAttributes = [];
   showListingOptions = false;
+  specialAttributes = [];
   specialAttributesKeys = [
     "Broj soba",
     "Kvadratura",

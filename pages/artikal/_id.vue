@@ -35,7 +35,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                   <p class="min-w-min text-md text-gray-700 font-normal underline">{{ listing.address }}</p>
-
                 </div>
                 <div class="flex flex-row items-center min-w-min" v-if="!$device.isMobile">
                   <button v-if="$auth.user && $auth.user.id !== listing.user.id" @click="toggleSaveListing()" type="button" class="flex items-center">
@@ -87,24 +86,6 @@
                   <p class="pl-2 text-xl font-semibold">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
                 </div>
               </div>
-              <div class="rent flex flex-row justify-start mt-4 sm:bg-white items-center" v-else>
-                <div class="flex flex-col items-start price-wrap mr-4" v-if="!$device.isMobile">
-                  <p>Cijena {{ listing.vat_included ? 'sa uračunatim PDV-om' : '' }}</p>
-                  <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
-                </div>
-                <div class="flex flex-col items-start price-wrap p-2  mr-4" v-if="!$device.isMobile && listing.price_per_square !== null && !listing.hasOwnProperty('discount')">
-                  <p>Cijena po kvadratu</p>
-                  <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ Math.ceil(listing.price_per_square) }} KM</p>
-                </div>
-                <div class="flex flex-col mobile-discount items-start p-2  price-wrap" v-if="$device.isMobile">
-                  <p>Cijena {{ listing.vat ? 'sa uračunatim PDV-om' : '' }}</p>
-                  <p :class="['mt-1 text-lg text-black font-semibold main-price-label', listing.hasOwnProperty('discount') ? 'cross-price' : '']">{{ numberWithCommas(listing.price) }} KM</p>
-                </div>
-                <div class="mobile-discount flex flex-col items-start p-2 price-wrap sm:ml-0 md:ml-4 lg:ml-4 up:ml-4 xl:ml-4 text-gray-900 rounded-md" v-if="listing.hasOwnProperty('discount')">
-                  <p class="text-xl">Popust {{ listing.discount * 100 }}%</p>
-                  <p class="mt-1 text-lg text-black font-semibold main-price-label">{{ numberWithCommas(listing.price - listing.price * listing.discount) }} KM</p>
-                </div>
-              </div>
               <div v-if="reviewCount" class="flex flex-row items-center justify-start mt-5">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="yellow" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
@@ -116,6 +97,32 @@
                   ({{ reviewCount }} dojmova)
                 </a>
               </div>
+            </div>
+            <div v-if="$device.isMobile" class="mx-5 flex flex-col">
+              <h2 v-if="listing" class="mb-4">{{ listing.title }}</h2>
+              <div class="flex flex-row items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <p class="text-md text-gray-700 font-normal underline mobile-address">{{ listing.address }}</p>
+              </div>
+              <div class="addresses">
+                <div
+                  v-for="(attr, index) in specialAttributes"
+                  :key="index"
+                  class="flex flex-row items-center mr-2"
+                >
+                  <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
+                  <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                  <img v-if="attr.name === 'Broj osoba'" src="/guests.png" alt="">
+                  <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
+                  {{ attr.value }}
+                </div>
+              </div>
+            </div>
+            <div class="user-wrap relative z-10" v-if="$device.isMobile">
+              <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
             </div>
             <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
               <li>
@@ -138,9 +145,9 @@
               </li>
             </ul>
             <div class="mt-4 mobile-places-btn">
-              <ActionButton @action="$modal.show('map-modal')"  placeholder="Prikaži lokaciju na mapi" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
-              <ActionButton v-if="!listing.is_booking" @action="$modal.show('places')"  placeholder="Pogledaj šta se nalazi u blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
-              <ActionButton v-if="listing.is_booking" @action="$modal.show('places-poi')"  placeholder="Zanimljivosti u krugu od 2km" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+              <ActionButton @action="$modal.show('map-modal')"  placeholder="Mapa" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+              <ActionButton v-if="!listing.is_booking" @action="$modal.show('places')"  placeholder="U blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+              <ActionButton v-if="listing.is_booking" @action="$modal.show('places-poi')"  placeholder="Zanimljivosti" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
             </div>
             <div class="separator"></div>
             <div class="px-5 lg:px-0 xl:px-0 up:px-0">
@@ -256,7 +263,7 @@
                 <p class="text-lg font-semibold">{{ numberWithCommas(listing.price) + ' KM' }}</p>
                 <p class="text-black font-medium text-lg ml-2" v-if="listing.is_booking">/ noć {{ listing.per_guest ? ' po osobi' : '' }}</p>
               </div>
-              <ActionButton v-if="$auth.user && listing.is_booking" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
+              <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
 
           </div>
@@ -397,22 +404,19 @@
                 <div class="filters rounded-md">
                   <client-only>
                     <form @submit.prevent>
-                      <div class="price-wrap flex flex-col justify-start">
+                      <div class="price-wrap flex flex-col justify-start mb-4">
                         <div class="flex flex-row items-center w-full">
-                          <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>
-                          <p class="pl-2">/ noć</p>
-                        </div>
-                        <div v-show="numOfDays" class="mt-2 w-full">
-                          <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>
+                          <p class="text-xl font-medium">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                          <p class="pl-2 text-lg font-thin">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
                         </div>
                       </div>
-                      <div class="mb-4" v-if="$auth.user">
-                        <h3 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h3>
+                      <div class="mb-4 picker-wrap" v-if="$auth.user">
                         <vc-date-picker
                           :disabled-dates="disabledDates"
                           :min-date="new Date()"
                           v-model="range"
                           :masks="masks"
+                          locale="sr-Latn-RS"
                           is-range
                           is-inline
                           popover.visibility="visible"
@@ -420,32 +424,36 @@
                         >
                           <template v-slot="{ inputValue, inputEvents, isDragging }">
                             <div class="flex flex-row justify-start items-center">
-                              <div class="relative flex-grow w-full">
-                                <svg
-                                  class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                                  fill="none"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                  ></path>
-                                </svg>
-                                <input
-                                  class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
-                                  :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                                  :value="inputValue.start"
-                                  v-on="inputEvents.start"
-                                />
+                              <div class="flex flex-col">
+                                <label class="text-xs text-gray-400 font-medium mb-2 uppercase">dolazak</label>
+                                <div class="relative flex-grow w-full">
+                                  <svg
+                                    class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                    ></path>
+                                  </svg>
+                                  <input
+                                    class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
+                                    :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                                    :value="inputValue.start"
+                                    v-on="inputEvents.start"
+                                  />
+                                </div>
                               </div>
+
                               <span class="flex-shrink-0 m-2">
-              <svg
-                class="w-4 h-4 stroke-current text-gray-600"
-                viewBox="0 0 24 24"
-              >
+                    <svg
+                      class="w-4 h-4 stroke-current text-gray-600"
+                      viewBox="0 0 24 24"
+                    >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -453,33 +461,55 @@
                   d="M14 5l7 7m0 0l-7 7m7-7H3"
                 />
               </svg>
-            </span>
-                              <div class="relative flex-grow w-full">
-                                <svg
-                                  class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                                  fill="none"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                  ></path>
-                                </svg>
-                                <input
-                                  class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
-                                  :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                                  :value="inputValue.end"
-                                  v-on="inputEvents.end"
-                                />
+                  </span>
+                              <div class="flex flex-col">
+                                <label class="text-xs text-gray-400 font-medium mb-2 uppercase">odlazak</label>
+                                <div class="relative flex-grow w-full">
+                                  <svg
+                                    class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                    ></path>
+                                  </svg>
+                                  <input
+                                    class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
+                                    :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                                    :value="inputValue.end"
+                                    v-on="inputEvents.end"
+                                  />
+                                </div>
                               </div>
                             </div>
                           </template>
                         </vc-date-picker>
+                        <div class="flex flex-col">
+                          <label class="text-xs text-gray-400 font-medium mb-2 uppercase mt-4">Broj gostiju</label>
+                          <div class="relative flex-grow w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-600 w-4 h-full mx-2 absolute pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            <input
+                              class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
+                              :value="number_of_guests"
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                      <div v-show="numOfDays" class="mb-4 w-full flex total flex-col">
+                        <span class="text-md font-light mb-3">Troškovi</span>
+                        <div class="flex w-full flex-row items-center justify-between">
+                          <p class="font-thin text-md">{{ listing.price }} KM x {{ numOfDays }} dana</p>
+                          <p class="font-medium text-md">{{ numberWithCommas(totalBookingPrice) + ' KM' }}</p>
+                        </div>
+                      </div>
+                      <ActionButton @action="sendBookingRequest()" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
                     </form>
                   </client-only>
                 </div>
@@ -671,6 +701,13 @@ export default class Artikal extends Vue {
     "Kuhinja",
     "Fen"
   ];
+  specialAttributes = [];
+  specialAttributesKeys = [
+    "Broj soba",
+    "Kvadratura",
+    "Broj kreveta",
+    "Broj osoba"
+  ];
 
   poi_places = [];
   bookings = [];
@@ -717,6 +754,13 @@ export default class Artikal extends Vue {
     }
 
     return [];
+  }
+
+  getRentSpecialAttributes() {
+    if (!this.listing.attributes) return [];
+    return this.listing.attributes.filter((item) => {
+      return this.specialAttributesKeys.indexOf(item.name) !== -1;
+    });
   }
 
   beforeOpen() {
@@ -1087,6 +1131,10 @@ export default class Artikal extends Vue {
   }
 
   async created() {
+    this.specialAttributes = this.getRentSpecialAttributes().slice();
+
+    console.log(this.specialAttributes, 'special')
+
     if(this.error) {
       return
     }
@@ -1418,7 +1466,7 @@ h2 {
 
 
   .modal-content {
-    padding: 24px 0;
+    padding: 0;
     textarea {
       height: 200px;
       width: 100%;
@@ -1480,6 +1528,9 @@ h2 {
   @include for-phone-only {
     margin-left: 0;
     width: 100%;
+    margin: 24px 0;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
   }
 
   ::v-deep .user-content-wrapper{
@@ -1933,7 +1984,7 @@ h2 {
     max-width: fit-content;
     border: 1px solid #f1f1f1;
     margin-right: 12px;
-    border-radius: 10px;
+    border-radius: 8px;
     background: #f9f9f9;
     display: flex;
     align-items: center;
@@ -1947,10 +1998,18 @@ h2 {
       margin-right: 0;
       min-width: 100%;
       justify-content: flex-start;
+      font-size: 12px;
     }
 
     p {
       line-height: 18px;
+
+      @include for-phone-only {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 140px;
+      }
       &:first-child {
         font-size: 14px;
       }
@@ -2104,12 +2163,10 @@ h2 {
 .mobile-content {
 
   @include for-phone-only {
-    margin-top: -30px;
+    margin-top: 0px;
     position: relative;
     background: #fff;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    box-shadow: rgb(0 0 0 / 7%) 0px -10px 8px;
+    box-shadow: rgb(0 0 0 / 5%) 0px -10px 8px;
     z-index: 1;
   }
 
@@ -2432,22 +2489,28 @@ input[type=range]:focus::-ms-fill-upper {
   display: flex;
   flex-direction: row;
 
-  button {
-    margin-right: 16px;
+  ::v-deep button {
+    width: fit-content !important;
+
+    @include for-phone-only {
+      width: 100% !important;
+    }
+
+    &:first-child {
+      margin-right: 8px;
+    }
+
+    &:last-child {
+      margin-left: 8px;
+    }
   }
+
   @include for-phone-only {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
-
-    button {
-      width: auto;
-      margin: 0 16px;
-
-      &:last-child {
-        margin-top: 16px;
-      }
-    }
+    padding: 0 18px;
+    margin-top: 24px;
   }
 }
 ::v-deep .vue-lb-content {
@@ -2465,5 +2528,54 @@ input[type=range]:focus::-ms-fill-upper {
     text-decoration: underline;
   }
 }
+
+.addresses {
+  display: flex;
+  font-weight: 500;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 16px !important;
+
+  @include for-phone-only {
+    margin-top: 0;
+  }
+
+  img {
+    height: 16px !important;
+    width: auto !important;
+    border-radius: 0 !important;
+    margin-right: 6px;
+    object-fit: contain !important;
+    min-width: 12px !important;
+  }
+
+  > div {
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    width: fit-content;
+    margin-right: 8px;
+    padding: 8px;
+    font-weight: 500;
+    background: #fff;
+    font-size: 14px;
+    line-height: 8px;
+    color: #000;
+  }
+}
+
+.picker-wrap {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.mobile-address {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 290px
+}
+
 </style>
 

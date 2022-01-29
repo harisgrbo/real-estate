@@ -48,9 +48,7 @@ button {
   background: #1F2937;
 
   @include for-phone-only {
-    background: #1F2937 !important;
     padding: 0 12px !important;
-    color: #fff !important;
   }
 
   svg {
