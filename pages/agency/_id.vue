@@ -94,7 +94,7 @@
               Ukupno oglasa
             </dt>
             <dd class="mt-1 text-3xl font-semibold text-gray-900">
-              71,897
+              {{ meta.active_count + meta.completed_count }}
             </dd>
           </div>
 
@@ -103,7 +103,7 @@
               Aktivni oglasi
             </dt>
             <dd class="mt-1 text-3xl font-semibold text-gray-900">
-              71,897
+              {{ meta.active_count }}
             </dd>
           </div>
 
@@ -112,7 +112,7 @@
               Završeni oglasi
             </dt>
             <dd class="mt-1 text-3xl font-semibold text-gray-900">
-              71,897
+              {{ meta.completed_count }}
             </dd>
           </div>
         </dl>

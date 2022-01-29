@@ -12,7 +12,7 @@ module.exports = {
     extend: {
       width: {
         '1280': '1280px'
-      }
+      },
     }
   },
   variants: {

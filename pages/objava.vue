@@ -1,5 +1,5 @@
 <template>
-  <div class="publish-wrapper-inner">
+  <div class="publish-wrapper-inner relative">
       <div class="left">
         <nuxt-link class="absolute top-6 z-10 left-6 bg-white cursor-pointer h-10 w-10 rounded-md flex items-center justify-center back-to-index" to="/">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -22,11 +22,6 @@
               Izaberite kategoriju oglasa
             </h2>
             <Categories @selected-category="handleSelectedCategory" />
-          </div>
-          <div class="button-wrapper">
-<!--            <button @click="nextStep">Dalje-->
-<!--              <i class="material-icons">chevron_right</i>-->
-<!--            </button>-->
           </div>
         </div>
 
@@ -110,7 +105,7 @@
 
         <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
           <div v-if="city !== null" class="map-wrapper">
-            <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
+            <h2 class="test map" v-if="currentStep === steps.STEP_FIVE">
               Pomjerite pin na tačnu lokaciju nekretnine
             </h2>
             <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
@@ -1048,6 +1043,18 @@ export default class Objava extends Vue {
         color: #000;
         line-height: 65px;
 
+        &.map {
+          position: absolute;
+          top: 56px;
+          left: 24px;
+          right: 24px;
+          z-index: 1;
+          background-color: #fff;
+          border-radius: 8px;
+          font-size: 15px;
+          padding: 12px;
+        }
+
         @include for-phone-only {
           font-size: 30px;
           line-height: 35px;
@@ -1076,7 +1083,7 @@ export default class Objava extends Vue {
         border-bottom-right-radius: 10px;
 
         @include for-phone-only {
-          height: calc(100vh - 200px) !important;
+          height: 100vh !important;
         }
 
         .inner {
@@ -1088,13 +1095,15 @@ export default class Objava extends Vue {
             width: 100%;
             max-width: 100%;
             padding: 36px 16px;
+            height: calc(100vh - 80px);
+            overflow-y: scroll;
           }
         }
 
 
         @include for-phone-only {
-          height: calc(100vh - 75px);
-          padding-bottom: 120px;
+          height: 100vh;
+          padding-bottom: 0;
         }
 
         .heading {
@@ -1186,14 +1195,14 @@ export default class Objava extends Vue {
       }
 
       @include for-phone-only {
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        margin-top: -30px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        margin-top: 0px;
         position: relative;
         z-index: 1;
         background: #fff;
         overflow-y: scroll;
-        min-height: calc(100vh - 170px);
+        min-height: 100vh;
       }
     }
   }
@@ -1306,6 +1315,12 @@ export default class Objava extends Vue {
   right: 0;
   bottom: 0;
   height: calc(100vh - 80px);
+
+  @include for-phone-only {
+    top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
 
   ::v-deep #map {
@@ -1503,7 +1518,6 @@ h2.info {
           height: 30px;
 
           @include for-phone-only {
-            margin-right: 16;
           }
 
           &.main {
@@ -1659,11 +1673,7 @@ h2.info {
   padding: 24px;
 
   @include for-phone-only {
-    width: 100%;
-    min-width: 100%;
-    padding-top: 80px;
-    height: 356px;
-    min-height: 200px;
+    display: none;
   }
 
   &::after {
@@ -1690,16 +1700,16 @@ h2.info {
 .loader-wrapper {
   position: absolute;
   width: 100%;
-  bottom: 80px;
+  bottom: 0px;
   right: 0;
   z-index: 10;
   transition: 0.3s all ease;
-  height: 3px;
+  height: 8px;
   color: transparent;
-  z-index: 10 !important;
+  z-index: 14 !important;
 
   .loader {
-    height: 3px;
+    height: 8px;
   }
 }
 
@@ -1882,5 +1892,6 @@ h2.info {
 
 .preview-img {
   width: 90px;
+  height: fit-content;
 }
 </style>

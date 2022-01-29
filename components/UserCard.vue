@@ -2,9 +2,9 @@
   <div class="box shadow-md hover:shadow-lg">
     <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="flex flex-col items-center w-full">
       <div class="flex items-start px-5 pt-5 w-full">
-        <div class="w-full flex flex-col justify-start w-full lg:flex-row items-start">
+        <div class="w-full flex justify-start w-full flex-row items-start">
           <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
-          <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
+          <div class="ml-4 text-left mt-0">
             <a href="" class="font-medium">{{ user.name }}</a>
             <dd class="mt-3">
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
@@ -12,37 +12,7 @@
           </div>
         </div>
       </div>
-      <div class="mb-2 w-full px-3">
-        <dl class="mt-5 grid grid-cols-3 gap-3 px-2">
-          <div class="info-box bg-white rounded-md flex-col flex flex-1 overflow-hidden">
-            <dt class="text-sm font-medium text-gray-500 truncate">
-              Ukupno
-            </dt>
-            <dd class="mt-1 text-sm font-semibold text-gray-900">
-              71,897
-            </dd>
-          </div>
-
-          <div class="info-box bg-white rounded-md flex flex-col flex-1 overflow-hidden">
-            <dt class="text-sm font-medium text-gray-500 truncate">
-              Aktivni
-            </dt>
-            <dd class="mt-1 text-sm font-semibold text-gray-900">
-              71,897
-            </dd>
-          </div>
-
-          <div class="info-box bg-white rounded-md flex flex-col flex-1 overflow-hidden">
-            <dt class="text-sm font-medium text-gray-500 truncate">
-              Završeni
-            </dt>
-            <dd class="mt-1 text-sm font-semibold text-gray-900">
-              71,897
-            </dd>
-          </div>
-        </dl>
-      </div>
-      <div class="text-center lg:text-left px-5 pb-5 info w-full">
+      <div class="text-left px-5 pb-5 info w-full mt-4">
         <div class="flex items-start justify-center flex-col text-gray-700 mt-2 w-full">
           <div class="flex flex-row items-center mb-1 text-sm">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,9 +123,22 @@ export default class UserCard extends Vue {
   min-width: 360px;
   width: 360px;
   max-width: 360px;
-  height: 230px;
-  max-height: 230px;
-  min-height: 230px;
+  height: 166px;
+  max-height: 166px;
+  min-height: 166px;
+  position: relative;
+  z-index: 10;
+
+  &:last-child {
+    margin-right: 12px;
+  }
+
+
+  @include for-phone-only {
+    min-width: 260px;
+    width: 260px;
+    max-width: 260px;
+  }
 }
 
 img {
@@ -169,6 +152,10 @@ img {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 300px;
+
+  @include for-phone-only {
+    max-width: 180px;
+  }
 }
 
 .info-box {

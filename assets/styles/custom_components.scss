@@ -254,3 +254,12 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
+
+.custom-width {
+  width: 1280px;
+  margin: 0 auto;
+
+  @include for-phone-only {
+    width: 100%;
+  }
+}

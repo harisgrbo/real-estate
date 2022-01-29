@@ -517,6 +517,7 @@ export default class Navbar extends Vue {
       padding: 0 !important;
       background: transparent !important;
       height: 100%;
+      width: 100%;
     }
 
     .categories {

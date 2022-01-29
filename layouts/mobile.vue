@@ -11,7 +11,7 @@
     <div
       class="navbar"
       :class="{ 'bottom--hidden': !showBottom }"
-      v-if="$route.name !== 'objava'"
+      v-if="$route.name !== 'objava' && $route.name !== 'artikal-id'"
     >
       <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>

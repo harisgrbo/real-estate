@@ -9,7 +9,7 @@
         @change="updateValue($event.target.value)"
         name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-        <span v-if="currency" class="text-gray-900 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
+        <span v-if="currency" class="text-gray-500 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
           KM
            <p v-if="showSquareM" class="pl-1">/ m²</p>
         </span>

@@ -1,5 +1,5 @@
 <template>
-  <div class="listing-wrapper mx-auto w-1280" v-if="!error">
+  <div class="listing-wrapper mx-auto w-full lg:w-1280 xl:w-1280 up:w-1280" v-if="!error">
     <div v-if="$device.isMobile" class="mobile-topbar">
       <button @click="$router.go(-1)" type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <!-- Heroicon name: solid/plus -->
@@ -84,7 +84,7 @@
               <div class="rent" v-if="listing.is_booking && !$device.isMobile">
                 <div class="flex flex-row items-center w-full price-wrap p-2 bg-gray-50">
                   <p class="text-xl font-bold main-price-label">{{ numberWithCommas(listing.price) + ' KM'}}</p>
-                  <p class="pl-2 text-xl font-semibold">/ noć</p>
+                  <p class="pl-2 text-xl font-semibold">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
                 </div>
               </div>
               <div class="rent flex flex-row justify-start mt-4 sm:bg-white items-center" v-else>
@@ -222,7 +222,6 @@
             </span>
             </client-only>
             <div class="separator" v-if="listing.video_url !== null"></div>
-<!--            <ActionButton v-if="listing.listing_type.shortname === 'booking'" placeholder="Ostavite dojam" @action="$modal.show('leave-review')"></ActionButton>-->
             <div v-if="listing_reviews.length" class="bg-white">
                 <div>
                   <div v-for="review in listing_reviews" :key="review.id">
@@ -252,112 +251,17 @@
                 <div v-html="listing.video_url"></div>
               </div>
             </div>
-<!--            <div v-if="listing.is_booking && !authUser && !$device.isMobile" class="modal-content places-modal">-->
-<!--              <div class="separator"></div>-->
-<!--              <h3 class="text-xl font-medium text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Rezervacija smještaja</h3>-->
-<!--              <div class="filters rounded-md">-->
-<!--                <client-only>-->
-<!--                  <form @submit.prevent>-->
-<!--                    <div class="price-wrap flex flex-col justify-start">-->
-<!--                      <div class="flex flex-row items-center w-full">-->
-<!--                        <p class="text-xl font-bold">{{ numberWithCommas(listing.price) + ' KM'}}</p>-->
-<!--                        <p class="pl-2">/ noć</p>-->
-<!--                      </div>-->
-<!--                      <div v-show="numOfDays" class="mt-2 w-full">-->
-<!--                        <p class="font-semibold text-md">{{ numberWithCommas(totalBookingPrice) }} KM za {{ numOfDays }} dana</p>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                    <div class="mb-4" v-if="$auth.user">-->
-<!--                      <h3 class="text-lg font-normal text-black leading-5 mb-4 modal-title">Izaberite datum</h3>-->
-<!--                      <vc-date-picker-->
-<!--                        :disabled-dates="disabledDates"-->
-<!--                        :min-date="new Date()"-->
-<!--                        v-model="range"-->
-<!--                        :masks="masks"-->
-<!--                        is-range-->
-<!--                        is-inline-->
-<!--                        popover.visibility="visible"-->
-<!--                        :popover="{ visibility: 'click' }"-->
-<!--                      >-->
-<!--                        <template v-slot="{ inputValue, inputEvents, isDragging }">-->
-<!--                          <div class="flex flex-row justify-start items-center">-->
-<!--                            <div class="relative flex-grow w-full">-->
-<!--                              <svg-->
-<!--                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"-->
-<!--                                fill="none"-->
-<!--                                stroke-linecap="round"-->
-<!--                                stroke-linejoin="round"-->
-<!--                                stroke-width="2"-->
-<!--                                viewBox="0 0 24 24"-->
-<!--                                stroke="currentColor"-->
-<!--                              >-->
-<!--                                <path-->
-<!--                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"-->
-<!--                                ></path>-->
-<!--                              </svg>-->
-<!--                              <input-->
-<!--                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"-->
-<!--                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"-->
-<!--                                :value="inputValue.start"-->
-<!--                                v-on="inputEvents.start"-->
-<!--                              />-->
-<!--                            </div>-->
-<!--                            <span class="flex-shrink-0 m-2">-->
-<!--              <svg-->
-<!--                class="w-4 h-4 stroke-current text-gray-600"-->
-<!--                viewBox="0 0 24 24"-->
-<!--              >-->
-<!--                <path-->
-<!--                  stroke-linecap="round"-->
-<!--                  stroke-linejoin="round"-->
-<!--                  stroke-width="2"-->
-<!--                  d="M14 5l7 7m0 0l-7 7m7-7H3"-->
-<!--                />-->
-<!--              </svg>-->
-<!--            </span>-->
-<!--                            <div class="relative flex-grow w-full">-->
-<!--                              <svg-->
-<!--                                class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"-->
-<!--                                fill="none"-->
-<!--                                stroke-linecap="round"-->
-<!--                                stroke-linejoin="round"-->
-<!--                                stroke-width="2"-->
-<!--                                viewBox="0 0 24 24"-->
-<!--                                stroke="currentColor"-->
-<!--                              >-->
-<!--                                <path-->
-<!--                                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"-->
-<!--                                ></path>-->
-<!--                              </svg>-->
-<!--                              <input-->
-<!--                                class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"-->
-<!--                                :class="isDragging ? 'text-gray-600' : 'text-gray-900'"-->
-<!--                                :value="inputValue.end"-->
-<!--                                v-on="inputEvents.end"-->
-<!--                              />-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </template>-->
-<!--                      </vc-date-picker>-->
-<!--                    </div>-->
-<!--                    <ActionButton @action="sendBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>-->
-<!--                  </form>-->
-<!--                </client-only>-->
-<!--              </div>-->
-<!--            </div>-->
-
-
-            <div v-if="listing.is_booking && !authUser && $device.isMobile" :class="['book-article', showBooking ? 'show' : 'hide']">
+            <div v-if="$device.isMobile" class="book-article">
               <div class="flex flex-row items-center justify-star">
-                <p class="text-2xl font-thin">{{ listing.price + ' KM' }}</p>
-                <p class="text-black font-medium text-lg ml-2">/ noć</p>
+                <p class="text-lg font-semibold">{{ numberWithCommas(listing.price) + ' KM' }}</p>
+                <p class="text-black font-medium text-lg ml-2" v-if="listing.is_booking">/ noć {{ listing.per_guest ? ' po osobi' : '' }}</p>
               </div>
-              <ActionButton v-if="$auth.user" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
+              <ActionButton v-if="$auth.user && listing.is_booking" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
 
           </div>
-          <div class="user-wrap relative z-10">
-            <UserProfile :bookings="bookings" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
+          <div class="user-wrap relative z-10" v-if="!$device.isMobile">
+            <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator" v-if="listing_reviews.length"></div>
@@ -596,7 +500,6 @@
             </div>
           </modal>
         </client-only>
-
         <client-only>
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="detailed-attributes" :adaptive="true" height="100%">
             <div class="modal-inner">
@@ -877,7 +780,7 @@ export default class Artikal extends Vue {
       try {
         let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
           'starts_at': start.format('D-M-Y'),
-          'ends_at': end.format('D-M-Y')
+          'ends_at': end.format('D-M-Y'),
         })
 
         this.$toast.open({
@@ -1353,7 +1256,6 @@ h2 {
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
   }
-
 }
 
 
@@ -2161,26 +2063,18 @@ h2 {
 
 .book-article {
   position: fixed;
-  top: 0px;
-  box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+  bottom: 0px;
   z-index: 20;
   background: #fff;
-  border-radius: 10px;
   left: 0px;
   right: 0px;
-  padding: 12px;
+  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: 0.3s all ease;
-
-  &.show {
-    height: 80px;
-  }
-
-  &.hide {
-    display: none;
-  }
+  height: 80px;
+  box-shadow: 0px 0px 10px 6px rgb(0 0 0 / 6%);
 }
 
 .date-input {

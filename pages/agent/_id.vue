@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile-wrapper w-full px-20 pt-8">
+  <div class="user-profile-wrapper pt-8">
     <div class="user-content-wrapper mt-8" >
       <div class="flex flex-row items-center justify-start mobile-spans">
         <div class="first-col">
@@ -26,7 +26,6 @@
         </div>
         <div class="second-col">
           <div class="grid grid-cols-1 gap-4 text-sm font-medium text-gray-300 infos">
-
             <div v-if="user.working_agency !== null" class="flex flex-row items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -49,11 +48,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               {{ user.location }}</div>
-            <div v-if="user.web !== null" class="flex flex-row items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-              </svg>
-              {{ user.web }}</div>
             <div v-if="user.phone_number !== null" class="flex flex-row items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -112,11 +106,6 @@
         <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
       </ul>
       <div v-if="selected_tab === 0">
-        <div class="flex flex-row items-center justify-between mb-8 user-options">
-          <ul class="category-list w-full">
-            <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
-          </ul>
-        </div>
         <div>
           <div class="filters-agency">
             <div class="content pb-20">
@@ -196,15 +185,7 @@ import NotFound from "../../components/global/NotFound";
     let meta = {};
 
     try {
-      let response = await ctx.app.$axios.get(`/users/${ctx.route.params.id}/categories`);
-
-      categories = response.data.data;
-    } catch (e) {
-      console.log(e)
-    }
-
-    try {
-      let response = await ctx.app.$axios.get('/agencies/' + ctx.route.params.id)
+      let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
       user = response.data.data;
       meta = response.data.meta;
     } catch(e) {
@@ -395,7 +376,7 @@ export default class Agencies extends Vue {
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  max-width: 1180px;
+  width: 1280px;
 
   @include for-phone-only {
     padding: 16px;

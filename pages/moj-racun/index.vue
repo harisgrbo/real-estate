@@ -6,7 +6,7 @@
         <div class="info">
           <p>{{ $auth.user.name }},</p>
           <p v-if="!$device.isMobile">{{ $auth.user.email }}</p>
-          <nuxt-link :to="$auth.user.user_type === 'agency' ? '/agency/' + $auth.user.id : '/users/' + this.$auth.user.id" class="go-to-profile">Idi na profil</nuxt-link>
+          <button @click="goToUser()" class="go-to-profile">Idi na profil</button>
         </div>
         <div class="grid grid-cols-3 gap-6 pb-1 mobile-grid">
           <div  v-for="(tab, index) in tabs"
@@ -108,6 +108,20 @@ export default class accountpage extends Vue {
     //   desc: 'Postavke privatnosti'
     // },
   ]
+
+  goToUser() {
+    if(this.$auth.user) {
+      if(this.$auth.user.user_type === 'agency') {
+        this.$router.push('/agency/' + this.$auth.user.id)
+      } else if(this.$auth.user.user_type === 'agent'){
+        this.$router.push('/agent/' + this.$auth.user.id)
+      } else {
+        this.$router.push('/users/' + this.$auth.user.id)
+      }
+    } else {
+      this.$router.push('/auth/login')
+    }
+  }
 
   created() {
     if (this.$auth.user && this.$auth.user.user_type === 'agency') {

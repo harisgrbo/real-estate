@@ -73,6 +73,8 @@ export default class TermsInput extends Vue {
     @include for-phone-only {
       grid-row-gap: 16px;
       grid-column-gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+
     }
 
     button {

@@ -87,10 +87,10 @@
           <div class="price-wrap flex flex-col justify-start mb-4">
             <div class="flex flex-row items-center w-full">
               <p class="text-xl font-medium">{{ numberWithCommas(price) + ' KM'}}</p>
-              <p class="pl-2 text-lg font-thin">/ noćenje</p>
+              <p class="pl-2 text-lg font-thin">/ noćenje {{ perguest ? 'po osobi' : '' }}</p>
             </div>
           </div>
-          <div class="mb-4" v-if="$auth.user">
+          <div class="mb-4 picker-wrap" v-if="$auth.user">
             <vc-date-picker
               :disabled-dates="disabledDates"
               :min-date="new Date()"
@@ -103,7 +103,7 @@
               :popover="{ visibility: 'click' }"
             >
               <template v-slot="{ inputValue, inputEvents, isDragging }">
-                <div class="flex flex-row justify-start items-center picker-wrap">
+                <div class="flex flex-row justify-start items-center">
                   <div class="flex flex-col">
                     <label class="text-xs text-gray-400 font-medium mb-2 uppercase">dolazak</label>
                     <div class="relative flex-grow w-full">
@@ -166,10 +166,21 @@
                       />
                     </div>
                   </div>
-
                 </div>
               </template>
             </vc-date-picker>
+            <div class="flex flex-col">
+              <label class="text-xs text-gray-400 font-medium mb-2 uppercase mt-4">Broj gostiju</label>
+              <div class="relative flex-grow w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-600 w-4 h-full mx-2 absolute pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <input
+                  class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
+                  :value="number_of_guests"
+                />
+              </div>
+            </div>
           </div>
           <div v-show="numOfDays" class="mb-4 w-full flex total flex-col">
             <span class="text-md font-light mb-3">Troškovi</span>
@@ -178,7 +189,7 @@
               <p class="font-medium text-md">{{ numberWithCommas(totalBookingPrice) + ' KM' }}</p>
             </div>
           </div>
-          <ActionButton @action="$emit('send-booking-request')" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+          <ActionButton @action="$emit('send-booking-request', this.number_of_guests)" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
         </form>
       </client-only>
     </div>
@@ -189,9 +200,11 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import UserMedals from "@/components/UserMedals";
 import ActionButton from "./actionButtons/ActionButton";
+import TextField from "./inputs/TextField";
 
 @Component({
   components: {
+    TextField,
     ActionButton,
     UserMedals
   },
@@ -204,6 +217,7 @@ export default class UserProfile extends Vue {
   @Prop({}) isRent;
   @Prop({}) isBooking;
   @Prop({}) type;
+  @Prop() perguest
   @Prop() id;
   @Prop() price;
   @Prop({ type: Boolean }) vat;
@@ -220,6 +234,7 @@ export default class UserProfile extends Vue {
   masks = {
     input: 'DD-MM-YYYY',
   }
+  number_of_guests = 1
 
   handleListingSponsoring() {
   }
@@ -252,7 +267,7 @@ export default class UserProfile extends Vue {
     if(t === 'agency') {
       return 'Agencija'
     } else if(t === 'user') {
-      return 'Korisnik'
+      return 'korisnik'
     } else {
       return 'Agent'
     }
