@@ -53,6 +53,11 @@
             <div class="flex flex-col mt-6">
               <TextField type="text" label="Naselje" placeholder="Dolac Malta" v-model="district" class="mb-6"></TextField>
               <TextField type="text" label="ZIP" placeholder="71000" v-model="zip_code"></TextField>
+
+              <select v-model="city" v-show="showMunicipalities" @change="handleSelectedCity">
+                <option :value="null" disabled>Odaberite opštinu</option>
+                <option v-for="municipality in municipalities" :value="municipality">{{ municipality.name }}</option>
+              </select>
             </div>
           </div>
 
@@ -347,6 +352,8 @@ import PublishMap from "@/components/publish/PublishMap";
   }
 })
 export default class Objava extends Vue {
+  showMunicipalities = false;
+
   listingId = null;
 
   finishLoader = false;
@@ -829,15 +836,19 @@ export default class Objava extends Vue {
   city = null;
   zip_code = null;
 
-  handleSelectedCity(f) {
-    this.city = f;
+  handleSelectedCity() {
+    this.lat = this.city.lat;
+    this.lng = this.city.lng;
 
-    this.lat = f.location.lat;
-    this.lng = f.location.lng;
+    this.city.location = {
+      lat: this.lat,
+      lng: this.lng
+    };
 
     this.errors.city.error = false;
-
   }
+
+  municipalities = [];
 
   async handleSelectedAddress(item) {
     try {
@@ -853,6 +864,17 @@ export default class Objava extends Vue {
       if (this.city && this.lat && this.lng) {
         this.city.location.lat = this.lat;
         this.city.location.lng = this.lng;
+      }
+
+      if (res.data.municipalities.length) {
+        console.log(this.city, 'grad');
+        console.log(res.data.municipalities, 'opstine');
+
+        this.city = null;
+
+        this.showMunicipalities = true;
+
+        this.municipalities = res.data.municipalities;
       }
 
       if (this.address && this.city && this.district && this.zip_code && this.lat && this.lng) {
@@ -891,8 +913,8 @@ export default class Objava extends Vue {
     this.errors.description.error = false;
   }
 
-  @Watch('selectedAdvertisment')
-  handleSelectedAdvertismentChange(newVal, oldVal) {
+  @Watch('selectedAdvertisement')
+  handleSelectedAdvertisementChange(newVal, oldVal) {
     this.errors.sponsorship.error = false;
   }
 
