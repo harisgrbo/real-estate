@@ -58,14 +58,14 @@
       </div>
       <div class="third-col">
         <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
-          <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-          <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+          <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+          <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
         </div>
         <div v-else class="w-full flex flex-row items-center justify-start mt-4">
           <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
-            <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
           </div>
         </div>
       </div>
@@ -592,7 +592,7 @@ export default class Agencies extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 15px;
       line-height: 16px;
@@ -706,7 +706,7 @@ export default class Agencies extends Vue {
     padding: 0 10px;
     background: #fff;
     margin-right: 12px;
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
     min-width: fit-content;
@@ -746,7 +746,7 @@ export default class Agencies extends Vue {
 
 .agency-banner {
   height: 300px;
-  border-radius: 10px;
+  border-radius: 6px;
 
   @include for-phone-only {
     height: 150px;
@@ -798,7 +798,7 @@ export default class Agencies extends Vue {
     &.active-tab {
       font-weight: 600;
       background: #f9f9f9;
-      border-radius: 10px;
+      border-radius: 6px;
     }
 
   }

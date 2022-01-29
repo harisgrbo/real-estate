@@ -37,7 +37,7 @@ export default class MostVisitedCard extends Vue {
     img {
       height: 60px;
       width: 60px;
-      border-radius: 10px;
+      border-radius: 6px;
       margin-right: 12px;
     }
 

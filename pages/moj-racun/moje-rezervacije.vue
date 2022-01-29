@@ -191,7 +191,7 @@ ul.orders li {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 24px;
 
   h5 {
@@ -224,7 +224,7 @@ a {
 .main-image-wrap {
   width: 30%;
   height: 180px;
-  border-radius: 10px;
+  border-radius: 6px;
 
   img {
     width: 180px;
@@ -239,7 +239,7 @@ a {
 .special {
   div {
     border: 1px solid #ececec;
-    border-radius: 10px;
+    border-radius: 6px;
     height: 25px;
     width: fit-content;
     margin-right: 8px;
@@ -284,7 +284,7 @@ a {
   @include for-phone-only {
     margin-top: 12px;
     padding: 0 12px;
-    border-radius: 10px;
+    border-radius: 6px;
   }
 }
 </style>

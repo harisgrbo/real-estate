@@ -260,7 +260,7 @@ export default class PublishMap extends Vue{
 
 <style scoped lang="scss">
 #map {
-  border-radius: 10px;
+  border-radius: 6px;
   margin-top: 24px;
   height: 400px;
   /* The height is 400 pixels */

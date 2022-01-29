@@ -209,7 +209,7 @@ export default class spaseno extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 24px;
 }
 
@@ -386,7 +386,7 @@ export default class spaseno extends Vue {
       border: 1px solid #e6dada;
       box-sizing: border-box;
       position: relative;
-      border-radius: 10px;
+      border-radius: 6px;
       height: 100px;
       padding: 12px 0;
       min-height: 100px;
@@ -562,7 +562,7 @@ h1 {
     height: 40px;
     width: 100%;
     border: none;
-    border-radius: 10px;
+    border-radius: 6px;
     box-sizing: border-box;
 
     &:first-child {

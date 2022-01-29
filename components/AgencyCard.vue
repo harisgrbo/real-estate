@@ -44,7 +44,7 @@ export default class AgencyCard extends Vue {
   flex-direction: column;
   padding: 12px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
-  border-radius: 10px;
+  border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
   .avatar {

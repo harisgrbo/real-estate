@@ -72,7 +72,7 @@ export default class ConversationContent extends Vue {
 
     .bubble {
       background: #1B1E31;
-      border-radius: 10px;
+      border-radius: 6px;
       border-top-right-radius: 0;
 
       .message-info {
@@ -131,7 +131,7 @@ export default class ConversationContent extends Vue {
   .bubble {
     padding: 12px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 6px;
     border-top-left-radius: 0;
     max-width: 50%;
     box-shadow: rgb(0 0 0 / 8%) 0px 1px 12px;

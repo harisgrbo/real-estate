@@ -158,7 +158,7 @@ export default class accountpage extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 24px;
 }
 
@@ -178,7 +178,7 @@ export default class accountpage extends Vue {
       display: flex;
       flex: 2;
       box-sizing: border-box;
-      border-radius: 10px;
+      border-radius: 6px;
       flex-direction: column;
 
       @include for-phone-only {
@@ -238,7 +238,7 @@ export default class accountpage extends Vue {
       background: #fff;
       margin-left: 24px;
       box-sizing: border-box;
-      border-radius: 10px;
+      border-radius: 6px;
       position: relative;
       height: calc(100vh - 117px);
       overflow: scroll;
@@ -272,7 +272,7 @@ export default class accountpage extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 6px;
   font-weight: 500;
 
   &:hover {

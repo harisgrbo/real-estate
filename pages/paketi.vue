@@ -194,7 +194,7 @@ export default class Paketi extends Vue{
   .warning {
     background: #eb626e !important;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 6px;
     box-sizing: border-box;
     display: flex;
     margin-bottom: 24px;
@@ -235,7 +235,7 @@ export default class Paketi extends Vue{
     border-collapse: collapse;
     width: 100%;
     margin-top: 24px;
-    border-radius: 10px;
+    border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
     overflow: hidden;
   }
@@ -266,7 +266,7 @@ export default class Paketi extends Vue{
       background: #1B1E31;
       color: #fff;
       margin-right: 24px;
-      border-radius: 10px;
+      border-radius: 6px;
       overflow: hidden;
 
       &:hover {

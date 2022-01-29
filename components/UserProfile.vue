@@ -477,7 +477,7 @@ aside {
 
 .main-user-wrapper {
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 16px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
   margin-bottom: 26px;
@@ -503,7 +503,7 @@ aside {
   height: 40px;
   background: #fff;
   font-size: 13px;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .sticky-top {
@@ -551,7 +551,7 @@ textarea {
 
 .booking {
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 16px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
 }
@@ -564,7 +564,7 @@ textarea {
 
 .picker-wrap {
   background: #f9f9f9;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 12px;
 }
 </style>

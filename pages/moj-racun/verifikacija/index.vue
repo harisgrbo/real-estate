@@ -177,7 +177,7 @@ export default class Verifikacija extends Vue {
       justify-content: flex-start;
       margin: 24px 0;
       background: #f1f1f1;
-      border-radius: 10px;
+      border-radius: 6px;
       padding: 12px;
       box-sizing: border-box;
 
@@ -212,7 +212,7 @@ export default class Verifikacija extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -270,7 +270,7 @@ export default class Verifikacija extends Vue {
     top: 0;
     left: 0;
     transform-origin: 0 0;
-    border-radius: 10px;
+    border-radius: 6px;
   }
   .field-wrap {
     flex: 1;

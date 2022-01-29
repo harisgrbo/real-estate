@@ -148,7 +148,7 @@ a {
   position: relative;
   z-index: 1;
   min-width: 280px;
-  border-radius: 10px;
+  border-radius: 6px;
 
   @include for-phone-only {
     width: 100%;
