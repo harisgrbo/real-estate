@@ -261,7 +261,7 @@
 
           </div>
           <div class="user-wrap relative z-10" v-if="!$device.isMobile">
-            <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
+            <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator" v-if="listing_reviews.length"></div>
@@ -776,11 +776,13 @@ export default class Artikal extends Vue {
     if(this.$auth.user) {
       let start = this.$moment(event ? event.start: this.range.start);
       let end = this.$moment(event ? event.end: this.range.end);
+      let guests = event ? event.guests: 1;
 
       try {
         let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
           'starts_at': start.format('D-M-Y'),
           'ends_at': end.format('D-M-Y'),
+          'guests': guests
         })
 
         this.$toast.open({

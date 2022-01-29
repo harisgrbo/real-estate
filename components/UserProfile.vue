@@ -177,7 +177,7 @@
                 </svg>
                 <input
                   class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
-                  :value="number_of_guests"
+                  v-model="number_of_guests"
                 />
               </div>
             </div>
@@ -189,7 +189,7 @@
               <p class="font-medium text-md">{{ numberWithCommas(totalBookingPrice) + ' KM' }}</p>
             </div>
           </div>
-          <ActionButton @action="$emit('send-booking-request', this.number_of_guests)" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+          <ActionButton @action="handleBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
         </form>
       </client-only>
     </div>
@@ -286,6 +286,14 @@ export default class UserProfile extends Vue {
     if(this.type === 'agency') {
       await this.getOtherListings();
     }
+  }
+
+  handleBookingRequest() {
+    this.$emit('send-booking-request', {
+      'guests': this.number_of_guests,
+      'start': this.range.start,
+      'end': this.range.end
+    });
   }
 
   get dates() {
