@@ -34,7 +34,7 @@ div {
 button {
   font-family: 'Outfit', sans-serif;
   height: 48px;
-  border-radius: 10px;
+  border-radius: 6px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -48,9 +48,7 @@ button {
   background: #1F2937;
 
   @include for-phone-only {
-    background: #1F2937 !important;
     padding: 0 12px !important;
-    color: #fff !important;
   }
 
   svg {

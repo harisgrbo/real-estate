@@ -462,7 +462,7 @@ export default class Users extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -706,7 +706,7 @@ aside {
     &.active-tab {
       font-weight: 600;
       background: #f9f9f9;
-      border-radius: 10px;
+      border-radius: 6px;
     }
 
   }

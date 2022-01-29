@@ -12,8 +12,8 @@
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
             </dd>
           </div>
-          <dd class="mt-1 flex flex-row items-center justify-start">
-            <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+          <dd class="mt-1 flex flex-row items-center justify-start text-sm">
+            <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
             {{ user.online ? 'Online' : 'Offline' }}
           </dd>
           <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
@@ -81,13 +81,13 @@
 <!--        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />-->
 <!--      </svg>-->
 <!--      Blokiraj korisnika</button>-->
-    <div class="booking rounded-md" v-if="isBooking && !isMe">
+    <div class="booking rounded-md" v-if="isBooking && !isMe && !$device.isMobile">
       <client-only>
         <form @submit.prevent>
           <div class="price-wrap flex flex-col justify-start mb-4">
             <div class="flex flex-row items-center w-full">
               <p class="text-xl font-medium">{{ numberWithCommas(price) + ' KM'}}</p>
-              <p class="pl-2 text-lg font-thin">/ noćenje {{ perguest ? 'po osobi' : '' }}</p>
+              <p class="pl-2 text-lg font-thin">/ noć {{ perguest ? 'po osobi' : '' }}</p>
             </div>
           </div>
           <div class="mb-4 picker-wrap" v-if="$auth.user">
@@ -485,7 +485,7 @@ aside {
 
 .main-user-wrapper {
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 16px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
   margin-bottom: 26px;
@@ -493,7 +493,8 @@ aside {
   @include for-phone-only {
     box-shadow: none;
     border: none;
-    padding: 16px;
+    padding: 24px 16px;
+    margin-bottom: 0;
   }
 
   img {
@@ -510,7 +511,7 @@ aside {
   height: 40px;
   background: #fff;
   font-size: 13px;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .sticky-top {
@@ -558,7 +559,7 @@ textarea {
 
 .booking {
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 16px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
 }
@@ -571,7 +572,7 @@ textarea {
 
 .picker-wrap {
   background: #f9f9f9;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 12px;
 }
 </style>

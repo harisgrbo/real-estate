@@ -169,7 +169,7 @@ export default class SingleQuestion extends Vue {
     //box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     border: 1px solid #dcdcdc;
     height: fit-content;
-    border-radius: 10px;
+    border-radius: 6px;
     margin-bottom: 24px;
 
     .user-info {

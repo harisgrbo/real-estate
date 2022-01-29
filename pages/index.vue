@@ -136,7 +136,7 @@
             </h3>
             <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(0) }} KM/m2</p>
           </div>
-          <ActionButton v-if="$auth.user" type="submit" class="searched-h3" @action="searchLocation(city.city.id)" placeholder="Pogledaj više" :style-options="{ background: 'transparent', border: '2px solid #fff', color: '#fff', borderRadius: '10px', height: '42px', fontSize: '13px' }" :loading="false"></ActionButton>
+          <ActionButton v-if="$auth.user" type="submit" class="searched-h3" @action="searchLocation(city.city.id)" placeholder="Pogledaj više" :style-options="{ background: 'transparent', border: '2px solid #fff', color: '#fff', borderRadius: '6px', height: '42px', fontSize: '13px' }" :loading="false"></ActionButton>
         </li>
       </ul>
 
@@ -871,7 +871,7 @@ h2.heading {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    border-radius: 10px;
+    border-radius: 6px;
     margin-right: 12px;
     height: 40px;
     min-width: fit-content;
@@ -906,7 +906,7 @@ h2.heading {
   min-height: 262px;
   width: 440px;
   height: 262px;
-  border-radius: 10px;
+  border-radius: 6px;
   object-fit: cover;
   object-fit: cover;
   background-position: center;
@@ -979,7 +979,7 @@ ul.most-visited-cats {
     width: 100%;
     max-height: 180px;
     height: 262px;
-    border-radius: 10px;
+    border-radius: 6px;
     object-fit: cover;
     object-fit: cover;
     background-position: center;
@@ -1064,7 +1064,7 @@ ul.most-visited-cats {
   height: 30px;
   max-height: 30px;
   width: 30px;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 0 !important;
   display: flex;
   align-items: center;
@@ -1084,7 +1084,7 @@ ul.most-visited-cats {
   background-size: cover;
   background-position: right;
   position: relative;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 0;
   width: 100%;
   margin: 80px auto 0 auto;
@@ -1096,7 +1096,7 @@ ul.most-visited-cats {
     height: 456px;
     object-fit: cover;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 6px;
   }
 
   @include for-phone-only {
@@ -1199,7 +1199,7 @@ ul.most-visited-cats {
       justify-content: center;
       width: fit-content;
       background: #fff;
-      border-radius: 10px;
+      border-radius: 6px;
       font-weight: 500;
       font-size: 14px;
     }
@@ -1230,7 +1230,7 @@ ul.most-visited-cats {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   z-index: 0;
-  height: 160px;
+  height: 100px;
 
   @include for-phone-only {
     height: 85px;

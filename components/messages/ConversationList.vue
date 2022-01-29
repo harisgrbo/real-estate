@@ -70,7 +70,7 @@ export default class ConversationList extends Vue {
 
     &.active {
       background: #f7f7f7;
-      border-radius: 10px;
+      border-radius: 6px;
 
       .username p {
         font-weight: 600;

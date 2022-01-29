@@ -52,12 +52,16 @@
             </div>
             <div class="flex flex-col mt-6">
               <TextField type="text" label="Naselje" placeholder="Dolac Malta" v-model="district" class="mb-6"></TextField>
-              <TextField type="text" label="ZIP" placeholder="71000" v-model="zip_code"></TextField>
-
-              <select v-model="city" v-show="showMunicipalities" @change="handleSelectedCity">
-                <option :value="null" disabled>Odaberite opštinu</option>
-                <option v-for="municipality in municipalities" :value="municipality">{{ municipality.name }}</option>
-              </select>
+              <TextField type="text" label="ZIP" placeholder="71000" v-model="zip_code" class="mb-6"></TextField>
+              <div class="relative w-full flex flex-col items-start" v-show="showMunicipalities">
+                <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+                  <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Opština</label>
+                  <select v-model="city" @change="handleSelectedCity" id="language" name="language" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                    <option :value="null" disabled>Odaberite opštinu</option>
+                    <option v-for="municipality in municipalities" :value="municipality">{{ municipality.name }}</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1186,7 +1190,7 @@ export default class Objava extends Vue {
             cursor: pointer;
             margin-right: 16px;
             border: 2px solid #1F2937;
-            border-radius: 10px;
+            border-radius: 6px;
             color: #1F2937;
 
             &.back {
@@ -1308,7 +1312,7 @@ export default class Objava extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 26px;
@@ -1437,7 +1441,7 @@ h1.heading {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 6px;
     height: fit-content;
     flex-direction: column;
     padding: 48px 0;
@@ -1475,7 +1479,7 @@ h1.heading {
       }
 
       img {
-        border-radius: 10px;
+        border-radius: 6px;
         height: 100%;
         width: 100%;
       }
@@ -1488,7 +1492,7 @@ h2.info {
   color: #444;
   font-size: 16px;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-top: 36px !important;
   font-weight: 500 !important;
   line-height: 22px;
@@ -1555,7 +1559,7 @@ h2.info {
 
         &.selected {
           background: #f1f1f1;
-          border-radius: 10px;
+          border-radius: 6px;
         }
       }
     }
@@ -1616,7 +1620,7 @@ h2.info {
 
     .inner {
       border: 1px solid #dcdcdc;
-      border-radius: 10px;
+      border-radius: 6px;
       padding: 12px;
       box-sizing: border-box;
     }
@@ -1633,7 +1637,7 @@ h2.info {
   color: #444;
   font-size: 16px;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-top: 36px !important;
   font-weight: 500 !important;
   line-height: 22px;
@@ -1738,7 +1742,7 @@ h2.info {
 .move-top {
   margin-top: -65%;
   box-shadow: rgb(0 0 0 / 12%) 0px 0px 0px 8px;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .publish-drop {
@@ -1853,7 +1857,7 @@ h2.info {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  border-radius: 10px;
+  border-radius: 6px;
 
   &:hover {
     background: #fff;
@@ -1915,5 +1919,17 @@ h2.info {
 .preview-img {
   width: 90px;
   height: fit-content;
+}
+
+select {
+  min-height: 36px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.select-border {
+  border: 1px solid #f1f1f1 !important;
 }
 </style>

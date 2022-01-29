@@ -634,7 +634,7 @@ export default class Poruke extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 24px 0 !important;
   margin-top: 0 !important;
 
@@ -647,7 +647,7 @@ export default class Poruke extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 6px;
   background: #F3F3F4;
   position: relative;
   transition: 0.3s all ease;
@@ -665,7 +665,7 @@ export default class Poruke extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 0 12px;
   background: #F3F3F4;
   flex: 2;
@@ -695,14 +695,14 @@ textarea {
   font-weight: 500;
   font-size: 14px;
   min-height: 50px;
-  border-radius: 10px;
+  border-radius: 6px;
   max-height: 50px;
   border: 1px solid #ddd;
   background: #f9f9f9;
 
   &:focus {
     outline: 1px solid #000;
-    border-radius: 10px;
+    border-radius: 6px;
   }
 }
 
@@ -738,7 +738,7 @@ textarea {
 .chat .chat__tabs a {
   font-family: 'Outfit', sans-serif;
   height: 48px;
-  border-radius: 10px;
+  border-radius: 6px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -755,7 +755,7 @@ textarea {
 .chat .chat__tabs a.active {
   font-family: 'Outfit', sans-serif;
   height: 48px;
-  border-radius: 10px;
+  border-radius: 6px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -883,7 +883,7 @@ img {
   height: fit-content;
   overflow-y: scroll;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 6px;
 
   @include for-phone-only {
     left: 0;
@@ -902,7 +902,7 @@ img {
 .message-image {
   height: 200px;
   width: fit-content;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-bottom: 4px;
 }
 
@@ -964,7 +964,7 @@ img {
 .image-upload-wrapper {
   background: #f9f9f9;
   border: 2px dashed #f1f1f1;
-  border-radius: 10px;
+  border-radius: 6px;
   height: 100%;
   width: 100%;
   min-height: 300px;

@@ -13,9 +13,9 @@
             Akcija{{ ' -' + listing.discount * 100 + '%' }}
           </p>
         </span>
-        <span class="flex flex-row items-center bg-white shadow-sm mr-2">
-          {{ listing.city.country.shortname }}
-        </span>
+<!--        <span class="flex flex-row items-center bg-white shadow-sm mr-2">-->
+<!--          {{ listing.city.country.shortname }}-->
+<!--        </span>-->
         <span v-if="listing.completed_at" class="flex flex-row items-center bg-red-600 text-white shadow-sm mr-2 finished">
           ZAVRŠEN
         </span>
@@ -60,11 +60,11 @@
             <div class="icons-date flex flex-row items-center justify-between w-full">
               <div class="important">
                 <p :class="['new', listing.hasOwnProperty('discount') ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
-                <p v-show="listing.is_booking" class="pl-2">/ noć</p>
+                <p v-show="listing.is_booking && !listing.hasOwnProperty('discount')" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
               </div>
               <div class="important" v-if="listing.hasOwnProperty('discount')">
                 <p class="new">{{ parseInt(listing.price - listing.price * listing.discount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
-                <p v-show="listing.is_booking" class="pl-2">/ noć</p>
+                <p v-show="listing.is_booking" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
               </div>
             </div>
           </div>
@@ -74,8 +74,10 @@
               :key="index"
               class="flex flex-row items-center mr-2"
             >
-              <img v-if="attr.name === 'Broj kreveta'" src="/bed.svg" alt="">
+              <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
               <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+              <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
+              <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
               {{ attr.value }}
               <p v-if="attr.name === 'Kvadratura'">
                 m²
@@ -111,13 +113,16 @@ export default class ListingCard extends Vue{
   custom_swiper = null;
   showTooltip = false;
   saved = false;
-  specialAttributes = [];
   showListingOptions = false;
+  specialAttributes = [];
   specialAttributesKeys = [
     "Broj soba",
     "Kvadratura",
-    "Broj kreveta"
+    "Broj kreveta",
+    "Broj gostiju"
+
   ];
+  specialRentAttributes = [];
   swiperOptionCard = {
     spaceBetween: 0,
     // centeredSlides: true,
@@ -213,7 +218,7 @@ export default class ListingCard extends Vue{
     position: relative;
     z-index: 1;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 6px;
 
     @include for-phone-only {
       width: 100%;

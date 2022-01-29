@@ -38,7 +38,7 @@ export default class PremiumAgency extends Vue {
   box-sizing: border-box;
   height: 100%;
   border: 1px solid #dcdcdc;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 12px;
 
   @include for-phone-only {
@@ -48,7 +48,7 @@ export default class PremiumAgency extends Vue {
   img {
     height: 120px;
     width: 160px;
-    border-radius: 10px;
+    border-radius: 6px;
     margin-right: 24px;
     object-fit: contain;
     padding: 12px;

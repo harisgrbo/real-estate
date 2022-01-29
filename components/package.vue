@@ -59,7 +59,7 @@ export default class Package extends Vue{
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
     overflow: hidden;
     transition: 0.3s all ease;
@@ -78,7 +78,7 @@ export default class Package extends Vue{
 
       .package-type {
         background: #0B8489;
-        border-radius: 10px;
+        border-radius: 6px;
         padding: 12px;
         font-size: 19px;
         width: fit-content;

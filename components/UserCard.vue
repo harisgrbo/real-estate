@@ -119,7 +119,7 @@ export default class UserCard extends Vue {
 }
 
 .box {
-  border-radius: 10px;
+  border-radius: 6px;
   min-width: 360px;
   width: 360px;
   max-width: 360px;
