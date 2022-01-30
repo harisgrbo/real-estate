@@ -52,7 +52,7 @@ export default class PieChart extends Vue {
 <style scoped lang="scss">
 #chart {
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
-  border-radius: 10px;
+  border-radius: 6px;
   padding-top: 12px;
   margin-top: 24px;
   width: 500;

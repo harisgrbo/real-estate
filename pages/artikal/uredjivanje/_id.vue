@@ -23,7 +23,7 @@
           <div class="bg-50 flex flex-col w-full">
             <div class="flex flex-row items-end">
               <TextField type="number" label="Popust na cijenu" v-model="discount" discount="true"></TextField>
-              <action-button class="ml-4" @action="addDiscount" v-if="discount.length" placeholder="Potvrdi popust"></action-button>
+              <action-button class="ml-4" @action="addDiscount" v-show="discount.length > 0" placeholder="Potvrdi popust"></action-button>
             </div>
             <div class="mt-3" v-if="discount.length">
               <label class="block text-md font-medium text-gray-900 mb-2">Period akcije</label>
@@ -188,7 +188,7 @@
           </div>
         </div>
       </div>
-      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '10px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '6px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -746,7 +746,7 @@ export default class ListingEdit extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 0 24px 24px 24px;
 }
 
@@ -1009,7 +1009,7 @@ export default class ListingEdit extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -1129,7 +1129,7 @@ h1.heading {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 6px;
     height: fit-content;
     flex-direction: column;
     padding: 48px 0;
@@ -1168,7 +1168,7 @@ h1.heading {
       }
 
       img {
-        border-radius: 10px;
+        border-radius: 6px;
         height: 100%;
         width: 100%;
       }
@@ -1181,7 +1181,7 @@ h2.info {
   color: #444;
   font-size: 16px;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-top: 36px !important;
   font-weight: 500 !important;
   line-height: 22px;
@@ -1250,7 +1250,7 @@ h2.info {
 
         &.selected {
           background: #f1f1f1;
-          border-radius: 10px;
+          border-radius: 6px;
         }
       }
     }
@@ -1313,7 +1313,7 @@ h2.info {
 
     .inner {
       border: 1px solid #dcdcdc;
-      border-radius: 10px;
+      border-radius: 6px;
       padding: 12px;
       box-sizing: border-box;
     }
@@ -1330,7 +1330,7 @@ h2.info {
   color: #444;
   font-size: 16px;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-top: 36px !important;
   font-weight: 500 !important;
   line-height: 22px;
@@ -1361,7 +1361,7 @@ h2.info {
     background: #1F2937;
     height: 20px;
     width: 20px;
-    border-radius: 10px;
+    border-radius: 6px;
     color: #fff;
     display: flex;
     align-items: center;

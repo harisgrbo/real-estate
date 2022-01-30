@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile-wrapper pt-8">
-    <div class="user-content-wrapper mt-8" >
+    <div class="user-content-wrapper custom-width mt-8" >
       <div class="flex flex-row items-center justify-start mobile-spans">
         <div class="first-col">
           <aside class="w-96 bg-white overflow-y-auto">
@@ -58,14 +58,14 @@
       </div>
       <div class="third-col">
         <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
-          <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-          <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+          <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+          <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
         </div>
         <div v-else class="w-full flex flex-row items-center justify-start mt-4">
           <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
-            <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@
             Ukupno oglasa
           </dt>
           <dd class="mt-1 text-3xl font-semibold text-gray-900">
-            71,897
+            {{ meta.active_count + meta.completed_count }}
           </dd>
         </div>
 
@@ -86,7 +86,7 @@
             Aktivni oglasi
           </dt>
           <dd class="mt-1 text-3xl font-semibold text-gray-900">
-            71,897
+            {{ meta.active_count }}
           </dd>
         </div>
 
@@ -95,7 +95,7 @@
             Završeni oglasi
           </dt>
           <dd class="mt-1 text-3xl font-semibold text-gray-900">
-            71,897
+            {{ meta.completed_count }}
           </dd>
         </div>
       </dl>
@@ -376,7 +376,6 @@ export default class Agencies extends Vue {
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  width: 1280px;
 
   @include for-phone-only {
     padding: 16px;
@@ -428,6 +427,7 @@ export default class Agencies extends Vue {
         width: 100%;
         margin-bottom: 12px;
         border-bottom: 1px solid #f1f1f1;
+        min-height: 120px;
       }
     }
     .second-col {
@@ -592,7 +592,7 @@ export default class Agencies extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 15px;
       line-height: 16px;
@@ -706,7 +706,7 @@ export default class Agencies extends Vue {
     padding: 0 10px;
     background: #fff;
     margin-right: 12px;
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
     min-width: fit-content;
@@ -746,7 +746,7 @@ export default class Agencies extends Vue {
 
 .agency-banner {
   height: 300px;
-  border-radius: 10px;
+  border-radius: 6px;
 
   @include for-phone-only {
     height: 150px;
@@ -771,11 +771,16 @@ export default class Agencies extends Vue {
   @include for-phone-only {
     width: 100%;
   }
-  button {
+  ::v-deep button {
     width: fit-content;
     margin-right: 8px;
     max-width: fit-content;
     border-radius: 4px !important;
+
+    @include for-phone-only {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
 
     &:last-child {
       margin-right: 0;
@@ -798,7 +803,7 @@ export default class Agencies extends Vue {
     &.active-tab {
       font-weight: 600;
       background: #f9f9f9;
-      border-radius: 10px;
+      border-radius: 6px;
     }
 
   }

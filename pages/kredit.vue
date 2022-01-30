@@ -225,7 +225,7 @@ export default class Kredit extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 24px;
 
   @include for-phone-only {
@@ -279,7 +279,7 @@ export default class Kredit extends Vue {
         }
         &.selected {
           background: #f1f1f1;
-          border-radius: 10px;
+          border-radius: 6px;
         }
 
       }
@@ -317,7 +317,7 @@ export default class Kredit extends Vue {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          border-radius: 10px;
+          border-radius: 6px;
           border: 1px solid #dcdcdc;
           width: 100%;
           padding: 24px;
@@ -400,7 +400,7 @@ export default class Kredit extends Vue {
             }
           }
           &.selected-card {
-            border-radius: 10px;
+            border-radius: 6px;
             img[src$='.png'] {
               filter: invert(1) brightness(100);
             }
@@ -437,7 +437,7 @@ export default class Kredit extends Vue {
 
           &.selected-card {
             background: #f1f1f1;
-            border-radius: 10px;
+            border-radius: 6px;
           }
         }
       }
@@ -456,7 +456,7 @@ export default class Kredit extends Vue {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          border-radius: 10px;
+          border-radius: 6px;
           border: 1px solid #dcdcdc;
           width: 100%;
           background: transparent;

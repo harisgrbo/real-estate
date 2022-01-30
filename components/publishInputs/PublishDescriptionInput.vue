@@ -31,7 +31,7 @@ label {
 }
 textarea {
   height: 400px;
-  border-radius: 10px;
+  border-radius: 6px;
   font-weight: 500;
   color: #000;
   font-size: 18px;

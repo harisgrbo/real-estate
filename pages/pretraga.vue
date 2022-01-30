@@ -876,7 +876,7 @@ export default class Homepage extends Vue {
           background: #f9f9f9;
           margin-left: 36px;
           height: calc(100vh - 237px);
-          border-radius: 10px;
+          border-radius: 6px;
           overflow: hidden;
 
           ::v-deep #map {
@@ -925,7 +925,7 @@ export default class Homepage extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -1014,7 +1014,7 @@ export default class Homepage extends Vue {
 
   button {
     height: 40px;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1093,7 +1093,7 @@ export default class Homepage extends Vue {
     height: 44px;
     padding: 0 10px;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px;
     font-weight: 300;
     min-width: fit-content;
@@ -1119,7 +1119,7 @@ export default class Homepage extends Vue {
   background: #fff;
   border: 1px solid #f1f1f1;
   margin-right: 16px;
-  border-radius: 10px;
+  border-radius: 6px;
   font-size: 13px;
   min-width: fit-content;
   cursor: pointer;
@@ -1165,7 +1165,7 @@ export default class Homepage extends Vue {
     .svg-wrap {
       height: 50px;
       width: 50px;
-      border-radius: 10px;
+      border-radius: 6px;
     }
 
     &.selected {
@@ -1234,7 +1234,7 @@ export default class Homepage extends Vue {
 
 .toggle-map-wrapper {
   border: 1px solid #f1f1f1;
-  border-radius: 10px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   min-width: fit-content;;
@@ -1261,7 +1261,7 @@ export default class Homepage extends Vue {
     }
     &.active {
       background: #fff;
-      border-radius: 10px;
+      border-radius: 6px;
       //box-shadow: rgb(0 0 0 / 12%) 0px 1px 5px;
       font-weight: 600;
       color: #000;
@@ -1357,7 +1357,7 @@ export default class Homepage extends Vue {
 .search-options {
   @include for-phone-only {
     button {
-      border-radius: 10px;
+      border-radius: 6px;
       background: #f9f9f9;
       font-weight: 600;
     }
@@ -1369,7 +1369,7 @@ export default class Homepage extends Vue {
 
   a {
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 6px;
     height: 48px;
     font-size: 13px;
     font-weight: 500;

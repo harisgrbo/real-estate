@@ -547,7 +547,7 @@ export default class Artikal extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -689,7 +689,7 @@ export default class Artikal extends Vue {
   flex-direction: column;
   background: #f1f1f1;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 6px;
 
   ::v-deep button {
     margin-top: 12px;

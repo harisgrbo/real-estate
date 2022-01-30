@@ -80,12 +80,6 @@
               </div>
             </div>
             <div class="mb-6 px-5 lg:px-0 xl:px-0 up:px-0 mobile-content">
-              <div class="rent" v-if="listing.is_booking && !$device.isMobile">
-                <div class="flex flex-row items-center w-full price-wrap p-2 bg-gray-50">
-                  <p class="text-xl font-bold main-price-label">{{ numberWithCommas(listing.price) + ' KM'}}</p>
-                  <p class="pl-2 text-xl font-semibold">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
-                </div>
-              </div>
               <div v-if="reviewCount" class="flex flex-row items-center justify-start mt-5">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="yellow" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
@@ -115,7 +109,7 @@
                 >
                   <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
                   <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                  <img v-if="attr.name === 'Broj osoba'" src="/guests.png" alt="">
+                  <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
                   <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
                   {{ attr.value }}
                 </div>
@@ -123,6 +117,12 @@
             </div>
             <div class="user-wrap relative z-10" v-if="$device.isMobile">
               <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
+            </div>
+            <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
+              <div class="flex flex-row items-center w-full">
+                <p class="text-xl font-medium">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                <p class="pl-2 text-lg font-thin">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+              </div>
             </div>
             <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
               <li>
@@ -144,6 +144,22 @@
                 <p class="text-md text-black font-normal">{{ listing.city.country.name }}</p>
               </li>
             </ul>
+            <div class="addresses" v-if="!$device.isMobile">
+              <div
+                v-for="(attr, index) in specialAttributes"
+                :key="index"
+                class="flex flex-row items-center mr-2"
+              >
+                <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
+                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
+                <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
+                {{ attr.value }}
+                <p v-if="attr.name === 'Kvadratura'">
+                  m²
+                </p>
+              </div>
+            </div>
             <div class="mt-4 mobile-places-btn">
               <ActionButton @action="$modal.show('map-modal')"  placeholder="Mapa" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
               <ActionButton v-if="!listing.is_booking" @action="$modal.show('places')"  placeholder="U blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
@@ -182,7 +198,7 @@
                   <img :src="'/' + attr.name + '.png'" alt="">
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                     <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
-                      <div class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</div>
+                      <div class="text-gray-900 font-medium hover:text-gray-700">{{ attr.name }}</div>
                       <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
                     </div>
                   </div>
@@ -268,7 +284,7 @@
 
           </div>
           <div class="user-wrap relative z-10" v-if="!$device.isMobile">
-            <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
+            <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
           </div>
           <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
             <div class="separator" v-if="listing_reviews.length"></div>
@@ -497,19 +513,25 @@
                             </svg>
                             <input
                               class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
-                              :value="number_of_guests"
+                              v-model="number_of_guests"
                             />
                           </div>
                         </div>
                       </div>
                       <div v-show="numOfDays" class="mb-4 w-full flex total flex-col">
-                        <span class="text-md font-light mb-3">Troškovi</span>
-                        <div class="flex w-full flex-row items-center justify-between">
-                          <p class="font-thin text-md">{{ listing.price }} KM x {{ numOfDays }} dana</p>
-                          <p class="font-medium text-md">{{ numberWithCommas(totalBookingPrice) + ' KM' }}</p>
+                        <span class="text-lg font-medium mb-4">Troškovi</span>
+                        <div class="flex w-full flex-col items-start justify-between">
+                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Cijena:
+                            <span>
+                              {{ listing.price + ' KM' }} {{ listing.per_guest ? 'po osobi' : '' }}
+                            </span>
+                          </div>
+                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj noćenja: <span>{{ numOfDays }}</span></div>
+                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj gostiju: <span>{{ number_of_guests }}</span></div>
+                          <div class="font-light total text-md w-full flex flex-row items-center justify-between pt-3 mt-3 border-t border-gray-400">Ukupno:  <span class="font-semibold text-lg">{{ numberWithCommas(totalBookingPrice) + ' KM'  }}</span></div>
                         </div>
                       </div>
-                      <ActionButton @action="sendBookingRequest()" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                      <ActionButton @action="sendBookingRequest(); $modal.hide('booking')" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
                     </form>
                   </client-only>
                 </div>
@@ -653,6 +675,7 @@ export default class Artikal extends Vue {
   showMoreSchools = false;
   showMoreAtms = false;
   loading = false;
+  number_of_guests = 1;
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
@@ -697,16 +720,21 @@ export default class Artikal extends Vue {
     "Wifi",
     "Broj kreveta",
     "Pegla",
-    "Ves masina",
+    "Veš mašina",
     "Kuhinja",
-    "Fen"
+    "Ljubimci dozvoljeni",
+    "Privatni Parking",
+    "Fen",
+    "TV",
+    "Balkon",
+    "Zabranjeno pušenje"
   ];
   specialAttributes = [];
   specialAttributesKeys = [
     "Broj soba",
     "Kvadratura",
     "Broj kreveta",
-    "Broj osoba"
+    "Broj gostiju"
   ];
 
   poi_places = [];
@@ -804,7 +832,7 @@ export default class Artikal extends Vue {
   }
 
   shareListing() {
-    if (navigator.share) {
+    if(navigator.share) {
       navigator
         .share({
           title: this.listing.title,
@@ -820,11 +848,13 @@ export default class Artikal extends Vue {
     if(this.$auth.user) {
       let start = this.$moment(event ? event.start: this.range.start);
       let end = this.$moment(event ? event.end: this.range.end);
+      let guests = event ? event.guests: this.number_of_guests;
 
       try {
         let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
           'starts_at': start.format('D-M-Y'),
           'ends_at': end.format('D-M-Y'),
+          'guests': guests
         })
 
         this.$toast.open({
@@ -917,7 +947,11 @@ export default class Artikal extends Vue {
   }
 
   get totalBookingPrice() {
-    return this.listing.price * this.numOfDays;
+    if(this.listing.per_guest) {
+      return this.listing.price * this.numOfDays * this.number_of_guests;
+    } else {
+      return this.listing.price * this.numOfDays
+    }
   }
 
   toggleBookingModal() {
@@ -1191,7 +1225,7 @@ h2 {
 }
 
 .no-image-grid {
-  border-radius: 10px;
+  border-radius: 6px;
   overflow: hidden;
   width: 796px;
   max-width: 100%;
@@ -1451,7 +1485,7 @@ h2 {
       position: absolute;
       top: 0;
       background: #fff;
-      border-radius: 10px;
+      border-radius: 6px;
       width: 30px;
       height: 30px;
       display: flex;
@@ -1471,7 +1505,7 @@ h2 {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 16px;
       line-height: 21px;
@@ -1684,7 +1718,7 @@ h2 {
 .question-create {
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-top: 24px;
 
   ::v-deep button {
@@ -1697,7 +1731,7 @@ h2 {
     border: 1px solid #ddd;
     height: 100px;
     padding: 12px;
-    border-radius: 10px;
+    border-radius: 6px;
     font-family: 'Outfit', sans-serif;
     &:focus {
       outline: none;
@@ -1850,7 +1884,7 @@ h2 {
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 24px;
   grid-row-gap: 32px;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 32px 0;
 
   @include for-phone-only {
@@ -1887,7 +1921,7 @@ h2 {
       color: #444;
       padding: 12px;
       background: #f1f1f1;
-      border-radius: 10px;
+      border-radius: 6px;
     }
   }
 }
@@ -1901,7 +1935,7 @@ h2 {
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 24px;
     grid-row-gap: 32px;
-    border-radius: 10px;
+    border-radius: 6px;
 
     @include for-phone-only {
       grid-template-columns: repeat(1, 1fr);
@@ -1937,7 +1971,7 @@ h2 {
         color: #444;
         padding: 12px;
         background: #f1f1f1;
-        border-radius: 10px;
+        border-radius: 6px;
       }
     }
   }
@@ -1948,7 +1982,7 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 6px;
     font-family: 'Outfit', sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -2141,7 +2175,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 6px;
   background: #fff;
   border: 1px solid #ddd;
   flex: 2;
@@ -2151,7 +2185,7 @@ h2 {
   margin-top: 0;
   min-height: 48px;
   padding: 0 12px;
-  border-radius: 10px;
+  border-radius: 6px;
 
 
   &:focus {
@@ -2177,7 +2211,7 @@ h2 {
   height: 30px;
   max-height: 30px;
   width: 30px;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 0 !important;
   display: flex;
   align-items: center;
@@ -2278,7 +2312,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 6px;
   flex: 2;
   position: relative;
   transition: 0.3s all ease;
@@ -2295,7 +2329,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 12px;
   background: #fff;
   flex: 2;
@@ -2324,11 +2358,11 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 12px;
     img {
-      height: 40px;
-      max-width: 40px !important;
-      min-width: 40px !important;
+      height: 30px !important;
+      max-width: auto !important;
+      min-width: auto !important;
+      width: auto !important;
 
       @include for-phone-only {
         height: 19px;
@@ -2440,7 +2474,12 @@ input[type=range]:focus::-ms-fill-upper {
   }
 
   &.ammenities {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+
+    @include for-phone-only {
+      grid-template-columns: repeat(2, 1fr);
+
+    }
   }
 }
 
@@ -2475,7 +2514,7 @@ input[type=range]:focus::-ms-fill-upper {
 .show-map-button {
   width: fit-content;
   height: 48px;
-  border-radius: 10px;
+  border-radius: 6px;
   background: #1F2937;
   padding: 0 12px;
   display: flex;
@@ -2566,7 +2605,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .picker-wrap {
   background: #f9f9f9;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 12px;
 }
 

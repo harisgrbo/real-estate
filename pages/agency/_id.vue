@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile-wrapper mx-auto pt-0">
     <div class="agency-banner" :style="{ backgroundImage: 'url(' + '/agencijabg.jpeg' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
-    <div class="flex flex-col w-1280 mx-auto">
+    <div class="flex flex-col custom-width mx-auto">
       <div class="user-content-wrapper mt-8" >
         <div class="flex flex-row items-center justify-start mobile-spans">
           <div class="first-col">
@@ -60,15 +60,15 @@
         </div>
         <div class="third-col">
           <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
-            <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
           </div>
           <div v-else class="w-full flex flex-row items-center justify-start mt-4">
             <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
-              <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '10px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <div class="rounded-md bg-blue-50 p-3">
+              <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+              <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+              <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+              <div class="rounded-md bg-blue-50 p-3" v-if="!$device.isMobile">
                 <div class="flex">
                   <div class="flex-shrink-0">
                     <!-- Heroicon name: solid/information-circle -->
@@ -457,6 +457,7 @@ export default class Agencies extends Vue {
         width: 100%;
         margin-bottom: 12px;
         border-bottom: 1px solid #f1f1f1;
+        min-height: 120px;
       }
     }
     .second-col {
@@ -621,7 +622,7 @@ export default class Agencies extends Vue {
       height: 200px;
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 6px;
       font-family: 'Outfit', sans-serif;
       font-size: 15px;
       line-height: 16px;
@@ -735,7 +736,7 @@ export default class Agencies extends Vue {
     padding: 0 10px;
     background: #fff;
     margin-right: 12px;
-    border-radius: 10px;
+    border-radius: 6px;
     font-size: 14px;
     font-weight: 600;
     min-width: fit-content;
@@ -799,11 +800,16 @@ export default class Agencies extends Vue {
   @include for-phone-only {
     width: 100%;
   }
-  button {
+  ::v-deep button {
     width: fit-content;
     margin-right: 8px;
     max-width: fit-content;
     border-radius: 4px !important;
+
+    @include for-phone-only {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
 
     &:last-child {
       margin-right: 0;
@@ -826,7 +832,7 @@ export default class Agencies extends Vue {
     &.active-tab {
       font-weight: 600;
       background: #f9f9f9;
-      border-radius: 10px;
+      border-radius: 6px;
     }
 
   }

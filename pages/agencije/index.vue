@@ -76,7 +76,7 @@ export default class Agencies extends Vue {
       display: flex;
       flex: 2;
       box-sizing: border-box;
-      border-radius: 10px;
+      border-radius: 6px;
       flex-direction: column;
 
       @include for-phone-only {
@@ -137,7 +137,7 @@ export default class Agencies extends Vue {
           line-height: 40px;
           font-weight: 400;
           box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
-          border-radius: 10px;
+          border-radius: 6px;
           box-sizing: border-box;
           cursor: pointer;
 
@@ -177,7 +177,7 @@ export default class Agencies extends Vue {
       background: #fff;
       margin-left: 24px;
       box-sizing: border-box;
-      border-radius: 10px;
+      border-radius: 6px;
       position: relative;
       height: calc(100vh - 117px);
       overflow: scroll;
@@ -259,7 +259,7 @@ a {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 24px;
 }
 </style>

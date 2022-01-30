@@ -128,6 +128,14 @@ export default class MobileBottomNavbar extends Vue {
     }
   }
 
+  snackbarNotification(text) {
+    this.$toast.open({
+      message: text,
+      type: 'info',
+      duration: 5000
+    });
+  }
+
   goToUser() {
     if(this.$auth.user) {
       if(this.$auth.user.user_type === 'agency') {
