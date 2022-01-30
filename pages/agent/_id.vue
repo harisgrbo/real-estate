@@ -1,6 +1,6 @@
 <template>
   <div class="user-profile-wrapper pt-8">
-    <div class="user-content-wrapper mt-8" >
+    <div class="user-content-wrapper custom-width mt-8" >
       <div class="flex flex-row items-center justify-start mobile-spans">
         <div class="first-col">
           <aside class="w-96 bg-white overflow-y-auto">
@@ -77,7 +77,7 @@
             Ukupno oglasa
           </dt>
           <dd class="mt-1 text-3xl font-semibold text-gray-900">
-            71,897
+            {{ meta.active_count + meta.completed_count }}
           </dd>
         </div>
 
@@ -86,7 +86,7 @@
             Aktivni oglasi
           </dt>
           <dd class="mt-1 text-3xl font-semibold text-gray-900">
-            71,897
+            {{ meta.active_count }}
           </dd>
         </div>
 
@@ -95,7 +95,7 @@
             Završeni oglasi
           </dt>
           <dd class="mt-1 text-3xl font-semibold text-gray-900">
-            71,897
+            {{ meta.completed_count }}
           </dd>
         </div>
       </dl>
@@ -376,7 +376,6 @@ export default class Agencies extends Vue {
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  width: 1280px;
 
   @include for-phone-only {
     padding: 16px;
@@ -428,6 +427,7 @@ export default class Agencies extends Vue {
         width: 100%;
         margin-bottom: 12px;
         border-bottom: 1px solid #f1f1f1;
+        min-height: 120px;
       }
     }
     .second-col {
@@ -771,11 +771,16 @@ export default class Agencies extends Vue {
   @include for-phone-only {
     width: 100%;
   }
-  button {
+  ::v-deep button {
     width: fit-content;
     margin-right: 8px;
     max-width: fit-content;
     border-radius: 4px !important;
+
+    @include for-phone-only {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
 
     &:last-child {
       margin-right: 0;

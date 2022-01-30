@@ -119,8 +119,10 @@
               <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
             </div>
             <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
-              <p class="text-lg font-semibold">{{ numberWithCommas(listing.price) + ' KM' }}</p>
-              <p class="text-black font-medium text-lg ml-2" v-if="listing.is_booking">/ noć {{ listing.per_guest ? ' po osobi' : '' }}</p>
+              <div class="flex flex-row items-center w-full">
+                <p class="text-xl font-medium">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                <p class="pl-2 text-lg font-thin">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+              </div>
             </div>
             <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
               <li>
@@ -196,7 +198,7 @@
                   <img :src="'/' + attr.name + '.png'" alt="">
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                     <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
-                      <div class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</div>
+                      <div class="text-gray-900 font-medium hover:text-gray-700">{{ attr.name }}</div>
                       <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
                     </div>
                   </div>
@@ -511,19 +513,25 @@
                             </svg>
                             <input
                               class="flex-grow pl-8 pr-2 py-1 bg-gray-100 rounded w-full date-input shadow-md"
-                              :value="number_of_guests"
+                              v-model="number_of_guests"
                             />
                           </div>
                         </div>
                       </div>
                       <div v-show="numOfDays" class="mb-4 w-full flex total flex-col">
-                        <span class="text-md font-light mb-3">Troškovi</span>
-                        <div class="flex w-full flex-row items-center justify-between">
-                          <p class="font-thin text-md">{{ listing.price }} KM x {{ numOfDays }} dana</p>
-                          <p class="font-medium text-md">{{ numberWithCommas(totalBookingPrice) + ' KM' }}</p>
+                        <span class="text-lg font-medium mb-4">Troškovi</span>
+                        <div class="flex w-full flex-col items-start justify-between">
+                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Cijena:
+                            <span>
+                              {{ listing.price + ' KM' }} {{ listing.per_guest ? 'po osobi' : '' }}
+                            </span>
+                          </div>
+                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj noćenja: <span>{{ numOfDays }}</span></div>
+                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj gostiju: <span>{{ number_of_guests }}</span></div>
+                          <div class="font-light total text-md w-full flex flex-row items-center justify-between pt-3 mt-3 border-t border-gray-400">Ukupno:  <span class="font-semibold text-lg">{{ numberWithCommas(totalBookingPrice) + ' KM'  }}</span></div>
                         </div>
                       </div>
-                      <ActionButton @action="sendBookingRequest()" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+                      <ActionButton @action="sendBookingRequest(); $modal.hide('booking')" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
                     </form>
                   </client-only>
                 </div>
@@ -667,6 +675,7 @@ export default class Artikal extends Vue {
   showMoreSchools = false;
   showMoreAtms = false;
   loading = false;
+  number_of_guests = 1;
   questionTerm = '';
   questions = [];
   isUserFollowed = false;
@@ -823,7 +832,7 @@ export default class Artikal extends Vue {
   }
 
   shareListing() {
-    if (navigator.share) {
+    if(navigator.share) {
       navigator
         .share({
           title: this.listing.title,
@@ -839,7 +848,7 @@ export default class Artikal extends Vue {
     if(this.$auth.user) {
       let start = this.$moment(event ? event.start: this.range.start);
       let end = this.$moment(event ? event.end: this.range.end);
-      let guests = event ? event.guests: 1;
+      let guests = event ? event.guests: this.number_of_guests;
 
       try {
         let res = await this.$axios.post(`/listings/${this.listing.id}/book`, {
@@ -938,7 +947,11 @@ export default class Artikal extends Vue {
   }
 
   get totalBookingPrice() {
-    return this.listing.price * this.numOfDays;
+    if(this.listing.per_guest) {
+      return this.listing.price * this.numOfDays * this.number_of_guests;
+    } else {
+      return this.listing.price * this.numOfDays
+    }
   }
 
   toggleBookingModal() {
@@ -2345,11 +2358,11 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 12px;
     img {
-      height: 30px;
-      max-width: 30px !important;
-      min-width: 30px !important;
+      height: 30px !important;
+      max-width: auto !important;
+      min-width: auto !important;
+      width: auto !important;
 
       @include for-phone-only {
         height: 19px;
