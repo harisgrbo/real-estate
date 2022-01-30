@@ -1,19 +1,12 @@
 <template>
   <div class="form-wrapper">
     <img src="/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
-
-    <h2 class="mt-4">Prijava</h2>
+    <h2 class="mt-4">Zaboravljen password</h2>
+    <h2>Nova šifra će Vam biti poslana na email</h2>
     <form @submit.prevent="handleLogin">
       <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-6 mt-1"></TextField>
-      <TextField type="password" label="Password" placeholder="Password" v-model="payload.password" class="mt-1"></TextField>
-      <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
+      <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Pošalji zahtjev"></ActionButton>
     </form>
-    <div class="flex items-center justify-center login-u">
-      <p>Nemaš račun?</p><nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
-    </div>
-    <div class="flex items-center justify-center login-u">
-      <nuxt-link :to="{ path: '/auth/zaboravljenasifra' }">Zaboravili ste password?</nuxt-link>
-    </div>
   </div>
 </template>
 
@@ -27,7 +20,7 @@ import {mixin as clickaway} from "vue-clickaway";
   components: {ActionButton, TextField},
 })
 
-export default class LoginForm extends Vue{
+export default class zaboravljenasifra extends Vue{
   payload = {
     grant_type: 'password',
     client_id: 2,
@@ -148,7 +141,7 @@ label {
   cursor: pointer;
 
   @include for-phone-only {
-      height: 48px;
+    height: 48px;
   }
 
 }
