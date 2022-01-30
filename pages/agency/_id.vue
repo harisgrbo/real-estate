@@ -609,35 +609,6 @@ export default class Agencies extends Vue {
     }
   }
 }
-.modal-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  height: fit-content;
-
-  .modal-content {
-    padding: 16px 0 0 0;
-    overflow-y: scroll;
-    textarea {
-      height: 200px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      line-height: 16px;
-      box-sizing: border-box;
-      padding: 12px;
-      min-height: 400px;
-
-      &:focus {
-        outline: none;
-        border: 1px solid #000;
-      }
-    }
-  }
-}
-
 
 .save {
   display: flex;

@@ -730,10 +730,6 @@ textarea {
   }
 }
 
-.modal-inner .modal-content {
-  padding: 0;
-}
-
 .chat .chat__tabs a {
   font-family: 'Outfit', sans-serif;
   height: 48px;

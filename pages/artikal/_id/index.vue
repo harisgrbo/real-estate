@@ -76,7 +76,7 @@
                 />
               </client-only>
               <div v-else class="no-image-grid">
-                <img src="/static/noimage.jpeg" alt="">
+                <img src="/noimage.jpeg" alt="">
               </div>
             </div>
             <div class="mb-6 px-5 lg:px-0 xl:px-0 up:px-0 mobile-content">
@@ -107,10 +107,10 @@
                   :key="index"
                   class="flex flex-row items-center mr-2"
                 >
-                  <img v-if="attr.name === 'Broj kreveta'" src="/static/double-bed.png" alt="">
-                  <img v-if="attr.name === 'Broj soba'" src="/static/door.svg" alt="">
-                  <img v-if="attr.name === 'Broj gostiju'" src="/static/guests.png" alt="">
-                  <img v-if="attr.name === 'Kvadratura'" src="/static/m2.png" alt="">
+                  <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
+                  <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                  <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
+                  <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
                   {{ attr.value }}
                 </div>
               </div>
@@ -150,10 +150,10 @@
                 :key="index"
                 class="flex flex-row items-center mr-2"
               >
-                <img v-if="attr.name === 'Broj kreveta'" src="/static/double-bed.png" alt="">
-                <img v-if="attr.name === 'Broj soba'" src="/static/door.svg" alt="">
-                <img v-if="attr.name === 'Broj gostiju'" src="/static/guests.png" alt="">
-                <img v-if="attr.name === 'Kvadratura'" src="/static/m2.png" alt="">
+                <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
+                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
+                <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
                 {{ attr.value }}
                 <p v-if="attr.name === 'Kvadratura'">
                   m²
@@ -254,13 +254,13 @@
               </div>
 
               <div class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">
-                <div>
-                  <div v-for="review in listing_reviews" :key="review.id">
-                    <div class="flex text-sm text-gray-500 space-x-4">
-                      <div class="flex-none py-10">
+                <div class="grid grid-cols-2 gap-8">
+                  <div v-for="review in listing_reviews" class="shadow-md rounded-md" :key="review.id">
+                    <div class="flex text-sm text-gray-500 space-x-4 px-4">
+                      <div class="flex-none py-4">
                         <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
                       </div>
-                      <div class="flex-1 py-10">
+                      <div class="flex-1 py-4">
                         <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
                         <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
 
@@ -277,7 +277,7 @@
                   </div>
                 </div>
               </div>
-              <NotFound src="/blocked.svg" text="Nema dojmova" v-else />
+              <NotFound src="/review.svg" text="Nema dojmova" v-else />
             </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0">
               <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5" v-if="listing.video_url !== null">Video</h3>
@@ -1004,7 +1004,14 @@ export default class Artikal extends Vue {
 
       this.review_rating = ''
     } catch(e) {
-      console.log(e)
+      if (e.response.status === 400) {
+        this.$toast.open({
+          message: "Dojam možete ostaviti tek po isteku rezervacije",
+          type: 'error',
+          duration: 5000
+        });
+      }
+
     }
   }
 
@@ -1392,13 +1399,6 @@ h2 {
           margin-bottom: 0 !important;
         }
       }
-      .detailed-informations {
-        width: 100%;
-        height: fit-content;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
       .description {
         line-height: 25px;
         line-break: anywhere;
@@ -1411,95 +1411,6 @@ h2 {
         }
       }
 
-    }
-  }
-}
-
-//.modal-header {
-//  display: flex;
-//  align-items: center;
-//  height: 70px;
-//  border-bottom: 1px solid #dcdcdc;
-//  justify-content: space-between;
-//
-//  h2 {
-//    font-size: 17px;
-//    font-weight: 500;
-//  }
-//
-//  svg {
-//    cursor: pointer;
-//  }
-//}
-
-.modal-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-
-  @include for-phone-only {
-    padding: 12px;
-  }
-
-  &.map {
-    padding: 0;
-
-    .modal-content {
-      padding: 0;
-      height: 100%;
-
-      ::v-deep #map {
-        height: calc(100vh - 110px);
-        width: auto !important;
-
-        @include for-phone-only {
-          width: 100% !important;
-        }
-      }
-    }
-
-    i {
-      position: absolute;
-      top: 0;
-      background: #fff;
-      border-radius: 6px;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #000;
-      right: 16px;
-      z-index: 1;
-      top: 16px;
-    }
-  }
-
-
-  .modal-content {
-    padding: 0;
-    textarea {
-      height: 200px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 21px;
-      box-sizing: border-box;
-      padding: 12px;
-      min-height: 400px;
-
-
-      @include for-phone-only {
-        padding: 12px;
-      }
-
-
-      &:focus {
-        outline: none;
-
-      }
     }
   }
 }
@@ -1558,93 +1469,6 @@ h2 {
   display: flex;
 }
 
-.detailed-info {
-  padding: 0 8px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  background: rgb(241 239 239 / 53%);
-  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
-
-  @include for-phone-only {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-  }
-  span {
-    font-size: 14px;
-    margin: 5px 0;
-
-    @include for-phone-only {
-      font-size: 13px;
-    }
-    &:last-child {
-      font-weight: 500;
-      font-size: 16px;
-
-      @include for-phone-only {
-        font-size: 14px;
-      }
-    }
-  }
-  &.exchange {
-    font-weight: 600;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    span {
-      margin: 0;
-      display: flex;
-      align-items: center;
-    }
-  }
-  &.price {
-    background: #151b38 !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-    font-weight: 600;
-    font-size: 18px !important;
-    height: 50px;
-    div {
-      display: flex;
-      align-items: center;
-    }
-    svg {
-      color: #fff;
-    }
-    span {
-      color: #fff;
-      &:last-child {
-        margin-left: 12px;
-
-        @include for-phone-only {
-          margin-left: 0;
-        }
-      }
-    }
-  }
-  &.exchange-for {
-    background: #757B9A !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    span {
-      color: #fff;
-      display: flex;
-      align-items: center;
-      i {
-        margin-left: 8px;
-      }
-    }
-  }
-}
-
 .grid-layout {
   padding: 0;
   grid-template-columns: repeat( auto-fill, minmax(220px, 1fr) );
@@ -1688,30 +1512,6 @@ h2 {
     ::v-deep svg {
       color: #444!important;
       font-size: 20px !important;
-    }
-  }
-}
-
-.question-create {
-  display: flex;
-  flex-direction: column;
-  border-radius: 6px;
-  margin-top: 24px;
-
-  ::v-deep button {
-    margin-top: 12px;
-    background: #0B8489;
-  }
-
-  textarea {
-    background: #fff;
-    border: 1px solid #ddd;
-    height: 100px;
-    padding: 12px;
-    border-radius: 6px;
-    font-family: 'Outfit', sans-serif;
-    &:focus {
-      outline: none;
     }
   }
 }
@@ -1853,9 +1653,6 @@ h2 {
   }
 }
 
-.scroller-position {
-  height: 60px;
-}
 .places-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2300,22 +2097,6 @@ h2 {
   @include for-phone-only {
     width: 100%;
   }
-}
-
-.review-textarea {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 6px;
-  padding: 12px;
-  background: #fff;
-  flex: 2;
-  position: relative;
-  transition: 0.3s all ease;
-  margin-top: 0;
-  min-height: 150px;
-  border: 1px solid #ddd;
-  width: 100%;
 }
 
 ::v-deep iframe {
