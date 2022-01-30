@@ -28,7 +28,7 @@ import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 @Component({
 })
 export default class TextField extends Vue{
-  @Prop({ type: String, required: true}) type;
+  @Prop({ type: String, default: 'text'}) type;
   @Prop({ type: String }) error;
   @Prop({ type: String }) label;
   @Prop({ type: String }) placeholder;
