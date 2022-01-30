@@ -2,7 +2,7 @@
   <div class="form-wrapper">
     <div class="inner">
       <img src="/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
-      <h2 class="mt-4 text-left w-full">Zaboravljena šifra</h2>
+      <h2 class="mt-4 text-left w-full">Reset šifre</h2>
       <div class="rounded-md bg-yellow-50 p-4 mb-6 w-full">
         <div class="flex">
           <div class="flex-shrink-0">
@@ -17,15 +17,16 @@
             </h3>
             <div class="mt-2 text-sm text-yellow-700">
               <p>
-                Dobit ćete mail sa instrukcijama za unos nove šifre
+                U formu ispod u prvo polje unesite novu šifru, a zatim je ponovite u idućem polju
               </p>
             </div>
           </div>
         </div>
       </div>
       <form @submit.prevent="handleLogin">
-        <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-6 mt-1"></TextField>
-        <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Pošalji zahtjev na email"></ActionButton>
+        <TextField type="password" label="Nova šifra" placeholder="******" v-model="payload.username" class="mb-6 mt-1"></TextField>
+        <TextField type="password" label="Ponovite šifru" placeholder="******" v-model="payload.username" class="mb-6 mt-1"></TextField>
+        <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Resetuj šifru"></ActionButton>
       </form>
     </div>
   </div>

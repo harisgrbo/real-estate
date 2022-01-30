@@ -49,7 +49,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$emit('sponsor-listing')" class="w-full"></ActionButton>
+            <ActionButton v-if="listing.sponsored === 0"  :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$router.push('/artikal/' + $route.params.id + '/sponzorisanje-oglasa')" class="w-full"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
             <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
@@ -224,6 +224,7 @@ export default class UserProfile extends Vue {
   @Prop({}) isBooking;
   @Prop({}) type;
   @Prop() perguest
+  @Prop() listing
   @Prop() id;
   @Prop() price;
   @Prop({ type: Boolean }) vat;

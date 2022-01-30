@@ -24,6 +24,7 @@
         <div v-show="showListingOptions && ($router.history.current.fullPath === '/moj-racun/moji-oglasi' || $router.history.current.fullPath === '/moj-racun/dashboard/upravljanje-oglasima')" class="w-full">
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/uredjivanje/' + listing.id)"></action-button>
           <action-button v-if="listing.completed_at === null" class="option-btn" placeholder="Završi oglas" @action="$emit('finish-listing', listing.id)" :style-options="{ width: '100%'}"></action-button>
+          <action-button v-if="listing.sponsored === 0" class="option-btn" placeholder="Sponzoriši oglas" @action="$router.push('/artikal/' + listing.id + '/sponzorisanje-oglasa')" :style-options="{ width: '100%'}"></action-button>
           <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>

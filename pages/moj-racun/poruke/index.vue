@@ -732,7 +732,6 @@ textarea {
 
 .modal-inner .modal-content {
   padding: 0;
-  padding-bottom: 16px;
 }
 
 .chat .chat__tabs a {

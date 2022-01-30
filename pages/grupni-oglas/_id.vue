@@ -105,7 +105,7 @@
           </div>
         </div>
         <div class="user-wrap">
-          <UserProfile :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
+          <UserProfile :listing="listing" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :type="listing.user.user_type"></UserProfile>
         </div>
       </div>
     </div>

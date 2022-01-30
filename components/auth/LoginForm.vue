@@ -5,14 +5,14 @@
     <h2 class="mt-4">Prijava</h2>
     <form @submit.prevent="handleLogin">
       <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-6 mt-1"></TextField>
-      <TextField type="password" label="Password" placeholder="Password" v-model="payload.password" class="mt-1"></TextField>
+      <TextField type="password" label="Šifra" placeholder="*******" v-model="payload.password" class="mt-1"></TextField>
       <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
     <div class="flex items-center justify-center login-u">
       <p>Nemaš račun?</p><nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
     </div>
-    <div class="flex items-center justify-center login-u">
-      <nuxt-link :to="{ path: '/auth/zaboravljenasifra' }">Zaboravili ste password?</nuxt-link>
+    <div class="flex items-center justify-center">
+      <nuxt-link :to="{ path: '/auth/zaboravljena-sifra' }">Zaboravili ste šifru?</nuxt-link>
     </div>
   </div>
 </template>

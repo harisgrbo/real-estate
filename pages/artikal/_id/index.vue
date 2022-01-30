@@ -76,7 +76,7 @@
                 />
               </client-only>
               <div v-else class="no-image-grid">
-                <img src="/noimage.jpeg" alt="">
+                <img src="/static/noimage.jpeg" alt="">
               </div>
             </div>
             <div class="mb-6 px-5 lg:px-0 xl:px-0 up:px-0 mobile-content">
@@ -107,16 +107,16 @@
                   :key="index"
                   class="flex flex-row items-center mr-2"
                 >
-                  <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
-                  <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                  <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
-                  <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
+                  <img v-if="attr.name === 'Broj kreveta'" src="/static/double-bed.png" alt="">
+                  <img v-if="attr.name === 'Broj soba'" src="/static/door.svg" alt="">
+                  <img v-if="attr.name === 'Broj gostiju'" src="/static/guests.png" alt="">
+                  <img v-if="attr.name === 'Kvadratura'" src="/static/m2.png" alt="">
                   {{ attr.value }}
                 </div>
               </div>
             </div>
             <div class="user-wrap relative z-10" v-if="$device.isMobile">
-              <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
+              <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
             </div>
             <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
               <div class="flex flex-row items-center w-full">
@@ -150,10 +150,10 @@
                 :key="index"
                 class="flex flex-row items-center mr-2"
               >
-                <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
-                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
-                <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
+                <img v-if="attr.name === 'Broj kreveta'" src="/static/double-bed.png" alt="">
+                <img v-if="attr.name === 'Broj soba'" src="/static/door.svg" alt="">
+                <img v-if="attr.name === 'Broj gostiju'" src="/static/guests.png" alt="">
+                <img v-if="attr.name === 'Kvadratura'" src="/static/m2.png" alt="">
                 {{ attr.value }}
                 <p v-if="attr.name === 'Kvadratura'">
                   m²
@@ -245,7 +245,15 @@
             </span>
             </client-only>
             <div class="separator" v-if="listing.video_url !== null"></div>
-            <div v-if="listing_reviews.length" class="bg-white">
+            <div v-if="listing.is_booking" class="flex w-full flex-col">
+              <div class="separator"></div>
+              <div class="flex flex-row items-center mb-6 justify-between w-full">
+                <h3 class="text-2xl font-semibold text-gray-900 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Dojmovi</h3>
+
+                <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Ostavi dojam" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '40px', fontSize: '13px', width: 'auto' }" :loading="false" @action="$modal.show('leave-review')"></ActionButton>
+              </div>
+
+              <div class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">
                 <div>
                   <div v-for="review in listing_reviews" :key="review.id">
                     <div class="flex text-sm text-gray-500 space-x-4">
@@ -254,7 +262,8 @@
                       </div>
                       <div class="flex-1 py-10">
                         <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
-                        <p><time>{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+                        <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+
                         <div class="flex items-center mt-4">
                           <svg v-for="(i, index) in review.rating" :key="index" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -268,8 +277,10 @@
                   </div>
                 </div>
               </div>
+              <NotFound src="/blocked.svg" text="Nema dojmova" v-else />
+            </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0">
-              <h3 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video</h3>
+              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5" v-if="listing.video_url !== null">Video</h3>
               <div v-if="listing.video_url !== null">
                 <div v-html="listing.video_url"></div>
               </div>
@@ -284,43 +295,7 @@
 
           </div>
           <div class="user-wrap relative z-10" v-if="!$device.isMobile">
-            <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
-          </div>
-          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
-            <div class="separator" v-if="listing_reviews.length"></div>
-            <h3 class="text-xl font-medium text-gray-900 mb-6 px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">Dojmovi</h3>
-            <div v-if="listing_reviews.length" class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0">
-              <div>
-                <div v-for="review in listing_reviews" :key="review.id">
-                  <div class="flex text-sm text-gray-500 space-x-4">
-                    <div class="flex-none py-10">
-                      <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
-                    </div>
-                    <div class="flex-1 py-10">
-                      <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
-                      <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
-
-                      <div class="flex items-center mt-4">
-                        <!--
-                          Heroicon name: solid/star
-
-                          Active: "text-yellow-400", Default: "text-gray-300"
-                        -->
-                        <svg v-for="(i, index) in review.rating" :key="index" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-
-                        <!-- Heroicon name: solid/star -->
-                      </div>
-
-                      <div class="mt-4 prose prose-sm max-w-none text-black">
-                        <p>{{ review.review }}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
           </div>
         </div>
         <client-only>
@@ -591,14 +566,16 @@ import ActionButton from "@/components/actionButtons/ActionButton";
 import UserProfile from "@/components/UserProfile"
 import SingleQuestion from "@/components/SingleQuestion"
 import RealEstateLocationMap from "@/components/RealEstateLocationMap";
-import TextField from "../../components/inputs/TextField";
-import TextAreaField from "../../components/inputs/TextAreaField";
+import TextField from "../../../components/inputs/TextField";
+import TextAreaField from "../../../components/inputs/TextAreaField";
 import Skeleton from "@/components/skeleton";
 
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     Skeleton,
     TextAreaField,
     TextField,
