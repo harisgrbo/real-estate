@@ -212,6 +212,7 @@ export default class Navbar extends Vue {
   }
 
   beforeDestroy() {
+    this.$echo.leave('App.Models.User.' + this.$auth.user.id);
     window.removeEventListener("scroll", this.onScroll);
   }
 
