@@ -981,49 +981,6 @@ export default class ListingEdit extends Vue {
   margin-top: 24px;
 }
 
-.modal-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 0 24px;
-  height: fit-content;
-  .modal-header {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    border-bottom: 1px solid #dcdcdc;
-    justify-content: space-between;
-
-    h2 {
-      font-size: 17px;
-      font-weight: 500;
-    }
-
-    svg {
-      cursor: pointer;
-    }
-  }
-
-  .modal-content {
-    padding: 24px 0;
-    textarea {
-      height: 200px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 21px;
-      box-sizing: border-box;
-      padding: 24px;
-
-      &:focus {
-        outline: none;
-
-      }
-    }
-  }
-}
-
 .map-wrapper {
   margin-bottom: 24px;
   margin-top: 24px;

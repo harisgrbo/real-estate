@@ -72,8 +72,8 @@
 <!--         data-ad-slot="9795532766"-->
 <!--         data-ad-format="auto"-->
 <!--         data-full-width-responsive="true"></ins>-->
-    <div class="flex flex-col mt-8" v-if="$auth.user && followedUserListings.length">
-      <div class="flex custom-width items-center justify-between pb-4 pt-6">
+    <div class="flex flex-col">
+      <div class="flex custom-width items-center justify-between title-wrapper">
         <h2 class="section-title">Premium oglasi</h2>
         <div class="flex flex-row items-center mr-5">
           <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -88,10 +88,10 @@
           </div>
         </div>
       </div>
-      <div class="flex items-center justify-between pb-4 pt-6 custom-width premium-listings" v-if="!$device.isMobile">
-        <client-only v-if="followedUserListingsLoaded">
+      <div class="flex items-center justify-between custom-width premium-listings" v-if="!$device.isMobile">
+        <client-only v-if="premiumListingsLoaded">
           <swiper class="swiper" :options="swiperOptionPremium">
-            <swiper-slide v-for="listing in followedUserListings" :key="listing.id">
+            <swiper-slide v-for="listing in premiumListings" :key="listing.id">
               <PremiumListingCard :listing="listing" />
             </swiper-slide>
           </swiper>
@@ -99,20 +99,20 @@
         <client-only v-else>
           <swiper class="swiper" :options="swiperOption">
             <swiper-slide v-for="(i, index) in 6" :key="index">
-              <skeleton height="370px" width="240px"></skeleton>
+              <skeleton height="262px" width="440px"></skeleton>
             </swiper-slide>
           </swiper>
         </client-only>
       </div>
       <div class="pl-5 lg:px-20 xl:px-20 up:px-20 mb-0 mobile" v-else>
-        <div v-if="followedUserListingsLoaded" class="flex flex-row overflow-y-scroll">
-          <div v-for="listing in followedUserListings" :key="listing.id" class="mr-5">
-            <ListingCard :action="true" :listing="listing" />
+        <div v-if="premiumListingsLoaded" class="flex flex-row overflow-y-scroll">
+          <div v-for="listing in premiumListings" :key="listing.id" class="mr-5">
+            <PremiumListingCard :action="true" :listing="listing" />
           </div>
         </div>
         <div v-else class="flex flex-row overflow-y-scroll">
-          <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
-            <skeleton height="232px" width="240px"></skeleton>
+          <div v-for="(i, index) in 5" :key="index" class="w-full">
+            <skeleton height="200px" width="300px" class="mr-5"></skeleton>
           </div>
         </div>
       </div>
@@ -120,12 +120,14 @@
 
 
 
-    <div class="flex flex-col custom-width pb-4 pt-6">
-      <h2 class="section-title">
-        Najtraženije lokacije
-      </h2>
+    <div class="flex flex-col custom-width">
+      <div class="title-wrapper">
+        <h2 class="section-title">
+          Najtraženije lokacije
+        </h2>
+      </div>
 
-      <ul v-if="locationsLoaded" role="list" class="most-visited sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
+      <ul v-if="locationsLoaded" role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
         <li class="flow-root justify-between flex flex-row items-center text-center relative" v-for="(city, index) in top_locations" :key="index"
             :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
         >
@@ -140,13 +142,13 @@
         </li>
       </ul>
 
-      <div v-else role="list" class=" most-visited mt-5 sm:mt-4 lg:mt-6 xl:mt-6 up:mt-6 flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
+      <div v-else role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
         <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="(i, index) in 6" :key="index">
-          <skeleton height="262px" width="440px"></skeleton>
+          <skeleton height="182px" width="260px"></skeleton>
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between pb-4 pt-6 custom-width">
+    <div class="flex items-center justify-between custom-width title-wrapper">
       <h2 class="section-title">Prodaja</h2>
       <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
@@ -162,7 +164,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between pb-4 pt-6 custom-width standard-listings" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
@@ -178,24 +180,24 @@
         </swiper>
       </client-only>
     </div>
-    <div class="lg:px-20 xl:px-20 up:px-20 mx-auto mb-8 w-full mobile" v-else>
+    <div class="mx-auto w-full mobile" v-else>
       <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_sell" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" />
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll mx-5">
-        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
-          <skeleton height="232px" width="240px"></skeleton>
+        <div  v-for="(i, index) in 5" :key="index" class="w-full">
+          <skeleton height="232px" width="240px" class="mr-5"></skeleton>
         </div>
       </div>
     </div>
-    <div class="flex flex-col mb-16 mt-8 popular">
-      <div class="flex items-center justify-between custom-width pb-4 pt-6">
+    <div class="flex flex-col popular">
+      <div class="flex items-center justify-between custom-width title-wrapper">
         <h2 class="section-title popular-cats">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
           <nuxt-link class="more" to="/pretraga">Sve kategorije</nuxt-link>
-          </div>
+        </div>
       </div>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
         <li class="flow-root justify-between flex flex-col" v-for="(cat, index) in most_visited_cats" :key="index"
@@ -215,7 +217,7 @@
       </ul>
     </div>
 
-    <div class="flex items-center justify-between pb-4 pt-6 custom-width">
+    <div class="flex items-center justify-between custom-width title-wrapper">
       <h2 class="section-title">Dugoročno izdavanje</h2>
       <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
@@ -231,7 +233,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between pb-4 pt-6 custom-width standard-listings" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="rentLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
@@ -247,44 +249,19 @@
         </swiper>
       </client-only>
     </div>
-    <div class="pl-5 lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
+    <div class="pl-5 mobile" v-else>
       <div v-if="rentLoaded" class="flex flex-row overflow-y-scroll">
         <div v-for="listing in listings_rent" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" />
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll">
-        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
-          <skeleton height="232px" width="240px"></skeleton>
+        <div  v-for="(i, index) in 5" :key="index" class="w-full">
+          <skeleton height="232px" width="240px" class="mr-5"></skeleton>
         </div>
       </div>
     </div>
-<!--    <div class="agency-wrap">-->
-<!--      <h2>Želite pomoć pri prodaji ili kupovini nekretnine?</h2>-->
-<!--      <p>Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</p>-->
-<!--      <nuxt-link to="/agencije" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
-<!--          Lista agencija-->
-<!--      </nuxt-link>-->
-<!--    </div>-->
-
-<!--    <div class="bg-white agency-wrap">-->
-<!--      <div aria-hidden="true" class="relative">-->
-<!--        <img src="/agency-new.jpeg" alt="" class="w-full h-96 object-center object-cover rounded-t-md">-->
-<!--        <div class="absolute inset-0 bg-gradient-to-t from-white"></div>-->
-<!--      </div>-->
-
-<!--      <div class="relative -mt-24 w-1280 mx-auto pb-8 px-4 sm:pb-24 sm:px-6">-->
-<!--        <div class="w-1280 mx-auto text-center lg:max-w-4xl">-->
-<!--          <h2 class="text-3xl font-bold tracking-tight text-gray-900">Želite pomoć pri prodaji ili kupovini nekretnine?</h2>-->
-<!--          <h2 class="text-2xl font-medium tracking-tight text-gray-900 mt-4">Pogledajte listu agencija na našoj web stranici i kontaktirajte jednu od njih</h2>-->
-<!--          <nuxt-link to="/agencije" class="inline-flex mt-4 items-center px-3 py-3 border bg-gray-900 text-white shadow-sm text-sm leading-4 font-medium rounded-sm hover:bg-gray-800 rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
-<!--            Lista agencija-->
-<!--          </nuxt-link>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-    <div class="flex items-center justify-between pb-4 pt-6 custom-width">
+    <div class="flex items-center justify-between custom-width title-wrapper">
       <h2 class="section-title">Stan na dan</h2>
       <div class="flex flex-row items-center  mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
@@ -300,7 +277,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between pb-4 pt-6 custom-width standard-listings" v-if="!$device.isMobile">
+    <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="rentPerDayLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
@@ -316,23 +293,23 @@
         </swiper>
       </client-only>
     </div>
-    <div class="lg:px-20 xl:px-20 up:px-20 mb-8 mobile" v-else>
+    <div class="mobile" v-else>
       <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-5">
         <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-5">
           <ListingCard :action="false" :listing="listing" />
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll ml-5">
-        <div  v-for="(i, index) in 5" :key="index" class="skeleton-wrap mr-5">
-          <skeleton height="232px" width="240px"></skeleton>
+        <div  v-for="(i, index) in 5" :key="index" class="w-full">
+          <skeleton height="232px" width="240px" class="mr-5"></skeleton>
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between pb-4 pt-6 custom-width mt-8">
+    <div class="flex items-center justify-between custom-width mt-8 title-wrapper">
       <h2 class="section-title">Premium agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-start pb-4 pt-6 custom-width gap-6 flex-row overflow-x-scroll agencija">
+    <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija">
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
   </div>
@@ -407,6 +384,8 @@
     rentLoaded = false;
     rentPerDayLoaded = false;
     quickSearchTab = 0;
+    premiumListingsLoaded = false;
+    premiumListings = []
     most_visited_cats = [
     ]
 
@@ -482,9 +461,7 @@
       this.fetchMostVisitedCats();
       this.fetchSelling();
       this.fetchRenting();
-      if(this.$auth.user) {
-        this.fetchFollowedUserListings();
-      }
+      this.fetchPremiumListings();
       this.fetchRentingPerDay();
       this.fetchAgencies();
       this.fetchTopLocations();
@@ -512,13 +489,13 @@
       }
     }
 
-    async fetchFollowedUserListings() {
-      this.followedUserListingsLoaded = false;
+    async fetchPremiumListings() {
+      this.premiumListingsLoaded = false;
       try {
-        let res = await this.$axios.get('/profile/followed/listings')
-        this.followedUserListings = res.data.data;
+        let res = await this.$axios.get('/listings/premium')
+        this.premiumListings = res.data.data;
 
-        this.followedUserListingsLoaded = true;
+        this.premiumListingsLoaded = true;
       } catch (e) {
         console.log(e)
       }
@@ -955,10 +932,6 @@ ul.most-visited {
       background-color: rgba(0, 0, 0, 0.51) !important;
     }
   }
-
-  @include for-phone-only {
-    margin-top: 16px;
-  }
 }
 
 ul.most-visited-cats {
@@ -1025,13 +998,10 @@ ul.most-visited-cats {
 }
 
 .section-title {
-  font-size: 22px !important;
-  line-height: 26px !important;
-  font-weight: 500 !important;
+  font-size: 23px !important;
+  font-weight: 600 !important;
 
   @include for-phone-only {
-    font-size: 18px !important;
-    font-weight: 600 !important;
     margin-left: 16px;
   }
 
@@ -1361,8 +1331,8 @@ button.search {
 
 .popular {
   @include for-phone-only {
-    margin: 16px;
-    margin-bottom: 42px;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 }
 
@@ -1404,6 +1374,15 @@ button.search {
 .select-border {
   border: 1px solid #f1f1f1 !important;
 
+}
+
+.title-wrapper {
+  margin-top: 48px;
+  margin-bottom: 16px;
+
+  @include for-phone-only {
+    margin-top: 36px;
+  }
 }
 
 </style>

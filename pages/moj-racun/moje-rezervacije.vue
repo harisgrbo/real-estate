@@ -13,56 +13,17 @@
       <ul role="list" class="divide-y orders divide-gray-200">
         <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
           <div class="flex items-center sm:items-start mobile-box">
-            <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" class="main" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps.">
+            <div class="listing-wrap shadow-md rounded-md">
+              <HorizontalCard :listing="booking.listing"></HorizontalCard>
+            </div>
             <div class="flex-1 sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 text-sm w-full">
               <div class="font-medium text-gray-900 sm:flex sm:justify-between">
                 <div class="flex flex-col items-start justify-start">
-                  <h5 class="text-md">
-                    {{ booking.listing.title }} -
-                  </h5>
                   <span class="approval">{{ booking.confirmed ? 'Prihvaćeno' : 'Čeka se potvrda' }}</span>
                 </div>
                 <p class="mt-2 sm:mt-0 text-lg font-medium">
                   {{ booking.total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM za {{ booking.days }} dana
                 </p>
-              </div>
-              <p class="text-gray-900 sm:block opis">
-                {{ booking.listing.address }}
-              </p>
-              <div class="text-gray-900 sm:block sm:mt-2 opis" v-html="booking.listing.description">
-              </div>
-              <div class="w-full mt-4 flex items-center justify-start special">
-                <div
-                  v-for="(attr, index) in getSpecialAttributes(booking.listing)"
-                  :key="index"
-                  class="flex flex-row items-center mr-4 bg-gray-100 rounded-full p-2 px-4"
-                >
-                  <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                  <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
-                  <img v-if="attr.name === 'Broj kreveta'" src="/bed.svg" alt="">
-                  <p class="pl-2 font-medium">{{ attr.value }}</p>
-                  <p v-if="attr.name === 'Kvadratura'">
-                    m²
-                  </p>
-                </div>
-              </div>
-              <div v-if="RentSpecialAttributes.length && listing.listing_type.shortname !== 'sell'">
-                <h2 class="text-xl font-medium text-gray-900 mx-5 mb-8 lg:mx-0 xl:mx-0 up:mx-0">
-                  Izdvojene pogodnosti
-                </h2>
-                <ul role="list" class="mt-3 mobile-grid ammenities">
-                  <li  v-for="(attr, index) in getRentSpecialAttributes(booking.listing.attributes)"
-                       :key="index"
-                       class="col-span-1 flex shadow-sm rounded-md">
-                    <img :src="'/' + attr.name + '.png'" alt="">
-                    <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                      <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
-                        <a class="text-gray-900 font-semibold hover:text-gray-700">{{ attr.name }}</a>
-                        <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
               </div>
               <div class="mt-6 sm:flex sm:justify-between">
                 <div class="flex items-center">
@@ -93,9 +54,13 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "../../components/actionButtons/ActionButton";
+import ListingCard from "../../components/listingCard/ListingCard";
+import HorizontalCard from "../../components/listingCard/HorizontalCard";
 
 @Component({
   components: {
+    HorizontalCard,
+    ListingCard,
     ActionButton
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
@@ -286,5 +251,11 @@ a {
     padding: 0 12px;
     border-radius: 6px;
   }
+}
+
+::v-deep .horizontal-card {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 </style>

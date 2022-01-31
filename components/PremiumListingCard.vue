@@ -2,6 +2,7 @@
   <div class="flow-root justify-between flex flex-col items-center text-center relative"
       :style="{ backgroundImage: listing.images.length ? 'url(' + listing.images[0].url + ')' : 'url(' + 'noimage.jpeg' + ')' }"
   >
+    <label class="premium">PREMIUM OGLAS</label>
     <div class="overlay-searched"></div>
     <div class="listing-card-content" @mouseover="showTooltip = true" @mouseout="showTooltip = false">
       <div class="flex flex-col justify-between items-start">
@@ -423,6 +424,10 @@ a {
     margin-right: 4px;
     object-fit: contain !important;
     min-width: 12px !important;
+
+    @include for-phone-only {
+      filter: invert(1);
+    }
   }
 
   > div {
@@ -436,7 +441,7 @@ a {
     background: #f9f9f9;
     font-size: 13px;
     line-height: 8px;
-    color: #000;
+    color: #fff;
 
     @include for-phone-only {
       border: none;
@@ -639,8 +644,10 @@ a {
 }
 
 .overlay-searched {
-  background: rgb(0,0,0);
-  background: linear-gradient(0deg, rgba(0,0,0,0.53125) 0%, rgba(255,255,255,0) 100%);
+  background: black;
+  background: linear-gradient(
+      0deg
+    , rgba(0, 0, 0, 0.8) 9%, rgba(255, 255, 255, 0) 100%);
   position: absolute;
   left: 0px;
   right: 0px;
@@ -648,7 +655,7 @@ a {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   z-index: 0;
-  height: 140px;
+  height: 170px;
 }
 
 
@@ -704,6 +711,7 @@ a {
         line-height: 20px !important;
         @include for-phone-only {
           font-weight: 400 !important;
+          font-size: 20px !important;
         }
       }
     }
@@ -798,6 +806,12 @@ a {
         &.cross {
           font-size: 13px !important;
         }
+
+        @include for-phone-only {
+          font-size: 18px !important;
+          font-weight: 600 !important;
+
+        }
       }
     }
 
@@ -809,5 +823,51 @@ a {
   }
 }
 
+.premium {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  background-color: #BBA14F;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 2px 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 8px;
+}
+
+.flow-root {
+  min-width: 440px;
+  min-height: 262px;
+  width: 440px;
+  height: 262px;
+  border-radius: 6px;
+  object-fit: cover;
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 24px;
+  font-size: 26px;
+  line-height: 30px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  button {
+    width: fit-content;
+  }
+
+  @include for-phone-only {
+    height: 200px !important;
+    min-height: 200px !important;
+    width: 300px !important;
+    min-width: 300px !important;
+  }
+}
 </style>
 

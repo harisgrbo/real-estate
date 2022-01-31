@@ -2,18 +2,18 @@
   <div class="search-wrapper w-full relative flex flex-col">
     <div class="search-heading sm:px-5 py-2 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="w-full relative search-options">
-        <div class="flex flex-row overflow-y-scroll gap-4 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
+        <div class="flex flex-row overflow-y-scroll gap-2 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}</li>
           </ul>
-          <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100">
+          <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
           </button>
 
-          <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
+          <button v-if="!$device.isMobile" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
@@ -34,9 +34,7 @@
               </div>
             </div>
           </div>
-
           <div class="flex items-center justify-end types">
-
             <div class="flex w-full text-left type">
               <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
@@ -58,17 +56,26 @@
                 </form>
               </div>
             </div>
-
           </div>
         </div>
+        <ul v-if="$device.isMobile" class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0">
+          <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)" class="py-1 px-2 border border-black mr-3">
+            <div class="flex flex-row items-center">
+              {{ filterResolveValue(filter) }}
+              <button @click="queryPayload[filter.name] = null; newSearch();">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </li>
+        </ul>
       </div>
-
-
-      <div class="flex flex-row items-center justify-between w-full mt-6">
+      <div class="flex flex-row items-center justify-between w-full mt-4">
         <div class="flex items-center w-full">
           <h1 class="results-number font-medium text-lg">{{ meta.total }} rezultata</h1>
 
-          <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0">
+          <ul v-if="!$device.isMobile" class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0">
             <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)" class="py-1 px-2 border border-black mr-3">
               <div class="flex flex-row items-center">
                 {{ filterResolveValue(filter) }}
@@ -112,9 +119,17 @@
         </div>
       </div>
     </div>
-    <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-5' : 'pl-5 pr-5']">
-      <div class="results" v-if="selectedPreviewType === 'grid'">
+    <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
+      <div class="results relative" v-if="selectedPreviewType === 'grid'">
         <div v-if="results.length" class="w-full flex flex-col">
+          <div v-if="$device.isMobile" class="mobile-filters-wrap">
+            <button @click="$modal.show('search-filters')">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+              Filteri
+            </button>
+          </div>
           <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
             <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
@@ -284,17 +299,17 @@
             </div>
             <div class="modal-content">
               <div class="filters rounded-md">
-                <ul role="list" class="pt-8 border-t border-b border-gray-200 pb-6 grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-5 w-full categories-list-wrap">
-                  <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)" class="flow-root border rounded-sm"
+                <ul role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-2 gap-4 w-full categories-list-wrap">
+                  <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)" class="flow-root shadow-sm border rounded-sm"
                       :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
                     <div>
-                      <a href="#" class="focus:outline-none">
+                      <div href="#" class="focus:outline-none">
                         <span aria-hidden="true"></span>
                         {{ cat.title }}
-                      </a>
+                      </div>
                     </div>
-                    <div class="relative flex items-center space-x-4 rounded-md hover:bg-gray-50">
-                      <div class="flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-lg p-1 svg-wrap">
+                    <div class="relative flex">
+                      <div class="svg-wrap">
                         <!-- Heroicon name: outline/clock -->
                         <img :src="'/cats/' + cat.slug + '.png'" alt="">
                       </div>
@@ -899,47 +914,6 @@ export default class Homepage extends Vue {
   }
 }
 
-.modal-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  position: relative;
-
-  @include for-phone-only {
-    padding: 12px;
-  }
-
-  .modal-content {
-    padding: 12px 0;
-
-    @include for-phone-only {
-      padding: 0px;
-    }
-
-    &.mapa {
-      @include for-phone-only {
-        padding: 0px;
-      }
-    }
-    textarea {
-      height: 200px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 21px;
-      box-sizing: border-box;
-      padding: 24px;
-
-      &:focus {
-        outline: none;
-
-      }
-    }
-  }
-}
-
 .save {
   display: flex;
   align-items: center;
@@ -1150,22 +1124,31 @@ export default class Homepage extends Vue {
   @include for-phone-only {
     background: #FFFFFF !important;
     color: #000 !important;
-    padding: 16px !important;
+    padding: 8px 16px !important;
     width: 100% !important;
-    min-height: 76px;
-    height: 76px;
     justify-content: space-between;
     align-items: center;
-    border-radius: 15px;
     font-weight: 500 !important;
     flex-direction: row;
     display: flex;
-    border: 1px solid #f1f1f1;
+    font-size: 14px;
+    border-radius: 8px;
+
+    span {
+      line-height: 19px;
+    }
 
     .svg-wrap {
-      height: 50px;
-      width: 50px;
-      border-radius: 6px;
+      height: 40px;
+      width: 40px;
+      padding-bottom: 0;
+      border: none;
+
+      img {
+        height: 40px;
+        width: 40px;
+        min-width: 40px;
+      }
     }
 
     &.selected {
@@ -1338,13 +1321,28 @@ export default class Homepage extends Vue {
     font-weight: 400;
 
     @include for-phone-only {
+      border-radius: 20px;
+      background: #fff;
+      font-weight: 500;
+      font-size: 13px !important;
+      border: 1px solid #b6b6b7 !important;
+      min-width: -webkit-fit-content;
+      min-width: -moz-fit-content;
       min-width: fit-content;
+      padding: 11px 12px;
+
     }
 
     button {
       margin-left: 4px;
       cursor: pointer;
       padding: 4px;
+
+      @include for-phone-only {
+        padding: 0;
+        margin-left: 12px;
+        border: none;
+      }
 
 
       &:hover {
@@ -1357,9 +1355,12 @@ export default class Homepage extends Vue {
 .search-options {
   @include for-phone-only {
     button {
-      border-radius: 6px;
-      background: #f9f9f9;
-      font-weight: 600;
+      border-radius: 20px;
+      background: #fff;
+      font-weight: 500;
+      font-size: 13px !important;
+      border: 1px solid #1F2937;
+      min-width: fit-content;
     }
   }
 }
@@ -1394,12 +1395,16 @@ export default class Homepage extends Vue {
   min-width: fit-content;
   margin: 0;
   margin-right: 24px;
+
+  @include for-phone-only {
+    margin-right: 0;
+    margin-left: 16px;
+    font-weight: 200;
+  }
 }
 
 .filters {
   ::v-deep div:first-of-type {
-    padding-bottom: 24px;
-    border-bottom: 1px solid #f1f1f1;
 
     ::v-deep label {
       font-size: 18px !important;
@@ -1414,6 +1419,31 @@ export default class Homepage extends Vue {
       padding-bottom: 0 !important;
       border-bottom: 0 !important;
     }
+  }
+}
+
+.mobile-filters-wrap {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  width: auto;
+  bottom: 24px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    width: fit-content;
+    min-width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    color: #fff;
+    background-color: #1F2937;
   }
 }
 

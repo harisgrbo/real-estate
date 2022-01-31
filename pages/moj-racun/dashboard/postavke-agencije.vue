@@ -5,6 +5,19 @@
         <TextField v-model="web" label="Web adresa" placeholder="www.adresa.ba"></TextField>
         <TextField v-model="location" label="Lokacija" placeholder="Sarajevo"></TextField>
       </div>
+      <div class="flex flex-col sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 xl:ml-6">
+        <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
+          <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
+            <img v-show="banner_url !== '' && banner_url != null" class="h-full w-full rounded-md" alt="" :src="banner_url">
+            <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
+          </div>
+          <div class="mx-auto cursor-pointer relative mt-5">
+            <action-button @action="updateProfileInfo" placeholder="Promijeni sliku"></action-button>
+
+            <input @change="updateBanner" type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
+          </div>
+        </div>
+      </div>
       <TextAreaField class="mt-4" v-model="description" label="Opis" placeholder="Opis.."></TextAreaField>
       <action-button :loading="loading" @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
     </div>
@@ -29,13 +42,14 @@ export default class urediProfil extends Vue {
   id = '';
   location = '';
   description = '';
-  loading = false;
   web = '';
+  banner_url = '';
   agency = {
     external_id: '',
     location: '',
     description: '',
-    web: ''
+    web: '',
+    banner_url: ''
   };
   loading = false;
 
@@ -44,11 +58,33 @@ export default class urediProfil extends Vue {
     this.setInputs();
   }
 
+  async updateBanner(event) {
+    if (event.target.files.length) {
+      let image = event.target.files[0];
+      let formData = new FormData();
+      formData.append('banner', image);
+
+      try {
+        await this.$axios.post('/profile/agency/banner', formData, {
+          'headers': {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        await this.fetchMyAgency();
+        this.setInputs();
+      } catch (e) {
+        alert("Baner nije moguce postaviti")
+      }
+    }
+  }
+
   setInputs() {
     this.id = this.agency.external_id;
     this.location = this.agency.location;
     this.description = this.agency.description;
     this.web = this.agency.web;
+    this.banner_url = this.agency.banner_url;
   }
 
   async fetchMyAgency() {

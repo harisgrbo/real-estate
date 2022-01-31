@@ -1300,33 +1300,6 @@ export default class Objava extends Vue {
     margin-bottom: 24px;
   }
 
-.modal-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 0 24px;
-  height: fit-content;
-
-  .modal-content {
-    padding: 24px 0;
-    textarea {
-      height: 200px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 26px;
-      box-sizing: border-box;
-      padding: 24px;
-
-      &:focus {
-        outline: none;
-
-      }
-    }
-  }
-}
-
 ::v-deep button {
   margin-bottom: 24px;
   width: fit-content;

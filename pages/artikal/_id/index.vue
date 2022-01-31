@@ -116,7 +116,7 @@
               </div>
             </div>
             <div class="user-wrap relative z-10" v-if="$device.isMobile">
-              <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
+              <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
             </div>
             <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
               <div class="flex flex-row items-center w-full">
@@ -245,16 +245,25 @@
             </span>
             </client-only>
             <div class="separator" v-if="listing.video_url !== null"></div>
-            <div v-if="listing_reviews.length" class="bg-white">
-                <div>
-                  <div v-for="review in listing_reviews" :key="review.id">
-                    <div class="flex text-sm text-gray-500 space-x-4">
-                      <div class="flex-none py-10">
+            <div v-if="listing.is_booking" class="flex w-full flex-col">
+              <div class="separator"></div>
+              <div class="flex flex-row items-center mb-6 justify-between w-full">
+                <h3 class="text-2xl font-semibold text-gray-900 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Dojmovi</h3>
+
+                <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Ostavi dojam" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '40px', fontSize: '13px', width: 'auto' }" :loading="false" @action="$modal.show('leave-review')"></ActionButton>
+              </div>
+
+              <div class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">
+                <div class="grid grid-cols-2 mobile-reviews gap-8">
+                  <div v-for="review in listing_reviews" class="shadow-md rounded-md" :key="review.id">
+                    <div class="flex text-sm text-gray-500 space-x-4 px-4">
+                      <div class="flex-none py-4">
                         <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
                       </div>
-                      <div class="flex-1 py-10">
+                      <div class="flex-1 py-4">
                         <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
-                        <p><time>{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+                        <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
+
                         <div class="flex items-center mt-4">
                           <svg v-for="(i, index) in review.rating" :key="index" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -268,8 +277,10 @@
                   </div>
                 </div>
               </div>
+              <NotFound src="/review.svg" text="Nema dojmova" v-else />
+            </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0">
-              <h3 class="text-xl font-medium text-gray-900 mb-6" v-if="listing.video_url !== null">Video</h3>
+              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5" v-if="listing.video_url !== null">Video</h3>
               <div v-if="listing.video_url !== null">
                 <div v-html="listing.video_url"></div>
               </div>
@@ -284,43 +295,7 @@
 
           </div>
           <div class="user-wrap relative z-10" v-if="!$device.isMobile">
-            <UserProfile :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
-          </div>
-          <div v-if="(listing.is_rent || listing.is_booking) && $device.isMobile && $auth.user">
-            <div class="separator" v-if="listing_reviews.length"></div>
-            <h3 class="text-xl font-medium text-gray-900 mb-6 px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">Dojmovi</h3>
-            <div v-if="listing_reviews.length" class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0">
-              <div>
-                <div v-for="review in listing_reviews" :key="review.id">
-                  <div class="flex text-sm text-gray-500 space-x-4">
-                    <div class="flex-none py-10">
-                      <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80" alt="" class="w-10 h-10 bg-gray-100 rounded-full">
-                    </div>
-                    <div class="flex-1 py-10">
-                      <h3 class="font-medium text-gray-900">{{ review.user ? review.user.name : 'Username' }}</h3>
-                      <p><time datetime="2021-07-16">{{ $moment(review.created_at).format('DD.MM.YYYY') }}</time></p>
-
-                      <div class="flex items-center mt-4">
-                        <!--
-                          Heroicon name: solid/star
-
-                          Active: "text-yellow-400", Default: "text-gray-300"
-                        -->
-                        <svg v-for="(i, index) in review.rating" :key="index" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-
-                        <!-- Heroicon name: solid/star -->
-                      </div>
-
-                      <div class="mt-4 prose prose-sm max-w-none text-black">
-                        <p>{{ review.review }}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
           </div>
         </div>
         <client-only>
@@ -591,14 +566,16 @@ import ActionButton from "@/components/actionButtons/ActionButton";
 import UserProfile from "@/components/UserProfile"
 import SingleQuestion from "@/components/SingleQuestion"
 import RealEstateLocationMap from "@/components/RealEstateLocationMap";
-import TextField from "../../components/inputs/TextField";
-import TextAreaField from "../../components/inputs/TextAreaField";
+import TextField from "../../../components/inputs/TextField";
+import TextAreaField from "../../../components/inputs/TextAreaField";
 import Skeleton from "@/components/skeleton";
 
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import NotFound from "../../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     Skeleton,
     TextAreaField,
     TextField,
@@ -1027,13 +1004,20 @@ export default class Artikal extends Vue {
 
       this.review_rating = ''
     } catch(e) {
-      console.log(e)
+      if (e.response.status === 400) {
+        this.$toast.open({
+          message: "Dojam možete ostaviti tek po isteku rezervacije",
+          type: 'error',
+          duration: 5000
+        });
+      }
+
     }
   }
 
   async fetchReviews() {
     try {
-      let res = await this.$axios.get(`/listings/${this.$route.params.id}/rent_reviews`);
+      let res = await this.$axios.get(`/listings/${this.listing.id}/rent_reviews`);
 
       this.listing_reviews = res.data.data;
     } catch(e) {
@@ -1166,8 +1150,6 @@ export default class Artikal extends Vue {
 
   async created() {
     this.specialAttributes = this.getRentSpecialAttributes().slice();
-
-    console.log(this.specialAttributes, 'special')
 
     if(this.error) {
       return
@@ -1415,13 +1397,6 @@ h2 {
           margin-bottom: 0 !important;
         }
       }
-      .detailed-informations {
-        width: 100%;
-        height: fit-content;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
       .description {
         line-height: 25px;
         line-break: anywhere;
@@ -1434,95 +1409,6 @@ h2 {
         }
       }
 
-    }
-  }
-}
-
-//.modal-header {
-//  display: flex;
-//  align-items: center;
-//  height: 70px;
-//  border-bottom: 1px solid #dcdcdc;
-//  justify-content: space-between;
-//
-//  h2 {
-//    font-size: 17px;
-//    font-weight: 500;
-//  }
-//
-//  svg {
-//    cursor: pointer;
-//  }
-//}
-
-.modal-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-
-  @include for-phone-only {
-    padding: 12px;
-  }
-
-  &.map {
-    padding: 0;
-
-    .modal-content {
-      padding: 0;
-      height: 100%;
-
-      ::v-deep #map {
-        height: calc(100vh - 110px);
-        width: auto !important;
-
-        @include for-phone-only {
-          width: 100% !important;
-        }
-      }
-    }
-
-    i {
-      position: absolute;
-      top: 0;
-      background: #fff;
-      border-radius: 6px;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #000;
-      right: 16px;
-      z-index: 1;
-      top: 16px;
-    }
-  }
-
-
-  .modal-content {
-    padding: 0;
-    textarea {
-      height: 200px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 21px;
-      box-sizing: border-box;
-      padding: 12px;
-      min-height: 400px;
-
-
-      @include for-phone-only {
-        padding: 12px;
-      }
-
-
-      &:focus {
-        outline: none;
-
-      }
     }
   }
 }
@@ -1581,93 +1467,6 @@ h2 {
   display: flex;
 }
 
-.detailed-info {
-  padding: 0 8px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  background: rgb(241 239 239 / 53%);
-  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
-
-  @include for-phone-only {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-  }
-  span {
-    font-size: 14px;
-    margin: 5px 0;
-
-    @include for-phone-only {
-      font-size: 13px;
-    }
-    &:last-child {
-      font-weight: 500;
-      font-size: 16px;
-
-      @include for-phone-only {
-        font-size: 14px;
-      }
-    }
-  }
-  &.exchange {
-    font-weight: 600;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    span {
-      margin: 0;
-      display: flex;
-      align-items: center;
-    }
-  }
-  &.price {
-    background: #151b38 !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-    font-weight: 600;
-    font-size: 18px !important;
-    height: 50px;
-    div {
-      display: flex;
-      align-items: center;
-    }
-    svg {
-      color: #fff;
-    }
-    span {
-      color: #fff;
-      &:last-child {
-        margin-left: 12px;
-
-        @include for-phone-only {
-          margin-left: 0;
-        }
-      }
-    }
-  }
-  &.exchange-for {
-    background: #757B9A !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    span {
-      color: #fff;
-      display: flex;
-      align-items: center;
-      i {
-        margin-left: 8px;
-      }
-    }
-  }
-}
-
 .grid-layout {
   padding: 0;
   grid-template-columns: repeat( auto-fill, minmax(220px, 1fr) );
@@ -1711,30 +1510,6 @@ h2 {
     ::v-deep svg {
       color: #444!important;
       font-size: 20px !important;
-    }
-  }
-}
-
-.question-create {
-  display: flex;
-  flex-direction: column;
-  border-radius: 6px;
-  margin-top: 24px;
-
-  ::v-deep button {
-    margin-top: 12px;
-    background: #0B8489;
-  }
-
-  textarea {
-    background: #fff;
-    border: 1px solid #ddd;
-    height: 100px;
-    padding: 12px;
-    border-radius: 6px;
-    font-family: 'Outfit', sans-serif;
-    &:focus {
-      outline: none;
     }
   }
 }
@@ -1876,9 +1651,6 @@ h2 {
   }
 }
 
-.scroller-position {
-  height: 60px;
-}
 .places-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2325,22 +2097,6 @@ h2 {
   }
 }
 
-.review-textarea {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 6px;
-  padding: 12px;
-  background: #fff;
-  flex: 2;
-  position: relative;
-  transition: 0.3s all ease;
-  margin-top: 0;
-  min-height: 150px;
-  border: 1px solid #ddd;
-  width: 100%;
-}
-
 ::v-deep iframe {
   width: 100% !important;
   height: 400px;
@@ -2616,5 +2372,14 @@ input[type=range]:focus::-ms-fill-upper {
   max-width: 290px
 }
 
+.mobile-reviews {
+  @include for-phone-only {
+    grid-template-columns: repeat(1, 1fr);
+
+    img {
+      min-height: 50px;
+    }
+  }
+}
 </style>
 

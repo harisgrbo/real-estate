@@ -199,34 +199,6 @@ export default class Verifikacija extends Vue {
   }
 }
 
-// modal
-
-.modal-inner {
-  display: flex;
-  flex-direction: column;
-  padding: 0 24px;
-
-  .modal-content {
-    padding: 24px 0;
-    textarea {
-      height: 200px;
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 16px;
-      line-height: 21px;
-      box-sizing: border-box;
-      padding: 24px;
-
-      &:focus {
-        outline: none;
-
-      }
-    }
-  }
-}
-
 .security-code-wrap {
   display: flex;
   align-items: center;

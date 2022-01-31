@@ -256,11 +256,6 @@ label {
   margin: 0 auto;
   margin-bottom: 46px;
   cursor: pointer;
-
-  @include for-phone-only {
-    height: 48px;
-  }
-
 }
 
 .login-u {

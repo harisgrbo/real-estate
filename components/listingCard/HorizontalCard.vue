@@ -24,7 +24,7 @@
           </swiper>
           <img v-else src="/noimage.jpeg" alt="">
         </div>
-        <div class="flex w-full flex-col gap-2 p-1 justify-between">
+        <div class="flex w-full flex-col justify-between">
           <div>
             <button
               class='w-full flex items-center font-medium flex flex-row items-center justify-between'
@@ -36,12 +36,11 @@
             <p class="mt-5 text-sm text-gray-800 font-medium leading-5">{{ listing.address }}</p>
           </div>
           <div class="flex  justify-between items-center">
-
             <div class="flex flex-row items-center special">
                 <button
                   v-for="(attr, index) in specialAttributes"
                   :key="index"
-                  class='px-2 flex items-center gap-1 sm:text-lg py-0 rounded-full transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500 flex flex-row items-center mr-2'
+                  class='px-2 flex items-center sm:text-lg py-0 rounded-full transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500 flex flex-row items-center mr-2'
                 >
                   <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
                   <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
@@ -53,7 +52,7 @@
             </div>
             <div class="flex flex-row items-center">
               <button
-                class='flex items-center gap-1 sm:text-lg py-1 px-1 hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
+                class='flex items-center sm:text-lg px-1 hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'
               >
                 <p class="text-lg w-auto font-semibold">{{ listing.price }} KM</p>
 
@@ -639,7 +638,8 @@ padding-left: 16px;
   max-height: 180px;
 
   img {
-    height: 190px !important;
+    height: 180px !important;
+    min-height: 180px !important;
   }
 
   ::v-deep .swiper-slide {
