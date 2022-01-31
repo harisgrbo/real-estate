@@ -104,7 +104,7 @@
           </swiper>
         </client-only>
       </div>
-      <div class="pl-5 lg:px-20 xl:px-20 up:px-20 mb-0 mobile" v-else>
+      <div class="pl-4 lg:px-20 xl:px-20 up:px-20 mb-0 mobile" v-else>
         <div v-if="premiumListingsLoaded" class="flex flex-row overflow-y-scroll">
           <div v-for="listing in premiumListings" :key="listing.id" class="mr-5">
             <PremiumListingCard :action="true" :listing="listing" />
@@ -181,7 +181,7 @@
       </client-only>
     </div>
     <div class="mx-auto w-full mobile" v-else>
-      <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-5">
+      <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-4">
         <div v-for="listing in listings_sell" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" />
         </div>
@@ -249,7 +249,7 @@
         </swiper>
       </client-only>
     </div>
-    <div class="pl-5 mobile" v-else>
+    <div class="pl-4 mobile" v-else>
       <div v-if="rentLoaded" class="flex flex-row overflow-y-scroll">
         <div v-for="listing in listings_rent" :key="listing.id" class="mr-5">
           <ListingCard :action="true" :listing="listing" />
@@ -263,7 +263,7 @@
     </div>
     <div class="flex items-center justify-between custom-width title-wrapper">
       <h2 class="section-title">Stan na dan</h2>
-      <div class="flex flex-row items-center  mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
+      <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
@@ -294,18 +294,18 @@
       </client-only>
     </div>
     <div class="mobile" v-else>
-      <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-5">
+      <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-4">
         <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-5">
           <ListingCard :action="false" :listing="listing" />
         </div>
       </div>
-      <div v-else class="flex flex-row overflow-y-scroll ml-5">
+      <div v-else class="flex flex-row overflow-y-scroll ml-4">
         <div  v-for="(i, index) in 5" :key="index" class="w-full">
           <skeleton height="232px" width="240px" class="mr-5"></skeleton>
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between custom-width mt-8 title-wrapper">
+    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">
       <h2 class="section-title">Premium agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
@@ -1382,6 +1382,10 @@ button.search {
 
   @include for-phone-only {
     margin-top: 36px;
+
+    &.agency {
+      padding-right: 16px;
+    }
   }
 }
 
