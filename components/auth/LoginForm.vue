@@ -11,7 +11,7 @@
     <div class="flex items-center justify-center login-u">
       <p>Nemaš račun?</p><nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
     </div>
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center mt-8">
       <nuxt-link :to="{ path: '/auth/zaboravljena-sifra' }">Zaboravili ste šifru?</nuxt-link>
     </div>
   </div>
@@ -146,11 +146,6 @@ label {
   margin: 0 auto;
   margin-bottom: 46px;
   cursor: pointer;
-
-  @include for-phone-only {
-      height: 48px;
-  }
-
 }
 
 .login-u {

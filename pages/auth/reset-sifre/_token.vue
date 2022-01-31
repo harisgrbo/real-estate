@@ -113,6 +113,10 @@ export default class zaboravljenasifra extends Vue{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @include for-phone-only {
+      width: 100%;
+    }
   }
 
 
@@ -170,11 +174,6 @@ label {
   margin: 0 auto;
   margin-bottom: 46px;
   cursor: pointer;
-
-  @include for-phone-only {
-    height: 48px;
-  }
-
 }
 
 .login-u {
