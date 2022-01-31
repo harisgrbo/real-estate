@@ -112,6 +112,10 @@ export default class MobileBottomNavbar extends Vue {
     this.realtime();
   }
 
+  beforeDestroy() {
+    this.$echo.leave('App.Models.User.' + this.$auth.user.id);
+  }
+
   realtime() {
     if (this.$auth.user) {
       this.$echo.private('App.Models.User.' + this.$auth.user.id).notification(notification => {
