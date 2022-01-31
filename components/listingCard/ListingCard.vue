@@ -204,6 +204,12 @@ export default class ListingCard extends Vue{
 
 
   created() {
+    let index = this.specialAttributesKeys.indexOf('Kvadratura');
+
+    if(this.listing.is_booking && index !== -1) {
+      this.specialAttributesKeys.splice(index, 1)
+    }
+
     this.specialAttributes = this.getSpecialAttributes().slice();
   }
 }

@@ -119,10 +119,10 @@
         </div>
       </div>
     </div>
-    <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-5' : 'pl-5 pr-5']">
+    <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
       <div class="results relative" v-if="selectedPreviewType === 'grid'">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div class="mobile-filters-wrap">
+          <div v-if="$device.isMobile" class="mobile-filters-wrap">
             <button @click="$modal.show('search-filters')">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
