@@ -78,12 +78,6 @@ export default class accountpage extends Vue {
       desc: 'Lista korisnika koje pratite i koji Vas prate'
     },
     {
-      name: "Poruke",
-      slug: "poruke",
-      icon: '012-email.svg',
-      desc: 'Poruke i konverzacije'
-    },
-    {
       name: "Moji oglasi",
       slug: 'moji-oglasi',
       icon: '016-toolbox.svg',
@@ -101,12 +95,24 @@ export default class accountpage extends Vue {
       icon: '049-laptop.svg',
       desc: 'Upravljanje obavijestima'
     },
-    // {
-    //   name: "Privatnost",
-    //   slug: "privatnost",
-    //   icon: '025-laptop-6.svg',
-    //   desc: 'Postavke privatnosti'
-    // },
+    {
+      name: "Moji zahtjevi za iznajmljivanje",
+      slug: "moje-rezervacije",
+      icon: '050-chat.svg',
+      desc: 'Moji zahtjevi za iznajmljivanje (booking) prema drugim korisnicima'
+    },
+    {
+      name: "Zahtjevi za iznajmljivanje",
+      slug: "oglasi-koje-izdajem",
+      icon: '008-calendar.svg',
+      desc: 'Zahtjevi za iznajmljivanje upućeni meni kao vlasniku oglasa'
+    },
+    {
+      name: "Poruke",
+      slug: "poruke",
+      icon: '012-email.svg',
+      desc: 'Poruke i konverzacije'
+    },
   ]
 
   goToUser() {

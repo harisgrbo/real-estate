@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
           <div class="flex flex-row items-center justify-between w-full cursor-pointer">
-            <h2 @click="goToUser()" class="text-lg font-medium text-black leading-5">{{ user.name }}</h2>
+            <h2 @click="goToUser()" class="text-lg font-medium text-black text-left leading-5">{{ user.name }}</h2>
             <dd>
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
             </dd>

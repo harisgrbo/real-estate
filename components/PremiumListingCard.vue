@@ -441,12 +441,14 @@ a {
     background: #f9f9f9;
     font-size: 13px;
     line-height: 8px;
-    color: #fff;
+    color: #000;
 
     @include for-phone-only {
       border: none;
       padding: 0;
       background: transparent;
+      color: #fff;
+
 
     }
   }

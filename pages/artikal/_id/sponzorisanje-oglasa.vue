@@ -67,6 +67,7 @@ import {Component, Vue} from "nuxt-property-decorator";
 export default class Kredit extends Vue {
   advertising_options = []
   selectedAdvertisement = null;
+  duration_in_days = 7
 
   async created() {
     await this.fetchSponsorship();
@@ -81,6 +82,7 @@ export default class Kredit extends Vue {
       let res = await this.$axios.get('/sponsorship/packages');
       this.advertising_options = res.data.data;
 
+      console.log(res.data.data)
       if (this.advertising_options.length) {
         this.selectedAdvertisement = this.advertising_options[0].id;
       }
@@ -93,7 +95,8 @@ export default class Kredit extends Vue {
 
     try {
       await this.$axios.post(`/listings/${id}/sponsor`, {
-        sponsorship_id: this.selectedAdvertisement
+        sponsorship_id: this.selectedAdvertisement,
+        duration_in_days: this.duration_in_days
       })
 
       await this.$auth.fetchUser();

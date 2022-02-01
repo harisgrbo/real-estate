@@ -10,7 +10,7 @@
       <li v-if="$auth.user" class="user-label" @click="goToUser">
         <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
         <div class="user-wrap">
-          <h2 class="text-lg font-medium text-black leading-5">{{ $auth.user.name }}</h2>
+          <h2 class="text-lg font-medium text-black leading-5 text-left">{{ $auth.user.name }}</h2>
           <dd class="mt-3">
             <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type($auth.user.user_type) }}</span>
           </dd>
@@ -253,7 +253,6 @@ export default class sidenav extends Vue {
       }
       h2 {
         color: #444;
-        text-transform: uppercase;
         font-size: 14px !important;
         font-weight: 600;
       }
@@ -307,7 +306,6 @@ export default class sidenav extends Vue {
           }
 
           p {
-            text-transform: uppercase;
             font-size: 12px;
             font-weight: 600;
           }
