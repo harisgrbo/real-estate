@@ -254,7 +254,7 @@
               </div>
 
               <div class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">
-                <div class="grid grid-cols-2 gap-8">
+                <div class="grid grid-cols-2 mobile-reviews gap-8">
                   <div v-for="review in listing_reviews" class="shadow-md rounded-md" :key="review.id">
                     <div class="flex text-sm text-gray-500 space-x-4 px-4">
                       <div class="flex-none py-4">
@@ -1017,7 +1017,7 @@ export default class Artikal extends Vue {
 
   async fetchReviews() {
     try {
-      let res = await this.$axios.get(`/listings/${this.$route.params.id}/rent_reviews`);
+      let res = await this.$axios.get(`/listings/${this.listing.id}/rent_reviews`);
 
       this.listing_reviews = res.data.data;
     } catch(e) {
@@ -1150,8 +1150,6 @@ export default class Artikal extends Vue {
 
   async created() {
     this.specialAttributes = this.getRentSpecialAttributes().slice();
-
-    console.log(this.specialAttributes, 'special')
 
     if(this.error) {
       return
@@ -2374,5 +2372,14 @@ input[type=range]:focus::-ms-fill-upper {
   max-width: 290px
 }
 
+.mobile-reviews {
+  @include for-phone-only {
+    grid-template-columns: repeat(1, 1fr);
+
+    img {
+      min-height: 50px;
+    }
+  }
+}
 </style>
 
