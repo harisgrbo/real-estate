@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
           <div class="flex flex-row items-center justify-between w-full cursor-pointer">
-            <h2 @click="goToUser()" class="text-lg font-medium text-black leading-5">{{ user.name }}</h2>
+            <h2 @click="goToUser()" class="text-lg font-medium text-black text-left leading-5">{{ user.name }}</h2>
             <dd>
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
             </dd>
@@ -71,7 +71,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji poruku" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>
@@ -385,7 +385,9 @@ export default class UserProfile extends Vue {
 
       await this.$axios.post('/conversations/' + conversation.id + '/messages', {
         content: this.message,
-        key: Math.floor(Math.random() * 100).toString()
+        key: Math.floor(Math.random() * 100).toString(),
+        listing_id: this.$route.params.id,
+        type: 'listing'
       });
 
       this.$modal.hide('contact-user');

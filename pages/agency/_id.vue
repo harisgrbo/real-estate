@@ -1,6 +1,7 @@
 <template>
   <div class="user-profile-wrapper mx-auto pt-0">
-    <div class="agency-banner" :style="{ backgroundImage: 'url(' + '/agencijabg.jpeg' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="flex flex-col custom-width mx-auto">
       <div class="user-content-wrapper mt-8" >
         <div class="flex flex-row items-center justify-start mobile-spans">
@@ -136,6 +137,12 @@
                 </div>
                 <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
               </div>
+              <Pagination
+                v-if="listings.length && listingActiveMeta.total > 15"
+                ref="pagination"
+                :current-page="currentPage"
+                :total-pages="listingActiveMeta.last_page"
+                @page-change="pageChangeHandler" />
             </div>
           </div>
         </div>
@@ -239,18 +246,27 @@ export default class Agencies extends Vue {
   completed_listings = []
   finishedListings = []
   feedback = []
+  currentPage = 1;
   city = {
     location: {
       lat: parseFloat("43.8575641"),
       lng: parseFloat("18.4149369")
     }
   }
+  listingActiveMeta = null
   selected_tab = 0;
   tabs = [
     'Aktivni oglasi',
     'Završeni'
   ]
   selectedCategoryId = null;
+
+  async pageChangeHandler(selectedPage) {
+    console.log(selectedPage)
+    this.currentPage = selectedPage;
+    await this.fetchUserListings(this.$route.params.id, 0, this.currentPage);
+  }
+
 
   async handleSelectedCategory(cat) {
     if (this.selectedCategoryId === cat.id) {
@@ -272,9 +288,11 @@ export default class Agencies extends Vue {
 
   async created() {
 
-    await this.fetchUserListings(this.$route.params.id, null);
+    await this.fetchUserListings(this.$route.params.id, null, 1);
     await this.fetchUserFinishedListings(this.$route.params.id)
     this.isFollowed = this.meta.followed;
+
+    console.log(this.listingActiveMeta, 'meta')
   }
 
   get isMe() {
@@ -356,11 +374,11 @@ export default class Agencies extends Vue {
     }
   }
 
-  async fetchUserListings(id, catId) {
+  async fetchUserListings(id, catId, p = 1) {
     this.loadingListings = true;
 
     try {
-      let url = '/users/' + id + '/listings/active';
+      let url = '/users/' + id + `/listings/active?page=${p}`;
 
       if (catId) {
         url += '?category_id=' + catId;
@@ -368,6 +386,7 @@ export default class Agencies extends Vue {
 
       let response = await this.$axios.get(url)
       this.listings = response.data.data;
+      this.listingActiveMeta = response.data.meta;
     } catch(e) {
       console.log(e)
     } finally {
@@ -664,7 +683,7 @@ export default class Agencies extends Vue {
 
 .filters-agency {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   .filters-agency-list {
     width: 300px;

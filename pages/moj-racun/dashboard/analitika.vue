@@ -14,7 +14,8 @@
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 shadow-md rounded-md">
                   <div class="report-box zoom-in">
                     <div class="box p-5">
-                      <div class="text-3xl font-medium leading-8 mt-6">{{ listings.length }}</div>
+                      <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.listings">{{ listings.length }}</div>
+                      <img class="loading" src="/loader.svg" alt="" v-else>
                       <div class="text-base text-gray-600 mt-1">Broj aktivnih oglasa</div>
                     </div>
                   </div>
@@ -22,7 +23,8 @@
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 shadow-md rounded-md">
                   <div class="report-box zoom-in">
                     <div class="box p-5">
-                      <div class="text-3xl font-medium leading-8 mt-6">{{ completed_listings }}</div>
+                      <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.finished_listings">{{ completed_listings }}</div>
+                      <img class="loading" src="/loader.svg" alt="" v-else>
                       <div class="text-base text-gray-600 mt-1">Broj završenih oglasa</div>
                     </div>
                   </div>
@@ -30,7 +32,8 @@
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 shadow-md rounded-md">
                   <div class="report-box zoom-in">
                     <div class="box p-5">
-                      <div class="text-3xl font-medium leading-8 mt-6"> {{ agents.length }}</div>
+                      <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.agents"> {{ agents.length }}</div>
+                      <img class="loading" src="/loader.svg" alt="" v-else>
                       <div class="text-base text-gray-600 mt-1">Broj agenata</div>
                     </div>
                   </div>
@@ -38,42 +41,32 @@
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 shadow-md rounded-md">
                   <div class="report-box zoom-in">
                     <div class="box p-5">
-                      <div class="text-3xl font-medium leading-8 mt-6">{{ total_views }}</div>
+                      <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.listing_views">{{ total_views }}</div>
+                      <img class="loading" src="/loader.svg" alt="" v-else>
                       <div class="text-base text-gray-600 mt-1">Ukupna posjećenost svih oglasa</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- END: General Report -->
-            <!-- BEGIN: Sales Report -->
-<!--            <div class="col-span-12 lg:col-span-6 mt-8">-->
-<!--              <div class="block sm:flex items-center h-10">-->
-<!--                <h2 class="text-lg font-medium truncate mr-5">-->
-<!--                  Mjesečni/godišnji izvještaj rasta prodaje-->
-<!--                </h2>-->
-<!--              </div>-->
-<!--              <AreaChart></AreaChart>-->
-<!--            </div>-->
-            <!-- END: Sales Report -->
-            <!-- BEGIN: Weekly Top Seller -->
             <div class="graph-wrapper">
-              <div v-if="listings_per_category" class="w-full mt-8">
+              <div class="w-full mt-8">
                 <div class="flex items-center h-10">
                   <h2 class="text-lg font-medium truncate mr-5">
                     Broj oglasa po kategorijama
                   </h2>
                 </div>
-                <PieChart :data="listings_per_category"></PieChart>
-
+                <PieChart v-if="loaders.listings_per_category" :data="listings_per_category"></PieChart>
+                <img class="loading" src="/loader.svg" alt="" v-else>
               </div>
-              <div v-if="listings_per_location" class="w-full mt-8">
+              <div class="w-full mt-8">
                 <div class=" flex items-center h-10">
                   <h2 class="text-lg font-medium truncate mr-5">
                     Broj oglasa po gradovima
                   </h2>
                 </div>
-                <PieChart :data="listings_per_location"></PieChart>
+                <PieChart v-if="loaders.listings_per_location" :data="listings_per_location"></PieChart>
+                <img class="loading" src="/loader.svg" alt="" v-else>
 
               </div>
             </div>
@@ -123,10 +116,12 @@
 import { Component, Vue, Prop} from "nuxt-property-decorator";
 import SearchMap from "@/components/googleMap/SearchMap";
 import PieChart from "../../../components/analytics/PieChart";
+import LoadingBar from "../../../components/LoadingBar";
 
 
 @Component({
   components: {
+    LoadingBar,
     PieChart,
     SearchMap
   },
@@ -137,6 +132,7 @@ export default class Analitika extends Vue {
   agents = [];
   total_views = 0;
   completed_listings = 0;
+  initialInfoLoaded = false;
   listings_per_category = null;
   listings_per_location = null;
   chartData = {
@@ -144,8 +140,26 @@ export default class Analitika extends Vue {
     Magazine: 30,
     Newspapers: 10
   }
+  loaders = {
+    listings: false,
+    agents: false,
+    listing_views: false,
+    finished_listings: false,
+    listings_per_category: false,
+    listings_per_location: false
+  }
+
+  async created() {
+    await this.fetchUserListings()
+    this.getAllAgents();
+    this.fetchTotalListingViews();
+    this.fetchTotalFinishedListings();
+    this.fetchListingsPerCategory();
+    this.fetchListingsPerLocation();
+  }
 
   async getAllAgents() {
+    this.loaders.agents = false;
     try {
       let res = await this.$axios.get('/agents');
 
@@ -153,28 +167,26 @@ export default class Analitika extends Vue {
 
     } catch (e) {
       console.log(e)
+    } finally {
+      this.loaders.agents = true;
     }
-  }
-   async created() {
-    await this.fetchUserListings()
-    this.getAllAgents();
-    this.fetchTotalListingViews();
-    this.fetchTotalFinishedListings();
-     this.fetchListingsPerCategory();
-     this.fetchListingsPerLocation();
   }
 
   async fetchUserListings() {
+    this.loaders.listings = false;
     try {
       let res = await this.$axios.get('/profile/listings');
 
       this.listings = res.data.data;
     } catch(e)  {
       console.log(e)
+    } finally {
+      this.loaders.listings = true;
     }
   }
 
   async fetchTotalListingViews() {
+    this.loaders.listing_views = false
     try {
       let res = await this.$axios.get('/analytics/total/views');
 
@@ -182,10 +194,13 @@ export default class Analitika extends Vue {
 
     } catch(e)  {
       console.log(e)
+    } finally {
+      this.loaders.listing_views = true;
     }
   }
 
   async fetchTotalFinishedListings() {
+    this.loaders.finished_listings = false
     try {
       let res = await this.$axios.get('/analytics/completed');
 
@@ -193,26 +208,34 @@ export default class Analitika extends Vue {
 
     } catch(e)  {
       console.log(e)
+    } finally {
+      this.loaders.finished_listings = true;
     }
   }
 
   async fetchListingsPerCategory() {
+    this.loaders.listings_per_category = false
     try {
       let res = await this.$axios.get('/analytics/categories');
 
       this.listings_per_category = res.data.data;
     } catch(e)  {
       console.log(e)
+    } finally {
+      this.loaders.listings_per_category = true;
     }
   }
 
   async fetchListingsPerLocation() {
+    this.loaders.listings_per_location = false;
     try {
       let res = await this.$axios.get('/analytics/locations');
 
       this.listings_per_location = res.data.data;
     } catch(e)  {
       console.log(e)
+    } finally {
+      this.loaders.listings_per_location = true;
     }
   }
 }
@@ -301,5 +324,10 @@ export default class Analitika extends Vue {
   @include for-phone-only {
     flex-direction: column;
   }
+}
+
+.loading {
+  height: 40px;
+  width: 40px;
 }
 </style>

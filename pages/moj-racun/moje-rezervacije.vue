@@ -13,14 +13,26 @@
       <ul role="list" class="divide-y orders divide-gray-200">
         <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
           <div class="flex items-center sm:items-start mobile-box">
-            <div class="listing-wrap shadow-md rounded-md">
-              <HorizontalCard :listing="booking.listing"></HorizontalCard>
+            <div class="listing-wrap shadow-md rounded-md hover:shadow-lg">
+              <SmallListingCard :listing="booking.listing"></SmallListingCard>
             </div>
-            <div class="flex-1 sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 text-sm w-full">
+            <div class="flex-1 sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 text-sm w-full flex flex-col justify-between content">
               <div class="font-medium text-gray-900 sm:flex sm:justify-between">
-                <div class="flex flex-col items-start justify-start">
-                  <span class="approval">{{ booking.confirmed ? 'Prihvaćeno' : 'Čeka se potvrda' }}</span>
+<!--                <div class="flex flex-col items-start justify-start">-->
+<!--                  <span class="approval">{{ booking.confirmed ? 'Prihvaćeno' : 'Čeka se potvrda' }}</span>-->
+<!--                </div>-->
+
+                <div aria-hidden="true" class="progress">
+                  <div class="bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-2 bg-gray-900 rounded-full" style="width: calc((1 * 3 + 1) / 8 * 100%);"></div>
+                  </div>
+                  <div class="grid grid-cols-3 text-sm font-medium text-gray-600 mt-3">
+                    <div class="text-gray-900">Zahtjev poslan</div>
+                    <div class="text-center text-gray-900">Čeka se potvrda</div>
+                    <div class="text-right" v-if="booking.confirmed">Prihvaćeno</div>
+                  </div>
                 </div>
+
                 <p class="mt-2 sm:mt-0 text-lg font-medium">
                   {{ booking.total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM za {{ booking.days }} dana
                 </p>
@@ -56,9 +68,11 @@ import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "../../components/actionButtons/ActionButton";
 import ListingCard from "../../components/listingCard/ListingCard";
 import HorizontalCard from "../../components/listingCard/HorizontalCard";
+import SmallListingCard from "../../components/SmallListingCard";
 
 @Component({
   components: {
+    SmallListingCard,
     HorizontalCard,
     ListingCard,
     ActionButton
@@ -135,8 +149,8 @@ export default class mojeRezervacije extends Vue {
 
 ul.orders li {
   border-bottom: 1px solid #f1f1f1;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
 
   .main {
     height: 200px;
@@ -257,5 +271,27 @@ a {
   border-bottom: 0;
   margin-bottom: 0;
   padding-bottom: 0;
+}
+
+.listing-wrap {
+  min-width: 50%;
+
+  @include for-phone-only {
+    min-width: 100%;
+    width: 100%;
+  }
+}
+
+.content {
+  min-height: 145px;
+}
+
+.progress {
+  width: 380px;
+
+  @include for-phone-only {
+    width: 100%;
+    margin: 16px 0;
+  }
 }
 </style>

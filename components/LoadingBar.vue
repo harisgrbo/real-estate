@@ -1,11 +1,13 @@
 <template>
-  <div v-if="loading" class="loading-page">
+  <div v-if="override || loading" class="loading-page">
     <img src="/loader.svg" alt="">
   </div>
 </template>
 
 <script>
 export default {
+  name: 'LoadingBar',
+  props: ['override'],
   data: () => ({
     loading: false
   }),
