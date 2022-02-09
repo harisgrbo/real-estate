@@ -78,8 +78,7 @@ a {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 6px;
-  padding: 24px;
+  padding: 36px 0!important;
 }
 
 .nuxt-link-active.inner {

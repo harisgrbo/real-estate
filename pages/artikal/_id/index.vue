@@ -120,8 +120,8 @@
             </div>
             <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
               <div class="flex flex-row items-center w-full">
-                <p class="text-xl font-medium">{{ numberWithCommas(listing.price) + ' KM'}}</p>
-                <p class="pl-2 text-lg font-thin">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+                <p class="text-2xl font-medium">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                <p class="pl-2 text-lg font-thin" v-if="listing.is_booking">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
               </div>
             </div>
             <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
@@ -160,7 +160,7 @@
                 </p>
               </div>
             </div>
-            <div class="mt-4 mobile-places-btn">
+            <div class="mt-6 mobile-places-btn">
               <ActionButton @action="$modal.show('map-modal')"  placeholder="Mapa" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
               <ActionButton v-if="!listing.is_booking" @action="$modal.show('places')"  placeholder="U blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
               <ActionButton v-if="listing.is_booking" @action="$modal.show('places-poi')"  placeholder="Zanimljivosti" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
@@ -174,7 +174,7 @@
                 <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
                   <div class="relative -m-2 p-2 flex items-center space-x-4">
                     <div>
-                      <h3 class="text-md font-normal text-gray-900">
+                      <h3 class="text-md font-thin text-gray-900">
                         <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
@@ -246,7 +246,6 @@
             </client-only>
             <div class="separator" v-if="listing.video_url !== null"></div>
             <div v-if="listing.is_booking" class="flex w-full flex-col">
-              <div class="separator"></div>
               <div class="flex flex-row items-center mb-6 justify-between w-full">
                 <h3 class="text-2xl font-semibold text-gray-900 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Dojmovi</h3>
 
@@ -279,8 +278,9 @@
               </div>
               <NotFound src="/review.svg" text="Nema dojmova" v-else />
             </div>
-            <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0">
-              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5" v-if="listing.video_url !== null">Video</h3>
+            <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.video_url !== null">
+              <div class="separator"></div>
+              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Video</h3>
               <div v-if="listing.video_url !== null">
                 <div v-html="listing.video_url"></div>
               </div>
@@ -1149,6 +1149,8 @@ export default class Artikal extends Vue {
   }
 
   async created() {
+
+    console.log(this.listing)
     this.specialAttributes = this.getRentSpecialAttributes().slice();
 
     if(this.error) {
@@ -1874,10 +1876,13 @@ h2 {
       justify-content: center;
       min-width: 60px;
       margin-right: 24px;
+      height: 30px;
 
       &.active-place-modal {
+        border: 1px solid #000;
+        border-radius: 8px;
+        padding: 3px 8px;
         .img-wrapper {
-          background: #1F2937;
           img {
             filter: invert(1);
           }
@@ -1887,7 +1892,7 @@ h2 {
           color: #1F2937;
           font-weight: 600!important;
           margin: 0;
-          padding: 0
+          padding: 0;
         }
       }
 
@@ -1903,7 +1908,7 @@ h2 {
 
       p {
         min-width: fit-content;
-        margin-top: 12px;
+        margin-top: 0px;
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 80px;
@@ -2223,7 +2228,7 @@ input[type=range]:focus::-ms-fill-upper {
 .mobile-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 14px;
+  grid-gap: 24px;
 
   @include for-phone-only {
     grid-template-columns: repeat(2, 1fr);

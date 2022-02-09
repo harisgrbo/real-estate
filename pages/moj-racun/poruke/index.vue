@@ -4,16 +4,19 @@
     <div class="flex w-full">
       <div v-if="conversations.length > 0" class="chat flex flex-row w-full">
         <!-- BEGIN: Chat Side Menu -->
-        <div class="flex mr-4 flex-col w-2/6 mobile-chat">
+        <div class="flex flex-col w-2/6 mobile-chat">
+          <div class="custom-header">
+            <h3>Razgovori</h3>
+          </div>
           <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
-                <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
+                <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 py-6 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
-                  <div class="ml-2 overflow-hidden w-full">
+                  <div class="ml-2 overflow-hidden w-full h-full">
                     <div class="flex items-center w-full">
-                      <a class="text-gray-900 font-medium">{{ others(conversation).map(item => item.name).join(',') }}</a>
-                      <div class="text-xs text-gray-500 ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
+                      <div class="text-gray-700 font-light text-sm">{{ others(conversation).map(item => item.name).join(',') }}</div>
+                      <div class="text-xs text-gray-900 font-medium ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
                     <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
                       <div class="w-full flex items-center flex-row truncate text-sm text-gray-900 mt-0.5" v-if="conversation.last_message.message_type === 'media' && conversation.last_message.content.mime.substr(0, 5) === 'image'">
@@ -21,7 +24,12 @@
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg> Korisnik je poslao sliku
                       </div>
-                      <div class="w-full truncate text-gray-900 mt-0.5" v-else>
+                      <div class="w-full flex items-center flex-row truncate text-sm text-gray-900 mt-0.5" v-else-if="conversation.last_message.message_type === 'listing'">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg> Korisnik je poslao pitanje vezano za oglas
+                      </div>
+                      <div class="w-full truncate text-gray-900 text-md font-medium mt-0.5" v-else>
                         {{ conversation.last_message.content }}
                       </div>
                       <div v-if="pinned_conversation === conversation">
@@ -39,24 +47,20 @@
         </div>
         <!-- END: Chat Side Menu -->
         <!-- BEGIN: Chat Content -->
-        <div class="flex w-full relative shadow-md rounded-md">
-          <div v-if="!$device.isMobile" class="chat__box box w-full bg-white">
+        <div class="flex w-full relative main-content rounded-md">
+          <div v-if="!$device.isMobile" class="chat__box box w-full bg-white min-h-full">
             <!-- BEGIN: Chat Active -->
             <div v-if="currentConversation" class="h-full flex flex-col">
-              <div class="border border-gray-200 flex flex-row justify-between items-center border-b border-gray-200 dark:border-dark-5 px-5 py-4 rounded-tl-md rounded-tr-md">
+              <div class="custom-header flex flex-row items-center justify-between">
                 <div class="flex flex-row items-center">
                   <div class="flex items-center">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
-                    </div>
-                    <div class="ml-3 mr-auto">
-                      <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
-                    </div>
+                      <h3 class="ml-3">{{ others(currentConversation).map(item => item.name).join(',') }}</h3>
                   </div>
                 </div>
 
                 <div class="flex flex-row items-center">
-                  <div class="flex items-center sm:ml-auto mt-5 sm:mt-0 border-t sm:border-0 mr-6 border-gray-200 pt-3 sm:pt-0 px-1 cursor-pointer hover:bg-gray-50 rounded-md" @click="pinConversation(currentConversation)">
+                  <div class="flex items-center mr-6 border-gray-200 pt-3 sm:pt-0 px-1 cursor-pointer hover:bg-gray-50 rounded-md" @click="pinConversation(currentConversation)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                     </svg>
@@ -69,11 +73,29 @@
                   </div>
                 </div>
               </div>
-              <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
+              <div v-show="messagesLoaded" ref="messageContainer" class="messages-wrapper">
                 <div v-for="message in messages" :key="message.id">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
-                    <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-theme-17 p-2 text-gray-900 rounded-l-md text-sm rounded-t-md text-right' : 'shadow-md p-2 text-sm font-medium text-gray-700 rounded-r-md rounded-t-md']">
+                    <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
                       {{ message.content }}
+                      <div class="flex justify-between mt-2">
+                        <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                      </div>
+                    </div>
+                    <div v-else-if="message.message_type === 'listing'" :class="[isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
+                      <div class="listing-card flex flex-col" v-if="message.content.listing">
+                        <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
+                          <img :src="message.content.listing.image_urls[0]" alt="">
+                        </div>
+                        <div v-else class="grid grid-cols-1">
+                          <img src="/noimage.jpeg" alt="">
+                        </div>
+                        <h3>{{ message.content.listing.title }}</h3>
+                      </div>
+                      {{ message.content.message }}
+
+<!--                      <SmallListingCard :listing="message.listing"></SmallListingCard>-->
                       <div class="flex justify-between">
                         <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
@@ -87,9 +109,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                           </svg>Otvori u novom tabu</a>
                       </div>
-                      <div class="flex justify-between">
-                        <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                      <div class="flex justify-between mt-2">
+                        <div :class="[isMe(message) ? 'ml-1 mt-1 text-xs text-gray-700': 'ml-1 mt-1 text-xs text-gray-700' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                        <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
                   </div>
@@ -133,8 +155,8 @@
                   <img class="h-full w-full" alt="Icewall Tailwind HTML Admin Template" :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']">
                 </div>
                 <div class="mt-3">
-                  <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
-                  <div class="text-gray-600 mt-1">Klikom na jednu od konverzacija, započni raygovor.</div>
+                  <div class="font-bold text-lg">Pozdrav, {{ $auth.user.name }}</div>
+                  <div class="text-gray-600 mt-4">Klikom na jednu od konverzacija, započni razgovor.</div>
                 </div>
               </div>
             </div>
@@ -142,6 +164,17 @@
           </div>
         </div>
         <!-- END: Chat Content -->
+<!--        <div class="flex flex-col w-2/6 mobile-chat">-->
+<!--          <div class="custom-header">-->
+<!--            <h3>Pitanje za oglas Stan sarajevo 144m2</h3>-->
+<!--          </div>-->
+<!--          <div class="tab-content w-full">-->
+<!--            <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">-->
+<!--              listing-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
       </div>
       <NotFound v-else src="/no-messages.svg" text="Nemate poruka"></NotFound>
     </div>
@@ -183,6 +216,15 @@
                       </div>
                       <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
                         {{ message.content }}
+                        <div class="flex justify-between">
+                          <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        </div>
+                      </div>
+                      <div v-else-if="message.message_type === 'listing'" :class="[isMe(message) ? 'px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
+                        {{ message.content }}
+                        {{ message }}
+                        <SmallListingCard :listing="message.listing"></SmallListingCard>
                         <div class="flex justify-between">
                           <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
                           <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
@@ -337,15 +379,17 @@ import {v4 as uuidv4} from "uuid";
 import ActionButton from "../../../components/actionButtons/ActionButton";
 import {mixin as clickaway} from "vue-clickaway";
 import NotFound from "../../../components/global/NotFound";
+import SmallListingCard from "../../../components/SmallListingCard";
 
 @Component({
   components: {
+    SmallListingCard,
     NotFound,
     ActionButton
   },
   mixins: [clickaway],
   middleware: ['auth'],
-  layout() { return "settings" },
+  layout() { return "search" },
   async asyncData(ctx) {
     let conversations = [];
 
@@ -634,13 +678,9 @@ export default class Poruke extends Vue {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  border-radius: 6px;
-  padding: 24px 0 !important;
+  padding:0 !important;
   margin-top: 0 !important;
-
-  @include for-phone-only {
-    padding: 16px !important;
-  }
+  height: calc(100vh - 80px) !important;
 }
 
 .chat__box__input {
@@ -721,7 +761,6 @@ textarea {
 }
 
 .box {
-  margin-bottom: 16px;
   @include for-phone-only {
     box-shadow: none;
     border-bottom: 1px solid #f1f1f1;
@@ -768,6 +807,7 @@ textarea {
 .chat__chat-list {
   display: flex !important;
   flex-direction: column !important;
+  padding: 24px;
 
   @include for-phone-only {
     padding-top: 16px;
@@ -779,23 +819,19 @@ textarea {
 .conversation-box {
   display: flex;
   position: relative;
+  border-bottom: 1px solid #f1f1f1;
 
   &.active-chat {
-    ::before {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 2px;
-      bottom: 0;
-      content: '';
-      background: #1F2937;
-    }
+    background: #f9f9f9;
+    border-radius: 10px;
+    border-bottom: none;
   }
 
   &.pinned {
-    background: #162f730a;
     order: -1;
     color: #fff !important;
+    border: 1px solid #000;
+    border-radius: 10px;
   }
 }
 @include for-phone-only {
@@ -825,11 +861,36 @@ textarea {
 }
 
 .mobile-chat {
-  min-width: 370px;
+  min-width: 25%;
+  border-right: 1px solid #f1f1f1;
   @include for-phone-only {
     width: 100%;
     min-width: 100%;
   }
+}
+
+.custom-header {
+  height: 70px;
+  padding: 24px;
+  border-bottom: 1px solid #f1f1f1;
+
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.listing-wrap {
+  min-width: 25%;
+  @include for-phone-only {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+.main-content {
+  height: calc(100vh - 80px);
+  border-right: 1px solid #f1f1f1;
 }
 
 .mobile-height {
@@ -968,6 +1029,43 @@ img {
   justify-content: center;
   margin: 12px 0;
 
+}
+
+.chat {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.messages-wrapper {
+  width: 60%;
+  margin: 0 auto;
+  height: calc(100vh - 263px);
+  padding: 24px 0;
+  overflow-y: scroll;
+}
+
+.chat .chat__box .chat__box__text-box {
+  max-width: 75%;
+}
+
+.not-me-box {
+  border: 1px solid #f1f1f1;
+}
+
+.listing-card {
+  img {
+    height: fit-content;
+    width: 200px;
+  }
+
+  h3 {
+    margin-top: 14px;
+    font-weight: 500;
+    font-size: 18px;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
 }
 </style>
 

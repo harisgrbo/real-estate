@@ -71,7 +71,7 @@
           </div>
           <div class="modal-content">
             <textarea v-model="message"></textarea>
-            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji upit" @action="sendMessage" :loading="loading"></action-button>
+            <action-button :style-options="{ color: '#fff', width: '100%' }" class="mt-4" placeholder="Pošalji poruku" @action="sendMessage" :loading="loading"></action-button>
           </div>
         </div>
       </modal>
@@ -385,7 +385,9 @@ export default class UserProfile extends Vue {
 
       await this.$axios.post('/conversations/' + conversation.id + '/messages', {
         content: this.message,
-        key: Math.floor(Math.random() * 100).toString()
+        key: Math.floor(Math.random() * 100).toString(),
+        listing_id: this.$route.params.id,
+        type: 'listing'
       });
 
       this.$modal.hide('contact-user');

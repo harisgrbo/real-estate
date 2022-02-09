@@ -72,6 +72,13 @@
 <!--         data-ad-slot="9795532766"-->
 <!--         data-ad-format="auto"-->
 <!--         data-full-width-responsive="true"></ins>-->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-3745186233711216"
+         data-ad-slot="9795532766"
+         data-ad-format="auto"
+         data-full-width-responsive="true">
+    </ins>
     <div class="flex flex-col">
       <div class="flex custom-width items-center justify-between title-wrapper">
         <h2 class="section-title">Premium oglasi</h2>
@@ -168,6 +175,12 @@
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-format="fluid"
+                 data-ad-layout-key="+22+qi+1x+12"
+                 data-ad-client="ca-pub-3745186233711216"
+                 data-ad-slot="5954787263"></ins>
             <ListingCard :listing="listing" />
           </swiper-slide>
         </swiper>
@@ -465,6 +478,17 @@
       this.fetchRentingPerDay();
       this.fetchAgencies();
       this.fetchTopLocations();
+    }
+
+    mounted() {
+      this.$nextTick(() => {
+        try {
+          // this is required for each ad slot (calling this once will only load 1 ad)
+          (window.adsbygoogle = window.adsbygoogle || []).push({})
+        } catch (error) {
+          console.error(error)
+        }
+      })
     }
 
     async fetchHomeListings() {

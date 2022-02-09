@@ -1,18 +1,18 @@
 <template>
-    <div class="w-full">
+    <div v-if="initialInfoLoaded" class="w-full">
       <div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 xl:grid-cols-2 up:grid-cols-2 gap-4">
         <TextField v-model="id" label="ID broj" placeholder="1234567"></TextField>
         <TextField v-model="web" label="Web adresa" placeholder="www.adresa.ba"></TextField>
         <TextField v-model="location" label="Lokacija" placeholder="Sarajevo"></TextField>
       </div>
-      <div class="flex flex-col sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 xl:ml-6">
+      <div class="flex flex-col sm:ml-0 my-6">
         <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
-          <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
-            <img v-show="banner_url !== '' && banner_url != null" class="h-full w-full rounded-md" alt="" :src="banner_url">
+          <div class="h-auto relative image-fit cursor-pointer zoom-in mx-auto">
+            <img v-show="banner_url !== '' && banner_url != null" class="banner-wrap w-full rounded-md" alt="" :src="banner_url">
             <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
           </div>
           <div class="mx-auto cursor-pointer relative mt-5">
-            <action-button @action="updateProfileInfo" placeholder="Promijeni sliku"></action-button>
+            <action-button @action="updateProfileInfo" placeholder="Promijeni baner na profilu"></action-button>
 
             <input @change="updateBanner" type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
           </div>
@@ -21,6 +21,9 @@
       <TextAreaField class="mt-4" v-model="description" label="Opis" placeholder="Opis.."></TextAreaField>
       <action-button :loading="loading" @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
     </div>
+    <div v-else>
+      <LoadingBar :override="true"></LoadingBar>
+    </div>
 </template>
 
 <script>
@@ -28,9 +31,11 @@ import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import TextAreaField from "../../../components/inputs/TextAreaField";
+import LoadingBar from "../../../components/LoadingBar";
 
 @Component({
   components: {
+    LoadingBar,
     TextAreaField,
     TextField,
     ActionButton,
@@ -40,6 +45,7 @@ import TextAreaField from "../../../components/inputs/TextAreaField";
 })
 export default class urediProfil extends Vue {
   id = '';
+  initialInfoLoaded = false;
   location = '';
   description = '';
   web = '';
@@ -56,6 +62,7 @@ export default class urediProfil extends Vue {
   async created() {
     await this.fetchMyAgency();
     this.setInputs();
+    this.initialInfoLoaded = true;
   }
 
   async updateBanner(event) {
@@ -150,6 +157,10 @@ export default class urediProfil extends Vue {
   box-shadow: none;
   border-bottom: 1px solid #f1f1f1;
   padding-bottom: 24px;
+}
+
+.banner-wrap {
+  height: fit-content;
 }
 </style>
 

@@ -1,6 +1,6 @@
 <template>
   <div :class="['navbar-wrapper w-full lg:shadow-sm xl:shadow-sm up:shadow-sm sm:shadow-none max-w-full', this.$route.name === 'index' ? 'only-index' : '']">
-    <div :class="['second-row mx-auto w-full', this.$route.name === 'pretraga' ? 'only-search' : '']">
+    <div :class="['second-row mx-auto w-full', this.$route.name === 'pretraga' || this.$route.name === 'moj-racun-poruke' ? 'only-search' : '']">
       <div class="flex flex-row items-center">
         <div class="img-wrapper" :class="[$device.isMobile && focused === true ? 'hide' : '']">
           <img @click="$router.push('/')" :src="[ $device.isMobile ? '/mojkvadrat-logo-new.png' : '/mojkvadrat-logo-new.png']" class="main-logo" height="40" alt="">
@@ -12,80 +12,80 @@
           <nuxt-link to="/zasto-se-registrovati" class="ml-2 uppercase text-black hover:underline font-light text-sm mr-4">Zašto se registrovati</nuxt-link>
         </div>
       </div>
-<!--      <div class="flex items-center justify-center flex-1 centralize">-->
-<!--        <div v-if="$device.isMobile" class="input-wrapper"-->
-<!--             @focusin="focused = true"-->
-<!--             :class="[ focused? 'focused' : '']"-->
-<!--             v-on-clickaway="away"-->
-<!--        >-->
-<!--          <svg @click="search" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />-->
-<!--          </svg>-->
-<!--          <input type="text"-->
-<!--                 ref="search"-->
-<!--                 v-model="searchInput"-->
-<!--                 @keyup.enter="search"-->
-<!--                 @input="showSuggests"-->
-<!--                 placeholder="Npr. stan Sarajevo.."-->
-<!--          >-->
-<!--          <div class="flex flex-row">-->
-<!--          <span class="relative z-0 inline-flex ml-2 rounded-sm border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">-->
-<!--            <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">-->
-<!--              {{ selectedCategory.title }}-->
-<!--            </div>-->
-<!--            <div @click="selectedCategory = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />-->
-<!--              </svg>-->
-<!--            </div>-->
-<!--          </span>-->
-<!--            <span class="relative z-0 ml-2 inline-flex rounded-sm border border-gray-800 selected-cat-type"  v-if="selectedType !== null">-->
-<!--            <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">-->
-<!--              {{ selectedType.title }}-->
-<!--            </div>-->
-<!--            <div @click="selectedType = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">-->
-<!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-<!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />-->
-<!--              </svg>-->
-<!--            </div>-->
-<!--          </span>-->
-<!--          </div>-->
+      <div :class="['flex items-center justify-center flex-1 centralize', showMobileNavbar ? 'absolute-search' : '']" v-if="$device.isMobile && showMobileNavbar">
+        <div v-if="$device.isMobile" class="input-wrapper"
+             @focusin="focused = true"
+             :class="[ focused? 'focused' : '']"
+             v-on-clickaway="away"
+        >
+          <svg @click="search" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text"
+                 ref="search"
+                 v-model="searchInput"
+                 @keyup.enter="search"
+                 @input="showSuggests"
+                 placeholder="Npr. stan Sarajevo.."
+          >
+          <div class="flex flex-row">
+          <span class="relative z-0 inline-flex ml-2 rounded-sm border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">
+            <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              {{ selectedCategory.title }}
+            </div>
+            <div @click="selectedCategory = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+          </span>
+            <span class="relative z-0 ml-2 inline-flex rounded-sm border border-gray-800 selected-cat-type"  v-if="selectedType !== null">
+            <div type="button" class="relative inline-flex items-center px-1 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              {{ selectedType.title }}
+            </div>
+            <div @click="selectedType = null" type="button" class="-ml-px cursor-pointer relative inline-flex items-center px-1 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+          </span>
+          </div>
 
-<!--          <button v-if="focused === true" class="close">-->
-<!--            <i class="material-icons" @click="clearSearchTerm">close</i>-->
-<!--          </button>-->
-<!--          &lt;!&ndash; Autocomplete dropdown &ndash;&gt;-->
-<!--          <div class="autocomplete-dropdown" v-if="focused === true">-->
-<!--            <div class="quick-filters">-->
-<!--              <div class="flex flex-row items-center">-->
-<!--                <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">-->
-<!--                  {{ selectedCategory !== null ? selectedCategory.title : 'Kategorija' }}-->
-<!--                </button>-->
-<!--                <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
-<!--                  {{ selectedType !== null ? selectedType.title : 'Vrsta oglasa' }}-->
-<!--                </button>-->
-<!--              </div>-->
-<!--              <button @click="selectedType = null; selectedCategory = null" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
-<!--                Očisti filtere-->
-<!--              </button>-->
-<!--            </div>-->
-<!--            <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>-->
-<!--            <ul v-if="$auth.user && savedSearches.length" class="saved-searches">-->
-<!--              <li v-for="search in savedSearches" :key="search.id" @click="goToSearch(search)">-->
-<!--                <p>{{ search.description }}</p>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--            <p v-if="suggestions.length" class="last">Rezultati pretrage</p>-->
-<!--            <ul>-->
-<!--              <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearchFromSuggestion(suggest)">-->
-<!--                {{ suggest }}-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+          <button v-if="focused === true" class="close">
+            <i class="material-icons" @click="clearSearchTerm">close</i>
+          </button>
+          <!-- Autocomplete dropdown -->
+          <div class="autocomplete-dropdown" v-if="focused === true">
+            <div class="quick-filters">
+              <div class="flex flex-row items-center">
+                <button @click="toggleCategories" type="button" class="mr-2 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-gray-500">
+                  {{ selectedCategory !== null ? selectedCategory.title : 'Kategorija' }}
+                </button>
+                <button @click="$modal.show('type')" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  {{ selectedType !== null ? selectedType.title : 'Vrsta oglasa' }}
+                </button>
+              </div>
+              <button @click="selectedType = null; selectedCategory = null" type="button" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Očisti filtere
+              </button>
+            </div>
+            <p v-if="$auth.user && savedSearches.length" class="saved-title">Snimljene pretrage</p>
+            <ul v-if="$auth.user && savedSearches.length" class="saved-searches">
+              <li v-for="search in savedSearches" :key="search.id" @click="goToSearch(search)">
+                <p>{{ search.description }}</p>
+              </li>
+            </ul>
+            <p v-if="suggestions.length" class="last">Rezultati pretrage</p>
+            <ul>
+              <li v-for="suggest in suggestions" :key="suggest.id" @click="goToSearchFromSuggestion(suggest)">
+                {{ suggest }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div class="flex flex-row items-center">
-        <button v-if="$device.isMobile" class="login-a relative" @click="$router.push('/pretraga')">
+        <button v-if="$device.isMobile" class="login-a relative" @click="showMobileNavbar = !showMobileNavbar">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -188,6 +188,7 @@ import ActionButton from "@/components/actionButtons/ActionButton";
 export default class Navbar extends Vue {
   messagesCount = 0;
   showUserDropdown = false
+  showMobileNavbar = false
   notifications = []
   showAutoCompleteDropdown = false
   suggestions = []
@@ -1151,5 +1152,14 @@ export default class Navbar extends Vue {
 
 .centralize {
   //flex: 2;
+}
+
+.absolute-search {
+  position: absolute;
+  width: auto;
+  right: 16px;
+  left: 16px;
+  z-index: 10;
+  top: 16px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="upravljanje-wrapper w-full">
+  <div class="upravljanje-wrapper w-full" v-if="initialListingsLoaded">
     <div class="grid-cols-4 grid gap-4 mobile-grid" v-if="listings.length">
       <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal(listing.id)" @finish-listing="handleFinishListing($event)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
     </div>
@@ -43,6 +43,9 @@
       </div>
     </modal>
   </div>
+  <div v-else>
+    <LoadingBar :override="true"></LoadingBar>
+  </div>
 </template>
 
 <script>
@@ -50,9 +53,11 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 import ListingCard from "@/components/listingCard/ListingCard";
 import ListingOptionsModal from "@/components/ListingOptionsModal"
 import NotFound from "../../../components/global/NotFound";
+import LoadingBar from "../../../components/LoadingBar";
 
 @Component({
   components: {
+    LoadingBar,
     NotFound,
     ListingCard,
     ListingOptionsModal
@@ -62,16 +67,20 @@ import NotFound from "../../../components/global/NotFound";
 export default class UpravljanjeOglasima extends Vue {
   listings = [];
   listingIdToBeRemoved = null;
+  initialListingsLoaded = false
 
   async created() {
     await this.fetchUserListings();
   }
 
   async fetchUserListings() {
+    this.initialListingsLoaded = false;
     try {
       let res = await this.$axios.get('/profile/listings');
 
       this.listings = res.data.data;
+
+      this.initialListingsLoaded = true;
     } catch(e)  {
       console.log(e)
     }
