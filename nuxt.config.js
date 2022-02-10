@@ -114,24 +114,29 @@ export default {
     id: 'G-VMWBZZM8WD'
   },
 
+  i18n: {
+    vueI18n: {
+      locale: 'ba',
+      fallbackLocale: ['hr', 'rs'],
+    }
+  },
+
   modules: [
     "nuxt-ssr-cache",
     '@nuxtjs/sitemap',
     "@nuxtjs/auth",
     "@nuxtjs/axios",
     ["nuxt-material-design-icons"],
+    '@nuxtjs/i18n',
     // ['@nuxtjs/google-adsense', {
     //   id: 'ca-pub-3745186233711216'
     // }]
   ],
 
   sitemap: {
-    hostname: 'https://mojkvadrat.ba',
+    hostname: 'https://www.mojkvadrat.ba',
     gzip: true,
-    exclude: [
-      '/exclude-one',
-      '/exclude-two'
-    ],
+    exclude: [],
     defaults: {
       changefreq: 'daily',
       priority: 1,

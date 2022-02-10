@@ -11,6 +11,12 @@
           <div class="tab-content w-full">
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-fb+5w+4e-db+86"
+                     data-ad-client="ca-pub-3745186233711216"
+                     data-ad-slot="9774079948"></ins>
                 <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 py-6 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full h-full">
@@ -422,6 +428,15 @@ export default class Poruke extends Vue {
   selectedImage = ''
 
   mounted() {
+    this.$nextTick(() => {
+      try {
+        // this is required for each ad slot (calling this once will only load 1 ad)
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
     this.realtime();
 
     let pinned = localStorage.getItem('pinned');

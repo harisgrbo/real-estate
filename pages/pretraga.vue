@@ -143,10 +143,8 @@
           </client-only>
         </div>
         <div v-else>
-          <script async src="https://cse.google.com/cse.js?cx=92d96ea2aebcec638"></script>
-          <div class="gcse-searchbox-only"></div>
+          <div class="gcse-searchresults-only" data-resultsUrl="https://www.mojkvadrat.ba/pretraga" data-queryParameterName="q"></div>
         </div>
-
       </div>
       <div class="results map w-full" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
