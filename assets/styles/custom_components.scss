@@ -262,3 +262,12 @@ input:-webkit-autofill:active{
     width: 100%;
   }
 }
+
+.banner,
+.rectangle
+{
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 24px;
+}

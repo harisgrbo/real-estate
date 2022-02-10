@@ -244,6 +244,12 @@
               </svg>
             </span>
             </client-only>
+            <ins class="adsbygoogle banner"
+                 style="display:block; text-align:center;"
+                 data-ad-layout="in-article"
+                 data-ad-format="fluid"
+                 data-ad-client="ca-pub-3745186233711216"
+                 data-ad-slot="7663416760"></ins>
             <div class="separator" v-if="listing.video_url !== null"></div>
             <div v-if="listing.is_booking" class="flex w-full flex-col">
               <div class="flex flex-row items-center mb-6 justify-between w-full">

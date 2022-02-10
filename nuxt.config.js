@@ -29,6 +29,9 @@ export default {
         crossorigin: "anonymous"
       },
       {
+        src: "https://cse.google.com/cse.js?cx=92d96ea2aebcec638",
+      },
+      {
         hid: 'gtm-script1',
         src: 'https://www.googletagmanager.com/gtag/js?id=G-VMWBZZM8WD',
         defer: true,

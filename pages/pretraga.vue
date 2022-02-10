@@ -142,7 +142,10 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <NotFound v-else src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
+        <div v-else>
+          <script async src="https://cse.google.com/cse.js?cx=92d96ea2aebcec638"></script>
+          <div class="gcse-searchbox-only"></div>
+        </div>
 
       </div>
       <div class="results map w-full" v-else>
@@ -571,6 +574,15 @@ export default class Homepage extends Vue {
   ]
 
   mounted() {
+    this.$nextTick(() => {
+      try {
+        // this is required for each ad slot (calling this once will only load 1 ad)
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
     let preview = localStorage.getItem("preview");
 
     if(preview) {
