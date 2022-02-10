@@ -72,7 +72,7 @@
 <!--         data-ad-slot="9795532766"-->
 <!--         data-ad-format="auto"-->
 <!--         data-full-width-responsive="true"></ins>-->
-    <ins class="adsbygoogle"
+    <ins class="adsbygoogle banner"
          style="display:block"
          data-ad-client="ca-pub-3745186233711216"
          data-ad-slot="9795532766"
@@ -484,7 +484,8 @@
       this.$nextTick(() => {
         try {
           // this is required for each ad slot (calling this once will only load 1 ad)
-          (window.adsbygoogle = window.adsbygoogle || []).push({})
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (error) {
           console.error(error)
         }

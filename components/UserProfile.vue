@@ -199,6 +199,12 @@
         </form>
       </client-only>
     </div>
+    <ins class="adsbygoogle rectangle"
+         style="display:block"
+         data-ad-client="ca-pub-3745186233711216"
+         data-ad-slot="6716154843"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
   </aside>
 </template>
 
@@ -243,14 +249,22 @@ export default class UserProfile extends Vue {
   }
   number_of_guests = 1
 
-  handleListingSponsoring() {
-  }
-
   get disabledDates() {
     return this.bookings.map(item => {
       return {
         start: this.$moment(item.starts_at).toDate(),
         end: this.$moment(item.ends_at).toDate(),
+      }
+    })
+  }
+
+  mounted() {
+    this.$nextTick(() => {
+      try {
+        // this is required for each ad slot (calling this once will only load 1 ad)
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        console.error(error)
       }
     })
   }
