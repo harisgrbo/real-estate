@@ -4,7 +4,7 @@
       <div class="w-full relative search-options">
         <div class="flex flex-row overflow-y-scroll gap-2 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
-            <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}</li>
+            <li :class="['group cat-list mr-4 inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}</li>
           </ul>
           <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="flex items-center justify-end types">
-            <div class="flex w-full text-left type">
+            <div class="flex w-full text-left type z-10">
               <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
 
@@ -121,7 +121,7 @@
     </div>
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
       <div class="results relative" v-if="selectedPreviewType === 'grid'">
-        <div v-show="results.length" class="w-full flex flex-col">
+        <div v-if="results.length" class="w-full flex flex-col">
           <div v-if="$device.isMobile" class="mobile-filters-wrap">
             <button @click="$modal.show('search-filters')">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -141,10 +141,12 @@
               :total-pages="lastPage"
               @page-change="pageChangeHandler" />
           </client-only>
-        </div>
-        <div v-show="!results.length">
           <div class="gcse-searchresults-only" data-resultsUrl="https://www.mojkvadrat.ba/pretraga" data-queryParameterName="q"></div>
         </div>
+        <div v-else>
+          <NotFound src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
+        </div>
+
       </div>
       <div class="results map w-full" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
@@ -158,7 +160,7 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <NotFound v-else src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
+        <div class="gcse-searchresults-only"></div>
         <div v-if="results.length" class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>
@@ -176,7 +178,7 @@
             <h2>Filteri</h2>
             <i class="material-icons" @click="$modal.hide('filters')">close</i>
           </div>
-          <div class="modal-content">
+          <div class="modal-content filters">
             <div v-show="loading" class="loading-wrapper">
               <img src="/loader.svg" alt="">
             </div>
@@ -572,6 +574,14 @@ export default class Homepage extends Vue {
   ]
 
   mounted() {
+    let preview = localStorage.getItem("preview");
+
+    if(preview) {
+      this.selectedPreviewType = preview.toLowerCase();
+    } else {
+      this.selectedPreviewType = 'grid'
+    }
+
     this.$nextTick(() => {
       try {
         // this is required for each ad slot (calling this once will only load 1 ad)
@@ -580,14 +590,6 @@ export default class Homepage extends Vue {
         console.error(error)
       }
     })
-
-    let preview = localStorage.getItem("preview");
-
-    if(preview) {
-      this.selectedPreviewType = preview.toLowerCase();
-    } else {
-      this.selectedPreviewType = 'grid'
-    }
   }
 
   filterResolveValue(filter) {
@@ -860,7 +862,7 @@ export default class Homepage extends Vue {
   flex-direction: column;
 
   @include for-phone-only {
-    padding-top: 80px;
+    padding-top: 34x;
   }
 
   .content {
@@ -1194,16 +1196,6 @@ export default class Homepage extends Vue {
   opacity: 0;
 }
 
-::v-deep .vm--modal {
-  @include for-phone-only {
-    top: 40px !important;
-    border-top-left-radius: 7px !important;
-    border-top-right-radius: 7px !important;
-    height: calc(100vh - 20px) !important;
-    padding-bottom: 50px !important;
-  }
-}
-
 .types {
   min-width: fit-content;
 }
@@ -1454,6 +1446,27 @@ export default class Homepage extends Vue {
     font-size: 13px;
     color: #fff;
     background-color: #1F2937;
+  }
+}
+
+
+.filters ::v-deep label {
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  text-transform: capitalize;
+  margin-bottom: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #f1f1f1;
+
+  &:nth-child(1) {
+
+  }
+
+  &.switch-label {
+    margin-bottom: 0px;
+    padding-top: 0px;
+    border-top: none;
+    font-size: 17px !important;
   }
 }
 

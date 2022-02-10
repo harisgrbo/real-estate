@@ -68,9 +68,9 @@
   overflow: scroll !important;
 
   @include for-phone-only {
-    top: 40px !important;
-    border-top-left-radius: 15px !important;
-    border-top-right-radius: 15px !important;
+    max-height: 100% !important;
+    top: 0px !important;
+    border-radius: 0px !important;
     //padding-bottom: 180px !important;
   }
 
@@ -174,15 +174,15 @@
   align-items: center;
   height: fit-content;
   justify-content: space-between;
-  padding: 0px;
   margin-bottom: 16px;
+  border-bottom: 1px solid #f1f1f1;
+  padding-bottom: 24px;
 
   @include for-phone-only {
     display: flex;
     align-items: center;
     height: 30px;
     justify-content: space-between;
-    padding: 0px;
   }
 
   h2 {
@@ -193,7 +193,7 @@
 
     @include for-phone-only {
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 700;
       color: #000;
     }
   }

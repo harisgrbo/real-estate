@@ -46,7 +46,7 @@
                   </button>
                 </div>
               </div>
-              <div>
+              <div v-if="$auth.user && ($auth.user.id === listing.user.id) && listing.sponsorship !== null">
                 <div class="rounded-md bg-blue-50 p-4 mb-4">
                   <div class="flex">
                     <div class="flex-shrink-0">
@@ -58,7 +58,7 @@
                     <div class="ml-3 flex-1 md:flex md:justify-between">
                       <p class="text-sm text-blue-700">Oglas je izdvojen do {{ $moment(listing.sponsorship.ends_at).format("DD.MM.YYYY do h:mm:ss") }}</p>
                       <p class="mt-3 text-sm md:mt-0 md:ml-6">
-                        <a href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">Details <span aria-hidden="true">&rarr;</span></a>
+                        <a href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">Obnovi oglas <span aria-hidden="true">&rarr;</span></a>
                       </p>
                     </div>
                   </div>
@@ -935,6 +935,15 @@ export default class Artikal extends Vue {
   }
 
   mounted() {
+    this.$nextTick(() => {
+      try {
+        // this is required for each ad slot (calling this once will only load 1 ad)
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        console.error(error)
+      }
+    })
+
     if(this.error) {
       this.$router.push('/404')
     }

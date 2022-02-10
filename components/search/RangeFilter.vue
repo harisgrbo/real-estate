@@ -71,9 +71,7 @@ export default class RangeFilter extends Vue {
   .input-wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 12px;
-
-
+    grid-column-gap: 16px;
 
       label {
         font-size: 12px;

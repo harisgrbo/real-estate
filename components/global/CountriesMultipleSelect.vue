@@ -70,8 +70,8 @@ label {
 .options-wrap {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-row-gap: 12px;
-  grid-column-gap: 12px;
+  grid-row-gap: 16px;
+  grid-column-gap: 16px;
 
 @include for-phone-only {
   grid-template-columns: repeat(2, 1fr);
