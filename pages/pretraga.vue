@@ -121,7 +121,7 @@
     </div>
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
       <div class="results relative" v-if="selectedPreviewType === 'grid'">
-        <div v-if="results.length" class="w-full flex flex-col">
+        <div v-show="results.length" class="w-full flex flex-col">
           <div v-if="$device.isMobile" class="mobile-filters-wrap">
             <button @click="$modal.show('search-filters')">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -142,11 +142,9 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <div v-else>
-          <script async src="https://cse.google.com/cse.js?cx=92d96ea2aebcec638"></script>
-          <div class="gcse-searchbox-only"></div>
+        <div v-show="!results.length">
+          <div class="gcse-searchresults-only" data-resultsUrl="https://www.mojkvadrat.ba/pretraga" data-queryParameterName="q"></div>
         </div>
-
       </div>
       <div class="results map w-full" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">

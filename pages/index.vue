@@ -81,7 +81,7 @@
     </ins>
     <div class="flex flex-col">
       <div class="flex custom-width items-center justify-between title-wrapper">
-        <h2 class="section-title">Premium oglasi</h2>
+        <h2 class="section-title" ssr-only="stanovi sarajevo stan na dan najam izdavanje rentanje novogradnja iznajmljivanje">Premium oglasi</h2>
         <div class="flex flex-row items-center mr-5">
           <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
             <div
@@ -129,7 +129,7 @@
 
     <div class="flex flex-col custom-width">
       <div class="title-wrapper">
-        <h2 class="section-title">
+        <h2 class="section-title" ssr-only="stanovi najam sarajevo stan na dan izdavanje rentanje novogradnja iznajmljivanje">
           Najtraženije lokacije
         </h2>
       </div>
@@ -156,7 +156,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between custom-width title-wrapper">
-      <h2 class="section-title">Prodaja</h2>
+      <h2 class="section-title" ssr-only="prodaja stanova sarajevo">Prodaja</h2>
       <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -207,7 +207,7 @@
     </div>
     <div class="flex flex-col popular">
       <div class="flex items-center justify-between custom-width title-wrapper">
-        <h2 class="section-title popular-cats">Popularne kategorije</h2>
+        <h2 class="section-title popular-cats" ssr-only="stanovi kuce garaze apartmani stan na dan novogradnja">Popularne kategorije</h2>
         <div class="flex flex-row items-center">
           <nuxt-link class="more" to="/pretraga">Sve kategorije</nuxt-link>
         </div>
@@ -231,7 +231,7 @@
     </div>
 
     <div class="flex items-center justify-between custom-width title-wrapper">
-      <h2 class="section-title">Dugoročno izdavanje</h2>
+      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam">Dugoročno izdavanje</h2>
       <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -275,7 +275,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between custom-width title-wrapper">
-      <h2 class="section-title">Stan na dan</h2>
+      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam">Stan na dan</h2>
       <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -319,7 +319,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">
-      <h2 class="section-title">Premium agencije</h2>
+      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Premium agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
     <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija">
@@ -368,7 +368,7 @@
         {
           hid: "description",
           name: "description",
-          content: "Sve nekretnine na jednom mjestu!",
+          content: "Sve nekretnine na jednom mjestu! Stanovi, apartmani, kuce, garaze, stanovi za izdavanje, stan na dan, rentanje, novogradnja",
         },
       ],
     },
