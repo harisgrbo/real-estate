@@ -1,6 +1,6 @@
 <template>
   <div class="advertising-options-wrapper">
-    <div class="inner">
+    <div :class="['inner', publishing ? 'full' : '']">
       <h2 class="test">
         Sponzorisanje oglasa
       </h2>
@@ -58,7 +58,7 @@
 
 
       <div class="advertising-calculator">
-        <ActionButton @action="sponsor($route.params.id)" placeholder="Sponzoriši" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
+        <ActionButton @action="sponsor(publishing ? id : $route.params.id)" placeholder="Sponzoriši" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
         <span class="mx-6 bg-gray-50 rounded-full p-5 font-semibold">ili</span>
         <ActionButton @action="$router.push('/artikal/' + $route.params.id)" placeholder="Nastavi na oglas bez sponzorisanja" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
 
@@ -71,7 +71,7 @@
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton"
 
-import {Component, Vue, Watch} from "nuxt-property-decorator";
+import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 
 @Component({
   components: {
@@ -81,6 +81,8 @@ import {Component, Vue, Watch} from "nuxt-property-decorator";
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings'
 })
 export default class Advertising extends Vue {
+  @Prop({ default: false, type: Boolean }) publishing;
+  @Prop({ default: 0, type: Number }) id;
   advertising_options = []
   selectedAdvertisement = 1;
   duration_in_days = 7;
@@ -182,7 +184,8 @@ export default class Advertising extends Vue {
 
       await this.$auth.fetchUser();
 
-      await this.$router.push('/artikal/' + this.$route.params.id)
+      await this.$router.push('/artikal/' + id)
+
     } catch (e) {
       console.log(e);
 
@@ -212,6 +215,10 @@ export default class Advertising extends Vue {
     width: 60%;
     margin:  0 auto;
     padding-top: 60px;
+
+    &.full {
+      width: 100%;
+    }
 
     @include for-phone-only {
       width: 100%;
