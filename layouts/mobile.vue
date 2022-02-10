@@ -57,7 +57,7 @@ export default class Mobile extends Vue {
     if (currentScrollPosition < 0) {
       return
     }
-    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 100) {
+    if (Math.abs(currentScrollPosition - this.lastScrollPosition) < 30) {
       return
     }
     this.showNavbar = currentScrollPosition < this.lastScrollPosition
@@ -176,17 +176,10 @@ export default class Mobile extends Vue {
   @include for-phone-only {
     background: #fff;
   }
-}
 
-::v-deep .vm--modal {
-  @include for-phone-only {
-    top: 40px !important;
-    border-top-left-radius: 7px !important;
-    border-top-right-radius: 7px !important;
-    height: calc(100vh - 20px) !important;
-    padding-bottom: 50px !important;
+  .header {
+    position: static;
   }
 }
-
 </style>
 

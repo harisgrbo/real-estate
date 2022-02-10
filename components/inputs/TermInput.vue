@@ -1,11 +1,5 @@
 <template>
   <div class="checkbox-wrap">
-<!--    <div>-->
-<!--      <input ref="checkbox" type="checkbox" id="_checkbox" :id="attr.name" name="option1" @click="checkedOption"/>-->
-<!--      <label :for="attr.name">{{ attr.name }}</label>-->
-<!--    </div>-->
-
-
     <div class="switch-wrap">
       <div class="switch">
         <input ref="checkbox" type="checkbox" id="switch-2" :id="attr.name" name="option1" class="switch-input" @click="checkedOption" />
