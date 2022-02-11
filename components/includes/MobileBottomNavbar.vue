@@ -209,7 +209,7 @@ export default class MobileBottomNavbar extends Vue {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
+    flex: 1;
     span {
       font-size: 10px;
       font-weight: 400;

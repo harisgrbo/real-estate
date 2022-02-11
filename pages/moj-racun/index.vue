@@ -169,8 +169,7 @@ export default class accountpage extends Vue {
 }
 
 .account-wrapper-a {
-  height: auto;
-
+  padding-bottom: 36px;
   .account-wrapper-inner {
     width: 100%;
 

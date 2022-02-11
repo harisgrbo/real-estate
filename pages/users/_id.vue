@@ -225,7 +225,6 @@ export default class Users extends Vue {
     await this.fetchUserListings(this.$route.params.id)
     await this.fetchUserFinishedListings(this.$route.params.id)
 
-    console.log(this.$route)
   }
 
   async sendMessage() {
@@ -720,4 +719,19 @@ aside {
   }
 }
 
+textarea {
+  height: 300px;
+  font-weight: 500;
+  color: #000;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  min-height: 400px !important;
+  padding: 12px;
+
+  &:focus {
+    outline: none;
+  }
+}
 </style>

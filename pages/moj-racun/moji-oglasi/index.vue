@@ -131,12 +131,10 @@ export default class mojiOglasi extends Vue {
     this.listingsLoaded = false;
     try {
       let res = await this.$axios.get('/users/' + this.$auth.user.id + `/listings/active?page=${p}`);
-      console.log(res, 'ressss')
       this.listings = res.data.data;
       this.listingMeta = res.data.meta;
       this.listingsLoaded = true;
 
-      console.log(this.listings, 'listigns')
     } catch(e) {
       console.log(e)
     }
@@ -182,7 +180,6 @@ export default class mojiOglasi extends Vue {
   }
 
   handleRemoveListingModal(id) {
-    console.log('test')
     this.listingIdToBeRemoved = id;
     this.$modal.show('delete-listing');
   }
