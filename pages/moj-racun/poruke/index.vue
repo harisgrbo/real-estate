@@ -454,10 +454,6 @@ export default class Poruke extends Vue {
     this.isMounted = true;
   }
 
-  created() {
-    console.log(this.$route)
-  }
-
   selectEmoji(emoji) {
     this.messageContent += emoji.data;
   }

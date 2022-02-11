@@ -12,26 +12,21 @@
     <div class="w-full">
       <!-- BEGIN: Display Information -->
       <div class="intro-y lg:mt-5">
-        <div class="flex items-center pb-5 pl-0 border-b border-gray-200 dark:border-dark-5">
-          <h2 class="font-medium text-base mr-auto">
-            Osnovni podaci
-          </h2>
-        </div>
         <div class="w-full">
           <div class="options-wrap">
             <div class="flex-1 mt-6 xl:mt-0 w-full">
               <div class="w-full grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 xl:grid-cols-2 gap-4">
-                <TextField type="text" label="Ime" placeholder="john doe" v-model="name"></TextField>
-                <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email"></TextField>
-                <TextField type="text" label="Broj mobitela" placeholder="+387 61 111 222" v-model="phoneNumber"></TextField>
-                <TextField type="text" label="Adresa" placeholder="ulica i broj.." v-model="address"></TextField>
-                <TextField type="password" label="Password" placeholder="******" v-model="password"></TextField>
-                <TextField type="password" label="Ponovi password" placeholder="******" v-model="passwordConfirm"></TextField>
+                <TextField type="text" label="Ime" placeholder="john doe" v-model="name" class="mb-3"></TextField>
+                <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email" class="mb-3"></TextField>
+                <TextField type="text" label="Broj mobitela" placeholder="+387 61 111 222" v-model="phoneNumber" class="mb-3"></TextField>
+                <TextField type="text" label="Adresa" placeholder="ulica i broj.." v-model="address" class="mb-3"></TextField>
+                <TextField type="password" label="Password" placeholder="******" v-model="password" class="mb-3"></TextField>
+                <TextField type="password" label="Ponovi password" placeholder="******" v-model="passwordConfirm" class="mb-3"></TextField>
               </div>
               <action-button class="mt-5 mb-4" @action="updateProfileInfo" placeholder="Sačuvaj"></action-button>
             </div>
             <div class="flex flex-col sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 xl:ml-6">
-              <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
+              <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 mb-6">
                 <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
                   <img class="h-full w-full rounded-md" alt="Profile picture" :src="avatarUrl !== '' ? avatarUrl: 'dist/images/profile-3.jpg'">
                   <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
@@ -175,7 +170,6 @@ export default class urediProfil extends Vue {
     } catch(error) {
       this.loading = false;
 
-      console.log(error)
     }
   }
 }
@@ -197,6 +191,11 @@ export default class urediProfil extends Vue {
   flex-direction: column;
   border-radius: 6px;
   padding: 24px;
+
+  @include for-phone-only {
+    padding: 24px !important;
+
+  }
 }
 
 .account-wrapper {

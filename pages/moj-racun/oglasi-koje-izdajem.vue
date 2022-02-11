@@ -6,29 +6,26 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
-        <p>Oglasi koje izdajem - upiti za rezervacije</p>
+        <p>Oglasi koje izdajem</p>
       </li>
     </ul>
     <div class="w-full mt-5">
       <ul role="list" class="divide-y orders divide-gray-200">
         <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
-          <div class="flex items-center sm:items-start">
-            <img :src="booking.listing.images.length > 0 ? booking.listing.images[0].url : '/noimage.jpeg'" alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps." class="main">
-            <div class="flex-1 flex-col justify-between h-full ml-6 text-sm w-full">
+          <div class="flex items-center sm:items-start mobile-box">
+            <div class="listing-wrap shadow-md rounded-md hover:shadow-lg">
+              <SmallListingCard :listing="booking.listing"></SmallListingCard>
+            </div>
+            <div class="date">
+              <vc-date-picker :value="getDatesFromBooking(booking)" title-position="left" is-range/>
+            </div>
+            <div class="flex-1 sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 text-sm w-full flex flex-col justify-between content">
               <div class="font-medium text-gray-900 sm:flex sm:justify-between">
-                <h5 class="text-lg">
-                  {{ booking.listing.title }}
-                </h5>
                 <p class="mt-2 sm:mt-0 text-lg font-medium">
                   {{ booking.total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM za {{ booking.days }} dana
                 </p>
               </div>
-              <p class="text-gray-900 sm:block sm:mt-2 opis">
-                {{ booking.listing.address }}
-              </p>
-              <div class="text-gray-900 sm:block sm:mt-2 opis" v-html="booking.listing.description">
-              </div>
-              <div class="sm:flex sm:justify-between">
+              <div class="mt-6 sm:flex sm:justify-between">
                 <div class="flex items-center">
                   <!-- Heroicon name: solid/check-circle -->
                   <svg class="w-5 h-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -37,33 +34,20 @@
                   <p class="ml-2 text-sm font-medium text-gray-500">Dobili ste upit <time datetime="2021-07-12">{{ $moment(booking.created_at).format('DD.MM.YYYY') }}</time></p>
                 </div>
 
-                <div class="mt-6 border-t border-gray-200 pt-4 flex items-center space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
-                  <div class="flex-1 pl-4 flex justify-center" v-if="! booking.confirmed">
-                    <button @click="confirm(booking)" class="text-gray-800 border border-gray-800 p-2 rounded-md flex flex-row items-center whitespace-nowrap hover:bg-gray-800 hover:text-white font-medium">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                      Prihvati</button>
+                <div class="mt-6 w-full border-t border-gray-200 pt-4 flex items-center flex justify-between space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
+
+                  <div class="flex-1 pr-2 flex justify-end">
+                    <ActionButton placeholder="Poništi upit" :style-options="{ minWidth: '100%'}" @action="cancel(booking, index)"></ActionButton>
                   </div>
-                  <div class="flex-1 flex justify-center">
-                    <button @click="cancel(booking, index)" class="text-gray-800 border border-gray-800 p-2 rounded-md flex flex-row items-center whitespace-nowrap hover:bg-gray-800 hover:text-white font-medium">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                      Poništi</button>
-                  </div>
-                  <div class="flex-1 pl-4 flex justify-center">
-                    <button @click="$router.push('/artikal/' + booking.id)" class="text-gray-800 whitespace-nowrap hover:text-gray-800">Idi na oglas</button>
+                  <div class="flex-1 pl-2 flex justify-end" v-if="booking.confirmed === false">
+                    <ActionButton placeholder="Prihvati rezervaciju" :style-options="{ minWidth: '100%'}" @action="confirm(booking)"></ActionButton>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="pl-6">
-              <vc-date-picker :value="getDatesFromBooking(booking)" title-position="left" is-range/>
-            </div>
           </div>
-
         </li>
+
       </ul>
     </div>
   </div>
@@ -140,13 +124,18 @@ export default class mojeRezervacije extends Vue {
 
 ul.orders li {
   border-bottom: 1px solid #f1f1f1;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-
+  padding-bottom: 24px;
+  margin-bottom: 24px;
 
   .main {
     height: 200px;
     width: 240px;
+
+    @include for-phone-only {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 24px;
+    }
   }
 }
 
@@ -159,9 +148,19 @@ ul.orders li {
   border-radius: 6px;
   padding: 24px;
 
+  @include for-phone-only {
+    padding: 24px !important;
+    height: 100% !important;
+  }
+
   h5 {
     font-size: 20px;
     font-weight: 300;
+  }
+
+  span {
+    background: #1F2937;
+    color: #fff;
   }
 }
 
@@ -187,8 +186,12 @@ a {
   border-radius: 6px;
 
   img {
-    width: 100%;
+    width: 180px;
     object-fit: cover !important;
+
+    @include for-phone-only {
+      width: 100%;
+    }
   }
 }
 
@@ -208,7 +211,9 @@ a {
 
     img {
       height: 14px;
-      max-width: fit-content;
+      max-width: fit-content !important;
+      max-width: 15px;
+      min-width: 15px;
     }
 
     @include for-phone-only {
@@ -227,12 +232,56 @@ a {
   }
 }
 
-::v-deep .vc-container.vc-blue {
-  border: none !important;
+.mobile-box {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-::v-deep .vc-header {
-  padding: 0 !important;
+.approval {
+  @include for-phone-only {
+    margin-top: 12px;
+    padding: 0 12px;
+    border-radius: 6px;
+  }
+}
+
+::v-deep .horizontal-card {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.listing-wrap {
+  min-width: 40%;
+
+  @include for-phone-only {
+    min-width: 100%;
+    width: 100%;
+  }
+}
+
+.content {
+  min-height: 145px;
+}
+
+.progress {
+  width: 380px;
+
+  @include for-phone-only {
+    width: 100%;
+    margin: 16px 0;
+  }
+}
+
+.date {
+  margin-left: 24px;
+  @include for-phone-only {
+    margin-left: 0;
+    margin: 24px 0;
+  }
 }
 </style>
+
 

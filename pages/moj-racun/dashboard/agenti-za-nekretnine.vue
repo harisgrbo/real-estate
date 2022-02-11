@@ -81,7 +81,7 @@ import TextField from "../../../components/inputs/TextField";
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
 })
-export default class mojiOglasi extends Vue {
+export default class agentiZaNekretnine extends Vue {
   payload = {}
   agents = []
   temporary_agent = {}

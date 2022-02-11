@@ -84,7 +84,7 @@
 <!--          </div>-->
         </div>
       </div>
-      <div class="flex flex-row items-center">
+      <div class="flex flex-row items-center" v-if="$route.name !== 'pretraga'">
         <button v-if="$auth.user && $device.isMobile" class="login-a relative notification-button ml-4" @click="$modal.show('notifications')">
           <img src="/001-notification-bell.png" alt="">
           <div class="notify" v-if="notifications.length">{{ notifications.length }}</div>

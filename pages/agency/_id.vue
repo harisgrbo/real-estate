@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile-wrapper mx-auto pt-0">
-    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
-    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="flex flex-col custom-width mx-auto">
       <div class="user-content-wrapper mt-8" >
         <div class="flex flex-row items-center justify-start mobile-spans">
@@ -131,7 +131,7 @@
           <div>
             <div class="filters-agency">
               <div class="content pb-20">
-                <h2 v-if="listingsLoaded" class="mb-4">Aktivni oglasi ({{ listingActiveMeta.total }})</h2>
+                <h3 v-if="listingsLoaded" class="mb-4">Aktivni oglasi ({{ listingActiveMeta.total }})</h3>
                 <div v-if="listingsLoaded">
                   <div v-if="listings.length" class="grid-layout">
                     <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
@@ -155,7 +155,7 @@
           <div>
             <div class="filters-agency">
               <div class="content pb-20">
-                <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+                <h3 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h3>
                 <div v-if="completedListingsLoaded">
                   <div v-if="completed_listings.length" class="grid-layout">
                     <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
@@ -513,6 +513,7 @@ export default class Agencies extends Vue {
         margin-top: 12px;
         margin-bottom: 20px;
         width: 100%;
+        min-height: fit-content;
       }
 
       .infos {
@@ -529,7 +530,7 @@ export default class Agencies extends Vue {
         font-weight: 300;
       }
 
-      h2 {
+      h3 {
         font-size: 18px;
         font-weight: 400;
       }
@@ -612,13 +613,6 @@ export default class Agencies extends Vue {
     }
 
 
-  }
-
-  h2 {
-    color: rgb(34, 34, 34) !important;
-    font-weight: 400 !important;
-    font-size: 22px !important;
-    line-height: 26px !important;
   }
 
   .content-wrapper {
@@ -844,6 +838,22 @@ export default class Agencies extends Vue {
 aside {
   @include for-phone-only {
     width: 100%;
+  }
+}
+
+textarea {
+  height: 300px;
+  font-weight: 500;
+  color: #000;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  min-height: 400px !important;
+  padding: 12px;
+
+  &:focus {
+    outline: none;
   }
 }
 

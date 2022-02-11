@@ -107,7 +107,6 @@ export default class UpravljanjeOglasima extends Vue {
   }
 
   handleRemoveListingModal(id) {
-    console.log('test')
     this.listingIdToBeRemoved = id;
     this.$modal.show('delete-listing');
   }

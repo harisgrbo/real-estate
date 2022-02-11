@@ -146,6 +146,7 @@ label {
   margin: 0 auto;
   margin-bottom: 46px;
   cursor: pointer;
+  height: auto;
 }
 
 .login-u {
