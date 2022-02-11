@@ -242,9 +242,9 @@
           <div class="advertising-options-wrapper">
             <div class="inner">
               <Advertising :publishing="true" :id="listingId"></Advertising>
-              <div class="advertising-calculator">
-                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>
-              </div>
+<!--              <div class="advertising-calculator">-->
+<!--                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>-->
+<!--              </div>-->
             </div>
 
             <div class="button-wrapper">
@@ -1022,6 +1022,10 @@ export default class Objava extends Vue {
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
 
+      @include for-phone-only {
+        overflow-y: hidden !important;
+      }
+
       .step-3 {
         ::v-deep input {
           padding-right: 16px !important;
@@ -1041,10 +1045,9 @@ export default class Objava extends Vue {
           left: 24px;
           right: 24px;
           z-index: 1;
-          background-color: #fff;
           border-radius: 8px;
           font-size: 15px;
-          padding: 12px;
+          text-align: center;
         }
 
         @include for-phone-only {
@@ -1087,8 +1090,9 @@ export default class Objava extends Vue {
             width: 100%;
             max-width: 100%;
             padding: 36px 16px;
-            height: calc(100vh - 80px);
+            height: 100%;
             overflow-y: scroll;
+            padding-bottom: 120px;
           }
         }
 

@@ -21,9 +21,9 @@
                         {{ option.title }}
                       </span>
 
-                      <div class="flex flex-row items-center w-full">
-                        <h3 class="text-gray-600 w-full mr-3" v-if="selectedDuration !== null && selectedAdvertisement === option.id">Trajanje sponzorisanja: {{ selectedDuration ? selectedDuration.name : 'Izaberite broj dana' }}</h3>
-                        <div class="relative w-full flex flex-col items-start">
+                      <div class="flex flex-row items-center w-full mobile-flex">
+                        <h3 class="text-gray-600 w-full mobile-margin-delete mr-3" v-if="selectedDuration !== null && selectedAdvertisement === option.id">Trajanje sponzorisanja: {{ selectedDuration ? selectedDuration.name : 'Izaberite broj dana' }}</h3>
+                        <div class="relative w-full flex flex-col items-start mobile-margin">
                           <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
                             <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Broj dana</label>
                             <select id="language" name="language" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" @change="durationSelected">
@@ -59,7 +59,7 @@
 
       <div class="advertising-calculator">
         <ActionButton @action="sponsor(publishing ? id : $route.params.id)" placeholder="Sponzoriši" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
-        <span class="mx-6 bg-gray-50 rounded-full p-5 font-semibold">ili</span>
+        <span class="mx-6 bg-gray-50 rounded-full p-5 font-semibold" v-if="!$device.isMobile">ili</span>
         <ActionButton @action="publishing ? $router.push('/artikal/' + id) : $router.push('/artikal/' + $route.params.id) " placeholder="Nastavi na oglas bez sponzorisanja" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
 
       </div>
@@ -339,6 +339,10 @@ export default class Advertising extends Vue {
     align-items: center;
     margin-top: 36px;
 
+    @include for-phone-only {
+      flex-direction: column;
+    }
+
     span {
       min-width: fit-content;
     }
@@ -394,5 +398,29 @@ select {
 .loading {
   height: 32px;
   width: 32px;
+}
+
+.mobile-flex {
+  @include for-phone-only {
+    flex-direction: column;
+  }
+}
+
+.mobile-margin {
+  @include for-phone-only {
+    margin-top: 24px;
+  }
+}
+
+.mobile-margin-delete {
+  @include for-phone-only {
+    margin-right: 0 !important;
+  }
+}
+
+#project-type-0-description-0 {
+  @include for-phone-only {
+    font-size: 16px;
+  }
 }
 </style>

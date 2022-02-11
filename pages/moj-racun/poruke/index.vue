@@ -1116,7 +1116,7 @@ img {
   img {
     height: fit-content;
     width: 200px;
-    height: 180px;
+    max-height: 180px;
   }
 
   h3 {
