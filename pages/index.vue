@@ -7,10 +7,8 @@
           <h3 class="main-title">Sve nekretnine na jednom mjestu</h3>
           <h5 class="main-title sub">U par koraka do vaših kvadrata.</h5>
           <div class="flex flex-row items-center mt-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <p class="text-xl font-semibold">{{ totalListings }} objavljenih oglasa</p>
+            <img src="/003-home.png" class="home-img" alt="">
+            <p class="text-xl font-normal">{{ totalListings }} objavljenih oglasa</p>
           </div>
         </div>
         <div class="flex flex-col mt-6">
@@ -1134,7 +1132,8 @@ ul.most-visited-cats {
         font-weight: 400;
         font-size: 15px;
         cursor: pointer;
-        padding: 8px 12px;
+        padding: 12px 2px;
+        margin-right: 16px;
         height: 100%;
 
         &:last-child {
@@ -1208,12 +1207,10 @@ ul.most-visited-cats {
   position: relative;
   padding: 10px;
 
-
   &.active {
-    color: #fff;
-    background: #1F2937;
-    font-weight: 500;
-    border-radius: 8px;
+    color: #1F2937;
+    font-weight: 700 !important;
+    border-bottom: 1px solid #1F2937;
   }
 }
 
@@ -1380,7 +1377,7 @@ button.search {
 
 .main-title {
   font-size: 60px;
-  font-weight: 600;
+  font-weight: 300;
   max-width: 900px;
   line-height: 57px;
   margin-bottom: 30px;
@@ -1409,4 +1406,10 @@ button.search {
   }
 }
 
+.home-img {
+  height: 20px;
+  width: auto;
+  min-width: auto;
+  margin-right: 10px;
+}
 </style>
