@@ -131,7 +131,7 @@
           <div>
             <div class="filters-agency">
               <div class="content pb-20">
-                <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
+                <h2 v-if="listingsLoaded" class="mb-4">Aktivni oglasi ({{ listingActiveMeta.total }})</h2>
                 <div v-if="listingsLoaded">
                   <div v-if="listings.length" class="grid-layout">
                     <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
@@ -210,13 +210,7 @@ import ListingCard from "@/components/listingCard/ListingCard";
 import PublishMap from "@/components/publish/PublishMap";
 import UserMedals from "@/components/UserMedals"
 import TextField from "@/components/inputs/TextField";
-import RangeFilter from "@/components/search/RangeFilter";
-import CategoryFilter from "@/components/search/CategoryFilter";
-import TermFilter from "@/components/search/TermFilter";
-import TermsFilter from "@/components/search/TermsFilter";
 import Pagination from "@/components/pagination";
-import {buildQuery} from "@/util/search";
-import {capitalize} from "@/util/str";
 import ActionButton from "../../components/actionButtons/ActionButton";
 import NotFound from "../../components/global/NotFound";
 import Skeleton from "../../components/skeleton";
@@ -407,7 +401,7 @@ export default class Agencies extends Vue {
       let url = '/users/' + id + `/listings/active?page=${p}`;
 
       if (catId) {
-        url += '?category_id=' + catId;
+        url += '&category_id=' + catId;
       }
 
       let response = await this.$axios.get(url)
