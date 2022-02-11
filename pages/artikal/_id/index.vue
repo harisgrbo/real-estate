@@ -223,7 +223,7 @@
                 </li>
               </ul>
             </div>
-            <div class="mt-6 mx-5 lg:mx-0 xl:mx-0 up:mx-0" v-if="checkboxAttributes.length">
+            <div class="mx-5 lg:mx-0 xl:mx-0 up:mx-0" v-if="checkboxAttributes.length">
               <div class="separator"></div>
               <h3 class="text-2xl font-semibold text-gray-900">
                 Nekretnina posjeduje
@@ -331,8 +331,8 @@
               </div>
               <div class="modal-content places-modal">
                 <div class="filters rounded-md">
-                  <ul class="flex flex-row items-center justify-start">
-                    <li v-for="(place, index) in places" :key="index" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer modal-place', index === x ? 'active-place-modal bg-white shadow-sm rounded-md' : '']">
+                  <ul class="main-tabs">
+                    <li v-for="(place, index) in places" :key="index" @click="selectPlace(place.results, index)" :class="[ 'cursor-pointer', index === x ? 'active' : '']">
                       <p>{{ translatePlaces(index) }}</p>
                     </li>
                   </ul>
@@ -400,8 +400,11 @@
         </client-only>
         <client-only>
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="map-modal" class="map-desktop" :adaptive="true" height="100%">
-            <div class="modal-inner map">
-              <i class="material-icons" @click.prevent="$modal.hide('map-modal')">close</i>
+            <div class="modal-inner">
+              <div class="modal-header">
+                <h2>Lokacija nekretnine</h2>
+                <i class="material-icons" @click="$modal.hide('map-modal')">close</i>
+              </div>
               <div class="modal-content">
                 <RealEstateLocationMap v-show="listing" :location="listing.location"></RealEstateLocationMap>
               </div>
@@ -1911,13 +1914,6 @@ h2 {
             filter: invert(1);
           }
         }
-
-        p {
-          color: #1F2937;
-          font-weight: 600!important;
-          margin: 0;
-          padding: 0;
-        }
       }
 
       .img-wrapper {
@@ -2416,6 +2412,12 @@ input[type=range]:focus::-ms-fill-upper {
 
   @include for-phone-only {
     min-height: 140px;
+  }
+}
+
+@include for-phone-only {
+  #map {
+    height: 610px;
   }
 }
 </style>

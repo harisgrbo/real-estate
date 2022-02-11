@@ -1,15 +1,5 @@
 <template>
   <div :class="['homepage-wrap', this.$route.name === 'index' ? 'no-padding' : '']">
-<!--    <ul class="categories-mobile mx-5" v-if="$device.isMobile">-->
-<!--      <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"-->
-<!--          :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"-->
-<!--      >-->
-<!--        <div class="img-wrapper">-->
-<!--          <img :src="cat.icon" alt="cat">-->
-<!--        </div>-->
-<!--        <p>{{cat.title}}</p>-->
-<!--      </li>-->
-<!--    </ul>-->
     <div class="publish mb-24 p-8">
       <img src="/white.jpeg" alt="" class="image-bg">
       <div class="quick-search">
@@ -478,6 +468,7 @@
 
 
     created() {
+      console.log(this.$route)
       this.fetchCategories()
       this.fetchHomeListings();
       this.fetchMostVisitedCats();

@@ -224,6 +224,8 @@ export default class Users extends Vue {
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
     await this.fetchUserFinishedListings(this.$route.params.id)
+
+    console.log(this.$route)
   }
 
   async sendMessage() {
@@ -699,6 +701,10 @@ aside {
 
 .content-wrapper {
   margin-top: 80px;
+
+  @include for-phone-only {
+    margin-top: 40px;
+  }
 }
 
 .grid-layout {

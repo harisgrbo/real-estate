@@ -1,9 +1,9 @@
 <template>
-  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'moj-racun-poruke' || $route.name === 'artikal-id' || $route.name === 'pretraga' || $route.name === 'index' ? 'objava' : '', $route.name === 'moj-racun-poruke' ? 'poruke' : '']">
+  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'moj-racun-poruke' || $route.name === 'artikal-id' || $route.name === 'pretraga' ? 'objava' : '', $route.name === 'moj-racun-poruke' || $route.name === 'users-id' || $route.name === 'agency-id' || $route.name === 'agent-id' ? 'poruke' : '']">
     <div
       class="header"
       :class="{ 'navbar--hidden': !showNavbar }"
-      v-if="$route.name !== 'artikal-id' && $route.name !== 'objava.vue' && $route.name !== 'moj-racun-poruke'"
+      v-if="$route.name !== 'artikal-id' && $route.name !== 'objava.vue' && $route.name !== 'moj-racun-poruke' && $route.name !== 'users-id' && $route.name !== 'agency-id' && $route.name !== 'agent-id'"
     >
       <Navbar></Navbar>
     </div>
@@ -183,6 +183,12 @@ export default class Mobile extends Vue {
 
   .header {
     position: static;
+  }
+}
+
+.poruke {
+  @include for-phone-only {
+    padding-top: 0 !important;
   }
 }
 </style>

@@ -186,9 +186,9 @@
   }
 
   h2 {
-    font-size: 17px;
-    font-weight: 500;
-    color: #000;
+    font-size: 17px !important;
+    font-weight: 500 !important;
+    color: #000 !important;
     margin-bottom: 0 !important;
 
     @include for-phone-only {
