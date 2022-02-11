@@ -7,7 +7,7 @@
         :value="value"
         :placeholder="placeholder"
         @change="updateValue($event.target.value)"
-        name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+        name="name" :id="id" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
         <span v-if="currency" class="text-gray-500 sm:text-sm font-semibold flex flex-row items-center" id="price-currency">
           KM
@@ -35,6 +35,7 @@ export default class TextField extends Vue{
   @Prop({ type: Boolean }) square;
   @Prop({ type: Boolean }) discount;
   @Prop({}) value;
+  @Prop({ type: String, default: '' }) id;
   @Prop({type: Boolean}) currency;
 
   updateValue(value) {

@@ -507,7 +507,7 @@
                             </div>
                           </template>
                         </vc-date-picker>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col" v-if="listing.per_guest">
                           <label class="text-xs text-gray-400 font-medium mb-2 uppercase mt-4">Broj gostiju</label>
                           <div class="relative flex-grow w-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-gray-600 w-4 h-full mx-2 absolute pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -529,7 +529,7 @@
                             </span>
                           </div>
                           <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj noćenja: <span>{{ numOfDays }}</span></div>
-                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between">Broj gostiju: <span>{{ number_of_guests }}</span></div>
+                          <div class="font-thin mb-2 text-md w-full flex flex-row items-center justify-between" v-if="listing.per_guest">Broj gostiju: <span>{{ number_of_guests }}</span></div>
                           <div class="font-light total text-md w-full flex flex-row items-center justify-between pt-3 mt-3 border-t border-gray-400">Ukupno:  <span class="font-semibold text-lg">{{ numberWithCommas(totalBookingPrice) + ' KM'  }}</span></div>
                         </div>
                       </div>

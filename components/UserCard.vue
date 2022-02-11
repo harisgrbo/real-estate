@@ -1,11 +1,11 @@
 <template>
-  <div class="box shadow-md hover:shadow-lg">
+  <div class="box">
     <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="flex flex-col items-center w-full">
-      <div class="flex items-start px-5 pt-5 w-full">
+      <div class="flex items-start px-4 pt-4 w-full">
         <div class="w-full flex justify-start w-full flex-row items-start">
           <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
           <div class="ml-4 text-left mt-0">
-            <a href="" class="font-medium">{{ user.name }}</a>
+            <a href="" class="font-semibold text-sm">{{ user.name }}</a>
             <dd class="mt-3">
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agencija</span>
             </dd>
@@ -20,12 +20,18 @@
             </svg>
             <p>{{ user.email }}</p>
           </div>
-          <div class="flex flex-row items-center text-sm">
+          <div class="flex flex-row items-center text-sm mb-1">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             <p>{{ user.location }}</p>
+          </div>
+          <div class="flex flex-row items-center text-sm" v-if="user.hasOwnProperty('phone_number')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            <p>{{ user.phone_number }}</p>
           </div>
         </div>
       </div>
@@ -123,11 +129,12 @@ export default class UserCard extends Vue {
   min-width: 360px;
   width: 360px;
   max-width: 360px;
-  height: 166px;
-  max-height: 166px;
-  min-height: 166px;
+  height: 176px;
+  max-height: 176px;
+  min-height: 176px;
   position: relative;
   z-index: 10;
+  border: 1px solid #dbdada;
 
   &:last-child {
     margin-right: 12px;

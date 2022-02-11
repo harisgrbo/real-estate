@@ -112,6 +112,7 @@ export default class CitiesMultipleSelect extends Vue{
       overflow-x: scroll;
       align-items: center;
       height: 40px;
+      width: 100%;
 
       > div {
         display: flex;

@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile-wrapper mx-auto pt-0">
-    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
-    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="flex flex-col custom-width mx-auto">
       <div class="user-content-wrapper mt-8" >
         <div class="flex flex-row items-center justify-start mobile-spans">
@@ -131,7 +131,7 @@
           <div>
             <div class="filters-agency">
               <div class="content pb-20">
-                <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
+                <h3 v-if="listingsLoaded" class="mb-4">Aktivni oglasi ({{ listingActiveMeta.total }})</h3>
                 <div v-if="listingsLoaded">
                   <div v-if="listings.length" class="grid-layout">
                     <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
@@ -155,7 +155,7 @@
           <div>
             <div class="filters-agency">
               <div class="content pb-20">
-                <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+                <h3 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h3>
                 <div v-if="completedListingsLoaded">
                   <div v-if="completed_listings.length" class="grid-layout">
                     <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
@@ -210,13 +210,7 @@ import ListingCard from "@/components/listingCard/ListingCard";
 import PublishMap from "@/components/publish/PublishMap";
 import UserMedals from "@/components/UserMedals"
 import TextField from "@/components/inputs/TextField";
-import RangeFilter from "@/components/search/RangeFilter";
-import CategoryFilter from "@/components/search/CategoryFilter";
-import TermFilter from "@/components/search/TermFilter";
-import TermsFilter from "@/components/search/TermsFilter";
 import Pagination from "@/components/pagination";
-import {buildQuery} from "@/util/search";
-import {capitalize} from "@/util/str";
 import ActionButton from "../../components/actionButtons/ActionButton";
 import NotFound from "../../components/global/NotFound";
 import Skeleton from "../../components/skeleton";
@@ -407,7 +401,7 @@ export default class Agencies extends Vue {
       let url = '/users/' + id + `/listings/active?page=${p}`;
 
       if (catId) {
-        url += '?category_id=' + catId;
+        url += '&category_id=' + catId;
       }
 
       let response = await this.$axios.get(url)
@@ -519,6 +513,7 @@ export default class Agencies extends Vue {
         margin-top: 12px;
         margin-bottom: 20px;
         width: 100%;
+        min-height: fit-content;
       }
 
       .infos {
@@ -535,7 +530,7 @@ export default class Agencies extends Vue {
         font-weight: 300;
       }
 
-      h2 {
+      h3 {
         font-size: 18px;
         font-weight: 400;
       }
@@ -618,13 +613,6 @@ export default class Agencies extends Vue {
     }
 
 
-  }
-
-  h2 {
-    color: rgb(34, 34, 34) !important;
-    font-weight: 400 !important;
-    font-size: 22px !important;
-    line-height: 26px !important;
   }
 
   .content-wrapper {
@@ -850,6 +838,22 @@ export default class Agencies extends Vue {
 aside {
   @include for-phone-only {
     width: 100%;
+  }
+}
+
+textarea {
+  height: 300px;
+  font-weight: 500;
+  color: #000;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  min-height: 400px !important;
+  padding: 12px;
+
+  &:focus {
+    outline: none;
   }
 }
 

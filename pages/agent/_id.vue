@@ -36,19 +36,19 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               {{ user.email }}</div>
-            <div v-if="user.address !== null" class="flex flex-row items-center">
+            <div v-if="user.hasOwnProperty('address')" class="flex flex-row items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               {{ user.address }}</div>
-            <div v-if="user.location !== null" class="flex flex-row items-center">
+            <div v-if="user.hasOwnProperty('location')" class="flex flex-row items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               {{ user.location }}</div>
-            <div v-if="user.phone_number !== null" class="flex flex-row items-center">
+            <div v-if="user.hasOwnProperty('phone_number')" class="flex flex-row items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
@@ -59,13 +59,11 @@
       <div class="third-col">
         <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
           <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-          <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
         </div>
         <div v-else class="w-full flex flex-row items-center justify-start mt-4">
           <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
             <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
             <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
           </div>
         </div>
       </div>
@@ -109,7 +107,7 @@
         <div>
           <div class="filters-agency">
             <div class="content pb-20">
-              <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
+              <h3 class="mb-4">Aktivni oglasi ({{ listings.length }})</h3>
               <div v-if="listings.length || loadingListings" class="grid-layout">
                 <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
               </div>
@@ -122,7 +120,7 @@
         <div>
           <div class="filters-agency">
             <div class="content pb-20">
-              <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+              <h3 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h3>
               <div v-if="completed_listings.length" class="grid-layout">
                 <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
               </div>
@@ -142,17 +140,6 @@
         <div class="modal-content">
           <textarea v-model="message"></textarea>
           <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
-        </div>
-      </div>
-    </modal>
-    <modal @before-open="beforeOpen" @before-close="beforeClose" name="about-agency" :adaptive="true" height="100%">
-      <div class="modal-inner">
-        <div class="modal-header">
-          <h2>O nama</h2>
-          <i class="material-icons" @click="$modal.hide('about-agency')">close</i>
-        </div>
-        <div class="modal-content">
-          <p>{{ user.description }}</p>
         </div>
       </div>
     </modal>
@@ -472,6 +459,7 @@ export default class Agent extends Vue {
         margin-top: 12px;
         margin-bottom: 20px;
         width: 100%;
+        min-height: fit-content;
       }
 
       .infos {
@@ -571,13 +559,6 @@ export default class Agent extends Vue {
     }
 
 
-  }
-
-  h2 {
-    color: rgb(34, 34, 34) !important;
-    font-weight: 400 !important;
-    font-size: 22px !important;
-    line-height: 26px !important;
   }
 
   .content-wrapper {
@@ -803,6 +784,22 @@ export default class Agent extends Vue {
 aside {
   @include for-phone-only {
     width: 100%;
+  }
+}
+
+textarea {
+  height: 300px;
+  font-weight: 500;
+  color: #000;
+  font-size: 18px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  min-height: 400px !important;
+  padding: 12px;
+
+  &:focus {
+    outline: none;
   }
 }
 

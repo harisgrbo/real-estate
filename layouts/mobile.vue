@@ -181,9 +181,12 @@ export default class Mobile extends Vue {
     background: #fff;
   }
 
-  .header {
-    position: static;
+  @include for-phone-only {
+    .header {
+      position: static;
+    }
   }
+
 }
 
 .poruke {
