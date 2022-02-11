@@ -370,12 +370,15 @@
     head: {
       title: "MojKvadrat.ba",
       meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           hid: "description",
           name: "description",
           content: "Sve nekretnine na jednom mjestu! Stanovi, apartmani, kuce, garaze, stanovi za izdavanje, stan na dan, rentanje, novogradnja",
         },
       ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     },
   })
 
