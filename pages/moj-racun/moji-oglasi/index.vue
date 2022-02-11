@@ -9,24 +9,49 @@
         <p>Moji oglasi</p>
       </li>
     </ul>
-    <div class="content">
-      <div v-if="listingsLoaded">
-        <div class="grid-cards">
-          <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal($event)" @finish-listing="handleFinishListing($event)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
+    <div class="content w-full">
+      <ul class="main-tabs">
+        <li @click="currentTab = index" :class="[ currentTab === index ? 'active' : '' ]" v-for="(tab, index) in tabs">{{ tab }}</li>
+      </ul>
+      <div v-show="currentTab === 0" class="w-full">
+        <div v-if="listingsLoaded">
+          <div class="grid-cards" v-if="listings.length">
+            <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal($event)" @finish-listing="handleFinishListing($event)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
+          </div>
+          <NotFound v-else src="/realestatenoresults.svg" text="Nemate objavljenih oglasa"></NotFound>
         </div>
-        <NotFound v-if="listings.length === 0" src="/realestatenoresults.svg" text="Nemate objavljenih oglasa"></NotFound>
+
+        <div v-else class="grid-cards">
+          <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '236px'" v-for="(i, index) in 20" :key="index"></Skeleton>
+        </div>
+
+        <Pagination
+          v-if="listingMeta !== null && listingMeta.total > 20"
+          ref="pagination"
+          :current-page="currentPage"
+          :total-pages="listingMeta.last_page"
+          @page-change="pageChangeHandler" />
+      </div>
+      <div v-show="currentTab === 1" class="w-full">
+        <div v-if="completedListingsLoaded">
+          <div class="grid-cards" v-if="completed_listings.length">
+            <ListingCard v-for="listing in completed_listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal($event)" @finish-listing="handleFinishListing($event)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
+          </div>
+          <NotFound v-else src="/realestatenoresults.svg" text="Nemate objavljenih oglasa"></NotFound>
+        </div>
+
+        <div v-else class="grid-cards">
+          <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '236px'" v-for="(i, index) in 20" :key="index"></Skeleton>
+        </div>
+
+        <Pagination
+          v-if="listingCompletedMeta !== null && listingCompletedMeta.total > 20"
+          ref="pagination"
+          :current-page="currentCompletedPage"
+          :total-pages="listingCompletedMeta.last_page"
+          @page-change="completedPageChangeHandler" />
       </div>
 
-      <div v-else class="grid-cards">
-        <Skeleton :height="$device.isMobile ? '337px' : '368px'" :width="$device.isMobile ? '165px' : '265px'" v-for="(i, index) in 20" :key="index"></Skeleton>
-      </div>
-
-      <Pagination
-        v-if="listingMeta !== null && listingMeta.total > 20"
-        ref="pagination"
-        :current-page="currentPage"
-        :total-pages="listingMeta.last_page"
-        @page-change="pageChangeHandler" />
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="delete-listing" :adaptive="true" height="100%">
       <div class="modal-inner">
@@ -82,25 +107,55 @@ import NotFound from "../../../components/global/NotFound";
 })
 export default class mojiOglasi extends Vue {
   currentPage = 1;
+  currentCompletedPage = 1;
   listings = []
   listingsLoaded = false;
-  listingMeta = {}
+  listingMeta = {};
+  listingCompletedMeta = {}
+  currentTab = 0;
   listingIdToBeRemoved = null;
+  completed_listings = []
+  completedListingsLoaded = false;
+  tabs = [
+    'Aktivni',
+    'Završeni'
+  ]
 
 
   async created() {
     await this.fetchUserListings();
+    await this.fetchUserFinishedListings();
   }
 
   async fetchUserListings(p = 1) {
     this.listingsLoaded = false;
     try {
-      let res = await this.$axios.get(`/profile/listings?page=${p}`);
+      let res = await this.$axios.get('/users/' + this.$auth.user.id + `/listings/active?page=${p}`);
+      console.log(res, 'ressss')
       this.listings = res.data.data;
       this.listingMeta = res.data.meta;
       this.listingsLoaded = true;
+
+      console.log(this.listings, 'listigns')
     } catch(e) {
       console.log(e)
+    }
+  }
+
+  async fetchUserFinishedListings(p = 1) {
+    this.completedListingsLoaded = false;
+
+    try {
+      let url = '/users/' + this.$auth.user.id + `/listings/completed?page=${p}`;
+
+      let response = await this.$axios.get(url)
+      this.completed_listings = response.data.data;
+      this.listingCompletedMeta = response.data.meta;
+      this.completedListingsLoaded = true;
+    } catch(e) {
+      console.log(e)
+    } finally {
+      this.loadingListings = false;
     }
   }
 
@@ -111,6 +166,8 @@ export default class mojiOglasi extends Vue {
       let index = this.listings.findIndex(item => item.id === l)
 
       this.listings.splice(index, 1)
+
+      await this.fetchUserFinishedListings(1);
 
       this.$toast.open({
         message: 'Oglas završen',
@@ -175,6 +232,11 @@ export default class mojiOglasi extends Vue {
     this.currentPage = selectedPage;
     await this.fetchUserListings(this.currentPage);
   }
+
+  async completedPageChangeHandler(selectedPage) {
+    this.currentCompletedPage = selectedPage;
+    await this.fetchUserFinishedListings(this.currentCompletedPage);
+  }
 }
 </script>
 
@@ -186,13 +248,12 @@ export default class mojiOglasi extends Vue {
 }
 
 .preview-wrapper-inner {
-  margin-top: 32px;
+  margin-top: 0px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   border-radius: 6px;
-  padding: 24px;
 }
 
 
@@ -203,10 +264,11 @@ export default class mojiOglasi extends Vue {
 
   .grid-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-column-gap: 24px;
     grid-row-gap: 24px;
     padding: 0;
+    width: 100%;
 
     @include for-phone-only {
       grid-template-columns: repeat(2, 1fr);

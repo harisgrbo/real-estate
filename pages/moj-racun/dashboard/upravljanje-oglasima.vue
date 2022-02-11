@@ -1,6 +1,6 @@
 <template>
   <div class="upravljanje-wrapper w-full" v-if="initialListingsLoaded">
-    <div class="grid-cols-4 grid gap-4 mobile-grid" v-if="listings.length">
+    <div class="grid-cols-5 grid gap-4 mobile-grid" v-if="listings.length">
       <ListingCard v-for="listing in listings" :listing="listing" :from="true" @remove-listing="handleRemoveListingModal(listing.id)" @finish-listing="handleFinishListing($event)" @edit-listing="handleEditListing($event)" action_text="Opcije oglasa" :key="listing.id"/>
     </div>
     <div class="no-image" v-else>

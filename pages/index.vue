@@ -72,7 +72,7 @@
 <!--         data-ad-slot="9795532766"-->
 <!--         data-ad-format="auto"-->
 <!--         data-full-width-responsive="true"></ins>-->
-    <ins class="adsbygoogle banner"
+    <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-3745186233711216"
          data-ad-slot="9795532766"
@@ -174,13 +174,15 @@
     <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="listing in listings_sell" :key="listing.id">
+          <swiper-slide>
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-format="fluid"
-                 data-ad-layout-key="+22+qi+1x+12"
+                 data-ad-layout-key="+21+qe+w+z+4w"
                  data-ad-client="ca-pub-3745186233711216"
-                 data-ad-slot="5954787263"></ins>
+                 data-ad-slot="3596480566"></ins>
+          </swiper-slide>
+          <swiper-slide v-for="listing in listings_sell" :key="listing.id">
             <ListingCard :listing="listing" />
           </swiper-slide>
         </swiper>
@@ -322,8 +324,11 @@
       <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Premium agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija">
+    <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija" v-if="agenciesLoaded">
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
+    </div>
+    <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija" v-else>
+      <skeleton height="166px" width="360px" class="mr-5"></skeleton>
     </div>
   </div>
 </template>
@@ -383,6 +388,7 @@
     priceFrom = null;
     priceTo = null;
     squareFrom = null;
+    agenciesLoaded = false;
     squareTo = null;
     activeTab = 0;
     categories = []
@@ -485,8 +491,6 @@
         try {
           // this is required for each ad slot (calling this once will only load 1 ad)
           (window.adsbygoogle = window.adsbygoogle || []).push({});
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
         } catch (error) {
           console.error(error)
         }
@@ -567,10 +571,12 @@
 
 
     async fetchAgencies() {
+      this.agenciesLoaded = false;
       try {
         let res = await this.$axios.get('/agencies')
         this.agencies = res.data.data;
 
+        this.agenciesLoaded = true;
       } catch (e) {
         console.log(e)
       }

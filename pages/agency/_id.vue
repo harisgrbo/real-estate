@@ -119,8 +119,8 @@
         </dl>
       </div>
       <div class="content-wrapper">
-        <ul class="flex w-full items-center main-tabs">
-          <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
+        <ul class="main-tabs">
+          <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ selected_tab === index ? 'active' : '' ]">{{ tab }}</li>
         </ul>
         <div v-if="selected_tab === 0">
           <div class="flex flex-row items-center justify-between mb-8 user-options">
@@ -132,17 +132,22 @@
             <div class="filters-agency">
               <div class="content pb-20">
                 <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
-                <div v-if="listings.length || loadingListings" class="grid-layout">
-                  <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+                <div v-if="listingsLoaded">
+                  <div v-if="listings.length" class="grid-layout">
+                    <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
+                  </div>
+                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
+                  <Pagination
+                    v-if="listings.length && listingActiveMeta.total > 15"
+                    ref="pagination"
+                    :current-page="currentPage"
+                    :total-pages="listingActiveMeta.last_page"
+                    @page-change="pageChangeHandler" />
                 </div>
-                <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
+                <div v-else class="grid-layout">
+                  <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '236px'" v-for="(i, index) in 20" :key="index"></Skeleton>
+                </div>
               </div>
-              <Pagination
-                v-if="listings.length && listingActiveMeta.total > 15"
-                ref="pagination"
-                :current-page="currentPage"
-                :total-pages="listingActiveMeta.last_page"
-                @page-change="pageChangeHandler" />
             </div>
           </div>
         </div>
@@ -151,10 +156,21 @@
             <div class="filters-agency">
               <div class="content pb-20">
                 <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
-                <div v-if="completed_listings.length" class="grid-layout">
-                  <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
+                <div v-if="completedListingsLoaded">
+                  <div v-if="completed_listings.length" class="grid-layout">
+                    <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
+                  </div>
+                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
+                  <Pagination
+                    v-if="completed_listings.length && completedListingsMeta.total > 15"
+                    ref="pagination"
+                    :current-page="currentCompletedPage"
+                    :total-pages="completedListingsMeta.last_page"
+                    @page-change="completedPageChangeHandler" />
                 </div>
-                <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa'"></NotFound>
+                <div v-else class="grid-layout">
+                  <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '236px'" v-for="(i, index) in 20" :key="index"></Skeleton>
+                </div>
               </div>
             </div>
           </div>
@@ -203,9 +219,10 @@ import {buildQuery} from "@/util/search";
 import {capitalize} from "@/util/str";
 import ActionButton from "../../components/actionButtons/ActionButton";
 import NotFound from "../../components/global/NotFound";
+import Skeleton from "../../components/skeleton";
 
 @Component({
-  components: {NotFound, ActionButton, ListingCard, PublishMap, UserMedals, TextField, Pagination},
+  components: {Skeleton, NotFound, ActionButton, ListingCard, PublishMap, UserMedals, TextField, Pagination},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   watchQuery: true,
   async asyncData(ctx) {
@@ -239,6 +256,9 @@ import NotFound from "../../components/global/NotFound";
 export default class Agencies extends Vue {
   loadingListings = false;
   isFollowed = ''
+  listingsLoaded = false;
+  completedListingsMeta = null
+  completedListingsLoaded = false;
   message = '';
   loading = false;
   followLoading = false;
@@ -247,6 +267,7 @@ export default class Agencies extends Vue {
   finishedListings = []
   feedback = []
   currentPage = 1;
+  currentCompletedPage = 1;
   city = {
     location: {
       lat: parseFloat("43.8575641"),
@@ -262,10 +283,15 @@ export default class Agencies extends Vue {
   selectedCategoryId = null;
 
   async pageChangeHandler(selectedPage) {
-    console.log(selectedPage)
     this.currentPage = selectedPage;
     await this.fetchUserListings(this.$route.params.id, 0, this.currentPage);
   }
+
+  async completedPageChangeHandler(selectedPage) {
+    this.currentCompletedPage = selectedPage;
+    await this.fetchUserFinishedListings(this.$route.params.id, this.currentCompletedPage);
+  }
+
 
 
   async handleSelectedCategory(cat) {
@@ -275,7 +301,7 @@ export default class Agencies extends Vue {
       this.selectedCategoryId = cat.id;
     }
 
-    await this.fetchUserListings(this.user.id, this.selectedCategoryId);
+    await this.fetchUserListings(this.user.id, this.selectedCategoryId, 1);
   }
 
   beforeOpen() {
@@ -289,7 +315,7 @@ export default class Agencies extends Vue {
   async created() {
 
     await this.fetchUserListings(this.$route.params.id, null, 1);
-    await this.fetchUserFinishedListings(this.$route.params.id)
+    await this.fetchUserFinishedListings(this.$route.params.id, 1)
     this.isFollowed = this.meta.followed;
 
     console.log(this.listingActiveMeta, 'meta')
@@ -345,7 +371,7 @@ export default class Agencies extends Vue {
   toggleFollow() {
     if (this.isFollowed === false) {
       try {
-        this.$axios.post('/agencies/' + this.user.id + '/follow');
+        this.$axios.post('/users/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste zapratili korisnika" + this.user.name,
@@ -359,7 +385,7 @@ export default class Agencies extends Vue {
       }
     } else {
       try {
-        this.$axios.delete('/agencies/' + this.user.id + '/follow');
+        this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste otpratili korisnika" + this.user.name,
@@ -375,7 +401,7 @@ export default class Agencies extends Vue {
   }
 
   async fetchUserListings(id, catId, p = 1) {
-    this.loadingListings = true;
+    this.listingsLoaded = false;
 
     try {
       let url = '/users/' + id + `/listings/active?page=${p}`;
@@ -387,25 +413,26 @@ export default class Agencies extends Vue {
       let response = await this.$axios.get(url)
       this.listings = response.data.data;
       this.listingActiveMeta = response.data.meta;
+
+      this.listingsLoaded = true;
     } catch(e) {
       console.log(e)
-    } finally {
-      this.loadingListings = false;
     }
   }
 
-  async fetchUserFinishedListings(id, catId) {
-    this.loadingListings = true;
+  async fetchUserFinishedListings(id, p = 1) {
+    this.completedListingsLoaded = false;
 
     try {
-      let url = '/users/' + id + '/listings/completed';
+      let url = '/users/' + id + `/listings/completed?page=${p}`;
 
       let response = await this.$axios.get(url)
       this.completed_listings = response.data.data;
+      this.completedListingsMeta = response.data.meta;
+
+      this.completedListingsLoaded = true;
     } catch(e) {
       console.log(e)
-    } finally {
-      this.loadingListings = false;
     }
   }
 }
@@ -607,8 +634,9 @@ export default class Agencies extends Vue {
     box-sizing: border-box;
 
     .grid-layout {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       grid-column-gap: 24px;
+      grid-row-gap: 24px;
       padding: 0;
 
       @include for-phone-only {
@@ -810,21 +838,6 @@ export default class Agencies extends Vue {
       min-width: auto;
       max-width: 100%
     }
-  }
-}
-
-.main-tabs {
-  margin-bottom: 24px;
-  li {
-    border: 1px solid #f9f9f9;
-    cursor: pointer;
-
-    &.active-tab {
-      font-weight: 600;
-      background: #f9f9f9;
-      border-radius: 6px;
-    }
-
   }
 }
 

@@ -233,7 +233,7 @@ input[type=number] {
   justify-content: flex-start;
   flex-direction: column;
   border-radius: 4px;
-  padding: 24px !important;
+  padding: 24px 0 !important;
 }
 
 .no-image img {
@@ -262,12 +262,32 @@ input:-webkit-autofill:active{
     width: 100%;
   }
 }
-
-.banner,
-.rectangle
-{
+.adsbygoogle {
   display: block;
   height: auto;
   margin: 0 auto;
   margin-top: 24px;
+}
+
+.main-tabs {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 36px;
+
+  li {
+    cursor: pointer;
+    padding: 0 4px 16px 4px;
+    margin-right: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #959595;
+
+    &.active {
+      font-weight: 600;
+      color: #1F2937;
+      border-bottom: 2px solid #1F2937;
+    }
+  }
 }

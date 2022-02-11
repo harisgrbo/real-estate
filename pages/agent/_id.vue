@@ -102,8 +102,8 @@
     </div>
 
     <div class="content-wrapper">
-      <ul class="flex w-full items-center main-tabs">
-        <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
+      <ul class="main-tabs">
+        <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ selected_tab === index ? 'active' : '' ]">{{ tab }}</li>
       </ul>
       <div v-if="selected_tab === 0">
         <div>
@@ -199,9 +199,12 @@ import NotFound from "../../components/global/NotFound";
     }
   }
 })
-export default class Agencies extends Vue {
+export default class Agent extends Vue {
   loadingListings = false;
   isFollowed = ''
+  listingsLoaded = false;
+  completedListingsMeta = null
+  completedListingsLoaded = false;
   message = '';
   loading = false;
   followLoading = false;
@@ -209,18 +212,33 @@ export default class Agencies extends Vue {
   completed_listings = []
   finishedListings = []
   feedback = []
+  currentPage = 1;
+  currentCompletedPage = 1;
   city = {
     location: {
       lat: parseFloat("43.8575641"),
       lng: parseFloat("18.4149369")
     }
   }
+  listingActiveMeta = null
   selected_tab = 0;
   tabs = [
     'Aktivni oglasi',
     'Završeni'
   ]
   selectedCategoryId = null;
+
+  async pageChangeHandler(selectedPage) {
+    this.currentPage = selectedPage;
+    await this.fetchUserListings(this.$route.params.id, 0, this.currentPage);
+  }
+
+  async completedPageChangeHandler(selectedPage) {
+    this.currentCompletedPage = selectedPage;
+    await this.fetchUserFinishedListings(this.$route.params.id, this.currentCompletedPage);
+  }
+
+
 
   async handleSelectedCategory(cat) {
     if (this.selectedCategoryId === cat.id) {
@@ -229,7 +247,7 @@ export default class Agencies extends Vue {
       this.selectedCategoryId = cat.id;
     }
 
-    await this.fetchUserListings(this.user.id, this.selectedCategoryId);
+    await this.fetchUserListings(this.user.id, this.selectedCategoryId, 1);
   }
 
   beforeOpen() {
@@ -242,9 +260,11 @@ export default class Agencies extends Vue {
 
   async created() {
 
-    await this.fetchUserListings(this.$route.params.id, null);
-    await this.fetchUserFinishedListings(this.$route.params.id)
+    await this.fetchUserListings(this.$route.params.id, null, 1);
+    await this.fetchUserFinishedListings(this.$route.params.id, 1)
     this.isFollowed = this.meta.followed;
+
+    console.log(this.listingActiveMeta, 'meta')
   }
 
   get isMe() {
@@ -297,7 +317,7 @@ export default class Agencies extends Vue {
   toggleFollow() {
     if (this.isFollowed === false) {
       try {
-        this.$axios.post('/agencies/' + this.user.id + '/follow');
+        this.$axios.post('/users/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste zapratili korisnika" + this.user.name,
@@ -311,7 +331,7 @@ export default class Agencies extends Vue {
       }
     } else {
       try {
-        this.$axios.delete('/agencies/' + this.user.id + '/follow');
+        this.$axios.delete('/users/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste otpratili korisnika" + this.user.name,
@@ -326,11 +346,11 @@ export default class Agencies extends Vue {
     }
   }
 
-  async fetchUserListings(id, catId) {
-    this.loadingListings = true;
+  async fetchUserListings(id, catId, p = 1) {
+    this.listingsLoaded = false;
 
     try {
-      let url = '/users/' + id + '/listings/active';
+      let url = '/users/' + id + `/listings/active?page=${p}`;
 
       if (catId) {
         url += '?category_id=' + catId;
@@ -338,28 +358,32 @@ export default class Agencies extends Vue {
 
       let response = await this.$axios.get(url)
       this.listings = response.data.data;
+      this.listingActiveMeta = response.data.meta;
+
+      this.listingsLoaded = true;
     } catch(e) {
       console.log(e)
-    } finally {
-      this.loadingListings = false;
     }
   }
 
-  async fetchUserFinishedListings(id, catId) {
-    this.loadingListings = true;
+  async fetchUserFinishedListings(id, p = 1) {
+    this.completedListingsLoaded = false;
 
     try {
-      let url = '/users/' + id + '/listings/completed';
+      let url = '/users/' + id + `/listings/completed?page=${p}`;
 
       let response = await this.$axios.get(url)
       this.completed_listings = response.data.data;
+      this.completedListingsMeta = response.data.meta;
+
+      this.completedListingsLoaded = true;
     } catch(e) {
       console.log(e)
-    } finally {
-      this.loadingListings = false;
     }
   }
 }
+
+
 </script>
 
 <style scoped lang="scss">
@@ -762,21 +786,6 @@ export default class Agencies extends Vue {
       min-width: auto;
       max-width: 100%
     }
-  }
-}
-
-.main-tabs {
-  margin-bottom: 24px;
-  li {
-    border: 1px solid #f9f9f9;
-    cursor: pointer;
-
-    &.active-tab {
-      font-weight: 600;
-      background: #f9f9f9;
-      border-radius: 6px;
-    }
-
   }
 }
 

@@ -28,36 +28,53 @@
               </div>
 
               <div class="content-wrapper">
-                <ul class="flex w-full items-center main-tabs">
-                  <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ 'mr-4 py-4 px-4 border border-gray-300', selected_tab === index ? 'active-tab' : '' ]">{{ tab }}</li>
+                <ul class="main-tabs">
+                  <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ selected_tab === index ? 'active' : '' ]">{{ tab }}</li>
                 </ul>
                 <div v-if="selected_tab === 0">
-                  <div>
-                    <div class="filters-agency">
-                      <div class="content pb-20">
-                        <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
-                        <div v-if="listings.length || loadingListings" class="grid-layout">
+                  <div class="filters-agency">
+                    <div class="content pb-20">
+                      <h2 class="mb-4">Aktivni oglasi ({{ listings.length }})</h2>
+                      <div class="w-full" v-if="listingsLoaded">
+                        <div v-if="listings.length" class="grid-layout">
                           <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
                         </div>
                         <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa'"></NotFound>
+                        <Pagination
+                          v-if="listingActiveMeta !== null && listingActiveMeta.total > 20"
+                          ref="pagination"
+                          :current-page="activeCurrentPage"
+                          :total-pages="listingActiveMeta.last_page"
+                          @page-change="activePageChangeHandler" />
+                      </div>
+                      <div v-else class="grid-layout">
+                        <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '265px'" v-for="(i, index) in 20" :key="index"></Skeleton>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div v-else>
-                  <div>
-                    <div class="filters-agency">
-                      <div class="content pb-20">
-                        <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+                  <div class="filters-agency">
+                    <div class="content pb-20">
+                      <h2 class="mb-4">Završeni oglasi ({{ completed_listings.length }})</h2>
+                      <div class="w-full" v-if="completedListingsLoaded">
                         <div v-if="completed_listings.length" class="grid-layout">
                           <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
                         </div>
-                        <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Korisnik nema završenih oglasa'"></NotFound>
+                        <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa'"></NotFound>
+                        <Pagination
+                          v-if="completedListingsMeta !== null && completedListingsMeta.total > 20"
+                          ref="pagination"
+                          :current-page="completedCurrentPage"
+                          :total-pages="completedListingsMeta.last_page"
+                          @page-change="completedPageChangeHandler" />
+                      </div>
+                      <div v-else class="grid-layout">
+                        <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '265px'" v-for="(i, index) in 20" :key="index"></Skeleton>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </main>
@@ -147,9 +164,10 @@ import ListingCard from "@/components/listingCard/ListingCard";
 import UserCard from "../../components/UserCard";
 import skeleton from "../../components/skeleton";
 import NotFound from "../../components/global/NotFound";
+import Pagination from "../../components/pagination";
 
 @Component({
-  components: {NotFound, UserCard, ListingCard, skeleton},
+  components: {Pagination, NotFound, UserCard, ListingCard, skeleton},
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let user = null
@@ -177,9 +195,14 @@ export default class Users extends Vue {
   message = '';
   loading = false;
   followLoading = false;
-  listings = []
-  finishedListings = []
-  completed_listings = []
+  listings = [];
+  activeCurrentPage = 1;
+  completedCurrentPage = 1;
+  completedListingsLoaded = false;
+  finishedListings = [];
+  completed_listings = [];
+  listingActiveMeta = null;
+  completedListingsMeta = null;
   feedback = []
   listingsLoaded = false;
   selected_tab = 0;
@@ -200,6 +223,7 @@ export default class Users extends Vue {
   async created() {
     this.isFollowed = this.meta.followed;
     await this.fetchUserListings(this.$route.params.id)
+    await this.fetchUserFinishedListings(this.$route.params.id)
   }
 
   async sendMessage() {
@@ -296,26 +320,37 @@ export default class Users extends Vue {
     }
   }
 
-  async fetchUserListings(id) {
+  async fetchUserListings(id, p = 1) {
     this.listingsLoaded = false;
     try {
-      let response = await this.$axios.get('/users/' + id + '/listings/active')
+      let response = await this.$axios.get('/users/' + id + `/listings/active?page=${p}`)
       this.listings = response.data.data;
+      this.listingActiveMeta = response.data.meta;
       this.listingsLoaded = true;
     } catch(e) {
       console.log(e)
     }
   }
 
-  async fetchUserFinishedListings(id) {
-    this.listingsLoaded = false;
+  async fetchUserFinishedListings(id, p = 1) {
+    this.completedListingsLoaded = false;
     try {
-      let response = await this.$axios.get('/users/' + id + '/listings/completed')
+      let response = await this.$axios.get('/users/' + id + `/listings/completed?page=${p}`)
       this.completed_listings = response.data.data;
-      this.listingsLoaded = true;
+      this.completedListingsLoaded = true;
     } catch(e) {
       console.log(e)
     }
+  }
+
+  async activePageChangeHandler(selectedPage) {
+    this.activeCurrentPage = selectedPage;
+    await this.fetchUserListings(this.activeCurrentPage);
+  }
+
+  async completedPageChangeHandler(selectedPage) {
+    this.completedCurrentPage = selectedPage;
+    await this.fetchUserFinishedListings(this.completedCurrentPage);
   }
 
   beforeOpen() {
@@ -662,22 +697,6 @@ aside {
   }
 }
 
-
-.main-tabs {
-  margin-bottom: 24px;
-  li {
-    border: 1px solid #f9f9f9;
-    cursor: pointer;
-
-    &.active-tab {
-      font-weight: 600;
-      background: #f9f9f9;
-      border-radius: 6px;
-    }
-
-  }
-}
-
 .content-wrapper {
   margin-top: 80px;
 }
@@ -685,6 +704,7 @@ aside {
 .grid-layout {
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 24px;
+  grid-row-gap: 24px;
   padding: 0;
 
   @include for-phone-only {

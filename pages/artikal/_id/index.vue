@@ -262,7 +262,7 @@
               </svg>
             </span>
             </client-only>
-            <ins class="adsbygoogle banner"
+            <ins class="adsbygoogle"
                  style="display:block; text-align:center;"
                  data-ad-layout="in-article"
                  data-ad-format="fluid"
