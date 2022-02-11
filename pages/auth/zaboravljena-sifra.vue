@@ -17,7 +17,7 @@
             </h3>
             <div class="mt-2 text-sm text-yellow-700">
               <p>
-                Dobit ćete mail sa instrukcijama za unos nove šifre
+                Dobit ćete mail sa instrukcijama za reset šifre
               </p>
             </div>
           </div>

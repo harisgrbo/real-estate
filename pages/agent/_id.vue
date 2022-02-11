@@ -399,7 +399,12 @@ export default class Agent extends Vue {
   justify-content: space-between;
   height: 100%;
   box-sizing: border-box;
+  width: 1280px;
   margin: 0 auto;
+
+  @include for-phone-only {
+    width: 100%;
+  }
 
   @include for-phone-only {
     padding: 16px;

@@ -1144,6 +1144,11 @@ export default class Navbar extends Vue {
 
 .centralize {
   //flex: 2;
+  margin: 0 32px;
+
+  @include for-phone-only {
+    margin: 0 auto;
+  }
 }
 
 .absolute-search {

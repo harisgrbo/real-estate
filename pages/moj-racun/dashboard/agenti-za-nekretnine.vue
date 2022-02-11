@@ -1,8 +1,24 @@
 <template>
   <div class="w-full">
       <div class="grid grid-cols-12 gap-6">
-        <div class="col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-          <action-button placeholder="Dodaj novog agenta" @action="$modal.show('agent')"></action-button>
+        <div class="col-span-12 flex flex-col flex-wrap sm:flex-nowrap items-start mt-2">
+          <div class="rounded-md bg-yellow-50 p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <!-- Heroicon name: solid/exclamation -->
+                <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-yellow-800">Pažnja</h3>
+                <div class="mt-2 text-sm text-yellow-700">
+                  <p>Agent kojeg ste dodali će dobiti mail sa privremenom šifrom za prijavu. Nakon prve prijave postat će aktivan.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <action-button class="mt-5" placeholder="Dodaj novog agenta" @action="$modal.show('agent')"></action-button>
         </div>
 
         <client-only>
@@ -32,7 +48,7 @@
                   <dd class="mt-3">
                     <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Agent</span>
                   </dd>
-                  <div class="bg-red-600 text-white rounded-sm font-semibold px-2 mt-1" v-if="agent.last_time_active_at === null">NEAKTIVAN</div>
+                  <div class="bg-red-600 text-white rounded-sm font-semibold text-xs px-2 py-1 rounded-md mt-3" v-if="agent.last_time_active_at === null">NEAKTIVAN</div>
                 </div>
               </div>
             </div>
@@ -45,7 +61,7 @@
             </div>
             <div class="flex flex-row items-center justify-between px-4 pb-4">
               <action-button placeholder="Izbriši agenta" :style-options="{ width: '100%', marginRight: '8px'}" @action="removeAgent(agent.id)"></action-button>
-              <action-button placeholder="Profil" :style-options="{ width: '100%', marginLeft: '8px'}" @action="$router.push('/users/' + agent.id)"></action-button>
+              <action-button placeholder="Profil" :style-options="{ width: '100%', marginLeft: '8px'}" @action="$router.push('/agent/' + agent.id)"></action-button>
             </div>
           </div>
         </div>
