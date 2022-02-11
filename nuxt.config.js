@@ -102,7 +102,7 @@ export default {
       {
         broadcaster: "pusher",
         authEndpoint:
-          "https://polar-cove-31327.herokuapp.com/broadcasting/auth",
+          "https://api.mojkvadrat.ba/broadcasting/auth",
         key: "273b7047e16aaf0ad6e0",
         cluster: "eu",
         encrypted: true,
@@ -153,7 +153,7 @@ export default {
   },
 
   axios: {
-    baseURL: "https://polar-cove-31327.herokuapp.com/",
+    baseURL: "https://api.mojkvadrat.ba/",
   },
 
   auth: {

@@ -23,6 +23,13 @@
             </h2>
             <Categories @selected-category="handleSelectedCategory" />
           </div>
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">
+              Nazad
+            </button>
+            <button @click="nextStep">Dalje
+            </button>
+          </div>
         </div>
 
         <div v-show="currentStep === steps.STEP_TWO" class="step-2 test">
@@ -367,7 +374,7 @@ export default class Objava extends Vue {
 
   dropzoneChangeUrl() {
     this.uploading = true;
-    this.$refs.dropzone.setOption('url', `https://polar-cove-31327.herokuapp.com/listings/${this.listingId}/image`);
+    this.$refs.dropzone.setOption('url', `https://api.mojkvadrat.ba/listings/${this.listingId}/image`);
     this.uploading = false;
   }
 

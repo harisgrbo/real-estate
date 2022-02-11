@@ -63,6 +63,7 @@ export default class NotificationsDropdown extends Vue {
 
   @include for-phone-only {
     height: calc(100vh - 100px);
+    padding: 0 24px;
   }
 
 }

@@ -666,8 +666,8 @@ a {
   flex-direction: column;
   margin-top: 0px;
   position: absolute;
-  bottom: 24px;
-  left: 24px;
+  bottom: 0;
+  left: 15px;
   height: 92px;
 
   @include for-phone-only {
@@ -713,7 +713,7 @@ a {
         line-height: 20px !important;
         @include for-phone-only {
           font-weight: 400 !important;
-          font-size: 20px !important;
+          font-size: 17px !important;
         }
       }
     }
@@ -810,9 +810,8 @@ a {
         }
 
         @include for-phone-only {
-          font-size: 18px !important;
-          font-weight: 600 !important;
-
+          font-size: 16px !important;
+          font-weight: 700 !important;
         }
       }
     }
@@ -830,11 +829,11 @@ a {
   top: 0px;
   left: 0px;
   z-index: 1;
-  background-color: #BBA14F;
+  background-color: #1F2937;
   color: #fff;
   font-weight: 600;
-  font-size: 13px;
-  padding: 2px 8px;
+  font-size: 10px;
+  padding: 0px 8px;
   border-top-left-radius: 8px;
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;

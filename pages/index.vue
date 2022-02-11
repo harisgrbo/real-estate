@@ -1,15 +1,5 @@
 <template>
   <div :class="['homepage-wrap', this.$route.name === 'index' ? 'no-padding' : '']">
-<!--    <ul class="categories-mobile mx-5" v-if="$device.isMobile">-->
-<!--      <li v-for="(cat, index) in categories" :id="index" @click="selectCategory(cat)"-->
-<!--          :class="[ selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]"-->
-<!--      >-->
-<!--        <div class="img-wrapper">-->
-<!--          <img :src="cat.icon" alt="cat">-->
-<!--        </div>-->
-<!--        <p>{{cat.title}}</p>-->
-<!--      </li>-->
-<!--    </ul>-->
     <div class="publish mb-24 p-8">
       <img src="/white.jpeg" alt="" class="image-bg">
       <div class="quick-search">
@@ -135,8 +125,9 @@
       </div>
 
       <ul v-if="locationsLoaded" role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-        <li class="flow-root justify-between flex flex-row items-center text-center relative" v-for="(city, index) in top_locations" :key="index"
+        <li class="flow-root justify-between flex flex-row items-center text-center relative cursor-pointer" v-for="(city, index) in top_locations" :key="index"
             :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
+            @click="searchLocation(city.city.id)"
         >
           <div class="overlay-searched"></div>
           <div>
@@ -145,7 +136,6 @@
             </h3>
             <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(0) }} KM/m2</p>
           </div>
-          <ActionButton v-if="$auth.user" type="submit" class="searched-h3" @action="searchLocation(city.city.id)" placeholder="Pogledaj više" :style-options="{ background: 'transparent', border: '2px solid #fff', color: '#fff', borderRadius: '6px', height: '42px', fontSize: '13px' }" :loading="false"></ActionButton>
         </li>
       </ul>
 
@@ -370,12 +360,15 @@
     head: {
       title: "MojKvadrat.ba",
       meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           hid: "description",
           name: "description",
           content: "Sve nekretnine na jednom mjestu! Stanovi, apartmani, kuce, garaze, stanovi za izdavanje, stan na dan, rentanje, novogradnja",
         },
       ],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     },
   })
 
@@ -475,6 +468,7 @@
 
 
     created() {
+      console.log(this.$route)
       this.fetchCategories()
       this.fetchHomeListings();
       this.fetchMostVisitedCats();
