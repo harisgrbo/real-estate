@@ -4,18 +4,18 @@
       <img src="/003-home.png" alt="">
       <span>Početna</span>
     </nuxt-link>
-    <nuxt-link to="/moj-racun/poruke" class="relative">
+    <nuxt-link to="/moj-racun/poruke" class="relative" v-if="$auth.user">
       <img src="/004-conversation.png" alt="">
-      <p class="notify" v-if="$auth.user && messagesCount > 0">{{ messagesCount }}</p>
+      <p class="notify" v-if="messagesCount > 0">{{ messagesCount }}</p>
       <span>Poruke</span>
     </nuxt-link>
-    <nuxt-link to="/objava">
+    <nuxt-link to="/objava" v-if="$auth.user">
       <img src="/005-add.png" alt="">
       <span>Objava</span>
     </nuxt-link>
-    <nuxt-link :to="goToUser">
+    <nuxt-link :to="goToUser()">
       <img src="/001-user.png" alt="">
-      <span>Profil</span>
+      <span>{{ $auth.user ? 'Profil' : 'Prijavi se' }}</span>
     </nuxt-link>
     <nuxt-link to="" class="relative" v-if="$auth.user">
       <div @click="openSidebarMenu" class="flex flex-col items-center justify-center">
@@ -141,14 +141,14 @@ export default class MobileBottomNavbar extends Vue {
   goToUser() {
     if(this.$auth.user) {
       if(this.$auth.user.user_type === 'agency') {
-        this.$router.push('/agency/' + this.$auth.user.id)
+        return '/agency/' + this.$auth.user.id
       } else if(this.$auth.user.user_type === 'agent'){
-        this.$router.push('/agent/' + this.$auth.user.id)
+        return '/agent/' + this.$auth.user.id
       } else {
-        this.$router.push('/users/' + this.$auth.user.id)
+        return '/users/' + this.$auth.user.id
       }
     } else {
-      this.$router.push('/auth/login')
+      return '/auth/login'
     }
   }
 

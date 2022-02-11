@@ -135,8 +135,9 @@
       </div>
 
       <ul v-if="locationsLoaded" role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-        <li class="flow-root justify-between flex flex-row items-center text-center relative" v-for="(city, index) in top_locations" :key="index"
+        <li class="flow-root justify-between flex flex-row items-center text-center relative cursor-pointer" v-for="(city, index) in top_locations" :key="index"
             :style="{ backgroundImage: 'url(' + city.background_image + ')' }"
+            @click="searchLocation(city.city.id)"
         >
           <div class="overlay-searched"></div>
           <div>
@@ -145,7 +146,6 @@
             </h3>
             <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(0) }} KM/m2</p>
           </div>
-          <ActionButton v-if="$auth.user" type="submit" class="searched-h3" @action="searchLocation(city.city.id)" placeholder="Pogledaj više" :style-options="{ background: 'transparent', border: '2px solid #fff', color: '#fff', borderRadius: '6px', height: '42px', fontSize: '13px' }" :loading="false"></ActionButton>
         </li>
       </ul>
 

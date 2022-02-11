@@ -192,13 +192,13 @@
                 <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
                   <div class="relative -m-2 p-2 flex items-center space-x-4">
                     <div>
-                      <h3 class="text-md font-thin text-gray-900">
+                      <h3 class="text-md font-light text-gray-900">
                         <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
                         </div>
                       </h3>
-                      <p class="mt-1 text-lg text-black font-medium">{{ info.value }}</p>
+                      <p class="mt-1 text-md text-black font-medium">{{ info.value }}</p>
                     </div>
                   </div>
                 </li>
@@ -216,7 +216,7 @@
                   <img :src="'/' + attr.name + '.png'" alt="">
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                     <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
-                      <div class="text-gray-900 font-medium hover:text-gray-700">{{ attr.name }}</div>
+                      <div class="text-md text-black font-medium">{{ attr.name }}</div>
                       <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
                     </div>
                   </div>
@@ -233,13 +233,13 @@
                   <div class="relative -m-2 p-2 flex items-center space-x-4 rounded-xl">
 
                     <div>
-                      <h3 class="text-md font-normal text-gray-900">
+                      <h3 class="text-md font-light text-gray-900">
                         <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
                         </div>
                       </h3>
-                      <p class="mt-1 text-lg text-black font-medium">{{ attrTranslate(info.value) }}</p>
+                      <p class="mt-1 text-md text-black font-medium">{{ attrTranslate(info.value) }}</p>
                     </div>
                   </div>
                 </li>
@@ -269,10 +269,11 @@
                  data-ad-client="ca-pub-3745186233711216"
                  data-ad-slot="7663416760"></ins>
             <div v-if="listing.is_booking" class="flex w-full flex-col">
+              <div class="separator"></div>
               <div class="flex flex-row items-center mb-6 justify-between w-full">
                 <h3 class="text-2xl font-semibold text-gray-900 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Dojmovi</h3>
 
-                <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Ostavi dojam" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '40px', fontSize: '13px', width: 'auto' }" :loading="false" @action="$modal.show('leave-review')"></ActionButton>
+                <ActionButton :class="[ $device.isMobile ? 'mr-5' : '']" v-if="$auth.user && !authUser && listing.is_booking" placeholder="Ostavi dojam" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '40px', fontSize: '13px', width: 'auto'}" :loading="false" @action="$modal.show('leave-review')"></ActionButton>
               </div>
 
               <div class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">
@@ -1884,16 +1885,6 @@ h2 {
   font-weight: 500 !important;
 }
 
-::v-deep .vm--modal {
-  @include for-phone-only {
-    top: 40px !important;
-    border-top-left-radius: 7px !important;
-    border-top-right-radius: 7px !important;
-    height: calc(100vh - 20px) !important;
-    padding-bottom: 50px !important;
-  }
-}
-
 .places-modal {
   ul {
     display: flex;
@@ -1977,7 +1968,7 @@ h2 {
   justify-content: space-between;
   transition: 0.3s all ease;
   height: 80px;
-  box-shadow: 0px 0px 10px 6px rgb(0 0 0 / 6%);
+  border-top: 1px solid #EBEBEB;
 }
 
 .date-input {
@@ -2301,7 +2292,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .compress {
-  max-height: 210px;
+  max-height: 230px;
   overflow: hidden;
 }
 
@@ -2417,6 +2408,14 @@ input[type=range]:focus::-ms-fill-upper {
     img {
       min-height: 50px;
     }
+  }
+}
+
+::v-deep .not-found-wrapper {
+  min-height: 200px;
+
+  @include for-phone-only {
+    min-height: 140px;
   }
 }
 </style>

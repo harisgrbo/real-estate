@@ -181,8 +181,8 @@
   @include for-phone-only {
     display: flex;
     align-items: center;
-    height: 30px;
     justify-content: space-between;
+    padding: 16px 0;
   }
 
   h2 {
