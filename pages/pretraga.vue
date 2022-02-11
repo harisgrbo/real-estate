@@ -59,11 +59,11 @@
           </div>
         </div>
         <ul v-if="$device.isMobile" class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0">
-          <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)" class="py-1 px-2 border border-black mr-3">
+          <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)" class="py-1 px-2 border border-black" @click="queryPayload[filter.name] = null; newSearch();">
             <div class="flex flex-row items-center">
               {{ filterResolveValue(filter) }}
-              <button @click="queryPayload[filter.name] = null; newSearch();">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+              <button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
@@ -302,7 +302,7 @@
             </div>
             <div class="modal-content">
               <div class="filters rounded-md">
-                <ul role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-2 gap-4 w-full categories-list-wrap">
+                <ul role="list" class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 gap-4 w-full categories-list-wrap">
                   <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)" class="flow-root shadow-sm border rounded-sm"
                       :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
                     <div>
@@ -1310,7 +1310,6 @@ export default class Homepage extends Vue {
   margin-top: 0px;
 
   @include for-phone-only {
-    padding: 16px;
     padding-bottom: 0;
     width: 100%;
     overflow-x: scroll;
@@ -1325,13 +1324,21 @@ export default class Homepage extends Vue {
     @include for-phone-only {
       border-radius: 20px;
       background: #fff;
-      font-weight: 500;
+      font-weight: 600;
+      color: #000;
       font-size: 13px !important;
-      border: 1px solid #b6b6b7 !important;
       min-width: -webkit-fit-content;
       min-width: -moz-fit-content;
       min-width: fit-content;
-      padding: 11px 12px;
+      padding: 6px 10px;
+      margin-left: 12px;
+      border: 1px solid #000;
+      margin-top: 16px;
+      border-radius: 3px;
+
+      &:first-child {
+        margin-left: 24px;
+      }
 
     }
 
@@ -1339,11 +1346,16 @@ export default class Homepage extends Vue {
       margin-left: 4px;
       cursor: pointer;
       padding: 4px;
+      color: transparent !important;
 
       @include for-phone-only {
         padding: 0;
-        margin-left: 12px;
+        margin-left: 4px;
         border: none;
+
+        svg {
+          color: #000
+        }
       }
 
 
@@ -1356,7 +1368,7 @@ export default class Homepage extends Vue {
 
 .search-options {
   @include for-phone-only {
-    button {
+    button.group {
       border-radius: 20px;
       background: #fff;
       font-weight: 500;
@@ -1400,8 +1412,9 @@ export default class Homepage extends Vue {
 
   @include for-phone-only {
     margin-right: 0;
-    margin-left: 16px;
-    font-weight: 200;
+    margin-left: 24px;
+    font-weight: 400;
+    font-size: 16px;
   }
 }
 

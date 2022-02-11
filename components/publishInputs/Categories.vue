@@ -11,7 +11,7 @@
         </div>
       </li>
     </ul>
-    <img v-else src="/load.svg" class="loading" alt="">
+    <LoadingBar v-else :override="true"></LoadingBar>
   </div>
 </template>
 
