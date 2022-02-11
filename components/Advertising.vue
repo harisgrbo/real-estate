@@ -60,7 +60,7 @@
       <div class="advertising-calculator">
         <ActionButton @action="sponsor(publishing ? id : $route.params.id)" placeholder="Sponzoriši" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
         <span class="mx-6 bg-gray-50 rounded-full p-5 font-semibold">ili</span>
-        <ActionButton @action="$router.push('/artikal/' + $route.params.id)" placeholder="Nastavi na oglas bez sponzorisanja" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
+        <ActionButton @action="publishing ? $router.push('/artikal/' + id) : $router.push('/artikal/' + $route.params.id) " placeholder="Nastavi na oglas bez sponzorisanja" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
 
       </div>
     </div>

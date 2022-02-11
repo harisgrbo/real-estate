@@ -45,7 +45,7 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="conversation.unread !== 0" class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-17 font-medium -mt-1 -mr-1">{{ conversation.unread }}</div>
+                  <div v-if="conversation.unread !== 0" class="w-5 h-5 flex items-center justify-center absolute top-6 left-4 bg-gray-900 text-xs text-white rounded-full font-medium -mt-1 -mr-1">{{ conversation.unread }}</div>
                 </div>
               </div>
             </div>
@@ -59,7 +59,7 @@
             <div v-if="currentConversation" class="h-full flex flex-col">
               <div class="custom-header flex flex-row items-center justify-between">
                 <div class="flex flex-row items-center">
-                  <div class="flex items-center">
+                  <div class="flex items-center cursor-pointer" @click="goToUser(others(currentConversation))">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
                       <h3 class="ml-3">{{ others(currentConversation).map(item => item.name).join(',') }}</h3>
                   </div>
@@ -191,7 +191,7 @@
             <div class="chat__box box">
               <!-- BEGIN: Chat Active -->
               <div v-if="currentConversation" class="h-full flex flex-col bg-white rounded-md">
-                <div class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 px-0 py-3">
+                <div class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 px-4 py-3">
                   <div class="flex items-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
@@ -216,27 +216,33 @@
                 </div>
                 <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
                   <div v-for="message in messages" :key="message.id">
-                    <div :class="[isMe(message) ? 'float-right' : 'flat-left']" class="chat__box__text-box flex items-end mb-4">
-                      <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
-                        <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="isMe(message) ? (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg') : (message.sender.avatar_url !== null ? message.sender.avatar_url : '/noimage.jpeg')">
-                      </div>
-                      <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
+                    <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
+                      <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
                         {{ message.content }}
-                        <div class="flex justify-between">
-                          <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        <div class="flex justify-between mt-2">
+                          <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                         </div>
                       </div>
-                      <div v-else-if="message.message_type === 'listing'" :class="[isMe(message) ? 'px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
-                        {{ message.content }}
-                        {{ message }}
-                        <SmallListingCard :listing="message.listing"></SmallListingCard>
+                      <div v-else-if="message.message_type === 'listing'" :class="[isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
+                        <div class="listing-card flex flex-col" v-if="message.content.listing">
+                          <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
+                            <img :src="message.content.listing.image_urls[0]" alt="">
+                          </div>
+                          <div v-else class="grid grid-cols-1">
+                            <img src="/noimage.jpeg" alt="">
+                          </div>
+                          <h3>{{ message.content.listing.title }}</h3>
+                        </div>
+                        {{ message.content.message }}
+
+                        <!--                      <SmallListingCard :listing="message.listing"></SmallListingCard>-->
                         <div class="flex justify-between">
-                          <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                          <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                         </div>
                       </div>
-                      <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md rounded-t-md']">
+                      <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'shadow-md px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                         <div v-if="message.content.mime.substr(0, 5) === 'image'" >
                           <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
                           <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
@@ -244,9 +250,9 @@
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>Otvori u novom tabu</a>
                         </div>
-                        <div class="flex justify-between">
-                          <div :class="[isMe(message) ? 'mt-1 text-xs text-white': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-white">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        <div class="flex justify-between mt-2">
+                          <div :class="[isMe(message) ? 'ml-1 mt-1 text-xs text-gray-700': 'ml-1 mt-1 text-xs text-gray-700' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                         </div>
                       </div>
                     </div>
@@ -461,6 +467,17 @@ export default class Poruke extends Vue {
 
 
     this.imgBlob = e.target.files[0];
+  }
+
+  goToUser(u) {
+    console.log(u)
+    if(u[0].user_type === 'agency') {
+      this.$router.push('/agency/' + u[0].id)
+    } else if(this.$auth.user.user_type === 'agent'){
+      this.$router.push('/agent/' + u[0].id)
+    } else {
+      this.$router.push('/users/' + u[0].id)
+    }
   }
 
   async upload(e) {
@@ -769,6 +786,10 @@ textarea {
   }
 }
 
+.modal-inner {
+  padding: 0 !important;
+}
+
 .chat__box.box {
   @include for-phone-only {
     height: auto !important;
@@ -889,6 +910,9 @@ textarea {
   padding: 24px;
   border-bottom: 1px solid #f1f1f1;
 
+  @include for-phone-only {
+  }
+
   h3 {
     font-size: 20px;
     font-weight: 600;
@@ -911,6 +935,13 @@ textarea {
 .mobile-height {
   height: 500px !important;
   max-height: 500px !important;
+
+  @include for-phone-only {
+    min-height: calc(100vh - 200px);
+    height: calc(100vh - 200px);
+    max-height: calc(100vh - 200px);
+    padding: 0 24px;
+  }
 }
 
 #EmojiPicker {
@@ -945,6 +976,12 @@ img {
   height: 50px;
   width: 50px;
   min-width: 50px;
+
+  @include for-phone-only {
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+  }
 }
 
 .image-preview-modal {

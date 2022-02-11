@@ -1867,4 +1867,9 @@ select {
 .select-border {
   border: 1px solid #f1f1f1 !important;
 }
+
+::v-deep .dz-image img {
+  min-width: 100% !important;
+  min-height: 100% !important;
+}
 </style>
