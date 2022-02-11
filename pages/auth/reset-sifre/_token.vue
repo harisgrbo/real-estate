@@ -23,9 +23,22 @@
           </div>
         </div>
       </div>
-      <form @submit.prevent="handleLogin">
-        <TextField type="password" label="Nova šifra" placeholder="******" v-model="payload.username" class="mb-6 mt-1"></TextField>
-        <TextField type="password" label="Ponovite šifru" placeholder="******" v-model="payload.username" class="mb-6 mt-1"></TextField>
+      <form @submit.prevent="handleResetPassword">
+        <TextField type="password" label="Nova šifra" id="1" placeholder="******" v-model="newPassword" class="mb-6 mt-1"></TextField>
+        <TextField type="password" label="Ponovite šifru" id="2" placeholder="******" v-model="repeatNewPassword" class="mb-6 mt-1"></TextField>
+        <div class="rounded-md bg-red-50 p-4" v-show="error">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <!-- Heroicon name: solid/x-circle -->
+              <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800">Šifre moraju biti iste</h3>
+            </div>
+          </div>
+        </div>
         <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Resetuj šifru"></ActionButton>
       </form>
     </div>
@@ -43,22 +56,29 @@ import {mixin as clickaway} from "vue-clickaway";
 })
 
 export default class zaboravljenasifra extends Vue{
-  payload = {
-    grant_type: 'password',
-    client_id: 2,
-    client_secret: 'NxQqmRUUd4GWpAkNNwGpCilDYvhuU7E6C0xQSWuU',
-    username: '',
-    password: '',
-  }
+  newPassword = '';
+  repeatNewPassword = '';
   loading = false;
+  error = '';
 
-  async handleLogin() {
+  checkPasswords() {
+    return this.newPassword !== '' && this.repeatNewPassword !== '' && (this.newPassword === this.repeatNewPassword);
+  }
+
+  async handleResetPassword() {
     this.loading = true;
 
     try {
-      await this.$auth.loginWith("local", { data: this.payload });
-      // this.$auth.setUser(this.payload)
-      this.$router.push('/')
+      if(this.checkPasswords()) {
+        await this.$axios.post(`/password/reset/${this.$route.params.token}`, {
+          password: this.newPassword
+        });
+
+        await this.$router.push('/auth/login')
+      } else {
+        this.error = true;
+      }
+
     } catch(e) {
       if (e.response.status === 400) {
         this.$toast.open({
@@ -174,6 +194,7 @@ label {
   margin: 0 auto;
   margin-bottom: 46px;
   cursor: pointer;
+  height: auto;
 }
 
 .login-u {

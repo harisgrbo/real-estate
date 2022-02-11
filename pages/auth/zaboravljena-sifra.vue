@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <div class="inner">
+    <div class="inner" v-if="!messageSent">
       <img src="/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
       <h2 class="mt-4 text-left w-full">Zaboravljena šifra</h2>
       <div class="rounded-md bg-yellow-50 p-4 mb-6 w-full">
@@ -23,10 +23,30 @@
           </div>
         </div>
       </div>
-      <form @submit.prevent="handleLogin">
-        <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username" class="mb-6 mt-1"></TextField>
+      <form @submit.prevent="sendResetMail">
+        <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email" class="mb-6 mt-1"></TextField>
         <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Pošalji zahtjev na email"></ActionButton>
       </form>
+    </div>
+    <div class="inner" v-else>
+      <!-- This example requires Tailwind CSS v2.0+ -->
+      <div class="rounded-md bg-blue-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <!-- Heroicon name: solid/information-circle -->
+            <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3 flex-1 md:flex md:justify-between">
+            <p class="text-sm text-blue-700">Dobili ste instrukcije na email, u slučaju da nemate mail u inboxu provjerite spam.</p>
+            <p class="mt-3 text-sm md:mt-0 md:ml-6">
+              <nuxt-link to="/" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">Početna <span aria-hidden="true">&rarr;</span></nuxt-link>
+            </p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -42,31 +62,25 @@ import {mixin as clickaway} from "vue-clickaway";
 })
 
 export default class zaboravljenasifra extends Vue{
-  payload = {
-    grant_type: 'password',
-    client_id: 2,
-    client_secret: 'NxQqmRUUd4GWpAkNNwGpCilDYvhuU7E6C0xQSWuU',
-    username: '',
-    password: '',
-  }
+  email = '';
   loading = false;
+  messageSent = false;
 
-  async handleLogin() {
+  async sendResetMail() {
     this.loading = true;
 
     try {
-      await this.$auth.loginWith("local", { data: this.payload });
-      // this.$auth.setUser(this.payload)
-      this.$router.push('/')
+      await this.$axios.post('/reset/password', {email: this.email})
+
+      this.messageSent = true;
     } catch(e) {
-      if (e.response.status === 400) {
+      if (e.response.status) {
         this.$toast.open({
-          message: "Pogrešni podaci",
+          message: "Došlo je do greške, pokušajte ponovo",
           type: 'error',
           duration: 5000
         });
       }
-
       this.loading = false;
     }
   }
@@ -173,6 +187,7 @@ label {
   margin: 0 auto;
   margin-bottom: 46px;
   cursor: pointer;
+  height: auto;
 }
 
 .login-u {

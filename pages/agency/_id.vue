@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile-wrapper mx-auto pt-0">
-    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
-    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="flex flex-col custom-width mx-auto">
       <div class="user-content-wrapper mt-8" >
         <div class="flex flex-row items-center justify-start mobile-spans">

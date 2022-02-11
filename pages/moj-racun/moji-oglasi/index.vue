@@ -254,6 +254,11 @@ export default class mojiOglasi extends Vue {
   justify-content: flex-start;
   flex-direction: column;
   border-radius: 6px;
+
+  @include for-phone-only {
+    padding: 24px !important;
+    height: 100% !important;
+  }
 }
 
 

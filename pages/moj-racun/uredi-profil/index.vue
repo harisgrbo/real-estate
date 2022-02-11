@@ -197,6 +197,10 @@ export default class urediProfil extends Vue {
   flex-direction: column;
   border-radius: 6px;
   padding: 24px;
+
+  @include for-phone-only {
+    padding: 24px !important;
+  }
 }
 
 .account-wrapper {

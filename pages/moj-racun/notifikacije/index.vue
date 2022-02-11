@@ -86,10 +86,12 @@ export default class notifikacije extends Vue {
   flex-direction: column;
   border-radius: 6px;
   padding: 24px;
+
+  @include for-phone-only {
+    padding: 24px !important;
+    height: 100% !important;
+  }
 }
-
-
-
 
   .notification {
     margin-bottom: 16px;

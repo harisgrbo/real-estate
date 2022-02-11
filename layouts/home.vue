@@ -2,6 +2,7 @@
   <div :class="['home-wrapper', this.$route.name === 'index' ? 'no-padding' : '']">
     <Navbar></Navbar>
     <Nuxt />
+    <Footer></Footer>
   </div>
 </template>
 

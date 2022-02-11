@@ -43,17 +43,15 @@ export default class Settings extends Vue {
 }
 
 .settings-wrapper {
-  padding-top: 110px !important;
-  min-height: 100vh;
+  margin-top: 80px !important;
+  min-height: 100%;
   width: 100%;
   padding-bottom: 0px;
 
   .preview-wrapper {
-    margin-top: 80px;
     width: 1280px;
     margin: 0 auto;
     background: #fff;
-    height: fit-content;
 
     &.messages {
       background: transparent;

@@ -159,6 +159,11 @@ ul.orders li {
   border-radius: 6px;
   padding: 24px;
 
+  @include for-phone-only {
+    padding: 24px !important;
+    height: 100% !important;
+  }
+
   h5 {
     font-size: 20px;
     font-weight: 300;

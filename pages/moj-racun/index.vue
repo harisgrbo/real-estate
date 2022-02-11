@@ -163,7 +163,8 @@ export default class accountpage extends Vue {
   padding: 24px;
 
   @include for-phone-only {
-    padding: 24px !important
+    padding: 24px !important;
+    height: 100% !important;
   }
 }
 

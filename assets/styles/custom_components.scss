@@ -238,6 +238,11 @@ input[type=number] {
   flex-direction: column;
   border-radius: 4px;
   padding: 24px 0 !important;
+
+  @include for-phone-only {
+    padding: 24px !important;
+    height: 100% !important;
+  }
 }
 
 .no-image img {
