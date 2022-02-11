@@ -1,48 +1,34 @@
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'NunitoSans';
   font-style: normal;
   font-weight: 100;
-  src: url('./Outfit-Thin.ttf') format('truetype') /* Modern Browsers */
+  src: url('./NunitoSans-ExtraLight.ttf') format('truetype') /* Modern Browsers */
 }
 
 @font-face {
-  font-family: 'Outfit';
-  font-style: normal;
-  font-weight: 200;
-  src: url('./Outfit-ExtraLight.ttf') format('truetype') /* Modern Browsers */
-}
-
-@font-face {
-  font-family: 'Outfit';
+  font-family: 'NunitoSans';
   font-style: normal;
   font-weight: 300;
-  src: url('./Outfit-Light.ttf') format('truetype') /* Modern Browsers */
+  src: url('./NunitoSans-ExtraLight.ttf') format('truetype') /* Modern Browsers */
 }
 
-/*@font-face {*/
-/*  font-family: 'Outfit';*/
-/*  font-style: normal;*/
-/*  font-weight: 400;*/
-/*  src: url('./Outfit-Regular.ttf') format('truetype') !* Modern Browsers *!*/
-/*}*/
-
-/*@font-face {*/
-/*  font-family: 'Outfit';*/
-/*  font-style: normal;*/
-/*  font-weight: 500;*/
-/*  src: url('./Outfit-Medium.ttf') format('truetype') !* Modern Browsers *!*/
-/*}*/
+@font-face {
+  font-family: 'NunitoSans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./NunitoSans-Regular.ttf') format('truetype') /* Modern Browsers */
+}
 
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'NunitoSans';
   font-style: normal;
   font-weight: 600;
-  src: url('./Outfit-SemiBold.ttf') format('truetype') /* Modern Browsers */
+  src: url('./NunitoSans-SemiBold.ttf') format('truetype') /* Modern Browsers */
 }
 
 @font-face {
-  font-family: 'Outfit';
+  font-family: 'NunitoSans';
   font-style: normal;
   font-weight: 700;
-  src: url('./Outfit-Bold.ttf') format('truetype') /* Modern Browsers */
+  src: url('./NunitoSans-Bold.ttf') format('truetype') /* Modern Browsers */
 }

@@ -1,9 +1,9 @@
 <template>
-  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'artikal-id' || $route.name === 'pretraga' || $route.name === 'index' ? 'objava' : '']">
+  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'moj-racun-poruke' || $route.name === 'artikal-id' || $route.name === 'pretraga' || $route.name === 'index' ? 'objava' : '', $route.name === 'moj-racun-poruke' ? 'poruke' : '']">
     <div
       class="header"
       :class="{ 'navbar--hidden': !showNavbar }"
-      v-if="$route.name !== 'artikal-id' && $route.name !== 'objava.vue'"
+      v-if="$route.name !== 'artikal-id' && $route.name !== 'objava.vue' && $route.name !== 'moj-racun-poruke'"
     >
       <Navbar></Navbar>
     </div>
@@ -11,7 +11,7 @@
     <div
       class="navbar"
       :class="{ 'bottom--hidden': !showBottom }"
-      v-show="$route.name !== 'objava' && $route.name !== 'artikal-id' && $route.name !== 'pretraga'"
+      v-show="$route.name !== 'objava' && $route.name !== 'artikal-id'"
     >
       <MobileBottomNavbar @open-sidenav="handleOpenSidebar"></MobileBottomNavbar>
     </div>
@@ -20,7 +20,7 @@
         <div class="modal-inner">
 <!--          <i class="material-icons" @click.prevent="$modal.hide('sidebar')">close</i>-->
           <div class="modal-content">
-            <sidenav @close-sidenav="$modal.hide('sidebar')"></sidenav>
+            <MobileSidenav @close-sidenav="$modal.hide('sidebar')"></MobileSidenav>
           </div>
         </div>
       </modal>
@@ -32,10 +32,10 @@
 import {Component, Vue, Watch} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
-import sidenav from "@/components/sidenav"
+import MobileSidenav from "@/components/MobileSidenav"
 
 @Component({
-  components: {Navbar, MobileBottomNavbar, sidenav}
+  components: {Navbar, MobileBottomNavbar, MobileSidenav}
 })
 
 export default class Mobile extends Vue {
@@ -114,6 +114,10 @@ export default class Mobile extends Vue {
     background: #fff;
   }
 
+  &.poruke {
+    padding-bottom: 0 !important;
+  }
+
   &.publish {
     padding-top: 0 !important;
   }
@@ -140,7 +144,7 @@ export default class Mobile extends Vue {
   }
 }
 .header {
-  height: 60px;
+  height: 80px;
   width: 100vw;
   position: fixed;
   z-index: 10;

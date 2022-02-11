@@ -83,7 +83,7 @@
               </div>
               <!-- END: Official Store -->
               <!-- BEGIN: Weekly Best Sellers -->
-              <div class="sm:w-full lg:w-1/3 xl:w-1/3 up:w-1/3 xl:ml-8 lg:ml-8 up:ml-8 sm:ml-0 mt-5">
+              <div class="sm:w-full lg:w-1/3 xl:w-1/3 up:w-1/3 xl:ml-8 lg:ml-8 up:ml-8 sm:ml-0 mt-5" v-if="agents.length">
                 <div class=" flex items-center h-10">
                   <h2 class="text-lg font-medium truncate mr-5">
                     Top 5 agenata

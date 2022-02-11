@@ -161,6 +161,10 @@ export default class accountpage extends Vue {
   flex-direction: column;
   border-radius: 6px;
   padding: 24px;
+
+  @include for-phone-only {
+    padding: 24px !important
+  }
 }
 
 .account-wrapper-a {
@@ -224,7 +228,7 @@ export default class accountpage extends Vue {
       }
 
       h2 {
-        //font-family: 'Outfit', sans-serif;
+        //font-family: 'NunitoSans', sans-serif;;
         font-weight: 500;
         font-size: 20px;
         margin-bottom: 36px;

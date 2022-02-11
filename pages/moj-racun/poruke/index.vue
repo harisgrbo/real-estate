@@ -21,7 +21,7 @@
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full h-full">
                     <div class="flex items-center w-full">
-                      <div class="text-gray-700 font-light text-sm">{{ others(conversation).map(item => item.name).join(',') }}</div>
+                      <div class="text-gray-700 font-normal text-sm">{{ others(conversation).map(item => item.name).join(',') }}</div>
                       <div class="text-xs text-gray-900 font-medium ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
                     <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
@@ -191,7 +191,7 @@
             <div class="chat__box box">
               <!-- BEGIN: Chat Active -->
               <div v-if="currentConversation" class="h-full flex flex-col bg-white rounded-md">
-                <div class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 px-4 py-3">
+                <div class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 py-3">
                   <div class="flex items-center">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                       <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
@@ -401,7 +401,7 @@ import SmallListingCard from "../../../components/SmallListingCard";
   },
   mixins: [clickaway],
   middleware: ['auth'],
-  layout() { return "search" },
+  layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'search',
   async asyncData(ctx) {
     let conversations = [];
 
@@ -452,6 +452,10 @@ export default class Poruke extends Vue {
     }
 
     this.isMounted = true;
+  }
+
+  created() {
+    console.log(this.$route)
   }
 
   selectEmoji(emoji) {
@@ -786,9 +790,6 @@ textarea {
   }
 }
 
-.modal-inner {
-  padding: 0 !important;
-}
 
 .chat__box.box {
   @include for-phone-only {
@@ -806,7 +807,7 @@ textarea {
 }
 
 .chat .chat__tabs a {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'NunitoSans', sans-serif;;
   height: 48px;
   border-radius: 6px;
   width: fit-content;
@@ -823,7 +824,7 @@ textarea {
   color: #848484;
 }
 .chat .chat__tabs a.active {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'NunitoSans', sans-serif;;
   height: 48px;
   border-radius: 6px;
   width: fit-content;
@@ -846,9 +847,9 @@ textarea {
   padding: 24px;
 
   @include for-phone-only {
-    padding-top: 16px;
-    height: 100vh;
+    padding-top: 0px;
     overflow-y: scroll;
+    height: calc(100vh - 140px) !important;
   }
 }
 
@@ -856,6 +857,10 @@ textarea {
   display: flex;
   position: relative;
   border-bottom: 1px solid #f1f1f1;
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   &.active-chat {
     background: #f9f9f9;
@@ -937,10 +942,17 @@ textarea {
   max-height: 500px !important;
 
   @include for-phone-only {
-    min-height: calc(100vh - 200px);
-    height: calc(100vh - 200px);
-    max-height: calc(100vh - 200px);
-    padding: 0 24px;
+    padding: 0px;
+    height: calc(100vh - 220px) !important;
+    min-height: calc(100vh - 220px) !important;
+    max-height: calc(100vh - 220px) !important;
+
+    @supports (-webkit-touch-callout: none) {
+      padding-bottom: calc(49px + env(safe-area-inset-bottom));
+      min-height: -webkit-fill-available !important;
+      height: -webkit-fill-available !important;
+      max-height: -webkit-fill-available !important;
+    }
   }
 }
 
@@ -1108,6 +1120,7 @@ img {
   img {
     height: fit-content;
     width: 200px;
+    height: 180px;
   }
 
   h3 {

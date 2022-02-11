@@ -157,14 +157,14 @@ label {
 .first-part {
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'NunitoSans', sans-serif;;
   color: #002F34;
   margin-left: 5px;
 }
 .second-part {
   font-size: 20px;
   font-weight: 500;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'NunitoSans', sans-serif;;
   color: #002F34;
 }
 

@@ -79,6 +79,11 @@ a {
   justify-content: flex-start;
   flex-direction: column;
   padding: 36px 0!important;
+  height: 100% !important;
+
+  @include for-phone-only {
+    padding: 0 24px !important;
+  }
 }
 
 .nuxt-link-active.inner {

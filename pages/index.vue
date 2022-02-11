@@ -72,13 +72,13 @@
 <!--         data-ad-slot="9795532766"-->
 <!--         data-ad-format="auto"-->
 <!--         data-full-width-responsive="true"></ins>-->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-3745186233711216"
-         data-ad-slot="9795532766"
-         data-ad-format="auto"
-         data-full-width-responsive="true">
-    </ins>
+<!--    <ins class="adsbygoogle"-->
+<!--         style="display:block"-->
+<!--         data-ad-client="ca-pub-3745186233711216"-->
+<!--         data-ad-slot="9795532766"-->
+<!--         data-ad-format="auto"-->
+<!--         data-full-width-responsive="true">-->
+<!--    </ins>-->
     <div class="flex flex-col">
       <div class="flex custom-width items-center justify-between title-wrapper">
         <h2 class="section-title" ssr-only="stanovi sarajevo stan na dan najam izdavanje rentanje novogradnja iznajmljivanje">Premium oglasi</h2>
@@ -1380,12 +1380,6 @@ button.search {
   }
 }
 
-.no-padding {
-  @include for-phone-only {
-    padding-top: 80px;
-  }
-}
-
 ::v-deep .mobile-user {
   min-width: 180px;
 }
@@ -1413,7 +1407,7 @@ button.search {
   margin-bottom: 16px;
 
   @include for-phone-only {
-    margin-top: 36px;
+    margin-top: 42px;
 
     &.agency {
       padding-right: 16px;

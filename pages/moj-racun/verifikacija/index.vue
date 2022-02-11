@@ -138,7 +138,7 @@ export default class Verifikacija extends Vue {
       font-weight: 400;
       font-size: 16px;
       line-height: 22px;
-      font-family: 'Outfit', sans-serif;
+      font-family: 'NunitoSans', sans-serif;;
       margin-top: 36px;
       color: #565656;
     }

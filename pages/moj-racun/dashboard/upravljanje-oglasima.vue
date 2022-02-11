@@ -176,8 +176,12 @@ export default class UpravljanjeOglasima extends Vue {
   .mobile-grid {
     @include for-phone-only {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
       padding-top: 20px;
+    }
+
+    ::v-deep .listing-card-wrapper img {
+      height: 220px !important;
     }
   }
 

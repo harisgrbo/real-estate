@@ -32,7 +32,7 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'NunitoSans', sans-serif;;
   height: 48px;
   border-radius: 6px;
   width: fit-content;

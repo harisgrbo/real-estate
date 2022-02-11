@@ -303,7 +303,7 @@
             </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.video_url !== null">
               <div class="separator"></div>
-              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Video</h3>
+              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">Video</h3>
               <div v-if="listing.video_url !== null">
                 <div v-html="listing.video_url"></div>
               </div>
@@ -1790,7 +1790,7 @@ h2 {
     align-items: center;
     justify-content: center;
     border-radius: 6px;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'NunitoSans', sans-serif;;
     font-size: 13px;
     font-weight: 500;
     margin-bottom: 24px;
