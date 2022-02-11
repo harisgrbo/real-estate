@@ -65,7 +65,6 @@ export default class NotificationsDropdown extends Vue {
     height: calc(100vh - 100px);
   }
 
-
 }
 
 .no-notifications {

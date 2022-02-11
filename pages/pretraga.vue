@@ -1012,7 +1012,7 @@ export default class Homepage extends Vue {
     background: transparent;
     cursor: pointer;
     transition: 0.3s all ease;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'NunitoSans', sans-serif;;
 
     &:hover {
       border: 1px solid #444;

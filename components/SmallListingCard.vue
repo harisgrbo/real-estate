@@ -289,7 +289,7 @@ a {
       }
 
       button {
-        font-family: 'Outfit', sans-serif;
+        font-family: 'NunitoSans', sans-serif;;
         border: none;
         margin-right: 8px;
         border-radius: 2px;

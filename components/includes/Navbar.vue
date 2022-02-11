@@ -1115,7 +1115,8 @@ export default class Navbar extends Vue {
 
 .notify {
   height: 14px;
-  width: 14px;
+  width: fit-content;
+  padding: 0 3px;
   border-radius: 7px;
   font-weight: 600;
   color: #fff;
@@ -1132,14 +1133,14 @@ export default class Navbar extends Vue {
 .first-part {
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'NunitoSans', sans-serif;;
   color: #002F34;
   margin-left: 5px;
 }
 .second-part {
   font-size: 20px;
   font-weight: 500;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'NunitoSans', sans-serif;;
   color: #002F34;
 }
 
