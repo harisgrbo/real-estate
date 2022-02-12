@@ -393,7 +393,7 @@
                   </svg>
                 </div>
                 <input class="review-input" type="range" min="1" max="5" placeholder="Ocjena od 1 do 5" v-model="review_rating" />
-                <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview()"></ActionButton>
+                <ActionButton placeholder="Ostavi dojam" :style-options="{ border: 'none', color: '#fff', height: '52px', fontSize: '13px', width: 'auto', marginTop: '24px' }" :loading="false" @action="submitReview(); $modal.hide('leave-review')"></ActionButton>
               </div>
             </div>
           </modal>

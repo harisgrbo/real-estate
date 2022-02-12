@@ -449,6 +449,7 @@ export default class Agencies extends Vue {
 
   @include for-phone-only {
     padding: 16px;
+    padding-bottom: 120px;
   }
 
   .user-content-wrapper {

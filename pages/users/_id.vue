@@ -382,6 +382,8 @@ export default class Users extends Vue {
   @include for-phone-only {
     width: 100%;
     padding: 0 16px;
+    padding-bottom: 120px;
+
   }
 
   .user-content-wrapper {

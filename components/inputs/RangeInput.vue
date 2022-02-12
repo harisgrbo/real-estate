@@ -3,6 +3,7 @@
     <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">{{ attr.name }} {{ attr.required ? '*': '' }}</label>
     <input
       type="number" v-model="val" @input="handleChange"
+      autocomplete="off"
       name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
   </div>
 </template>

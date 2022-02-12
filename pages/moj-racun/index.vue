@@ -10,12 +10,15 @@
         </div>
         <div class="grid grid-cols-3 gap-4 pb-1 mobile-grid">
           <div  v-for="(tab, index) in tabs"
-                :key="index" class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 overflow-hidden shadow-md hover:shadow-lg divide-y divide-gray-200 sm:divide-y-0 rounded-lg">
+                :key="index" :class="['rounded-tl-lg relative rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 overflow-hidden shadow-md hover:shadow-lg divide-y divide-gray-200 sm:divide-y-0 rounded-lg']">
+                <div class="warning" v-if=" tab.name === 'Plaćanja'">
+                  <span>Uskoro dostupna opcija</span>
+                </div>
             <div>
-            <span class="flex items-start justify-start">
-              <!-- Heroicon name: outline/clock -->
-               <img class="max-h-12" :src="'/settings/' + tab.icon" alt="">
-            </span>
+              <span class="flex items-start justify-start">
+                <!-- Heroicon name: outline/clock -->
+                 <img class="max-h-12" :src="'/settings/' + tab.icon" alt="">
+              </span>
             </div>
             <div class="mt-8">
               <h3 class="text-lg font-medium">
@@ -284,5 +287,24 @@ export default class accountpage extends Vue {
     background: #fff;
   }
 }
+
+  .warning {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 36px;
+    z-index: 10;
+
+    span {
+      font-size: 20px;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
 </style>
 

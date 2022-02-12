@@ -1,113 +1,77 @@
 <template>
   <div class="sidenav-wrapper flex flex-col justify-between h-full">
     <ul>
-      <li class="w-full items-center min-w-full justify-between" v-if="$device.isMobile">
-        <h2 class="w-full">Opcije</h2>
-        <svg @click="$emit('close-sidenav')" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 close" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </li>
       <li v-if="$auth.user" class="user-label" @click="goToUser">
         <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
-        <div class="user-wrap">
-          <h2 class="text-lg font-medium text-black leading-5 text-left">{{ $auth.user.name }}</h2>
-          <dd class="mt-3">
-            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type($auth.user.user_type) }}</span>
+        <div class="user-wrap w-full">
+          <dd class="mt-3 w-full flex flex-col items-start justify-between">
+            <h2 class="text-3xl font-medium text-black leading-5 text-left">{{ $auth.user.name }}</h2>
+            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full mt-2">{{ user_type($auth.user.user_type) }}</span>
           </dd>
         </div>
       </li>
       <li v-if="$auth.user && $auth.user.user_type === 'agency'" class="w-full flex flex-col items-start sub-menu">
         <div class="flex flex-row items-center justify-start w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
+          <img src="/001-monitor.png" alt="">
           <nuxt-link to="/moj-racun/dashboard/analitika">Dashboard</nuxt-link>
         </div>
 
         <ul class="w-full inner-ul mt-2">
           <li>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-            </svg>
+            <img src="/002-dashboard.png" alt="">
             <nuxt-link to="/moj-racun/dashboard/analitika">Analitika</nuxt-link>
           </li>
           <li>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-            </svg>
+            <img src="/004-settings.png" alt="">
             <nuxt-link to="/moj-racun/dashboard/postavke-agencije">Postavke agencije</nuxt-link>
           </li>
           <li>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
+            <img src="/003-temporary-agency.png" alt="">
             <nuxt-link to="/moj-racun/dashboard/agenti-za-nekretnine">Agenti za nekretnine</nuxt-link>
           </li>
           <li>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-            </svg>
+            <img src="/005-real-estate.png" alt="">
             <nuxt-link to="/moj-racun/dashboard/upravljanje-oglasima">Upravljanje oglasima</nuxt-link>
           </li>
         </ul>
       </li>
-      <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between">
+      <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between" disabled>
         <div class="flex flex-row items-center w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          <nuxt-link to="/moj-racun/placanja">Plaćanja</nuxt-link>
+          <img src="/005-credit-card.png" alt="">
+          <nuxt-link to="">Plaćanja</nuxt-link>
         </div>
         <span class="bg-gray-50 balance p-1 min-w-min font-semibold text-sm text-gray-800">{{ $auth.user.wallet.balance + ' KM' }}</span>
       </li>
       <li v-if="$auth.user && $auth.user.user_type !== 'agency'">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-        </svg>
+        <img src="/001-article.png" alt="">
         <nuxt-link to="/moj-racun/moji-oglasi">Moji oglasi</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
+        <img src="/003-settings.png" alt="">
         <nuxt-link to="/moj-racun/">Postavke</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-        </svg>
-        <nuxt-link to="/moj-racun/poruke">Chat</nuxt-link>
+        <img src="/001-speech-bubble.png" alt="">
+        <nuxt-link to="/moj-racun/poruke">Poruke</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-        </svg>
+        <img src="/002-heart.png" alt="">
         <nuxt-link to="/moj-racun/spaseno">Spašeno</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
+        <img src="/007-user.png" alt="">
         <nuxt-link to="/moj-racun/uredi-profil">Uredi profil</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
-        </svg>
+        <img src="/006-calendar.png" alt="">
         <nuxt-link to="/moj-racun/moje-rezervacije" class="font-medium">Moje rezervacije</nuxt-link>
       </li>
       <li v-if="$auth.user">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
+        <img src="/004-ask.png" alt="">
         <nuxt-link to="/moj-racun/oglasi-koje-izdajem" class="font-medium">Zahtjevi za rezervacije</nuxt-link>
       </li>
       <li v-if="$auth.user" @click="logout()" class="text-red-600">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-        </svg>
+        <img src="/008-logout.png" alt="">
         <a class="text-red-600">Odjavi se</a>
       </li>
     </ul>
@@ -166,157 +130,126 @@ export default class sidenav extends Vue {
 </script>
 
 <style scoped lang="scss">
-@mixin for-laptop {
-  @media (min-width: 768px) and (max-width: 1023px) {
-    @content;
-  }
-}
-@mixin for-desktop-up {
-  @media (min-width: 1200px) {
-    @content;
-  }
-}
-@mixin for-big-desktop-up {
-  @media (min-width: 1800px) {
-    @content;
-  }
-}
-@mixin for-phone-only {
-  @media (max-width: 599px) {
-    @content;
-  }
-}
-  ul {
-    padding: 0;
+ul {
+  li {
+    height: 50px;
+    font-size: 15px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #444;
+    margin-bottom: 0px;
 
-    @include for-phone-only {
-      padding: 0px;
+    &:hover {
+      text-decoration: underline;
+
+      &.sub-menu {
+        text-decoration: none;
+      }
     }
-    li {
-      height: 40px;
-      font-size: 15px;
-      font-weight: 400;
-      padding: 0 12px;
+    img {
+      height: 24px !important;
+      min-width: auto !important;
+      max-width: auto !important;
+      width: auto !important;
+    }
+    &.sub-menu {
+      height: fit-content;
+      margin-bottom: 0;
+
+      li {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    a {
+      height: 100%;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      cursor: pointer;
-      border-radius: 5px;
+    }
+
+    &.login {
+      font-weight: 600;
+    }
+
+    &.logout {
+      border-top: 1px solid #f1f1f1;
+      margin-top: 16px;
+    }
+    h2 {
       color: #444;
-      margin-bottom: 0px;
+      font-size: 22px !important;
+      font-weight: 600;
+    }
 
+    &.links {
       &:hover {
-        text-decoration: underline;
-
-        &.sub-menu {
-          text-decoration: none;
-        }
+        background: none;
+        cursor: default;
       }
+    }
+
+    svg {
+      margin-right: 10px;
+
+      &.close {
+        margin-right: 0;
+      }
+    }
+
+    h2 {
+      font-size: 16px;
+      color: #444 !important;
+    }
+
+    &.user-label {
+      height: fit-content;
+      cursor: pointer;
+      padding-bottom: 12px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+      height: fit-content !important;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #EBEBEB;
 
       img {
-        height: 20px;
-      }
-      &.sub-menu {
-        height: fit-content;
-        margin-bottom: 0;
-
-        li {
-          &:hover {
-            text-decoration: underline;
-          }
-        }
+        height: 60px !important;
+        width: 60px !important;
+        border-radius: 30px;
+        margin-right: 12px;
+        object-fit: cover;
       }
 
-      @include for-phone-only {
-        height: 50px;
-      }
-
-      a {
-        height: 100%;
-        width: 100%;
+      .user-wrap {
         display: flex;
-        align-items: center;
-        justify-content: flex-start;
-      }
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
 
-      @include for-phone-only {
-        padding: 0;
-      }
-
-      &.login {
-        font-weight: 600;
-      }
-
-      &.logout {
-        border-top: 1px solid #f1f1f1;
-        margin-top: 16px;
-      }
-      h2 {
-        color: #444;
-        font-size: 14px !important;
-        font-weight: 600;
-      }
-
-      &.links {
-        &:hover {
-          background: none;
-          cursor: default;
-        }
-      }
-
-      svg {
-        margin-right: 10px;
-
-        &.close {
-          margin-right: 0;
-        }
-      }
-
-      h2 {
-        font-size: 16px;
-        color: #444 !important;
-      }
-
-      &.user-label {
-        height: fit-content;
-        cursor: pointer;
-        padding-bottom: 12px;
-
-
-        @include for-phone-only {
-          padding: 0px 0px 24px 0px;
-
-        }
-        img {
-          height: 60px;
-          width: 60px;
-          border-radius: 30px;
-          margin-right: 12px;
-          object-fit: cover;
+        label {
+          font-size: 15px;
         }
 
-        .user-wrap {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 100%;
-
-          label {
-            font-size: 15px;
-          }
-
-          p {
-            font-size: 12px;
-            font-weight: 600;
-          }
+        p {
+          font-size: 12px;
+          font-weight: 600;
         }
       }
     }
   }
+}
 
 img {
-  height: 20px;
-  color: #4AAE9B;
   margin-right: 12px;
 }
 
@@ -355,12 +288,17 @@ button.logout {
 }
 
 .sidenav-wrapper {
-  @include for-phone-only {
-    padding-bottom: 80px;
-  }
+  height: fit-content;
+  max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .balance {
   min-width: fit-content;
 }
+
+.separate {
+  border-bottom: 1px solid #EBEBEB;
+}
 </style>
+
