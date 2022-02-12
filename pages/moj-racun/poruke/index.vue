@@ -432,21 +432,28 @@ export default class Poruke extends Vue {
   showImageUpload = false;
   openImageGallery = false;
   selectedImage = ''
+  oldX = null;
+  oldY = null;
 
   mounted() {
+    this.readMessageNotifications();
+
     let xPos = null;
     let yPos = null;
+
+    let self = this;
+
     window.addEventListener( "touchmove", function ( event ) {
-      let touch = event.originalEvent.touches[ 0 ];
-      oldX = xPos;
-      oldY = yPos;
+      let touch = event.originalEvent.touches[0];
+      self.oldX = xPos;
+      self.oldY = yPos;
       xPos = touch.pageX;
       yPos = touch.pageY;
-      if ( oldX == null && oldY == null ) {
+      if (self.oldX == null && self.oldY == null ) {
         return false;
       }
       else {
-        if ( Math.abs( oldX-xPos ) > Math.abs( oldY-yPos ) ) {
+        if ( Math.abs( self.oldX-xPos ) > Math.abs( self.oldY-yPos ) ) {
           event.preventDefault();
           return false;
         }
@@ -470,6 +477,14 @@ export default class Poruke extends Vue {
     }
 
     this.isMounted = true;
+  }
+
+  async readMessageNotifications() {
+    try {
+      await this.$axios.post('/profile/messages/read');
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   selectEmoji(emoji) {
