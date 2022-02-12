@@ -611,7 +611,7 @@ export default class ListingCard extends Vue{
     z-index: 6;
     border-radius: 7px;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-    padding: 24px;
+    padding: 12px;
     box-sizing: border-box;
     align-items: flex-start;
     justify-content: flex-start;

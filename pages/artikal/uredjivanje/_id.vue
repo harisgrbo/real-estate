@@ -188,7 +188,7 @@
           </div>
         </div>
       </div>
-      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '6px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
+      <ActionButton @action="saveChanges" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', borderRadius: '6px', minHeight: '48px', height: '48px', marginRight: '24px', fontSize: '13px', width: $device.isMobile ? '100%' : 'auto', paddingBottom: $device.isMobile ? 'pb-8' : 'auto'}" class="mt-6" placeholder="Spasi izmjene"></ActionButton>
     </div>
   </div>
 </template>
@@ -748,6 +748,17 @@ export default class ListingEdit extends Vue {
   flex-direction: column;
   border-radius: 6px;
   padding: 0 24px 24px 24px;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100% !important;
+
+  @include for-phone-only {
+    width: 100%;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    padding-bottom: 100px !important;
+  }
 }
 
 .horizontal-progress {
