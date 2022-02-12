@@ -38,6 +38,7 @@ export default class TextField extends Vue{
   @Prop({}) value;
   @Prop({ type: String, default: '' }) id;
   @Prop({type: Boolean}) currency;
+  @Prop() max
 
   updateValue(value) {
     this.$emit('input', value)

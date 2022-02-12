@@ -20,44 +20,46 @@
 
           <InputError :error="errors.price" />
           <TextField type="number" label="Cijena" v-model="listing.price" :currency="true"></TextField>
-          <div class="bg-50 flex flex-col w-full">
-            <div class="flex flex-row items-end">
-              <TextField type="number" label="Popust na cijenu" v-model="discount" discount="true"></TextField>
-              <action-button class="ml-4" @action="addDiscount" v-show="discount.length > 0" placeholder="Potvrdi popust"></action-button>
-            </div>
-            <div class="mt-3" v-if="discount.length">
-              <label class="block text-md font-medium text-gray-900 mb-2">Period akcije</label>
-              <vc-date-picker
-                :min-date="new Date()"
-                v-model="range"
-                :masks="masks"
-                is-expanded="true"
-                is-range
-              >
-                <template v-slot="{ inputValue, inputEvents, isDragging }">
-                  <div class="flex flex-row justify-start items-center">
-                    <div class="relative flex-grow w-full">
-                      <svg
-                        class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path>
-                      </svg>
-                      <input
-                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
-                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                        :value="inputValue.start"
-                        v-on="inputEvents.start"
-                      />
-                    </div>
-                    <span class="flex-shrink-0 m-2">
+        </div>
+        <DropdownAutocomplete label="Lokacija" placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></DropdownAutocomplete>
+        <div class="bg-50 flex flex-col w-full mt-6">
+          <div class="flex flex-row items-end">
+            <TextField type="number" label="Popust na cijenu (u postotcima)" placeholder="npr. 90" v-model="discount" discount="true"></TextField>
+            <action-button class="ml-4" @action="addDiscount" v-show="discount.length > 0" placeholder="Potvrdi popust"></action-button>
+          </div>
+          <div class="mt-3" v-if="discount.length">
+            <label class="block text-md font-medium text-gray-900 mb-2">Period akcije</label>
+            <vc-date-picker
+              :min-date="new Date()"
+              v-model="range"
+              :masks="masks"
+              is-expanded="true"
+              is-range
+            >
+              <template v-slot="{ inputValue, inputEvents, isDragging }">
+                <div class="flex flex-row justify-start items-center">
+                  <div class="relative flex-grow w-full">
+                    <svg
+                      class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                    <input
+                      class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                      :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                      :value="inputValue.start"
+                      v-on="inputEvents.start"
+                    />
+                  </div>
+                  <span class="flex-shrink-0 m-2">
               <svg
                 class="w-4 h-4 stroke-current text-gray-600"
                 viewBox="0 0 24 24"
@@ -70,39 +72,37 @@
                 />
               </svg>
             </span>
-                    <div class="relative flex-grow w-full">
-                      <svg
-                        class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        ></path>
-                      </svg>
-                      <input
-                        class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
-                        :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
-                        :value="inputValue.end"
-                        v-on="inputEvents.end"
-                      />
-                    </div>
+                  <div class="relative flex-grow w-full">
+                    <svg
+                      class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                    <input
+                      class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full date-input"
+                      :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
+                      :value="inputValue.end"
+                      v-on="inputEvents.end"
+                    />
                   </div>
-                </template>
-              </vc-date-picker>
-            </div>
+                </div>
+              </template>
+            </vc-date-picker>
           </div>
         </div>
-        <DropdownAutocomplete label="Lokacija" placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></DropdownAutocomplete>
 
         <PublishMap :location="listing" @latlng="handleLatLng"></PublishMap>
         <InputError :error="errors.city" />
         <InputError :error="errors.description" />
-        <TextAreaField class="mt-4" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="listing.video_url"></TextAreaField>
+        <TextAreaField class="mt-6" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5" v-model="listing.video_url"></TextAreaField>
         <client-only>
           <div class="pt-4">
             <label class="block text-md font-medium text-gray-900 mb-2">Opis</label>
@@ -848,6 +848,7 @@ export default class ListingEdit extends Vue {
     height: 100%;
     width: 70%;
     margin: 0 auto;
+    padding-bottom: 120px !important;
 
     @include for-phone-only {
       margin-left: 0;
@@ -856,6 +857,7 @@ export default class ListingEdit extends Vue {
       padding-top: 24px;
       width: 100%;
       padding: 16px;
+      padding-bottom: 120px !important;
     }
 
     .step-3 {
