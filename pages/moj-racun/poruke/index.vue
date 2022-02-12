@@ -1038,6 +1038,8 @@ img {
   width: fit-content;
   border-radius: 6px;
   margin-bottom: 4px;
+  min-width: auto !important;
+  width: auto !important;
 }
 
 .image-gallery {
