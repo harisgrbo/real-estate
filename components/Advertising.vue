@@ -1,5 +1,5 @@
 <template>
-  <div class="advertising-options-wrapper">
+  <div :class="['advertising-options-wrapper', publish ? 'remove-width' : '']">
     <div :class="['inner', publishing ? 'full' : '']">
       <h2 class="test">
         Sponzorisanje oglasa
@@ -206,6 +206,10 @@ export default class Advertising extends Vue {
   justify-content: space-between;
   width: 1280px;
   margin: 0 auto;
+
+  &.remove-width {
+    width: 100%;
+  }
 
   @include for-phone-only {
     width: 100%;

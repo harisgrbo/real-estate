@@ -75,7 +75,7 @@
   }
 
   @supports (-webkit-touch-callout: none) {
-    bottom: calc(49px + env(safe-area-inset-bottom));
+    padding-bottom: calc(49px + env(safe-area-inset-bottom));
   }
 }
 

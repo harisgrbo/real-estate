@@ -434,6 +434,24 @@ export default class Poruke extends Vue {
   selectedImage = ''
 
   mounted() {
+    let xPos = null;
+    let yPos = null;
+    window.addEventListener( "touchmove", function ( event ) {
+      let touch = event.originalEvent.touches[ 0 ];
+      oldX = xPos;
+      oldY = yPos;
+      xPos = touch.pageX;
+      yPos = touch.pageY;
+      if ( oldX == null && oldY == null ) {
+        return false;
+      }
+      else {
+        if ( Math.abs( oldX-xPos ) > Math.abs( oldY-yPos ) ) {
+          event.preventDefault();
+          return false;
+        }
+      }
+    } );
     this.$nextTick(() => {
       try {
         // this is required for each ad slot (calling this once will only load 1 ad)
@@ -939,12 +957,12 @@ textarea {
 
   @include for-phone-only {
     padding: 0px;
-    height: calc(100vh - 220px) !important;
-    min-height: calc(100vh - 220px) !important;
-    max-height: calc(100vh - 220px) !important;
+    height: calc(100vh - 250px) !important;
+    min-height: calc(100vh - 250px) !important;
+    max-height: calc(100vh - 250px) !important;
 
     @supports (-webkit-touch-callout: none) {
-      padding-bottom: calc(49px + env(safe-area-inset-bottom));
+      padding-bottom: calc(200px + env(safe-area-inset-bottom));
       min-height: -webkit-fill-available !important;
       height: -webkit-fill-available !important;
       max-height: -webkit-fill-available !important;
