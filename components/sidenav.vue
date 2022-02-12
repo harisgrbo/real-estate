@@ -1,5 +1,23 @@
 <template>
   <div class="sidenav-wrapper flex flex-col justify-between h-full">
+    <div class="rounded-md bg-yellow-50 p-4 mb-4" v-if="$auth.user && $auth.user.verified === false">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <!-- Heroicon name: solid/exclamation -->
+          <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-yellow-800">Pažnja</h3>
+          <div class="mt-2 text-sm text-yellow-700">
+            <p class="text-xs">Verifikacijski link dostavljen na {{ $auth.user.email }}"</p>
+            <p class="text-xs mt-2">Ako ne vidite poruku provjerite spam folder, ako i dalje ne možete pronaci email pritisnite dugme ipod</p>
+            <ActionButton @action="resendVerificationMail()" class="mt-3" :loading="loadingResend" placeholder="Pošalji ponovo"></ActionButton>
+          </div>
+        </div>
+      </div>
+    </div>
     <ul>
       <li v-if="$auth.user" class="user-label" @click="goToUser">
         <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
@@ -38,7 +56,11 @@
       <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between" disabled>
         <div class="flex flex-row items-center w-full">
           <img src="/005-credit-card.png" alt="">
-          <nuxt-link to="">Plaćanja</nuxt-link>
+          <nuxt-link to="">Plaćanja
+            <dd class="ml-2">
+              <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Uskoro dostupno</span>
+            </dd>
+          </nuxt-link>
         </div>
         <span class="bg-gray-50 balance p-1 min-w-min font-semibold text-sm text-gray-800">{{ $auth.user.wallet.balance + ' KM' }}</span>
       </li>
@@ -80,11 +102,14 @@
 
 <script>
 import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
+import ActionButton from "./actionButtons/ActionButton";
 
 @Component({
+  components: {ActionButton}
 })
 
 export default class sidenav extends Vue {
+  loadingResend = false;
 
  @Watch('$route')
   handleWatcher(newVal, oldVal) {
@@ -106,6 +131,23 @@ export default class sidenav extends Vue {
     } else {
       return 'Agent'
     }
+  }
+
+  async resendVerificationMail() {
+   this.loadingResend = true;
+   try {
+     await this.$axios.post('/email/verification/resend');
+
+     this.$toast.open({
+       message: "Poslali smo Vam novi verifikacijski mail",
+       type: 'success',
+       duration: 5000
+     });
+
+     this.loadingResend = false;
+   } catch(e) {
+     console.log(e)
+   }
   }
 
   goToUser() {
