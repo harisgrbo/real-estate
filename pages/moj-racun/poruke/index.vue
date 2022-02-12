@@ -1043,8 +1043,8 @@ img {
 }
 
 #image {
-  height: 300px;
-  width: fit-content;
+  height: 100%;
+  width: auto !important;
   margin: 0 auto;
 }
 
