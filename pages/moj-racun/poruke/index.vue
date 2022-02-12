@@ -1043,8 +1043,8 @@ img {
 }
 
 #image {
-  height: 300px;
-  width: fit-content;
+  height: 100%;
+  width: auto !important;
   margin: 0 auto;
 }
 
@@ -1053,6 +1053,8 @@ img {
   width: fit-content;
   border-radius: 6px;
   margin-bottom: 4px;
+  min-width: auto !important;
+  width: auto !important;
 }
 
 .image-gallery {
