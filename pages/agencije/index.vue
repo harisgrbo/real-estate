@@ -7,7 +7,7 @@
           <UserCard v-for="agency in agencies" :id="agency.id" :user="agency" :key="agency.id" />
         </div>
         <div class="grid-layout" v-else>
-          <skeleton v-for="(i, index) in 10" :key="index" height="260px" width="207px"></skeleton>
+          <skeleton v-for="(i, index) in 3" :key="index" :height="$device.isMobile ? '178px' : '176px'" :width="$device.isMobile ? '340px' : '360px'"></skeleton>
         </div>
       </div>
     </div>
@@ -80,6 +80,7 @@ export default class Agencies extends Vue {
       flex-direction: column;
 
       @include for-phone-only {
+        padding: 24px;
       }
 
       h1 {
@@ -261,6 +262,14 @@ a {
   flex-direction: column;
   border-radius: 6px;
   padding: 24px;
+}
+
+::v-deep .box {
+  @include for-phone-only {
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
 }
 </style>
 

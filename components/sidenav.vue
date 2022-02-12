@@ -56,7 +56,11 @@
       <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between" disabled>
         <div class="flex flex-row items-center w-full">
           <img src="/005-credit-card.png" alt="">
-          <nuxt-link to="">Plaćanja</nuxt-link>
+          <nuxt-link to="">Plaćanja
+            <dd class="ml-2">
+              <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Uskoro dostupno</span>
+            </dd>
+          </nuxt-link>
         </div>
         <span class="bg-gray-50 balance p-1 min-w-min font-semibold text-sm text-gray-800">{{ $auth.user.wallet.balance + ' KM' }}</span>
       </li>

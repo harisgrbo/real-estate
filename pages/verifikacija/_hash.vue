@@ -1,5 +1,5 @@
 <template>
-  <div v-if="success">
+  <div v-if="success" class="success">
     <div class="rounded-md bg-green-50 p-4">
       <div class="flex">
         <div class="flex-shrink-0">
@@ -55,3 +55,17 @@ export default class Verifikacija extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+.success {
+  @include for-phone-only {
+    padding: 24px;
+  }
+}
+</style>
