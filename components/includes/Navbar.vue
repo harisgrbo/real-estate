@@ -318,12 +318,12 @@ export default class Navbar extends Vue {
   }
 
   async handleCloseNotifications() {
+    this.showNotifications = false;
+
     try {
       await this.$axios.post('/profile/notifications/read');
     } catch (e) {
       console.log(e)
-    } finally {
-      this.showNotifications = false;
     }
   }
 
