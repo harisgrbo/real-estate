@@ -1376,7 +1376,7 @@ button.search {
 }
 
 .main-title {
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 300;
   max-width: 900px;
   line-height: 57px;

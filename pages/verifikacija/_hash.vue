@@ -18,7 +18,7 @@ import Footer from "@/components/Footer"
 export default class Verifikacija extends Vue {
   success = false;
 
-  async created() {
+  async mounted() {
     await this.verify();
   }
 
