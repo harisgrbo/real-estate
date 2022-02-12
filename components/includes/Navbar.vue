@@ -239,7 +239,11 @@ export default class Navbar extends Vue {
   }
 
   @Watch('$route', { immediate: true, deep: true })
-  onUrlChange() {
+  onUrlChange(newVal, oldVal) {
+    if (newVal.name === 'moj-racun-poruke') {
+      this.messagesCount = 0;
+    }
+
     this.closeSidebar();
     this.away();
   }

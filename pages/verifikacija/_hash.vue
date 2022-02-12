@@ -31,23 +31,12 @@ export default class Verifikacija extends Vue {
       const signature = this.$route.query.signature || '';
       const id = this.$auth.user.id;
 
-      if (this.hasExpired(expires)) {
-        alert("Token za verifikaciju je istekao, posaljite novi zahtjev")
-        return;
-      }
-
       await this.$axios.get(`/email/verify/${id}/${hash}?signature=${signature}&expires=${expires}`);
 
       this.success = true;
     } catch (e) {
       alert("Nismo u mogućnosti da vam verifikujemo email");
     }
-  }
-
-  hasExpired(expires) {
-    const time = this.$moment.unix(expires);
-
-    return time.isBefore();
   }
 }
 </script>
