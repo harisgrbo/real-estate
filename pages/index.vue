@@ -23,7 +23,7 @@
               <div class="relative w-full flex flex-col items-start">
                 <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
                   <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Kategorija</label>
-                  <select id="language" name="language" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" v-model="selectedCategory">
+                  <select id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" v-model="selectedCategory">
                     <option class="font-medium text-sm" v-for="(category, index) in categories" :key="index" :value="category">{{ category.title }}</option>
                   </select>
                 </div>
@@ -315,8 +315,8 @@
     <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija" v-if="agenciesLoaded">
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
-    <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija" v-else>
-      <skeleton height="166px" width="360px" class="mr-5"></skeleton>
+    <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
+      <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4"></skeleton>
     </div>
   </div>
 </template>

@@ -14,7 +14,7 @@
             <div class="text-gray-600 text-sm font-normal mt-1"> {{
                 notification.text
               }}</div>
-            <div class="font-medium flex mt-5" @click="$emit('clicked')">
+            <div class="font-medium flex mt-3" @click="$emit('clicked')">
               <nuxt-link :to="{ path: '/' + notification.action }" class="flex justify-between space-x-3">
                 <button type="button" class="btn btn-primary py-1 px-2 text-white hover:text-white">Pogledaj</button>
               </nuxt-link>

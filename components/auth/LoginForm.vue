@@ -113,7 +113,6 @@ export default class LoginForm extends Vue{
 button {
   width: 100%;
   margin-top: 16px;
-  font-size: 16px;
 }
 
 label {

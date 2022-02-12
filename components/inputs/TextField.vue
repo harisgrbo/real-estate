@@ -6,6 +6,7 @@
         :type="type"
         :value="value"
         :placeholder="placeholder"
+        autocomplete="off"
         @change="updateValue($event.target.value)"
         name="name" :id="id" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
       <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">

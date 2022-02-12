@@ -391,6 +391,8 @@ export default class Agent extends Vue {
 
   @include for-phone-only {
     width: 100%;
+    padding-bottom: 120px;
+
   }
 
   @include for-phone-only {

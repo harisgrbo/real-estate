@@ -23,7 +23,7 @@
     <div v-if="currentType === 1">
       <form @submit.prevent="handleRealEstateAgencyRegistration">
         <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
-        <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-4 mt-1"></TextField>
+        <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-6 mt-1"></TextField>
         <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
         <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
         <PublishDropdown label="Lokacija" class="location mb-4" @select-option="handleSelectedCity"></PublishDropdown>
@@ -230,7 +230,6 @@ export default class RegisterForm extends Vue{
 button {
   width: 100%;
   margin-top: 16px;
-  font-size: 16px;
 }
 
 label {

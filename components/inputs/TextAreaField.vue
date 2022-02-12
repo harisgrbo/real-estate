@@ -1,5 +1,5 @@
 <template>
-  <div class="relative main-input-wrap border text-wrap border-gray-300 rounded-md shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+  <div class="relative main-input-wrap border text-wrap border-gray-300 rounded-md shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900 mt-4">
     <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500" v-if="label">{{ label }}</label>
     <textarea
       :value="value"

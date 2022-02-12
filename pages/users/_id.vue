@@ -48,7 +48,7 @@
                           @page-change="activePageChangeHandler" />
                       </div>
                       <div v-else class="grid-layout">
-                        <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '265px'" v-for="(i, index) in 20" :key="index"></Skeleton>
+                        <Skeleton :height="$device.isMobile ? '337px' : '372px'" :width="$device.isMobile ? '165px' : '289px'" v-for="(i, index) in 20" :key="index"></Skeleton>
                       </div>
                     </div>
                   </div>
@@ -80,64 +80,73 @@
           </main>
 
           <!-- Details sidebar -->
-          <aside class="user-wrap rounded-lg bg-white p-0 w-full lg:px-4 up:px-4 xl:px-4 ml-6 overflow-y-auto">
-            <div class="col-span-1 flex flex-col text-center bg-white divide-y divide-gray-200">
-              <div class="flex-1 flex flex-row justify-start p-0 pt-0 inner">
-                <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
-                <div class="w-full inner">
-                  <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
-                    <div class="flex flex-row items-center justify-between w-full">
-                      <h2 class="text-lg font-medium text-black leading-5 text-left">{{ user.name }}</h2>
-                      <dd>
-                        <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+          <div class="flex flex-col">
+            <aside class="user-wrap rounded-lg bg-white p-0 w-full lg:px-4 up:px-4 xl:px-4 ml-6 overflow-y-auto">
+              <div class="col-span-1 flex flex-col text-center bg-white divide-y divide-gray-200">
+                <div class="flex-1 flex flex-row justify-start p-0 pt-0 inner">
+                  <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                  <div class="w-full inner">
+                    <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
+                      <div class="flex flex-row items-center justify-between w-full">
+                        <h2 class="text-lg font-medium text-black leading-5 text-left">{{ user.name }}</h2>
+                        <dd>
+                          <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+                        </dd>
+                      </div>
+                      <dd class="mt-1 flex flex-row items-center justify-start">
+                        <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+                        {{ user.online ? 'Online' : 'Offline' }}
                       </dd>
                     </div>
-                    <dd class="mt-1 flex flex-row items-center justify-start">
-                      <span :class="['p-2 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
-                      {{ user.online ? 'Online' : 'Offline' }}
-                    </dd>
-                  </div>
-                  <div class="pl-4">
-                    <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                      </svg>
-                      <p>{{ user.working_agency.name }}</p>
+                    <div class="pl-4">
+                      <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        <p>{{ user.working_agency.name }}</p>
+                      </div>
+                      <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.hasOwnProperty('email')">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <p>{{ user.email }}</p></div>
                     </div>
-                    <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.hasOwnProperty('email')">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                      <p>{{ user.email }}</p></div>
+                  </div>
+                </div>
+                <div class="flex flex-row items-center justify-between mt-2 w-full" v-if="this.$auth.user">
+                  <div class="flex flex-row items-center grid grid-cols-2 gap-x-4 justify-between w-full" v-if="$auth.user.id !== user.id">
+                    <button class="flex-1 flex cursor-pointer" @click="$modal.show('contact-user')">
+                      <nuxt-link to="" class="mr-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
+                        <!-- Heroicon name: solid/mail -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <span class="ml-3">Poruka</span>
+                      </nuxt-link>
+                    </button>
+                    <button class="flex-1 flex cursor-pointer" @click="toggleFollow()">
+                      <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="ml-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <span class="ml-3">{{ isFollowed ? 'Otprati' : 'Zaprati' }}</span>
+                      </nuxt-link>
+                    </button>
+                  </div>
+                  <div class="flex flex-row items-center justify-between w-full" v-else>
+                    <action-button class="mt-4" placeholder="Uredi profil" @action="$router.push('/moj-racun/uredi-profil')" :style-options="{ width: '100%', background: '#1F2937', color: '#fff'}"></action-button>
                   </div>
                 </div>
               </div>
-              <div class="flex flex-row items-center justify-between mt-2 w-full" v-if="this.$auth.user">
-                <div class="flex flex-row items-center grid grid-cols-2 gap-x-4 justify-between w-full" v-if="$auth.user.id !== user.id">
-                  <button class="flex-1 flex cursor-pointer" @click="$modal.show('contact-user')">
-                    <nuxt-link to="" class="mr-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                      <!-- Heroicon name: solid/mail -->
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                      </svg>
-                      <span class="ml-3">Poruka</span>
-                    </nuxt-link>
-                  </button>
-                  <button class="flex-1 flex cursor-pointer" @click="toggleFollow()">
-                    <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="ml-2 relative flex-1 inline-flex items-center justify-center text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <span class="ml-3">{{ isFollowed ? 'Otprati' : 'Zaprati' }}</span>
-                    </nuxt-link>
-                  </button>
-                </div>
-                <div class="flex flex-row items-center justify-between w-full" v-else>
-                  <action-button class="mt-4" placeholder="Uredi profil" @action="$router.push('/moj-racun/uredi-profil')" :style-options="{ width: '100%', background: '#1F2937', color: '#fff'}"></action-button>
-                </div>
-              </div>
-            </div>
-          </aside>
+            </aside>
+
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3745186233711216"
+                 data-ad-slot="6716154843"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+          </div>
         </div>
       </div>
     </div>
@@ -225,6 +234,17 @@ export default class Users extends Vue {
     await this.fetchUserListings(this.$route.params.id)
     await this.fetchUserFinishedListings(this.$route.params.id)
 
+  }
+
+  mounted() {
+    this.$nextTick(() => {
+      try {
+        // this is required for each ad slot (calling this once will only load 1 ad)
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {
+        console.error(error)
+      }
+    })
   }
 
   async sendMessage() {
@@ -382,6 +402,8 @@ export default class Users extends Vue {
   @include for-phone-only {
     width: 100%;
     padding: 0 16px;
+    padding-bottom: 120px;
+
   }
 
   .user-content-wrapper {

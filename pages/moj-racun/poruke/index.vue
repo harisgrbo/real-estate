@@ -21,7 +21,7 @@
                   <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ conversation.last_message.sender.avatar_url !== null ? conversation.last_message.sender.avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full h-full">
                     <div class="flex items-center w-full">
-                      <div class="text-gray-700 font-normal text-sm">{{ others(conversation).map(item => item.name).join(',') }}</div>
+                      <div class="text-gray-700 font-semibold text-md">{{ others(conversation).map(item => item.name).join(',') }}</div>
                       <div class="text-xs text-gray-900 font-medium ml-auto">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</div>
                     </div>
                     <div class="w-full truncate text-gray-600 mt-0.5 flex flex-row items-center justify-between">
@@ -60,7 +60,7 @@
               <div class="custom-header flex flex-row items-center justify-between">
                 <div class="flex flex-row items-center">
                   <div class="flex items-center cursor-pointer" @click="goToUser(others(currentConversation))">
-                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="others(currentConversation)[0].avatar_url ? others(currentConversation)[0].avatar_url !== null : '/noimage.jpeg'">
                       <h3 class="ml-3">{{ others(currentConversation).map(item => item.name).join(',') }}</h3>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
                         <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                       </div>
                     </div>
-                    <div v-else-if="message.message_type === 'listing'" :class="[isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
+                    <div v-else-if="message.message_type === 'listing'" :class="['add-border', isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
                       <div class="listing-card flex flex-col" v-if="message.content.listing">
                         <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
                           <img :src="message.content.listing.image_urls[0]" alt="">
@@ -224,7 +224,7 @@
                           <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
                         </div>
                       </div>
-                      <div v-else-if="message.message_type === 'listing'" :class="[isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
+                      <div v-else-if="message.message_type === 'listing'" :class="['add-border', isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
                         <div class="listing-card flex flex-col" v-if="message.content.listing">
                           <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
                             <img :src="message.content.listing.image_urls[0]" alt="">
@@ -432,21 +432,28 @@ export default class Poruke extends Vue {
   showImageUpload = false;
   openImageGallery = false;
   selectedImage = ''
+  oldX = null;
+  oldY = null;
 
   mounted() {
+    this.readMessageNotifications();
+
     let xPos = null;
     let yPos = null;
+
+    let self = this;
+
     window.addEventListener( "touchmove", function ( event ) {
-      let touch = event.originalEvent.touches[ 0 ];
-      oldX = xPos;
-      oldY = yPos;
+      let touch = event.originalEvent.touches[0];
+      self.oldX = xPos;
+      self.oldY = yPos;
       xPos = touch.pageX;
       yPos = touch.pageY;
-      if ( oldX == null && oldY == null ) {
+      if (self.oldX == null && self.oldY == null ) {
         return false;
       }
       else {
-        if ( Math.abs( oldX-xPos ) > Math.abs( oldY-yPos ) ) {
+        if ( Math.abs( self.oldX-xPos ) > Math.abs( self.oldY-yPos ) ) {
           event.preventDefault();
           return false;
         }
@@ -470,6 +477,14 @@ export default class Poruke extends Vue {
     }
 
     this.isMounted = true;
+  }
+
+  async readMessageNotifications() {
+    try {
+      await this.$axios.post('/profile/messages/read');
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   selectEmoji(emoji) {
@@ -1028,8 +1043,8 @@ img {
 }
 
 #image {
-  height: 300px;
-  width: fit-content;
+  height: 100%;
+  width: auto !important;
   margin: 0 auto;
 }
 
@@ -1038,6 +1053,8 @@ img {
   width: fit-content;
   border-radius: 6px;
   margin-bottom: 4px;
+  min-width: auto !important;
+  width: auto !important;
 }
 
 .image-gallery {
@@ -1115,11 +1132,13 @@ img {
 }
 
 .messages-wrapper {
-  width: 60%;
+  width: 100%;
   margin: 0 auto;
   height: calc(100vh - 263px);
-  padding: 24px 0;
   overflow-y: scroll;
+  background-color: #ffffff;
+  padding: 24px 25%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23aaaaaa' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 .chat .chat__box .chat__box__text-box {
@@ -1128,6 +1147,7 @@ img {
 
 .not-me-box {
   border: 1px solid #f1f1f1;
+  background-color: #fff;
 }
 
 .listing-card {
@@ -1145,6 +1165,10 @@ img {
     padding-bottom: 16px;
     margin-bottom: 16px;
   }
+}
+
+.add-border {
+  border: 1px solid #f1f1f1;
 }
 </style>
 
