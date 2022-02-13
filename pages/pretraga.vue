@@ -7,7 +7,7 @@
             <li :class="['group cat-list mr-4 inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}</li>
           </ul>
           <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
             </svg>
             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
@@ -21,7 +21,7 @@
           </button>
           <div v-if="$device.isMobile" class="mobile-fit">
             <button @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
               </svg>
               {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
@@ -40,10 +40,6 @@
                 <span>Vrsta oglasa</span>
 
                 <span class="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes && selectedTypes.length ? selectedTypes.length : '0' }}</span>
-                <!-- Heroicon name: solid/chevron-down -->
-                <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showTypeDropdown ? 'transform rotate-180': '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
               </button>
               <div v-if="showTypeDropdown" class="origin-top-right listing-types top-9 absolute right-0 mt-2 bg-white rounded-lg shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <form class="space-y-4">
@@ -72,9 +68,16 @@
         </ul>
       </div>
       <div class="flex flex-row items-center justify-between w-full mt-4">
-        <div class="flex items-center w-full">
+        <div class="flex items-center justify-between w-full mobile-button">
           <h1 class="results-number font-medium text-lg">{{ meta.total }} rezultata</h1>
-
+          <div v-if="$device.isMobile" class="mobile-filters-wrap">
+            <button @click="$modal.show('search-filters')">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+              Filteri
+            </button>
+          </div>
           <ul v-if="!$device.isMobile" class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0">
             <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)" class="py-1 px-2 border border-black mr-3">
               <div class="flex flex-row items-center">
@@ -122,14 +125,6 @@
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
       <div class="results relative" v-if="selectedPreviewType === 'grid'">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div v-if="$device.isMobile" class="mobile-filters-wrap">
-            <button @click="$modal.show('search-filters')">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-              </svg>
-              Filteri
-            </button>
-          </div>
           <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
             <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
@@ -146,6 +141,7 @@
         <div v-else>
           <NotFound src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
         </div>
+        <div class="gcse-searchresults-only" v-if="!$device.isMobile"></div>
 
       </div>
       <div class="results map w-full" v-else>
@@ -160,10 +156,10 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <div class="gcse-searchresults-only"></div>
         <div v-if="results.length && ! $device.isMobile" class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>
+        <div class="gcse-searchresults-only" v-if="!$device.isMobile"></div>
       </div>
     </div>
     <client-only>
@@ -230,15 +226,15 @@
       </modal>
       <client-only>
         <modal @before-open="beforeOpen" @before-close="beforeClose" name="search-filters" :adaptive="true" height="100%">
-          <div class="modal-inner relative">
-            <div class="modal-header">
+          <div class="modal-inner only-mobile-wrap relative">
+            <div class="modal-header only-mobile">
               <h2>Filteri</h2>
               <i class="material-icons" @click="$modal.hide('search-filters')">close</i>
             </div>
 
             <div class="modal-content">
               <div class="filters rounded-md">
-                <div class="rounded-md bg-yellow-50 p-4 info" v-show="! selectedCategoryId">
+                <div class="rounded-md bg-yellow-50 p-4 pb-4" v-show="! selectedCategoryId">
                   <div class="flex">
                     <div class="flex-shrink-0">
                       <!-- Heroicon name: solid/exclamation -->
@@ -905,7 +901,7 @@ export default class Homepage extends Vue {
           overflow: hidden;
 
           ::v-deep #map {
-            height: calc(100vh - 272px);
+            height: calc(100vh - 237px);
           }
         }
 
@@ -1374,6 +1370,7 @@ export default class Homepage extends Vue {
       font-size: 13px !important;
       border: 1px solid #1F2937;
       min-width: fit-content;
+      align-items: center;
     }
   }
 }
@@ -1411,7 +1408,6 @@ export default class Homepage extends Vue {
 
   @include for-phone-only {
     margin-right: 0;
-    margin-left: 24px;
     font-weight: 400;
     font-size: 16px;
   }
@@ -1437,15 +1433,6 @@ export default class Homepage extends Vue {
 }
 
 .mobile-filters-wrap {
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  width: auto;
-  bottom: 24px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   button {
     width: fit-content;
@@ -1454,32 +1441,50 @@ export default class Homepage extends Vue {
     align-items: center;
     justify-content: center;
     padding: 12px 16px;
-    border-radius: 30px;
+    border-radius: 6px;
     font-size: 13px;
-    color: #fff;
-    background-color: #1F2937;
+    color: #1F2937;
+    border: 1px solid #000;
   }
 }
 
 
 .filters ::v-deep label {
-  font-size: 20px !important;
-  font-weight: 500 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
   text-transform: initial ;
-  margin-bottom: 24px;
-  padding-top: 24px;
-  border-top: 1px solid #f1f1f1;
-
-  &:nth-child(1) {
-
-  }
 
   &.switch-label {
     margin-bottom: 0px;
     padding-top: 0px;
     border-top: none;
-    font-size: 17px !important;
+    font-size: 16px !important;
   }
 }
 
+.mobile-button {
+  @include for-phone-only {
+    padding: 0 24px;
+  }
+}
+
+.only-mobile {
+  @include for-phone-only {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-left: 24px;
+    padding-right: 24px;
+    background: #fff;
+    z-index: 99;
+  }
+}
+
+.only-mobile-wrap {
+  @include for-phone-only {
+    padding-top: 80px;
+
+  }
+}
 </style>

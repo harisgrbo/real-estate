@@ -78,7 +78,7 @@ a {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  padding: 36px 0!important;
+  padding: 0!important;
   height: 100% !important;
 
   @include for-phone-only {

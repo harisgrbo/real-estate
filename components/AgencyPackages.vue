@@ -228,6 +228,8 @@ export default class Paketi extends Vue{
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
     overflow: hidden;
+    max-width: 100%;
+    overflow-x: scroll;
   }
 
   td, th {

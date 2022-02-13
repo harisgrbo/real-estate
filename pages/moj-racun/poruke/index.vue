@@ -18,7 +18,7 @@
                      data-ad-client="ca-pub-3745186233711216"
                      data-ad-slot="9774079948"></ins>
                 <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 py-6 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
-                  <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg']">
+                  <img alt="mojkvadrat - slika korisnika" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full h-full">
                     <div class="flex items-center w-full">
                       <div class="text-gray-700 font-semibold text-md">{{ others(conversation).map(item => item.name).join(',') }}</div>
@@ -60,7 +60,7 @@
               <div class="custom-header flex flex-row items-center justify-between">
                 <div class="flex flex-row items-center">
                   <div class="flex items-center cursor-pointer" @click="goToUser(others(currentConversation))">
-                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="others(currentConversation)[0].avatar_url ? others(currentConversation)[0].avatar_url !== null : '/noimage.jpeg'">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="others(currentConversation)[0].avatar_url !== null ? others(currentConversation)[0].avatar_url : '/noimage.jpeg'">
                       <h3 class="ml-3">{{ others(currentConversation).map(item => item.name).join(',') }}</h3>
                   </div>
                 </div>

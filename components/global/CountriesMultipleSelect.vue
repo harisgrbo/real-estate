@@ -90,6 +90,7 @@ button {
   padding: 1px 2px;
   white-space: normal;
   width: 100%;
+  font-size: 14px;
 
 &:focus {
    outline: none;

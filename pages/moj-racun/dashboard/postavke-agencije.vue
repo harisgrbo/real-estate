@@ -161,6 +161,8 @@ export default class urediProfil extends Vue {
 
 .banner-wrap {
   height: fit-content;
+  max-height: 200px;
+  width: auto;
 }
 </style>
 

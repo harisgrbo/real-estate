@@ -10,7 +10,7 @@
       </li>
     </ul>
     <div class="w-full mt-5">
-      <ul role="list" class="divide-y orders divide-gray-200">
+      <ul role="list" class="divide-y orders divide-gray-200" v-if="bookings.length">
         <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
           <div class="flex items-center sm:items-start mobile-box">
             <div class="listing-wrap shadow-md rounded-md hover:shadow-lg">
@@ -49,6 +49,7 @@
         </li>
 
       </ul>
+      <NotFound v-else src="/noreservation.svg" text="Nemate rezervacija"></NotFound>
     </div>
   </div>
 </template>
@@ -56,9 +57,11 @@
 <script>
 import { Component, Vue} from "nuxt-property-decorator";
 import ActionButton from "../../components/actionButtons/ActionButton";
+import NotFound from "../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     ActionButton,
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
