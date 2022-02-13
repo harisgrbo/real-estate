@@ -345,9 +345,11 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 import NotFound from "../components/global/NotFound";
 import CountriesMultipleSelect from "@/components/global/CountriesMultipleSelect";
 import SearchListingCard from "../components/SearchListingCard";
+import SearchHorizontalCard from "../components/SearchHorizontalCard";
 
 @Component({
   components: {
+    SearchHorizontalCard,
     SearchListingCard,
     CountriesMultipleSelect,
     NotFound,
@@ -1347,7 +1349,7 @@ export default class Homepage extends Vue {
       margin-left: 4px;
       cursor: pointer;
       padding: 4px;
-      color: transparent !important;
+      backgroundck: transparent !important;
 
       @include for-phone-only {
         padding: 0;
