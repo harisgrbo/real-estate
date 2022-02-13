@@ -192,7 +192,9 @@ export default class Navbar extends Vue {
   showOtherLinksDropdown = false;
 
   mounted() {
-    this.realtime();
+    if (! this.$device.isMobile) {
+      this.realtime();
+    }
   }
 
   beforeOpen() {
