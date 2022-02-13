@@ -27,7 +27,7 @@ export default {
       this.$emit('changed', {
         id: this.attr.id,
         name: this.attr.name,
-        value: this.val
+        value: Number(this.val)
       })
     }
   }
