@@ -284,7 +284,7 @@
                     <i class="material-icons ml-4" @click="showConversationDiv = false">close</i>
                   </div>
                 </div>
-                <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
+                <div v-show="messagesLoaded" ref="mobileConversations" class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
                   <div v-for="message in messages" :key="message.id">
                     <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                       <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
@@ -667,9 +667,14 @@ export default class Poruke extends Vue {
   scrollBottom() {
     this.$nextTick(() => {
       let container = this.$refs.messageContainer;
+      let mobileContainer = this.$refs.mobileConversations;
 
       if (container) {
         container.scrollTop = container.scrollHeight;
+      }
+
+      if (mobileContainer) {
+        container.scrollTop = mobileContainer.scrollHeight;
       }
     })
   }
