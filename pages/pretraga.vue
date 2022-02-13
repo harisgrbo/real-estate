@@ -131,7 +131,7 @@
             </button>
           </div>
           <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
-            <ListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+            <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
           <client-only>
             <Pagination
@@ -337,7 +337,6 @@ import TermsFilter from "@/components/search/TermsFilter";
 import { buildQuery, buildCategory } from "@/util/search";
 import { capitalize } from "@/util/str";
 import Pagination from "@/components/pagination";
-import ListingCard from "../components/listingCard/ListingCard";
 import skeleton from "../components/skeleton";
 import ActionButton from "@/components/actionButtons/ActionButton"
 import HorizontalCard from "../components/listingCard/HorizontalCard";
@@ -345,15 +344,16 @@ import SearchMap from "../components/googleMap/SearchMap";
 import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 import NotFound from "../components/global/NotFound";
 import CountriesMultipleSelect from "@/components/global/CountriesMultipleSelect";
+import SearchListingCard from "../components/SearchListingCard";
 
 @Component({
   components: {
+    SearchListingCard,
     CountriesMultipleSelect,
     NotFound,
     CitiesMultipleSelect,
     SearchMap,
     HorizontalCard,
-    ListingCard,
     ActionButton,
     TextField,
     RangeFilter,
