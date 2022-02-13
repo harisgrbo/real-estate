@@ -12,24 +12,22 @@
     <div class="flex flex-row pb-8 justify-between notifications-wrap" v-if="notifications.length">
       <ul class="divide-y divide-gray-200 w-full">
         <li class="notification flex flex-col items-start justify-start relative bg-white hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600" v-for="(notification, index) in notifications" :key="index">
-          <nuxt-link :to="notification.data.action" class="flex flex-col w-full">
-            <div class="flex justify-between w-full items-start">
-              <div class="min-w-0 flex-1">
-                <a href="#" class="block focus:outline-none" v-if="notification.data.user">
-                  <p class="text-sm font-medium text-gray-900 truncate">{{ notification.data.user.name }}</p>
-                </a>
-              </div>
-              <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(notification.created_at).fromNow() }}</time>
+          <div class="flex justify-between w-full items-start">
+            <div class="min-w-0 flex-1">
+              <a href="#" class="block focus:outline-none" v-if="notification.data.user">
+                <p class="text-sm font-medium text-gray-900 truncate">{{ notification.data.user.name }}</p>
+              </a>
             </div>
-            <div class="mt-4">
-              <p class="line-clamp-2 font-normal text-sm text-gray-900 desc">
-                {{ notification.data.text }}
-              </p>
-            </div>
-            <button @action="handleAction(notification.data)" type="button">
-              Pogledaj
-            </button>
-          </nuxt-link>
+            <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(notification.created_at).fromNow() }}</time>
+          </div>
+          <div class="mt-4">
+            <p class="line-clamp-2 font-normal text-sm text-gray-900 desc">
+              {{ notification.data.text }}
+            </p>
+          </div>
+          <button v-if="notification.data.action" @click.prevent="handleAction(notification.data)" type="button">
+            Pogledaj
+          </button>
         </li>
       </ul>
     </div>
@@ -47,26 +45,26 @@ import NotFound from "../../../components/global/NotFound";
     NotFound
   },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
-})
+  async asyncData(ctx) {
+    let notifications = [];
 
-export default class notifikacije extends Vue {
-  notifications = []
-
-  async created() {
-    await this.getNotifications();
-  }
-
-  handleAction(a) {
-    this.$router.push(a.action);
-  }
-
-  async getNotifications() {
     try {
-      let res = await this.$axios.get('/profile/notifications')
-      this.notifications = res.data.data;
+      let res = await ctx.app.$axios.get('/profile/notifications')
+      notifications = res.data.data;
     } catch(e) {
       console.log(e)
     }
+
+    return {
+      notifications
+    }
+  }
+})
+export default class notifikacije extends Vue {
+  handleAction(a) {
+    const prepend = a.action[0] === '/' ? '': '/';
+
+    this.$router.push(prepend + a.action);
   }
 }
 </script>

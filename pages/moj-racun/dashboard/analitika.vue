@@ -77,7 +77,7 @@
                     Mapa nekretnina ({{ listings.length + ' oglasa' }})
                   </h2>
                 </div>
-                <div class="sm:mt-5 box xl:mt-12 lg:mt-12 up:mt-12">
+                <div class="box mt-5">
                   <SearchMap :locations="listings"></SearchMap>
                 </div>
               </div>

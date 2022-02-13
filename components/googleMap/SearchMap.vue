@@ -76,7 +76,7 @@ export default class SearchMap extends Vue{
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: this.zoom,
       center: uluru,
-      mapId: '90b8b95b1bbd0bc9'
+      mapId: '90b8b95b1bbd0bc9',
     });
 
     this.map = map;

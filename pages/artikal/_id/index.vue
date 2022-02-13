@@ -1696,7 +1696,6 @@ h2 {
   grid-column-gap: 24px;
   grid-row-gap: 32px;
   border-radius: 6px;
-  padding: 32px 0;
 
   @include for-phone-only {
     grid-template-columns: repeat(1, 1fr);
@@ -1709,6 +1708,8 @@ h2 {
     img {
       height: 20px !important;
       max-height: 20px !important;
+      width: auto !important;
+      min-width: 20px;
     }
   }
 
@@ -2419,6 +2420,11 @@ input[type=range]:focus::-ms-fill-upper {
   #map {
     height: 610px;
   }
+}
+
+.active p{
+  font-weight: 600 !important;
+  color: #000 !important;
 }
 </style>
 

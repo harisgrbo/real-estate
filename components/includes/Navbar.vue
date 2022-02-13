@@ -192,7 +192,9 @@ export default class Navbar extends Vue {
   showOtherLinksDropdown = false;
 
   mounted() {
-    this.realtime();
+    if (! this.$device.isMobile) {
+      this.realtime();
+    }
   }
 
   beforeOpen() {
@@ -246,10 +248,6 @@ export default class Navbar extends Vue {
 
     this.closeSidebar();
     this.away();
-  }
-
-  beforeOpen() {
-    document.body.style.overflow = 'hidden';
   }
 
   async created() {

@@ -1930,4 +1930,8 @@ select {
   min-width: 100% !important;
   min-height: 100% !important;
 }
+
+select {
+  background: #fff;
+}
 </style>

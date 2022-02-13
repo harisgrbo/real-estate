@@ -1,5 +1,7 @@
 <template>
-  <div class="preview-wrapper-inner">
+  <div class="preview-wrapper-inner relative">
+    <LoadingBar :override="loadingMobileMessages" />
+
     <!-- BEGIN: Content -->
     <div class="flex w-full">
       <div v-if="conversations.length > 0" class="chat flex flex-row w-full">
@@ -18,7 +20,7 @@
                      data-ad-client="ca-pub-3745186233711216"
                      data-ad-slot="9774079948"></ins>
                 <div v-for="(conversation, index) in conversations" :key="index" @click="handleSelectedConversation(conversation, index)" :class="['bg-white cursor-pointer box relative flex items-center p-5 py-6 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
-                  <img alt="Icewall Tailwind HTML Admin Template" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg']">
+                  <img alt="mojkvadrat - slika korisnika" class="w-12 h-12 flex-none image-fit mr-1 rounded-full" :src="[ others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg']">
                   <div class="ml-2 overflow-hidden w-full h-full">
                     <div class="flex items-center w-full">
                       <div class="text-gray-700 font-semibold text-md">{{ others(conversation).map(item => item.name).join(',') }}</div>
@@ -60,7 +62,7 @@
               <div class="custom-header flex flex-row items-center justify-between">
                 <div class="flex flex-row items-center">
                   <div class="flex items-center cursor-pointer" @click="goToUser(others(currentConversation))">
-                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="others(currentConversation)[0].avatar_url ? others(currentConversation)[0].avatar_url !== null : '/noimage.jpeg'">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="others(currentConversation)[0].avatar_url !== null ? others(currentConversation)[0].avatar_url : '/noimage.jpeg'">
                       <h3 class="ml-3">{{ others(currentConversation).map(item => item.name).join(',') }}</h3>
                   </div>
                 </div>
@@ -80,6 +82,10 @@
                 </div>
               </div>
               <div v-show="messagesLoaded" ref="messageContainer" class="messages-wrapper">
+                <div class="w-full flex justify-center">
+                  <img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise" />
+                  <button v-show="! loadingMore" v-if="messagesPage < messagesTotalPages" @click="loadMore">Prikaži više</button>
+                </div>
                 <div v-for="message in messages" :key="message.id">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                     <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
@@ -135,7 +141,7 @@
                   :showSearch="false"
                 />
                 <div class="w-full flex items-center justify-between">
-                  <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
+                  <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..." />
                   <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -184,128 +190,6 @@
       </div>
       <NotFound v-else src="/no-messages.svg" text="Nemate poruka"></NotFound>
     </div>
-    <modal name="conversations" @before-open="beforeOpen" @before-close="beforeClose" :adaptive="true" height="100%">
-      <div class="modal-inner">
-        <div class="modal-content">
-          <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-            <div class="chat__box box">
-              <!-- BEGIN: Chat Active -->
-              <div v-if="currentConversation" class="h-full flex flex-col bg-white rounded-md">
-                <div class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 py-3">
-                  <div class="flex items-center">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
-                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
-                    </div>
-                    <div class="ml-3 mr-auto">
-                      <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
-                    </div>
-                  </div>
-                  <div class="flex flex-row items-center">
-                    <div class="flex items-center cursor-pointer" @click="pinConversation(currentConversation)">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" :fill="pinned_conversation && (pinned_conversation.id === currentConversation.id) ? '#1F2937' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                      </svg>
-                    </div>
-                    <div class="flex items-center sm:ml-auto sm:mt-0 border-t sm:border-0 border-gray-200 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="$modal.show('delete-conversation')">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </div>
-                    <i class="material-icons ml-4" @click="$modal.hide('conversations')">close</i>
-                  </div>
-                </div>
-                <div v-show="messagesLoaded" ref="messageContainer" class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
-                  <div v-for="message in messages" :key="message.id">
-                    <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
-                      <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
-                        {{ message.content }}
-                        <div class="flex justify-between mt-2">
-                          <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
-                        </div>
-                      </div>
-                      <div v-else-if="message.message_type === 'listing'" :class="['add-border', isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
-                        <div class="listing-card flex flex-col" v-if="message.content.listing">
-                          <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
-                            <img :src="message.content.listing.image_urls[0]" alt="">
-                          </div>
-                          <div v-else class="grid grid-cols-1">
-                            <img src="/noimage.jpeg" alt="">
-                          </div>
-                          <h3>{{ message.content.listing.title }}</h3>
-                        </div>
-                        {{ message.content.message }}
-
-                        <!--                      <SmallListingCard :listing="message.listing"></SmallListingCard>-->
-                        <div class="flex justify-between">
-                          <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
-                        </div>
-                      </div>
-                      <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'shadow-md px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
-                        <div v-if="message.content.mime.substr(0, 5) === 'image'" >
-                          <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
-                          <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>Otvori u novom tabu</a>
-                        </div>
-                        <div class="flex justify-between mt-2">
-                          <div :class="[isMe(message) ? 'ml-1 mt-1 text-xs text-gray-700': 'ml-1 mt-1 text-xs text-gray-700' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
-                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="clear-both"></div>
-                  </div>
-                </div>
-                <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden pt-5 flex-1">
-                  <img src="/loader.svg" alt="">
-                </div>
-                <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
-                  <VEmojiPicker
-                    v-if="showEmoji"
-                    @select="selectEmoji"
-                    v-on-clickaway="away"
-                    :showSearch="false"
-                  />
-                  <div class="w-full flex items-center justify-between">
-                    <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
-                    <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="flex flex-row items-center justify-start relative mt-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="$modal.show('send-image')">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-              <!-- END: Chat Active -->
-              <!-- BEGIN: Chat Default -->
-              <div v-else class="h-full flex items-center">
-                <div class="mx-auto text-center">
-                  <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                    <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg">
-                  </div>
-                  <div class="mt-3">
-                    <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
-                    <div class="text-gray-600 mt-1">Klikom na jednu od konverzacija, započni raygovor.</div>
-                  </div>
-                </div>
-              </div>
-              <!-- END: Chat Default -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </modal>
     <client-only>
       <modal @before-open="beforeOpen" @before-close="beforeClose" name="send-image" :adaptive="true" height="100%">
         <div class="modal-inner">
@@ -376,6 +260,133 @@
         </div>
       </modal>
     </client-only>
+    <div class="conversation-div" v-if="showConversationDiv">
+      <div class="modal-inner">
+        <div class="modal-content">
+          <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
+            <div class="chat__box box">
+              <!-- BEGIN: Chat Active -->
+              <div v-if="currentConversation" class="h-full flex flex-col bg-white rounded-md">
+                <div class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 py-3">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
+                      <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="/noimage.jpeg">
+                    </div>
+                    <div class="ml-3 mr-auto">
+                      <div class="font-medium text-base">{{ others(currentConversation).map(item => item.name).join(',') }}</div>
+                    </div>
+                  </div>
+                  <div class="flex flex-row items-center">
+                    <div class="flex items-center cursor-pointer" @click="pinConversation(currentConversation)">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" :fill="pinned_conversation && (pinned_conversation.id === currentConversation.id) ? '#1F2937' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                    </div>
+                    <div class="flex items-center sm:ml-auto sm:mt-0 border-t sm:border-0 border-gray-200 sm:pt-0 px-1 sm:mx-0 cursor-pointer hover:bg-gray-50 rounded-md" @click="$modal.show('delete-conversation')">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </div>
+                    <i class="material-icons ml-4" @click="showConversationDiv = false">close</i>
+                  </div>
+                </div>
+                <div v-show="messagesLoaded" ref="mobileConversations" class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
+                  <div class="w-full flex justify-center">
+                    <img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise" />
+                    <button v-show="! loadingMore" v-if="messagesPage < messagesTotalPages" @click="loadMore">Prikaži više</button>
+                  </div>
+                  <div v-for="message in messages" :key="message.id">
+                    <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
+                      <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
+                        {{ message.content }}
+                        <div class="flex justify-between mt-2">
+                          <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        </div>
+                      </div>
+                      <div v-else-if="message.message_type === 'listing'" :class="['add-border', isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
+                        <div class="listing-card flex flex-col" v-if="message.content.listing">
+                          <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
+                            <img :src="message.content.listing.image_urls[0]" alt="">
+                          </div>
+                          <div v-else class="grid grid-cols-1">
+                            <img src="/noimage.jpeg" alt="">
+                          </div>
+                          <h3>{{ message.content.listing.title }}</h3>
+                        </div>
+                        {{ message.content.message }}
+
+                        <!--                      <SmallListingCard :listing="message.listing"></SmallListingCard>-->
+                        <div class="flex justify-between">
+                          <div :class="[isMe(message) ? 'mt-1 text-xs text-gray-700': 'mt-1 text-xs text-gray-800' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        </div>
+                      </div>
+                      <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'shadow-md px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
+                        <div v-if="message.content.mime.substr(0, 5) === 'image'" >
+                          <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
+                          <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>Otvori u novom tabu</a>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                          <div :class="[isMe(message) ? 'ml-1 mt-1 text-xs text-gray-700': 'ml-1 mt-1 text-xs text-gray-700' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
+                          <div v-if="isMe(message)" class="ml-1 mt-1 text-xs text-gray-700">{{ message.delivered ? 'Dostavljeno': 'Salje se'}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="clear-both"></div>
+                  </div>
+                </div>
+                <div v-show="!messagesLoaded" class="no-messages overflow-y-scroll scrollbar-hidden pt-5 flex-1">
+                  <img src="/loader.svg" alt="">
+                </div>
+                <div class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
+                  <VEmojiPicker
+                    v-if="showEmoji"
+                    @select="selectEmoji"
+                    v-on-clickaway="away"
+                    :showSearch="false"
+                  />
+                  <div class="w-full flex items-center justify-between">
+                    < v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..." />
+                    <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="flex flex-row items-center justify-start relative mt-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="showEmoji = !showEmoji">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" @click="$modal.show('send-image')">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <!-- END: Chat Active -->
+              <!-- BEGIN: Chat Default -->
+              <div v-else class="h-full flex items-center">
+                <div class="mx-auto text-center">
+                  <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
+                    <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg">
+                  </div>
+                  <div class="mt-3">
+                    <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
+                    <div class="text-gray-600 mt-1">Klikom na jednu od konverzacija, započni raygovor.</div>
+                  </div>
+                </div>
+              </div>
+              <!-- END: Chat Default -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div v-if="openImageGallery" class="image-gallery" @click="openImageGallery = false; selectedImage = ''">
       <div class="img-wrap">
         <img src="/svg/close.svg" alt="" class="close">
@@ -392,9 +403,11 @@ import ActionButton from "../../../components/actionButtons/ActionButton";
 import {mixin as clickaway} from "vue-clickaway";
 import NotFound from "../../../components/global/NotFound";
 import SmallListingCard from "../../../components/SmallListingCard";
+import LoadingBar from "@/components/LoadingBar"
 
 @Component({
   components: {
+    LoadingBar,
     SmallListingCard,
     NotFound,
     ActionButton
@@ -417,9 +430,10 @@ import SmallListingCard from "../../../components/SmallListingCard";
     }
   }
 })
-
 export default class Poruke extends Vue {
+  loadingMore = false;
   messages = [];
+  showConversationDiv = false;
   messagesLoaded = true;
   currentConversation = null;
   messageContent = '';
@@ -434,6 +448,9 @@ export default class Poruke extends Vue {
   selectedImage = ''
   oldX = null;
   oldY = null;
+  loadingMobileMessages = false;
+  messagesPage = 1;
+  messagesTotalPages = 0;
 
   mounted() {
     this.readMessageNotifications();
@@ -655,19 +672,26 @@ export default class Poruke extends Vue {
 
       this.conversations[index].unread = 0;
 
+      this.loadingMobileMessages = true;
       await this.fetchMessages(conv.id);
+      this.loadingMobileMessages = false;
 
+      this.showConversationDiv = true;
       this.scrollBottom();
-      this.$modal.show('conversations')
     }
   }
 
   scrollBottom() {
     this.$nextTick(() => {
       let container = this.$refs.messageContainer;
+      let mobileContainer = this.$refs.mobileConversations;
 
       if (container) {
         container.scrollTop = container.scrollHeight;
+      }
+
+      if (mobileContainer) {
+        mobileContainer.scrollTop = mobileContainer.scrollHeight;
       }
     })
   }
@@ -715,13 +739,37 @@ export default class Poruke extends Vue {
     }
   }
 
+  async loadMore() {
+    this.loadingMore = true;
+
+    this.messagesPage++;
+
+    try {
+      let res = await this.$axios.get('/conversations/' + this.currentConversation.id + '/messages?page=' + this.messagesPage);
+
+      this.messages = res.data.data.concat(this.messages);
+      this.messagesLoaded = true;
+
+      this.messagesTotalPages = res.data.meta.last_page;
+    } catch(e) {
+      console.log(e)
+    }
+
+    this.loadingMore = false;
+  }
+
   async fetchMessages(id) {
+    this.messagesPage = 1;
     this.messagesLoaded = false;
     try {
       let res = await this.$axios.get('/conversations/' + id + '/messages');
 
+      console.log(res.data);
+
       this.messages = res.data.data;
       this.messagesLoaded = true;
+
+      this.messagesTotalPages = res.data.meta.last_page;
     } catch(e) {
       console.log(e)
     }
@@ -1175,6 +1223,16 @@ img {
 .add-border {
   border: 1px solid #f1f1f1;
   background-color: #fff;
+}
+
+.conversation-div {
+  background: #fff;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 </style>
 

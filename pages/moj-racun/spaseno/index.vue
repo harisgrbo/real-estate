@@ -264,6 +264,7 @@ export default class spaseno extends Vue {
 
 .grid-layout {
   padding: 0;
+  grid-template-columns: repeat(5, 1fr);
 
   @include for-phone-only {
     grid-template-columns: repeat(2, 1fr);

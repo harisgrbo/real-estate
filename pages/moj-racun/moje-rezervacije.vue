@@ -10,7 +10,7 @@
       </li>
     </ul>
     <div class="w-full mt-5">
-      <ul role="list" class="divide-y orders divide-gray-200">
+      <ul role="list" class="divide-y orders divide-gray-200" v-if="bookings.length">
         <li v-for="(booking, index) in bookings" :key="index" class="bg-white rounded-md">
           <div class="flex items-center sm:items-start mobile-box">
             <div class="listing-wrap shadow-md rounded-md hover:shadow-lg">
@@ -59,6 +59,7 @@
           </div>
         </li>
       </ul>
+      <NotFound v-else src="/nobooking.svg" text="Nemate rezervacija"></NotFound>
     </div>
   </div>
 </template>
@@ -69,9 +70,11 @@ import ActionButton from "../../components/actionButtons/ActionButton";
 import ListingCard from "../../components/listingCard/ListingCard";
 import HorizontalCard from "../../components/listingCard/HorizontalCard";
 import SmallListingCard from "../../components/SmallListingCard";
+import NotFound from "../../components/global/NotFound";
 
 @Component({
   components: {
+    NotFound,
     SmallListingCard,
     HorizontalCard,
     ListingCard,

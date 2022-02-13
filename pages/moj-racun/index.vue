@@ -94,7 +94,7 @@ export default class accountpage extends Vue {
       desc: 'Upravljanje obavijestima'
     },
     {
-      name: "Moji zahtjevi za iznajmljivanje",
+      name: "Moji upiti za rezervacije",
       slug: "moje-rezervacije",
       icon: '050-chat.svg',
       desc: 'Moji zahtjevi za iznajmljivanje (booking) prema drugim korisnicima'
