@@ -1,5 +1,7 @@
 <template>
   <div class="preview-wrapper-inner relative">
+    <LoadingBar :override="loadingMobileMessages" />
+
     <!-- BEGIN: Content -->
     <div class="flex w-full">
       <div v-if="conversations.length > 0" class="chat flex flex-row w-full">
@@ -80,6 +82,10 @@
                 </div>
               </div>
               <div v-show="messagesLoaded" ref="messageContainer" class="messages-wrapper">
+                <div class="w-full flex justify-center">
+                  <img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise" />
+                  <button v-show="! loadingMore" v-if="messagesPage < messagesTotalPages" @click="loadMore">Prikaži više</button>
+                </div>
                 <div v-for="message in messages" :key="message.id">
                   <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                     <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
@@ -135,7 +141,7 @@
                   :showSearch="false"
                 />
                 <div class="w-full flex items-center justify-between">
-                  <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
+                  <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..." />
                   <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -285,6 +291,10 @@
                   </div>
                 </div>
                 <div v-show="messagesLoaded" ref="mobileConversations" class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
+                  <div class="w-full flex justify-center">
+                    <img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise" />
+                    <button v-show="! loadingMore" v-if="messagesPage < messagesTotalPages" @click="loadMore">Prikaži više</button>
+                  </div>
                   <div v-for="message in messages" :key="message.id">
                     <div :class="[isMe(message) ? 'float-right' : 'float-left']" class="chat__box__text-box flex items-end mb-4">
                       <div v-if="message.message_type === 'text'" :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
@@ -340,7 +350,7 @@
                     :showSearch="false"
                   />
                   <div class="w-full flex items-center justify-between">
-                    <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..."></input>
+                    < v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..." />
                     <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -393,9 +403,11 @@ import ActionButton from "../../../components/actionButtons/ActionButton";
 import {mixin as clickaway} from "vue-clickaway";
 import NotFound from "../../../components/global/NotFound";
 import SmallListingCard from "../../../components/SmallListingCard";
+import LoadingBar from "@/components/LoadingBar"
 
 @Component({
   components: {
+    LoadingBar,
     SmallListingCard,
     NotFound,
     ActionButton
@@ -418,8 +430,8 @@ import SmallListingCard from "../../../components/SmallListingCard";
     }
   }
 })
-
 export default class Poruke extends Vue {
+  loadingMore = false;
   messages = [];
   showConversationDiv = false;
   messagesLoaded = true;
@@ -436,6 +448,9 @@ export default class Poruke extends Vue {
   selectedImage = ''
   oldX = null;
   oldY = null;
+  loadingMobileMessages = false;
+  messagesPage = 1;
+  messagesTotalPages = 0;
 
   mounted() {
     this.readMessageNotifications();
@@ -657,10 +672,12 @@ export default class Poruke extends Vue {
 
       this.conversations[index].unread = 0;
 
+      this.loadingMobileMessages = true;
       await this.fetchMessages(conv.id);
+      this.loadingMobileMessages = false;
 
-      this.scrollBottom();
       this.showConversationDiv = true;
+      this.scrollBottom();
     }
   }
 
@@ -674,7 +691,7 @@ export default class Poruke extends Vue {
       }
 
       if (mobileContainer) {
-        container.scrollTop = mobileContainer.scrollHeight;
+        mobileContainer.scrollTop = mobileContainer.scrollHeight;
       }
     })
   }
@@ -722,13 +739,37 @@ export default class Poruke extends Vue {
     }
   }
 
+  async loadMore() {
+    this.loadingMore = true;
+
+    this.messagesPage++;
+
+    try {
+      let res = await this.$axios.get('/conversations/' + this.currentConversation.id + '/messages?page=' + this.messagesPage);
+
+      this.messages = res.data.data.concat(this.messages);
+      this.messagesLoaded = true;
+
+      this.messagesTotalPages = res.data.meta.last_page;
+    } catch(e) {
+      console.log(e)
+    }
+
+    this.loadingMore = false;
+  }
+
   async fetchMessages(id) {
+    this.messagesPage = 1;
     this.messagesLoaded = false;
     try {
       let res = await this.$axios.get('/conversations/' + id + '/messages');
 
+      console.log(res.data);
+
       this.messages = res.data.data;
       this.messagesLoaded = true;
+
+      this.messagesTotalPages = res.data.meta.last_page;
     } catch(e) {
       console.log(e)
     }
