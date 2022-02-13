@@ -150,7 +150,7 @@
       </div>
       <div class="results map w-full" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
-          <HorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
+          <SearchHorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           <client-only>
             <Pagination
               ref="pagination"
@@ -894,12 +894,12 @@ export default class Homepage extends Vue {
       &.map {
         display: flex;
         flex-direction: row;
-
+        justify-content: space-between;
         height: calc(100vh - 275px);
 
         .map-wrapper {
-          width: 60%;
-          min-width: 60%;
+          width: 70%;
+          min-width: 70%;
           background: #f9f9f9;
           margin-left: 36px;
           height: calc(100vh - 237px);
@@ -915,6 +915,7 @@ export default class Homepage extends Vue {
           height: calc(100vh - 237px);
           overflow-y: scroll;
           padding-bottom: 30px !important;
+          width: 100%;
         }
       }
     }
