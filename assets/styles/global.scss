@@ -57,6 +57,8 @@ html, body {
   padding: 0 !important;
   margin: 0 !important;
   min-height: calc(100vh - 80px);
+  touch-action: pan-x pan-y;
+  -webkit-text-size-adjust: none;
 
   @include for-phone-only {
     min-height: 100%;

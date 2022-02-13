@@ -1,7 +1,7 @@
 <template>
   <div class="categories-list-wrap w-full">
-    <ul v-if="loading === false" role="list" class="border-t border-b border-gray-200 pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-6 w-full">
-      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="relative border text-wrap border-gray-300 rounded-md px-3 py-1 shadow-sm focus-within:ring-1 focus-within:ring-indigo-900 focus-within:ring-indigo-900 focus-within:border-indigo-900"
+    <ul v-if="loading === false" role="list" class="pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-6 w-full">
+      <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="relative border text-wrap border-gray-300 rounded-md px-3 py-1 focus-within:ring-1 focus-within:ring-indigo-900 focus-within:ring-indigo-900 focus-within:border-indigo-900"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
         <div class="w-full ml-3">
           {{ cat.title }}
@@ -105,31 +105,37 @@ a {
   }
 }
 
+ul {
+  @include for-phone-only {
+    grid-gap: 12px;
+  }
+}
+
 ul li {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px !important;
+  border-radius: 4px;
+  border: 1px solid #000;
 
   @include for-phone-only {
-    background: #f9f9f9 !important;
-    color: #222222 !important;
-    padding: 16px !important;
+    background: #fff !important;
+    color: #000 !important;
+    padding: 8px 12px !important;
     width: 100% !important;
-    min-height: 76px;
-    height: 76px;
+    min-height: fit-content;
+    height: fit-content;
     justify-content: space-between;
     align-items: center;
-    border-radius: 15px;
-    font-weight: 500 !important;
+    border-radius: 8px;
+    font-weight: 600 !important;
     display: flex;
 
     .svg-wrap {
-      height: 50px;
-      width: 50px;
+      height: 40px;
+      width: 40px;
       border-radius: 7px;
     }
   }

@@ -1012,6 +1012,15 @@ export default class Objava extends Vue {
       box-sizing: border-box;
       height: 100vh;
       overflow-y: hidden;
+
+      @supports not (-webkit-touch-callout: none) {
+        height: 100vh;
+      }
+
+      @supports (-webkit-touch-callout: none) {
+        height: auto !important;
+
+      }
     }
 
     .content-wrapper {
@@ -1024,6 +1033,22 @@ export default class Objava extends Vue {
 
       @include for-phone-only {
         overflow-y: hidden !important;
+        margin-top: 0px;
+        position: relative;
+        z-index: 1;
+        background: #fff;
+        overflow-y: scroll;
+        min-height: auto !important;
+        padding-bottom: 0 !important;
+
+        @supports not (-webkit-touch-callout: none) {
+          height: 100vh;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+          height: calc(100vh - 80px);
+
+        }
       }
 
       .step-3 {
@@ -1038,6 +1063,10 @@ export default class Objava extends Vue {
         margin-bottom: 48px !important;
         color: #000;
         line-height: 65px;
+
+        @include for-phone-only {
+          font-size: 24px !important;
+        }
 
         &.map {
           position: absolute;
@@ -1078,9 +1107,17 @@ export default class Objava extends Vue {
         border-bottom-right-radius: 10px;
 
         @include for-phone-only {
+          align-items: flex-start;
+        }
+
+        @supports not (-webkit-touch-callout: none) {
           height: 100vh !important;
         }
 
+        @supports (-webkit-touch-callout: none) {
+          height: calc(100vh - 170px) !important;
+          min-height: auto !important;
+        }
         .inner {
           max-width: 600px;
           margin: auto;
@@ -1090,7 +1127,11 @@ export default class Objava extends Vue {
             width: 100%;
             max-width: 100%;
             padding: 36px 16px;
-            height: 100%;
+            overflow-y: scroll;
+            width: 100%;
+            max-width: 100%;
+            padding: 36px 16px;
+            height: 100% !important;
             overflow-y: scroll;
             padding-bottom: 120px;
           }
@@ -1127,7 +1168,7 @@ export default class Objava extends Vue {
           width: 100%;
           display: flex;
           align-items: center;
-          border-top: 1px solid #f1f1f1;
+          border-top: 1px solid #bebebe;
           position: absolute;
           bottom: 0;
           right: 0;
@@ -1830,6 +1871,12 @@ h2.info {
 
 .step-7 ::v-deep .main-input-wrap {
   margin-bottom: 24px;
+}
+
+.step-9 {
+  @supports (-webkit-touch-callout: none) {
+    overflow-y: hidden;
+  }
 }
 
 ::v-deep .dz-default .dz-message span{

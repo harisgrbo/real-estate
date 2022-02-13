@@ -162,7 +162,7 @@ export default class urediProfil extends Vue {
 
       this.$toast.open({
         message: "Uspješno ste se spasili izmjene",
-        type: 'ssuccess',
+        type: 'success',
         duration: 5000
       });
 

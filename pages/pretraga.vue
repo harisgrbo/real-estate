@@ -1466,7 +1466,7 @@ export default class Homepage extends Vue {
 .filters ::v-deep label {
   font-size: 20px !important;
   font-weight: 500 !important;
-  text-transform: capitalize;
+  text-transform: initial ;
   margin-bottom: 24px;
   padding-top: 24px;
   border-top: 1px solid #f1f1f1;
