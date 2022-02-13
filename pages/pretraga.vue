@@ -161,7 +161,7 @@
           </client-only>
         </div>
         <div class="gcse-searchresults-only"></div>
-        <div v-if="results.length" class="map-wrapper">
+        <div v-if="results.length && ! $device.isMobile" class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>
       </div>
