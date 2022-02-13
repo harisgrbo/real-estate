@@ -283,10 +283,6 @@
                   @clear="queryPayload[attr.id] = null; newSearch()"
                   @input="newSearch"
                 />
-                <div class="fixed bottom-4 left-0 right-0 bottom-refresh">
-                  <ActionButton class="refresh" placeholder="Osvježi i zatvori" :style-options="{ width: '100%' }" @action="newSearch(); $modal.hide('search-filters')"></ActionButton>
-
-                </div>
 
               </div>
             </div>
@@ -578,7 +574,7 @@ export default class Homepage extends Vue {
   mounted() {
     let preview = localStorage.getItem("preview");
 
-    if(preview) {
+    if(preview && ! this.$device.isMobile) {
       this.selectedPreviewType = preview.toLowerCase();
     } else {
       this.selectedPreviewType = 'grid'
