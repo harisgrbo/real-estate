@@ -250,10 +250,6 @@ export default class Navbar extends Vue {
     this.away();
   }
 
-  beforeOpen() {
-    document.body.style.overflow = 'hidden';
-  }
-
   async created() {
     await this.getSearches()
     if(this.$auth.user) {
