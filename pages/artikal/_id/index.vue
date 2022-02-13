@@ -198,7 +198,7 @@
                           {{ info.name }}
                         </div>
                       </h3>
-                      <p class="mt-1 text-md text-black font-medium">{{ info.value }}</p>
+                      <p class="mt-1 text-md text-black font-medium">{{ info.value === 'true' || info.value === true ? 'Da' : info.value }}</p>
                     </div>
                   </div>
                 </li>
@@ -217,7 +217,7 @@
                   <div class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                     <div class="flex-1 px-4 py-2 text-sm truncate flex flex-row items-center justify-between">
                       <div class="text-md text-black font-medium">{{ attr.name }}</div>
-                      <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ typeof (attr.value) === 'boolean' ? '' : attr.value }}</p>
+                      <p class="text-gray-500" v-if="typeof (attr.value) !== 'boolean'">{{ attr.value === 'true' ? 'Da': attr.value }}</p>
                     </div>
                   </div>
                 </li>

@@ -18,7 +18,7 @@
       <div class="overflow-hidden relative image-wrapper bg-gray-50">
         <img class="main-image" :src="listing.thumbnail_url" alt="">
       </div>
-      <div class="listing-card-content relative">
+      <div class="listing-card-content p-2 relative">
         <div class="flex flex-col justify-between items-start">
           <div class="address title">
             <p>

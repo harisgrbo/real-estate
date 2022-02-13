@@ -708,7 +708,17 @@ a {
   font-size: 13px;
 
   > div {
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    height: 25px;
+    width: fit-content;
     margin-right: 8px;
+    padding: 0 4px;
+    font-weight: 400;
+    background: #fff;
+    font-size: 13px;
+    line-height: 8px;
+    color: #000;
   }
 
   img {
