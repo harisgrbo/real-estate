@@ -12,7 +12,7 @@
           <h3 class="text-sm font-medium text-yellow-800">Pažnja</h3>
           <div class="mt-2 text-sm text-yellow-700">
             <p class="text-xs">Verifikacijski link dostavljen na {{ $auth.user.email }}"</p>
-            <p class="text-xs mt-2">Ako ne vidite poruku provjerite spam folder, ako i dalje ne možete pronaci email pritisnite dugme ipod</p>
+            <p class="text-xs mt-2">Ako ne vidite poruku provjerite spam folder, ako i dalje ne možete pronaci email pritisnite dugme ispod</p>
             <ActionButton @action="resendVerificationMail()" class="mt-3" :loading="loadingResend" placeholder="Pošalji ponovo"></ActionButton>
           </div>
         </div>

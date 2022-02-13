@@ -1,36 +1,38 @@
 <template>
-  <div class="listing-card-wrapper" :class="[from? 'blur' : '']">
-    <label class="publisher shadow-sm">
-        <span class="flex flex-row items-center">{{ translateType() }}
+  <div class="listing-card-wrapper" :class="['sponsored-' + listing.sponsored]">
+    <label class="publisher">
+        <span class="shadow-sm bg-white mr-2">
+          {{ listing.listing_type }}
+        </span>
+      <span v-if="listing.hasDiscount" class="flex flex-row items-center bg-red-600 shadow-sm mr-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#fff">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+          </svg>
+          <p class="text-white font-medium">
+            Akcija {{ ' -' + listing.discount * 100 + '%' }}
+          </p>
         </span>
     </label>
-    <div class="blured-background">
-      <button @click="removeFromSaved(listing.id)">Izbriši iz spašenih</button>
-    </div>
     <a :href="'/artikal/' + listing.id">
-      <div class="overflow-hidden relative">
-        <img :src="listing.images[0].url" class="main-image" alt="" v-if="listing.images.length">
-        <img v-else src="/noimage.jpeg" alt="">
-        <!--          <label class="publisher shadow-sm sale" v-if="action">-->
-        <!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
-        <!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />-->
-        <!--              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />-->
-        <!--            </svg>-->
-        <!--            <span>AKCIJA</span>-->
-        <!--          </label>-->
+      <div class="overflow-hidden relative image-wrapper bg-gray-50">
+        <img class="main-image" :src="listing.thumbnail_url" alt="">
       </div>
-      <div class="listing-card-content">
+      <div class="listing-card-content relative">
         <div class="flex flex-col justify-between items-start">
           <div class="address title">
             <p>
               {{ listing.title }}
             </p>
           </div>
-          <div class="icons-date">
-            <div class="important mt-2">
-              <!--                <p :class="['price', action ? 'old' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>-->
-              <p class="new">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
-              <p v-show="listing.is_booking" class="pl-2">/ noć</p>
+          <div class="icons-date flex flex-row items-center justify-between w-full">
+            <div class="important">
+              <p :class="['new', listing.hasDiscount ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+              <p v-show="listing.listing_type === 'Stan na dan' && !listing.hasOwnProperty('discount')" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+            </div>
+            <div class="important" v-if="listing.hasDiscount">
+              <p class="new">{{ parseInt(listing.price - listing.price * listing.discount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+              <p v-show="listing.listing_type === 'Stan na dan'" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
             </div>
           </div>
         </div>
@@ -40,9 +42,14 @@
             :key="index"
             class="flex flex-row items-center mr-2"
           >
+            <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
             <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-            <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
+            <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
+            <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
             {{ attr.value }}
+            <p v-if="attr.name === 'Kvadratura'">
+              m²
+            </p>
           </div>
         </div>
       </div>
@@ -52,14 +59,16 @@
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import ActionButton from "@/components/actionButtons/ActionButton";
 
 @Component({
-  components: {}
+  components: {ActionButton}
 })
 
 export default class InfoWindow extends Vue{
   @Prop({ type: Object }) listing
   @Prop({ type: Boolean, default: false}) from
+  @Prop({ type: String }) action_text
   @Prop({}) type
   @Prop({ type: Boolean, default: false }) action
 
@@ -69,51 +78,19 @@ export default class InfoWindow extends Vue{
     sell: 'Prodaja',
     buy: 'Potraznja'
   }
-
+  custom_swiper = null;
+  showTooltip = false;
+  saved = false;
+  showListingOptions = false;
   specialAttributes = [];
   specialAttributesKeys = [
     "Broj soba",
-    "Sprat"
-  ];
-  swiperOptionCard = {
-    spaceBetween: 0,
-    // centeredSlides: true,
-    // slidesOffsetBefore: '100px',
-    // slidesOffsetAfter: '100px',
-    // slidesOffsetBefore: '0px',
-    loop: true,
-    autoplay: false,
-    slidesPerView: 1,
-    pagination: {
-      el: ".swiper-pagination",
-      dynamicBullets: true,
-    },
-    touchRatio: 0.2,
-    slideToClickedSlide: true,
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
-    preloadImages: false,
-    lazy: {
-      //  tell swiper to load images before they appear
-      loadPrevNext: false,
-      // amount of images to load
-      loadPrevNextAmount: 1,
-    },
-  }
+    "Kvadratura",
+    "Broj kreveta",
+    "Broj gostiju"
 
-  translateType() {
-    if(this.listing.listing_type.shortname === 'buy') {
-      return 'Potražnja'
-    } else if(this.listing.listing_type.shortname === 'sell') {
-      return 'Prodaja'
-    } else if(this.listing.listing_type.shortname === 'booking'){
-      return 'Stan na dan'
-    } else if(this.listing.listing_type.shortname === 'rent') {
-      return 'Iznajmljivanje'
-    }
-  }
+  ];
+  specialRentAttributes = [];
 
   getSpecialAttributes() {
     if (!this.listing.attributes) return [];
@@ -122,19 +99,19 @@ export default class InfoWindow extends Vue{
     });
   }
 
-  removeFromSaved(id) {
-    this.$emit('remove-from-saved', id)
+  get normalAttributes() {
+    return this.listing.attributes.filter(item => item.value !== true && item.value !== false);
   }
-
 
   created() {
+    let index = this.specialAttributesKeys.indexOf('Kvadratura');
+
+    if(this.listing.is_booking && index !== -1) {
+      this.specialAttributesKeys.splice(index, 1)
+    }
+
     this.specialAttributes = this.getSpecialAttributes().slice();
   }
-
-  get listingType() {
-    return this.types[this.listing.listing_type.shortname];
-  }
-
 }
 </script>
 
@@ -147,7 +124,7 @@ export default class InfoWindow extends Vue{
 a {
   position: relative;
   z-index: 1;
-  min-width: 280px;
+  width: 100%;
   border-radius: 6px;
 
   @include for-phone-only {
@@ -160,12 +137,23 @@ a {
   flex-direction: column;
   height: 100%;
   position: relative;
-  width: fit-content;
-  max-width: fit-content;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
+  height: fit-content;
+  border-radius: 7px;
+
+  &.sponsored-1 {
+    background: rgba(19, 95, 20, 0.05);
+
+    .listing-card-content {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
 
   @include for-phone-only {
-    min-width: 240px;
+    min-width: 100%;
   }
 
   &:hover {
@@ -177,20 +165,30 @@ a {
 
   label {
     position: absolute;
-    left: 8px;
+    left: 4px;
     top: 8px;
-    border-radius: 4px;
-    background: #fff;
-    color: #444;
     display: flex;
     align-items: center;
     justify-content: center;
     width: fit-content;
-    height: 24px;
-    padding: 0 4px;
+    height: 20px;
+    padding: 0 6px;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 500;
     z-index: 2;
+
+    span {
+      border-radius: 4px;
+      color: #000;
+      padding: 4px
+    }
+
+    @include for-phone-only {
+      font-size: 12px;
+      padding: 0 4px;
+      border-radius: 2px;
+      height: auto;
+    }
 
     &.type {
       background: none;
@@ -206,7 +204,7 @@ a {
         font-family: 'NunitoSans', sans-serif;;
         border: none;
         margin-right: 8px;
-        border-radius: 5px;
+        border-radius: 2px;
         background: #fff;
         //box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
         color: #444;
@@ -241,10 +239,19 @@ a {
     }
 
     &.publisher {
-      top: 8px;
+      top: 0px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-start;
 
       svg {
-        margin-right: 8px;
+        margin-right: 3px;
+      }
+
+      span {
+        margin-top: 8px;
       }
 
       &.sale {
@@ -265,26 +272,21 @@ a {
       }
     }
 
-    &.sponsored {
-      right: 8px !important;
-      left: inherit;
-      background: #D63946;
+    .country {
+      bottom: 0;
+      right: 8px;
+      border-radius: 2px;
+    }
+
+    span.finished {
       color: #fff;
-
-      svg {
-        margin-rigth: 4px;
-      }
-
-      span {
-        text-transform: capitalize;
-      }
     }
   }
 
   img {
     height: 280px;
     width: 100%;
-    border-radius: 0px;
+    border-radius: 7px;
     object-fit: cover;
 
     @include for-phone-only {
@@ -296,7 +298,13 @@ a {
   .listing-card-content {
     display: flex;
     flex-direction: column;
-    padding: 12px;
+    padding-top: 10px;
+    min-height: 80px;
+    padding-bottom: 8px;
+
+    @include for-phone-only {
+      min-height: fit-content;
+    }
     .title-price {
       display: flex;
       align-items: center;
@@ -314,8 +322,8 @@ a {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-weight: 400 !important;
-        font-size: 16px !important;
+        font-weight: 200 !important;
+        font-size: 18px !important;
         line-height: 20px !important;
 
       }
@@ -330,11 +338,11 @@ a {
 
       &.title {
         p {
-          font-weight: 400 !important;
-          font-size: 17px;
+          font-weight: 300 !important;
+          font-size: 16px;
           line-height: 20px !important;
           @include for-phone-only {
-            font-weight: 500 !important;
+            font-weight: 400 !important;
           }
         }
       }
@@ -414,16 +422,21 @@ a {
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
+        margin-top: 2px;
 
-        p {
-          font-size: 16px !important;
-          font-weight: 400;
+        @include for-phone-only {
+          margin-top: 0;
         }
 
         .new {
-          font-size: 17px !important;
+          font-size: 16px;
           font-weight: 600 !important;
           margin-left: 0px;
+          margin: 4px 0;
+
+          &.cross {
+            font-size: 13px !important;
+          }
         }
       }
 
@@ -435,7 +448,30 @@ a {
     }
   }
 
+  &.sponsored-2 {
+    background: rgba(19, 95, 20, 0.05);
+    .listing-card-content {
+      padding-left: 8px;
+      padding-right: 8px;
 
+      .address.title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 200 !important;
+        font-size: 18px !important;
+        line-height: 20px !important;
+        background: #1F2937 !important;
+        color: #fff !important;
+
+        p {
+          color: #fff !important;
+          padding: 0 4px;
+        }
+
+      }
+    }
+  }
 }
 
 .icons {
@@ -463,11 +499,16 @@ a {
   z-index: 6;
   border-radius: 7px;
   box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-  padding: 24px;
+  padding: 12px;
   box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   transition: 0.3s all ease;
+  flex-direction: column;
+
+  @include for-phone-only {
+    padding: 8px;
+  }
 
   button {
     height: 48px;
@@ -488,7 +529,7 @@ a {
 }
 
 @supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em))) {
-  .blur:hover {
+  .blured:hover {
     .blured-background {
       display: flex;
       background-color: rgba(255, 255, 255, .5);
@@ -515,25 +556,40 @@ a {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 10px;
+  margin-top: 3px;
+
+  @include for-phone-only {
+    margin-top: 0;
+  }
 
   img {
     height: 12px !important;
-    width: 12px !important;
+    width: 14px !important;
     border-radius: 0 !important;
     margin-right: 4px;
+    object-fit: contain !important;
+    min-width: 12px !important;
   }
 
   > div {
     border: 1px solid #ececec;
-    border-radius: 15px;
+    border-radius: 4px;
     height: 25px;
     width: fit-content;
     margin-right: 8px;
-    padding: 0 10px;
-    font-weight: 500;
-    background: #f9f9f9;
-    font-size: 12px;
+    padding: 0 4px;
+    font-weight: 400;
+    background: #fff;
+    font-size: 13px;
+    line-height: 8px;
+    color: #000;
+
+    @include for-phone-only {
+      border: none;
+      padding: 0;
+      background: transparent;
+
+    }
   }
 }
 
@@ -622,9 +678,71 @@ a {
   font-weight: 600;
 }
 
-.main-image {
-  height: 190px !important;
+.swiper-lazy-preloader {
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -21px;
+  margin-top: -21px;
+  z-index: 10;
+  transform-origin: 50%;
+  animation: swiper-preloader-spin 1s infinite linear;
+  box-sizing: border-box;
+  border: 4px solid var(--swiper-preloader-color, var(--swiper-theme-color));
+  border-radius: 50%;
+  border-top-color: transparent;
+
+}
+.swiper-lazy-preloader-white {
+  --swiper-preloader-color: #f1f1f1;
 }
 
+@keyframes swiper-preloader-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
+.tooltip-wrapper {
+  position: absolute;
+  bottom: 0;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  top: inherit;
+
+  #tooltip3 {
+    height: fit-content;
+    overflow-y: scroll;
+    border-radius: 7px;
+
+    p {
+      font-size: 14px !important;
+    }
+  }
+}
+
+.more-info {
+  min-width: fit-content;
+  color: #fff;
+  font-size: 14px !important;
+
+}
+
+.option-btn {
+  margin-top: 12px;
+
+  @include for-phone-only {
+    margin-top: 6px;
+  }
+}
+
+.new.cross {
+  text-decoration: line-through;
+  font-size: 13px !important;
+}
 </style>

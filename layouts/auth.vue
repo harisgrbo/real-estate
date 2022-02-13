@@ -26,6 +26,8 @@ export default class Auth extends Vue {
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  padding: 36px 0;
+  overflow-y: scroll;
 
   @include for-phone-only {
     flex-direction: column;
