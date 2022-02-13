@@ -1,12 +1,30 @@
 <template>
   <div class="sidenav-wrapper flex flex-col justify-between h-full">
+    <div class="w-full flex w-full items-center min-w-full justify-between pt-4" v-if="$auth.user && $auth.user.verified === false">
+      <h3 class="w-full">Meni</h3>
+      <svg @click="$emit('close-sidenav')" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 close" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </div>
+    <div class="rounded-md bg-yellow-50 p-4 mb-2 mt-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <!-- Heroicon name: solid/exclamation -->
+          <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-yellow-800">Pažnja</h3>
+          <div class="mt-2 text-sm text-yellow-700">
+            <p class="text-xs">Verifikacijski link dostavljen na {{ $auth.user.email }}"</p>
+            <p class="text-xs mt-2">Ako ne vidite poruku provjerite spam folder, ako i dalje ne možete pronaci email pritisnite dugme ipod</p>
+            <ActionButton @action="resendVerificationMail()" class="mt-3" :loading="loadingResend" placeholder="Pošalji ponovo"></ActionButton>
+          </div>
+        </div>
+      </div>
+    </div>
     <ul>
-      <li class="w-full items-center min-w-full justify-between">
-        <h3 class="w-full">Meni</h3>
-        <svg @click="$emit('close-sidenav')" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 close" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </li>
       <li v-if="$auth.user" class="user-label" @click="goToUser">
         <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
         <div class="user-wrap w-full">
@@ -41,10 +59,10 @@
           </li>
         </ul>
       </li>
-      <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between">
+      <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between" disabled>
         <div class="flex flex-row items-center w-full">
           <img src="/005-credit-card.png" alt="">
-          <nuxt-link to="/moj-racun/placanja">Plaćanja
+          <nuxt-link to="">Plaćanja
             <dd class="ml-2">
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Uskoro dostupno</span>
             </dd>

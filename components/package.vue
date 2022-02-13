@@ -1,5 +1,5 @@
 <template>
-  <div class="package-wrapper">
+  <div class="package-wrapper hover:shadow-md">
     <div class="package-header">
       <p class="package-type">{{ packageType }}</p>
       <div>
@@ -8,35 +8,6 @@
         <p class="charge">/mjesecno</p>
       </div>
       <p class="pdv">sa PDV-om</p>
-    </div>
-    <div class="package-content">
-      <ul>
-        <li>
-          <img src="/yes.svg" alt="">
-          <p>Bonus 3413 kredita</p>
-        </li>
-        <li>
-          <img src="/yes.svg" alt="">
-          <p>Bonus 3413 kredita</p>
-        </li>
-        <li>
-          <img src="/yes.svg" alt="">
-          <p>Bonus 3413 kredita</p>
-        </li>
-        <li>
-          <img src="/yes.svg" alt="">
-          <p>Bonus 3413 kredita</p>
-        </li>
-        <li>
-          <img src="/yes.svg" alt="">
-          <p>Bonus 3413 kredita</p>
-        </li>
-        <li>
-          <img src="/yes.svg" alt="">
-          <p>Bonus 3413 kredita</p>
-        </li>
-      </ul>
-      <button>Odaberi paket</button>
     </div>
   </div>
 </template>
@@ -59,32 +30,27 @@ export default class Package extends Vue{
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
+    border-radius: 8px;
     overflow: hidden;
-    transition: 0.3s all ease;
     background: #fff;
 
-    &:hover {
-      margin-top: -30px;
-    }
-
     .package-header {
-      background: #1B1E31;
-      border-bottom: 10px solid #0B8489;
-      padding: 24px;
-      color: #fff;
+      background: #fff;
+      border: 1px solid #000;
+      border-bottom: 10px solid #1B1E31;
+      padding: 16px;
+      color: #000;
       font-family: 'NunitoSans', sans-serif;;
+      border-radius: 8px;
 
       .package-type {
-        background: #0B8489;
         border-radius: 6px;
-        padding: 12px;
         font-size: 19px;
         width: fit-content;
         font-weight: 600;
         text-transform: uppercase;
         margin-bottom: 24px;
+        color: #000;
       }
 
       > div {
@@ -93,22 +59,24 @@ export default class Package extends Vue{
         align-items: flex-start;
 
         .value {
-          font-size: 25px;
+          font-size: 22px;
           font-weight: 600;
+          margin-left: 8px;
         }
 
         b {
-          font-size: 70px;
+          font-size: 28px;
           font-weight: 600;
         }
 
         .charge {
-          font-size: 25px;
+          font-size: 22px;
           font-weight: 400;
         }
       }
 
       .pdv {
+        margin-top: 12px;
         font-size: 15px;
         font-weight: 400;
       }

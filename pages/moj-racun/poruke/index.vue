@@ -338,7 +338,7 @@
                   class="w-full ml-2"
                   :style-options="{width: '100%'}"
                   placeholder="Odustani"
-                  @action="showImagePreviewModal = false; imgSrc = ''"
+                  @action="showImagePreviewModal = false; imgSrc = ''; $modal.hide('send-image') "
                 />
               </div>
           </div>
@@ -994,6 +994,11 @@ textarea {
   right: 16px;
   left: 16px;
   width: auto;
+
+  @include for-phone-only {
+    top: 0;
+    bottom: inherit;
+  }
 }
 
 .mobile-message-wrapper {
@@ -1169,6 +1174,7 @@ img {
 
 .add-border {
   border: 1px solid #f1f1f1;
+  background-color: #fff;
 }
 </style>
 

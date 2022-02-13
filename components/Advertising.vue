@@ -5,7 +5,7 @@
         Sponzorisanje oglasa
       </h2>
       <fieldset>
-        <div class="mt-4 grid grid-cols-1 gap-y-6 sm:gap-x-4">
+        <div class="mt-4 grid grid-cols-1 gap-y-6 sm:gap-x-4 padding-box">
           <label class="relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none"
                  v-for="(option, index) in advertising_options" :class="[selectedAdvertisement === option.id? 'ring-2 ring-gray-900 border-transparent': 'border-gray-300 overlay']" :key="option.id" @change="selectAdvertisement(option)"
           >
@@ -207,6 +207,14 @@ export default class Advertising extends Vue {
   width: 1280px;
   margin: 0 auto;
 
+  @supports not (-webkit-touch-callout: none) {
+    height: 100vh;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    height: calc(100vh - 170px);
+  }
+
   &.remove-width {
     width: 100%;
   }
@@ -219,6 +227,11 @@ export default class Advertising extends Vue {
     width: 60%;
     margin:  0 auto;
     padding-top: 60px;
+
+    @supports (-webkit-touch-callout: none) {
+      overflow-y: scroll;
+      padding-bottom: 120px;
+    }
 
     &.full {
       width: 100%;
@@ -372,6 +385,10 @@ export default class Advertising extends Vue {
 .preview-img {
   width: 90px;
   height: fit-content;
+
+  @include for-phone-only {
+    max-height: 90px !important;
+  }
 }
 
 h2.test {
@@ -385,6 +402,7 @@ h2.test {
 
 select {
   min-height: 36px;
+  background: #fff;
 
   &:focus {
     outline: none;
@@ -425,6 +443,12 @@ select {
 #project-type-0-description-0 {
   @include for-phone-only {
     font-size: 16px;
+  }
+}
+
+.padding-box {
+  @include for-phone-only {
+    padding: 2px;
   }
 }
 </style>

@@ -1368,6 +1368,7 @@ button.search {
     padding: 0 16px;
     display: flex;
     flex-direction: row;
+    min-height: 190px;
   }
 }
 

@@ -8,7 +8,7 @@
     </ul>
     <!-- User registration -->
     <div v-if="currentType === 0">
-      <form @submit.prevent="handleUserRegistration">
+      <div class="form" @submit.prevent="handleUserRegistration">
         <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-6 mt-1"></TextField>
         <TextField type="text" label="Email" v-model="userPayload.email" class="mb-6 mt-1"></TextField>
         <TextField type="password" label="Password" v-model="userPayload.password" class="mb-6 mt-1"></TextField>
@@ -17,26 +17,47 @@
           Prihvatam uslove korištenja
         </label>
         <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" @action="handleUserRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
-      </form>
+      </div>
     </div>
     <!-- Real estate agency registration -->
     <div v-if="currentType === 1">
-      <form @submit.prevent="handleRealEstateAgencyRegistration">
+      <div class="form" @submit.prevent="handleRealEstateAgencyRegistration">
         <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
-        <TextField label="ID broj" type="number" v-model="realEstateAgencyPayload.external_id" class="mb-6 mt-1"></TextField>
         <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
         <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
-        <PublishDropdown label="Lokacija" class="location mb-4" @select-option="handleSelectedCity"></PublishDropdown>
+        <PublishDropdown label="Lokacija" class="location mb-6" @select-option="handleSelectedCity"></PublishDropdown>
+        <div class="flex flex-row items-center mb-6">
+          <div class="relative w-full flex flex-col items-start">
+            <div class="select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Paketi</label>
+              <select id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" v-model="selectedPackage">
+                <option class="font-medium text-sm" v-for="(pkg, index) in packages" :key="index" :value="pkg">{{ pkg.title }}</option>
+              </select>
+            </div>
+          </div>
+          <ActionButton class="w-full packages" :style-options="{ color: '#fff', height: '50px', width: 'fit-content', minWidth: 'fit-content', marginLeft: '16px'}" @action="$modal.show('comparation')" :loading="loading" placeholder="Uporedi pakete"></ActionButton>
+        </div>
         <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
           Prihvatam uslove korištenja
         </label>
         <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
-      </form>
+      </div>
     </div>
     <div class="flex items-center justify-center login-u">
       <p>Imaš račun?</p><nuxt-link :to="{ path: '/auth/login' }">Prijavi se</nuxt-link>
     </div>
+    <modal @before-open="beforeOpen" @before-close="beforeClose" name="comparation" width="60%" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <h2>Paketi</h2>
+          <i class="material-icons" @click="$modal.hide('comparation')">close</i>
+        </div>
+        <div class="modal-content">
+          <AgencyPackages></AgencyPackages>
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 
@@ -45,9 +66,10 @@ import { Component, Vue} from "nuxt-property-decorator";
 import TextField from "@/components/inputs/TextField";
 import ActionButton from "@/components/actionButtons/ActionButton";
 import PublishDropdown from "@/components/publishInputs/PublishDropdown"
+import AgencyPackages from "../AgencyPackages";
 
 @Component({
-  components: {ActionButton, TextField, PublishDropdown}
+  components: {AgencyPackages, ActionButton, TextField, PublishDropdown}
 })
 
 export default class RegisterForm extends Vue{
@@ -59,7 +81,7 @@ export default class RegisterForm extends Vue{
     username: '',
     password: '',
   }
-
+  selectedPackage = {}
   userPayload = {
     name: '',
     email: '',
@@ -71,6 +93,20 @@ export default class RegisterForm extends Vue{
     password: '',
     location: ''
   }
+  packages = [
+    {
+      title: 'Basic',
+      id: 1,
+    },
+    {
+      title: 'Advanced',
+      id: 2,
+    },
+    {
+      title: 'Premium',
+      id: 3,
+    },
+  ]
   registrationTypes = [
     'Fizičko lice',
     'Pravno lice (agencija)'
@@ -83,6 +119,14 @@ export default class RegisterForm extends Vue{
     headers: { 'Content-Type': 'application/json' },
     // responseType: 'blob',
   };
+
+  beforeOpen() {
+    document.body.style.overflow = 'hidden';
+  }
+
+  beforeClose() {
+    document.body.style.overflow = 'auto';
+  }
 
   async handlePostRegister(key = 'userPayload') {
     this.loginPayload.username = this[key].email;
@@ -230,12 +274,15 @@ export default class RegisterForm extends Vue{
 button {
   width: 100%;
   margin-top: 16px;
+
+  &.packages {
+    margin-top: 0;
+  }
 }
 
 label {
   font-weight: 500;
   font-size: 15px;
-  margin: 8px 0;
 }
 
 .logo {
@@ -276,4 +323,22 @@ label {
     }
   }
 }
+
+select {
+  min-height: 36px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.select-border {
+  border: 1px solid #f1f1f1 !important;
+
+}
+
+//::v-deep .vm--modal {
+//  width: fit-content !important;
+//  min-width: 90% !important;
+//}
 </style>
