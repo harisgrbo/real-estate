@@ -8,7 +8,7 @@
           <div class="w-full textarea-field">
             <TextAreaField label="Opis" placeholder="Poruka" v-model="description" class="mt-1"></TextAreaField>
           </div>
-          <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Pošalji"></ActionButton>
+          <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px', width: $device.isMobile ? '100%' : 'fit-content' }" :loading="loading" type="submit" placeholder="Pošalji"></ActionButton>
         </form>
       </div>
     </div>
