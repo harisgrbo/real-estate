@@ -88,7 +88,6 @@ export default class LoginForm extends Vue{
   flex-direction: column;
   overflow-y: scroll;
   padding: 10px;
-  height: 100vh;
   justify-content: center;
 
 

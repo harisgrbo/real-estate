@@ -35,7 +35,7 @@
               </select>
             </div>
           </div>
-          <ActionButton class="w-full packages" :style-options="{ color: '#fff', height: '50px', width: 'fit-content', minWidth: 'fit-content', marginLeft: '16px'}" @action="$modal.show('comparation')" :loading="loading" placeholder="Uporedi pakete"></ActionButton>
+          <ActionButton class="w-full packages" :style-options="{ color: '#fff', height: '50px', width: 'fit-content', minWidth: 'fit-content', marginLeft: '16px'}" @action="$modal.show('comparation'); showModal = true;" :loading="loading" placeholder="Uporedi pakete"></ActionButton>
         </div>
         <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
@@ -47,7 +47,7 @@
     <div class="flex items-center justify-center login-u">
       <p>Imaš račun?</p><nuxt-link :to="{ path: '/auth/login' }">Prijavi se</nuxt-link>
     </div>
-    <modal @before-open="beforeOpen" @before-close="beforeClose" name="comparation" :width="$device.isMobile ? '100%' : '60%'" :adaptive="true" height="100%">
+    <modal v-if="showModal" @before-open="beforeOpen" @before-close="beforeClose" name="comparation" :width="$device.isMobile ? '100%' : '60%'" :adaptive="true" height="100%">
       <div class="modal-inner">
         <div class="modal-header">
           <h2>Paketi</h2>
@@ -73,7 +73,7 @@ import AgencyPackages from "../AgencyPackages";
 })
 
 export default class RegisterForm extends Vue{
-
+  showModal = false;
   loginPayload = {
     grant_type: 'password',
     client_id: 2,
@@ -219,7 +219,6 @@ export default class RegisterForm extends Vue{
   flex-direction: column;
   overflow-y: scroll;
   padding: 10px;
-  height: 100vh;
   justify-content: center;
 
   @include for-phone-only {
