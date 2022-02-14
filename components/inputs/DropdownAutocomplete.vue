@@ -7,6 +7,7 @@
         :placeholder="placeholder"
         @input="showAddressAutocomplete"
         v-model="address"
+        autocomplete="off"
         name="name" id="name" class="block w-full border-0 p-0 text-gray-900 bg-white placeholder-gray-500 focus:ring-0 sm:text-sm">
     </div>
     <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">

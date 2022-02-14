@@ -22,11 +22,12 @@ export default class Auth extends Vue {
 
 .auth-wrapper {
   display: flex;
-  flex-direction: row;
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  padding: 36px 0;
   overflow-y: scroll;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
 
   @include for-phone-only {
     flex-direction: column;

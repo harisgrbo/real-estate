@@ -83,12 +83,11 @@ export default class LoginForm extends Vue{
 
 .form-wrapper {
   width: 70%;
-  margin: 0 auto;
+  margin: auto;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   padding: 10px;
-  height: 100vh;
   justify-content: center;
 
 
