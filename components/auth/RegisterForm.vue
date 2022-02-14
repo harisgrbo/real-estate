@@ -26,17 +26,17 @@
         <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
         <TextField label="Šifra" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
         <PublishDropdown label="Lokacija" class="location mb-6" @select-option="handleSelectedCity"></PublishDropdown>
-        <div class="flex flex-row items-center mb-6">
-          <div class="relative w-full flex flex-col items-start">
-            <div class="select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
-              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Paketi</label>
-              <select id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" v-model="selectedPackage">
-                <option class="font-medium text-sm" v-for="(pkg, index) in packages" :key="index" :value="pkg">{{ pkg.title }}</option>
-              </select>
-            </div>
-          </div>
-          <ActionButton class="w-full packages" :style-options="{ color: '#fff', height: '50px', width: 'fit-content', minWidth: 'fit-content', marginLeft: '16px'}" @action="$modal.show('comparation'); showModal = true;" :loading="loading" placeholder="Uporedi pakete"></ActionButton>
-        </div>
+<!--        <div class="flex flex-row items-center mb-6">-->
+<!--          <div class="relative w-full flex flex-col items-start">-->
+<!--            <div class="select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">-->
+<!--              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Paketi</label>-->
+<!--              <select id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" v-model="selectedPackage">-->
+<!--                <option class="font-medium text-sm" v-for="(pkg, index) in packages" :key="index" :value="pkg">{{ pkg.title }}</option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <ActionButton class="w-full packages" :style-options="{ color: '#fff', height: '50px', width: 'fit-content', minWidth: 'fit-content', marginLeft: '16px'}" @action="$modal.show('comparation')" :loading="loading" placeholder="Uporedi pakete"></ActionButton>-->
+<!--        </div>-->
         <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
           Prihvatam uslove korištenja
@@ -47,7 +47,7 @@
     <div class="flex items-center justify-center login-u">
       <p>Imaš račun?</p><nuxt-link :to="{ path: '/auth/login' }">Prijavi se</nuxt-link>
     </div>
-    <modal v-if="showModal" @before-open="beforeOpen" @before-close="beforeClose" name="comparation" :width="$device.isMobile ? '100%' : '60%'" :adaptive="true" height="100%">
+    <modal @before-open="beforeOpen" @before-close="beforeClose" name="comparation" :width="$device.isMobile ? '100%' : '60%'" :adaptive="true" height="100%">
       <div class="modal-inner">
         <div class="modal-header">
           <h2>Paketi</h2>
@@ -73,7 +73,6 @@ import AgencyPackages from "../AgencyPackages";
 })
 
 export default class RegisterForm extends Vue{
-  showModal = false;
   loginPayload = {
     grant_type: 'password',
     client_id: 2,
@@ -214,7 +213,7 @@ export default class RegisterForm extends Vue{
 
 .form-wrapper {
   width: 70%;
-  margin: 0 auto;
+  margin: auto;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
