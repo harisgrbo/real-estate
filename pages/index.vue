@@ -300,7 +300,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">
+    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency" v-if="agencies.length">
       <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Premium agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>

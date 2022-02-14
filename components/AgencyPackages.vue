@@ -12,7 +12,7 @@
         <div class="ml-3">
           <h3 class="text-lg font-medium text-yellow-800">Pažnja</h3>
           <div class="mt-2 text-lg text-yellow-700">
-            <p>Paketi su besplatni u testnoj fazi, prednosti su okvirne, moguće su dodatne izmjene u daljem razvoju.</p>
+            <p>Paketi, cijene i pogodnosti su pokaznog karaktera.</p>
           </div>
         </div>
       </div>

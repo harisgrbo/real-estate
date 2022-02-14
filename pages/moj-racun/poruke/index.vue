@@ -96,7 +96,7 @@
                       </div>
                     </div>
                     <div v-else-if="message.message_type === 'listing'" :class="['add-border', isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
-                      <div class="listing-card flex flex-col" v-if="message.content.listing">
+                      <nuxt-link :to="'/artikal/' + message.content.listing.id" class="listing-card cursor-pointer flex flex-col" v-if="message.content.listing">
                         <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
                           <img :src="message.content.listing.image_urls[0]" alt="">
                         </div>
@@ -104,7 +104,7 @@
                           <img src="/noimage.jpeg" alt="">
                         </div>
                         <h3>{{ message.content.listing.title }}</h3>
-                      </div>
+                      </nuxt-link>
                       {{ message.content.message }}
 
 <!--                      <SmallListingCard :listing="message.listing"></SmallListingCard>-->
@@ -794,6 +794,7 @@ export default class Poruke extends Vue {
   padding:0 !important;
   margin-top: 0 !important;
   height: calc(100vh - 80px) !important;
+  overflow-y: hidden;
 }
 
 .chat__box__input {
@@ -981,9 +982,11 @@ textarea {
 .mobile-chat {
   min-width: 25%;
   border-right: 1px solid #f1f1f1;
+  height: calc(100vh - 80px);
   @include for-phone-only {
     width: 100%;
     min-width: 100%;
+    height: auto;
   }
 }
 
@@ -1202,6 +1205,7 @@ img {
 }
 
 .listing-card {
+  max-width: 200px;
   img {
     height: fit-content;
     width: 200px;
@@ -1210,8 +1214,8 @@ img {
 
   h3 {
     margin-top: 14px;
-    font-weight: 500;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 14px;
     border-bottom: 1px solid #f1f1f1;
     padding-bottom: 16px;
     margin-bottom: 16px;
@@ -1234,6 +1238,22 @@ img {
 
   .modal-inner {
       padding: 0 24px 0 24px;
+  }
+}
+
+.chat__box.box {
+  height: calc(100vh - 80px);
+
+  @include for-phone-only {
+    height: 100%;
+  }
+}
+
+.chat__chat-list {
+  height: calc(100vh - 150px);
+
+  @include for-phone-only {
+    height: 100%;
   }
 }
 </style>

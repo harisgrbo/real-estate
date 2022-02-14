@@ -810,8 +810,11 @@ export default class Objava extends Vue {
   zip_code = null;
 
   handleSelectedCity() {
-    this.lat = this.city.lat;
-    this.lng = this.city.lng;
+
+    if (! this.addressLocationSet) {
+      this.lat = this.city.lat;
+      this.lng = this.city.lng;
+    }
 
     this.city.location = {
       lat: this.lat,
@@ -822,6 +825,8 @@ export default class Objava extends Vue {
   }
 
   municipalities = [];
+
+  addressLocationSet = false;
 
   async handleSelectedAddress(item) {
     try {
@@ -837,12 +842,11 @@ export default class Objava extends Vue {
       if (this.city && this.lat && this.lng) {
         this.city.location.lat = this.lat;
         this.city.location.lng = this.lng;
+
+        this.addressLocationSet = true;
       }
 
       if (res.data.municipalities.length) {
-        console.log(this.city, 'grad');
-        console.log(res.data.municipalities, 'opstine');
-
         this.city = null;
 
         this.showMunicipalities = true;
