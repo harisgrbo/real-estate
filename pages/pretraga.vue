@@ -136,12 +136,10 @@
               :total-pages="lastPage"
               @page-change="pageChangeHandler" />
           </client-only>
-          <div class="gcse-searchresults-only" data-resultsUrl="https://www.mojkvadrat.ba/pretraga" data-queryParameterName="q"></div>
         </div>
         <div v-else>
           <NotFound src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
         </div>
-        <div class="gcse-searchresults-only" v-if="!$device.isMobile"></div>
 
       </div>
       <div class="results map w-full" v-else>
@@ -159,9 +157,9 @@
         <div v-if="results.length && ! $device.isMobile" class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
         </div>
-        <div class="gcse-searchresults-only" v-if="!$device.isMobile"></div>
       </div>
     </div>
+<!--    <div class="gcse-searchresults-only" data-resultsUrl="https://www.mojkvadrat.ba/pretraga" data-queryParameterName="q"></div>-->
     <client-only>
       <modal @before-open="beforeOpen" @before-close="beforeClose" name="filters"
              transition="slide-up"

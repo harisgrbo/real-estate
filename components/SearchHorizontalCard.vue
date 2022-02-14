@@ -26,10 +26,10 @@
           <p class="text-sm font-medium mt-3">{{ listing.address }}</p>
           <div class="icons-date flex flex-row items-center justify-between w-full">
             <div class="important">
-              <p :class="['new', listing.hasDiscount ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
-              <p v-show="listing.listing_type === 'Stan na dan' && !listing.hasOwnProperty('discount')" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+              <p :class="['new', listing.has_discount ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
+              <p v-show="listing.listing_type === 'Stan na dan' && ! listing.has_discount" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
             </div>
-            <div class="important" v-if="listing.hasDiscount">
+            <div class="important" v-if="listing.has_discount">
               <p class="new">{{ parseInt(listing.price - listing.price * listing.discount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
               <p v-show="listing.listing_type === 'Stan na dan'" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
             </div>
@@ -725,6 +725,8 @@ a {
     height: 15px !important;
     width: auto !important;
     margin-right: 3px;
+    max-width: 15px !important;
+    min-width: fit-content;
   }
 }
 

@@ -28,10 +28,10 @@
             <div class="flex flex-col sm:ml-0 xl:ml-6 lg:ml-6 up:ml-6 xl:ml-6">
               <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 mb-6">
                 <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
-                  <img class="h-full w-full rounded-md" alt="Profile picture" :src="avatarUrl !== '' ? avatarUrl: 'dist/images/profile-3.jpg'">
+                  <img class="h-full w-full rounded-md" alt="Profile picture" :src="avatarUrl !== '' ? avatarUrl: '/noimage.jpeg'">
                   <div title="Remove this profile photo?" class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2"> <i data-feather="x" class="w-4 h-4"></i> </div>
                 </div>
-                <div class="mx-auto cursor-pointer relative mt-5">
+                <div class="mx-auto cursor-pointer relative mt-5 picture">
                   <action-button @action="updateProfileInfo" placeholder="Promijeni sliku"></action-button>
 
                   <input @change="updateAvatar" type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
@@ -378,5 +378,9 @@ label {
   @include for-phone-only {
     flex-direction: column;
   }
+}
+
+.picture ::v-deep button {
+  width: 100%;
 }
 </style>

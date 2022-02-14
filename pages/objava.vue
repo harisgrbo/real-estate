@@ -1900,7 +1900,7 @@ h2.info {
     height: 100%;
     padding-top: 80px;
     ::v-deep .quillWrapper {
-      height: 500px;
+      height: 320px;
 
       @include for-phone-only {
         height: 300px;
