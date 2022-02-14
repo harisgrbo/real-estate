@@ -132,14 +132,14 @@
             <h3 class="font-semibold searched-h3 text-left">
                 {{ city.title }}
             </h3>
-            <p class="mt-1 text-lg text-white searched-h3 km">{{ Number.parseFloat(city.price_per_square).toFixed(0) }} KM/m2</p>
+            <p class="mt-1 text-lg text-white searched-h3 km" v-if="city.price_per_square > 0">{{ Number.parseFloat(city.price_per_square).toFixed(0) }} KM/m2</p>
           </div>
         </li>
       </ul>
 
       <div v-else role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
         <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="(i, index) in 6" :key="index">
-          <skeleton height="182px" width="260px"></skeleton>
+          <skeleton :height="$device.isMobile ? '' : '262px'" :width="$device.isMobile ? '' : '440px'"></skeleton>
         </div>
       </div>
     </div>
@@ -194,7 +194,7 @@
           <nuxt-link class="more" to="/pretraga">Sve kategorije</nuxt-link>
         </div>
       </div>
-      <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200">
+      <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200" v-if="most_visited_cats_loaded">
         <li class="flow-root justify-between flex flex-col" v-for="(cat, index) in most_visited_cats" :key="index"
             :style="{ backgroundImage: 'url(' + cat.title + '.jpeg)' }"
         >
@@ -208,6 +208,11 @@
           <button @click="searchCategory(cat)" type="button" class="inline-flex items-center px-3 py-2 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-800 bg-white hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Pretraži
           </button>
+        </li>
+      </ul>
+      <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200" v-else>
+        <li class="flow-root justify-between flex flex-col" v-for="i in 5" :key="index">
+          <skeleton :height="$device.isMobile ? '180px' : '180px'" :width="$device.isMobile ? '250px' : '308px'"></skeleton>
         </li>
       </ul>
     </div>
@@ -383,6 +388,7 @@
     sellLoaded = false;
     followedUserListingsLoaded = false;
     followedUserListings = []
+    most_visited_cats_loaded = false;
     rentLoaded = false;
     rentPerDayLoaded = false;
     quickSearchTab = 0;
@@ -493,11 +499,13 @@
     }
 
     async fetchMostVisitedCats() {
+      this.most_visited_cats_loaded = false;
       try {
         let res = await this.$axios.get('/categories/popular')
         this.most_visited_cats = res.data.data.categories
         this.totalListings = res.data.data.total_listings
 
+        this.most_visited_cats_loaded = true;
       } catch (e) {
         console.log(e)
       }
@@ -1369,13 +1377,12 @@ button.search {
 
 .main-title {
   font-size: 50px;
-  font-weight: 300;
+  font-weight: 600;
   max-width: 900px;
   line-height: 57px;
-  margin-bottom: 30px;
 
   &.sub {
-    font-size: 30px;
+    font-size: 28px;
     margin-bottom: 10px;
   }
 }

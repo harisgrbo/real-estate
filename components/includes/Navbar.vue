@@ -28,7 +28,7 @@
                  v-model="searchInput"
                  @keyup.enter="search"
                  @input="showSuggests"
-                 placeholder="Npr. stan sarajevo.."
+                 placeholder="Npr. stan sarajevo"
                  class="input-main"
           >
           <div class="flex flex-row">

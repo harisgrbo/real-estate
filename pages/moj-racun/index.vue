@@ -58,10 +58,10 @@ export default class accountpage extends Vue {
       desc: 'Uređivanje ličnih podataka i promjena avatara'
     },
     {
-      name: "Spašeno",
+      name: "Spašeni oglasi",
       slug: 'spaseno',
       icon: '013-help.svg',
-      desc: 'Spašeni korisnici, pretrage i oglasi'
+      desc: 'Spašeni oglasi'
     },
     {
       name: "Plaćanja",
@@ -164,6 +164,8 @@ export default class accountpage extends Vue {
   flex-direction: column;
   border-radius: 6px;
   padding: 24px;
+  min-height: 100% !important;
+  height: 100% !important;
 
   @include for-phone-only {
     padding: 24px !important;
@@ -295,14 +297,19 @@ export default class accountpage extends Vue {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 36px;
     z-index: 10;
+    background-color: rgba(255, 255, 255, 0.7);
 
     span {
-      font-size: 20px;
-      text-align: center;
       width: 100%;
+      background: #1F2937;
+      color: #fff;
+      font-size: 14px;
+      padding: 8px 12px;
+      border-top-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      height: fit-content;
+      width: fit-content;
     }
   }
 
