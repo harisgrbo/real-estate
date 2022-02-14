@@ -47,7 +47,7 @@
 
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
         <div class="overflow-hidden relative" v-if="!$device.isMobile">
-          <div v-if="listing.images.length" @mouseenter="handleCardHover" @mouseleave="handleCardHoverDone">
+          <div v-if="listing.images.length">
             <swiper  class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>
               <swiper-slide v-for="(img, index) in listing.images" :key="index">
                 <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
@@ -171,20 +171,6 @@ export default class ListingCard extends Vue{
         this.custom_swiper = this.$refs.swiper;
       }
     })
-  }
-
-  handleCardHover() {
-    if (this.custom_swiper !== null && this.custom_swiper.$swiper.autoplay) {
-      this.custom_swiper.$swiper.autoplay.start();
-      this.custom_swiper.$swiper.params.autoplay.delay = 600;
-    }
-
-  }
-
-  handleCardHoverDone() {
-    if(this.custom_swiper !== null) {
-      this.custom_swiper.$swiper.autoplay.stop();
-    }
   }
 
   translateType() {

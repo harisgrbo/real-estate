@@ -11,7 +11,7 @@
       <div class="form" @submit.prevent="handleUserRegistration">
         <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-6 mt-1"></TextField>
         <TextField type="text" label="Email" v-model="userPayload.email" class="mb-6 mt-1"></TextField>
-        <TextField type="password" label="Password" v-model="userPayload.password" class="mb-6 mt-1"></TextField>
+        <TextField type="password" label="Šifra" v-model="userPayload.password" class="mb-6 mt-1"></TextField>
         <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
           Prihvatam uslove korištenja
@@ -24,7 +24,7 @@
       <div class="form" @submit.prevent="handleRealEstateAgencyRegistration">
         <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
         <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
-        <TextField label="Password" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
+        <TextField label="Šifra" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
         <PublishDropdown label="Lokacija" class="location mb-6" @select-option="handleSelectedCity"></PublishDropdown>
         <div class="flex flex-row items-center mb-6">
           <div class="relative w-full flex flex-col items-start">

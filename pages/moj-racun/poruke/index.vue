@@ -350,7 +350,7 @@
                     :showSearch="false"
                   />
                   <div class="w-full flex items-center justify-between">
-                    < v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..." />
+                    <input v-model="messageContent" @keyup.enter="sendMessage" class="w-full" placeholder="Upišite poruku..." />
                     <button v-show="messageContent.length" @click.prevent="sendMessage" class="ml-2 p-2 flex items-center justify-center bg-gray-800 rounded-full">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="#fff">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
@@ -1025,10 +1025,8 @@ textarea {
     max-height: calc(100vh - 250px) !important;
 
     @supports (-webkit-touch-callout: none) {
-      padding-bottom: calc(200px + env(safe-area-inset-bottom));
-      min-height: -webkit-fill-available !important;
-      height: -webkit-fill-available !important;
-      max-height: -webkit-fill-available !important;
+      min-height: calc(100vh - 380px) !important;
+      max-height: calc(100vh - 275px) !important;
     }
   }
 }
@@ -1233,6 +1231,10 @@ img {
   left: 0;
   right: 0;
   bottom: 0;
+
+  .modal-inner {
+      padding: 0 24px 0 24px;
+  }
 }
 </style>
 

@@ -214,7 +214,6 @@ export default class PublishMap extends Vue{
         zoom: 17,
         center: center,
         mapId: '90b8b95b1bbd0bc9',
-        mapTypeId: google.maps.MapTypeId.TERRAIN
       });
       const svgMarker = {
         path:
