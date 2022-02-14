@@ -399,7 +399,7 @@
 
     swiperOption = {
       spaceBetween: 16,
-      loop: true,
+      loop: false,
       slidesPerView: 5,
       touchRatio: 0.2,
       slideToClickedSlide: false,

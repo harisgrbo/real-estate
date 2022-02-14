@@ -98,6 +98,25 @@
         <img src="/004-ask.png" alt="">
         <nuxt-link to="/moj-racun/oglasi-koje-izdajem" class="font-medium">Zahtjevi za rezervacije</nuxt-link>
       </li>
+    </ul>
+    <h4>Ostali linkovi</h4>
+    <ul>
+      <li>
+        <img src="/001-advertising.png" alt="">
+        <nuxt-link to="/agencije">Agencije</nuxt-link>
+      </li>
+      <li>
+        <img src="/002-box.png" alt="">
+        <nuxt-link to="/paketi">Paketi pretplate (agencije)</nuxt-link>
+      </li>
+      <li>
+        <img src="/003-bug.png" alt="">
+        <nuxt-link to="/prijavi-gresku">Prijavi grešku/bug</nuxt-link>
+      </li>
+      <li>
+        <img src="/004-mail.png" alt="">
+        <nuxt-link to="/kontakt">Kontakt</nuxt-link>
+      </li>
       <li v-if="$auth.user" @click="logout()" class="text-red-600">
         <img src="/008-logout.png" alt="">
         <a class="text-red-600">Odjavi se</a>
@@ -326,5 +345,11 @@ button.logout {
 
 .separate {
   border-bottom: 1px solid #EBEBEB;
+}
+
+h4 {
+  margin-top: 32px;
+  font-size: 18px;
+  margin-bottom: 12px;
 }
 </style>

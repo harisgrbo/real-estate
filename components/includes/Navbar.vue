@@ -3,7 +3,9 @@
     <div :class="['second-row mx-auto w-full', this.$route.name === 'pretraga' || this.$route.name === 'moj-racun-poruke' ? 'only-search' : '']">
       <div class="flex flex-row items-center">
         <div class="img-wrapper" v-if="!$device.isMobile" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-          <img @click="$router.push('/')" :src="[ $device.isMobile ? '/mojkvadrat-logo-new.png' : '/mojkvadrat-logo-new.png']" class="main-logo" height="40" alt="">
+          <nuxt-link to="/">
+            <img :src="[ $device.isMobile ? '/mojkvadrat-logo-new.png' : '/mojkvadrat-logo-new.png']" class="main-logo" height="40" alt="">
+          </nuxt-link>
         </div>
 <!--        <div class="relative flex flex-row items-center ml-10" v-if="!$device.isMobile">-->
 <!--          <nuxt-link to="/oglasavanje" class="ml-2 uppercase hover:underline text-black font-light text-sm mr-4">Oglašavanje</nuxt-link>-->
