@@ -1,25 +1,21 @@
 <template>
   <div class="border-t border-gray-200 flex w-full items-center justify-between my-20">
-    <button class="-mt-px rounded-sm flex justify-end items-center justify-center text-black" @click.prevent="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1">
-      <a href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#1F2937" aria-hidden="true">
-          <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
-        </svg>
-      </a>
+    <button class="-mt-px rounded-sm flex justify-end items-center justify-center text-black prev-next" @click.prevent="handlePageClick(currentPage - 1)" :disabeld="currentPage === 1">
+      <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#1F2937" aria-hidden="true">
+        <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
     </button>
     <div class="flex items-center justify-center">
-      <button class="md:-mt-px md:flex flex items-center justify-between rounded-full p-2 py-2"  @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index">
-        <a class="mr-4 link" :class="['border-transparent text-gray-900 font-semibold hover:text-gray-700 hover:border-gray-300', page === currentPage ? 'active text-indigo-600': '']" href="#">
+      <button class="md:-mt-px md:flex flex items-center justify-between rounded-full py-2"  @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index">
+        <a class="mr-4 link" :class="['border-transparent text-gray-900 font-semibold hover:text-gray-700 hover:border-gray-300 standard', page === currentPage ? 'active text-indigo-600': '']" href="#">
           {{ page }}
         </a>
       </button>
     </div>
-    <button class="-mt-px rounded-full flex justify-end items-center justify-center text-black" @click.prevent="handlePageClick(currentPage + 1)">
-      <a  href="#" class="counter border-t-2 border-transparent flex p-3 py-2 rounded-full items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+    <button class="-mt-px rounded-full flex justify-end items-center justify-center text-black prev-next" @click.prevent="handlePageClick(currentPage + 1)" :disabled="currentPage === totalPages">
         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#1F2937" aria-hidden="true">
           <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
         </svg>
-      </a>
     </button>
   </div>
 </template>
@@ -94,16 +90,48 @@ export default class Pagination extends Vue {
   }
 }
 
+.standard {
+  -webkit-box-pack: center !important;
+  -webkit-box-align: center !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0px 8px !important;
+  padding: 0px !important;
+  transition: -ms-transform 0.25s ease 0s, -webkit-transform 0.25s ease 0s, transform 0.25s ease 0s !important;
+  outline: none !important;
+  background: #fff !important;
+  color: rgb(34, 34, 34) !important;
+}
+
 .active {
-  background: #1F2937 !important;
-  border-radius: 4px;
-  height: 26px;
-  width: 26px;
-  color: #fff;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-pack: center !important;
+  -webkit-box-align: center !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 32px !important;
+  height: 32px !important;
+  margin: 0px 8px !important;
+  padding: 0px !important;
+  transition: -ms-transform 0.25s ease 0s, -webkit-transform 0.25s ease 0s, transform 0.25s ease 0s !important;
+  outline: none !important;
+  background: rgb(34, 34, 34) !important;
+  color: rgb(255, 255, 255) !important;
 }
 
 .counter {
@@ -114,5 +142,34 @@ export default class Pagination extends Vue {
   &:last-child {
     margin-right: 0;
   }
+}
+
+.prev-next {
+  -webkit-box-pack: center !important;
+  -webkit-box-align: center !important;
+  appearance: none !important;
+  display: inline-flex !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  outline: none !important;
+  margin: 0px !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0px !important;
+  background-clip: padding-box !important;
+  color: rgb(34, 34, 34) !important;
+  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgb(0 0 0 / 18%) 0px 2px 4px !important;
+  transition: -ms-transform 0.25s ease 0s, -webkit-transform 0.25s ease 0s, transform 0.25s ease 0s !important;
+  width: 48px !important;
+  height: 48px !important;
+}
+
+button:disabled,
+button[disabled]{
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
 }
 </style>

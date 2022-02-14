@@ -1025,10 +1025,8 @@ textarea {
     max-height: calc(100vh - 250px) !important;
 
     @supports (-webkit-touch-callout: none) {
-      padding-bottom: calc(200px + env(safe-area-inset-bottom));
-      min-height: -webkit-fill-available !important;
-      height: -webkit-fill-available !important;
-      max-height: -webkit-fill-available !important;
+      min-height: calc(100vh - 380px) !important;
+      max-height: calc(100vh - 275px) !important;
     }
   }
 }
@@ -1233,6 +1231,10 @@ img {
   left: 0;
   right: 0;
   bottom: 0;
+
+  .modal-inner {
+      padding: 0 24px 0 24px;
+  }
 }
 </style>
 

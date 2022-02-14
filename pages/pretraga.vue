@@ -7,9 +7,6 @@
             <li :class="['group cat-list mr-4 inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}</li>
           </ul>
           <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-            </svg>
             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
           </button>
 
@@ -21,9 +18,6 @@
           </button>
           <div v-if="$device.isMobile" class="mobile-fit">
             <button @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-              </svg>
               {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
             </button>
             <div v-if="showSortDropdown" class=" w-full origin-top-left absolute left-0 mt-2 w-40 rounded-lg shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
@@ -890,8 +884,8 @@ export default class Homepage extends Vue {
         height: calc(100vh - 275px);
 
         .map-wrapper {
-          width: 70%;
-          min-width: 70%;
+          width: 55%;
+          min-width: 55%;
           background: #f9f9f9;
           margin-left: 36px;
           height: calc(100vh - 237px);
@@ -1362,13 +1356,23 @@ export default class Homepage extends Vue {
 .search-options {
   @include for-phone-only {
     button.group {
-      border-radius: 20px;
-      background: #fff;
-      font-weight: 500;
-      font-size: 13px !important;
-      border: 1px solid #1F2937;
-      min-width: fit-content;
-      align-items: center;
+      cursor: pointer !important;
+      text-align: center !important;
+      border: 1px solid rgb(221, 221, 221) !important;
+      background-color: rgb(255, 255, 255) !important;
+      outline: none !important;
+      margin: 0px !important;
+      color: rgb(34, 34, 34) !important;
+      font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
+      position: relative !important;
+      transition-property: -ms-transform, -webkit-transform, transform, background-color, border-color !important;
+      transition-duration: 0.15s !important;
+      transition-timing-function: ease-in-out !important;
+      padding: 6px 14px !important;
+      border-radius: 30px !important;
+      font-size: 14px !important;
+      line-height: 18px !important;
+      font-weight: 300 !important;
     }
   }
 }
@@ -1433,16 +1437,25 @@ export default class Homepage extends Vue {
 .mobile-filters-wrap {
 
   button {
-    width: fit-content;
-    min-width: fit-content;
+    cursor: pointer !important;
+    text-align: center !important;
+    border: 1px solid rgb(221, 221, 221) !important;
+    background-color: rgb(255, 255, 255) !important;
+    outline: none !important;
+    margin: 0px !important;
+    color: rgb(34, 34, 34) !important;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
+    position: relative !important;
+    transition-property: -ms-transform, -webkit-transform, transform, background-color, border-color !important;
+    transition-duration: 0.15s !important;
+    transition-timing-function: ease-in-out !important;
+    padding: 6px 14px !important;
+    border-radius: 30px !important;
+    font-size: 14px !important;
+    line-height: 18px !important;
     display: flex;
+    flex-display: row;
     align-items: center;
-    justify-content: center;
-    padding: 12px 16px;
-    border-radius: 6px;
-    font-size: 13px;
-    color: #1F2937;
-    border: 1px solid #000;
   }
 }
 

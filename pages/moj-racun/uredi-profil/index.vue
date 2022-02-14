@@ -20,8 +20,8 @@
                 <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email" class="mb-3"></TextField>
                 <TextField type="text" label="Broj mobitela" placeholder="+387 61 111 222" v-model="phoneNumber" class="mb-3"></TextField>
                 <TextField type="text" label="Adresa" placeholder="ulica i broj.." v-model="address" class="mb-3"></TextField>
-                <TextField type="password" label="Password" placeholder="******" v-model="password" class="mb-3"></TextField>
-                <TextField type="password" label="Ponovi password" placeholder="******" v-model="passwordConfirm" class="mb-3"></TextField>
+                <TextField type="password" label="Šifra" placeholder="******" v-model="password" class="mb-3"></TextField>
+                <TextField type="password" label="Ponovi Šifru" placeholder="******" v-model="passwordConfirm" class="mb-3"></TextField>
               </div>
               <action-button class="mt-5 mb-4" @action="updateProfileInfo" placeholder="Sačuvaj"></action-button>
             </div>

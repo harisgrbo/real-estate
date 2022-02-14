@@ -558,9 +558,9 @@ a {
 }
 
 .image-wrapper {
-  min-width: 180px;
-  width: 180px;
-  max-width: 180px;
+  min-width: 280px;
+  width: 280px;
+  max-width: 280px;
   border-radius: 7px;
   height: 180px;
   max-height: 180px;
