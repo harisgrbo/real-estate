@@ -219,6 +219,7 @@ export default class Advertising extends Vue {
   justify-content: space-between;
   width: 1280px;
   margin: 0 auto;
+  padding: 0 3px;
 
   @supports not (-webkit-touch-callout: none) {
     height: 100vh;
