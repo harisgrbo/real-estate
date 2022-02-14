@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <TextAreaField class="mt-4" v-model="description" label="Opis" placeholder="Opis.."></TextAreaField>
+      <TextAreaField class="mt-4" v-model="description" label="Ukratko o vama" placeholder="upišite nešte.."></TextAreaField>
       <action-button :loading="loading" @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
     </div>
     <div v-else>
@@ -161,6 +161,8 @@ export default class urediProfil extends Vue {
 
 .banner-wrap {
   height: fit-content;
+  max-height: 200px;
+  width: auto;
 }
 </style>
 

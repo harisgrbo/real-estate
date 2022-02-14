@@ -1,5 +1,7 @@
 <template>
-  <div class="relative main-input-wrap border text-wrap border-gray-300 rounded-md shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900 mt-4">
+  <div class="relative w-full flex flex-col items-start">
+
+  <div class="relative border text-wrap border-gray-300 rounded-md">
     <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500" v-if="label">{{ label }}</label>
     <textarea
       :value="value"
@@ -7,6 +9,7 @@
       @input="updateValue($event.target.value)"
       name="name" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"></textarea>
     <p v-if="error" class="mt-2 text-sm text-red-600" id="email-error">{{ error }}</p>
+  </div>
   </div>
 </template>
 

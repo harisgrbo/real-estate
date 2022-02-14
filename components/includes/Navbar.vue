@@ -3,7 +3,9 @@
     <div :class="['second-row mx-auto w-full', this.$route.name === 'pretraga' || this.$route.name === 'moj-racun-poruke' ? 'only-search' : '']">
       <div class="flex flex-row items-center">
         <div class="img-wrapper" v-if="!$device.isMobile" :class="[$device.isMobile && focused === true ? 'hide' : '']">
-          <img @click="$router.push('/')" :src="[ $device.isMobile ? '/mojkvadrat-logo-new.png' : '/mojkvadrat-logo-new.png']" class="main-logo" height="40" alt="">
+          <nuxt-link to="/">
+            <img :src="[ $device.isMobile ? '/mojkvadrat-logo-new.png' : '/mojkvadrat-logo-new.png']" class="main-logo" height="40" alt="">
+          </nuxt-link>
         </div>
 <!--        <div class="relative flex flex-row items-center ml-10" v-if="!$device.isMobile">-->
 <!--          <nuxt-link to="/oglasavanje" class="ml-2 uppercase hover:underline text-black font-light text-sm mr-4">Oglašavanje</nuxt-link>-->
@@ -26,7 +28,8 @@
                  v-model="searchInput"
                  @keyup.enter="search"
                  @input="showSuggests"
-                 placeholder="Npr. stan Sarajevo.."
+                 placeholder="Npr. stan sarajevo.."
+                 class="input-main"
           >
           <div class="flex flex-row">
           <span class="relative z-0 inline-flex ml-2 rounded-sm border border-gray-200 selected-cat-type"  v-if="selectedCategory !== null">
@@ -594,11 +597,10 @@ export default class Navbar extends Vue {
     align-items: center;
     justify-content: space-between;
     border-radius: 4px;
-    padding: 0 12px;
+    padding: 0 24px;
     background: #F3F3F4;
     flex: 2;
     position: relative;
-    transition: 0.3s all ease;
     max-width: 600px;
 
     @include for-phone-only {
@@ -612,7 +614,7 @@ export default class Navbar extends Vue {
     }
 
     &.focused {
-      box-shadow: 0px 8px 20px rgba(0,0,0,0.09);
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.07);
       border-radius: 6px;
       z-index: 1;
       background: #fff;
@@ -1169,5 +1171,9 @@ export default class Navbar extends Vue {
     width: 24px !important;
     min-width: 24px !important;
   }
+}
+
+.input-main {
+  font-size: 16px !important;
 }
 </style>

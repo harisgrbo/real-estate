@@ -213,7 +213,7 @@ export default class PublishMap extends Vue{
       this.map = new google.maps.Map(document.getElementById("map"), {
         zoom: 17,
         center: center,
-        mapId: '90b8b95b1bbd0bc9'
+        mapId: '90b8b95b1bbd0bc9',
       });
       const svgMarker = {
         path:

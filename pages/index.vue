@@ -67,7 +67,7 @@
 <!--         data-ad-format="auto"-->
 <!--         data-full-width-responsive="true">-->
 <!--    </ins>-->
-    <div class="flex flex-col">
+    <div class="flex flex-col" v-if="premiumListingsLoaded && premiumListings.length">
       <div class="flex custom-width items-center justify-between title-wrapper">
         <h2 class="section-title" ssr-only="stanovi sarajevo stan na dan najam izdavanje rentanje novogradnja iznajmljivanje">Premium oglasi</h2>
         <div class="flex flex-row items-center mr-5">
@@ -162,16 +162,8 @@
     <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-format="fluid"
-                 data-ad-layout-key="+21+qe+w+z+4w"
-                 data-ad-client="ca-pub-3745186233711216"
-                 data-ad-slot="3596480566"></ins>
-          </swiper-slide>
-          <swiper-slide v-for="listing in listings_sell" :key="listing.id">
-            <ListingCard :listing="listing" />
+          <swiper-slide v-for="(listing, index) in listings_sell" :key="index">
+            <ListingCard :listing="listing"/>
           </swiper-slide>
         </swiper>
       </client-only>
@@ -407,7 +399,7 @@
 
     swiperOption = {
       spaceBetween: 16,
-      loop: true,
+      loop: false,
       slidesPerView: 5,
       touchRatio: 0.2,
       slideToClickedSlide: false,
@@ -529,7 +521,6 @@
       try {
         let res = await this.$axios.get('/listings/sell')
         this.listings_sell = res.data.data;
-
         this.sellLoaded = true;
       } catch (e) {
         console.log(e)

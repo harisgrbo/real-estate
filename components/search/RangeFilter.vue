@@ -1,6 +1,6 @@
 <template>
   <div class="range-wrapper">
-    <label>
+    <label class="first-one">
       {{ displayName }}
     </label>
     <div class="input-wrapper">

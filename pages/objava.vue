@@ -8,6 +8,9 @@
         </nuxt-link>
       </div>
       <div class="content-wrapper flex flex-col">
+        <div v-if="$device.isMobile" class="back-to-home">
+          <nuxt-link to="/">Nazad na početnu</nuxt-link>
+        </div>
         <div class="loader-wrapper">
           <div
             :style="{ backgroundColor: '#002F34', width: stepPercentage + '%' }"
@@ -1074,7 +1077,7 @@ export default class Objava extends Vue {
 
         &.map {
           position: absolute;
-          top: 56px;
+          top: 76px;
           left: 24px;
           right: 24px;
           z-index: 1;
@@ -1138,6 +1141,7 @@ export default class Objava extends Vue {
             height: 100% !important;
             overflow-y: scroll;
             padding-bottom: 120px;
+            padding-top: 86px;
           }
         }
 
@@ -1904,7 +1908,7 @@ h2.info {
     height: 100%;
     padding-top: 80px;
     ::v-deep .quillWrapper {
-      height: 500px;
+      height: 320px;
 
       @include for-phone-only {
         height: 300px;
@@ -1937,5 +1941,21 @@ select {
 
 select {
   background: #fff;
+}
+
+.back-to-home {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  left: 0;
+  padding: 24px;
+  background: #fff;
+  z-index: 10;
+  border-bottom: 1px solid #ebebeb;
+
+  a {
+    font-weight: 600;
+    text-decoration: underline;
+  }
 }
 </style>

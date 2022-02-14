@@ -137,9 +137,17 @@
               <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
             </div>
             <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
-              <div class="flex flex-row items-center w-full">
-                <p class="text-2xl font-medium">{{ numberWithCommas(listing.price) + ' KM'}}</p>
-                <p class="pl-2 text-lg font-thin" v-if="listing.is_booking">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+              <div class="flex flex-row items-center justify-between w-full">
+                <div class="flex flex-row items-center">
+                  <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-xl font-medium']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                  <p v-if="listing.hasOwnProperty('discount')" class="text-xl font-medium ml-4">
+                    {{ 'Akcija - ' + numberWithCommas(listing.price - (listing.price * (listing.discount * 100) / 100)) + ' KM' }}
+                  </p>
+                  <p class="pl-2 text-lg font-thin" v-if="listing.is_booking">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+                </div>
+                <div v-if="!listing.is_booking && !listing.is_rent" class="p-2 border-sm bg-gray-50">
+                  <p class="ml-4 text-sm font-bold">{{ numberWithCommas(listing.price_per_square.toFixed()) + 'KM po m2' }}</p>
+                </div>
               </div>
             </div>
             <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
@@ -310,13 +318,17 @@
               </div>
             </div>
             <div v-if="$device.isMobile" class="book-article">
-              <div class="flex flex-row items-center justify-star">
-                <p class="text-lg font-semibold">{{ numberWithCommas(listing.price) + ' KM' }}</p>
-                <p class="text-black font-medium text-lg ml-2" v-if="listing.is_booking">/ noć {{ listing.per_guest ? ' po osobi' : '' }}</p>
+              <div class="flex flex-row items-center justify-between w-full">
+                <div class="flex flex-row items-center">
+                  <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-sm font-medium']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                  <p v-if="listing.hasOwnProperty('discount')" class="text-md font-medium ml-4">
+                    {{ 'Akcija - ' + numberWithCommas(listing.price - (listing.price * (listing.discount * 100) / 100)) + ' KM' }}
+                  </p>
+                  <p class="pl-2 text-lg font-thin" v-if="listing.is_booking">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+                </div>
               </div>
               <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
-
           </div>
           <div class="user-wrap relative z-10" v-if="!$device.isMobile">
             <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
@@ -326,7 +338,7 @@
           <modal @before-open="beforeOpen" @before-close="beforeClose" name="places" :adaptive="true" height="100%">
             <div class="modal-inner">
               <div class="modal-header">
-                <h3>U blizini</h3>
+                <h3>U krugu 2km od lokacije nekretnine</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('places')">close</i>
               </div>
               <div class="modal-content places-modal">
@@ -1696,7 +1708,6 @@ h2 {
   grid-column-gap: 24px;
   grid-row-gap: 32px;
   border-radius: 6px;
-  padding: 32px 0;
 
   @include for-phone-only {
     grid-template-columns: repeat(1, 1fr);
@@ -1709,6 +1720,8 @@ h2 {
     img {
       height: 20px !important;
       max-height: 20px !important;
+      width: auto !important;
+      min-width: 20px;
     }
   }
 
@@ -2419,6 +2432,11 @@ input[type=range]:focus::-ms-fill-upper {
   #map {
     height: 610px;
   }
+}
+
+.active p{
+  font-weight: 600 !important;
+  color: #000 !important;
 }
 </style>
 

@@ -1,6 +1,22 @@
 <template>
   <div class="packages-wrapper">
     <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="rounded-md bg-yellow-50 p-4 mb-6">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <!-- Heroicon name: solid/exclamation -->
+          <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-lg font-medium text-yellow-800">Pažnja</h3>
+          <div class="mt-2 text-lg text-yellow-700">
+            <p>Paketi su besplatni u testnoj fazi, prednosti su okvirne, moguće su dodatne izmjene u daljem razvoju.</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <fieldset>
       <legend class="text-lg font-medium text-gray-900">Izaberite paket</legend>
 
@@ -13,8 +29,8 @@
           <input type="radio" name="project-type" value="Newsletter" class="sr-only" aria-labelledby="project-type-0-label" aria-describedby="project-type-0-description-0 project-type-0-description-1">
           <div class="flex-1 flex">
             <div class="flex flex-col">
-              <span id="project-type-0-label" class="block text-lg font-semibold text-gray-900"> {{ pkg.package_type }} </span>
-              <span id="project-type-0-description-0" class="mt-3 flex items-center text-md text-gray-500"> {{ pkg.bonus }}</span>
+              <span id="project-type-0-label" class="block text-lg font-semibold text-gray-900"> {{ pkg.title }} </span>
+              <span id="project-type-0-description-0" class="mt-3 flex items-center text-md text-gray-500"> {{ pkg.features['bonus'] + ' više kredita' }}</span>
               <span id="project-type-0-description-1" class="mt-5 text-lg font-bold text-gray-900"> {{ pkg.price + 'KM / mjesečno' }} </span>
             </div>
           </div>
@@ -42,101 +58,63 @@
     <table>
       <tr>
         <th>Pogodnosti</th>
-        <th>Fizičko lice</th>
         <th>Basic</th>
         <th>Advanced</th>
         <th>Premium</th>
       </tr>
       <tr>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td>Germany</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Broj kredita</td>
+        <td>Uskoro</td>
+        <td>Uskoro</td>
+        <td>Uskoro</td>
       </tr>
       <tr>
-        <td>Centro comercial Moctezuma</td>
-        <td>Francisco Chang</td>
-        <td>Mexico</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Limit oglasa</td>
+        <td>30</td>
+        <td>80</td>
+        <td>nema limita</td>
       </tr>
       <tr>
-        <td>Ernst Handel</td>
-        <td>Roland Mendel</td>
-        <td>Austria</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Broj agenata</td>
+        <td>3</td>
+        <td>8</td>
+        <td>nema limita</td>
       </tr>
       <tr>
-        <td>Island Trading</td>
-        <td>Helen Bennett</td>
-        <td>UK</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Podrška 24h</td>
+        <td>Ne</td>
+        <td>Ne</td>
+        <td>Da</td>
       </tr>
       <tr>
-        <td>Laughing Bacchus Winecellars</td>
-        <td>Yoshi Tannamuri</td>
-        <td>Canada</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Bulk objava oglasa</td>
+        <td>Ne</td>
+        <td>Ne</td>
+        <td>Da</td>
       </tr>
       <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Baner na profilu</td>
+        <td>Ne</td>
+        <td>Da</td>
+        <td>Da</td>
       </tr>
       <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Oglasi sa akcijom na naslovnici</td>
+        <td>Ne</td>
+        <td>Da</td>
+        <td>Da</td>
       </tr>
       <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>PDF lista svih oglasa</td>
+        <td>Ne</td>
+        <td>Da</td>
+        <td>Da</td>
       </tr>
       <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
-      </tr>
-      <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
-      </tr>
-      <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
-      </tr>
-      <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
-      </tr>
-      <tr>
-        <td>Magazzini Alimentari Riuniti</td>
-        <td>Giovanni Rovelli</td>
-        <td>Italy</td>
-        <td>Germany</td>
-        <td>Germany</td>
+        <td>Popust na oglašavanje</td>
+        <td>10%</td>
+        <td>15%</td>
+        <td>20%</td>
       </tr>
     </table>
   </div>
@@ -155,20 +133,56 @@ import Package from "@/components/package";
 export default class Paketi extends Vue{
   packages = [
     {
-      package_type: 'Basic',
-      price: '50',
-      bonus: '20% više sredstava na računu'
+      title: 'Basic',
+      price: '59',
+      description: 'test',
+      features: {
+        limit: 30,
+        sponsored_agency_card_on_homepage: false,
+        number_of_agents: 3,
+        support_24h: false,
+        bulk_upload: false,
+        agency_banner_on_profile: true,
+        bonus: '20%',
+        listings_with_discount_on_homepage: false,
+        pdf_list_of_articles: false,
+        discount_on_banners: '10%'
+      }
     },
     {
-      package_type: 'Advanced',
-      price: '120',
-      bonus: '30% više sredstava na računu'
+      title: 'Advanced',
+      price: '139',
+      description: 'test',
+      features: {
+        limit: 80,
+        sponsored_agency_card_on_homepage: true,
+        number_of_agents: 8,
+        support_24h: false,
+        bulk_upload: false,
+        agency_banner_on_profile: true,
+        bonus: '25%',
+        listings_with_discount_on_homepage: true,
+        pdf_list_of_articles: true,
+        discount_on_banners: '15%'
+      }
     },
     {
-      package_type: 'Premium',
-      price: '300',
-      bonus: '50% više sredstava na računu'
-    }
+      title: 'Premium',
+      price: '319',
+      description: 'test',
+      features: {
+        limit: 'beskonacno',
+        sponsored_agency_card_on_homepage: true,
+        number_of_agents: 'beskonacno',
+        support_24h: true,
+        bulk_upload: true,
+        agency_banner_on_profile: true,
+        bonus: '30%',
+        listings_with_discount_on_homepage: true,
+        pdf_list_of_articles: true,
+        discount_on_banners: '20%'
+      }
+    },
   ]
   selectedPackage = null;
 }
@@ -228,6 +242,8 @@ export default class Paketi extends Vue{
     border-radius: 6px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px;
     overflow: hidden;
+    max-width: 100%;
+    overflow-x: scroll;
   }
 
   td, th {

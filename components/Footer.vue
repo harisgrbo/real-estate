@@ -8,7 +8,7 @@
           </div>
 
           <div class="px-5 py-2">
-            <nuxt-link to="/paketi-za-agencije" class="text-base text-gray-500 hover:text-gray-900"> Paketi za agencije </nuxt-link>
+            <nuxt-link to="/paketi" class="text-base text-gray-500 hover:text-gray-900"> Paketi za agencije </nuxt-link>
           </div>
 
           <div class="px-5 py-2">

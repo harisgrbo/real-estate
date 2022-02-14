@@ -21,13 +21,12 @@
           <InputError :error="errors.price" />
           <TextField type="number" label="Cijena" v-model="listing.price" :currency="true"></TextField>
         </div>
-        <DropdownAutocomplete label="Lokacija" placeholder="Pretrazite lokacije" @select-option="handleSelectedCity"></DropdownAutocomplete>
         <div class="bg-50 flex flex-col w-full mt-6">
-          <div class="flex flex-row items-end">
-            <TextField type="number" label="Popust na cijenu (u postotcima)" placeholder="npr. 90" v-model="discount" discount="true"></TextField>
-            <action-button class="ml-4" @action="addDiscount" v-show="discount.length > 0" placeholder="Potvrdi popust"></action-button>
+          <div class="flex flex-row items-end discount-button">
+            <TextField type="number" label="Popust na cijenu (akcija)" placeholder="npr. 90" v-model="discount" :discount="true"></TextField>
+            <action-button class="ml-4" @action="addDiscount" placeholder="Potvrdi popust"></action-button>
           </div>
-          <div class="mt-3" v-if="discount.length">
+          <div class="mt-3">
             <label class="block text-md font-medium text-gray-900 mb-2">Period akcije</label>
             <vc-date-picker
               :min-date="new Date()"
@@ -263,6 +262,18 @@ export default class ListingEdit extends Vue {
   }
 
   async addDiscount() {
+    let num = parseInt(this.discount);
+
+    console.log(num, 'staj e ovo')
+    if(isNaN(num)) {
+      this.$toast.open({
+        message: "Morate unijeti popust",
+        type: 'warning',
+        duration: 5000
+      });
+
+      return
+    }
     let start = this.$moment(this.range.start);
     let end = this.$moment(this.range.end);
 
@@ -587,7 +598,7 @@ export default class ListingEdit extends Vue {
 
   async fetchAttributesByListingType() {
     try {
-      let response = await this.$axios.get('/listing_types/' + this.listing.listingType.id + '/attributes')
+      let response = await this.$axios.get('/listing_types/' + this.listing.listing_type.id + '/attributes')
       this.listingTypeAttributes = response.data.data;
     } catch(e) {
       console.log(e)
@@ -622,8 +633,10 @@ export default class ListingEdit extends Vue {
   handleSelectedCity(f) {
     this.city = f;
 
-    this.lat = f.location.lat;
-    this.lng = f.location.lng;
+    console.log(f, 'fffff')
+
+    this.lat = parseInt(f.location.lat);
+    this.lng = parseInt(f.location.lng);
 
     this.errors.city.error = false;
 
@@ -1073,6 +1086,10 @@ h1.heading {
 
 }
 
+::v-deep .terms-wrapper .option-wrapper {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 ::v-deep .terms-wrapper .option-wrapper button {
   width: 100% !important;
   margin-bottom: 0;
@@ -1357,5 +1374,17 @@ h2.info {
 
 label {
   font-size: 16px;
+}
+
+.discount-button ::v-deep button {
+  min-width: fit-content;
+  height: 52px;
+}
+
+.date-input {
+  height: 48px;
+  background: #fff;
+  font-size: 13px;
+  border-radius: 6px;
 }
 </style>
