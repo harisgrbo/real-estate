@@ -61,7 +61,7 @@
             <div class="min-w-0 flex-1">
               <div>
                 <div class="text-sm">
-                  <a href="#" class="font-medium text-gray-900">{{ message.user.name }}</a>
+                  <div class="font-medium text-gray-900">{{ message.user.name }}</div>
                 </div>
                 <p class="mt-0.5 text-sm text-gray-500">
                   {{ $moment(message.created_at).format('DD.MM.YYYY') }} u {{$moment(message.created_at).format('HH:MM') }}
@@ -93,9 +93,9 @@
             </div>
             <div class="min-w-0 flex-1 py-1.5">
               <div class="text-sm text-gray-500">
-                <a href="#" class="font-medium text-gray-900" v-if="reply && reply.user"> {{ reply.user.name }}</a>
+                <div class="font-medium text-gray-900" v-if="reply && reply.user"> {{ reply.user.name }}</div>
                 je odgovorio
-                <a href="#" class="font-medium text-gray-900">{{ reply.question }}</a>
+                <div class="font-medium text-gray-900">{{ reply.question }}</div>
               </div>
             </div>
           </div>

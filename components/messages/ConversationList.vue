@@ -9,10 +9,10 @@
       <div class="flex flex-col w-full">
         <div class="flex justify-between w-full space-x-3">
           <div class="min-w-0 flex-1">
-            <a href="#" class="block focus:outline-none">
+            <div class="block focus:outline-none">
               <span class="absolute inset-0" aria-hidden="true"></span>
               <p class="text-sm font-semibold text-gray-900 truncate"><p class="name">{{ others(conversation).map(item => item.name).join(',') }}</p></p>
-            </a>
+            </div>
           </div>
           <time datetime="2021-01-27T16:35" class="flex-shrink-0 whitespace-nowrap text-sm text-gray-500">{{ $moment(conversation.last_message.created_at).format("DD.MM.YYYY") }}</time>
         </div>

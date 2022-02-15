@@ -58,7 +58,7 @@
                     <div class="ml-3 flex-1 md:flex md:justify-between">
                       <p class="text-sm text-blue-700">Oglas je izdvojen do {{ $moment(listing.sponsorship.ends_at).format("DD.MM.YYYY do h:mm:ss") }}</p>
                       <p class="mt-3 text-sm md:mt-0 md:ml-6">
-                        <a href="#" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">Obnovi oglas <span aria-hidden="true">&rarr;</span></a>
+                        <div class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">Obnovi oglas <span aria-hidden="true">&rarr;</span></div>
                       </p>
                     </div>
                   </div>
@@ -105,9 +105,9 @@
                 <p class="pl-2 font-semibold">
                   {{ rating }}
                 </p>
-                <a href="#dojmovi" class="pl-2 underline text-sm font-medium">
+                <div class="pl-2 underline text-sm font-medium">
                   ({{ reviewCount }} dojmova)
-                </a>
+                </div>
               </div>
             </div>
             <div v-if="$device.isMobile" class="mx-5 flex flex-col">
@@ -161,13 +161,16 @@
                 <p class="text-md text-black font-normal">{{ listing.address }}</p>
               </li>
               <li>
-                <p class="text-md text-black font-normal">{{ $moment(listing.published_at).format('LL') }}</p>
+                <p class="text-md text-black font-normal">{{ $moment(listing.published_at).fromNow() }}</p>
               </li>
               <li>
                 <p class="text-md text-black font-normal">{{ 'Pregleda: ' + view_count }}</p>
               </li>
               <li v-if="listing.city.country !== null">
                 <p class="text-md text-black font-normal">{{ listing.city.country.name }}</p>
+              </li>
+              <li>
+                <p class="text-md text-black font-normal">{{ 'ID: ' + listing.id }}</p>
               </li>
             </ul>
             <div class="addresses" v-if="!$device.isMobile">

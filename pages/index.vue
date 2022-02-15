@@ -353,13 +353,13 @@
     },
     layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
     head: {
-      title: "MojKvadrat.ba",
+      title: "MojKvadrat.ba - Centar svih nekretnia u BiH",
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           hid: "description",
-          name: "description",
+          name: "Želite prodati, kupiti ili rezervisati smještaj unutar BiH, samostalno ili uz pomoć agencije? Na pravom ste mjestu.",
           content: "Sve nekretnine na jednom mjestu! Stanovi, apartmani, kuce, garaze, stanovi za izdavanje, stan na dan, rentanje, novogradnja",
         },
       ],

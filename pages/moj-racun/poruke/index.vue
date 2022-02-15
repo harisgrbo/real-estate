@@ -116,10 +116,10 @@
                     <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'shadow-md px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                       <div v-if="message.content.mime.substr(0, 5) === 'image'" >
                         <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
-                        <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
+                        <nuxt-link :to="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                          </svg>Otvori u novom tabu</a>
+                          </svg>Otvori u novom tabu</nuxt-link>
                       </div>
                       <div class="flex justify-between mt-2">
                         <div :class="[isMe(message) ? 'ml-1 mt-1 text-xs text-gray-700': 'ml-1 mt-1 text-xs text-gray-700' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>
@@ -325,10 +325,10 @@
                       <div v-else-if="message.message_type === 'media'" :class="[isMe(message) ? 'bg-gray-100 me px-4 py-4 text-white rounded-l-md rounded-t-md text-right' : 'shadow-md px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md']">
                         <div v-if="message.content.mime.substr(0, 5) === 'image'" >
                           <img class="message-image cursor-pointer" :src="message.content.url" alt="" @click="openImageGallery = true; selectedImage = message.content.url">
-                          <a :href="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
+                          <nuxt-link :to="message.content.url" :download="message.content.url" class="mt-3 flex items-center justify-start tab-link">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>Otvori u novom tabu</a>
+                            </svg>Otvori u novom tabu</nuxt-link>
                         </div>
                         <div class="flex justify-between mt-2">
                           <div :class="[isMe(message) ? 'ml-1 mt-1 text-xs text-gray-700': 'ml-1 mt-1 text-xs text-gray-700' ]">{{ $moment(message.created_at).format('HH:mm') }}</div>

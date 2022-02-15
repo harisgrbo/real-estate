@@ -7,9 +7,9 @@
     </button>
     <div class="flex items-center justify-center">
       <button class="md:-mt-px md:flex flex items-center justify-between rounded-full py-2"  @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index">
-        <a class="mr-4 link" :class="['border-transparent text-gray-900 font-semibold hover:text-gray-700 hover:border-gray-300 standard', page === currentPage ? 'active text-indigo-600': '']" href="#">
+        <div class="mr-4 link" :class="['border-transparent text-gray-900 font-semibold hover:text-gray-700 hover:border-gray-300 standard', page === currentPage ? 'active text-indigo-600': '']">
           {{ page }}
-        </a>
+        </div>
       </button>
     </div>
     <button class="-mt-px rounded-full flex justify-end items-center justify-center text-black prev-next" @click.prevent="handlePageClick(currentPage + 1)" :disabled="currentPage === totalPages">
