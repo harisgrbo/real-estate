@@ -54,6 +54,14 @@
                 <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
               </swiper-slide>
               <div class="swiper-pagination" slot="pagination"></div>
+              <div
+                class="swiper-button-next swiper-button-white"
+                slot="button-next"
+              ></div>
+              <div
+                class="swiper-button-prev swiper-button-white"
+                slot="button-prev"
+              ></div>
             </swiper>
           </div>
           <img v-else src="/noimage.jpeg"  alt="">
@@ -152,10 +160,10 @@ export default class ListingCard extends Vue{
     speed: 400,
     touchRatio: 0,
     slideToClickedSlide: true,
-    // navigation: {
-    //   nextEl: '.swiper-button-next',
-    //   prevEl: '.swiper-button-prev'
-    // },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
     preloadImages: false,
     lazy: {
       //  tell swiper to load images before they appear
@@ -722,17 +730,22 @@ export default class ListingCard extends Vue{
   justify-content: center;
   background: #f9f9f9;
   z-index: 10;
-  display: none;
+  //display: none;
   transition: 0.3s all ease;
+  opacity: 0.5;
 
   @include for-phone-only {
-    display: flex;
+    display: none;
     background: rgba(241, 241, 241, 0.48);
   }
 
   &::after {
     font-size: 13px !important;
     line-height: 13px !important;
+  }
+
+  &:hover {
+    opacity: 1;
   }
 }
 

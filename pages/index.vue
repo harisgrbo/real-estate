@@ -93,7 +93,7 @@
         </client-only>
         <client-only v-else>
           <swiper class="swiper" :options="swiperOption">
-            <swiper-slide v-for="(i, index) in 6" :key="index">
+            <swiper-slide v-for="i in 6" :key="i">
               <skeleton height="262px" width="440px"></skeleton>
             </swiper-slide>
           </swiper>
@@ -106,7 +106,7 @@
           </div>
         </div>
         <div v-else class="flex flex-row overflow-y-scroll">
-          <div v-for="(i, index) in 5" :key="index" class="w-full">
+          <div v-for="i in 5" :key="i" class="w-full">
             <skeleton height="200px" width="300px" class="mr-5"></skeleton>
           </div>
         </div>
@@ -138,7 +138,7 @@
       </ul>
 
       <div v-else role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="(i, index) in 6" :key="index">
+        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="i in 6" :key="i">
           <skeleton :height="$device.isMobile ? '' : '262px'" :width="$device.isMobile ? '' : '440px'"></skeleton>
         </div>
       </div>
@@ -162,14 +162,14 @@
     <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="(listing, index) in listings_sell" :key="index">
+          <swiper-slide v-for="listing in listings_sell" :key="listing.id">
             <ListingCard :listing="listing"/>
           </swiper-slide>
         </swiper>
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="(i, index) in 6" :key="index">
+          <swiper-slide v-for="i in 6" :key="i">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -182,7 +182,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll mx-5">
-        <div  v-for="(i, index) in 5" :key="index" class="w-full">
+        <div  v-for="i in 5" :key="i" class="w-full">
           <skeleton height="232px" width="240px" class="mr-5"></skeleton>
         </div>
       </div>
@@ -211,7 +211,7 @@
         </li>
       </ul>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200" v-else>
-        <li class="flow-root justify-between flex flex-col" v-for="i in 4" :key="index">
+        <li class="flow-root justify-between flex flex-col" v-for="i in 4" :key="i">
           <skeleton :height="$device.isMobile ? '180px' : '180px'" :width="$device.isMobile ? '250px' : '308px'"></skeleton>
         </li>
       </ul>
@@ -243,7 +243,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="(i, index) in 6" :key="index">
+          <swiper-slide v-for="i in 6" :key="i">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -256,7 +256,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll">
-        <div  v-for="(i, index) in 5" :key="index" class="w-full">
+        <div  v-for="i in 5" :key="i" class="w-full">
           <skeleton height="232px" width="240px" class="mr-5"></skeleton>
         </div>
       </div>
@@ -287,7 +287,7 @@
       </client-only>
       <client-only v-else>
         <swiper class="swiper" :options="swiperOption">
-          <swiper-slide v-for="(i, index) in 6" :key="index">
+          <swiper-slide v-for="i in 6" :key="i">
             <skeleton height="370px" width="240px"></skeleton>
           </swiper-slide>
         </swiper>
@@ -300,7 +300,7 @@
         </div>
       </div>
       <div v-else class="flex flex-row overflow-y-scroll ml-4">
-        <div  v-for="(i, index) in 5" :key="index" class="w-full">
+        <div  v-for="i in 5" :key="i" class="w-full">
           <skeleton height="232px" width="240px" class="mr-5"></skeleton>
         </div>
       </div>
@@ -313,7 +313,7 @@
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
     <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
-      <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4"></skeleton>
+      <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>
     </div>
   </div>
 </template>
@@ -464,7 +464,6 @@
 
 
     created() {
-      console.log(this.$route)
       this.fetchCategories()
       this.fetchHomeListings();
       this.fetchMostVisitedCats();
