@@ -180,13 +180,8 @@
                 </div>
                 <div class="ml-3">
                   <h3 class="text-sm font-medium text-yellow-800">
-                    Pažnja
+                    Kategorija nije izabrana, za više filtera izaberite jednu
                   </h3>
-                  <div class="mt-2 text-sm text-yellow-700">
-                    <p>
-                      Kategorija nije izabrana, za više filtera izaberite jednu
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -197,8 +192,10 @@
                 :filter="{name: 'price', display_name: 'Cijena'}"
                 @input="newSearch"
               />
-
-              <CountriesMultipleSelect />
+<!--              <client-only>-->
+<!--                <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
+<!--              </client-only>-->
+<!--              <CountriesMultipleSelect />-->
 
               <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
@@ -236,13 +233,8 @@
                     </div>
                     <div class="ml-3">
                       <h3 class="text-sm font-medium text-yellow-800">
-                        Pažnja
+                        Kategorija nije izabrana, za više filtera izaberite jednu
                       </h3>
-                      <div class="mt-2 text-sm text-yellow-700">
-                        <p>
-                          Kategorija nije izabrana, za više filtera izaberite jednu
-                        </p>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -255,8 +247,10 @@
                   @input="newSearch"
                   @close-filters="$modal.hide('search-filters')"
                 />
-
-                <CountriesMultipleSelect :initial-country-ids="countryIds" @countries="handleCountriesSearch" />
+<!--                <client-only>-->
+<!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
+<!--                </client-only>-->
+<!--                <CountriesMultipleSelect :initial-country-ids="countryIds" @countries="handleCountriesSearch" />-->
 
                 <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
 
@@ -327,7 +321,6 @@ import HorizontalCard from "../components/listingCard/HorizontalCard";
 import SearchMap from "../components/googleMap/SearchMap";
 import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 import NotFound from "../components/global/NotFound";
-import CountriesMultipleSelect from "@/components/global/CountriesMultipleSelect";
 import SearchListingCard from "../components/SearchListingCard";
 import SearchHorizontalCard from "../components/SearchHorizontalCard";
 
@@ -335,7 +328,6 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
   components: {
     SearchHorizontalCard,
     SearchListingCard,
-    CountriesMultipleSelect,
     NotFound,
     CitiesMultipleSelect,
     SearchMap,
@@ -355,10 +347,7 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
   async asyncData(ctx) {
     let page = 1;
     let results = [];
-    let meta = {
-      categories: [],
-      aggregations: []
-    };
+    let meta = {};
     let loading = true;
     let allAttributes = [];
     let queryPayload = {};
@@ -405,7 +394,6 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
     try {
       let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
       results = response.data.data;
-
       meta = response.data.meta;
       allAttributes = response.data.meta.attributes;
 
@@ -577,6 +565,45 @@ export default class Homepage extends Vue {
       }
     })
   }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  // get histogramOptions() {
+  //   return {
+  //     chart: {
+  //       id: 'prices-histogram'
+  //     },
+  //     yaxis: {
+  //       show: false,
+  //     },
+  //     xaxis: {
+  //       lines: {
+  //         show: false
+  //       },
+  //       categories: this.meta.prices.buckets.map(item => {
+  //         if (item.min === item.max) {
+  //           return this.numberWithCommas(item.max) + " KM";
+  //         }
+  //
+  //         return "Od " + this.numberWithCommas(item.min) + " do " + this.numberWithCommas(item.max) + ' KM';
+  //       })
+  //     },
+  //     colors: ['#1F2937', '#E91E63'],
+  //   }
+  // }
+
+  // get priceBuckets() {
+  //   return [
+  //     {
+  //       'name': "Artikala",
+  //       'data': this.meta.prices.buckets.map(item => {
+  //         return parseInt(item.doc_count);
+  //       })
+  //     }
+  //   ];
+  // }
 
   filterResolveValue(filter) {
     if (filter.name === 'category_id') {
@@ -1068,7 +1095,7 @@ export default class Homepage extends Vue {
     background: #fff;
     border-radius: 6px;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 400;
     min-width: fit-content;
     cursor: pointer;
     color: #000000;

@@ -46,7 +46,7 @@ export default {
         async: true
       },
       {
-        hid: 'gtm-script2',
+        hid: 'gtm-script3',
         innerHTML: `
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
