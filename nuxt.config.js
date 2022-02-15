@@ -28,6 +28,10 @@ export default {
           "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9&callback=initMap"
       },
       {
+        src:
+          "https://www.googletagmanager.com/gtag/js?id=UA-213471793-1"
+      },
+      {
         src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3745186233711216",
         async: true,
         crossorigin: "anonymous"
@@ -40,6 +44,17 @@ export default {
         src: 'https://www.googletagmanager.com/gtag/js?id=G-VMWBZZM8WD',
         defer: true,
         async: true
+      },
+      {
+        hid: 'gtm-script2',
+        innerHTML: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-213471793-1');`,
+        type: 'text/javascript',
+        charset: 'utf-8'
       },
       {
         hid: 'gtm-script2',
