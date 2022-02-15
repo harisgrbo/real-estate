@@ -74,7 +74,7 @@
         <div class="listing-card-content relative" @mouseover="showTooltip = true" @mouseout="showTooltip = false">
           <div class="flex flex-col justify-between items-start">
             <div class="address title">
-              <h2>
+              <h2 >
                 {{ listing.title }}
               </h2>
             </div>

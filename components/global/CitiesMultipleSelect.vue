@@ -19,6 +19,7 @@
         <input   v-model="searchTerm"
                  @input="showResults"
                  type="text"
+                 placeholder="npr. novo sarajevo ili sarajevo"
         >
         <ul v-show="cities.length">
           <li v-for="option in cities" :key="option.id" class="cursor-pointer" @click="addOptionToSelected(option)">{{ option.name }}</li>
