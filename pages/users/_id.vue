@@ -181,6 +181,7 @@ import Pagination from "../../components/pagination";
   async asyncData(ctx) {
     let user = null
     let meta = null
+    let error = false
 
     try {
       let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
@@ -188,11 +189,13 @@ import Pagination from "../../components/pagination";
       meta = response.data.meta;
     } catch(e) {
       console.log(e)
+      ctx.redirect('/404')
     }
 
     return {
       user,
-      meta
+      meta,
+      error
     }
   }
 })

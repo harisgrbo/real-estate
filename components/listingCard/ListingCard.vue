@@ -66,9 +66,9 @@
         <div class="listing-card-content relative" @mouseover="showTooltip = true" @mouseout="showTooltip = false">
           <div class="flex flex-col justify-between items-start">
             <div class="address title">
-              <p>
+              <h2>
                 {{ listing.title }}
-              </p>
+              </h2>
             </div>
             <div class="icons-date flex flex-row items-center justify-between w-full">
               <div class="important">
@@ -435,7 +435,7 @@ export default class ListingCard extends Vue{
         justify-content: flex-start;
 
         &.title {
-         p {
+         h2 {
            font-weight: 300 !important;
            font-size: 16px;
            line-height: 20px !important;
@@ -445,7 +445,7 @@ export default class ListingCard extends Vue{
          }
         }
 
-        p {
+        h2 {
           position: relative;
           color: #000;
           font-weight: 400;

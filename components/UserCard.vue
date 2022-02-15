@@ -5,7 +5,7 @@
         <div class="w-full flex justify-start w-full flex-row items-start">
           <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
           <div class="ml-4 text-left mt-0">
-            <a href="" class="font-semibold text-sm">{{ user.name }}</a>
+            <div class="font-semibold text-sm">{{ user.name }}</div>
             <dd class="mt-3">
               <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
             </dd>

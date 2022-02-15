@@ -22,9 +22,9 @@
             </button>
             <div v-if="showSortDropdown" class=" w-full origin-top-left absolute left-0 mt-2 w-40 rounded-lg shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
               <div class="py-4 grid grid-cols-2 gap-4 sort-mobile" role="none">
-                <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-900 border border-gray-400 block flex items-center justify-start px-4 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold add-border' : '']" role="menuitem" @click.prevent="selectSort(item)">
+                <div v-for="(item, index) in sort_types" :key="index" :class="['text-gray-900 border border-gray-400 block flex items-center justify-start px-4 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold add-border' : '']" role="menuitem" @click.prevent="selectSort(item)">
                   {{ item.name }}
-                </a>
+                </div>
               </div>
             </div>
           </div>
@@ -99,9 +99,9 @@
             </button>
             <div v-if="showSortDropdown" class="origin-top-right min-w-min z-10 listing-types top-9 absolute mt-2 bg-white rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
               <div role="none">
-                <a v-for="(item, index) in sort_types" :key="index" href="#" :class="['text-gray-500 px-4 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
+                <div v-for="(item, index) in sort_types" :key="index" :class="['text-gray-500 px-4 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
                   {{ item.name }}
-                </a>
+                </div>
               </div>
             </div>
           </div>
@@ -290,7 +290,7 @@
                   <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)" class="flow-root shadow-sm border rounded-sm"
                       :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
                     <div>
-                      <div href="#" class="focus:outline-none">
+                      <div class="focus:outline-none">
                         <span aria-hidden="true"></span>
                         {{ cat.title }}
                       </div>
