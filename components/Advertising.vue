@@ -243,6 +243,8 @@ export default class Advertising extends Vue {
     padding-top: 60px;
     padding-bottom: 200px;
     overflow-y: scroll;
+    padding-right: 4px;
+    padding-left: 4px;
 
     @supports (-webkit-touch-callout: none) {
       overflow-y: scroll;
