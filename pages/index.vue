@@ -211,7 +211,7 @@
         </li>
       </ul>
       <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200" v-else>
-        <li class="flow-root justify-between flex flex-col" v-for="i in 5" :key="index">
+        <li class="flow-root justify-between flex flex-col" v-for="i in 4" :key="index">
           <skeleton :height="$device.isMobile ? '180px' : '180px'" :width="$device.isMobile ? '250px' : '308px'"></skeleton>
         </li>
       </ul>

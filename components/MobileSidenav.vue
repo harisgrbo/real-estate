@@ -132,6 +132,7 @@ import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 })
 
 export default class sidenav extends Vue {
+  loadingResend = false;
 
   @Watch('$route')
   handleWatcher(newVal, oldVal) {
@@ -149,9 +150,28 @@ export default class sidenav extends Vue {
     if(t === 'agency') {
       return 'Agencija'
     } else if(t === 'user') {
-      return 'Korisnik'
-    } else {
+      return 'korisnik'
+    } else if(t === 'agent'){
       return 'Agent'
+    } else {
+      return 'Admin'
+    }
+  }
+
+  async resendVerificationMail() {
+    this.loadingResend = true;
+    try {
+      await this.$axios.post('/email/verification/resend');
+
+      this.$toast.open({
+        message: "Poslali smo Vam novi verifikacijski mail",
+        type: 'success',
+        duration: 5000
+      });
+
+      this.loadingResend = false;
+    } catch(e) {
+      console.log(e)
     }
   }
 
