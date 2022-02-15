@@ -54,8 +54,12 @@ export default class blokiraniKorisnici extends Vue {
   user_type(t) {
     if(t === 'agency') {
       return 'Agencija'
+    } else if(t === 'user') {
+      return 'korisnik'
+    } else if(t === 'agent'){
+      return 'Agent'
     } else {
-      return 'Korisnik'
+      return 'Admin'
     }
   }
 

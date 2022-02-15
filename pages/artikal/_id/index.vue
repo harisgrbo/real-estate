@@ -853,7 +853,7 @@ export default class Artikal extends Vue {
       navigator
         .share({
           title: this.listing.title,
-          text: this.listing.description ? this.listing.description : "",
+          text: this.listing.address ? this.listing.address + ' ' + this.listing.listing_type.title : "",
           url: window.location.href,
         })
         .then(() => console.log("Successful share"))

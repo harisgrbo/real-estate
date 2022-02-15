@@ -146,9 +146,11 @@ export default class sidenav extends Vue {
     if(t === 'agency') {
       return 'Agencija'
     } else if(t === 'user') {
-      return 'Korisnik'
-    } else {
+      return 'korisnik'
+    } else if(t === 'agent'){
       return 'Agent'
+    } else {
+      return 'Admin'
     }
   }
 

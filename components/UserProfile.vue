@@ -289,8 +289,10 @@ export default class UserProfile extends Vue {
       return 'Agencija'
     } else if(t === 'user') {
       return 'korisnik'
-    } else {
+    } else if(t === 'agent'){
       return 'Agent'
+    } else {
+      return 'Admin'
     }
   }
 
