@@ -7,9 +7,10 @@
 
 <script>
 import { Component, Vue, Prop} from "nuxt-property-decorator";
+import ActionButton from "../actionButtons/ActionButton";
 
 @Component({
-  components: {}
+  components: {ActionButton}
 })
 
 export default class NotFound extends Vue {
@@ -21,6 +22,9 @@ export default class NotFound extends Vue {
     type: String,
     required: true
   }) src;
+  @Prop({
+    type: Boolean,
+  }) show;
 
 }
 </script>

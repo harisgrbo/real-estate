@@ -354,6 +354,7 @@ button.logout {
   height: fit-content;
   max-height: 80vh;
   overflow-y: scroll;
+  padding-bottom: 24px;
 }
 
 .balance {

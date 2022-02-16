@@ -130,27 +130,7 @@
                   <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
                   <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
                   {{ attr.value }}
-
                 </div>
-                <button type="button" class="
-                  px-6
-                  py-2.5
-                  bg-blue-600
-                  text-white
-                  font-medium
-                  text-xs
-                  leading-tight
-                  uppercase
-                  rounded
-                  shadow-md
-                  hover:bg-blue-700 hover:shadow-lg
-                  focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-                  active:bg-blue-800 active:shadow-lg
-                  transition
-                  duration-150
-                  ease-in-out" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
-                  Tooltip on top
-                </button>
               </div>
             </div>
             <div class="user-wrap relative z-10" v-if="$device.isMobile">
@@ -359,6 +339,13 @@
           </div>
           <div class="user-wrap relative z-10" v-if="!$device.isMobile">
             <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest" @finish-listing="handleFinishListing"></UserProfile>
+          </div>
+        </div>
+        <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="similarListings.length">
+          <div class="separator"></div>
+          <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">Slični oglasi</h3>
+          <div class="flex flex-row w-1280 overflow-x-scroll similar">
+            <SearchListingCard v-for="listing in similarListings" :listing="listing"></SearchListingCard>
           </div>
         </div>
         <client-only>
@@ -638,9 +625,11 @@ import Skeleton from "@/components/skeleton";
 
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import NotFound from "../../../components/global/NotFound";
+import SearchListingCard from "../../../components/SearchListingCard";
 
 @Component({
   components: {
+    SearchListingCard,
     NotFound,
     Skeleton,
     TextAreaField,
@@ -775,6 +764,7 @@ export default class Artikal extends Vue {
     "Zabranjeno pušenje"
   ];
   specialAttributes = [];
+  similarListings = []
   specialAttributesKeys = [
     "Broj soba",
     "Kvadratura",
@@ -827,6 +817,16 @@ export default class Artikal extends Vue {
     }
 
     return [];
+  }
+
+  async fetchSimilarListings() {
+    try {
+      let res = await this.$axios.get('/listings/' + this.$route.params.id + '/similar');
+
+      this.similarListings = res.data.data;
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   getRentSpecialAttributes() {
@@ -1257,6 +1257,8 @@ export default class Artikal extends Vue {
       if (desc_h)
         this.descriptionRows = desc_h.getClientRects()[0].height;
     }
+
+    await this.fetchSimilarListings();
   }
 
   get listingType() {
@@ -1855,22 +1857,16 @@ h2 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  row-gap: 12px;
-
-  @include for-phone-only {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 16px;
-  }
+  row-gap: 7px;
 
   li {
     width: fit-content;
     min-width: fit-content;
     max-width: fit-content;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #000;
     margin-right: 12px;
-    border-radius: 8px;
-    background: #f9f9f9;
+    border-radius: 4px;
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1879,11 +1875,12 @@ h2 {
     font-size: 13px;
 
     @include for-phone-only {
-      width: 100%;
+      width: fit-content;
       margin-right: 0;
-      min-width: 100%;
+      min-width: fit-content;
       justify-content: flex-start;
       font-size: 12px;
+      margin-right: 8px;
     }
 
     p {
@@ -2476,6 +2473,27 @@ input[type=range]:focus::-ms-fill-upper {
       display: flex;
       min-width: fit-content;
     }
+  }
+}
+
+.similar {
+  @include for-phone-only {
+    width: 100%;
+  }
+}
+
+.similar ::v-deep .listing-card-wrapper {
+  max-width: 240px;
+  width: 240px;
+  min-width: 240px;
+  margin-right: 24px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include for-phone-only {
+    margin-right: 12px;
   }
 }
 </style>
