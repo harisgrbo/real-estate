@@ -61,7 +61,7 @@
                         <div v-if="completed_listings.length" class="grid-layout">
                           <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
                         </div>
-                        <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Korisnik nema aktivnih oglasa'"></NotFound>
+                        <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Korisnik nema završenih oglasa'"></NotFound>
                         <Pagination
                           v-if="completedListingsMeta !== null && completedListingsMeta.total > 20"
                           ref="pagination"

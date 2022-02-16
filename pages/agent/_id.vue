@@ -111,7 +111,7 @@
               <div v-if="listings.length || loadingListings" class="grid-layout">
                 <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
               </div>
-              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
+              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agent nema aktivnih oglasa'"></NotFound>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
               <div v-if="completed_listings.length" class="grid-layout">
                 <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
               </div>
-              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa'"></NotFound>
+              <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agent nema završenih oglasa'"></NotFound>
             </div>
           </div>
         </div>
