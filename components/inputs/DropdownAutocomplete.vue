@@ -6,14 +6,14 @@
         type="text"
         :placeholder="placeholder"
         @input="showAddressAutocomplete"
-        v-model="address"
+        v-model="city"
         autocomplete="off"
         name="name" id="name" class="block w-full border-0 p-0 text-gray-900 bg-white placeholder-gray-500 focus:ring-0 sm:text-sm">
     </div>
-    <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown">
+    <div class="autocomplete-dropdown shadow-sm" v-if="showAutoCompleteDropdown && city.length">
       <ul>
-        <li v-for="address in recommendedAddresses" :key="address.id" @click="selectOption(address)">
-          {{ address.description }}
+        <li v-for="address in recommendedCities" :key="address.id" @click="selectOption(address)">
+          {{ address.name }}
         </li>
       </ul>
     </div>
@@ -34,21 +34,21 @@ export default class PublishDropdown extends Vue{
   @Prop({ type: Array }) options;
 
   showAutoCompleteDropdown = false;
-  address = '';
-  recommendedAddresses = []
+  city = '';
+  recommendedCities = []
 
   selectOption(s) {
-    this.address = s.description;
+    this.city = s.name;
     this.$emit('select-option', s);
     this.showAutoCompleteDropdown = false;
   }
 
   async showAddressAutocomplete() {
     try {
-      let res = await this.$axios.get('/address/autocomplete/' + this.address);
-      this.recommendedAddresses = res.data.predictions;
+      let res = await this.$axios.get('/cities?q=' + this.city);
+      this.recommendedCities = res.data.data;
 
-      if(this.recommendedAddresses.length > 0) {
+      if(this.recommendedCities.length > 0) {
         this.showAutoCompleteDropdown = true;
       }
 

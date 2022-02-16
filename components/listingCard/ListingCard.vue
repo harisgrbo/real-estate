@@ -29,7 +29,8 @@
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
         <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/spaseno'" class="w-full">
-          <action-button class="option-btn" placeholder="Izbrši iz spašenih" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Izbriši iz spašenih" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
         </div>
       </div>
       <div v-else class="blured-background" @click="showListingOptions = true" @click.stop>
@@ -41,7 +42,8 @@
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
         <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/spaseno'" class="w-full">
-          <action-button class="option-btn" placeholder="Izbrši iz spašenih" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Izbirši iz spašenih" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/artikal/' + listing.id)"></action-button>
         </div>
       </div>
 

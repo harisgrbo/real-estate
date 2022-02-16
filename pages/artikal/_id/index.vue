@@ -34,7 +34,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <p class="min-w-min text-md text-gray-700 font-normal underline">{{ listing.address }}</p>
+                  <p class="min-w-min text-md text-gray-700 font-normal underline">{{ listing.district + ', ' + listing.address }}</p>
                 </div>
                 <div class="flex flex-row items-center min-w-min" v-if="!$device.isMobile">
                   <button v-if="$auth.user && $auth.user.id !== listing.user.id" @click="toggleSaveListing()" type="button" class="flex items-center">
@@ -117,7 +117,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <p class="text-md text-gray-700 font-normal underline mobile-address">{{ listing.address }}</p>
+                <p class="text-md text-gray-700 font-normal underline mobile-address">{{ listing.district + ', ' + listing.address }}</p>
               </div>
               <div class="addresses">
                 <div
@@ -130,7 +130,27 @@
                   <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
                   <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
                   {{ attr.value }}
+
                 </div>
+                <button type="button" class="
+                  px-6
+                  py-2.5
+                  bg-blue-600
+                  text-white
+                  font-medium
+                  text-xs
+                  leading-tight
+                  uppercase
+                  rounded
+                  shadow-md
+                  hover:bg-blue-700 hover:shadow-lg
+                  focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+                  active:bg-blue-800 active:shadow-lg
+                  transition
+                  duration-150
+                  ease-in-out" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
+                  Tooltip on top
+                </button>
               </div>
             </div>
             <div class="user-wrap relative z-10" v-if="$device.isMobile">
@@ -177,7 +197,7 @@
               <div
                 v-for="(attr, index) in specialAttributes"
                 :key="index"
-                class="flex flex-row items-center mr-2"
+                class="flex flex-row items-center mr-2 relative special-icons"
               >
                 <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
                 <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
@@ -187,6 +207,10 @@
                 <p v-if="attr.name === 'Kvadratura'">
                   m²
                 </p>
+                <div id="tooltip-default" role="tooltip" class="top-9 inline-block absolute z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm duration-300 tooltip dark:bg-gray-700">
+                  {{ attr.name }}
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
               </div>
             </div>
             <div class="mt-6 mobile-places-btn">
@@ -689,6 +713,7 @@ export default class Artikal extends Vue {
     sell: 'Prodaja',
     buy: 'Potraznja'
   }
+  showTooltip = false;
   showMoreCafes = false;
   showMoreRestaurants = false;
   showMoreMalls = false;
@@ -1202,7 +1227,6 @@ export default class Artikal extends Vue {
 
   async created() {
 
-    console.log(this.listing)
     this.specialAttributes = this.getRentSpecialAttributes().slice();
 
     if(this.error) {
@@ -2440,6 +2464,19 @@ input[type=range]:focus::-ms-fill-upper {
 .active p{
   font-weight: 600 !important;
   color: #000 !important;
+}
+
+#tooltip-default {
+  display: none;
+}
+.special-icons {
+  &:hover {
+    cursor: pointer;
+    #tooltip-default {
+      display: flex;
+      min-width: fit-content;
+    }
+  }
 }
 </style>
 
