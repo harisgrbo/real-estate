@@ -18,6 +18,9 @@
                       <span class="px-2 py-1 text-green-800 text-xs font-semibold bg-green-100 rounded-full">Agent</span>
                     </dd>
                   </dl>
+                  <div class="flex flex-row items-center justify-start w-full verified">
+                    <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="">{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -802,6 +805,18 @@ textarea {
 
   &:focus {
     outline: none;
+  }
+}
+
+.verified {
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 12px;
+  img {
+    height: 20px !important;
+    width: auto !important;
+    min-width: auto !important;
+    margin-right: 8px;
   }
 }
 

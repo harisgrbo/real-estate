@@ -5,7 +5,7 @@
         <div class="flex w-14 min-w-14 h-14 items-center justify-center rounded-full overflow-hidden img-wrap">
           <img :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="" class="object-contain w-full min-w-full">
         </div>
-        <div class="flex flex-col items-start justify-start h-14 pl-4 w-full">
+        <div class="flex flex-col items-start justify-start pl-4 w-full">
           <div class="flex flex-row items-center justify-between w-full cursor-pointer">
             <h2 @click="goToUser()" class="text-lg font-medium text-black text-left leading-5">{{ user.name }}</h2>
             <dd>
@@ -16,6 +16,9 @@
             <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
             {{ user.online ? 'Online' : 'Offline' }}
           </dd>
+          <div class="flex flex-row items-center justify-start w-full verified">
+            <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="">{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
+          </div>
           <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -603,5 +606,17 @@ textarea {
 
 .total {
   border-top: 1px solid #f1f1f1;
+}
+
+.verified {
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 12px;
+  img {
+    height: 20px;
+    width: auto;
+    min-width: auto;
+    margin-right: 8px;
+  }
 }
 </style>
