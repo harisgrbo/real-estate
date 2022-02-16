@@ -1,6 +1,6 @@
 <template>
   <div v-if="override || loading" class="loading-page">
-    <img src="/loader.svg" alt="">
+    <img src="/gps.gif" alt="">
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 1);
   text-align: center;
   font-size: 30px;
   font-family: sans-serif;
@@ -39,7 +39,7 @@ export default {
   height: 100vh;
 
   img {
-    height: 40px;
+    height: 60px;
   }
 }
 </style>
