@@ -457,7 +457,6 @@ export default class ListingCard extends Vue{
 
         h2 {
           position: relative;
-          color: #000;
           font-weight: 400;
           font-size: 13px;
           white-space: nowrap;

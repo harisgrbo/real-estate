@@ -21,6 +21,9 @@
                         <span class="px-2 py-1 text-green-800 text-xs font-semibold bg-green-100 rounded-full">Agencija</span>
                       </dd>
                     </dl>
+                    <div class="flex flex-row items-center justify-start w-full verified">
+                      <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="">{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -69,21 +72,21 @@
               <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
               <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
               <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <div class="rounded-md bg-blue-50 p-3" v-if="!$device.isMobile">
-                <div class="flex">
-                  <div class="flex-shrink-0">
-                    <!-- Heroicon name: solid/information-circle -->
-                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
+<!--              <div class="rounded-md bg-blue-50 p-3" v-if="!$device.isMobile">-->
+<!--                <div class="flex">-->
+<!--                  <div class="flex-shrink-0">-->
+<!--                    &lt;!&ndash; Heroicon name: solid/information-circle &ndash;&gt;-->
+<!--                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">-->
+<!--                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />-->
+<!--                    </svg>-->
+<!--                  </div>-->
 <!--                  <div class="ml-3 flex-1 md:flex md:justify-between">-->
 <!--                    <p class="text-sm text-blue-700">-->
 <!--                      Korisnik odgovara u roku od 10 sati-->
 <!--                    </p>-->
 <!--                  </div>-->
-                </div>
-              </div>
+<!--                </div>-->
+<!--              </div>-->
             </div>
           </div>
         </div>
@@ -855,6 +858,18 @@ textarea {
 
   &:focus {
     outline: none;
+  }
+}
+
+.verified {
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 12px;
+  img {
+    height: 20px !important;
+    width: auto !important;
+    min-width: auto !important;
+    margin-right: 8px;
   }
 }
 
