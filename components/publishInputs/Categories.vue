@@ -3,7 +3,7 @@
     <ul v-if="loading === false" role="list" class="pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-6 w-full">
       <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)" class="relative border text-wrap border-gray-300 rounded-md px-3 py-1 focus-within:ring-1 focus-within:ring-indigo-900 focus-within:ring-indigo-900 focus-within:border-indigo-900"
           :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
-        <div class="w-full ml-3">
+        <div class="w-full text-semibold">
           {{ cat.title }}
         </div>
         <div class="flex-shrink-0 flex items-center justify-center h-14 w-14 rounded-lg p-1 svg-wrap">
@@ -112,13 +112,21 @@ ul {
 }
 
 ul li {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid #000;
+  -webkit-box-align: center !important;
+  -webkit-box-pack: justify !important;
+  background-color: rgb(255, 255, 255) !important;
+  border: 1px solid rgb(221, 221, 221) !important;
+  box-sizing: border-box !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 68px !important;
+  cursor: pointer !important;
+  padding: 0px 16px !important;
+  outline: none !important;
+  font-weight: 600;
 
   @include for-phone-only {
     background: #fff !important;

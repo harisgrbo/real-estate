@@ -55,23 +55,14 @@
         <div v-show="currentStep === steps.STEP_THREE" class="step-3 test flex flex-col">
           <div class="inner">
             <h2 class="test" v-if="currentStep === steps.STEP_THREE">
-              Adresa i naselje nekretnine
+              Lokacija nekretnine
             </h2>
-            <div class="relative w-full flex flex-col">
-              <DropdownAutocomplete label="Adresa" @select-option="handleSelectedAddress"></DropdownAutocomplete>
+            <div class="relative w-full flex flex-col mb-6">
+              <DropdownAutocomplete label="Grad" @select-option="handleSelectedCity" placeholder="Npr. Sarajevo - Centar"></DropdownAutocomplete>
             </div>
+            <TextField type="text" label="Adresa" placeholder="npr. Titova 16" v-model="address" class="mb-6"></TextField>
             <div class="flex flex-col mt-6">
-              <TextField type="text" label="Naselje" placeholder="Dolac Malta" v-model="district" class="mb-6"></TextField>
-              <TextField type="text" label="ZIP" placeholder="71000" v-model="zip_code" class="mb-6"></TextField>
-              <div class="relative w-full flex flex-col items-start" v-show="showMunicipalities">
-                <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
-                  <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Opština</label>
-                  <select v-model="city" @change="handleSelectedCity" id="language" name="language" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
-                    <option :value="null" disabled>Odaberite opštinu</option>
-                    <option v-for="municipality in municipalities" :value="municipality">{{ municipality.name }}</option>
-                  </select>
-                </div>
-              </div>
+            <TextField type="text" label="Naselje" placeholder="npr. Dolac Malta" v-model="district" class="mb-6"></TextField>
             </div>
           </div>
 
@@ -504,7 +495,7 @@ export default class Objava extends Vue {
     } catch (e) {
       alert("Objava je neuspjela, pokusajte ponovo");
 
-      location.reload();
+      // location.reload();
     }
   }
 
@@ -558,7 +549,7 @@ export default class Objava extends Vue {
           break;
 
         case this.steps.STEP_THREE:
-          if(! this.validateMany(['district', 'address', 'city', 'zipCode'])) {
+          if(! this.validateMany(['district', 'address', 'city'])) {
             this.snackbarValidationError("Niste popunili sve obavezne podatke");
 
             return;
@@ -675,15 +666,6 @@ export default class Objava extends Vue {
   // Attribute Logic
   filterFor(attr) {
     return `${this.capitalize(attr.attr_type)}Input`;
-  }
-
-  async showAddressAutocomplete() {
-    try {
-      let res = await this.$axios.get('/address/autocomplete/' + this.address);
-      this.recommendedAddresses = res.data.predictions;
-    } catch(e) {
-      console.log(e)
-    }
   }
 
   categoryAttributes = []
@@ -809,26 +791,19 @@ export default class Objava extends Vue {
   city = null;
   zip_code = null;
 
-  handleSelectedCity() {
-
-    if (! this.addressLocationSet) {
-      this.lat = this.city.lat;
-      this.lng = this.city.lng;
-    }
-
-    this.city.location = {
-      lat: this.lat,
-      lng: this.lng
-    };
+  handleSelectedCity(item) {
+    this.city = item;
+    this.lat = item.location.lat;
+    this.lng = item.location.lng;
 
     this.errors.city.error = false;
   }
 
   municipalities = [];
+  cities = [];
 
-  addressLocationSet = false;
 
-  async handleSelectedAddress(item) {
+  /*async handleSelectedAddress(item) {
     try {
       let res = await this.$axios.get('/address/details/' + item.place_id)
 
@@ -862,7 +837,7 @@ export default class Objava extends Vue {
     } catch (e) {
       console.log(e)
     }
-  }
+  }*/
 
   // Basic info
   district = null;

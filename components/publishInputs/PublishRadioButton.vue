@@ -14,7 +14,7 @@
           type="radio" name="project-type" value="Newsletter" class="sr-only" aria-labelledby="project-type-0-label" aria-describedby="project-type-0-description-0 project-type-0-description-1">
         <div class="flex-1 flex">
           <div class="flex flex-col">
-          <span id="project-type-0-label" class="block text-lg font-medium text-gray-900">
+          <span id="project-type-0-label" class="block text-md mb-2 font-semibold text-gray-900">
             {{ option.title }}
           </span>
             <span id="project-type-0-description-0" class="mt-1 flex items-center text-sm text-gray-500">
@@ -65,6 +65,6 @@ export default class PublishRadioButton extends Vue{
 
 label {
   border: 1px solid #f1f1f1;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 </style>

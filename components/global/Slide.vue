@@ -6,6 +6,7 @@
     </label>
     <div class="blured-background">
       <button @click="removeFromSaved(listing.id)">Izbriši iz spašenih</button>
+      <button @click="$router.push('/artikal/' + listing.id)">Pogledaj oglas</button>
     </div>
     <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
       <div class="image-wrapper">
