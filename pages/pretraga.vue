@@ -167,9 +167,9 @@
             <i class="material-icons" @click="$modal.hide('filters')">close</i>
           </div>
           <div class="modal-content filters">
-            <div v-show="loading" class="loading-wrapper">
-              <img src="/loader.svg" alt="">
-            </div>
+<!--            <div v-show="loading" class="loading-wrapper">-->
+<!--              <img src="/gps.gif" alt="">-->
+<!--            </div>-->
             <div class="rounded-md bg-yellow-50 p-4" v-show="! selectedCategoryId">
               <div class="flex">
                 <div class="flex-shrink-0">
@@ -180,7 +180,7 @@
                 </div>
                 <div class="ml-3">
                   <h3 class="text-sm font-medium text-yellow-800">
-                    Kategorija nije izabrana, za više filtera izaberite jednu
+                    Izaberite kategoriju za više filtera
                   </h3>
                 </div>
               </div>
@@ -233,7 +233,7 @@
                     </div>
                     <div class="ml-3">
                       <h3 class="text-sm font-medium text-yellow-800">
-                        Kategorija nije izabrana, za više filtera izaberite jednu
+                        Izaberite kategoriju za više filtera
                       </h3>
                     </div>
                   </div>
