@@ -49,6 +49,8 @@ export default class Verifikacija extends Vue {
       await this.$axios.get(`/email/verify/${id}/${hash}?signature=${signature}&expires=${expires}`);
 
       this.success = true;
+
+      await this.$auth.fetchUser();
     } catch (e) {
       alert("Nismo u mogućnosti da vam verifikujemo email");
     }
