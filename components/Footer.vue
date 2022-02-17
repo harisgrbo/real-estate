@@ -34,7 +34,7 @@
 <!--            </svg>-->
 <!--          </a>-->
 <!--        </div>-->
-        <p class="mt-8 text-center text-base text-gray-400">&copy; {{ $moment().year() }} MojKvadrat.ba, Sva prava zadržana.</p>
+        <p class="mt-8 text-center text-base text-gray-400">&copy; {{ $moment().year() }} HIM d.o.o - MojKvadrat.ba, Sva prava zadržana.</p>
       </div>
     </footer>
 

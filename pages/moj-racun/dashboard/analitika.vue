@@ -34,7 +34,7 @@
                     <div class="box p-5">
                       <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.agents"> {{ agents.length }}</div>
                       <img class="loading" src="/loader.svg" alt="" v-else>
-                      <div class="text-base text-gray-600 mt-1">Broj agenata</div>
+                      <div class="text-base text-gray-600 mt-1">Broj agenata </div>
                     </div>
                   </div>
                 </div>

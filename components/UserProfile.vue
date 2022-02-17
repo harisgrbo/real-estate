@@ -31,8 +31,8 @@
         <div class="w-full">
           <div class="w-full flex flex-col items-center justify-between" v-if="isMe">
             <div class="w-full flex items-center justify-center">
-              <ActionButton :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi"></ActionButton>
-              <ActionButton :style-options="{ color: '#fff', background: 'red' }"  placeholder="Završi" @action="$emit('finish-listing')" class="w-full ml-sm"></ActionButton>
+              <ActionButton v-if="listing.completed_at === null" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi"></ActionButton>
+              <ActionButton v-if="listing.completed_at === null" :style-options="{ color: '#fff', background: 'red' }"  placeholder="Završi" @action="$emit('finish-listing')" class="w-full ml-sm"></ActionButton>
             </div>
             <div class="rounded-md bg-blue-50 p-2 mt-6">
               <div class="flex">
@@ -52,7 +52,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton v-if="listing.sponsored === 0"  :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$router.push('/artikal/' + $route.params.id + '/sponzorisanje-oglasa')" class="w-full"></ActionButton>
+            <ActionButton v-if="listing.sponsored === 0 && listing.completed_at === null"  :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$router.push('/artikal/' + $route.params.id + '/sponzorisanje-oglasa')" class="w-full"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
             <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
