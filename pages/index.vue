@@ -353,7 +353,7 @@
     },
     layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'home',
     head: {
-      title: "MojKvadrat.ba - Centar svih nekretnia u BiH",
+      title: "MojKvadrat.ba - Centar svih nekretnina u BiH",
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
