@@ -17,39 +17,39 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-    <h3 class="text-2xl font-semibold mb-2.5">Prednosti agencije</h3>
-    <div class="bg-white">
-      <div class="max-w-2xl mx-auto lg:max-w-7xl">
-        <div class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
-          <div>
-            <img src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg" alt="" class="h-24 w-auto">
-            <h3 class="mt-6 text-md font-semibold text-gray-900">Profesionalni izgled i konkuretne pozicije oglasa</h3>
-            <p class="mt-2 text-sm text-gray-500">It&#039;s not actually free we just price it into the products. Someone&#039;s paying for it, and it&#039;s not us.</p>
-          </div>
+<!--    <h3 class="text-2xl font-semibold mb-2.5">Prednosti agencije</h3>-->
+<!--    <div class="bg-white">-->
+<!--      <div class="max-w-2xl mx-auto lg:max-w-7xl">-->
+<!--        <div class="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">-->
+<!--          <div>-->
+<!--            <img src="https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg" alt="" class="h-24 w-auto">-->
+<!--            <h3 class="mt-6 text-md font-semibold text-gray-900">Profesionalni izgled i konkuretne pozicije oglasa</h3>-->
+<!--            <p class="mt-2 text-sm text-gray-500">It&#039;s not actually free we just price it into the products. Someone&#039;s paying for it, and it&#039;s not us.</p>-->
+<!--          </div>-->
 
-          <div>
-            <img src="https://tailwindui.com/img/ecommerce/icons/icon-chat-light.svg" alt="" class="h-24 w-auto">
-            <h3 class="mt-6 text-md font-semibold text-gray-900">Profesionalna podrška</h3>
-            <p class="mt-2 text-sm text-gray-500">Our AI chat widget is powered by a naive series of if/else statements. Guaranteed to irritate.</p>
-          </div>
+<!--          <div>-->
+<!--            <img src="https://tailwindui.com/img/ecommerce/icons/icon-chat-light.svg" alt="" class="h-24 w-auto">-->
+<!--            <h3 class="mt-6 text-md font-semibold text-gray-900">Profesionalna podrška</h3>-->
+<!--            <p class="mt-2 text-sm text-gray-500">Our AI chat widget is powered by a naive series of if/else statements. Guaranteed to irritate.</p>-->
+<!--          </div>-->
 
-          <div>
-            <img src="https://tailwindui.com/img/ecommerce/icons/icon-fast-checkout-light.svg" alt="" class="h-24 w-auto">
-            <h3 class="mt-6 text-md font-semibold text-gray-900">Popusti na plaćanja</h3>
-            <p class="mt-2 text-sm text-gray-500">Look how fast that cart is going. What does this mean for the actual experience? I don&#039;t know.</p>
-          </div>
+<!--          <div>-->
+<!--            <img src="https://tailwindui.com/img/ecommerce/icons/icon-fast-checkout-light.svg" alt="" class="h-24 w-auto">-->
+<!--            <h3 class="mt-6 text-md font-semibold text-gray-900">Popusti na plaćanja</h3>-->
+<!--            <p class="mt-2 text-sm text-gray-500">Look how fast that cart is going. What does this mean for the actual experience? I don&#039;t know.</p>-->
+<!--          </div>-->
 
-          <div>
-            <img src="https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg" alt="" class="h-24 w-auto">
-            <h3 class="mt-6 text-md font-semibold text-gray-900">Poklon kartice sa kreditom</h3>
-            <p class="mt-2 text-sm text-gray-500">Buy them for your friends, especially if they don&#039;t like our store. Free money for us, it&#039;s great.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+<!--          <div>-->
+<!--            <img src="https://tailwindui.com/img/ecommerce/icons/icon-gift-card-light.svg" alt="" class="h-24 w-auto">-->
+<!--            <h3 class="mt-6 text-md font-semibold text-gray-900">Poklon kartice sa kreditom</h3>-->
+<!--            <p class="mt-2 text-sm text-gray-500">Buy them for your friends, especially if they don&#039;t like our store. Free money for us, it&#039;s great.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <!-- This example requires Tailwind CSS v2.0+ -->
-    <h3 class="text-2xl font-semibold mb-2.5 mt-12">Paketi i pogodnosti</h3>
+    <h3 class="text-2xl font-semibold mb-2.5">Paketi i pogodnosti</h3>
     <div class="bg-white">
       <div class="paketi-wrap">
         <div class="space-y-4 mt-3 sm:space-y-0 sm:grid sm:grid-cols-1 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-3">
