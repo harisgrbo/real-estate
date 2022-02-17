@@ -102,7 +102,7 @@
             <p class="mx-4">|</p>
             <button @click="$router.push('/auth/register')">Registruj se</button>
           </div>
-          <button v-if="$auth.user" class="login-a mr-2">
+          <button v-if="$auth.user" class="login-a mr-3">
             <img src="/005-credit-card.png" alt="" class="mr-1">
 
             <span class="text-medium text-gray-800 bg-gray-50 rounded-sm px-1 py-1 ml-0">{{ $auth.user.wallet.balance + ' KM' }}</span>

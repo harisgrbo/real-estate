@@ -2486,7 +2486,7 @@ input[type=range]:focus::-ms-fill-upper {
   max-width: 240px;
   width: 240px;
   min-width: 240px;
-  margin-right: 24px;
+  margin-right: 16px;
 
   &:last-child {
     margin-right: 0;
