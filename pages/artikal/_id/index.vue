@@ -1,5 +1,5 @@
 <template>
-  <div class="listing-wrapper mx-auto w-full lg:w-1280 xl:w-1280 up:w-1280" v-if="!error">
+  <div class="listing-wrapper mx-auto flex flex-col w-full lg:w-1280 xl:w-1280 up:w-1280" v-if="!error">
     <div v-if="$device.isMobile" class="mobile-topbar">
       <button @click="$router.go(-1)" type="button" class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-black bg-gray-100 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <!-- Heroicon name: solid/plus -->
@@ -23,6 +23,13 @@
       </div>
     </div>
     <div class="listing-content mt-0 lg:mt-12 xl:mt-12 up:mt-12 max-w-7xl mx-auto w-full">
+<!--      <ins class="adsbygoogle"-->
+<!--           style="display:block; min-height: 1px; height: fit-content; max-height: fit-content;"-->
+<!--           data-ad-client="ca-pub-3745186233711216"-->
+<!--           data-ad-slot="2866541183"-->
+<!--           data-ad-format="auto"-->
+<!--           data-full-width-responsive="true"-->
+<!--      ></ins>-->
       <div class="listing-content-inner">
         <div class="listing-content-wrapper relative flex flex-row">
           <div class="flex flex-col w-full relative">

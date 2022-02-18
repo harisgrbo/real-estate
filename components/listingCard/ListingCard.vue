@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
+      <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? `/artikal/${listing.id}/${decodeURI(listing.title)}` : '' ">
         <div class="overflow-hidden relative" v-if="!$device.isMobile">
           <div v-if="listing.images.length">
             <swiper  class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>

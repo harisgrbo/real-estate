@@ -92,7 +92,7 @@
         </div>
       </div>
       <div class="mb-6">
-        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
           <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
             <dt class="text-md pb-1 font-medium text-gray-500 truncate">
               Ukupno oglasa
@@ -119,9 +119,18 @@
               {{ meta.completed_count }}
             </dd>
           </div>
+
+          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+              Dojmovi
+            </dt>
+            <dd class="mt-1 text-3xl font-semibold text-gray-900">
+              {{ meta.rating_count }}
+            </dd>
+          </div>
         </dl>
       </div>
-      <div class="content-wrapper">
+      <div class="content-wrapper mt-4">
         <ul class="main-tabs">
           <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ selected_tab === index ? 'active' : '' ]">{{ tab }}</li>
         </ul>
@@ -154,7 +163,7 @@
             </div>
           </div>
         </div>
-        <div v-else>
+        <div v-if="selected_tab === 1">
           <div>
             <div class="filters-agency">
               <div class="content pb-20">
@@ -178,7 +187,106 @@
             </div>
           </div>
         </div>
+        <div v-if="selected_tab === 2">
+          <div class="pb-12">
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <div v-if="reviews.length" class="bg-white">
+              <div class="lg:max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8">
+                <div class="lg:col-span-4">
+                  <div class="flex flex-col review-wrapper">
+                    <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Dojmovi korisnika ({{ meta.rating_count }})</h2>
 
+                    <div class="mt-3 flex items-center">
+                      <div>
+                        <div class="flex items-center">
+                          <!--
+                            Heroicon name: solid/star
+
+                            Active: "text-yellow-400", Default: "text-gray-300"
+                          -->
+                          <star-rating star-size="20" :increment="0.5" inline="true" :read-only="true" v-model="meta.rating"></star-rating>
+                          <p class="text-sm ml-2 font-semibold">ukupna ocjena</p>
+                        </div>
+                        <p class="sr-only">4 out of 5 stars</p>
+                      </div>
+                    </div>
+
+                    <div class="mt-6">
+                      <h3 class="sr-only">Review data</h3>
+
+                      <dl class="space-y-3">
+                        <div class="flex items-center text-sm" v-for="(count, key, index) in reviews_meta.counts">
+                          <dt class="flex-1 flex items-center">
+                            <p class="w-3 font-medium text-gray-900">{{ index + 1 }}</p>
+                            <div aria-hidden="true" class="ml-1 flex-1 flex items-center">
+                              <!-- Heroicon name: solid/star -->
+                              <svg class="flex-shrink-0 h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+
+                              <div class="ml-3 relative flex-1">
+                                <div class="h-3 bg-gray-100 border border-gray-200 rounded-full"></div>
+
+                                <div :style="`width: calc(${count.percentage} * 100%)`" class="absolute inset-y-0 bg-yellow-400 border border-yellow-400 rounded-full"></div>
+                              </div>
+                            </div>
+                          </dt>
+                          <dd class="ml-3 w-10 text-right tabular-nums text-sm text-gray-900">{{ count.percentage * 100 + '%'}}</dd>
+                        </div>
+                      </dl>
+                    </div>
+
+                    <div class="mt-10">
+                      <h3 class="text-lg font-medium text-gray-900">Podijeli svoje iskustvo</h3>
+                      <p class="mt-1 text-sm text-gray-600">Ako ste koristili usluge {{ this.user.name }} agencije, podijelite svoje iskustvo sa ostalim korisnicima</p>
+
+                      <ActionButton @action="$modal.show('leave-review')" placeholder="Ostavi dojam" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px', marginTop: '24px' }" :loading="false"></ActionButton>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-16 lg:mt-0 lg:col-start-6 lg:col-span-7">
+                  <div class="flow-root">
+                    <div class="-my-12 divide-y divide-gray-200">
+                      <div v-for="review in reviews" :key="review.id" class="py-12 review-user">
+                        <div class="flex items-center">
+                          <img :src="user.avatar_url !== null ? user.avatar_url : '/noimage.jpeg'" alt="Emily Selman." class="h-12 w-12 rounded-full">
+                          <div class="ml-4">
+                            <h4 class="text-sm font-semibold text-gray-900">{{ review.user.name }} dana {{ $moment(review.created_at).format("DD.MM.YYYY") }}</h4>
+                            <div class="mt-1 flex items-center">
+                              <!--
+                                Heroicon name: solid/star
+
+                                Active: "text-yellow-400", Default: "text-gray-300"
+                              -->
+                              <svg v-for="i in review.rating" class="text-yellow-400 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mt-4 space-y-6 text-base italic text-gray-600">
+                          <p>{{ review.review }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <div class="mt-10">
+                <h3 class="text-lg font-medium text-gray-900">Podijeli svoje iskustvo</h3>
+                <p class="mt-1 text-sm text-gray-600">Ako ste koristili usluge {{ this.user.name }} agencije, podijelite svoje iskustvo sa ostalim korisnicima</p>
+
+                <ActionButton @action="$modal.show('leave-review')" placeholder="Ostavi dojam" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px', marginTop: '24px' }" :loading="false"></ActionButton>
+              </div>
+              <NotFound src="/review.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate dojmova' : 'Agencija nema dojmova'"></NotFound>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
@@ -190,6 +298,22 @@
         <div class="modal-content">
           <textarea v-model="message"></textarea>
           <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+        </div>
+      </div>
+    </modal>
+    <modal @before-open="beforeOpen" @before-close="beforeClose" name="leave-review" :adaptive="true" height="100%">
+      <div class="modal-inner">
+        <div class="modal-header">
+          <h2>Dojam za agenciju {{ user.name }}</h2>
+          <i class="material-icons" @click="$modal.hide('leave-review')">close</i>
+        </div>
+        <div class="modal-content review">
+          <textarea v-model="review_message"></textarea>
+          <div class="flex flex-row items-center py-4">
+            <span class="font-semibold mr-4">Ocjena za agenciju</span>
+            <star-rating star-size="20" animate="true" inline="true" v-model="review_rating"></star-rating>
+          </div>
+          <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Ostavi dojam" @action="postReview" :loading="loading"></action-button>
         </div>
       </div>
     </modal>
@@ -253,9 +377,13 @@ import Skeleton from "../../components/skeleton";
 export default class Agencies extends Vue {
   loadingListings = false;
   isFollowed = ''
+  reviews_meta = null;
+  review_rating = 0;
+  review_message = '';
   listingsLoaded = false;
   completedListingsMeta = null
   completedListingsLoaded = false;
+  reviews = [];
   message = '';
   loading = false;
   followLoading = false;
@@ -275,7 +403,8 @@ export default class Agencies extends Vue {
   selected_tab = 0;
   tabs = [
     'Aktivni oglasi',
-    'Završeni'
+    'Završeni',
+    'Dojmovi'
   ]
   selectedCategoryId = null;
 
@@ -289,7 +418,40 @@ export default class Agencies extends Vue {
     await this.fetchUserFinishedListings(this.$route.params.id, this.currentCompletedPage);
   }
 
+  async fetchReviews() {
+    try {
+      let res = await this.$axios.get('/users/' + this.$route.params.id + '/user_reviews');
 
+      this.reviews = res.data.data;
+      this.reviews_meta = res.data.meta;
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
+  async postReview() {
+    try {
+      let res = await this.$axios.post('/users/' + this.$route.params.id + '/user_reviews', {
+        rating: this.review_rating,
+        review: this.review_message
+      })
+
+      this.$toast.open({
+        message: "Uspješno ste ostavili dojam agenciji" + this.user.name,
+        type: 'success',
+        duration: 5000
+      });
+
+      this.review_rating = 0;
+      this.review_message = ''
+      this.$modal.hide('leave-review');
+
+      await this.fetchReviews();
+      this.currentTab = 2;
+    } catch(e) {
+      console.log(e)
+    }
+  }
 
   async handleSelectedCategory(cat) {
     if (this.selectedCategoryId === cat.id) {
@@ -299,6 +461,10 @@ export default class Agencies extends Vue {
     }
 
     await this.fetchUserListings(this.user.id, this.selectedCategoryId, 1);
+  }
+
+  async mounted() {
+    await this.fetchReviews();
   }
 
   beforeOpen() {
@@ -873,4 +1039,22 @@ textarea {
   }
 }
 
+.review ::v-deep textarea {
+  min-height: 140px !important;
+  height: 140px;
+}
+
+.review-wrapper {
+  position: sticky;
+  top: 120px;
+
+  @include for-phone-only {
+    position: static;
+    top: 0;
+  }
+}
+
+.review-user {
+  border-bottom: 1px solid #f1f1f1;
+}
 </style>
