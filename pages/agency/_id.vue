@@ -240,7 +240,7 @@
                       <h3 class="text-lg font-medium text-gray-900">Podijeli svoje iskustvo</h3>
                       <p class="mt-1 text-sm text-gray-600">Ako ste koristili usluge {{ this.user.name }} agencije, podijelite svoje iskustvo sa ostalim korisnicima</p>
 
-                      <ActionButton @action="$modal.show('leave-review')" placeholder="Ostavi dojam" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px', marginTop: '24px' }" :loading="false"></ActionButton>
+                      <ActionButton v-if="$auth.user" @action="$modal.show('leave-review')" placeholder="Ostavi dojam" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px', marginTop: '24px' }" :loading="false"></ActionButton>
                     </div>
                   </div>
                 </div>
@@ -281,7 +281,7 @@
                 <h3 class="text-lg font-medium text-gray-900">Podijeli svoje iskustvo</h3>
                 <p class="mt-1 text-sm text-gray-600">Ako ste koristili usluge {{ this.user.name }} agencije, podijelite svoje iskustvo sa ostalim korisnicima</p>
 
-                <ActionButton @action="$modal.show('leave-review')" placeholder="Ostavi dojam" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px', marginTop: '24px' }" :loading="false"></ActionButton>
+                <ActionButton v-if="$auth.user" @action="$modal.show('leave-review')" placeholder="Ostavi dojam" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px', marginTop: '24px' }" :loading="false"></ActionButton>
               </div>
               <NotFound src="/review.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate dojmova' : 'Agencija nema dojmova'"></NotFound>
             </div>
