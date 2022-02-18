@@ -87,6 +87,7 @@ export default {
       src: "~plugins/progress.js",
       mode: "client"
     },
+    { src: "~plugins/star-rating.js", mode: "client" },
     { src: "~plugins/swiper.js", mode: "client" },
     { src: "~plugins/vue2-editor.js", mode: "client" },
     { src: "~plugins/modal.js", mode: "client" },

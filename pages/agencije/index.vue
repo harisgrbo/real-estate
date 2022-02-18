@@ -220,8 +220,8 @@ a {
 .grid-layout {
   grid-template-columns: repeat(5, 1fr);
   padding: 0 !important;
-  grid-row-gap: 24px;
-  grid-column-gap: 24px;
+  grid-row-gap: 16px;
+  grid-column-gap: 16px;
   padding-bottom: 100px;
 
   ::v-deep .user-profile {

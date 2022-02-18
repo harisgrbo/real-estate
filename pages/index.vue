@@ -309,7 +309,7 @@
       <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Premium agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
-    <div class="flex items-center justify-start pb-4 custom-width gap-6 flex-row overflow-x-scroll agencija" v-if="agenciesLoaded">
+    <div class="flex items-center justify-start pb-4 custom-width gap-4 flex-row overflow-x-scroll agencija" v-if="agenciesLoaded">
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
     </div>
     <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
