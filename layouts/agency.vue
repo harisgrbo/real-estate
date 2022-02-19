@@ -15,7 +15,7 @@ import Footer from "@/components/Footer"
   components: {Navbar, Footer}
 })
 
-export default class Agency extends Vue {
+export default class Agencija extends Vue {
 }
 </script>
 

@@ -214,7 +214,7 @@ export default class mojiOglasi extends Vue {
   }
 
   handleEditListing(id) {
-    this.$router.push('/artikal/uredjivanje/' + id);
+    this.$router.push('/oglas/uredjivanje/' + id);
   }
 
   beforeOpen() {

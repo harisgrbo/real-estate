@@ -170,7 +170,7 @@ export default {
 
   auth: {
     redirect: {
-      login: "/auth/login"
+      login: "/prijava"
     },
     strategies: {
       local: {

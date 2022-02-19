@@ -52,7 +52,7 @@
                 </div>
               </div>
             </div>
-            <ActionButton v-if="listing.sponsored === 0 && listing.completed_at === null"  :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$router.push('/artikal/' + $route.params.id + '/sponzorisanje-oglasa')" class="w-full"></ActionButton>
+            <ActionButton v-if="listing.sponsored === 0 && listing.completed_at === null"  :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$router.push('/oglas/' + $route.params.id + '/sponzorisanje-oglasa')" class="w-full"></ActionButton>
           </div>
           <div class="w-full flex items-center justify-between" v-else>
             <ActionButton @action="$modal.show('contact-user')" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" placeholder="Poruka" class="w-full mr-sm"></ActionButton>
@@ -379,7 +379,7 @@ export default class UserProfile extends Vue {
   }
 
   handleEditListing() {
-    this.$router.push('/artikal/uredjivanje/' + this.$route.params.id);
+    this.$router.push('/oglas/uredjivanje/' + this.$route.params.id);
   }
 
   async sendMessage() {
@@ -429,11 +429,11 @@ export default class UserProfile extends Vue {
 
   goToUser() {
       if(this.user.user_type === 'agency') {
-        this.$router.push('/agency/' + this.user.id)
+        this.$router.push('/agencija/' + this.user.id)
       } else if(this.$auth.user.user_type === 'agent'){
         this.$router.push('/agent/' + this.user.id)
       } else {
-        this.$router.push('/users/' + this.user.id)
+        this.$router.push('/korisnik/' + this.user.id)
       }
   }
 

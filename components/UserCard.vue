@@ -1,13 +1,13 @@
 <template>
   <div class="box">
-    <nuxt-link :to="user.user_type === 'agency' ? '/agency/' + user.id : '/users/' + user.id" class="flex flex-col items-center w-full">
+    <nuxt-link :to="user.user_type === 'agency' ? '/agencija/' + user.id : '/korisnik/' + user.id" class="flex flex-col items-center w-full">
       <div class="flex items-start px-4 pt-4 w-full">
         <div class="w-full flex justify-start w-full flex-row items-start">
           <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
           <div class="ml-4 text-left mt-0">
             <div class="font-semibold text-sm">{{ user.name }}
               <span v-if="user.rating !== null" class="flex flex-row items-center">
-                 <star-rating star-size="12" :increment="0.5" inline="true" :read-only="true" v-model="user.rating"></star-rating>
+                 <star-rating :star-size="12" :increment="0.5" :inline="true" :read-only="true" v-model="user.rating"></star-rating>
               </span>
             </div>
             <dd class="mt-3">
@@ -64,7 +64,7 @@ export default class UserCard extends Vue {
 
   user_type(t) {
     if(t === 'agency') {
-      return 'Agencija'
+      return 'agencija'
     } else if(t === 'user') {
       return 'korisnik'
     } else if(t === 'agent'){

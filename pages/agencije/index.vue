@@ -24,7 +24,6 @@ import skeleton from "../../components/skeleton";
 @Component({
   components: { Navbar, skeleton, AgencyCard, UserCard },
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'settings',
-
 })
 
 export default class Agencies extends Vue {

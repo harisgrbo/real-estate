@@ -98,9 +98,9 @@
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
-            <button @click="$router.push('/auth/login')">Prijavi se</button>
+            <button @click="$router.push('/prijava')">Prijavi se</button>
             <p class="mx-4">|</p>
-            <button @click="$router.push('/auth/register')">Registruj se</button>
+            <button @click="$router.push('/registracija')">Registruj se</button>
           </div>
           <button v-if="$auth.user" class="login-a mr-3">
             <img src="/005-credit-card.png" alt="" class="mr-1">
@@ -284,7 +284,7 @@ export default class Navbar extends Vue {
     if(this.$auth.user) {
       this.$router.push('/objava');
     } else {
-      this.$router.push('/auth/login')
+      this.$router.push('/prijava')
     }
   }
 

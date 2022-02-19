@@ -1,8 +1,8 @@
 <template>
   <div class="form-wrapper">
-    <div class="inner">
-      <img src="/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
-      <h2 class="mt-4 text-left w-full">Reset šifre</h2>
+    <div class="inner" v-if="!messageSent">
+      <img src="/static/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
+      <h2 class="mt-4 text-left w-full">Zaboravljena šifra</h2>
       <div class="rounded-md bg-yellow-50 p-4 mb-6 w-full">
         <div class="flex">
           <div class="flex-shrink-0">
@@ -17,30 +17,36 @@
             </h3>
             <div class="mt-2 text-sm text-yellow-700">
               <p>
-                U formu ispod u prvo polje unesite novu šifru, a zatim je ponovite u idućem polju
+                Dobit ćete mail sa instrukcijama za reset šifre
               </p>
             </div>
           </div>
         </div>
       </div>
-      <form @submit.prevent="handleResetPassword">
-        <TextField type="password" label="Nova šifra" id="1" placeholder="******" v-model="newPassword" class="mb-6 mt-1"></TextField>
-        <TextField type="password" label="Ponovite šifru" id="2" placeholder="******" v-model="repeatNewPassword" class="mb-6 mt-1"></TextField>
-        <div class="rounded-md bg-red-50 p-4" v-show="error">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <!-- Heroicon name: solid/x-circle -->
-              <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <h3 class="text-sm font-medium text-red-800">Šifre moraju biti iste</h3>
-            </div>
+      <form @submit.prevent="sendResetMail">
+        <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="email" class="mb-6 mt-1"></TextField>
+        <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Pošalji zahtjev na email"></ActionButton>
+      </form>
+    </div>
+    <div class="inner" v-else>
+      <!-- This example requires Tailwind CSS v2.0+ -->
+      <div class="rounded-md bg-blue-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <!-- Heroicon name: solid/information-circle -->
+            <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3 flex-1 md:flex md:justify-between">
+            <p class="text-sm text-blue-700">Dobili ste instrukcije na email, u slučaju da nemate mail u inboxu provjerite spam.</p>
+            <p class="mt-3 text-sm md:mt-0 md:ml-6">
+              <nuxt-link to="/" class="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">Početna <span aria-hidden="true">&rarr;</span></nuxt-link>
+            </p>
           </div>
         </div>
-        <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Resetuj šifru"></ActionButton>
-      </form>
+      </div>
+
     </div>
   </div>
 </template>
@@ -56,38 +62,25 @@ import {mixin as clickaway} from "vue-clickaway";
 })
 
 export default class zaboravljenasifra extends Vue{
-  newPassword = '';
-  repeatNewPassword = '';
+  email = '';
   loading = false;
-  error = '';
+  messageSent = false;
 
-  checkPasswords() {
-    return this.newPassword !== '' && this.repeatNewPassword !== '' && (this.newPassword === this.repeatNewPassword);
-  }
-
-  async handleResetPassword() {
+  async sendResetMail() {
     this.loading = true;
 
     try {
-      if(this.checkPasswords()) {
-        await this.$axios.post(`/password/reset/${this.$route.params.token}`, {
-          password: this.newPassword
-        });
+      await this.$axios.post('/reset/password', {email: this.email})
 
-        await this.$router.push('/auth/login')
-      } else {
-        this.error = true;
-      }
-
+      this.messageSent = true;
     } catch(e) {
-      if (e.response.status === 400) {
+      if (e.response.status) {
         this.$toast.open({
-          message: "Pogrešni podaci",
+          message: "Došlo je do greške, pokušajte ponovo",
           type: 'error',
           duration: 5000
         });
       }
-
       this.loading = false;
     }
   }

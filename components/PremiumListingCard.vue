@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="'/artikal/' + listing.id" class="flow-root justify-between flex flex-col items-center text-center relative"
+  <nuxt-link :to="'/oglas/' + listing.id" class="flow-root justify-between flex flex-col items-center text-center relative"
       :style="{ backgroundImage: listing.images.length ? 'url(' + listing.images[0].url + ')' : 'url(' + 'noimage.jpeg' + ')' }"
   >
     <label class="premium">PREMIUM OGLAS</label>

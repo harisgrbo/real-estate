@@ -48,7 +48,7 @@
 
                 <div class="mt-6 border-t border-gray-200 pt-4 flex items-center flex justify-between space-x-4 divide-x divide-gray-200 text-sm font-medium sm:mt-0 sm:ml-4 sm:border-none sm:pt-0">
                   <div class="min-w-min flex justify-center">
-                    <nuxt-link :to="`/artikal/${booking.listing.id}`" class="whitespace-nowrap hover:text-gray-800 hover:bg-gray-50 py-4 px-4">Pogledaj oglas</nuxt-link>
+                    <nuxt-link :to="`/oglas/${booking.listing.id}`" class="whitespace-nowrap hover:text-gray-800 hover:bg-gray-50 py-4 px-4">Pogledaj oglas</nuxt-link>
                   </div>
                   <div class="flex-1 pl-4 flex justify-end">
                     <ActionButton placeholder="Poništi upit" :style-options="{ minWidth: 'fit-content'}" @action="cancel(booking, index)"></ActionButton>
