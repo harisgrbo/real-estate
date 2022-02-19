@@ -130,7 +130,7 @@ export default class mojiOglasi extends Vue {
   async fetchUserListings(p = 1) {
     this.listingsLoaded = false;
     try {
-      let res = await this.$axios.get('/korisnik/' + this.$auth.user.id + `/listings/active?page=${p}`);
+      let res = await this.$axios.get('/users/' + this.$auth.user.id + `/listings/active?page=${p}`);
       this.listings = res.data.data;
       this.listingMeta = res.data.meta;
       this.listingsLoaded = true;
@@ -144,7 +144,7 @@ export default class mojiOglasi extends Vue {
     this.completedListingsLoaded = false;
 
     try {
-      let url = '/korisnik/' + this.$auth.user.id + `/listings/completed?page=${p}`;
+      let url = '/users/' + this.$auth.user.id + `/listings/completed?page=${p}`;
 
       let response = await this.$axios.get(url)
       this.completed_listings = response.data.data;
