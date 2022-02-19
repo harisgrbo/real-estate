@@ -519,9 +519,9 @@ export default class Objava extends Vue {
   async finish() {
     if (this.listingId) {
       this.finishLoader = true;
-      await this.$router.push('/artikal/' + this.listingId)
+      await this.$router.push('/oglas/' + this.listingId)
     } else {
-      this.snackbarValidationError("Artikal nije uspjesno objavljen")
+      this.snackbarValidationError("Oglas nije objavljen")
     }
   }
 

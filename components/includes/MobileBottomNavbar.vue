@@ -141,14 +141,14 @@ export default class MobileBottomNavbar extends Vue {
   goToUser() {
     if(this.$auth.user) {
       if(this.$auth.user.user_type === 'agency') {
-        return '/agency/' + this.$auth.user.id
+        return '/agencija/' + this.$auth.user.id
       } else if(this.$auth.user.user_type === 'agent'){
         return '/agent/' + this.$auth.user.id
       } else {
-        return '/users/' + this.$auth.user.id
+        return '/korisnik/' + this.$auth.user.id
       }
     } else {
-      return '/auth/login'
+      return '/prijava'
     }
   }
 

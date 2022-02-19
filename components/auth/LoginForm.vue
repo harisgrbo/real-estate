@@ -9,10 +9,10 @@
       <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading" type="submit" placeholder="Prijavi se"></ActionButton>
     </form>
     <div class="flex items-center justify-center login-u">
-      <p>Nemaš račun?</p><nuxt-link :to="{ path: '/auth/register' }">Registruj se</nuxt-link>
+      <p>Nemaš račun?</p><nuxt-link :to="{ path: '/registracija' }">Registruj se</nuxt-link>
     </div>
     <div class="flex items-center justify-center mt-8">
-      <nuxt-link :to="{ path: '/auth/zaboravljena-sifra' }">Zaboravili ste šifru?</nuxt-link>
+      <nuxt-link :to="{ path: '/zaboravljena-sifra' }">Zaboravili ste šifru?</nuxt-link>
     </div>
   </div>
 </template>

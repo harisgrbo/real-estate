@@ -28,7 +28,6 @@
                   </select>
                 </div>
               </div>
-
             </div>
             <div class="price-label">
               <div class="w-full flex items-center justify-between">
@@ -54,12 +53,12 @@
         </div>
       </div>
     </div>
-<!--    <ins class="adsbygoogle"-->
-<!--         style="display:block"-->
-<!--         data-ad-client="ca-pub-3745186233711216"-->
-<!--         data-ad-slot="9795532766"-->
-<!--         data-ad-format="auto"-->
-<!--         data-full-width-responsive="true"></ins>-->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-3745186233711216"
+         data-ad-slot="9795532766"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
 <!--    <ins class="adsbygoogle"-->
 <!--         style="display:block"-->
 <!--         data-ad-client="ca-pub-3745186233711216"-->

@@ -440,7 +440,7 @@ export default class ListingEdit extends Vue {
         duration: 5000
       });
 
-      this.$router.push('/artikal/' + this.listing.id)
+      this.$router.push('/oglas/' + this.listing.id)
     } catch (e) {
       console.log(e)
     }

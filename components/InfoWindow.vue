@@ -14,7 +14,7 @@
           </p>
         </span>
     </label>
-    <a :href="'/artikal/' + listing.id">
+    <a :href="'/oglas/' + listing.id">
       <div class="overflow-hidden relative image-wrapper bg-gray-50">
         <img class="main-image" :src="listing.thumbnail_url" alt="">
       </div>

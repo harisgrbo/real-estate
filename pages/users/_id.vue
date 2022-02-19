@@ -220,7 +220,7 @@ export default class Users extends Vue {
   }
 
   goToUser(id) {
-      this.$router.push('/agency/' + id)
+      this.$router.push('/agencija/' + id)
   }
 
   async created() {

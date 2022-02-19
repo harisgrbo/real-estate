@@ -116,14 +116,14 @@ export default class accountpage extends Vue {
   goToUser() {
     if(this.$auth.user) {
       if(this.$auth.user.user_type === 'agency') {
-        this.$router.push('/agency/' + this.$auth.user.id)
+        this.$router.push('/agencija/' + this.$auth.user.id)
       } else if(this.$auth.user.user_type === 'agent'){
         this.$router.push('/agent/' + this.$auth.user.id)
       } else {
-        this.$router.push('/users/' + this.$auth.user.id)
+        this.$router.push('/korisnik/' + this.$auth.user.id)
       }
     } else {
-      this.$router.push('/auth/login')
+      this.$router.push('/prijava')
     }
   }
 

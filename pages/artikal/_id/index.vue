@@ -703,7 +703,7 @@ import SearchListingCard from "../../../components/SearchListingCard";
     }
   }
 })
-export default class Artikal extends Vue {
+export default class Oglas extends Vue {
   types = {
     rent: 'Iznajmljivanje',
     sell: 'Prodaja',
@@ -926,7 +926,7 @@ export default class Artikal extends Vue {
         }
       }
     } else {
-      await this.$router.push('/auth/login')
+      await this.$router.push('/prijava')
     }
   }
 

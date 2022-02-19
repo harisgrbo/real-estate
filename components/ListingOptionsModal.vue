@@ -26,7 +26,7 @@ export default class ListingOptionsModal extends Vue {
   @Prop() listing_id;
 
   editListing() {
-    this.$router.push('/artikal/uredjivanje/' + this.listing_id);
+    this.$router.push('/oglas/uredjivanje/' + this.listing_id);
 
     this.$modal.hide('listing-options')
   }

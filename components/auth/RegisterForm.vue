@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="flex items-center justify-center login-u">
-      <p>Imaš račun?</p><nuxt-link :to="{ path: '/auth/login' }">Prijavi se</nuxt-link>
+      <p>Imaš račun?</p><nuxt-link :to="{ path: '/prijava' }">Prijavi se</nuxt-link>
     </div>
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="comparation" :width="$device.isMobile ? '100%' : '60%'" :adaptive="true" height="100%">
       <div class="modal-inner">

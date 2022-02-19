@@ -1,6 +1,6 @@
 <template>
   <div class="listing-card-wrapper relative">
-    <nuxt-link :to="{ path: '/artikal/' + listing.id }">
+    <nuxt-link :to="{ path: '/oglas/' + listing.id }">
       <label class="publisher shadow-sm">
         <span class="flex flex-row items-center">{{ translateType() }}
         </span>
@@ -157,7 +157,7 @@ export default class HorizontalCard extends Vue{
         this.saved = true;
 
         this.$toast.open({
-          message: "Uspješno ste se spasili artikal!",
+          message: "Uspješno ste se spasili oglas!",
           type: 'success',
           duration: 5000
         });

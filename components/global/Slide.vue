@@ -6,9 +6,9 @@
     </label>
     <div class="blured-background">
       <button @click="removeFromSaved(listing.id)">Izbriši iz spašenih</button>
-      <button @click="$router.push('/artikal/' + listing.id)">Pogledaj oglas</button>
+      <button @click="$router.push('/oglas/' + listing.id)">Pogledaj oglas</button>
     </div>
-    <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/artikal/' + listing.id : '' ">
+    <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/oglas/' + listing.id : '' ">
       <div class="image-wrapper">
         <div v-if="listing.images.length">
           <img class="slider-img swiper-lazy" :data-src="listing.images[0].url" alt="">

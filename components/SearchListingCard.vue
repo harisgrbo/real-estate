@@ -14,7 +14,7 @@
           </p>
         </span>
     </label>
-    <nuxt-link :to="'/artikal/' + listing.id">
+    <nuxt-link :to="'/oglas/' + listing.id">
       <div class="overflow-hidden relative image-wrapper bg-gray-50">
         <img class="main-image" :src="listing.thumbnail_url" alt="">
       </div>
