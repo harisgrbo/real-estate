@@ -134,7 +134,6 @@
         <div v-else>
           <NotFound src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
         </div>
-
       </div>
       <div class="results map w-full" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
@@ -147,6 +146,9 @@
               :total-pages="lastPage"
               @page-change="pageChangeHandler" />
           </client-only>
+        </div>
+        <div v-else class="m-auto">
+          <NotFound src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
         </div>
         <div class="map-wrapper">
           <SearchMap :locations="results" :current="currentResultIndex" :center="center !== null ? center: (results.length ? results[0].location: {lat: 43.8563, lng: 18.4131})" :zoom="mapZoom" @moved="handleMapMoved"></SearchMap>
@@ -358,7 +360,7 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
     let cityNames = null;
     let countryNames = null;
     let selectedCategoryId = null;
-    let mapZoom = 12;
+    let mapZoom = 14;
     let selectedPreviewType = 'map';
     let selectedSort = {
       name: "Najnovije",

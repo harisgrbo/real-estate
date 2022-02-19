@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <img src="/mojkvadrat-logo-new.png" class="img-logo" alt="" @click="$router.push('/')">
+    <img src="/svg-logo.svg" class="img-logo" alt="" @click="$router.push('/')">
 
     <h2 class="mt-4">Registracija</h2>
     <ul class="flex flex-row items-center justify-start">

@@ -15,7 +15,7 @@ export default class SearchMap extends Vue{
   }) center;
   @Prop() current;
   @Prop() loaded;
-  @Prop({ type: Number, default: 12 }) zoom;
+  @Prop({ type: Number, default: 14 }) zoom;
 
   map = null;
   markers = [];
@@ -100,8 +100,8 @@ export default class SearchMap extends Vue{
       zoom: this.zoom,
       center: uluru,
       mapId: '90b8b95b1bbd0bc9',
-      mapTypeControl: true,
       zoomControl: true,
+      disableDefaultUI: false,
       fullscreenControl: false,
     });
 
