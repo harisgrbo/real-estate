@@ -175,7 +175,7 @@ import ActionButton from "../../components/actionButtons/ActionButton";
     let error = false
 
     try {
-      let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
+      let response = await ctx.app.$axios.get('/korisnik/' + ctx.route.params.id)
       user = response.data.data;
       meta = response.data.meta;
     } catch(e) {
@@ -285,7 +285,7 @@ export default class Users extends Vue {
   toggleFollow() {
     if (this.isFollowed === false) {
       try {
-        this.$axios.post('/users/' + this.user.id + '/follow');
+        this.$axios.post('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste zapratili korisnika " + this.user.name,
@@ -299,7 +299,7 @@ export default class Users extends Vue {
       }
     } else {
       try {
-        this.$axios.delete('/users/' + this.user.id + '/follow');
+        this.$axios.delete('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste otpratili korisnika " + this.user.name,
@@ -316,7 +316,7 @@ export default class Users extends Vue {
 
   async fetchUser(id) {
     try {
-      let response = await this.$axios.get('/users/' + id)
+      let response = await this.$axios.get('/korisnik/' + id)
       this.user = response.data.data;
       this.meta = response.data.meta;
     } catch(e) {
@@ -340,7 +340,7 @@ export default class Users extends Vue {
   async fetchUserListings(id, p = 1) {
     this.listingsLoaded = false;
     try {
-      let response = await this.$axios.get('/users/' + id + `/listings/active?page=${p}`)
+      let response = await this.$axios.get('/korisnik/' + id + `/listings/active?page=${p}`)
       this.listings = response.data.data;
       this.listingActiveMeta = response.data.meta;
       this.listingsLoaded = true;
@@ -352,7 +352,7 @@ export default class Users extends Vue {
   async fetchUserFinishedListings(id, p = 1) {
     this.completedListingsLoaded = false;
     try {
-      let response = await this.$axios.get('/users/' + id + `/listings/completed?page=${p}`)
+      let response = await this.$axios.get('/korisnik/' + id + `/listings/completed?page=${p}`)
       this.completed_listings = response.data.data;
       this.completedListingsLoaded = true;
     } catch(e) {

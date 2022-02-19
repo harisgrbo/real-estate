@@ -65,13 +65,13 @@
         <div class="third-col">
           <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
             <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$modal.show('about-agencija')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
           </div>
           <div v-else class="w-full flex flex-row items-center justify-start mt-4">
             <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
               <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
               <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+              <ActionButton type="submit" @action="$modal.show('about-agencija')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
 <!--              <div class="rounded-md bg-blue-50 p-3" v-if="!$device.isMobile">-->
 <!--                <div class="flex">-->
 <!--                  <div class="flex-shrink-0">-->
@@ -321,7 +321,7 @@
       <div class="modal-inner">
         <div class="modal-header">
           <h2>O nama</h2>
-          <i class="material-icons" @click="$modal.hide('about-agency')">close</i>
+          <i class="material-icons" @click="$modal.hide('about-agencija')">close</i>
         </div>
         <div class="modal-content">
           <p>{{ user.description }}</p>
@@ -420,7 +420,7 @@ export default class Agencies extends Vue {
 
   async fetchReviews() {
     try {
-      let res = await this.$axios.get('/users/' + this.$route.params.id + '/user_reviews');
+      let res = await this.$axios.get('/korisnik/' + this.$route.params.id + '/user_reviews');
 
       this.reviews = res.data.data;
       this.reviews_meta = res.data.meta;
@@ -431,7 +431,7 @@ export default class Agencies extends Vue {
 
   async postReview() {
     try {
-      let res = await this.$axios.post('/users/' + this.$route.params.id + '/user_reviews', {
+      let res = await this.$axios.post('/korisnik/' + this.$route.params.id + '/user_reviews', {
         rating: this.review_rating,
         review: this.review_message
       })
@@ -534,7 +534,7 @@ export default class Agencies extends Vue {
   toggleFollow() {
     if (this.isFollowed === false) {
       try {
-        this.$axios.post('/users/' + this.user.id + '/follow');
+        this.$axios.post('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste zapratili korisnika" + this.user.name,
@@ -548,7 +548,7 @@ export default class Agencies extends Vue {
       }
     } else {
       try {
-        this.$axios.delete('/users/' + this.user.id + '/follow');
+        this.$axios.delete('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste otpratili korisnika" + this.user.name,
@@ -567,7 +567,7 @@ export default class Agencies extends Vue {
     this.listingsLoaded = false;
 
     try {
-      let url = '/users/' + id + `/listings/active?page=${p}`;
+      let url = '/korisnik/' + id + `/listings/active?page=${p}`;
 
       if (catId) {
         url += '&category_id=' + catId;
@@ -587,7 +587,7 @@ export default class Agencies extends Vue {
     this.completedListingsLoaded = false;
 
     try {
-      let url = '/users/' + id + `/listings/completed?page=${p}`;
+      let url = '/korisnik/' + id + `/listings/completed?page=${p}`;
 
       let response = await this.$axios.get(url)
       this.completed_listings = response.data.data;

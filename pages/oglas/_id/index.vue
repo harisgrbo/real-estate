@@ -1176,7 +1176,7 @@ export default class Oglas extends Vue {
   async handleFollow() {
     try {
       if(this.isFollowed) {
-        await this.$axios.delete('/users/' + this.user.id + '/follow');
+        await this.$axios.delete('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste otpratili " + this.user.name,
@@ -1186,7 +1186,7 @@ export default class Oglas extends Vue {
 
         this.isFollowed = false;
       } else {
-        await this.$axios.post('/users/' + this.user.id + '/follow');
+        await this.$axios.post('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste zapratili " + this.user.name,
