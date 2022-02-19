@@ -22,21 +22,10 @@
     <!-- Real estate agencija registration -->
     <div v-if="currentType === 1">
       <div class="form" @submit.prevent="handleRealEstateAgencyRegistration">
-        <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
+        <TextField label="Naziv pravnog lica" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
         <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
         <TextField label="Šifra" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
         <PublishDropdown label="Lokacija" class="location mb-6" @select-option="handleSelectedCity"></PublishDropdown>
-<!--        <div class="flex flex-row items-center mb-6">-->
-<!--          <div class="relative w-full flex flex-col items-start">-->
-<!--            <div class="select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">-->
-<!--              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Paketi</label>-->
-<!--              <select id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" v-model="selectedPackage">-->
-<!--                <option class="font-medium text-sm" v-for="(pkg, index) in packages" :key="index" :value="pkg">{{ pkg.title }}</option>-->
-<!--              </select>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <ActionButton class="w-full packages" :style-options="{ color: '#fff', height: '50px', width: 'fit-content', minWidth: 'fit-content', marginLeft: '16px'}" @action="$modal.show('comparation')" :loading="loading" placeholder="Uporedi pakete"></ActionButton>-->
-<!--        </div>-->
         <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
           Prihvatam uslove korištenja
@@ -108,7 +97,7 @@ export default class RegisterForm extends Vue{
   ]
   registrationTypes = [
     'Fizičko lice',
-    'Pravno lice (agencija)'
+    'Pravno lice'
   ]
   currentType = 0;
   loading = false;
