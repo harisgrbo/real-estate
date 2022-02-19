@@ -140,7 +140,7 @@ export default class RegisterForm extends Vue{
     this.loading = true;
 
     this.$axios
-      .post('/korisnik/register', this.userPayload, this.config)
+      .post('/users/register', this.userPayload, this.config)
       .then(() => {
         this.handlePostRegister();
       })

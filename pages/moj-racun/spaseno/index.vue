@@ -144,7 +144,7 @@ export default class spaseno extends Vue {
 
   async fetchSavedUsers() {
     try {
-      let response = await this.$axios.get('/profile/saved/korisnik');
+      let response = await this.$axios.get('/profile/saved/users');
       this.savedUsers = response.data.data;
     } catch(e) {
       console.log(e)
