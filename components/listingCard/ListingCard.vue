@@ -49,25 +49,12 @@
 
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/oglas/' + listing.id : '' ">
         <div class="overflow-hidden relative" v-if="!$device.isMobile">
-          <div v-if="listing.images.length">
-            <swiper  class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>
-              <swiper-slide v-for="(img, index) in listing.images" :key="index">
-                <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
-                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              </swiper-slide>
-              <div class="swiper-pagination" slot="pagination"></div>
-              <div
-                class="swiper-button-next swiper-button-white"
-                slot="button-next"
-              ></div>
-              <div
-                class="swiper-button-prev swiper-button-white"
-                slot="button-prev"
-              ></div>
-            </swiper>
+          <div v-if="listing.thumbnail !== null">
+            <img class="main-image" :src="listing.thumbnail.url" alt="">
           </div>
-          <img v-else src="/noimage.jpeg"  alt="">
-
+          <div v-else>
+            <img class="main-image" src="/noimage.jpeg" alt="">
+          </div>
         </div>
         <div class="overflow-hidden relative image-wrapper bg-gray-50" v-else>
           <img class="main-image" :src="listing.images[0].url" v-if="listing.images.length" alt="">
@@ -95,7 +82,7 @@
             <div
               v-for="(attr, index) in specialAttributes"
               :key="index"
-              class="flex flex-row items-center mr-2"
+              class="flex flex-row items-center mr-2 special-icons"
             >
               <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
               <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
@@ -105,6 +92,10 @@
               <p v-if="attr.name === 'Kvadratura'">
                 m²
               </p>
+              <div id="tooltip-default" role="tooltip" class="top-9 inline-block absolute z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm duration-300 tooltip dark:bg-gray-700">
+                {{ attr.name }}
+                <div class="tooltip-arrow" data-popper-arrow></div>
+              </div>
             </div>
           </div>
         </div>
@@ -184,14 +175,12 @@ export default class ListingCard extends Vue{
   }
 
   translateType() {
-    if(this.listing.listing_type.shortname === 'buy') {
-      return 'Potražnja'
-    } else if(this.listing.listing_type.shortname === 'sell') {
+    if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
     } else if(this.listing.listing_type.shortname === 'booking'){
       return 'Stan na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
-      return 'Dugoročno izdavanje'
+      return 'Najam'
     }
   }
 
@@ -856,5 +845,18 @@ export default class ListingCard extends Vue{
 .new.cross {
   text-decoration: line-through;
   font-size: 13px !important;
+}
+
+#tooltip-default {
+  display: none;
+}
+.special-icons {
+  &:hover {
+    cursor: pointer;
+    #tooltip-default {
+      display: flex;
+      min-width: fit-content;
+    }
+  }
 }
 </style>

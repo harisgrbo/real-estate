@@ -531,7 +531,7 @@ export default class Homepage extends Vue {
       id: 4,
     },
     {
-      name: "Dugoročno izdavanje",
+      name: "Najam",
       id: 3,
     },
   ]

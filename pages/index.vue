@@ -186,38 +186,9 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col popular">
-      <div class="flex items-center justify-between custom-width title-wrapper">
-        <h2 class="section-title popular-cats" ssr-only="stanovi kuce garaze apartmani stan na dan novogradnja">Popularne kategorije</h2>
-        <div class="flex flex-row items-center">
-          <nuxt-link class="more" to="/pretraga">Sve kategorije</nuxt-link>
-        </div>
-      </div>
-      <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200" v-if="most_visited_cats_loaded">
-        <li class="flow-root justify-between flex flex-col" v-for="(cat, index) in most_visited_cats" :key="index"
-            :style="{ backgroundImage: 'url(' + cat.title + '.jpeg)' }"
-        >
-          <div class="relative overlay-out">
-            <div class="overlay"></div>
-            <h3 class="font-medium">
-              {{ cat.title }}
-            </h3>
-            <p class="mt-1 text-lg text-white" v-if="!$device.isMobile">{{ cat.listings + ' oglasa u kategoriji ' + cat.title  }}</p>
-          </div>
-          <button @click="searchCategory(cat)" type="button" class="inline-flex items-center px-3 py-2 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-800 bg-white hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Pretraži
-          </button>
-        </li>
-      </ul>
-      <ul role="list" class="most-visited-cats mt-6 flex flex-row border-t border-b border-gray-200" v-else>
-        <li class="flow-root justify-between flex flex-col" v-for="i in 4" :key="i">
-          <skeleton :height="$device.isMobile ? '180px' : '180px'" :width="$device.isMobile ? '250px' : '308px'"></skeleton>
-        </li>
-      </ul>
-    </div>
 
     <div class="flex items-center justify-between custom-width title-wrapper">
-      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam">Dugoročno izdavanje</h2>
+      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam">Najam</h2>
       <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
@@ -387,14 +358,11 @@
     sellLoaded = false;
     followedUserListingsLoaded = false;
     followedUserListings = []
-    most_visited_cats_loaded = false;
     rentLoaded = false;
     rentPerDayLoaded = false;
     quickSearchTab = 0;
     premiumListingsLoaded = false;
     premiumListings = []
-    most_visited_cats = [
-    ]
 
     tabs = [
       'Prodaja',
@@ -465,7 +433,6 @@
     created() {
       this.fetchCategories()
       this.fetchHomeListings();
-      this.fetchMostVisitedCats();
       this.fetchSelling();
       this.fetchRenting();
       this.fetchPremiumListings();
@@ -491,19 +458,6 @@
         this.listings = res.data.data
         this.meta = res.data.meta
         this.page = 2
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-    async fetchMostVisitedCats() {
-      this.most_visited_cats_loaded = false;
-      try {
-        let res = await this.$axios.get('/categories/popular')
-        this.most_visited_cats = res.data.data.categories
-        this.totalListings = res.data.data.total_listings
-
-        this.most_visited_cats_loaded = true;
       } catch (e) {
         console.log(e)
       }

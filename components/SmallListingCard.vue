@@ -161,14 +161,12 @@ export default class SmallListingCard extends Vue{
   }
 
   translateType() {
-    if(this.listing.listing_type.shortname === 'buy') {
-      return 'Potražnja'
-    } else if(this.listing.listing_type.shortname === 'sell') {
+    if(this.listing.listing_type.shortname === 'sell') {
       return 'Prodaja'
     } else if(this.listing.listing_type.shortname === 'booking'){
       return 'Stan na dan'
     } else if(this.listing.listing_type.shortname === 'rent') {
-      return 'Dugoročno izdavanje'
+      return 'Najam'
     }
   }
 

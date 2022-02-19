@@ -98,7 +98,8 @@ export default {
     { src: "~plugins/apex-charts.js", mode: "client" },
     { src: "~plugins/emoji.js", mode: "client" },
     { src: "~plugins/toast.js", mode: "client" },
-    { src: "~plugins/calendar.js", mode: "client" }
+    { src: "~plugins/calendar.js", mode: "client" },
+    { src: "~plugins/masonry.js", mode: "client" },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
