@@ -517,6 +517,7 @@ export default class Objava extends Vue {
   }
 
   async finish() {
+    console.log(this.listingId, 'imal ga')
     if (this.listingId) {
       this.finishLoader = true;
       await this.$router.push('/oglas/' + this.listingId)

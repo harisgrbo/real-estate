@@ -23,13 +23,6 @@
       </div>
     </div>
     <div class="listing-content mt-0 lg:mt-12 xl:mt-12 up:mt-12 max-w-7xl mx-auto w-full">
-<!--      <ins class="adsbygoogle"-->
-<!--           style="display:block; min-height: 1px; height: fit-content; max-height: fit-content;"-->
-<!--           data-ad-client="ca-pub-3745186233711216"-->
-<!--           data-ad-slot="2866541183"-->
-<!--           data-ad-format="auto"-->
-<!--           data-full-width-responsive="true"-->
-<!--      ></ins>-->
       <div class="listing-content-inner">
         <div class="listing-content-wrapper relative flex flex-row">
           <div class="flex flex-col w-full relative">
@@ -72,34 +65,10 @@
                 </div>
               </div>
             </div>
-
             <div class="mobile-images">
-              <client-only v-if="images.length >= 1">
-                <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
-                  <swiper-slide v-for="(img, index) in images" :key="index">
-                    <img class="swiper-lazy" :alt="listing.title + 'stan mojkvadrat stanovi sarajevo'" :src="img.url" alt="" @click="openGallery(index)">
-                    <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-                  </swiper-slide>
-                  <div
-                    class="swiper-button-prev swiper-button-white"
-                    slot="button-prev"
-                  ></div>
-                  <div
-                    class="swiper-button-next swiper-button-white"
-                    slot="button-next"
-                  ></div>
-                  <div class="swiper-pagination" slot="pagination"></div>
-                </swiper>
-                <light-box
-                  ref="lightbox"
-                  :media="lightboxImages"
-                  :show-light-box="false"
-                  :show-thumbs="true"
-                  close-text="function() {
-                return 'Zatvori galeriju'
-                }"
-                />
-              </client-only>
+              <div v-if="listing.thumbnail !== null">
+                <img class="main-image" :src="listing.thumbnail.url" alt="" @click="$moda.show('gallery-grid')">
+              </div>
               <div v-else class="no-image-grid">
                 <img src="/noimage.jpeg" alt="">
               </div>
@@ -615,6 +584,27 @@
             </div>
           </modal>
         </client-only>
+        <client-only>
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="gallery-grid" :adaptive="true" height="100%">
+            <div class="modal-inner">
+              <div class="modal-header">
+                <h3>Galerija slika</h3>
+                <i class="material-icons" @click.prevent="$modal.hide('gallery-grid')">close</i>
+              </div>
+              <div class="modal-content">
+                <vue-masonry-wall :items="images" :options="{width: '100%', padding: 12}">
+                  <template v-slot:default="{item}">
+                    <div class="item">
+                      <h5>{{item.title}}</h5>
+                      <p>{{item.content}}</p>
+                    </div>
+                  </template>
+                </vue-masonry-wall>
+              </div>
+            </div>
+          </modal>
+        </client-only>
+
       </div>
     </div>
   </div>

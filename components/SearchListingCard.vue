@@ -15,8 +15,11 @@
         </span>
     </label>
     <nuxt-link :to="'/oglas/' + listing.id">
-      <div class="overflow-hidden relative image-wrapper bg-gray-50">
+      <div class="overflow-hidden relative image-wrapper bg-gray-50" v-if="listing.thumbnail_url !== ''">
         <img class="main-image" :src="listing.thumbnail_url" alt="">
+      </div>
+      <div v-else class="overflow-hidden relative image-wrapper bg-gray-50">
+        <img class="main-image" src="/noimage.jpeg" alt="">
       </div>
       <div class="listing-card-content relative">
         <div class="flex flex-col justify-between items-start">
@@ -40,7 +43,7 @@
           <div
             v-for="(attr, index) in specialAttributes"
             :key="index"
-            class="flex flex-row items-center mr-2"
+            class="flex flex-row items-center mr-2 special-icons"
           >
             <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
             <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
@@ -50,6 +53,10 @@
             <p v-if="attr.name === 'Kvadratura'">
               m²
             </p>
+            <div id="tooltip-default" role="tooltip" class="top-9 inline-block absolute z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm duration-300 tooltip dark:bg-gray-700">
+              {{ attr.name }}
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
           </div>
         </div>
       </div>
@@ -748,5 +755,18 @@ a {
 .new.cross {
   text-decoration: line-through;
   font-size: 13px !important;
+}
+
+#tooltip-default {
+  display: none;
+}
+.special-icons {
+  &:hover {
+    cursor: pointer;
+    #tooltip-default {
+      display: flex;
+      min-width: fit-content;
+    }
+  }
 }
 </style>
