@@ -19,7 +19,7 @@
         <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" @action="handleUserRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </div>
     </div>
-    <!-- Real estate agency registration -->
+    <!-- Real estate agencija registration -->
     <div v-if="currentType === 1">
       <div class="form" @submit.prevent="handleRealEstateAgencyRegistration">
         <TextField label="Naziv agencije" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
@@ -140,7 +140,7 @@ export default class RegisterForm extends Vue{
     this.loading = true;
 
     this.$axios
-      .post('/users/register', this.userPayload, this.config)
+      .post('/korisnik/register', this.userPayload, this.config)
       .then(() => {
         this.handlePostRegister();
       })
@@ -161,7 +161,7 @@ export default class RegisterForm extends Vue{
     this.realEstateAgencyPayload.location = f.name;
   }
 
-  // Real estate agency registration
+  // Real estate agencija registration
   handleRealEstateAgencyRegistration() {
     this.loading = true;
 

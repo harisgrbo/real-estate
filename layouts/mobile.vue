@@ -1,9 +1,9 @@
 <template>
-  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'moj-racun-poruke' || $route.name === 'oglas-id' || $route.name === 'pretraga' ? 'objava' : '', $route.name === 'moj-racun-poruke' || $route.name === 'users-id' || $route.name === 'agencija-id' || $route.name === 'agent-id' ? 'poruke' : '']">
+  <div ref="home" :class="['home-wrapper', $route.name === 'objava' || $route.name === 'moj-racun-poruke' || $route.name === 'oglas-id' || $route.name === 'pretraga' ? 'objava' : '', $route.name === 'moj-racun-poruke' || $route.name === 'korisnik-id' || $route.name === 'agencija-id' || $route.name === 'agent-id' ? 'poruke' : '']">
     <div
       class="header"
       :class="{ 'navbar--hidden': !showNavbar }"
-      v-if="$route.name !== 'oglas-id' && $route.name !== 'objava.vue' && $route.name !== 'moj-racun-poruke' && $route.name !== 'users-id' && $route.name !== 'agencija-id' && $route.name !== 'agent-id'"
+      v-if="$route.name !== 'oglas-id' && $route.name !== 'objava.vue' && $route.name !== 'moj-racun-poruke' && $route.name !== 'korisnik-id' && $route.name !== 'agencija-id' && $route.name !== 'agent-id'"
     >
       <Navbar></Navbar>
     </div>

@@ -61,7 +61,7 @@
         </div>
 <!--        <button class="report-user" v-if="!isMe">-->
 <!--          <font-awesome-icon icon="user-slash"></font-awesome-icon>-->
-<!--          {{ type === 'agency'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
+<!--          {{ type === 'agencija'? 'Prijavi agenciju' : 'Prijavi fizičko lice' }}-->
 <!--        </button>-->
       </div>
     </div>
@@ -274,7 +274,7 @@ export default class UserProfile extends Vue {
 
   async blockUser(u) {
     try {
-      let res = await this.$axios.post('/profile/users/' + u.id + '/block');
+      let res = await this.$axios.post('/profile/korisnik/' + u.id + '/block');
 
       this.$toast.open({
         message: "Blokirali ste korisnika " + u.name,
@@ -440,7 +440,7 @@ export default class UserProfile extends Vue {
   async handleFollow() {
     try {
       if(this.followed) {
-        await this.$axios.delete('/users/' + this.user.id + '/follow');
+        await this.$axios.delete('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste otpratili " + this.user.name,
@@ -450,7 +450,7 @@ export default class UserProfile extends Vue {
 
         this.followed = false;
       } else {
-        await this.$axios.post('/users/' + this.user.id + '/follow');
+        await this.$axios.post('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste zapratili " + this.user.name,

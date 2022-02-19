@@ -175,7 +175,7 @@ import NotFound from "../../components/global/NotFound";
     let meta = {};
 
     try {
-      let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
+      let response = await ctx.app.$axios.get('/korisnik/' + ctx.route.params.id)
       user = response.data.data;
       meta = response.data.meta;
     } catch(e) {
@@ -307,7 +307,7 @@ export default class Agent extends Vue {
   toggleFollow() {
     if (this.isFollowed === false) {
       try {
-        this.$axios.post('/users/' + this.user.id + '/follow');
+        this.$axios.post('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste zapratili korisnika" + this.user.name,
@@ -321,7 +321,7 @@ export default class Agent extends Vue {
       }
     } else {
       try {
-        this.$axios.delete('/users/' + this.user.id + '/follow');
+        this.$axios.delete('/korisnik/' + this.user.id + '/follow');
 
         this.$toast.open({
           message: "Uspješno ste otpratili korisnika" + this.user.name,
@@ -340,7 +340,7 @@ export default class Agent extends Vue {
     this.listingsLoaded = false;
 
     try {
-      let url = '/users/' + id + `/listings/active?page=${p}`;
+      let url = '/korisnik/' + id + `/listings/active?page=${p}`;
 
       if (catId) {
         url += '?category_id=' + catId;
@@ -360,7 +360,7 @@ export default class Agent extends Vue {
     this.completedListingsLoaded = false;
 
     try {
-      let url = '/users/' + id + `/listings/completed?page=${p}`;
+      let url = '/korisnik/' + id + `/listings/completed?page=${p}`;
 
       let response = await this.$axios.get(url)
       this.completed_listings = response.data.data;

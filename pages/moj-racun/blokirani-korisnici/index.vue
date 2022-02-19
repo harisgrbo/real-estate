@@ -44,7 +44,7 @@ export default class blokiraniKorisnici extends Vue {
 
   async fetchBlockedUsers() {
     try {
-      let response = await this.$axios.get('/profile/users/blocked');
+      let response = await this.$axios.get('/profile/korisnik/blocked');
       this.blockedUsers = response.data.data;
     } catch(e) {
       console.log(e)
@@ -67,7 +67,7 @@ export default class blokiraniKorisnici extends Vue {
     try {
       let index = this.blockedUsers.findIndex(item => item.id === u.id);
 
-      let res = await this.$axios.delete('/profile/users/' + u.id + '/block');
+      let res = await this.$axios.delete('/profile/korisnik/' + u.id + '/block');
 
       this.blockedUsers.splice(index, 1)
 
