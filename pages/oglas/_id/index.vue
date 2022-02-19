@@ -1234,6 +1234,10 @@ export default class Oglas extends Vue {
 
   async created() {
 
+    if (this.listing && ! this.$route.params.slug) {
+      this.$router.push(this.$route.fullPath + '/' + this.listing.slug);
+    }
+
     this.specialAttributes = this.getRentSpecialAttributes().slice();
 
     if(this.error) {

@@ -4,7 +4,7 @@
       <div class="flex flex-row items-center">
         <div class="img-wrapper" v-if="!$device.isMobile" :class="[$device.isMobile && focused === true ? 'hide' : '']">
           <nuxt-link to="/">
-            <img :src="[ $device.isMobile ? '/mojkvadrat-logo-new.png' : '/mojkvadrat-logo-new.png']" class="main-logo" height="40" alt="">
+            <img :src="[ $device.isMobile ? '/svg-logo.svg' : '/svg-logo.svg']" class="main-logo" height="40" alt="">
           </nuxt-link>
         </div>
 <!--        <div class="relative flex flex-row items-center ml-10" v-if="!$device.isMobile">-->

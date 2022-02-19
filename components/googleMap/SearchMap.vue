@@ -6,10 +6,8 @@
 import { Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 import InfoWindow from '@/components/InfoWindow'
 
-@Component({
-})
+@Component({})
 export default class SearchMap extends Vue{
-
   @Prop({ type: Array, default: ()=>[]}) locations;
   @Prop({
     type: Object,
@@ -17,12 +15,13 @@ export default class SearchMap extends Vue{
   }) center;
   @Prop() current;
   @Prop() loaded;
+  @Prop({ type: Number, default: 14 }) zoom;
 
   map = null;
   markers = [];
   markerCluster = null;
-  zoom = 12;
   lastOpenedInfoWindow = null;
+  boundsChangedListener = null;
 
   mounted() {
     this.initMarkers();
@@ -47,6 +46,30 @@ export default class SearchMap extends Vue{
         this.lastOpenedInfoWindow = this.markers[newVal].info;
       }
     }
+  }
+
+  boundsChangedHandler() {
+    let bounds = this.map.getBounds();
+
+    let center = bounds.getCenter();
+    let ne = bounds.getNorthEast();
+
+    let r = 3963.0;
+
+    let lat1 = center.lat() / 57.2958;
+    let lon1 = center.lng() / 57.2958;
+    let lat2 = ne.lat() / 57.2958;
+    let lon2 = ne.lng() / 57.2958;
+
+    let dis = r * Math.acos(Math.sin(lat1) * Math.sin(lat2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
+
+    this.$emit('moved', {
+      dist: dis,
+      lat: center.lat(),
+      lng: center.lng(),
+      zoom: this.map.getZoom()
+    })
   }
 
   renderListingCard(listing) {
@@ -77,9 +100,14 @@ export default class SearchMap extends Vue{
       zoom: this.zoom,
       center: uluru,
       mapId: '90b8b95b1bbd0bc9',
+      zoomControl: true,
+      disableDefaultUI: false,
+      fullscreenControl: false,
     });
 
     this.map = map;
+    this.map.addListener('dragend', this.boundsChangedHandler);
+    this.map.addListener('zoom_changed', this.boundsChangedHandler);
 
     const image = {
       url: 'http://www.homedepot.com/catalog/swatchImages/35/04/04a604de-8b52-4cd8-a394-6286f00b438d_35.jpg',
@@ -124,6 +152,7 @@ export default class SearchMap extends Vue{
 </script>
 
 <style scoped lang="scss">
+
 #map {
   height: calc(100vh - 60px);
   width: 100%;

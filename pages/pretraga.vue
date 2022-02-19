@@ -117,7 +117,7 @@
       </div>
     </div>
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
-      <div class="results relative" v-if="selectedPreviewType === 'grid'">
+      <div class="results relative" v-if="selectedPreviewType === 'grid' || $device.isMobile">
         <div v-if="results.length" class="w-full flex flex-col">
           <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
             <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
@@ -134,7 +134,6 @@
         <div v-else>
           <NotFound src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
         </div>
-
       </div>
       <div class="results map w-full" v-else>
         <div class="divide-y divide-gray-200 flex flex-col results-wrapper-map" v-if="results.length">
@@ -148,8 +147,11 @@
               @page-change="pageChangeHandler" />
           </client-only>
         </div>
-        <div v-if="results.length && ! $device.isMobile" class="map-wrapper">
-          <SearchMap :locations="results" :current="currentResultIndex" :center="results[0].location"></SearchMap>
+        <div v-else class="m-auto">
+          <NotFound src="/realestatenoresults.svg" text="Nema rezultata"></NotFound>
+        </div>
+        <div class="map-wrapper">
+          <SearchMap :locations="results" :current="currentResultIndex" :center="center !== null ? center: (results.length ? results[0].location: {lat: 43.8563, lng: 18.4131})" :zoom="mapZoom" @moved="handleMapMoved"></SearchMap>
         </div>
       </div>
     </div>
@@ -345,6 +347,7 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
   watchQuery: true,
 
   async asyncData(ctx) {
+    let center = null;
     let page = 1;
     let results = [];
     let meta = {};
@@ -357,6 +360,7 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
     let cityNames = null;
     let countryNames = null;
     let selectedCategoryId = null;
+    let mapZoom = 14;
     let selectedPreviewType = 'map';
     let selectedSort = {
       name: "Najnovije",
@@ -387,12 +391,27 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
       sortQuery = `&sort=price&order=${order}`;
     }
 
+    let geo = '';
+
+    if (ctx.route.query.lat && ctx.route.query.lng && ctx.route.query.dist) {
+      geo = `&lat=${ctx.route.query.lat}&lng=${ctx.route.query.lng}&dist=${ctx.route.query.dist}`
+
+      if (ctx.route.query.zoom) {
+        mapZoom = parseInt(ctx.route.query.zoom);
+      }
+
+      center = {
+        lat: parseFloat(ctx.route.query.lat),
+        lng: parseFloat(ctx.route.query.lng)
+      }
+    }
+
     if (! ctx.route.query.q) {
       ctx.route.query.q = '';
     }
 
     try {
-      let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}`);
+      let response = await ctx.app.$axios.get(`/listings/search?q=${ctx.route.query.q}&page=${page}${sortQuery}${geo}`);
       results = response.data.data;
       meta = response.data.meta;
       allAttributes = response.data.meta.attributes;
@@ -473,6 +492,8 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
     }
 
     return {
+      center,
+      mapZoom,
       loading,
       countryIds,
       cityIds,
@@ -564,6 +585,10 @@ export default class Homepage extends Vue {
         console.error(error)
       }
     })
+  }
+
+  handleMapMoved(event) {
+    this.$router.push({ query: Object.assign({}, this.$route.query, { preview: 'map', lat: event.lat, lng: event.lng, dist: event.dist, zoom: event.zoom }) });
   }
 
   numberWithCommas(x) {
@@ -747,7 +772,22 @@ export default class Homepage extends Vue {
   }
 
   handleSelectPreviewType(t) {
+    let old = this.selectedPreviewType;
+
     this.selectedPreviewType = t.value
+
+    let q = Object.assign({}, this.$route.query, { preview: this.selectedPreviewType });
+
+    if (this.selectedPreviewType === 'grid') {
+      delete q['lat'];
+      delete q['lng'];
+      delete q['dist'];
+      delete q['zoom'];
+    }
+
+    if (this.selectedPreviewType !== old) {
+      this.$router.push({ query: q });
+    }
 
     localStorage.setItem('preview', this.selectedPreviewType);
   }
@@ -762,7 +802,15 @@ export default class Homepage extends Vue {
 
     let q = buildQuery(this.queryPayload)
 
-    this.$router.push(`/pretraga?q=${q}&preview=${this.selectedPreviewType}`);
+    let geo = '';
+
+    let query = this.$route.query;
+
+    if (query.lat && query.lng && query.zoom && query.dist) {
+      geo = `&lat=${query.lat}&lng=${query.lng}&zoom=${query.zoom}&dist=${query.dist}`
+    }
+
+    this.$router.push(`/pretraga?q=${q}&preview=${this.selectedPreviewType}${geo}`);
   }
 
   handleBack() {

@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <nuxt-link :to="user.user_type === 'agency' ? '/agencija/' + user.id : '/korisnik/' + user.id" class="flex flex-col items-center w-full">
+    <nuxt-link :to="user.user_type === 'agency' ? '/pravno-lice/' + user.id : '/korisnik/' + user.id" class="flex flex-col items-center w-full">
       <div class="flex items-start px-4 pt-4 w-full">
         <div class="w-full flex justify-start w-full flex-row items-start">
           <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">

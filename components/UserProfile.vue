@@ -429,8 +429,8 @@ export default class UserProfile extends Vue {
 
   goToUser() {
       if(this.user.user_type === 'agency') {
-        this.$router.push('/agencija/' + this.user.id)
-      } else if(this.$auth.user.user_type === 'agent'){
+        this.$router.push('/pravno-lice/' + this.user.id)
+      } else if(this.user.user_type === 'agent'){
         this.$router.push('/agent/' + this.user.id)
       } else {
         this.$router.push('/korisnik/' + this.user.id)
