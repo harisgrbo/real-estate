@@ -85,7 +85,7 @@
             </li>
           </ul>
         </div>
-        <div class="flex flex-row items-center">
+        <div class="flex flex-row items-center min-width">
           <div class="inline-block text-left mr-2 relative" v-if="!$device.isMobile">
             <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -119,8 +119,11 @@
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
       <div class="results relative" v-if="selectedPreviewType === 'grid' || $device.isMobile">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap" v-if="!$device.isMobile">
             <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
+          </div>
+          <div class="divide-y divide-gray-200 grid grid-cols-1 gap-4 w-full listing-wrap" v-else>
+            <SearchHorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           </div>
           <client-only>
             <Pagination
@@ -514,7 +517,7 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
     }
   },
 })
-export default class Homepage extends Vue {
+export default class Pretraga extends Vue {
   searchName = '';
   mapExpanded = false;
   showSortDropdown = false;
@@ -1094,10 +1097,6 @@ export default class Homepage extends Vue {
   }
 }
 
-::v-deep .gmnoprint, .gm-control-active.gm-fullscreen-control {
-  display: none !important;
-}
-
 .filters {
   ::v-deep input, select, text-area {
     border: 1px solid #000;
@@ -1189,7 +1188,7 @@ export default class Homepage extends Vue {
 .listing-wrap {
   @include for-phone-only {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-column-gap: 12px;
     grid-row-gap: 16px;
   }
@@ -1466,7 +1465,7 @@ export default class Homepage extends Vue {
     justify-content: center;
 
     &.add-border {
-      border: 1px solid #000;
+      border: 2px solid #000 !important;
       font-weight: 600;
     }
   }
@@ -1572,5 +1571,9 @@ export default class Homepage extends Vue {
     padding-top: 80px;
 
   }
+}
+
+.min-width {
+  min-width: fit-content;
 }
 </style>
