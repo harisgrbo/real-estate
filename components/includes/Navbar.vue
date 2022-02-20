@@ -282,7 +282,11 @@ export default class Navbar extends Vue {
 
   redirectToPublish() {
     if(this.$auth.user) {
-      this.$router.push('/objava');
+      if(this.$auth.user.user_type === 'investor') {
+        this.$router.push('/objava-investitor');
+      } else {
+        this.$router.push('/objava')
+      }
     } else {
       this.$router.push('/prijava')
     }

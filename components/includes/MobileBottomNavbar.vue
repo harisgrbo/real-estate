@@ -9,7 +9,7 @@
       <p class="notify" v-if="messagesCount > 0">{{ messagesCount }}</p>
       <span>Poruke</span>
     </nuxt-link>
-    <nuxt-link to="/objava" v-if="$auth.user">
+    <nuxt-link :to="redirectToPublish()" v-if="$auth.user">
       <img src="/005-add.png" alt="">
       <span>Objava</span>
     </nuxt-link>
@@ -90,6 +90,16 @@ export default class MobileBottomNavbar extends Vue {
       })
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  redirectToPublish() {
+    if(this.$auth.user) {
+      if(this.$auth.user.user_type === 'investor') {
+        return '/objava-investitor';
+      } else {
+        return '/objava'
+      }
     }
   }
 

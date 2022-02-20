@@ -136,11 +136,11 @@
         </li>
       </ul>
 
-      <div v-else role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
-        <div class="mr-5 justify-between flex relative min-h-full mobile-skeleton" v-for="i in 6" :key="i">
+      <ul v-else role="list" class="most-visited flex flex-row border-t border-b border-gray-200 overflow-x-scroll max-w-full">
+        <li class="flow-root justify-between flex flex-row items-center text-center relative cursor-pointer" v-for="i in 6" :key="i">
           <skeleton :height="$device.isMobile ? '' : '262px'" :width="$device.isMobile ? '' : '440px'"></skeleton>
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
     <div class="flex items-center justify-between custom-width title-wrapper">
       <h2 class="section-title" ssr-only="prodaja stanova sarajevo">Prodaja</h2>
