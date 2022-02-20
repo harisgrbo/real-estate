@@ -73,7 +73,7 @@
       <div class="advertising-calculator">
         <ActionButton @action="sponsor(publishing ? id : $route.params.id)" placeholder="Sponzoriši" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
         <span class="mx-6 bg-gray-50 rounded-full p-5 font-semibold" v-if="!$device.isMobile">ili</span>
-        <ActionButton @action="publishing ? $router.push('/oglas/' + id) : $router.push('/oglas/' + $route.params.id) " placeholder="Nastavi na oglas bez sponzorisanja" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
+        <ActionButton @action="publishing ? $router.push('/oglas/' + slug) : $router.push('/oglas/' + slug) " placeholder="Nastavi na oglas bez sponzorisanja" :style-options="{ color: '#fff', height: '48px' }"></ActionButton>
 
       </div>
     </div>
@@ -96,6 +96,7 @@ import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
 export default class Advertising extends Vue {
   @Prop({ default: false, type: Boolean }) publishing;
   @Prop({ default: 0, type: Number }) id;
+  @Prop({ default: "", type: String }) slug;
   advertising_options = []
   selectedAdvertisement = 1;
   duration_in_days = 7;

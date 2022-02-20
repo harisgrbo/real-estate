@@ -1,261 +1,330 @@
 <template>
   <div class="publish-wrapper-inner relative">
-      <div class="left">
-        <nuxt-link class="absolute top-6 z-10 left-6 bg-white cursor-pointer h-10 w-10 rounded-md flex items-center justify-center back-to-index" to="/">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </nuxt-link>
+    <div class="left">
+      <nuxt-link class="absolute top-6 z-10 left-6 bg-white cursor-pointer h-10 w-10 rounded-md flex items-center justify-center back-to-index" to="/">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </nuxt-link>
+    </div>
+    <div class="content-wrapper flex flex-col">
+      <div v-if="$device.isMobile" class="back-to-home">
+        <nuxt-link to="/">Nazad na početnu</nuxt-link>
       </div>
-      <div class="content-wrapper flex flex-col">
-        <div v-if="$device.isMobile" class="back-to-home">
-          <nuxt-link to="/">Nazad na početnu</nuxt-link>
+      <div class="loader-wrapper">
+        <div
+          :style="{ backgroundColor: '#002F34', width: stepPercentage + '%' }"
+          class="loader"
+        >
+          .
         </div>
-        <div class="loader-wrapper">
-          <div
-            :style="{ backgroundColor: '#002F34', width: stepPercentage + '%' }"
-            class="loader"
-          >
-            .
-          </div>
+      </div>
+      <div v-show="currentStep === steps.STEP_ONE" class="step-1 test">
+        <div class="inner">
+          <h2 v-if="currentStep === steps.STEP_ONE" class="test">
+            Izaberite kategoriju oglasa
+          </h2>
+          <Categories @selected-category="handleSelectedCategory" />
         </div>
-        <div v-show="currentStep === steps.STEP_ONE" class="step-1 test">
-          <div class="inner">
-            <h2 v-if="currentStep === steps.STEP_ONE" class="test">
-              Izaberite kategoriju oglasa
-            </h2>
-            <Categories @selected-category="handleSelectedCategory" />
-          </div>
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">
-              Nazad
-            </button>
-            <button @click="nextStep">Dalje
-            </button>
-          </div>
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">
+            Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
         </div>
+      </div>
 
-        <div v-show="currentStep === steps.STEP_TWO" class="step-2 test">
-          <div class="inner">
-            <h2 class="test" v-if="currentStep === steps.STEP_TWO">
-              Šta želite uraditi sa vašom nekretninom?
-            </h2>
-            <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors" @input="nextStep"></PublishRadioButton>
+      <div v-show="currentStep === steps.STEP_TWO" class="step-2 test">
+        <div class="inner">
+          <h2 class="test" v-if="currentStep === steps.STEP_TWO">
+            Lokacija nekretnine
+          </h2>
+          <div class="relative w-full flex flex-col mb-6">
+            <DropdownAutocomplete label="Grad" @select-option="handleSelectedCity" placeholder="Npr. Sarajevo - Centar"></DropdownAutocomplete>
           </div>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">
-              Nazad
-            </button>
-            <button @click="nextStep">Dalje
-            </button>
-          </div>
-        </div>
-
-        <div v-show="currentStep === steps.STEP_THREE" class="step-3 test flex flex-col">
-          <div class="inner">
-            <h2 class="test" v-if="currentStep === steps.STEP_THREE">
-              Lokacija nekretnine
-            </h2>
-            <div class="relative w-full flex flex-col mb-6">
-              <DropdownAutocomplete label="Grad" @select-option="handleSelectedCity" placeholder="Npr. Sarajevo - Centar"></DropdownAutocomplete>
-            </div>
-            <TextField type="text" label="Adresa" placeholder="npr. Titova 16" v-model="address" class="mb-6"></TextField>
-            <div class="flex flex-col mt-6">
+          <TextField type="text" label="Adresa" placeholder="npr. Titova 16" v-model="address" class="mb-6"></TextField>
+          <div class="flex flex-col mt-6">
             <TextField type="text" label="Naselje" placeholder="npr. Dolac Malta" v-model="district" class="mb-6"></TextField>
-            </div>
-          </div>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <button @click="nextStep">Dalje
-            </button>
           </div>
         </div>
 
-        <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
-          <div class="inner checkboxes">
-            <h2 class="test" v-if="currentStep === steps.STEP_FOUR">
-              Unesite cijenu nekretnine
-            </h2>
-            <TextField type="number" :label="listingType !== null && listingType.shortname === 'booking' ? 'Cijena noćenja' : 'Cijena'" placeholder="100000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
-            <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
-              <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 lg:mb-0 xp:mb-0 up:mb-0 mb-5">
-                <div class="switch">
-                  <input id="switch-1" type="checkbox" v-model="vat_included" class="switch-input" />
-                  <label for="switch-1" class="switch-label">Switch</label>
-                </div>
-                PDV uključen u cijenu
-              </div>
-              <div class="switch-wrap ml-0 lg:ml-2 xl:ml-2 up:ml-2" v-show="notRenting">
-                <div class="switch">
-                  <input id="switch-2" type="checkbox" v-model="price_per_square" class="switch-input" />
-                  <label for="switch-2" class="switch-label">Switch</label>
-                </div>
-                Cijena po kvadratu
-              </div>
-              <div class="switch-wrap ml-0 lg:ml-2 xl:ml-2 up:ml-2" v-show="listingType && listingType.shortname === 'booking'">
-                <div class="switch">
-                  <input id="switch-3" type="checkbox" v-model="per_guest" class="switch-input" />
-                  <label for="switch-3" class="switch-label">Switch</label>
-                </div>
-                Cijena po osobi
-              </div>
-            </div>
-          </div>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <button @click="nextStep">Dalje
-            </button>
-          </div>
-        </div>
-
-        <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
-          <div v-if="city !== null" class="map-wrapper">
-            <h2 class="test map" v-if="currentStep === steps.STEP_FIVE">
-              Pomjerite pin na tačnu lokaciju nekretnine
-            </h2>
-            <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
-          </div>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <button @click="nextStep">Dalje
-            </button>
-          </div>
-        </div>
-
-        <div v-show="currentStep === steps.STEP_SIX" class="step-6 test">
-          <div class="inner">
-            <h2 class="test" v-if="currentStep === steps.STEP_SIX">
-              Opišite vašu nekretninu
-            </h2>
-            <client-only>
-              <vue-editor v-model="description"/>
-            </client-only>
-          </div>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <button @click="nextStep">Dalje
-            </button>
-          </div>
-        </div>
-
-        <div v-show="currentStep === steps.STEP_SEVEN" class="step-7 test">
-          <div class="inner pt-20 pb-52">
-            <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
-              Detaljne informacije nekretnine
-            </h2>
-            <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
-              <InputError :error="errors.attributes[attr.id]" />
-              <component
-                :attr="attr"
-                :options="attr"
-                :is="filterFor(attr)"
-                @changed="handleChangedAttribute"
-              />
-            </div>
-
-            <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
-              <InputError :error="errors.attributes[attr.id]" />
-              <component
-                :attr="attr"
-                :options="attr"
-                :is="filterFor(attr)"
-                @changed="handleChangedAttribute"
-              />
-            </div>
-
-            <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
-              <InputError :error="errors.attributes[attr.id]" />
-              <component
-                :attr="attr"
-                :options="attr"
-                :is="filterFor(attr)"
-                @changed="handleChangedAttribute"
-              />
-            </div>
-
-            <h1 class="heading-checkbox mt-4">Nekretnina posjeduje</h1>
-            <div class="checkbox-grid">
-              <TermInput
-                v-for="attr in termGlobalAttributes"
-                @changed="handleChangedAttribute"
-                :attr="attr"
-                :key="attr.id"
-              />
-              <TermInput
-                v-for="attr in termCategoryAttributes"
-                @changed="handleChangedAttribute"
-                :attr="attr"
-                :key="attr.id"
-              />
-              <TermInput
-                v-for="attr in termListingTypeAttributes"
-                @changed="handleChangedAttribute"
-                :attr="attr"
-                :key="attr.id"
-              />
-            </div>
-            <TextAreaField class="mt-10" label="Youtube iframe (video)" type="text" placeholder="https://youtube.com/1wts5" v-model="video_url"></TextAreaField>
-          </div>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <button @click="nextStep">Dalje
-            </button>
-          </div>
-        </div>
-
-        <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
-          <div class="inner">
-            <h2 class="test">
-              Dodajte slike nekretnine
-            </h2>
-            <div class="img-upload-wrapper">
-              <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
-            </div>
-          </div>
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <button @click="nextStep" :disabled="uploading === true ? true : false">Dalje
-            </button>
-          </div>
-        </div>
-
-        <!-- izdvajanje -->
-        <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
-          <div class="advertising-options-wrapper">
-            <div class="inner">
-              <Advertising :publishing="true" :id="listingId" :slug="listingSlug"></Advertising>
-<!--              <div class="advertising-calculator">-->
-<!--                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>-->
-<!--              </div>-->
-            </div>
-
-            <div class="button-wrapper">
-              <button @click="prevStep" class="back">Nazad
-              </button>
-              <button @click="nextStep">Dalje
-              </button>
-            </div>
-          </div>
-
-          <div class="button-wrapper">
-            <button @click="prevStep" class="back">Nazad
-            </button>
-            <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>
-          </div>
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">
+            Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
         </div>
       </div>
+
+      <div v-show="currentStep === steps.STEP_THREE" class="step-3 test flex flex-col">
+        <div class="inner checkboxes">
+          <h2 class="test" v-if="currentStep === steps.STEP_FOUR">
+            Unesite cijenu nekretnine
+          </h2>
+          <TextField class="mb-6" type="number" :label="listingType !== null && listingType.shortname === 'booking' ? 'Cijena noćenja' : 'Cijena od'" placeholder="100000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
+          <TextField type="number" :label="listingType !== null && listingType.shortname === 'booking' ? 'Cijena noćenja' : 'Cijena do'" placeholder="300000" v-model="price"  :currency="true" :square="price_per_square"></TextField>
+          <div class="flex flex-col xl:flex-row lg:flex-row up:flex-row items-center justify-between pt-4 mt-4">
+            <div class="switch-wrap mr-0 lg:mr-2 xl:mr-2 up:mr-2 lg:mb-0 xp:mb-0 up:mb-0 mb-5">
+              <div class="switch">
+                <input id="switch-1" type="checkbox" v-model="vat_included" class="switch-input" />
+                <label for="switch-1" class="switch-label">Switch</label>
+              </div>
+              PDV uključen u cijenu
+            </div>
+            <div class="switch-wrap ml-0 lg:ml-2 xl:ml-2 up:ml-2" v-show="notRenting">
+              <div class="switch">
+                <input id="switch-2" type="checkbox" v-model="price_per_square" class="switch-input" />
+                <label for="switch-2" class="switch-label">Switch</label>
+              </div>
+              Cijena po kvadratu
+            </div>
+            <div class="switch-wrap ml-0 lg:ml-2 xl:ml-2 up:ml-2" v-show="listingType && listingType.shortname === 'booking'">
+              <div class="switch">
+                <input id="switch-3" type="checkbox" v-model="per_guest" class="switch-input" />
+                <label for="switch-3" class="switch-label">Switch</label>
+              </div>
+              Cijena po osobi
+            </div>
+          </div>
+        </div>
+
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
+        </div>
+      </div>
+
+      <div v-show="currentStep === steps.STEP_FOUR" class="step-4 test">
+
+        <div v-if="city !== null" class="map-wrapper">
+          <h2 class="test map" v-if="currentStep === steps.STEP_FOUR">
+            Pomjerite pin na tačnu lokaciju nekretnine
+          </h2>
+          <PublishMap :location="city" @latlng="handleLatLng"></PublishMap>
+        </div>
+
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
+        </div>
+
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
+        </div>
+      </div>
+
+      <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
+        <div class="inner">
+          <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
+            Opišite vašu nekretninu
+          </h2>
+          <client-only>
+            <vue-editor v-model="description"/>
+          </client-only>
+        </div>
+
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
+        </div>
+      </div>
+
+      <div v-show="currentStep === steps.STEP_SIX" class="step-6 test">
+        <div class="inner pt-20 pb-52">
+          <h2 class="test" v-if="currentStep === steps.STEP_SIX">
+            Detaljne informacije nekretnine
+          </h2>
+          <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
+
+          <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
+
+          <div v-for="attr in ordinaryListingTypeAttributes" :key="attr.id">
+            <InputError :error="errors.attributes[attr.id]" />
+            <component
+              :attr="attr"
+              :options="attr"
+              :is="filterFor(attr)"
+              @changed="handleChangedAttribute"
+            />
+          </div>
+
+          <h1 class="heading-checkbox mt-4">Nekretnina posjeduje</h1>
+          <div class="checkbox-grid">
+            <TermInput
+              v-for="attr in termGlobalAttributes"
+              @changed="handleChangedAttribute"
+              :attr="attr"
+              :key="attr.id"
+            />
+            <TermInput
+              v-for="attr in termCategoryAttributes"
+              @changed="handleChangedAttribute"
+              :attr="attr"
+              :key="attr.id"
+            />
+            <TermInput
+              v-for="attr in termListingTypeAttributes"
+              @changed="handleChangedAttribute"
+              :attr="attr"
+              :key="attr.id"
+            />
+          </div>
+          <TextAreaField class="mt-10" label="Youtube iframe (video)" type="text" placeholder="https://youtube.com/1wts5" v-model="video_url"></TextAreaField>
+        </div>
+
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
+        </div>
+      </div>
+
+      <div v-show="currentStep === steps.STEP_SEVEN" class="step-7 test">
+        <div class="inner pt-20 pb-52">
+          <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
+            Dodajte stambene jedinice
+          </h2>
+          <div class="w-full flex flex-col">
+            <div class="flex flex-row items-center">
+              <div class="create-unit w-full grid grid-cols-5 gap-3">
+                <TextField type="text" label="Jedinica" placeholder="npr. Stan a1" v-model="unitPayload.unit_name" class="mb-6"></TextField>
+                <TextField type="text" label="Sprat" placeholder="npr. 1" v-model="unitPayload.unit_floor" class="mb-6"></TextField>
+                <TextField type="text" label="Kvadratura" placeholder="npr. 43" v-model="unitPayload.unit_surface" class="mb-6"></TextField>
+                <TextField type="text" label="Broj soba" placeholder="npr. 3" v-model="unitPayload.unit_rooms" class="mb-6"></TextField>
+                <TextField type="text" label="Cijena" placeholder="npr. 100000" v-model="unitPayload.unit_price" class="mb-6"></TextField>
+              </div>
+              <button @click="pushToUnits()">Dodaj jedinicu</button>
+            </div>
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <div class="flex flex-col">
+              <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                      <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jedinica</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sprat</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kvadratura</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Broj soba</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cijena</th>
+                        <th scope="col" class="relative px-6 py-3">
+                          <span class="sr-only">Uredi</span>
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                      <tr v-for="(unit, index) in units" :key="index">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">{{ unit.unit_name }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">{{ unit.unit_floor }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">{{ unit.unit_surface + ' m²' }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">{{ unit.unit_rooms }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                          <div class="text-sm text-gray-900">{{ unit.unit_price + ' KM' }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <a href="#" class="text-indigo-600 hover:text-indigo-900">Izbriši</a>
+                        </td>
+                      </tr>
+
+                      <!-- More people... -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <button @click="nextStep">Dalje
+          </button>
+        </div>
+      </div>
+
+      <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
+        <div class="inner">
+          <h2 class="test">
+            Dodajte slike nekretnine
+          </h2>
+          <div class="img-upload-wrapper">
+            <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
+          </div>
+        </div>
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <button @click="nextStep" :disabled="uploading === true ? true : false">Dalje
+          </button>
+        </div>
+      </div>
+
+      <!-- izdvajanje -->
+      <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
+        <div class="advertising-options-wrapper">
+          <div class="inner">
+            <Advertising :publishing="true" :id="listingId" :slug="listingSlug"></Advertising>
+            <!--              <div class="advertising-calculator">-->
+            <!--                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>-->
+            <!--              </div>-->
+          </div>
+
+          <div class="button-wrapper">
+            <button @click="prevStep" class="back">Nazad
+            </button>
+            <button @click="nextStep">Dalje
+            </button>
+          </div>
+        </div>
+
+        <div class="button-wrapper">
+          <button @click="prevStep" class="back">Nazad
+          </button>
+          <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -315,7 +384,7 @@ import Advertising from "../components/Advertising";
     }
   }
 })
-export default class Objava extends Vue {
+export default class ObjavaInvestitor extends Vue {
   showMunicipalities = false;
 
   listingId = null;
@@ -330,8 +399,14 @@ export default class Objava extends Vue {
       "</svg>" +
       "<p>Izaberi slike ili ih prenesi ovdje</p>"
   };
-
-
+  unitPayload = {
+    unit_name: '',
+    unit_floor: '',
+    unit_surface: '',
+    unit_rooms: '',
+    unit_price: '',
+  }
+  units = [];
   video_url = "";
   lat = 43;
   lng = 42;
@@ -353,6 +428,17 @@ export default class Objava extends Vue {
 
     return calc;
   }
+
+  pushToUnits() {
+    this.units.push(Object.assign({}, this.unitPayload));
+
+    this.unitPayload.unit_name = ''
+    this.unitPayload.unit_floor = ''
+    this.unitPayload.unit_surface = ''
+    this.unitPayload.unit_rooms = ''
+    this.unitPayload.unit_price = ''
+  }
+
 
   get notRenting() {
     if (this.listingType) {
@@ -527,99 +613,99 @@ export default class Objava extends Vue {
   }
 
   async nextStep() {
-    if (this.currentStep >= this.steps.TOTAL_STEPS) {
-      await this.finish();
-    } else {
-      switch (this.currentStep) {
-        case this.steps.STEP_ONE:
-          if(! this.validateMany(['category'])) {
-            this.snackbarValidationError("Niste odabrali kategoriju");
-
-            return
-          }
-
-          break;
-
-        case this.steps.STEP_TWO:
-          if(! this.validateMany(['listingType'])) {
-            this.snackbarValidationError("Niste odabrali tip objave");
-
-            return;
-          }
-
-          break;
-
-        case this.steps.STEP_THREE:
-          if(! this.validateMany(['district', 'address', 'city'])) {
-            this.snackbarValidationError("Niste popunili sve obavezne podatke");
-
-            return;
-          }
-
-          break;
-
-        case this.steps.STEP_FOUR:
-          if(! this.validateMany(['price'])) {
-            this.snackbarValidationError("Niste popunili cijenu");
-
-            return;
-          }
-
-          break;
-
-        case this.steps.STEP_FIVE:
-          if(! this.validateMany(['city'])) {
-            this.snackbarValidationError("Niste postavili pin");
-
-            return;
-          }
-
-          break;
-
-        case this.steps.STEP_SIX:
-          if(! this.validateMany(['description'])) {
-            this.snackbarValidationError("Niste popunili opis");
-
-            return;
-          }
-
-          break;
-
-        case this.steps.STEP_SEVEN:
-          if(! this.validateAttributes()) {
-            this.snackbarValidationError("Niste popunili obavezna polja");
-
-            return;
-          }
-
-          await this.publish();
-
-          break;
-        case this.steps.STEP_NINE:
-          if(! this.validateMany(['sponsorship'])) {
-            await this.finish();
-            return;
-          }
-
-          let success = await this.sponsor(this.listingId);
-
-          if (! success) {
-            this.$toast.open({
-              message: "Nemate dovoljno sredstava na računu",
-              type: 'error',
-              duration: 5000
-            });
-
-            return;
-          }
-
-          await this.finish();
-
-          break;
-      }
+    // if (this.currentStep >= this.steps.TOTAL_STEPS) {
+    //   await this.finish();
+    // } else {
+    //   switch (this.currentStep) {
+    //     case this.steps.STEP_ONE:
+    //       if(! this.validateMany(['category'])) {
+    //         this.snackbarValidationError("Niste odabrali kategoriju");
+    //
+    //         return
+    //       }
+    //
+    //       break;
+    //
+    //     case this.steps.STEP_TWO:
+    //       if(! this.validateMany(['district', 'address', 'city'])) {
+    //         this.snackbarValidationError("Niste popunili sve obavezne podatke");
+    //
+    //         return;
+    //       }
+    //
+    //       break;
+    //
+    //     case this.steps.STEP_THREE:
+    //       if(! this.validateMany(['price'])) {
+    //         this.snackbarValidationError("Niste popunili cijenu");
+    //
+    //         return;
+    //       }
+    //
+    //       break;
+    //
+    //     case this.steps.STEP_FOUR:
+    //       if(! this.validateMany(['city'])) {
+    //         this.snackbarValidationError("Niste postavili pin");
+    //
+    //         return;
+    //       }
+    //
+    //       break;
+    //
+    //     case this.steps.STEP_FIVE:
+    //       if(! this.validateMany(['description'])) {
+    //         this.snackbarValidationError("Niste popunili opis");
+    //
+    //         return;
+    //       }
+    //
+    //       break;
+    //
+    //     case this.steps.STEP_SIX:
+    //       if(! this.validateAttributes()) {
+    //         this.snackbarValidationError("Niste popunili obavezna polja");
+    //
+    //         return;
+    //       }
+    //
+    //       break;
+    //
+    //     case this.steps.STEP_SEVEN:
+    //       if(! this.validateAttributes()) {
+    //         this.snackbarValidationError("Niste popunili obavezna polja");
+    //
+    //         return;
+    //       }
+    //
+    //       await this.publish();
+    //
+    //       break;
+    //     case this.steps.STEP_NINE:
+    //       if(! this.validateMany(['sponsorship'])) {
+    //         await this.finish();
+    //         return;
+    //       }
+    //
+    //       let success = await this.sponsor(this.listingId);
+    //
+    //       if (! success) {
+    //         this.$toast.open({
+    //           message: "Nemate dovoljno sredstava na računu",
+    //           type: 'error',
+    //           duration: 5000
+    //         });
+    //
+    //         return;
+    //       }
+    //
+    //       await this.finish();
+    //
+    //       break;
+    //   }
 
       this.currentStep++;
-    }
+    // }
   }
 
   async sponsor(listingId) {
@@ -947,353 +1033,353 @@ export default class Objava extends Vue {
     @content;
   }
 }
-  .progress-title {
-    padding-bottom: 12px;
-    font-weight: 500;
-    font-size: 17px;
+.progress-title {
+  padding-bottom: 12px;
+  font-weight: 500;
+  font-size: 17px;
 
-    @include for-phone-only {
-      padding-top: 12px;
-      box-sizing: border-box;
-    }
+  @include for-phone-only {
+    padding-top: 12px;
+    box-sizing: border-box;
   }
+}
 
-  .horizontal-progress {
-    background: #f1f1f1;
-    position: relative;
+.horizontal-progress {
+  background: #f1f1f1;
+  position: relative;
+  height: 10px;
+  width: 100%;
+  border-radius: 5px;
+
+
+
+  .filler {
+    position: absolute;
+    left: 0;
+    background: red;
+    transition: 0.3s all ease;
+    top: 0;
+    bottom: 0;
     height: 10px;
-    width: 100%;
     border-radius: 5px;
+    z-index:5;
+  }
+}
+.publish-wrapper-inner {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+  flex-direction: row-reverse;
+  height: 100vh;
 
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    overflow-y: hidden;
 
+    @supports not (-webkit-touch-callout: none) {
+      height: 100vh;
+    }
 
-    .filler {
-      position: absolute;
-      left: 0;
-      background: red;
-      transition: 0.3s all ease;
-      top: 0;
-      bottom: 0;
-      height: 10px;
-      border-radius: 5px;
-      z-index:5;
+    @supports (-webkit-touch-callout: none) {
+      height: auto !important;
+
     }
   }
-  .publish-wrapper-inner {
+
+  .content-wrapper {
     display: flex;
-    justify-content: space-between;
+    box-sizing: border-box;
+    position: relative;
     width: 100%;
-    margin: 0 auto;
-    flex-direction: row-reverse;
-    height: 100vh;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 
     @include for-phone-only {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      padding: 0;
-      box-sizing: border-box;
-      height: 100vh;
-      overflow-y: hidden;
+      overflow-y: hidden !important;
+      margin-top: 0px;
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      overflow-y: scroll;
+      min-height: auto !important;
+      padding-bottom: 0 !important;
 
       @supports not (-webkit-touch-callout: none) {
         height: 100vh;
       }
 
       @supports (-webkit-touch-callout: none) {
-        height: auto !important;
+        height: calc(100vh - 80px);
 
       }
     }
 
-    .content-wrapper {
-      display: flex;
-      box-sizing: border-box;
-      position: relative;
+    .step-3 {
+      ::v-deep input {
+        padding-right: 16px !important;
+      }
+    }
+
+    h2 {
+      font-size: 28px !important;
+      font-weight: 600 !important;
+      margin-bottom: 48px !important;
+      color: #000;
+      line-height: 65px;
+
+      @include for-phone-only {
+        font-size: 24px !important;
+      }
+
+      &.map {
+        position: absolute;
+        top: 76px;
+        left: 24px;
+        right: 24px;
+        z-index: 1;
+        border-radius: 8px;
+        font-size: 15px;
+        text-align: center;
+      }
+
+      @include for-phone-only {
+        font-size: 30px;
+        line-height: 35px;
+      }
+    }
+
+    .step-1,
+    .step-2,
+    .step-3,
+    .step-4,
+    .step-5,
+    .step-6,
+    .step-7,
+    .step-8,
+    .step-9
+    {
+      min-height: 100%;
       width: 100%;
+      height: calc(100vh - 80px);
+      overflow-y: scroll;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
 
       @include for-phone-only {
-        overflow-y: hidden !important;
-        margin-top: 0px;
-        position: relative;
-        z-index: 1;
-        background: #fff;
-        overflow-y: scroll;
+        align-items: flex-start;
+      }
+
+      @supports not (-webkit-touch-callout: none) {
+        height: 100vh !important;
+      }
+
+      @supports (-webkit-touch-callout: none) {
+        height: calc(100vh - 170px) !important;
         min-height: auto !important;
-        padding-bottom: 0 !important;
+      }
+      .inner {
+        max-width: 600px;
+        margin: auto;
+        width: 600px;
 
-        @supports not (-webkit-touch-callout: none) {
-          height: 100vh;
-        }
-
-        @supports (-webkit-touch-callout: none) {
-          height: calc(100vh - 80px);
-
+        @include for-phone-only {
+          width: 100%;
+          max-width: 100%;
+          padding: 36px 16px;
+          overflow-y: scroll;
+          width: 100%;
+          max-width: 100%;
+          padding: 36px 16px;
+          height: 100% !important;
+          overflow-y: scroll;
+          padding-bottom: 120px;
+          padding-top: 86px;
         }
       }
 
-      .step-3 {
-        ::v-deep input {
-          padding-right: 16px !important;
-        }
+
+      @include for-phone-only {
+        height: 100vh;
+        padding-bottom: 0;
+      }
+
+      .heading {
+        font-size: 20px;
+        font-weight: 400;
+        border-bottom: 1px solid #f1f1f1;
+        padding-bottom: 24px;
+        margin-bottom: 36px;
+
       }
 
       h2 {
-        font-size: 28px !important;
-        font-weight: 600 !important;
-        margin-bottom: 48px !important;
-        color: #000;
-        line-height: 65px;
+        margin-top: 36px;
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 12px;
 
-        @include for-phone-only {
-          font-size: 24px !important;
-        }
-
-        &.map {
-          position: absolute;
-          top: 76px;
-          left: 24px;
-          right: 24px;
-          z-index: 1;
-          border-radius: 8px;
-          font-size: 15px;
-          text-align: center;
-        }
-
-        @include for-phone-only {
-          font-size: 30px;
-          line-height: 35px;
+        &:first-child {
+          margin-top: 0;
         }
       }
 
-      .step-1,
-      .step-2,
-      .step-3,
-      .step-4,
-      .step-5,
-      .step-6,
-      .step-7,
-      .step-8,
-      .step-9
-      {
-        min-height: 100%;
+      .button-wrapper {
+        height: 80px;
         width: 100%;
-        height: calc(100vh - 80px);
-        overflow-y: scroll;
-        box-sizing: border-box;
         display: flex;
         align-items: center;
-        justify-content: center;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-
-        @include for-phone-only {
-          align-items: flex-start;
-        }
-
-        @supports not (-webkit-touch-callout: none) {
-          height: 100vh !important;
-        }
-
-        @supports (-webkit-touch-callout: none) {
-          height: calc(100vh - 170px) !important;
-          min-height: auto !important;
-        }
-        .inner {
-          max-width: 600px;
-          margin: auto;
-          width: 600px;
-
-          @include for-phone-only {
-            width: 100%;
-            max-width: 100%;
-            padding: 36px 16px;
-            overflow-y: scroll;
-            width: 100%;
-            max-width: 100%;
-            padding: 36px 16px;
-            height: 100% !important;
-            overflow-y: scroll;
-            padding-bottom: 120px;
-            padding-top: 86px;
-          }
-        }
-
-
-        @include for-phone-only {
-          height: 100vh;
-          padding-bottom: 0;
-        }
-
-        .heading {
-          font-size: 20px;
-          font-weight: 400;
-          border-bottom: 1px solid #f1f1f1;
-          padding-bottom: 24px;
-          margin-bottom: 36px;
-
-        }
-
-        h2 {
-          margin-top: 36px;
-          font-weight: 600;
-          font-size: 16px;
-          margin-bottom: 12px;
-
-          &:first-child {
-            margin-top: 0;
-          }
-        }
-
-        .button-wrapper {
-          height: 80px;
-          width: 100%;
-          display: flex;
-          align-items: center;
-          border-top: 1px solid #bebebe;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          left: 0;
-          padding: 0 24px;
-          box-sizing: border-box;
-          background: #fff;
-          justify-content: space-between;
-
-          @include for-phone-only {
-            padding: 0;
-            justify-content: space-between;
-            z-index: 10;
-          }
-
-
-          button {
-            padding: 0 24px;
-            height: 50px;
-            width: fit-content;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            outline: none;
-            font-weight: 600 !important;
-            transition: 0.3s all ease;
-            margin-bottom: 0;
-            font-family: 'NunitoSans', sans-serif;;
-            cursor: pointer;
-            margin-right: 16px;
-            border: 2px solid #1F2937;
-            border-radius: 6px;
-            color: #1F2937;
-
-            &.back {
-              background: transparent !important;
-              border: none !important;
-              color: #000;
-              text-decoration: underline;
-              font-weight: 600 !important;
-              margin-right: 0;
-
-              &:hover {
-                box-shadow: none !important;
-              }
-
-              i {
-                margin-left: 0;
-              }
-            }
-            i {
-              margin-left: 8px;
-            }
-
-            &:hover {
-              box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
-            }
-          }
-        }
-      }
-
-      @include for-phone-only {
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
-        margin-top: 0px;
-        position: relative;
-        z-index: 1;
+        border-top: 1px solid #bebebe;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        padding: 0 24px;
+        box-sizing: border-box;
         background: #fff;
-        overflow-y: scroll;
-        min-height: 100vh;
-      }
-    }
-  }
-
-  .checkbox-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-row-gap: 24px;
-    grid-column-gap: 16px;
-
-    @include for-phone-only {
-      grid-template-columns: repeat(2, 1fr);
-      grid-row-gap: 32px;
-    }
-  }
-
-  .global-heading {
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 12px;
-    margin-top: 24px;
-  }
-
-  .publishing-type {
-    margin-bottom: 32px;
-  }
-
-  ::v-deep .categories-list-wrap {
-      height: fit-content !important;
-
-    ul li {
-      @include for-phone-only {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        flex: 1;
-        padding-bottom: 0;
-        height: 50px;
-        line-height: 21px;
-      }
-
-      .img-wrapper {
+        justify-content: space-between;
 
         @include for-phone-only {
-          margin-bottom: 0;
-          border-radius: 5px;
-          font-size: 15px;
+          padding: 0;
+          justify-content: space-between;
+          z-index: 10;
+        }
+
+
+        button {
+          padding: 0 24px;
+          height: 50px;
+          width: fit-content;
           display: flex;
           align-items: center;
           justify-content: center;
+          font-size: 16px;
+          outline: none;
+          font-weight: 600 !important;
+          transition: 0.3s all ease;
+          margin-bottom: 0;
+          font-family: 'NunitoSans', sans-serif;;
+          cursor: pointer;
+          margin-right: 16px;
+          border: 2px solid #1F2937;
+          border-radius: 6px;
+          color: #1F2937;
 
-          img {
-            @include for-phone-only {
-              height: 25px;
-              width: 25px;
+          &.back {
+            background: transparent !important;
+            border: none !important;
+            color: #000;
+            text-decoration: underline;
+            font-weight: 600 !important;
+            margin-right: 0;
+
+            &:hover {
+              box-shadow: none !important;
+            }
+
+            i {
+              margin-left: 0;
             }
           }
-        }
+          i {
+            margin-left: 8px;
+          }
 
+          &:hover {
+            box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 12px !important;
+          }
+        }
+      }
+    }
+
+    @include for-phone-only {
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      margin-top: 0px;
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      overflow-y: scroll;
+      min-height: 100vh;
+    }
+  }
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: 24px;
+  grid-column-gap: 16px;
+
+  @include for-phone-only {
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 32px;
+  }
+}
+
+.global-heading {
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 12px;
+  margin-top: 24px;
+}
+
+.publishing-type {
+  margin-bottom: 32px;
+}
+
+::v-deep .categories-list-wrap {
+  height: fit-content !important;
+
+  ul li {
+    @include for-phone-only {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      flex: 1;
+      padding-bottom: 0;
+      height: 50px;
+      line-height: 21px;
+    }
+
+    .img-wrapper {
+
+      @include for-phone-only {
+        margin-bottom: 0;
+        border-radius: 5px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          @include for-phone-only {
+            height: 25px;
+            width: 25px;
+          }
+        }
       }
 
     }
-  }
 
-  .heading-checkbox {
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: capitalize;
-    margin-bottom: 24px;
   }
+}
+
+.heading-checkbox {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 24px;
+}
 
 ::v-deep button {
   margin-bottom: 24px;
@@ -1855,6 +1941,17 @@ h2.info {
 
 .step-7 ::v-deep .main-input-wrap {
   margin-bottom: 24px;
+}
+
+.step-7 .inner {
+    max-width: 90% !important;
+    margin: auto;
+    width: 90% !important;
+
+  @include for-phone-only {
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .step-9 {

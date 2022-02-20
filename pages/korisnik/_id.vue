@@ -646,6 +646,7 @@ aside {
 
   @include for-phone-only {
     max-width: 100%;
+    min-width: 100%;
     margin-top: 24px;
     margin-left: 0;
     position: static;
