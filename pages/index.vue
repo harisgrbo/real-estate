@@ -506,6 +506,8 @@
         let res = await this.$axios.get('/listings/booking')
         this.listings_rent_for_a_day = res.data.data;
 
+        console.log(res, 'sdadasd')
+
         this.rentPerDayLoaded = true;
       } catch (e) {
         console.log(e)

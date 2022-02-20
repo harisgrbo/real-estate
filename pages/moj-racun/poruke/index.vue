@@ -96,7 +96,7 @@
                       </div>
                     </div>
                     <div v-else-if="message.message_type === 'listing'" :class="['add-border', isMe(message) ? 'px-4 py-4 text-gray-700 rounded-l-md bg-gray-50 rounded-t-md text-right' : 'px-4 py-3 text-gray-700 rounded-r-md shadow-md rounded-t-md']">
-                      <nuxt-link :to="'/oglas/' + message.content.listing.id" class="listing-card cursor-pointer flex flex-col" v-if="message.content.listing">
+                      <nuxt-link :to="'/oglas/' + message.content.listing.slug" class="listing-card cursor-pointer flex flex-col" v-if="message.content.listing">
                         <div v-if="message.content.listing.image_urls.length > 0" class="grid grid-cols-1">
                           <img :src="message.content.listing.image_urls[0]" alt="">
                         </div>

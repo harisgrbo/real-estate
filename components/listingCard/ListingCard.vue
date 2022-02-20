@@ -25,12 +25,12 @@
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/uredjivanje/' + listing.id)"></action-button>
           <action-button v-if="listing.completed_at === null" class="option-btn" placeholder="Završi oglas" @action="$emit('finish-listing', listing.id)" :style-options="{ width: '100%'}"></action-button>
           <action-button v-if="listing.sponsored === 0" class="option-btn" placeholder="Sponzoriši oglas" @action="$router.push('/oglas/' + listing.id + '/sponzorisanje-oglasa')" :style-options="{ width: '100%'}"></action-button>
-          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.slug)"></action-button>
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
         <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/spaseno'" class="w-full">
           <action-button class="option-btn" placeholder="Izbriši iz spašenih" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
-          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.slug)"></action-button>
         </div>
       </div>
       <div v-else class="blured-background" @click="showListingOptions = true" @click.stop>
@@ -38,27 +38,23 @@
           <action-button class="option-btn" placeholder="Uredi oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/uredjivanje/' + listing.id)"></action-button>
           <action-button v-if="listing.completed_at === null" class="option-btn" placeholder="Završi oglas" @action="$emit('finish-listing', listing.id)" :style-options="{ width: '100%'}"></action-button>
           <action-button v-if="listing.sponsored === 0" class="option-btn" placeholder="Sponzoriši oglas" @action="$router.push('/oglas/' + listing.id + '/sponzorisanje-oglasa')" :style-options="{ width: '100%'}"></action-button>
-          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.slug)"></action-button>
           <action-button class="option-btn" placeholder="Izbriši oglas" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing', listing.id)"></action-button>
         </div>
         <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/spaseno'" class="w-full">
           <action-button class="option-btn" placeholder="Izbirši iz spašenih" :style-options="{ width: '100%', background: 'red'}" @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
-          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.id)"></action-button>
+          <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}" @action="$router.push('/oglas/' + listing.slug)"></action-button>
         </div>
       </div>
 
-      <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/oglas/' + listing.id : '' ">
-        <div class="overflow-hidden relative" v-if="!$device.isMobile">
+      <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/oglas/' + listing.slug : '' ">
+        <div class="overflow-hidden relative">
           <div v-if="listing.thumbnail !== null">
             <img class="main-image" :src="listing.thumbnail.url" alt="">
           </div>
           <div v-else>
             <img class="main-image" src="/noimage.jpeg" alt="">
           </div>
-        </div>
-        <div class="overflow-hidden relative image-wrapper bg-gray-50" v-else>
-          <img class="main-image" :src="listing.images[0].url" v-if="listing.images.length" alt="">
-          <img class="main-image" v-else src="/noimage.jpeg" alt="">
         </div>
         <div class="listing-card-content relative" @mouseover="showTooltip = true" @mouseout="showTooltip = false">
           <div class="flex flex-col justify-between items-start">

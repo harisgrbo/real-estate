@@ -66,10 +66,13 @@
               </div>
             </div>
             <div class="mobile-images">
-              <div v-if="listing.thumbnail !== null">
-                <img class="main-image" :src="listing.thumbnail.url" alt="" @click="$moda.show('gallery-grid')">
+              <div v-if="listing.thumbnail !== null" class="h-full relative cursor-pointer mobile-new" @click="handleGalleryModal()">
+                <img class="main-image" :src="listing.thumbnail.url" alt="">
+                <div class="absolute bottom-4 left-4 z-10 p-2 bg-white rounded-md text-sm font-semibold image-counter-border">
+                  {{ listing_meta.image_count + ' slika u galeriji' }}
+                </div>
               </div>
-              <div v-else class="no-image-grid">
+              <div v-else class="no-image-grid h-full">
                 <img src="/noimage.jpeg" alt="">
               </div>
             </div>
@@ -585,21 +588,27 @@
           </modal>
         </client-only>
         <client-only>
-          <modal @before-open="beforeOpen" @before-close="beforeClose" name="gallery-grid" :adaptive="true" height="100%">
+          <modal @before-open="beforeOpen" @before-close="beforeClose" name="gallery-grid" :adaptive="true" height="100%" :width="$device.isMobile ? '100%' : '90%'">
             <div class="modal-inner">
               <div class="modal-header">
                 <h3>Galerija slika</h3>
                 <i class="material-icons" @click.prevent="$modal.hide('gallery-grid')">close</i>
               </div>
               <div class="modal-content">
-                <vue-masonry-wall :items="images" :options="{width: '100%', padding: 12}">
-                  <template v-slot:default="{item}">
-                    <div class="item">
-                      <h5>{{item.title}}</h5>
-                      <p>{{item.content}}</p>
-                    </div>
-                  </template>
-                </vue-masonry-wall>
+                <div class="container gallery-container">
+                  <figure v-for="(image, index) in images">
+                    <img :src="image.url" alt="A windmill" @click="openGallery(index)"/>
+                  </figure>
+                </div>
+                <light-box
+                  ref="lightbox"
+                  :media="lightboxImages"
+                  :show-light-box="false"
+                  :show-thumbs="true"
+                  close-text="function() {
+                return 'Zatvori galeriju'
+                }"
+                />
               </div>
             </div>
           </modal>
@@ -651,7 +660,6 @@ import SearchListingCard from "../../../components/SearchListingCard";
   layout: (ctx) => ctx.$device.isMobile ? 'mobile' : 'article',
   async asyncData(ctx) {
     let listing = null;
-    let images = []
     let user = null
     let isFollowed = false;
     let isSaved = false;
@@ -663,12 +671,11 @@ import SearchListingCard from "../../../components/SearchListingCard";
     let error = false
 
     try {
-      let response = await ctx.app.$axios.get('/listings/' + ctx.params.id);
+      let response = await ctx.app.$axios.get('/listings/slug/' + ctx.params.slug);
       listing = response.data.data;
       listing_meta = response.data.meta;
       listingSaved = response.data.meta.saved;
       user = listing.user;
-      images = listing.images;
       isFollowed = response.data.meta.followed;
       isSaved = response.data.meta.saved;
       rating = response.data.meta.rating || 0;
@@ -687,7 +694,6 @@ import SearchListingCard from "../../../components/SearchListingCard";
       isFollowed,
       isSaved,
       listingSaved,
-      images,
       view_count,
       listing_meta
     }
@@ -757,7 +763,6 @@ export default class Oglas extends Vue {
     "Privatni Parking",
     "Fen",
     "TV",
-    "Balkon",
     "Zabranjeno pušenje"
   ];
   specialAttributes = [];
@@ -800,6 +805,23 @@ export default class Oglas extends Vue {
     },
   }
 
+  async handleGalleryModal() {
+    try {
+      let res = await this.$axios.get('/listings/' + this.listing.id + '/images');
+
+      this.images = res.data.data;
+
+      if(this.images.length) {
+        this.$modal.show('gallery-grid')
+      } else {
+        return
+      }
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   bookingPoi() {
     let places = this.places;
 
@@ -818,7 +840,7 @@ export default class Oglas extends Vue {
 
   async fetchSimilarListings() {
     try {
-      let res = await this.$axios.get('/listings/' + this.$route.params.id + '/similar');
+      let res = await this.$axios.get('/listings/' + this.listing.id + '/similar');
 
       this.similarListings = res.data.data;
     } catch(e) {
@@ -827,6 +849,7 @@ export default class Oglas extends Vue {
   }
 
   getRentSpecialAttributes() {
+    console.log(this.listing.attributes, 'attrs')
     if (!this.listing.attributes) return [];
     return this.listing.attributes.filter((item) => {
       return this.specialAttributesKeys.indexOf(item.name) !== -1;
@@ -1069,7 +1092,7 @@ export default class Oglas extends Vue {
 
   async submitReview() {
     try {
-      let res = await this.$axios.post(`/listings/${this.$route.params.id}/rent_reviews`, {
+      let res = await this.$axios.post(`/listings/${this.listing.id}/rent_reviews`, {
         review: this.review_description,
         rating: this.review_rating,
       })
@@ -1117,17 +1140,6 @@ export default class Oglas extends Vue {
       });
     }
   }
-
-  async getQuestions() {
-    try {
-      let res = await this.$axios.get('/listings/' + this.$route.params.id + '/questions');
-      this.questions = res.data.data;
-
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
 
   openGallery(index) {
     this.$refs.lightbox.showImage(index);
@@ -1208,25 +1220,7 @@ export default class Oglas extends Vue {
     }
   }
 
-  async askQuestion() {
-    try {
-      let response = await this.$axios.post('/listings/' + this.$route.params.id + '/questions', {
-        question: this.questionTerm
-      });
-
-      this.questions.unshift(response.data.data);
-
-      this.questionTerm = ''
-    } catch(e) {
-      console.log(e)
-    }
-  }
-
   async created() {
-
-    if (this.listing && ! this.$route.params.slug) {
-      this.$router.push(this.$route.fullPath + '/' + this.listing.slug);
-    }
 
     this.specialAttributes = this.getRentSpecialAttributes().slice();
 
@@ -1295,6 +1289,7 @@ h2 {
   min-width: 100%;
   max-height: 520px;
   height: 520px;
+  min-height: 520px;
 
   @include for-phone-only {
     height: 400px;
@@ -1704,31 +1699,27 @@ h2 {
     max-height: 400px;
   }
 
-  .swiper-container {
-    max-height: 400px;
-    height: 400px;
-  }
-
-  .swiper-slide {
-    max-height: 400px !important;
-    min-height: 400px !important;
-  }
-
-  .swiper-slide img {
-    max-height: 400px !important;
-    height: 400px !important;
-    width: 100%;
-    object-fit: cover;
-  }
-
   ::v-deep button svg {
     height:15px !important;
   }
 }
 
 ::v-deep .vue-lb-container {
+  background: rgba(0,0,0, 1) !important;
+
   @include for-phone-only {
     padding: 0 !important;
+  }
+
+  img {
+    height: 800px;
+    min-height: 800px;
+    width: auto;
+
+    @include for-phone-only {
+      height: 80%;
+      min-height: 80%;
+    }
   }
 }
 
@@ -2110,7 +2101,13 @@ h2 {
 
 .mobile-images {
   background: #f9f9f9;
-  min-height: 400px;
+  min-height: 520px;
+  max-height: 520px;
+
+  @include for-phone-only {
+    min-height: 400px;
+    max-height: 400px;
+  }
 
   img {
     height: 100%;
@@ -2495,6 +2492,70 @@ input[type=range]:focus::-ms-fill-upper {
 
   @include for-phone-only {
     margin-right: 12px;
+  }
+}
+
+.gallery-container {
+  columns: 340px;
+  column-gap: 16px;
+  width: 800px;
+  margin: 0 auto;
+
+  @include for-phone-only {
+    width: 100%;
+    columns: 130px;
+
+  }
+
+  img {
+    display: flex;
+    min-width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+
+  figure {
+    break-inside: avoid-column;
+    margin-bottom: 1rem;
+  }
+
+  figure > img {
+    grid-row: 1 / -1;
+    grid-column: 1;
+  }
+
+  figure a {
+    color: black;
+    text-decoration: none;
+  }
+
+  figcaption {
+    grid-row: 2;
+    grid-column: 1;
+    background-color: rgba(255,255,255,.5);
+    padding: .2em .5em;
+    justify-self: start;
+  }
+
+  .landscape {
+    grid-column-end: span 2;
+  }
+}
+
+.image-counter-border {
+  border: 1px solid #f1f1f1;
+}
+
+.mobile-new {
+  @include for-phone-only {
+    min-height: 400px;
+
+    img {
+      min-height: 400px;
+      width: auto;
+      object-fit: cover;
+      max-height: 400px;
+    }
   }
 }
 </style>
