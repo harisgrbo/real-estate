@@ -14,7 +14,7 @@
           </p>
         </span>
     </label>
-    <nuxt-link :to="'/oglas/' + listing.id">
+    <nuxt-link :to="'/oglas/' + listing.slug">
       <div class="overflow-hidden relative image-wrapper bg-gray-50" v-if="listing.thumbnail_url !== ''">
         <img class="main-image" :src="listing.thumbnail_url" alt="">
       </div>

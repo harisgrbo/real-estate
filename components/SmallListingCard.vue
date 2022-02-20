@@ -21,7 +21,7 @@
         </span>
     </label>
 
-    <nuxt-link :to="'/oglas/' + listing.id">
+    <nuxt-link :to="'/oglas/' + listing.slug">
       <div class="overflow-hidden relative image-wrapper">
         <div class="gallery-wrap" v-if="listing.images.length" @mouseenter="handleCardHover" @mouseleave="handleCardHoverDone">
           <swiper  class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>

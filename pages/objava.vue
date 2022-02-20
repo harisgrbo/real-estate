@@ -492,6 +492,7 @@ export default class Objava extends Vue {
       let response = await this.$axios.post('/listings', payload);
 
       this.listingId = response.data.data.id;
+      this.listingSlug = response.data.data.slug;
     } catch (e) {
       alert("Objava je neuspjela, pokusajte ponovo");
 
@@ -517,10 +518,9 @@ export default class Objava extends Vue {
   }
 
   async finish() {
-    console.log(this.listingId, 'imal ga')
-    if (this.listingId) {
+    if (this.listingSlug) {
       this.finishLoader = true;
-      await this.$router.push('/oglas/' + this.listingId)
+      await this.$router.push('/oglas/' + this.listingSlug)
     } else {
       this.snackbarValidationError("Oglas nije objavljen")
     }
