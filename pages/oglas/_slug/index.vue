@@ -30,7 +30,7 @@
               <h2 v-if="listing">{{ listing.title }}</h2>
               <div class="w-full flex flex-row justify-between items-center my-4">
                 <div class="flex flex-row items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
@@ -68,7 +68,7 @@
             <div class="mobile-images">
               <div v-if="listing.thumbnail !== null" class="h-full relative cursor-pointer mobile-new" @click="handleGalleryModal()">
                 <img class="main-image" :src="listing.thumbnail.url" alt="">
-                <div class="absolute bottom-4 left-4 z-10 p-2 bg-white rounded-md text-sm font-semibold image-counter-border">
+                <div class="absolute bottom-4 left-4 z-10 py-1 px-2 bg-white rounded-md text-sm font-semibold image-counter-border">
                   {{ listing_meta.image_count + ' slika u galeriji' }}
                 </div>
               </div>
@@ -92,11 +92,11 @@
             <div v-if="$device.isMobile" class="mx-5 flex flex-col">
               <h2 v-if="listing" class="mb-4">{{ listing.title }}</h2>
               <div class="flex flex-row items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <p class="text-md text-gray-700 font-normal underline mobile-address">{{ listing.district + ', ' + listing.address }}</p>
+                <p class="text-sm text-gray-700 font-semibold mobile-address">{{ listing.district + ', ' + listing.address }}</p>
               </div>
               <div class="addresses">
                 <div
@@ -118,14 +118,14 @@
             <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
               <div class="flex flex-row items-center justify-between w-full">
                 <div class="flex flex-row items-center">
-                  <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-xl font-medium']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                  <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-xl font-bold']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
                   <p v-if="listing.hasOwnProperty('discount')" class="text-xl font-medium ml-4">
                     {{ 'Akcija - ' + numberWithCommas(listing.price - (listing.price * (listing.discount * 100) / 100)) + ' KM' }}
                   </p>
                   <p class="pl-2 text-lg font-thin" v-if="listing.is_booking">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
                 </div>
                 <div v-if="!listing.is_booking && !listing.is_rent" class="p-2 border-sm bg-gray-50">
-                  <p class="ml-4 text-sm font-bold">{{ numberWithCommas(listing.price_per_square.toFixed()) + 'KM po m2' }}</p>
+                  <p class="text-sm font-bold">{{ numberWithCommas(listing.price_per_square.toFixed()) + ' KM/ m²' }}</p>
                 </div>
               </div>
             </div>
@@ -306,7 +306,7 @@
             <div v-if="$device.isMobile" class="book-article">
               <div class="flex flex-row items-center justify-between w-full">
                 <div class="flex flex-row items-center">
-                  <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-sm font-medium']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
+                  <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-xl font-bold']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
                   <p v-if="listing.hasOwnProperty('discount')" class="text-md font-medium ml-4">
                     {{ 'Akcija - ' + numberWithCommas(listing.price - (listing.price * (listing.discount * 100) / 100)) + ' KM' }}
                   </p>
@@ -1878,12 +1878,6 @@ h2 {
     p {
       line-height: 18px;
 
-      @include for-phone-only {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 140px;
-      }
       &:first-child {
         font-size: 14px;
       }

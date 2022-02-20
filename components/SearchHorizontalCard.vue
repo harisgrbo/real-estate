@@ -1,7 +1,7 @@
 <template>
   <div class="listing-card-wrapper mb-5" :class="['sponsored-' + listing.sponsored]">
     <label class="publisher">
-        <span class="shadow-sm bg-white mr-2">
+        <span class="shadow-sm bg-white">
           {{ listing.listing_type }}
         </span>
       <span v-if="listing.hasDiscount" class="flex flex-row items-center bg-red-600 shadow-sm mr-2">
@@ -19,11 +19,18 @@
         <img class="main-image" :src="listing.thumbnail_url" alt="">
       </div>
       <div class="listing-card-content relative">
-        <div class="flex flex-col justify-between items-start">
-          <div class="address title">
+        <div class="flex flex-col justify-between items-start pb-4 h-full">
+          <div class="w-full flex flex-col">
+            <div class="address title">
               {{ listing.title }}
+            </div>
+            <p class="text-sm font-medium mt-3 flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {{ listing.address }}</p>
           </div>
-          <p class="text-sm font-medium mt-3">{{ listing.address }}</p>
           <div class="icons-date flex flex-row items-center justify-between w-full">
             <div class="important">
               <p :class="['new', listing.has_discount ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
@@ -148,8 +155,8 @@ a {
 
   @include for-phone-only {
     flex-direction: row;
-    height: 120px;
-    margin-bottom: 12px;
+    height: 160px;
+    margin-bottom: 0;
   }
 
   a {
@@ -173,6 +180,7 @@ a {
 
     @include for-phone-only {
       padding: 0;
+      padding-left: 12px;
     }
 
     .description {
@@ -415,9 +423,8 @@ a {
       }
 
       p {
-        font-size: 13px;
-        color: #434343;
-        font-weight: 500;
+        font-size: 18px;
+        font-weight: 800;
       }
     }
   }
@@ -565,11 +572,26 @@ a {
   height: 180px;
   max-height: 180px;
 
+  @include for-phone-only {
+    min-width: 140px;
+    width: 140px;
+    max-width: 140px;
+    border-radius: 4px;
+    max-height: 160px;
+  }
+
   img {
     height: 180px !important;
     min-height: 180px !important;
     width: 100% !important;
     object-fit: cover;
+
+    @include for-phone-only {
+      min-height: 160px !important;
+      height: 160px !important;
+      max-height: 160px !important;
+      width: auto;
+    }
   }
 
   ::v-deep .swiper-slide {
@@ -733,6 +755,10 @@ a {
 .title {
   font-size: 16px !important;
   font-weight: 600 !important;
+
+  @include for-phone-only {
+    font-size: 15px !important;
+  }
 }
 
 .important {

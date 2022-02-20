@@ -100,9 +100,8 @@ export default class SearchMap extends Vue{
       zoom: this.zoom,
       center: uluru,
       mapId: '90b8b95b1bbd0bc9',
-      zoomControl: true,
-      disableDefaultUI: false,
-      fullscreenControl: false,
+      // disableDefaultUI: false,
+      fullscreenControl: true,
     });
 
     this.map = map;
@@ -210,4 +209,15 @@ export default class SearchMap extends Vue{
     transform: scale(1.4);
   }
 }
+::v-deep .gmnoprint img { max-width: none; }
+
+::v-deep img {
+  max-width: 100% !important;
+}
+
+.gmnoprint img {
+  max-width: none;
+}
+
+.gmaps * {box-sizing: content-box;}
 </style>
