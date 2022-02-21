@@ -258,6 +258,8 @@ export default class Paketi extends Vue{
       let res = await this.$axios.get('/packages');
 
       this.packages = res.data.data;
+
+      console.log(res)
     } catch(e) {
       console.log(e)
     }

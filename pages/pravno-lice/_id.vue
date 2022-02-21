@@ -95,7 +95,7 @@
         <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
           <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
             <dt class="text-md pb-1 font-medium text-gray-500 truncate">
-              Ukupno oglasa
+              {{ user.user_type === 'agency' ? 'Ukupno oglasa' : 'Ukupno zgrada' }}
             </dt>
             <dd class="mt-1 text-3xl font-semibold text-gray-900">
               {{ meta.active_count + meta.completed_count }}
@@ -104,7 +104,7 @@
 
           <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
             <dt class="text-md pb-1 font-medium text-gray-500 truncate">
-              Aktivni oglasi
+              {{ user.user_type === 'agency' ? 'Aktivni oglasi' : 'Zgrade koje su u prodaji' }}
             </dt>
             <dd class="mt-1 text-3xl font-semibold text-gray-900">
               {{ meta.active_count }}

@@ -1,16 +1,21 @@
 <template>
   <div class="listing-card-wrapper mb-5" :class="['sponsored-' + listing.sponsored]">
     <label class="publisher">
-        <span class="shadow-sm bg-white">
+        <span class="shadow-sm bg-white mr-2">
           {{ listing.listing_type }}
         </span>
-      <span v-if="listing.hasDiscount" class="flex flex-row items-center bg-red-600 shadow-sm mr-2">
+      <span v-if="listing.has_discount" class="flex flex-row items-center bg-red-600 shadow-sm mr-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="#fff">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
           </svg>
           <p class="text-white font-medium">
-            Akcija {{ ' -' + listing.discount * 100 + '%' }}
+            Akcija{{ ' -' + listing.discount * 100 + '%' }}
+          </p>
+        </span>
+      <span v-if="listing.country_name === 'Turska'" class="flex flex-row items-center bg-red-600 shadow-sm mr-2">
+          <p class="text-white font-medium">
+            Turska
           </p>
         </span>
     </label>
@@ -24,7 +29,7 @@
             <div class="address title">
               {{ listing.title }}
             </div>
-            <p class="text-sm font-medium mt-3 flex flex-row items-center">
+            <p class="text-sm font-medium mt-1 flex flex-row items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -133,6 +138,8 @@ export default class SearchHorizontalCard extends Vue{
 }
 a {
   position: relative;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
   z-index: 1;
   display: flex;
   flex-direction: row !important;
@@ -143,7 +150,7 @@ a {
     height: 100%;
     flex-direction: row;
     box-sizing: border-box;
-
+    height: 162px;
   }
 }
 .listing-card-wrapper {
@@ -175,12 +182,11 @@ a {
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    padding-left: 16px;
+    padding: 16px;
     height: 100%;
 
     @include for-phone-only {
-      padding: 0;
-      padding-left: 12px;
+      padding: 12px;
     }
 
     .description {
@@ -405,7 +411,6 @@ a {
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      margin-top: 10px;
       padding-top: 10px;
 
       > div {
@@ -568,7 +573,8 @@ a {
   min-width: 280px;
   width: 280px;
   max-width: 280px;
-  border-radius: 7px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
   height: 180px;
   max-height: 180px;
 
@@ -576,7 +582,6 @@ a {
     min-width: 140px;
     width: 140px;
     max-width: 140px;
-    border-radius: 4px;
     max-height: 160px;
   }
 
@@ -696,33 +701,125 @@ a {
   }
 }
 
-.publisher {
+label {
   position: absolute;
-  left: 8px;
+  left: 4px;
   top: 8px;
-  position: absolute;
-  border-radius: 3px;
-  background: #fff;
-  color: #444;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
   width: fit-content;
-  height: 18px;
-  padding: 0 4px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: capitalize;
-  box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
   z-index: 2;
 
-  svg {
-    margin-right: 8px;
+  span {
+    border-radius: 4px;
+    color: #000;
+    padding: 4px
+  }
+
+  @include for-phone-only {
+    font-size: 12px;
+    padding: 0 4px;
+    border-radius: 2px;
+    height: auto;
+  }
+
+  &.type {
+    background: none;
+    top: 162px;
+    left: 0px;
+    box-shadow: none;
+    border-radius: 0px;
+
+    @include for-phone-only {
+    }
+
+    button {
+      font-family: 'NunitoSans', sans-serif;;
+      border: none;
+      margin-right: 8px;
+      border-radius: 2px;
+      background: #fff;
+      //box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+      color: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      height: 24px;
+      padding: 0 4px;
+      font-size: 12px;
+      font-weight: 500;
+      //box-shadow: rgb(0 0 0 / 12%) 0px 6px 5px;
+
+      span {
+        text-transform: none;
+      }
+
+      svg {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  &.rating {
+    right: 8px !important;
+    left: inherit;
+
+    i {
+      font-size: 13px;
+      margin-right: 5px;
+    }
+  }
+
+  &.publisher {
+    top: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    svg {
+      margin-right: 3px;
+    }
+
+    span {
+      margin-top: 8px;
+    }
+
+    &.sale {
+      right: 8px !important;
+      left: inherit;
+      background: red;
+      color: #fff;
+      transform: rotate(
+          45deg) translateX(4px);
+      left: -49px;
+      bottom: 108px;
+      top: 232px;
+      width: 150px;
+
+      @include for-phone-only {
+        top: 102px;
+      }
+    }
+  }
+
+  .country {
+    bottom: 0;
+    right: 8px;
+    border-radius: 2px;
+  }
+
+  span.finished {
+    color: #fff;
   }
 }
-
 .addresses {
   display: flex;
   flex-direction: row;
@@ -745,10 +842,10 @@ a {
 
   img {
     height: 15px !important;
-    width: auto !important;
+    width: 15px !important;
     margin-right: 3px;
     max-width: 15px !important;
-    min-width: fit-content;
+    min-width: 15px !important;
   }
 }
 
