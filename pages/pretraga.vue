@@ -200,7 +200,7 @@
 <!--              <client-only>-->
 <!--                <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
 <!--              </client-only>-->
-<!--              <CountriesMultipleSelect />-->
+              <CountriesMultipleSelect />
 
               <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
@@ -255,7 +255,7 @@
 <!--                <client-only>-->
 <!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
 <!--                </client-only>-->
-<!--                <CountriesMultipleSelect :initial-country-ids="countryIds" @countries="handleCountriesSearch" />-->
+                <CountriesMultipleSelect :initial-country-ids="countryIds" @countries="handleCountriesSearch" />
 
                 <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
 

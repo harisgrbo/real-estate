@@ -184,7 +184,7 @@
         </form>
       </client-only>
     </div>
-    <ins class="adsbygoogle"
+    <ins v-if="!$device.isMobile" class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-3745186233711216"
          data-ad-slot="6716154843"

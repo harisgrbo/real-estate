@@ -1,23 +1,26 @@
 <template>
   <div :class="['homepage-wrap', this.$route.name === 'index' ? 'no-padding' : '']">
     <div class="publish mb-24 p-8">
-      <img src="/white.jpeg" alt="" class="image-bg">
+      <img src="/image.webp" alt="" class="image-bg">
       <div class="quick-search">
         <div class="flex flex-col">
           <h3 class="main-title">Sve nekretnine na jednom mjestu</h3>
           <h5 class="main-title sub">U par koraka do vaših kvadrata.</h5>
-          <div class="flex flex-row items-center mt-2">
-            <img src="/003-home.png" class="home-img" alt="">
-            <p class="text-xl font-normal">{{ totalListings }} objavljenih oglasa</p>
-          </div>
         </div>
         <div class="flex flex-col mt-6">
-          <ul class="w-full">
-            <li v-for="(tab, index) in tabs" :key="index" @click="handleSelectedType(index)" :class="['quick-tab', quickSearchTab === index ? 'active' : '']">{{ tab }}</li>
-          </ul>
           <div class="flex flex-row items-center w-full inputs">
             <div class="search-inputs">
               <PublishDropdown label="Lokacija" placeholder="Pretražite lokacije" class="location" @select-option="handleSelectedCity"></PublishDropdown>
+            </div>
+            <div>
+              <div class="relative w-full flex flex-col items-start">
+                <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+                  <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Tip oglasa</label>
+                  <select @change="handleSelectedType" id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                    <option class="font-medium text-sm" v-for="(type, index) in tabs" :key="index" :value="index" >{{ type }}</option>
+                  </select>
+                </div>
+              </div>
             </div>
             <div>
               <div class="relative w-full flex flex-col items-start">
@@ -31,23 +34,22 @@
             </div>
             <div class="price-label">
               <div class="w-full flex items-center justify-between">
-                <TextField type="number" label="Kvadratura od" placeholder="Od" v-model="squareFrom"></TextField>
+                <TextField type="number" label="Kvadratura" placeholder="Od" v-model="squareFrom"></TextField>
                 <p class="mx-2">-</p>
-                <TextField type="number" label="Kvadratura do" placeholder="Do" v-model="squareTo"></TextField>
+                <TextField type="number" placeholder="Do" v-model="squareTo"></TextField>
               </div>
             </div>
             <div class="price-label">
               <div class="w-full flex items-center justify-between">
-                <TextField type="number" :currency="true" label="Cijena od" placeholder="Od" v-model="priceFrom"></TextField>
+                <TextField type="number" :currency="true" label="Cijena" placeholder="Od" v-model="priceFrom"></TextField>
                 <p class="mx-2">-</p>
-                <TextField type="number" :currency="true" label="Cijena do" placeholder="Do" v-model="priceTo"></TextField>
+                <TextField type="number" :currency="true" placeholder="Do" v-model="priceTo"></TextField>
               </div>
             </div>
             <button @click="search" class="px-4 search">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#1F2937">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              Pretraži
             </button>
           </div>
         </div>
@@ -579,8 +581,8 @@
       this.$emit('selected-category', c);
     }
 
-    handleSelectedType(index) {
-      this.quickSearchTab = index;
+    handleSelectedType(event) {
+      const index = parseInt(event.target.value);
 
       this.selectedType = {
         id: index === 0 ? 1: index + 2
@@ -1039,12 +1041,9 @@ ul.most-visited-cats {
 
 
   .image-bg {
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
     height: 456px;
     object-fit: cover;
     width: 100%;
-    border-radius: 6px;
   }
 
   @include for-phone-only {
@@ -1055,15 +1054,18 @@ ul.most-visited-cats {
     position: absolute;
     width: 1280px;
     margin: 0 auto;
-    bottom: -30px;
+    bottom: 0px;
+    top: 0;
     border-radius: 8px;
     height: 456px;
-    padding-top: 36px;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 
     ul {
       width: fit-content;
@@ -1104,9 +1106,7 @@ ul.most-visited-cats {
     }
 
     .inputs {
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      border-top-right-radius: 4px;
+      border-radius: 4px;
       height: fit-content;
       padding: 14px;
       align-items: flex-end;
@@ -1260,9 +1260,15 @@ ul.most-visited-cats {
 }
 
 button.search {
-  background: #1F2937 !important;
+  background: #fff !important;
+  border: 2px solid #1F2937;
   color: #fff;
-  border-radius: 10px !important;
+  border-radius: 4px !important;
+
+  &:hover {
+    background: #f9f9f9 !important;
+  }
+
 }
 
 .mobiile ::v-deep svg {
@@ -1334,6 +1340,7 @@ button.search {
   font-weight: 600;
   max-width: 900px;
   line-height: 57px;
+  color: #fff;
 
   &.sub {
     font-size: 28px;
@@ -1364,5 +1371,6 @@ button.search {
   width: auto;
   min-width: auto;
   margin-right: 10px;
+  filter: invert(1);
 }
 </style>

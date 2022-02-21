@@ -8,6 +8,7 @@
       <Navbar></Navbar>
     </div>
       <Nuxt />
+    <Footer v-if="$route.name !== 'moj-racun-poruke'"></Footer>
     <div
       class="navbar"
       :class="{ 'bottom--hidden': !showBottom }"
@@ -31,11 +32,12 @@
 <script>
 import {Component, Vue, Watch} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
+import Footer from "@/components/Footer";
 import MobileBottomNavbar from "@/components/includes/MobileBottomNavbar"
 import MobileSidenav from "@/components/MobileSidenav"
 
 @Component({
-  components: {Navbar, MobileBottomNavbar, MobileSidenav}
+  components: {Navbar, MobileBottomNavbar, Footer, MobileSidenav}
 })
 
 export default class Mobile extends Vue {
