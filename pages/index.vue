@@ -496,6 +496,8 @@
       try {
         let res = await this.$axios.get('/listings/sell')
         this.listings_sell = res.data.data;
+
+        console.log(res)
         this.sellLoaded = true;
       } catch (e) {
         console.log(e)
@@ -1166,8 +1168,8 @@ ul.most-visited-cats {
     }
 
     button {
-      height: 48px;
-      width: 48px;
+      height: 54px;
+      width: 54px;
       display: flex;
       align-items: center;
       justify-content: center;

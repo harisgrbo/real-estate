@@ -13,6 +13,11 @@
             Akcija{{ ' -' + listing.discount * 100 + '%' }}
           </p>
         </span>
+      <span v-if="listing.country_name === 'Turska'" class="flex flex-row items-center bg-red-600 shadow-sm mr-2">
+          <p class="text-white font-medium">
+            Turska
+          </p>
+        </span>
     </label>
     <nuxt-link :to="'/oglas/' + listing.slug">
       <div class="overflow-hidden relative image-wrapper bg-gray-50" v-if="listing.thumbnail_url !== ''">
