@@ -58,6 +58,8 @@ export default class blokiraniKorisnici extends Vue {
       return 'korisnik'
     } else if(t === 'agent'){
       return 'Agent'
+    } else if(t === 'investor') {
+      return 'Investitor'
     } else {
       return 'Admin'
     }

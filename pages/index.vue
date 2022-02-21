@@ -278,11 +278,21 @@
       </div>
     </div>
     <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency" v-if="agencies.length">
-      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Premium agencije</h2>
+      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Agencije za nekretnine</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
     <div class="flex items-center justify-start pb-4 custom-width gap-4 flex-row overflow-x-scroll agencija" v-if="agenciesLoaded">
       <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
+    </div>
+    <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
+      <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>
+    </div>
+    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency" v-if="investors.length">
+      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Investitori</h2>
+      <nuxt-link class="more" to="/investitori">Pogledaj više</nuxt-link>
+    </div>
+    <div class="flex items-center justify-start pb-4 custom-width gap-4 flex-row overflow-x-scroll agencija" v-if="investorsLoaded">
+      <UserCard v-for="(investor, index) in investors" :key="index" :user="investor"/>
     </div>
     <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
       <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>
@@ -407,6 +417,8 @@
     listings_rent = []
     listings_rent_for_a_day = []
     agencies = []
+    investorsLoaded = false;
+    investors = []
 
     swiperOptionPremium = {
       spaceBetween: 16,
@@ -440,6 +452,7 @@
       this.fetchPremiumListings();
       this.fetchRentingPerDay();
       this.fetchAgencies();
+      this.fetchInvestors();
       this.fetchTopLocations();
     }
 
@@ -524,6 +537,18 @@
         this.agencies = res.data.data;
 
         this.agenciesLoaded = true;
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    async fetchInvestors() {
+      this.investorsLoaded = false;
+      try {
+        let res = await this.$axios.get('/investors')
+        this.investors = res.data.data;
+
+        this.investorsLoaded = true;
       } catch (e) {
         console.log(e)
       }

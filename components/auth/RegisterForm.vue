@@ -21,16 +21,26 @@
     </div>
     <!-- Real estate agencija registration -->
     <div v-if="currentType === 1">
-      <div class="form" @submit.prevent="handleRealEstateAgencyRegistration">
-        <TextField label="Naziv pravnog lica" type="text" v-model="realEstateAgencyPayload.name" class="mb-6 mt-1"></TextField>
-        <TextField label="Email" type="text" v-model="realEstateAgencyPayload.email" class="mb-6 mt-1"></TextField>
-        <TextField label="Šifra" type="password" v-model="realEstateAgencyPayload.password" class="mb-6 mt-1"></TextField>
+      <div class="form" @submit.prevent="handleBusinessRegistration">
+        <TextField label="Naziv pravnog lica" type="text" v-model="businessPayload.name" class="mb-6 mt-1"></TextField>
+        <div class="mb-6 mt-1">
+          <div class="relative w-full flex flex-col items-start">
+            <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
+              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Vrsta pravnog lica</label>
+              <select v-model="businessPayload.user_type" id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                <option class="font-medium text-sm" v-for="(type, index) in business_types" :key="index" :value="type.user_type">{{ type.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <TextField label="Email" type="text" v-model="businessPayload.email" class="mb-6 mt-1"></TextField>
+        <TextField label="Šifra" type="password" v-model="businessPayload.password" class="mb-6 mt-1"></TextField>
         <PublishDropdown label="Lokacija" class="location mb-6" @select-option="handleSelectedCity"></PublishDropdown>
         <label class="flex flex-row items-center cursor-pointer mt-2">
           <input type="checkbox" class="mr-1">
           Prihvatam uslove korištenja
         </label>
-        <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" @action="handleRealEstateAgencyRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
+        <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" @action="handleBusinessRegistration" :loading="loading" placeholder="Registruj se"></ActionButton>
       </div>
     </div>
     <div class="flex items-center justify-center login-u">
@@ -69,13 +79,13 @@ export default class RegisterForm extends Vue{
     username: '',
     password: '',
   }
-  selectedPackage = {}
   userPayload = {
     name: '',
     email: '',
     password: '',
   }
-  realEstateAgencyPayload = {
+  businessPayload = {
+    user_type: 'agency',
     name: '',
     email: '',
     password: '',
@@ -98,6 +108,16 @@ export default class RegisterForm extends Vue{
   registrationTypes = [
     'Fizičko lice',
     'Pravno lice'
+  ]
+  business_types = [
+    {
+      name: 'Agencija za nekretnine',
+      user_type: 'agency'
+    },
+    {
+      name: 'Investitor',
+      user_type: 'investor'
+    }
   ]
   currentType = 0;
   loading = false;
@@ -147,17 +167,17 @@ export default class RegisterForm extends Vue{
   }
 
   handleSelectedCity(f) {
-    this.realEstateAgencyPayload.location = f.name;
+    this.businessPayload.location = f.name;
   }
 
   // Real estate agencija registration
-  handleRealEstateAgencyRegistration() {
+  handleBusinessRegistration() {
     this.loading = true;
 
     this.$axios
-      .post('/agencies/register', this.realEstateAgencyPayload, this.config)
+      .post('/business/register', this.businessPayload, this.config)
       .then(() => {
-        this.handlePostRegister('realEstateAgencyPayload')
+        this.handlePostRegister('businessPayload')
       }).catch(error => {
         this.loading = false;
         if (error.response && error.response.status === 422) {

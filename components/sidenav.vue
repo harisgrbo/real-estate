@@ -28,7 +28,7 @@
           </dd>
         </div>
       </li>
-      <li v-if="$auth.user && $auth.user.user_type === 'agency'" class="w-full flex flex-col items-start sub-menu">
+      <li v-if="$auth.user && ($auth.user.user_type === 'agency' || $auth.user.user_type === 'investor')" class="w-full flex flex-col items-start sub-menu">
         <div class="flex flex-row items-center justify-start w-full">
           <img src="/001-monitor.png" alt="">
           <nuxt-link to="/moj-racun/dashboard/analitika">Dashboard</nuxt-link>
@@ -41,7 +41,7 @@
           </li>
           <li>
             <img src="/004-settings.png" alt="">
-            <nuxt-link to="/moj-racun/dashboard/postavke-agencije">Postavke agencije</nuxt-link>
+            <nuxt-link to="/moj-racun/dashboard/postavke-profila">Postavke profila</nuxt-link>
           </li>
           <li>
             <img src="/003-temporary-agency.png" alt="">
@@ -64,7 +64,7 @@
         </div>
         <span class="bg-gray-50 balance p-1 min-w-min font-semibold text-sm text-gray-800">{{ $auth.user.wallet.balance + ' KM' }}</span>
       </li>
-      <li v-if="$auth.user && $auth.user.user_type !== 'agency'">
+      <li v-if="$auth.user && $auth.user.user_type === 'user'">
         <img src="/001-article.png" alt="">
         <nuxt-link to="/moj-racun/moji-oglasi">Moji oglasi</nuxt-link>
       </li>
@@ -100,8 +100,12 @@
         <nuxt-link to="/agencije">Agencije</nuxt-link>
       </li>
       <li>
+        <img src="/001-advertising.png" alt="">
+        <nuxt-link to="/investitori">Investitori</nuxt-link>
+      </li>
+      <li>
         <img src="/002-box.png" alt="">
-        <nuxt-link to="/paketi">Paketi pretplate (agencije)</nuxt-link>
+        <nuxt-link to="/paketi">Paketi pretplate</nuxt-link>
       </li>
       <li>
         <img src="/003-bug.png" alt="">
@@ -149,6 +153,8 @@ export default class sidenav extends Vue {
       return 'korisnik'
     } else if(t === 'agent'){
       return 'Agent'
+    } else if(t === 'investor') {
+      return 'Investitor'
     } else {
       return 'Admin'
     }
@@ -173,7 +179,7 @@ export default class sidenav extends Vue {
 
   goToUser() {
     if(this.$auth.user) {
-      if(this.$auth.user.user_type === 'agency') {
+      if(this.$auth.user.user_type === 'agency' || this.$auth.user.user_type === 'investor') {
         this.$router.push('/pravno-lice/' + this.$auth.user.id)
       } else if(this.$auth.user.user_type === 'agent'){
         this.$router.push('/agent/' + this.$auth.user.id)
