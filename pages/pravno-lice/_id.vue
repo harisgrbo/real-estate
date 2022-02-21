@@ -18,7 +18,7 @@
                     </dd>
                     <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
                       <dd class="mt-2">
-                        <span class="px-2 py-1 text-green-800 text-xs font-semibold bg-green-100 rounded-full">Agencija</span>
+                        <span class="px-2 py-1 text-green-800 text-xs font-semibold bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
                       </dd>
                     </dl>
                     <div class="flex flex-row items-center justify-start w-full verified">
@@ -65,13 +65,13 @@
         <div class="third-col">
           <div v-if="isMe" class="w-full flex flex-row items-center justify-start mt-4 buttons-user">
             <ActionButton type="submit" @action="$router.push('/moj-racun/uredi-profil')" placeholder="Uredi profil" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-            <ActionButton type="submit" @action="$modal.show('about-agencija')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+            <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
           </div>
           <div v-else class="w-full flex flex-row items-center justify-start mt-4">
             <div class="w-full flex flex-row items-center justify-start buttons-user" v-if="$auth.user">
               <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
               <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-              <ActionButton type="submit" @action="$modal.show('about-agencija')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
+              <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
 <!--              <div class="rounded-md bg-blue-50 p-3" v-if="!$device.isMobile">-->
 <!--                <div class="flex">-->
 <!--                  <div class="flex-shrink-0">-->
@@ -148,7 +148,7 @@
                   <div v-if="listings.length" class="grid-layout">
                     <ListingCard v-for="listing in listings" :listing="listing" :key="listing.id"></ListingCard>
                   </div>
-                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Agencija nema aktivnih oglasa'"></NotFound>
+                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate aktivnih oglasa' : 'Pravno lice nema aktivnih oglasa'"></NotFound>
                   <Pagination
                     v-if="listings.length && listingActiveMeta.total > 15"
                     ref="pagination"
@@ -172,7 +172,7 @@
                   <div v-if="completed_listings.length" class="grid-layout">
                     <ListingCard v-for="listing in completed_listings" :listing="listing" :key="listing.id"></ListingCard>
                   </div>
-                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Agencija nema završenih oglasa'"></NotFound>
+                  <NotFound v-else src="/realestatenoresults.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate završenih oglasa' : 'Pravno lice nema završenih oglasa'"></NotFound>
                   <Pagination
                     v-if="completed_listings.length && completedListingsMeta.total > 15"
                     ref="pagination"
@@ -283,7 +283,7 @@
 
                 <ActionButton v-if="$auth.user" @action="$modal.show('leave-review')" placeholder="Ostavi dojam" :style-options="{ border: '2px solid #1F2937', background: '#fff', color: '#1F2937', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px', marginTop: '24px' }" :loading="false"></ActionButton>
               </div>
-              <NotFound src="/review.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate dojmova' : 'Agencija nema dojmova'"></NotFound>
+              <NotFound src="/review.svg" :text="$auth.user && $auth.user.id === user.id? 'Nemate dojmova' : 'Pravno lice nema dojmova'"></NotFound>
             </div>
           </div>
         </div>
@@ -304,13 +304,13 @@
     <modal @before-open="beforeOpen" @before-close="beforeClose" name="leave-review" :adaptive="true" height="100%">
       <div class="modal-inner">
         <div class="modal-header">
-          <h2>Dojam za agenciju {{ user.name }}</h2>
+          <h2>Dojam za {{ user.name }}</h2>
           <i class="material-icons" @click="$modal.hide('leave-review')">close</i>
         </div>
         <div class="modal-content review">
           <textarea v-model="review_message"></textarea>
           <div class="flex flex-row items-center py-4">
-            <span class="font-semibold mr-4">Ocjena za agenciju</span>
+            <span class="font-semibold mr-4">Ocjena za {{ user.name }}</span>
             <star-rating star-size="20" animate="true" inline="true" v-model="review_rating"></star-rating>
           </div>
           <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Ostavi dojam" @action="postReview" :loading="loading"></action-button>
@@ -321,7 +321,7 @@
       <div class="modal-inner">
         <div class="modal-header">
           <h2>O nama</h2>
-          <i class="material-icons" @click="$modal.hide('about-agencija')">close</i>
+          <i class="material-icons" @click="$modal.hide('about-agency')">close</i>
         </div>
         <div class="modal-content">
           <p>{{ user.description }}</p>
@@ -360,7 +360,7 @@ import Skeleton from "../../components/skeleton";
     }
 
     try {
-      let response = await ctx.app.$axios.get('/agencies/' + ctx.route.params.id)
+      let response = await ctx.app.$axios.get('/users/' + ctx.route.params.id)
       user = response.data.data;
       meta = response.data.meta;
     } catch(e) {
@@ -416,6 +416,20 @@ export default class Agencies extends Vue {
   async completedPageChangeHandler(selectedPage) {
     this.currentCompletedPage = selectedPage;
     await this.fetchUserFinishedListings(this.$route.params.id, this.currentCompletedPage);
+  }
+
+  user_type(t) {
+    if(t === 'agency') {
+      return 'Agencija'
+    } else if(t === 'user') {
+      return 'korisnik'
+    } else if(t === 'agent'){
+      return 'Agent'
+    } else if(t === 'investor') {
+      return 'Investitor'
+    } else {
+      return 'Admin'
+    }
   }
 
   async fetchReviews() {

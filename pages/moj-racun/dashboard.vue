@@ -35,8 +35,8 @@ export default class Dashboard extends Vue {
       icon: '/052-presentation.svg'
     },
     {
-      name: 'Postavke agencije',
-      slug: 'postavke-agencije',
+      name: 'Postavke profila',
+      slug: 'postavke-profila',
       icon: '/052-presentation.svg'
     },
     {

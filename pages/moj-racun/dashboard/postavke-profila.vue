@@ -72,7 +72,7 @@ export default class urediProfil extends Vue {
       formData.append('banner', image);
 
       try {
-        await this.$axios.post('/profile/agency/banner', formData, {
+        await this.$axios.post('/profile/business/banner', formData, {
           'headers': {
             'Content-Type': 'multipart/form-data'
           }
@@ -96,7 +96,7 @@ export default class urediProfil extends Vue {
 
   async fetchMyAgency() {
     try {
-      this.agency = (await this.$axios.get('/profile/agency')).data.data;
+      this.agency = (await this.$axios.get('/profile/business')).data.data;
     } catch (e) {
       console.log(e)
     }
@@ -123,7 +123,7 @@ export default class urediProfil extends Vue {
         payload.description = this.description;
       }
 
-      await this.$axios.put('/profile/agency', payload)
+      await this.$axios.put('/profile/business', payload)
 
       this.$toast.open({
         message: "Uspješno ste se spasili izmjene!",

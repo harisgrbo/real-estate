@@ -118,7 +118,10 @@ export default {
     }
 
     img.logo {
+      min-height: 56px !important;
+      height: 56px !important;
       @include for-phone-only {
+        min-height: 40px !important;
         height: 40px !important;
         width: auto;
       }

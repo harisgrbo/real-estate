@@ -86,7 +86,7 @@
                 <div class="flex-1 flex flex-row justify-start p-0 pt-0 inner">
                   <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
                   <div class="w-full inner">
-                    <div class="flex flex-col items-start justify-start pl-4 w-full">
+                    <div class="flex flex-col items-start justify-start w-full">
                       <div class="flex flex-row items-center justify-between w-full">
                         <h2 class="text-lg font-medium text-black leading-5 text-left">{{ user.name }}</h2>
                         <dd>
@@ -101,7 +101,7 @@
                         <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="">{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
                       </div>
                     </div>
-                    <div class="pl-4">
+                    <div>
                       <div class="flex items-center justify-start text-gray-700 mt-2 w-full" v-if="user.working_agency !== null">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -112,7 +112,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <p>{{ user.email }}</p></div>
+                        <p class="text-sm">{{ user.email }}</p></div>
                     </div>
                   </div>
                 </div>
@@ -324,7 +324,6 @@ export default class Users extends Vue {
     }
   }
 
-
   user_type(t) {
     if(t === 'agency') {
       return 'Agencija'
@@ -332,6 +331,8 @@ export default class Users extends Vue {
       return 'korisnik'
     } else if(t === 'agent'){
       return 'Agent'
+    } else if(t === 'investor') {
+      return 'Investitor'
     } else {
       return 'Admin'
     }
