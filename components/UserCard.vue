@@ -3,15 +3,16 @@
     <nuxt-link :to="user.user_type === 'agency' || user.user_type === 'investor' ? '/pravno-lice/' + user.id : '/korisnik/' + user.id" class="flex flex-col items-center w-full">
       <div class="flex items-start px-4 pt-4 w-full">
         <div class="w-full flex justify-start w-full flex-row items-start">
-          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
+          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-sm" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
           <div class="ml-4 text-left mt-0">
-            <div class="font-semibold text-sm">{{ user.name }}
+            <div class="font-semibold text-sm">
+              <h2>{{ user.name }}</h2>
               <span v-if="user.rating !== null" class="flex flex-row items-center">
                  <star-rating :star-size="12" :increment="0.5" :inline="true" :read-only="true" v-model="user.rating"></star-rating>
               </span>
             </div>
             <dd class="mt-3">
-              <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+              <span class="px-2 py-1 text-green-800 text-xs font-semibold uppercase bg-green-100 rounded-sm">{{ user_type(user.user_type) }}</span>
             </dd>
           </div>
         </div>
@@ -138,12 +139,21 @@ export default class UserCard extends Vue {
   min-width: 360px;
   width: 360px;
   max-width: 360px;
-  height: 176px;
-  max-height: 176px;
-  min-height: 176px;
+  height: 216px;
+  max-height: 216px;
+  min-height: 16px;
   position: relative;
   z-index: 10;
-  border: 1px solid #dbdada;
+  border: 2px solid #f1f1f1;
+
+  h2 {
+    font-size: 16px;
+  }
+  &:hover {
+    h2 {
+      text-decoration: underline;
+    }
+  }
 
   &:last-child {
     margin-right: 12px;
@@ -158,9 +168,9 @@ export default class UserCard extends Vue {
 }
 
 img {
-  height: 50px;
-  width: 50px;
-  min-width: 50px;
+  height: 80px;
+  width: 80px;
+  min-width: 80px;
 }
 
 .info p {

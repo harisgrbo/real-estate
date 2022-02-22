@@ -18,7 +18,7 @@
                     </dd>
                     <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
                       <dd class="mt-2">
-                        <span class="px-2 py-1 text-green-800 text-xs font-semibold bg-green-100 rounded-full">{{ user_type(user.user_type) }}</span>
+                        <span class="px-2 py-1 text-green-800 text-xs font-semibold uppercase bg-green-100 rounded-sm">{{ user_type(user.user_type) }}</span>
                       </dd>
                     </dl>
                     <div class="flex flex-row items-center justify-start w-full verified">
@@ -1076,7 +1076,4 @@ textarea {
   border-bottom: 1px solid #f1f1f1;
 }
 
-.add-img-border {
-  border: 4px solid #f9f9f9
-}
 </style>

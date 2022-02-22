@@ -3,7 +3,7 @@
     <!-- This example requires Tailwind CSS v2.0+ -->
     <footer class="bg-white footer-main" aria-labelledby="footer-heading">
       <h2 id="footer-heading" class="sr-only">Footer</h2>
-      <div class="max-w-7xl mx-auto pt-10">
+      <div class="max-w-7xl mx-auto pt-10 pb-6">
         <div class="xl:grid xl:grid-cols-3 xl:gap-8">
           <div class="space-y-8 xl:col-span-1">
             <nuxt-link to="/">

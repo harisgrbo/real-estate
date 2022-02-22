@@ -24,7 +24,7 @@
         <div class="user-wrap w-full">
           <dd class="mt-3 w-full flex flex-col items-start justify-between">
             <h2 class="text-3xl font-medium text-black leading-5 text-left">{{ $auth.user.name }}</h2>
-            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full mt-2">{{ user_type($auth.user.user_type) }}</span>
+            <span class="px-2 py-1 text-green-800 text-xs font-semibold uppercase bg-green-100 rounded-sm mt-2">{{ user_type($auth.user.user_type) }}</span>
           </dd>
         </div>
       </li>
@@ -292,9 +292,9 @@ ul {
       border-bottom: 1px solid #EBEBEB;
 
       img {
-        height: 60px !important;
-        width: 60px !important;
-        border-radius: 30px;
+        height: 80px !important;
+        width: 80px !important;
+        border-radius: 6px;
         margin-right: 12px;
         object-fit: cover;
       }
