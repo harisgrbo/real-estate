@@ -18,7 +18,10 @@
           </div>
         </div>
       </div>
-      <TextAreaField class="mt-4" v-model="description" label="Ukratko o vama" placeholder="upišite nešte.."></TextAreaField>
+      <label>O vama</label>
+      <client-only>
+        <vue-editor v-model="description"/>
+      </client-only>
       <action-button :loading="loading" @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
     </div>
     <div v-else>

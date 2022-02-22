@@ -1,17 +1,17 @@
 <template>
   <div class="user-profile-wrapper mx-auto pt-0">
-    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
-    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="flex flex-col custom-width mx-auto">
       <div class="user-content-wrapper mt-8" >
-        <div class="flex flex-row items-center justify-start mobile-spans">
+        <div class="flex flex-row justify-start mobile-spans items-start">
           <div class="first-col">
             <aside class="w-96 bg-white overflow-y-auto">
               <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
                 <div class="flex-1 flex flex-row justify-start user-inner">
-                  <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                  <img class="w-44 h-44 flex-shrink-0 bg-black rounded-sm add-img-border" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
                   <div class="ml-6">
-                    <h3 class="text-gray-900 text-xl font-semibold">{{ user.name }}</h3>
+                    <h3 class="text-gray-900 text-xl font-semibold text-left">{{ user.name }}</h3>
                     <dd class="mt-1 flex flex-row items-center justify-start text-sm">
                       <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
                       {{ user.online ? 'Online' : 'Offline' }}
@@ -31,7 +31,7 @@
 
           </div>
           <div class="second-col">
-            <div class="grid grid-cols-1 gap-4 text-sm font-medium text-gray-300 infos">
+            <div class="grid grid-cols-1 gap-4 text-sm font-semibold text-gray-300 infos">
               <div v-if="user.email !== null" class="flex flex-row items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -49,11 +49,11 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 {{ user.location }}</div>
-              <div v-if="user.web !== null" class="flex flex-row items-center">
+              <a :href="'https://' + user.web" target="_blank" v-if="user.web !== null" class="flex flex-row items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                 </svg>
-                {{ user.web }}</div>
+                {{ user.web }}</a>
               <div v-if="user.phone_number !== null" class="flex flex-row items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -324,7 +324,7 @@
           <i class="material-icons" @click="$modal.hide('about-agency')">close</i>
         </div>
         <div class="modal-content">
-          <p>{{ user.description }}</p>
+          <div v-html="user.description"></div>
         </div>
       </div>
     </modal>
@@ -702,16 +702,20 @@ export default class Agencies extends Vue {
 
       .infos {
         color: #575757;
-        font-size: 16px;
-        font-weight: 400;
+        font-size: 14px;
+        font-weight: 500;
         @include for-phone-only {
           grid-template-columns: repeat(1, 1fr);
+        }
+
+        a {
+          text-decoration: underline;
         }
       }
 
       div {
         font-size: 14px;
-        font-weight: 300;
+        font-weight: 500;
       }
 
       h3 {
@@ -1070,5 +1074,9 @@ textarea {
 
 .review-user {
   border-bottom: 1px solid #f1f1f1;
+}
+
+.add-img-border {
+  border: 4px solid #f9f9f9
 }
 </style>
