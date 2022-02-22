@@ -94,7 +94,7 @@
         </button>
       </div>
       <div class="auth-buttons relative" v-if="!$device.isMobile">
-        <ActionButton v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #232e3f', color: '#fff !important', background: '#232e3f', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
+        <ActionButton class="objava-btn" v-if="$auth.user" type="submit" @action="redirectToPublish" placeholder="Objava" :style-options="{ border: '2px solid #232e3f', color: '#fff !important', background: '#232e3f', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }" :loading="false"></ActionButton>
 
         <div class="inner overflow-x-hidden">
           <div v-if="! $auth.user" class="auth-reg">
@@ -1175,5 +1175,11 @@ export default class Navbar extends Vue {
 
 .input-main {
   font-size: 16px !important;
+}
+
+.objava-btn {
+  &:hover {
+    background: #232e3f !important;
+  }
 }
 </style>

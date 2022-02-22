@@ -296,6 +296,13 @@
               </div>
               <NotFound src="/review.svg" text="Nema dojmova" v-else />
             </div>
+            <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.panormaa_url !== null">
+              <div class="separator"></div>
+              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">360° virtuelni prikaz</h3>
+              <div v-if="listing.panormaa_url !== null">
+                <div v-html="listing.panormaa_url"></div>
+              </div>
+            </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.video_url !== null">
               <div class="separator"></div>
               <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">Video</h3>
