@@ -71,7 +71,7 @@
         <form @submit.prevent>
           <div class="price-wrap flex flex-col justify-start mb-4">
             <div class="flex flex-row items-center w-full">
-              <p class="text-xl font-medium">{{ numberWithCommas(price) + ' KM'}}</p>
+              <p class="text-xl font-bold">{{ numberWithCommas(price) + ' KM'}}</p>
               <p class="pl-2 text-lg font-thin">/ noć {{ perguest ? 'po osobi' : '' }}</p>
             </div>
           </div>

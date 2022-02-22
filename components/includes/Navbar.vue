@@ -105,12 +105,12 @@
           <button v-if="$auth.user" class="login-a mr-3">
             <img src="/005-credit-card.png" alt="" class="mr-1">
 
-            <span class="text-medium text-gray-800 bg-gray-50 rounded-sm px-1 py-1 ml-0">{{ $auth.user.wallet.balance + ' KM' }}</span>
+            <span class="text-sm font-bold text-gray-900 px-1 py-1 ml-0">{{ $auth.user.wallet.balance }}</span>
           </button>
           <button v-if="$auth.user" class="login-a" @click="$router.push('/moj-racun/poruke')">
             <img src="/001-speech-bubble.png" alt="">
 
-            <span class="notify" v-if="messagesCount">{{ messagesCount }}</span>
+            <span class="notify" v-if="messagesCount">{{ messagesCount }}</span>s
           </button>
           <button v-if="$auth.user" class="login-a ml-4" @click="showNotifications = true">
             <img src="/001-notification-bell.png" alt="">

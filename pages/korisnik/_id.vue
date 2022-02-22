@@ -3,8 +3,6 @@
     <div class="flex">
       <!-- Content area -->
       <div class="flex-1 flex flex-col">
-
-        <!-- Main content -->
         <div class="flex-1 flex items-stretch mobile-flex w-full max-w-7xl m-auto">
           <main class="overflow-y-auto w-full">
             <div class="w-full mx-auto main-container-user">
@@ -81,11 +79,11 @@
 
           <!-- Details sidebar -->
           <div class="flex flex-col">
-            <aside class="user-wrap rounded-lg bg-white p-0 w-full lg:px-4 up:px-4 xl:px-4 ml-6 overflow-y-auto">
+            <aside class="user-wrap bg-white p-0 w-full lg:px-4 up:px-4 xl:px-4 ml-6 overflow-y-auto">
               <div class="col-span-1 flex flex-col text-center bg-white divide-y divide-gray-200">
                 <div class="flex-1 flex flex-row justify-start p-0 pt-0 inner">
-                  <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
-                  <div class="w-full inner">
+                  <img class="w-44 h-44 flex-shrink-0 bg-black rounded-sm cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                  <div class="w-full inner ml-4">
                     <div class="flex flex-col items-start justify-start w-full">
                       <div class="flex flex-row items-center justify-between w-full">
                         <h2 class="text-lg font-medium text-black leading-5 text-left">{{ user.name }}</h2>
@@ -119,12 +117,12 @@
                 <div class="flex flex-row items-center justify-between mt-2 w-full" v-if="this.$auth.user">
                   <div class="flex flex-row items-center w-full" v-if="$auth.user.id !== user.id">
                     <div class="w-full flex items-center justify-center mt-3">
-                      <action-button :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', width: '100%', marginRight: '8px' }"  @action="$modal.show('contact-user')" class="w-full mr-sm" placeholder="Poruka"></action-button>
-                      <action-button :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937', width: '100%', marginLeft: '8px' }"  :placeholder="isFollowed ? 'Otprati' : 'Zaprati'" @action="toggleFollow()" class="w-full ml-sm"></action-button>
+                      <action-button :style-options="{ width: '100%', marginRight: '8px' }"  @action="$modal.show('contact-user')" class="w-full mr-sm" placeholder="Poruka"></action-button>
+                      <action-button :style-options="{ width: '100%', marginLeft: '8px' }"  :placeholder="isFollowed ? 'Otprati' : 'Zaprati'" @action="toggleFollow()" class="w-full ml-sm"></action-button>
                     </div>
                   </div>
                   <div class="flex flex-row items-center justify-between w-full" v-else>
-                    <action-button class="mt-4" placeholder="Uredi profil" @action="$router.push('/moj-racun/uredi-profil')" :style-options="{ width: '100%', background: '#1F2937', color: '#fff'}"></action-button>
+                    <action-button class="mt-4" placeholder="Uredi profil" @action="$router.push('/moj-racun/uredi-profil')" :style-options="{ width: '100%'}"></action-button>
                   </div>
                 </div>
               </div>
@@ -426,7 +424,7 @@ export default class Users extends Vue {
         height: 120px;
         width: 120px;
         border-radius: 50%;
-        object-fit: cover;
+        object-fit: contain;
         cursor: pointer;
       }
 
@@ -643,6 +641,7 @@ aside {
     max-height: 80px;
     min-width: 80px;
     max-width: 80px;
+    object-fit: contain;
   }
 
   @include for-phone-only {
@@ -765,6 +764,7 @@ textarea {
     width: auto;
     min-width: auto;
     margin-right: 8px;
+    margin-bottom: 0;
   }
 }
 </style>

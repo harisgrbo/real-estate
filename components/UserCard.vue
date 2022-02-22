@@ -161,9 +161,9 @@ export default class UserCard extends Vue {
 
 
   @include for-phone-only {
-    min-width: 260px;
-    width: 260px;
-    max-width: 260px;
+    min-width: 300px;
+    width: 300px;
+    max-width: 300px;
   }
 }
 

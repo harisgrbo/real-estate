@@ -58,6 +58,9 @@ export default class Investitori extends Vue {
   }
 }
 .preview-wrapper-inner {
+  overflow-y: scroll !important;
+  min-height: calc(100vh - 80px) !important;
+  height: auto !important;
 
   .account-wrapper-inner {
     display: flex;
