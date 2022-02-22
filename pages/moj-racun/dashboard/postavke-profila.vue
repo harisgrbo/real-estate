@@ -1,6 +1,6 @@
 <template>
     <div v-if="initialInfoLoaded" class="w-full">
-      <div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 xl:grid-cols-2 up:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 up:grid-cols-3 gap-4">
         <TextField v-model="id" label="ID broj" placeholder="1234567"></TextField>
         <TextField v-model="web" label="Web adresa" placeholder="www.adresa.ba"></TextField>
         <TextField v-model="location" label="Lokacija" placeholder="Sarajevo"></TextField>
@@ -18,9 +18,9 @@
           </div>
         </div>
       </div>
-      <label>O vama</label>
+      <label class="px-2 text-md pb-2 font-semibold text-gray-900">O vama</label>
       <client-only>
-        <vue-editor v-model="description"/>
+        <vue-editor class="mt-2" v-model="description"/>
       </client-only>
       <action-button :loading="loading" @action="updateProfileInfo" class="mt-4" placeholder="Sačuvaj"></action-button>
     </div>

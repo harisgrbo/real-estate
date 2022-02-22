@@ -1,6 +1,6 @@
 <template>
   <div class="relative main-input-wrap border text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
-    <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">{{ attr.name }} {{ attr.required ? '*': '' }}</label>
+    <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-semibold text-gray-900">{{ attr.name }} {{ attr.required ? '*': '' }}</label>
     <input
       type="number" v-model="val" @input="handleChange"
       autocomplete="off"

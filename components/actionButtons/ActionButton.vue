@@ -32,7 +32,8 @@ div {
   width: 100%;
 }
 button {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   width: auto;
   -webkit-transition: background-color 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out;
@@ -50,6 +51,7 @@ button {
   border-color: #232e3f;
   background-color: #ffffff;
   color: #232e3f !important;
+  justify-content: center;
 
   &:hover {
     background-color: #f2f3f4 !important;
@@ -63,8 +65,8 @@ button {
     outline: none;
   }
   img {
-    height: 60%;
-    filter: brightness(100);
+    height: 14px;
+    max-height: 14px;
   }
 }
 </style>

@@ -2280,7 +2280,7 @@ input[type=range]:focus::-ms-fill-upper {
   column-gap: 32px;
 
   @include for-phone-only {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 
   &.ammenities {
