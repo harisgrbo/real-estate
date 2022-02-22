@@ -26,7 +26,7 @@
         <div class="mb-6 mt-1">
           <div class="relative w-full flex flex-col items-start">
             <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
-              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Vrsta pravnog lica</label>
+              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-semibold text-gray-900">Vrsta pravnog lica</label>
               <select v-model="businessPayload.user_type" id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
                 <option class="font-medium text-sm" v-for="(type, index) in business_types" :key="index" :value="type.user_type">{{ type.name }}</option>
               </select>

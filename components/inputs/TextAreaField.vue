@@ -2,7 +2,7 @@
   <div class="relative w-full flex flex-col items-start">
 
   <div class="relative border text-wrap border-gray-300 rounded-md">
-    <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500" v-if="label">{{ label }}</label>
+    <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-semibold text-gray-900" v-if="label">{{ label }}</label>
     <textarea
       :value="value"
       :placeholder="placeholder"

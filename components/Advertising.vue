@@ -38,7 +38,7 @@
                         <h3 class="text-gray-600 w-full mobile-margin-delete mr-3" v-if="selectedDuration !== null && selectedAdvertisement === option.id">Trajanje sponzorisanja: {{ selectedDuration ? selectedDuration.name : 'Izaberite broj dana' }}</h3>
                         <div class="relative w-full flex flex-col items-start mobile-margin">
                           <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">
-                            <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-medium text-gray-500">Broj dana</label>
+                            <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-semibold text-gray-900">Broj dana</label>
                             <select id="language" name="language" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" @change="durationSelected">
                               <option class="font-medium text-sm" v-for="(duration, index) in advertising_days_options.find(item => item.id === option.id).options" :value="JSON.stringify(duration)" :key="index">{{ duration.name }}</option>
                             </select>
