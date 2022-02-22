@@ -5,7 +5,7 @@
         <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
       </svg>
     </button>
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center" v-if="!$device.isMobile">
       <button class="md:-mt-px md:flex flex items-center justify-between rounded-full py-2"  @click.prevent="handlePageClick(page)" v-for="(page, index) in computedPages" :key="index">
         <div class="mr-4 link" :class="['border-transparent text-gray-900 font-semibold hover:text-gray-700 hover:border-gray-300 standard', page === currentPage ? 'active text-indigo-600': '']">
           {{ page }}

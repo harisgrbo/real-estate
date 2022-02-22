@@ -116,7 +116,7 @@
               <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest" :auth-user="authUser" :vat="listing.vat_included" :price="listing.price" :id="listing.id" :user="listing.user" :followed="isFollowed" :is-rent="listing.is_rent" :is-booking="listing.is_booking" :type="listing.user.user_type" @send-booking-request="sendBookingRequest()" @finish-listing="handleFinishListing"></UserProfile>
             </div>
             <div class="flex flex-row items-center justify-start mb-6" v-if="!$device.isMobile">
-              <div class="flex flex-row items-center justify-between w-full">
+              <div class="flex flex-row items-center justify-between w-full" v-if="listing.price !== 0">
                 <div class="flex flex-row items-center">
                   <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-xl font-bold']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
                   <p v-if="listing.hasOwnProperty('discount')" class="text-xl font-medium ml-4">
@@ -124,9 +124,12 @@
                   </p>
                   <p class="pl-2 text-lg font-thin" v-if="listing.is_booking">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
                 </div>
-                <div v-if="!listing.is_booking && !listing.is_rent" class="p-2 border-sm bg-gray-50">
+                <div v-if="!listing.is_booking && !listing.is_rent && listing.price_per_square !== null" class="p-2 border-sm bg-gray-50">
                   <p class="text-sm font-bold">{{ numberWithCommas(listing.price_per_square.toFixed()) + ' KM/ m²' }}</p>
                 </div>
+              </div>
+              <div v-else class="flex flex-row items-center justify-between w-full">
+                <p class="text-xl font-bold">Na upit</p>
               </div>
             </div>
             <ul role="list" class="main-info px-5 lg:px-0 xl:px-0 up:px-0">
@@ -182,7 +185,7 @@
               <h3 class="text-2xl font-semibold text-gray-900">
                 Opšte informacije
               </h3>
-              <ul role="list" class="border-t border-b border-gray-200 py-6 mobile-grid">
+              <ul role="list" :class="['border-t border-b border-gray-200 py-6 mobile-grid informations', showMoreInfo ? 'expand' : '']">
                 <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
                   <div class="relative flex items-center space-x-4 inner-info-border">
                     <div class="inner-info">
@@ -197,6 +200,12 @@
                   </div>
                 </li>
               </ul>
+              <span v-show="normalAttributes.length > 12" @click="showMoreInfo = !showMoreInfo" class="rounded-md show-more-btn no-padding border border-gray-800 py-4 flex flex-row items-center min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
+              {{ showMoreInfo ? 'Prikaži manje' : 'Prikaži više' }}
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
             </div>
             <div v-if="RentSpecialAttributes.length && listing.listing_type.shortname !== 'sell'">
               <div class="separator"></div>
@@ -298,10 +307,18 @@
             </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.panorama_url !== null">
               <div class="separator"></div>
-              <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">360° virtuelni prikaz</h3>
+              <div class="flex flex-row items-center w-full justify-between mb-6 mobile-col">
+                <h3 class="text-2xl font-semibold text-gray-900lg:mx-0 xl:mx-0 up:mx-0">360° virtuelni prikaz</h3>
+                <a :href="listing.panorama_url" target="_blank" class="rounded-md show-more-btn no-padding border border-gray-800 py-4 flex flex-row items-center min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
+                  Otvori preko cijelog ekrana
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
               <div v-if="listing.panorama_url !== null">
                 <client-only>
-                  <iframe :src="listing.panorama_url" />
+                  <iframe scrolling="no" :src="listing.panorama_url" />
                 </client-only>
               </div>
             </div>
@@ -314,12 +331,15 @@
             </div>
             <div v-if="$device.isMobile" class="book-article">
               <div class="flex flex-row items-center justify-between w-full">
-                <div class="flex flex-row items-center">
+                <div class="flex flex-row items-center" v-if="listing.price !== 0">
                   <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-xl font-bold']">{{ numberWithCommas(listing.price) + ' KM'}}</p>
                   <p v-if="listing.hasOwnProperty('discount')" class="text-md font-medium ml-4">
                     {{ 'Akcija - ' + numberWithCommas(listing.price - (listing.price * (listing.discount * 100) / 100)) + ' KM' }}
                   </p>
                   <p class="pl-2 text-lg font-thin" v-if="listing.is_booking">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
+                </div>
+                <div v-else class="flex flex-row items-center">
+                  <p class="text-xl font-bold">Na upit</p>
                 </div>
               </div>
               <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
@@ -332,8 +352,11 @@
         <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="similarListings.length">
           <div class="separator"></div>
           <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">Slični oglasi</h3>
-          <div class="flex flex-row w-1280 overflow-x-scroll similar">
-            <SearchListingCard v-for="listing in similarListings" :listing="listing"></SearchListingCard>
+          <div class="flex flex-row w-1280 relative similar">
+            <div class="flex flex-row w-full overflow-x-scroll">
+              <div class="similar-inner"></div>
+              <SearchListingCard v-for="listing in similarListings" :listing="listing"></SearchListingCard>
+            </div>
           </div>
         </div>
         <client-only>
@@ -723,6 +746,7 @@ export default class Oglas extends Vue {
   loading = false;
   number_of_guests = 1;
   questionTerm = '';
+  showMoreInfo = false;
   questions = [];
   isUserFollowed = false;
   review_rating = null;
@@ -2111,6 +2135,7 @@ h2 {
   @include for-phone-only {
     min-height: 400px;
     max-height: 400px;
+    border-radius: 0;
   }
 
   img {
@@ -2158,15 +2183,6 @@ h2 {
 
   @include for-phone-only {
     width: 100%;
-  }
-}
-
-::v-deep iframe {
-  width: 100% !important;
-  height: 400px;
-
-  @include for-phone-only {
-
   }
 }
 
@@ -2382,6 +2398,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .save-listing {
   min-width: fit-content;
+  font-size: 14px;
 
   &:hover {
     text-decoration: underline;
@@ -2479,8 +2496,22 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .similar {
+  position: relative;
+
   @include for-phone-only {
     width: 100%;
+  }
+
+  .similar-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    z-index: 10;
+    width: 140px;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(255,255,255,0.8674063375350141) 88%, rgba(255,255,255,1) 100%);
   }
 }
 
@@ -2578,6 +2609,33 @@ input[type=range]:focus::-ms-fill-upper {
 
 iframe {
   min-height: 600px;
+  width: 100%;
+
+  @include for-phone-only {
+    min-height: 430px;
+  }
+}
+
+.informations {
+  max-height: 310px;
+  overflow: hidden;
+
+  &.expand {
+    max-height: fit-content;
+  }
+}
+
+.mobile-col {
+  @include for-phone-only {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    a {
+      width: 100%;
+      min-width: 100%;
+    }
+  }
 }
 </style>
 

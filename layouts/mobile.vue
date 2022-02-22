@@ -149,7 +149,7 @@ export default class Mobile extends Vue {
   height: 80px;
   width: 100vw;
   position: fixed;
-  z-index: 10;
+  z-index: 15;
   transform: translate3d(0, 0, 0);
   top: 0px;
   transition: 0.1s all ease-out;
