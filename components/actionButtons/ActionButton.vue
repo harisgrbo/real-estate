@@ -45,11 +45,11 @@ button {
   line-height: 1;
   text-align: center;
   cursor: pointer;
-  padding: 11px 15px;
+    padding: 11px 15px;
   border-width: 2px;
   border-color: #232e3f;
   background-color: #ffffff;
-  color: #232e3f;
+  color: #232e3f !important;
 
   &:hover {
     background-color: #f2f3f4 !important;

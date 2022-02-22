@@ -2,38 +2,44 @@
   <div class="search-wrapper w-full relative flex flex-col">
     <div class="search-heading sm:px-5 py-2 lg:my-4 xl:my-4 up:my-4 my-0 sticky">
       <div class="w-full relative search-options">
-        <div class="flex flex-row overflow-y-scroll gap-2 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-5 lg:px-0 xl:px-0 up:px-0">
+        <div class="flex flex-row overflow-y-scroll gap-2 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-4 lg:px-0 xl:px-0 up:px-0">
           <ul class="category-list w-full" v-if="!$device.isMobile">
             <li :class="['group cat-list mr-4 inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}</li>
           </ul>
-          <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100">
+          <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 first-category">
             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
           </button>
-
-          <button v-if="!$device.isMobile" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-            </svg>
-            Filteri
-          </button>
-          <div v-if="$device.isMobile" class="mobile-fit">
-            <button @click="showSortDropdown = !showSortDropdown" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
+          <div class="inline-block text-left mr-0 relative" v-if="!$device.isMobile">
+            <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+              </svg>
               {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
+              <!-- Heroicon name: solid/chevron-down -->
+              <svg :class="['flex-shrink-0 -mr-1 ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
             </button>
-            <div v-if="showSortDropdown" class=" w-full origin-top-left absolute left-0 mt-2 w-40 rounded-lg shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-              <div class="py-4 grid grid-cols-2 gap-4 sort-mobile" role="none">
-                <div v-for="(item, index) in sort_types" :key="index" :class="['text-gray-900 border border-gray-400 block flex items-center justify-start px-4 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold add-border' : '']" role="menuitem" @click.prevent="selectSort(item)">
+            <div v-if="showSortDropdown" class="origin-top-right min-w-min z-10 listing-types top-9 absolute mt-2 bg-white rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+              <div role="none">
+                <div v-for="(item, index) in sort_types" :key="index" :class="['text-gray-500 px-4 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
                   {{ item.name }}
                 </div>
               </div>
             </div>
           </div>
+          <button v-if="!$device.isMobile" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" @click="$modal.show('search-filters')">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+            Filteri
+          </button>
           <div class="flex items-center justify-end types">
             <div class="flex w-full text-left type z-10">
-              <button @click="showTypeDropdown = !showTypeDropdown" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false">
+              <button @click="$device.isMobile ? $modal.show('type-modal') : (showTypeDropdown = !showTypeDropdown)" type="button" class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false">
                 <span>Vrsta oglasa</span>
 
-                <span class="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes && selectedTypes.length ? selectedTypes.length : '0' }}</span>
+                <span class="ml-1.5 rounded text-xs font-semibold text-gray-700 tabular-nums">{{ selectedTypes && selectedTypes.length ? selectedTypes.length : '0' }}</span>
               </button>
               <div v-if="showTypeDropdown" class="origin-top-right listing-types top-9 absolute right-0 mt-2 bg-white rounded-lg shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <form class="space-y-4">
@@ -64,12 +70,15 @@
       <div class="flex flex-row items-center justify-between w-full mt-4">
         <div class="flex items-center justify-between w-full mobile-button">
           <h1 class="results-number font-medium text-lg">{{ meta.total }} rezultata</h1>
-          <div v-if="$device.isMobile" class="mobile-filters-wrap">
-            <button @click="$modal.show('search-filters')">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div v-if="$device.isMobile" class="flex flex-row items-center">
+            <button class="sort-mobile mr-3" @click="$modal.show('search-filters')">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transform rotate-90 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
               </svg>
               Filteri
+            </button>
+            <button @click="$modal.show('sort-mobile')" type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100" aria-expanded="false" aria-haspopup="true">
+              {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
             </button>
           </div>
           <ul v-if="!$device.isMobile" class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0">
@@ -86,28 +95,9 @@
           </ul>
         </div>
         <div class="flex flex-row items-center min-width">
-          <div class="inline-block text-left mr-2 relative" v-if="!$device.isMobile">
-            <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-              </svg>
-              {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
-              <!-- Heroicon name: solid/chevron-down -->
-              <svg :class="['flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            <div v-if="showSortDropdown" class="origin-top-right min-w-min z-10 listing-types top-9 absolute mt-2 bg-white rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-              <div role="none">
-                <div v-for="(item, index) in sort_types" :key="index" :class="['text-gray-500 px-4 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
-                  {{ item.name }}
-                </div>
-              </div>
-            </div>
-          </div>
           <div :class="['toggle-map-wrapper', selectedPreviewType === 'map' ? '' : '']" v-if="!$device.isMobile">
             <button v-for="(type, index) in preview_types" @click="handleSelectPreviewType(type)" :class="selectedPreviewType === type.value ? 'active' : ''">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="type.path" />
               </svg>
               {{ type.name }}
@@ -158,66 +148,66 @@
         </div>
       </div>
     </div>
-<!--    <div class="gcse-searchresults-only" data-resultsUrl="https://www.mojkvadrat.ba/pretraga" data-queryParameterName="q"></div>-->
-    <client-only>
-      <modal @before-open="beforeOpen" @before-close="beforeClose" name="filters"
-             transition="slide-up"
-             :adaptive="true"
-             height="100%"
-             :width="$device.isMobile ? '100%' : '40%'"
-      >
-        <div class="modal-inner relative">
-          <div class="modal-header">
-            <h2>Filteri</h2>
-            <i class="material-icons" @click="$modal.hide('filters')">close</i>
-          </div>
-          <div class="modal-content filters">
-<!--            <div v-show="loading" class="loading-wrapper">-->
-<!--              <img src="/gps.gif" alt="">-->
-<!--            </div>-->
-            <div class="rounded-md bg-yellow-50 p-4" v-show="! selectedCategoryId">
-              <div class="flex">
-                <div class="flex-shrink-0">
-                  <!-- Heroicon name: solid/exclamation -->
-                  <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-                <div class="ml-3">
-                  <h3 class="text-sm font-medium text-yellow-800">
-                    Izaberite kategoriju za više filtera
-                  </h3>
+      <client-only>
+        <modal @before-open="beforeOpen" @before-close="beforeClose" name="filters"
+               transition="slide-up"
+               :adaptive="true"
+               height="100%"
+               :width="$device.isMobile ? '100%' : '40%'"
+        >
+          <div class="modal-inner relative">
+            <div class="modal-header">
+              <h2>Filteri</h2>
+              <i class="material-icons" @click="$modal.hide('filters')">close</i>
+            </div>
+            <div class="modal-content filters">
+              <!--            <div v-show="loading" class="loading-wrapper">-->
+              <!--              <img src="/gps.gif" alt="">-->
+              <!--            </div>-->
+              <div class="rounded-md bg-yellow-50 p-4" v-show="! selectedCategoryId">
+                <div class="flex">
+                  <div class="flex-shrink-0">
+                    <!-- Heroicon name: solid/exclamation -->
+                    <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="ml-3">
+                    <h3 class="text-sm font-medium text-yellow-800">
+                      Izaberite kategoriju za više filtera
+                    </h3>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="flex flex-col w-full filters-divs">
-              <RangeFilter
-                v-model="queryPayload.price"
-                :attr="false"
-                :filter="{name: 'price', display_name: 'Cijena'}"
-                @input="newSearch"
-              />
-<!--              <client-only>-->
-<!--                <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
-<!--              </client-only>-->
-              <CountriesMultipleSelect />
+              <div class="flex flex-col w-full filters-divs">
+                <RangeFilter
+                  v-model="queryPayload.price"
+                  :attr="false"
+                  :filter="{name: 'price', display_name: 'Cijena'}"
+                  @input="newSearch"
+                />
+                <!--              <client-only>-->
+                <!--                <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
+                <!--              </client-only>-->
+                <CountriesMultipleSelect />
 
-              <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
+                <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
-              <component
-                v-for="(attr, i) in allAttributes"
-                :key="i"
-                :filter="attr"
-                :attr="true"
-                :is="filterFor(attr.type)"
-                v-model="queryPayload[attr.name]"
-                @clear="queryPayload[attr.name] = null; newSearch()"
-                @input="newSearch"
-              />
+                <component
+                  v-for="(attr, i) in allAttributes"
+                  :key="i"
+                  :filter="attr"
+                  :attr="true"
+                  :is="filterFor(attr.type)"
+                  v-model="queryPayload[attr.name]"
+                  @clear="queryPayload[attr.name] = null; newSearch()"
+                  @input="newSearch"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </modal>
+        </modal>
+      </client-only>
       <client-only>
         <modal @before-open="beforeOpen" @before-close="beforeClose" name="search-filters" :adaptive="true" height="100%">
           <div class="modal-inner only-mobile-wrap relative">
@@ -307,6 +297,48 @@
           </div>
         </modal>
       </client-only>
+    <client-only>
+      <modal @before-open="beforeOpen" @before-close="beforeClose" classes="only-sort-mobile" name="sort-mobile" :adaptive="true" height="40%" maxHeight="40%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Sortiraj</h2>
+            <i class="material-icons" @click.prevent="$modal.hide('sort-mobile')">close</i>
+          </div>
+          <div class="modal-content">
+            <div class="filters rounded-md">
+              <div class="flex flex-col w-full">
+                <div v-for="(item, index) in sort_types" :key="index" :class="[ 'add-mobile-border', selectedSort.value === index ? 'active' : '']" role="menuitem" @click.prevent="selectSort(item); $modal.hide('sort-mobile')">
+                  {{ item.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </modal>
+    </client-only>
+    <client-only>
+      <modal @before-open="beforeOpen" @before-close="beforeClose" classes="only-sort-mobile" name="type-modal" :adaptive="true" height="40%" maxHeight="40%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Vrsta oglasa</h2>
+            <i class="material-icons" @click.prevent="$modal.hide('type-modal')">close</i>
+          </div>
+          <div class="modal-content">
+            <div class="filters rounded-md">
+              <div class="flex flex-col w-full">
+                <form class="space-y-4">
+                  <div class="flex items-center cursor-pointer" v-for="item in listing_types" :key="item.id">
+                    <input :checked="selectedTypes.indexOf(item.id) !== -1" :id="'filter-category-' + item.id" name="category[]" @click="addOrRemoveFromListTypes(item.id); $modal.hide('type-modal')" value="new-arrivals" type="checkbox" class="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500">
+                    <label :for="'filter-category-' + item.id" class="ml-3 pr-6 text-sm font-medium cursor-pointer text-gray-900 whitespace-nowrap">
+                      {{ item.name }}
+                    </label>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </modal>
     </client-only>
   </div>
 </template>
@@ -1137,21 +1169,28 @@ export default class Pretraga extends Vue {
   justify-content: flex-start;
 
   li {
-    height: 44px;
-    padding: 0 10px;
-    background: #fff;
-    border-radius: 6px;
+    display: inline-block;
+    width: auto;
+    -webkit-transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
+    border-radius: 4px;
+    outline: none;
     font-size: 14px;
     font-weight: 400;
-    min-width: fit-content;
+    line-height: 1;
+    text-align: center;
     cursor: pointer;
-    color: #000000;
+    padding: 11px 15px;
+    background-color: #ffffff;
+    color: #232e3f;
 
     &.selected-cat {
       background: #fff;
-      border: 2px solid #000;
-      color: #000;
-      font-weight: 500;
+      border-width: 2px;
+      border-style: solid;
+      border-color: #232e3f;
+      color: #232e3f;
+      font-weight: 600;
     }
 
     &:hover {
@@ -1259,6 +1298,16 @@ export default class Pretraga extends Vue {
 
 .types {
   min-width: fit-content;
+
+  @include for-phone-only {
+    display: flex;
+    flex: 1;
+
+    button {
+      display: flex;
+      flex: 1;
+    }
+  }
 }
 
 .bottom-refresh {
@@ -1279,39 +1328,51 @@ export default class Pretraga extends Vue {
 
 
 .toggle-map-wrapper {
-  border: 1px solid #f1f1f1;
-  border-radius: 6px;
   display: flex;
   align-items: center;
   min-width: fit-content;;
   justify-content: center;
   height: 40px;
   button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    display: inline-block;
+    width: auto;
+    -webkit-transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
+    border-radius: 4px;
+    outline: none;
     font-size: 14px;
-    font-weight: 500;
-    height: 100%;
-    padding: 0 12px;
-    color: #a5a5a5;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    padding: 11px 15px;
+    background-color: #ffffff;
+    color: #232e3f;
+    min-width: fit-content;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    border: 1px solid #f1f1f1;
 
     &:first-child {
       margin-right: 7px;
+
+      @include for-phone-only {
+        margin-right: 0;
+      }
     }
 
     svg {
       margin-right: 4px;
-      height: 17px
     }
     &.active {
       background: #fff;
-      border-radius: 6px;
+      border-radius: 4px;
       //box-shadow: rgb(0 0 0 / 12%) 0px 1px 5px;
       font-weight: 600;
-      color: #000;
-      border: 1px solid #000;
+      border-width: 2px;
+      border-color: #232e3f;
+      border-style: solid;
     }
   }
 
@@ -1399,6 +1460,10 @@ export default class Pretraga extends Vue {
 
       &:first-child {
         margin-left: 24px;
+
+        @include for-phone-only {
+          margin-left: 16px;
+        }
       }
 
     }
@@ -1427,32 +1492,59 @@ export default class Pretraga extends Vue {
   }
 }
 
-.search-options {
-  @include for-phone-only {
-    button.group {
-      cursor: pointer !important;
-      text-align: center !important;
-      border: 1px solid rgb(221, 221, 221) !important;
-      background-color: rgb(255, 255, 255) !important;
-      outline: none !important;
-      margin: 0px !important;
-      color: rgb(34, 34, 34) !important;
-      font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
-      position: relative !important;
-      transition-property: -ms-transform, -webkit-transform, transform, background-color, border-color !important;
-      transition-duration: 0.15s !important;
-      transition-timing-function: ease-in-out !important;
-      padding: 6px 14px !important;
-      border-radius: 30px !important;
-      font-size: 14px !important;
-      line-height: 18px !important;
-      font-weight: 300 !important;
-    }
-  }
+button.group {
+  display: flex !important;
+  flex-display: row;
+  align-items: center;
+  width: auto !important;
+  -webkit-transition: background-color 0.15s ease-in-out !important;
+  transition: background-color 0.15s ease-in-out;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 4px !important;
+  outline: none !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  border-width: 2px !important;
+  border-color: #232e3f !important;
+  background-color: #ffffff !important;
+  color: #232e3f !important;
+  min-width: fit-content !important;
+  width: fit-content !important;
+  padding: 11px 15px !important;
+
 }
 
 .sort-mobile {
-  padding: 16px;
+  display: flex !important;
+  flex-display: row;
+  align-items: center;
+  width: auto !important;
+  -webkit-transition: background-color 0.15s ease-in-out !important;
+  transition: background-color 0.15s ease-in-out;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 4px !important;
+  outline: none !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  border-width: 2px !important;
+  border-color: #232e3f !important;
+  background-color: #ffffff !important;
+  color: #232e3f !important;
+  min-width: fit-content !important;
+  width: fit-content !important;
+}
+
+
+.sort-mobile {
+  padding: 11px 15px;
 
   a {
     border: 1px solid #ddd;
@@ -1484,8 +1576,9 @@ export default class Pretraga extends Vue {
 
   @include for-phone-only {
     margin-right: 0;
-    font-weight: 400;
-    font-size: 16px;
+    color: #848484;
+    font-weight: 600;
+    font-size: 14px;
   }
 }
 
@@ -1508,32 +1601,6 @@ export default class Pretraga extends Vue {
   }
 }
 
-.mobile-filters-wrap {
-
-  button {
-    cursor: pointer !important;
-    text-align: center !important;
-    border: 1px solid rgb(221, 221, 221) !important;
-    background-color: rgb(255, 255, 255) !important;
-    outline: none !important;
-    margin: 0px !important;
-    color: rgb(34, 34, 34) !important;
-    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
-    position: relative !important;
-    transition-property: -ms-transform, -webkit-transform, transform, background-color, border-color !important;
-    transition-duration: 0.15s !important;
-    transition-timing-function: ease-in-out !important;
-    padding: 6px 14px !important;
-    border-radius: 30px !important;
-    font-size: 14px !important;
-    line-height: 18px !important;
-    display: flex;
-    flex-display: row;
-    align-items: center;
-  }
-}
-
-
 .filters ::v-deep label {
   font-size: 16px !important;
   font-weight: 600 !important;
@@ -1549,7 +1616,7 @@ export default class Pretraga extends Vue {
 
 .mobile-button {
   @include for-phone-only {
-    padding: 0 24px;
+    padding: 0 16px;
   }
 }
 
@@ -1575,5 +1642,47 @@ export default class Pretraga extends Vue {
 
 .min-width {
   min-width: fit-content;
+}
+
+button {
+  &:hover {
+    background-color: #f2f3f4 !important;
+
+  }
+}
+
+.first-category {
+  @include for-phone-only {
+    display: flex;
+    flex: 1;
+  }
+}
+
+.add-mobile-border {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: auto;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  padding: 11px 15px;
+  background-color: #ffffff;
+  color: #232e3f !important;
+  margin-bottom: 12px;
+
+  &.active {
+    border-width: 2px;
+    border-color: #232e3f;
+    font-weight: 700;
+    border-width: 1px;
+    border-style: solid;
+  }
 }
 </style>

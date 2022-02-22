@@ -74,6 +74,11 @@
     border-radius: 0px !important;
     //padding-bottom: 180px !important;
 
+    &.only-sort-mobile {
+      min-height: 40% !important;
+      max-height: 40% !important;
+    }
+
   }
 
   @supports (-webkit-touch-callout: none) {
