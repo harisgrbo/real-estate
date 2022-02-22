@@ -115,6 +115,7 @@ export default {
 
     @include for-phone-only {
       padding: 0 24px;
+      margin-top: 0;
     }
 
     img.logo {

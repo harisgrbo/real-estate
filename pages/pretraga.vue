@@ -9,22 +9,18 @@
           <button @click="toggleCatsModal" v-else class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 first-category">
             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
           </button>
-          <div class="inline-block text-left mr-0 relative" v-if="!$device.isMobile">
-            <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-              </svg>
-              {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
-              <!-- Heroicon name: solid/chevron-down -->
-              <svg :class="['flex-shrink-0 -mr-1 ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500', showSortDropdown ? 'transform rotate-180' : '']" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </button>
-            <div v-if="showSortDropdown" class="origin-top-right min-w-min z-10 listing-types top-9 absolute mt-2 bg-white rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-              <div role="none">
-                <div v-for="(item, index) in sort_types" :key="index" :class="['text-gray-500 px-4 block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
-                  {{ item.name }}
-                </div>
+          <div class="flex items-center justify-end types add-min-width" v-if="!$device.isMobile">
+            <div class="flex w-full text-left type z-10">
+              <button @click="showSortDropdown = !showSortDropdown"  type="button" class="group cursor-pointer inline-flex justify-center text-sm w-full min-w-min font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100 font-medium text-standard" id="menu-button" aria-expanded="false" aria-haspopup="true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+                </svg>
+                {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
+              </button>
+              <div v-if="showSortDropdown" class="origin-top-right listing-types top-9 absolute right-60 mt-2 bg-white rounded-lg shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                  <div v-for="(item, index) in sort_types" :key="index" :class="['text-gray-500 px-4 cursor-pointer block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']" role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
+                    {{ item.name }}
+                  </div>
               </div>
             </div>
           </div>
@@ -109,11 +105,8 @@
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
       <div class="results relative" v-if="selectedPreviewType === 'grid' || $device.isMobile">
         <div v-if="results.length" class="w-full flex flex-col">
-          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap" v-if="!$device.isMobile">
+          <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
             <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
-          </div>
-          <div class="divide-y divide-gray-200 grid grid-cols-1 gap-4 w-full listing-wrap" v-else>
-            <SearchHorizontalCard v-for="(listing, index) in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price" @mouseover.native="handleListingHover(index)"/>
           </div>
           <client-only>
             <Pagination
@@ -958,6 +951,10 @@ export default class Pretraga extends Vue {
   flex-direction: column;
 
   @include for-phone-only {
+    background: #f9f9f9;
+  }
+
+  @include for-phone-only {
     padding-top: 34x;
   }
 
@@ -1228,8 +1225,25 @@ export default class Pretraga extends Vue {
   @include for-phone-only {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    grid-column-gap: 12px;
-    grid-row-gap: 16px;
+    grid-column-gap: 16px;
+    grid-row-gap: 24px;
+
+    ::v-deep .new {
+      font-size: 19px;
+      font-weight: 800 !important;
+      margin-left: 0px;
+      margin: 12px 0 !important;
+    }
+
+    ::v-deep .address.title h2 {
+      font-weight: 500 !important;
+      font-size: 18px !important;
+    }
+
+    ::v-deep .listing-card-content {
+      background: #fff;
+      padding: 12px;
+    }
   }
 }
 .categories-list-wrap li {
@@ -1438,15 +1452,13 @@ export default class Pretraga extends Vue {
     margin-top: 0;
   }
   li {
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: 600;
+    background: #f9f9f9;
 
     @include for-phone-only {
-      border-radius: 20px;
-      background: #fff;
-      font-weight: 600;
+      background: #f9f9f9;
       color: #000;
       font-size: 13px !important;
       min-width: -webkit-fit-content;
@@ -1454,7 +1466,6 @@ export default class Pretraga extends Vue {
       min-width: fit-content;
       padding: 6px 10px;
       margin-left: 12px;
-      border: 1px solid #000;
       margin-top: 16px;
       border-radius: 3px;
 
@@ -1466,6 +1477,10 @@ export default class Pretraga extends Vue {
         }
       }
 
+    }
+
+    &:hover {
+      background: #f1f1f1;
     }
 
     button {
@@ -1685,4 +1700,9 @@ button {
     border-style: solid;
   }
 }
+
+.add-min-width {
+  min-width: fit-content;
+}
+
 </style>
