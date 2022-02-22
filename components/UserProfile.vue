@@ -484,11 +484,8 @@ aside {
       }
 
       &:last-child {
-        margin-left: 8px;
+        margin-left: 0px;
 
-        @include for-phone-only {
-          margin-left: 0;
-        }
       }
     }
   }
@@ -501,7 +498,7 @@ aside {
 
 .main-user-wrapper {
   border: 1px solid rgb(221, 221, 221);
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 16px;
   box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
   margin-bottom: 26px;

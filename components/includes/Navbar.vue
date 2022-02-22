@@ -571,7 +571,7 @@ export default class Navbar extends Vue {
     }
 
     img {
-      height: 40px;
+      height: 48px;
       min-width: fit-content;
     }
 

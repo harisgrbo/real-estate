@@ -27,8 +27,8 @@
             <Categories @selected-category="handleSelectedCategory" />
           </div>
           <div class="button-wrapper">
-            <button @click="prevStep" class="back">
-              Nazad
+            <button @click="prevStep" class="back no-text">
+              .
             </button>
             <button @click="nextStep">Dalje
             </button>
@@ -1195,6 +1195,11 @@ export default class Objava extends Vue {
               text-decoration: underline;
               font-weight: 600 !important;
               margin-right: 0;
+
+              &.no-text {
+                color: #fff;
+                cursor: initial;
+              }
 
               &:hover {
                 box-shadow: none !important;
