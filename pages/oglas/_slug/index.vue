@@ -184,15 +184,15 @@
               </h3>
               <ul role="list" class="border-t border-b border-gray-200 py-6 mobile-grid">
                 <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
-                  <div class="relative -m-2 p-2 flex items-center space-x-4">
-                    <div>
-                      <h3 class="text-md font-light text-gray-900">
+                  <div class="relative flex items-center space-x-4 inner-info-border">
+                    <div class="inner-info">
+                      <h3 class="text-md font-medium text-gray-900">
                         <div class="focus:outline-none">
                           <span aria-hidden="true"></span>
                           {{ info.name }}
                         </div>
                       </h3>
-                      <p class="mt-1 text-md text-black font-medium">{{ info.value === 'true' || info.value === true ? 'Da' : info.value }}</p>
+                      <p class="text-md text-black font-semibold">{{ info.value === 'true' || info.value === true ? 'Da' : info.value }}</p>
                     </div>
                   </div>
                 </li>
@@ -1272,7 +1272,7 @@ export default class Oglas extends Vue {
 h2 {
   color: #000 !important;
   font-size: 25px;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   padding: 0px !important;
   display: inline !important;
 
@@ -2276,8 +2276,8 @@ input[type=range]:focus::-ms-fill-upper {
 
 .mobile-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 32px;
 
   @include for-phone-only {
     grid-template-columns: repeat(2, 1fr);
@@ -2551,6 +2551,19 @@ input[type=range]:focus::-ms-fill-upper {
       max-height: 400px;
     }
   }
+}
+
+.inner-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.inner-info-border {
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f1f1;
 }
 </style>
 

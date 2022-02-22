@@ -32,23 +32,27 @@ div {
   width: 100%;
 }
 button {
-  font-family: 'NunitoSans', sans-serif;;
-  height: 48px;
-  border-radius: 6px;
-  width: fit-content;
-  display: flex;
-  align-items: center;
+  display: inline-block;
+  width: auto;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  outline: none;
   font-size: 14px;
-  font-weight: 600 !important;
-  padding: 0 24px;
-  color: #fff;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
   cursor: pointer;
-  justify-content: center;
-  transition: 0.3s all ease;
-  background: #1F2937;
+  padding: 11px 15px;
+  border-width: 2px;
+  border-color: #232e3f;
+  background-color: #ffffff;
+  color: #232e3f;
 
-  @include for-phone-only {
-    padding: 0 12px !important;
+  &:hover {
+    background-color: #f2f3f4 !important;
   }
 
   svg {

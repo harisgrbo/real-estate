@@ -234,7 +234,7 @@ export default class ListingCard extends Vue{
     max-width: 100%;
     overflow: hidden;
     height: fit-content;
-    border-radius: 7px;
+    border-radius: 4px;
 
     &.sponsored-1 {
       background: rgba(19, 95, 20, 0.05);
@@ -271,9 +271,12 @@ export default class ListingCard extends Vue{
       z-index: 2;
 
       span {
-        border-radius: 4px;
+        border-radius: 3px;
         color: #000;
-        padding: 4px
+        padding: 4px;
+        text-transform: uppercase;
+        font-size: 10px;
+        font-weight: bold !important;
       }
 
       @include for-phone-only {
@@ -352,8 +355,7 @@ export default class ListingCard extends Vue{
           left: inherit;
           background: red;
           color: #fff;
-          transform: rotate(
-              45deg) translateX(4px);
+          transform: rotate(45deg) translateX(4px);
           left: -49px;
           bottom: 108px;
           top: 232px;
@@ -379,7 +381,7 @@ export default class ListingCard extends Vue{
     img {
       height: 280px;
       width: 100%;
-      border-radius: 7px;
+      border-radius: 4px;
       object-fit: cover;
 
       @include for-phone-only {
@@ -431,9 +433,12 @@ export default class ListingCard extends Vue{
 
         &.title {
          h2 {
-           font-weight: 300 !important;
+           font-weight: 500 !important;
            font-size: 16px;
            line-height: 20px !important;
+           &:hover {
+             text-decoration: underline;
+           }
            @include for-phone-only {
              font-weight: 400 !important;
            }
@@ -522,7 +527,7 @@ export default class ListingCard extends Vue{
 
           .new {
             font-size: 16px;
-            font-weight: 600 !important;
+            font-weight: 800 !important;
             margin-left: 0px;
             margin: 4px 0;
 
