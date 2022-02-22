@@ -68,7 +68,7 @@
             <div class="mobile-images">
               <div v-if="listing.thumbnail !== null" class="h-full relative cursor-pointer mobile-new" @click="handleGalleryModal()">
                 <img class="main-image" :src="listing.thumbnail.url" alt="">
-                <div class="absolute bottom-4 left-4 z-10 py-1 px-2 bg-white rounded-md text-sm font-semibold image-counter-border">
+                <div class="absolute bottom-4 left-4 z-10 py-1 px-2 bg-white rounded-sm text-sm font-semibold image-counter-border">
                   {{ listing_meta.image_count + ' slika u galeriji' }}
                 </div>
               </div>
@@ -296,11 +296,13 @@
               </div>
               <NotFound src="/review.svg" text="Nema dojmova" v-else />
             </div>
-            <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.panormaa_url !== null">
+            <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.panorama_url !== null">
               <div class="separator"></div>
               <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">360° virtuelni prikaz</h3>
-              <div v-if="listing.panormaa_url !== null">
-                <div v-html="listing.panormaa_url"></div>
+              <div v-if="listing.panorama_url !== null">
+                <client-only>
+                  <iframe :src="listing.panorama_url" />
+                </client-only>
               </div>
             </div>
             <div class="w-full px-5 pb-6 lg:px-0 xl:px-0 up:px-0" v-if="listing.video_url !== null">
@@ -1482,7 +1484,6 @@ h2 {
       }
       .description {
         line-height: 25px;
-        line-break: anywhere;
         //max-height: 200px;
         //overflow: hidden;
 
@@ -2104,6 +2105,8 @@ h2 {
   background: #f9f9f9;
   min-height: 520px;
   max-height: 520px;
+  border-radius: 4px;
+  overflow: hidden;
 
   @include for-phone-only {
     min-height: 400px;
@@ -2571,6 +2574,10 @@ input[type=range]:focus::-ms-fill-upper {
 .inner-info-border {
   padding: 12px 0;
   border-bottom: 1px solid #f1f1f1;
+}
+
+iframe {
+  min-height: 600px;
 }
 </style>
 
