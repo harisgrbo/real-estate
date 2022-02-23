@@ -32,7 +32,7 @@
           <div class="w-full flex flex-col items-center justify-between" v-if="isMe">
             <div class="w-full flex items-center justify-center">
               <ActionButton v-if="listing.completed_at === null" :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"  @action="handleEditListing" class="w-full mr-sm" placeholder="Uredi"></ActionButton>
-              <ActionButton v-if="listing.completed_at === null" :style-options="{ color: '#fff !important', background: 'red', borderColor: 'red' }"  placeholder="Završi" @action="$emit('finish-listing')" class="w-full ml-sm"></ActionButton>
+              <ActionButton v-if="listing.completed_at === null" :style-options="{ color: '#fff !important', background: 'red', borderColor: 'red' }"  placeholder="Završi" @action="$emit('finish-listing')" class="w-full ml-sm no-hover"></ActionButton>
             </div>
             <ActionButton v-if="listing.sponsored === 0 && listing.completed_at === null"  :style-options="{ color: '#fff' }"  placeholder="Sponzoriši" @action="$router.push('/oglas/' + id + '/sponzorisanje-oglasa')" class="w-full"></ActionButton>
           </div>
@@ -602,6 +602,12 @@ textarea {
     width: auto;
     min-width: auto;
     margin-right: 8px;
+  }
+}
+.no-hover {
+  &:hover {
+    background: red !important;
+    color: #fff !important
   }
 }
 </style>
