@@ -238,9 +238,9 @@
 <!--                <client-only>-->
 <!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
 <!--                </client-only>-->
-                <CountriesMultipleSelect :countries="countries" :initial-country-ids="countryIds" @countries="handleCountriesSearch" />
+                <CountriesMultipleSelect :countries="allCountries" :initial-countries="countries" @countries="handleCountriesSearch" />
 
-                <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
+                <CitiesMultipleSelect :initial-cities="cities" @cities="handleCitiesSearch" />
 
                 <component
                   class="bb-filters"
@@ -385,10 +385,8 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
     let allAttributes = [];
     let queryPayload = {};
     let categories = [];
-    let cityIds = [];
-    let countryIds = [];
-    let cityNames = null;
-    let countryNames = null;
+    let cities = [];
+    let countries = [];
     let selectedCategoryId = null;
     let mapZoom = 14;
     let selectedPreviewType = 'map';
@@ -445,20 +443,14 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
       results = response.data.data;
       meta = response.data.meta;
       allAttributes = response.data.meta.attributes;
+      cities = response.data.meta.cities;
+      countries = response.data.meta.countries;
 
       query = JSON.parse(query)
 
       query.forEach(item => {
         if (item.name === 'category_id') {
           selectedCategoryId = item.value;
-        }
-
-        if (item.name === 'city_id') {
-          cityIds = item.value;
-        }
-
-        if (item.name === 'country_id') {
-          countryIds = item.value;
         }
 
         queryPayload[item.name] = Object.assign({}, item);
@@ -501,34 +493,12 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
 
     let categoryTitle = category ? category.title: '';
 
-    if (cityIds.length) {
-      let tmp = [];
-      for(let i = 0; i < cityIds.length; ++i) {
-        let res = (await ctx.app.$axios.get('/cities/' + cityIds[i])).data.data;
-        tmp.push(res.name);
-      }
-
-      cityNames = tmp;
-    }
-
-    if (countryIds.length) {
-      let tmp = [];
-      for(let i = 0; i < countryIds.length; ++i) {
-        let res = (await ctx.app.$axios.get('/countries/' + countryIds[i])).data.data;
-        tmp.push(res.name);
-      }
-
-      countryNames = tmp;
-    }
-
     return {
       center,
       mapZoom,
       loading,
-      countryIds,
-      cityIds,
-      cityNames,
-      countryNames,
+      cities,
+      countries,
       selectedSort,
       selectedPreviewType,
       categoryTitle,
@@ -545,9 +515,7 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
   },
 })
 export default class Pretraga extends Vue {
-  countries = [];
   searchName = '';
-  mapExpanded = false;
   showSortDropdown = false;
   showTypeDropdown = false;
   currentResultIndex = -1;
@@ -600,8 +568,6 @@ export default class Pretraga extends Vue {
   ]
 
   mounted() {
-    this.fetchCountries();
-
     let preview = localStorage.getItem("preview");
 
     if(preview && ! this.$device.isMobile) {
@@ -618,16 +584,6 @@ export default class Pretraga extends Vue {
         console.error(error)
       }
     })
-  }
-
-  async fetchCountries() {
-    try {
-      const res = await this.$axios.get('/countries');
-
-      this.countries = res.data.data;
-    } catch (e) {
-      console.log(e)
-    }
   }
 
   handleMapMoved(event) {
@@ -705,14 +661,14 @@ export default class Pretraga extends Vue {
 
       return name;
     } else if (filter.name === 'city_id') {
-      if (this.cityNames) {
-        return this.cityNames.join(', ');
+      if (this.cities.length) {
+        return this.cities.map(item => item.name).join(', ');
       }
 
       return null;
     } else if (filter.name === 'country_id') {
-      if (this.countryNames) {
-        return this.countryNames.join(', ');
+      if (this.countries.length) {
+        return this.countries.map(item => item.name).join(', ');
       }
 
       return null;
