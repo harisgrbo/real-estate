@@ -56,7 +56,13 @@ export default class CitiesMultipleSelect extends Vue{
   }
 
   addOptionToSelected(o) {
-    this.selectedOptions.push(o)
+    let index = this.selectedOptions.findIndex(item => item.id === o.id);
+
+    if (index === -1) {
+      this.selectedOptions.push(o)
+    } else {
+      this.selectedOptions.splice(index, 1);
+    }
 
     this.emitValues();
   }
