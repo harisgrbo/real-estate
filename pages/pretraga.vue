@@ -182,7 +182,7 @@
                 <!--              <client-only>-->
                 <!--                <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
                 <!--              </client-only>-->
-                <CountriesMultipleSelect />
+                <CountriesMultipleSelect :initial-country-ids="countryIds" :countries="countries" />
 
                 <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
@@ -238,7 +238,7 @@
 <!--                <client-only>-->
 <!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
 <!--                </client-only>-->
-                <CountriesMultipleSelect :initial-country-ids="countryIds" @countries="handleCountriesSearch" />
+                <CountriesMultipleSelect :countries="countries" :initial-country-ids="countryIds" @countries="handleCountriesSearch" />
 
                 <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
 
@@ -353,9 +353,11 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 import NotFound from "../components/global/NotFound";
 import SearchListingCard from "../components/SearchListingCard";
 import SearchHorizontalCard from "../components/SearchHorizontalCard";
+import CountriesMultipleSelect from "../components/global/CountriesMultipleSelect"
 
 @Component({
   components: {
+    CountriesMultipleSelect,
     SearchHorizontalCard,
     SearchListingCard,
     NotFound,
@@ -543,6 +545,7 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
   },
 })
 export default class Pretraga extends Vue {
+  countries = [];
   searchName = '';
   mapExpanded = false;
   showSortDropdown = false;
@@ -597,6 +600,8 @@ export default class Pretraga extends Vue {
   ]
 
   mounted() {
+    this.fetchCountries();
+
     let preview = localStorage.getItem("preview");
 
     if(preview && ! this.$device.isMobile) {
@@ -613,6 +618,16 @@ export default class Pretraga extends Vue {
         console.error(error)
       }
     })
+  }
+
+  async fetchCountries() {
+    try {
+      const res = await this.$axios.get('/countries');
+
+      this.countries = res.data.data;
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   handleMapMoved(event) {
