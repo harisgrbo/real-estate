@@ -54,7 +54,7 @@
               <img class="main-image" :src="listing.thumbnail.url" @load="onLoaded" v-show="loaded" alt="">
             </transition>
           </div>
-          <div v-else>
+          <div v-else class="wrapper">
             <transition name="fade">
               <img class="main-image" src="/noimage.jpeg" @load="onLoaded" v-show="loaded" alt="">
             </transition>

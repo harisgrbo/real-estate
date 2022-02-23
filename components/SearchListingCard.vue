@@ -20,11 +20,17 @@
         </span>
     </label>
     <nuxt-link :to="'/oglas/' + listing.slug">
-      <div class="overflow-hidden relative image-wrapper bg-gray-50" v-if="listing.thumbnail_url !== ''">
-        <img class="main-image" :src="listing.thumbnail_url" alt="">
-      </div>
-      <div v-else class="overflow-hidden relative image-wrapper bg-gray-50">
-        <img class="main-image" src="/noimage.jpeg" alt="">
+      <div class="overflow-hidden relative">
+        <div v-if="listing.thumbnail_url !== null" class="wrapper">
+          <transition name="fade">
+            <img class="main-image" :src="listing.thumbnail_url" @load="onLoaded" v-show="loaded" alt="">
+          </transition>
+        </div>
+        <div v-else class="wrapper">
+          <transition name="fade">
+            <img class="main-image" src="/noimage.jpeg" @load="onLoaded" v-show="loaded" alt="">
+          </transition>
+        </div>
       </div>
       <div class="listing-card-content relative">
         <div class="flex flex-col justify-between items-start">
@@ -95,6 +101,7 @@ export default class SearchListingCard extends Vue{
     sell: 'Prodaja',
     buy: 'Potraznja'
   }
+  loaded = false;
   custom_swiper = null;
   showTooltip = false;
   saved = false;
@@ -114,6 +121,10 @@ export default class SearchListingCard extends Vue{
     return this.listing.attributes.filter((item) => {
       return this.specialAttributesKeys.indexOf(item.name) !== -1;
     });
+  }
+
+  onLoaded() {
+    this.loaded = true;
   }
 
   removeFromSaved(id) {
@@ -781,5 +792,26 @@ a {
       min-width: fit-content;
     }
   }
+}
+
+.wrapper {
+  min-height: 280px;
+  background: rgba(255, 255, 255, 0.7);
+
+  @include for-phone-only {
+    min-height: 210px;
+  }
+}
+
+.fade-enter-active {
+  transition: opacity 1.5s ease-in-out;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter {
+  opacity: 0;
 }
 </style>
