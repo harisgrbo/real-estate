@@ -55,29 +55,18 @@
         </div>
       </div>
     </div>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-3745186233711216"
-         data-ad-slot="9795532766"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-<!--    <ins class="adsbygoogle"-->
-<!--         style="display:block"-->
-<!--         data-ad-client="ca-pub-3745186233711216"-->
-<!--         data-ad-slot="9795532766"-->
-<!--         data-ad-format="auto"-->
-<!--         data-full-width-responsive="true">-->
-<!--    </ins>-->
     <div class="flex flex-col" v-if="premiumListingsLoaded && premiumListings.length">
       <div class="flex custom-width items-center justify-between title-wrapper">
         <h2 class="section-title" ssr-only="stanovi sarajevo stan na dan najam izdavanje rentanje novogradnja iznajmljivanje">Premium oglasi</h2>
         <div class="flex flex-row items-center mr-5">
           <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
             <div
+              @click.prevent.stopPropagation="$refs.swiperPremium.$swiper.sliderPrev()"
               class="swiper-button-prev rent swiper-button-white mx-4"
               slot="button-prev"
             ></div>
             <div
+              @click.prevent.stopPropagation="$refs.swiperPremium.$swiper.sliderNext()"
               class="swiper-button-next rent swiper-button-white"
               slot="button-next"
             ></div>
@@ -86,7 +75,7 @@
       </div>
       <div class="flex items-center justify-between custom-width premium-listings" v-if="!$device.isMobile">
         <client-only v-if="premiumListingsLoaded">
-          <swiper class="swiper" :options="swiperOptionPremium">
+          <swiper class="swiper" ref="swiperPremium" :options="swiperOptionPremium">
             <swiper-slide v-for="listing in premiumListings" :key="listing.id">
               <PremiumListingCard :listing="listing" />
             </swiper-slide>
@@ -150,10 +139,12 @@
         <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
+            @click.prevent.stopPropagation="$refs.swiperSell.$swiper.slidePrev()"
             class="swiper-button-prev swiper-button-white mx-4"
             slot="button-prev"
           ></div>
           <div
+            @click.prevent.stopPropagation="$refs.swiperSell.$swiper.slideNext()"
             class="swiper-button-next swiper-button-white"
             slot="button-next"
           ></div>
@@ -162,7 +153,7 @@
     </div>
     <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="sellLoaded">
-        <swiper class="swiper" :options="swiperOption">
+        <swiper class="swiper" ref="swiperSell" :options="swiperOption">
           <swiper-slide v-for="listing in listings_sell" :key="listing.id">
             <ListingCard :listing="listing"/>
           </swiper-slide>
@@ -195,10 +186,12 @@
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
+            @click.prevent.stopPropagation="$refs.swiperRent.$swiper.slidePrev()"
             class="swiper-button-prev rent swiper-button-white mx-4"
             slot="button-prev"
           ></div>
           <div
+            @click.prevent.stopPropagation="$refs.swiperRent.$swiper.slideNext()"
             class="swiper-button-next rent swiper-button-white"
             slot="button-next"
           ></div>
@@ -207,7 +200,7 @@
     </div>
     <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="rentLoaded">
-        <swiper class="swiper" :options="swiperOption">
+        <swiper class="swiper" ref="swiperRent" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent" :key="listing.id">
             <ListingCard :listing="listing" />
           </swiper-slide>
@@ -239,10 +232,12 @@
         <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
         <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
           <div
+            @click.prevent.stopPropagation="$refs.swiperDay.$swiper.slidePrev()"
             class="swiper-button-prev swiper-button-white mx-4"
             slot="button-prev"
           ></div>
           <div
+            @click.prevent.stopPropagation="$refs.swiperDay.$swiper.slideNext()"
             class="swiper-button-next swiper-button-white"
             slot="button-next"
           ></div>
@@ -251,7 +246,7 @@
     </div>
     <div class="flex items-center justify-between custom-width standard-listings" v-if="!$device.isMobile">
       <client-only v-if="rentPerDayLoaded">
-        <swiper class="swiper" :options="swiperOption">
+        <swiper class="swiper" ref="swiperDay" :options="swiperOption">
           <swiper-slide v-for="listing in listings_rent_for_a_day" :key="listing.id">
             <ListingCard :listing="listing" :action="false" type="rent"/>
           </swiper-slide>
@@ -388,10 +383,6 @@
       slidesPerView: 5,
       touchRatio: 0.2,
       slideToClickedSlide: false,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      },
       breakpoints: {
         320: {
           slidesPerView: 'auto',

@@ -2512,6 +2512,10 @@ input[type=range]:focus::-ms-fill-upper {
     width: 140px;
     background: rgb(2,0,36);
     background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(255,255,255,0.8674063375350141) 88%, rgba(255,255,255,1) 100%);
+
+    @include for-phone-only {
+      width: 40px;
+    }
   }
 }
 
@@ -2637,5 +2641,12 @@ iframe {
     }
   }
 }
+
+@include for-phone-only {
+  ::v-deep .wrapper {
+    min-height: 154px !important;
+  }
+}
+
 </style>
 
