@@ -886,7 +886,12 @@ export default class ListingCard extends Vue{
 }
 
 .wrapper {
+  min-height: 280px;
   background: rgba(255, 255, 255, 0.7);
+
+  @include for-phone-only {
+    min-height: 154px;
+  }
 }
 
 .fade-enter-active {

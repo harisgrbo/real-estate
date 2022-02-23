@@ -277,8 +277,8 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency" v-if="agencies.length">
-      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Agencije za nekretnine</h2>
+    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">
+      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Agencije</h2>
       <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
     </div>
     <div class="flex items-center justify-start pb-4 custom-width gap-4 flex-row overflow-x-scroll agencija" v-if="agenciesLoaded">
@@ -287,7 +287,7 @@
     <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
       <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>
     </div>
-    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency" v-if="investors.length">
+    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">
       <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Investitori</h2>
       <nuxt-link class="more" to="/investitori">Pogledaj više</nuxt-link>
     </div>
