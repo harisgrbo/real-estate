@@ -110,7 +110,7 @@
           <button v-if="$auth.user" class="login-a" @click="$router.push('/moj-racun/poruke')">
             <img src="/001-speech-bubble.png" alt="">
 
-            <span class="notify" v-if="messagesCount">{{ messagesCount }}</span>s
+            <span class="notify" v-if="messagesCount">{{ messagesCount }}</span>
           </button>
           <button v-if="$auth.user" class="login-a ml-4" @click="showNotifications = true">
             <img src="/001-notification-bell.png" alt="">
