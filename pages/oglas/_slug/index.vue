@@ -186,7 +186,7 @@
                 Opšte informacije
               </h3>
               <ul role="list" :class="['border-t border-b border-gray-200 py-6 mobile-grid informations', showMoreInfo ? 'expand' : '']">
-                <li class="flow-root" v-for="info in normalAttributes" :key="info.id">
+                <li class="flow-root" v-for="(info, i) in normalAttributes" :key="i">
                   <div class="relative flex items-center space-x-4 inner-info-border">
                     <div class="inner-info">
                       <h3 class="text-md font-medium text-gray-900">
