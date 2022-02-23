@@ -6,6 +6,13 @@
         <div class="flex flex-col">
           <h3 class="main-title">Sve nekretnine na jednom mjestu</h3>
           <h5 class="main-title sub">U par koraka do vaših kvadrata.</h5>
+          <div class="text-white flex flex-row items-center justify-start">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="#fff">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <b class="mr-2 text-2xl">{{ count.listing_count }}</b>
+            Objavljenih oglasa
+          </div>
         </div>
         <div class="flex flex-col mt-6">
           <div class="flex flex-row items-center w-full inputs">
@@ -54,6 +61,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="text-gray-900 text-md flex flex-row items-center justify-start pl-4" v-if="$device.isMobile">
+      <b class="mr-2 text-2xl">{{ count.listing_count }}</b>
+      Objavljenih oglasa
     </div>
     <div class="flex flex-col" v-if="premiumListingsLoaded && premiumListings.length">
       <div class="flex custom-width items-center justify-between title-wrapper">
@@ -433,9 +444,11 @@
         }
       }
     }
+    count = {}
 
 
     created() {
+      this.fetchListingsCount();
       this.fetchCategories()
       this.fetchHomeListings();
       this.fetchSelling();
@@ -464,6 +477,15 @@
         this.listings = res.data.data
         this.meta = res.data.meta
         this.page = 2
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    async fetchListingsCount() {
+      try {
+        let res = await this.$axios.get('/listings/count')
+        this.count = res.data.data
       } catch (e) {
         console.log(e)
       }
