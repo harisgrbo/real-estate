@@ -1254,6 +1254,13 @@ export default class Oglas extends Vue {
   }
 
   async created() {
+    this.fetchSimilarListings();
+
+    if (this.listing.listing_type.shortname === 'booking') {
+      this.fetchBookings();
+    }
+
+    this.fetchPlaces();
 
     this.specialAttributes = this.getRentSpecialAttributes().slice();
 
@@ -1262,12 +1269,6 @@ export default class Oglas extends Vue {
     }
 
     this.RentSpecialAttributes = this.getSpecialAttributes();
-
-    if (this.listing.listing_type.shortname === 'booking') {
-      this.fetchBookings();
-    }
-
-    await this.fetchPlaces();
 
     for (let key of Object.keys(this.places)) {
       if (this.places[key].results.length) {
@@ -1285,8 +1286,6 @@ export default class Oglas extends Vue {
       if (desc_h)
         this.descriptionRows = desc_h.getClientRects()[0].height;
     }
-
-    await this.fetchSimilarListings();
   }
 
   get listingType() {
