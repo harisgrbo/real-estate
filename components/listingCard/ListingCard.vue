@@ -49,11 +49,15 @@
 
       <nuxt-link :to="this.$route.fullPath !== '/moj-racun/dashboard/grupisanje-oglasa'? '/oglas/' + listing.slug : '' ">
         <div class="overflow-hidden relative">
-          <div v-if="listing.thumbnail !== null">
-            <img class="main-image" :src="listing.thumbnail.url" alt="">
+          <div v-if="listing.thumbnail !== null" class="wrapper">
+            <transition name="fade">
+              <img class="main-image" :src="listing.thumbnail.url" @load="onLoaded" v-show="loaded" alt="">
+            </transition>
           </div>
           <div v-else>
-            <img class="main-image" src="/noimage.jpeg" alt="">
+            <transition name="fade">
+              <img class="main-image" src="/noimage.jpeg" @load="onLoaded" v-show="loaded" alt="">
+            </transition>
           </div>
         </div>
         <div class="listing-card-content relative" @mouseover="showTooltip = true" @mouseout="showTooltip = false">
@@ -137,6 +141,7 @@ export default class ListingCard extends Vue{
     "Broj gostiju"
 
   ];
+  loaded = false;
   specialRentAttributes = [];
   swiperOptionCard = {
     spaceBetween: 0,
@@ -173,6 +178,10 @@ export default class ListingCard extends Vue{
         this.custom_swiper = this.$refs.swiper;
       }
     })
+  }
+
+  onLoaded() {
+    this.loaded = true;
   }
 
   translateType() {
@@ -841,10 +850,20 @@ export default class ListingCard extends Vue{
 }
 
 .option-btn {
-  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #fff !important;
 
   @include for-phone-only {
     margin-top: 6px;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    color: #fff !important;
+    background: #2f394e !important;
   }
 }
 
@@ -864,5 +883,21 @@ export default class ListingCard extends Vue{
       min-width: fit-content;
     }
   }
+}
+
+.wrapper {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.fade-enter-active {
+  transition: opacity 1.5s ease-in-out;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter {
+  opacity: 0;
 }
 </style>
