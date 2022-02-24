@@ -1416,9 +1416,4 @@ button.search {
   margin-right: 10px;
   filter: invert(1);
 }
-
-.banner {
-  min-width: 300px;
-  min-height: 600px;
-}
 </style>
