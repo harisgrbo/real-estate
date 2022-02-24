@@ -272,7 +272,7 @@
             </client-only>
             <ins class="adsbygoogle"
                  v-if="!$device.isMobile"
-                 style="display:block; text-align:center;"
+                 style="display:block; text-align:center; width:100%"
                  data-ad-layout="in-article"
                  data-ad-format="fluid"
                  data-ad-client="ca-pub-3745186233711216"

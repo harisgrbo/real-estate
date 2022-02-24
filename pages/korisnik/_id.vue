@@ -129,7 +129,7 @@
             </aside>
 
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; width:100%"
                  data-ad-client="ca-pub-3745186233711216"
                  data-ad-slot="6716154843"
                  data-ad-format="auto"
