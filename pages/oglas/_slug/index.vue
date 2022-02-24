@@ -23,6 +23,11 @@
       </div>
     </div>
     <div class="listing-content mt-0 lg:mt-12 xl:mt-12 up:mt-12 max-w-7xl mx-auto w-full">
+      <ins class="adsbygoogle"
+           v-if="!$device.isMobile"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-3745186233711216"
+           data-ad-slot="5734023899"></ins>
       <div class="listing-content-inner">
         <div class="listing-content-wrapper relative flex flex-row">
           <div class="flex flex-col w-full relative">
@@ -266,6 +271,7 @@
             </span>
             </client-only>
             <ins class="adsbygoogle"
+                 v-if="!$device.isMobile"
                  style="display:block; text-align:center;"
                  data-ad-layout="in-article"
                  data-ad-format="fluid"

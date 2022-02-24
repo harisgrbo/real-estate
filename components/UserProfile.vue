@@ -184,12 +184,6 @@
         </form>
       </client-only>
     </div>
-<!--    <ins v-if="!$device.isMobile" class="adsbygoogle"-->
-<!--         style="display:block"-->
-<!--         data-ad-client="ca-pub-3745186233711216"-->
-<!--         data-ad-slot="6716154843"-->
-<!--         data-ad-format="auto"-->
-<!--         data-full-width-responsive="true"></ins>-->
     <div class="flex justify-center mt-4 mb-4">
       <a href="https://www.korpa.ba" target="_blank">
         <img :src="$device.isMobile ? '/korpasmall.jpg' : '/korpanew.jpg'" alt="">
