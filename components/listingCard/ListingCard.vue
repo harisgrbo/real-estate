@@ -67,7 +67,7 @@
                 {{ listing.title }}
               </h2>
             </div>
-            <div class="icons-date flex flex-row items-center justify-between w-full" v-if="listing.price !== 0">
+            <div class="icons-date flex flex-row items-center justify-between w-full" v-if="listing.price != 0">
               <div class="important">
                 <p :class="['new', listing.hasOwnProperty('discount') ? 'cross' : '']">{{ parseInt(listing.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") }} KM</p>
                 <p v-show="listing.is_booking && !listing.hasOwnProperty('discount')" class="pl-2">/ noć {{ listing.per_guest ? 'po osobi' : '' }}</p>
