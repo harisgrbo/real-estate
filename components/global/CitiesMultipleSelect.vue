@@ -34,19 +34,15 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({})
 export default class CitiesMultipleSelect extends Vue{
-  @Prop({ type: Array, default: () => [] }) initialCityIds;
+  @Prop({ type: Array, default: () => [] }) initialCities;
   selectedOptions = [];
   showDropdown = false;
   searchTerm = '';
   cities = [];
 
   created() {
-    this.initialCityIds.forEach(async (id) => {
-      try {
-        this.selectedOptions.push((await this.$axios.get('/cities/' + id)).data.data);
-      } catch (e) {
-        console.log(e)
-      }
+    this.initialCities.forEach(async (item) => {
+      this.selectedOptions.push(item);
     })
   }
 
@@ -56,7 +52,13 @@ export default class CitiesMultipleSelect extends Vue{
   }
 
   addOptionToSelected(o) {
-    this.selectedOptions.push(o)
+    let index = this.selectedOptions.findIndex(item => item.id === o.id);
+
+    if (index === -1) {
+      this.selectedOptions.push(o)
+    } else {
+      this.selectedOptions.splice(index, 1);
+    }
 
     this.emitValues();
   }

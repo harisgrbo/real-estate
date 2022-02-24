@@ -14,26 +14,43 @@ import { Component, Vue, Prop} from "nuxt-property-decorator";
 
 @Component({})
 export default class CountriesMultipleSelect extends Vue {
-  @Prop({ type: Array, default: () => [] }) initialCountryIds;
+  @Prop({ type: Array, default: () => [] }) initialCountries;
 
-  countries = [];
+  countries = [
+    {
+      "type": "country",
+      "id": 1,
+      "name": "Bosna i Hercegovina",
+      "slug": "bosna-i-hercegovina",
+      "shortname": "BA"
+    },
+    {
+      "type": "country",
+      "id": 2,
+      "name": "Hrvatska",
+      "slug": "hrvatska",
+      "shortname": "HR"
+    },
+    {
+      "type": "country",
+      "id": 3,
+      "name": "Crna Gora",
+      "slug": "crna-gora",
+      "shortname": "ME"
+    },
+    {
+      "type": "country",
+      "id": 4,
+      "name": "Turska",
+      "slug": "turska",
+      "shortname": "TR"
+    }
+  ];
 
   selectedIds = [];
 
   async created() {
-    this.selectedIds = this.initialCountryIds;
-
-    await this.fetchCountries();
-  }
-
-  async fetchCountries() {
-    try {
-      const res = await this.$axios.get('/countries');
-
-      this.countries = res.data.data;
-    } catch (e) {
-      console.log(e)
-    }
+    this.selectedIds = this.initialCountries.map(item => item.id);
   }
 
   handleSelectedCountry(country) {

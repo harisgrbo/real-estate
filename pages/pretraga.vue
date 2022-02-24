@@ -182,7 +182,7 @@
                 <!--              <client-only>-->
                 <!--                <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
                 <!--              </client-only>-->
-                <CountriesMultipleSelect />
+                <CountriesMultipleSelect :initial-country-ids="countryIds" :countries="countries" />
 
                 <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch"/>
 
@@ -238,9 +238,9 @@
 <!--                <client-only>-->
 <!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
 <!--                </client-only>-->
-                <CountriesMultipleSelect :initial-country-ids="countryIds" @countries="handleCountriesSearch" />
+                <CountriesMultipleSelect :countries="allCountries" :initial-countries="countries" @countries="handleCountriesSearch" />
 
-                <CitiesMultipleSelect :initial-city-ids="cityIds" @cities="handleCitiesSearch" />
+                <CitiesMultipleSelect :initial-cities="cities" @cities="handleCitiesSearch" />
 
                 <component
                   class="bb-filters"
@@ -353,9 +353,11 @@ import CitiesMultipleSelect from "@/components/global/CitiesMultipleSelect";
 import NotFound from "../components/global/NotFound";
 import SearchListingCard from "../components/SearchListingCard";
 import SearchHorizontalCard from "../components/SearchHorizontalCard";
+import CountriesMultipleSelect from "../components/global/CountriesMultipleSelect"
 
 @Component({
   components: {
+    CountriesMultipleSelect,
     SearchHorizontalCard,
     SearchListingCard,
     NotFound,
@@ -383,10 +385,8 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
     let allAttributes = [];
     let queryPayload = {};
     let categories = [];
-    let cityIds = [];
-    let countryIds = [];
-    let cityNames = null;
-    let countryNames = null;
+    let cities = [];
+    let countries = [];
     let selectedCategoryId = null;
     let mapZoom = 14;
     let selectedPreviewType = 'map';
@@ -443,20 +443,14 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
       results = response.data.data;
       meta = response.data.meta;
       allAttributes = response.data.meta.attributes;
+      cities = response.data.meta.cities;
+      countries = response.data.meta.countries;
 
       query = JSON.parse(query)
 
       query.forEach(item => {
         if (item.name === 'category_id') {
           selectedCategoryId = item.value;
-        }
-
-        if (item.name === 'city_id') {
-          cityIds = item.value;
-        }
-
-        if (item.name === 'country_id') {
-          countryIds = item.value;
         }
 
         queryPayload[item.name] = Object.assign({}, item);
@@ -499,34 +493,12 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
 
     let categoryTitle = category ? category.title: '';
 
-    if (cityIds.length) {
-      let tmp = [];
-      for(let i = 0; i < cityIds.length; ++i) {
-        let res = (await ctx.app.$axios.get('/cities/' + cityIds[i])).data.data;
-        tmp.push(res.name);
-      }
-
-      cityNames = tmp;
-    }
-
-    if (countryIds.length) {
-      let tmp = [];
-      for(let i = 0; i < countryIds.length; ++i) {
-        let res = (await ctx.app.$axios.get('/countries/' + countryIds[i])).data.data;
-        tmp.push(res.name);
-      }
-
-      countryNames = tmp;
-    }
-
     return {
       center,
       mapZoom,
       loading,
-      countryIds,
-      cityIds,
-      cityNames,
-      countryNames,
+      cities,
+      countries,
       selectedSort,
       selectedPreviewType,
       categoryTitle,
@@ -544,7 +516,6 @@ import SearchHorizontalCard from "../components/SearchHorizontalCard";
 })
 export default class Pretraga extends Vue {
   searchName = '';
-  mapExpanded = false;
   showSortDropdown = false;
   showTypeDropdown = false;
   currentResultIndex = -1;
@@ -690,14 +661,14 @@ export default class Pretraga extends Vue {
 
       return name;
     } else if (filter.name === 'city_id') {
-      if (this.cityNames) {
-        return this.cityNames.join(', ');
+      if (this.cities.length) {
+        return this.cities.map(item => item.name).join(', ');
       }
 
       return null;
     } else if (filter.name === 'country_id') {
-      if (this.countryNames) {
-        return this.countryNames.join(', ');
+      if (this.countries.length) {
+        return this.countries.map(item => item.name).join(', ');
       }
 
       return null;

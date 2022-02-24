@@ -303,11 +303,6 @@ export default class Navbar extends Vue {
     }
   }
 
-  goToSearch(s) {
-    let q = buildTitle(s);
-    this.$router.push('/pretraga?q=[' + q + ']');
-  }
-
   goToSearchFromSuggestion(s) {
     let words = s.split(' ');
     words.pop();
@@ -403,7 +398,17 @@ export default class Navbar extends Vue {
     if (filters.length) {
       this.focused = false;
 
-      this.$router.push(`/pretraga?q=[${filters.join(',')}]`);
+      let previewType = '';
+
+      if (process.browser) {
+        previewType = localStorage.getItem('preview')
+
+        if (previewType) {
+          previewType = '&preview=' + previewType;
+        }
+      }
+
+      this.$router.push(`/pretraga?q=[${filters.join(',')}]${previewType}`);
     }
   }
 
