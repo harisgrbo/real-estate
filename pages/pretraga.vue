@@ -103,6 +103,11 @@
       </div>
     </div>
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
+      <ins class="adsbygoogle"
+           v-if="!$device.isMobile"
+           style="display:inline-block;width:728px;height:90px"
+           data-ad-client="ca-pub-3745186233711216"
+           data-ad-slot="5734023899"></ins>
       <div class="results relative" v-if="selectedPreviewType === 'grid' || $device.isMobile">
         <div v-if="results.length" class="w-full flex flex-col">
           <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
