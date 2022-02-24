@@ -180,7 +180,7 @@
               <div class="font-light total text-md w-full flex flex-row items-center justify-between pt-3 mt-3 border-t border-gray-400">Ukupno:  <span class="font-semibold text-lg">{{ numberWithCommas(totalBookingPrice) + ' KM'  }}</span></div>
             </div>
           </div>
-          <ActionButton @action="handleBookingRequest" :style-options="{ color: '#fff', background: '#1F2937 !important', width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
+          <ActionButton @action="handleBookingRequest" :style-options="{ width: '100%' }" placeholder="Pošalji upit za rezervaciju"></ActionButton>
         </form>
       </client-only>
     </div>

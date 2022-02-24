@@ -282,7 +282,7 @@
               <div class="flex flex-row items-center mb-6 justify-between w-full">
                 <h3 class="text-2xl font-semibold text-gray-900 lg:mx-0 xl:mx-0 up:mx-0 mx-5">Dojmovi</h3>
 
-                <ActionButton :class="[ $device.isMobile ? 'mr-5' : '']" v-if="$auth.user && !authUser && listing.is_booking" placeholder="Ostavi dojam" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '40px', fontSize: '13px', width: 'auto'}" :loading="false" @action="$modal.show('leave-review')"></ActionButton>
+                <ActionButton :class="[ $device.isMobile ? 'mr-5' : '']" v-if="$auth.user && !authUser && listing.is_booking" placeholder="Ostavi dojam" :style-options="{ width: 'auto'}" :loading="false" @action="$modal.show('leave-review')"></ActionButton>
               </div>
 
               <div class="bg-white w-full px-5 lg:px-0 xl:px-0 up:px-0" v-if="listing_reviews.length">
@@ -348,7 +348,7 @@
                   <p class="text-xl font-bold">Na upit</p>
                 </div>
               </div>
-              <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Rezerviši datum" :style-options="{ color: '#fff', background: '#1F2937 !important', height: '52px', fontSize: '13px', width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
+              <ActionButton v-if="$auth.user && !authUser && listing.is_booking" placeholder="Rezerviši" :style-options="{ width: 'auto' }" :loading="false" @action="toggleBookingModal()"></ActionButton>
             </div>
           </div>
           <div class="user-wrap relative z-10" v-if="!$device.isMobile">
@@ -361,7 +361,7 @@
           <div class="flex flex-row w-1280 relative similar">
             <div class="flex flex-row w-full overflow-x-scroll">
               <div class="similar-inner"></div>
-              <SearchListingCard v-for="listing in similarListings" :listing="listing"></SearchListingCard>
+              <SearchListingCard v-for="listing in similarListings" :listing="listing" :key="listing.id"></SearchListingCard>
             </div>
           </div>
         </div>
@@ -888,7 +888,6 @@ export default class Oglas extends Vue {
   }
 
   getRentSpecialAttributes() {
-    console.log(this.listing.attributes, 'attrs')
     if (!this.listing.attributes) return [];
     return this.listing.attributes.filter((item) => {
       return this.specialAttributesKeys.indexOf(item.name) !== -1;
@@ -2313,10 +2312,11 @@ input[type=range]:focus::-ms-fill-upper {
   }
 
   &.ammenities {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 20px;
 
     @include for-phone-only {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
 
     }
   }

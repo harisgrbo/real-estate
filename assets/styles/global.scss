@@ -91,3 +91,9 @@ html, body {
   z-index: 0;
 }
 
+.preview-wrapper-inner {
+  @include for-phone-only {
+    min-height: calc(100vh - 80px)!important;
+    height: auto !important;
+  }
+}

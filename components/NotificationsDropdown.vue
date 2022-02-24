@@ -121,10 +121,4 @@ ul, .no-notifications {
     font-size: 18px;
   }
 }
-
-button {
-  height: 44px;
-  border-radius: 4px;
-  background: #1F2937 !important;
-}
 </style>

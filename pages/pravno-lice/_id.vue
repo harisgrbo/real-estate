@@ -3,7 +3,7 @@
     <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="flex flex-col custom-width mx-auto">
-      <div class="user-content-wrapper mt-8" >
+      <div class="user-content-wrapper mt-8">
         <div class="flex flex-row justify-start mobile-spans items-start">
           <div class="first-col">
             <aside class="w-96 bg-white overflow-y-auto">
@@ -12,14 +12,14 @@
                   <img class="w-44 h-44 flex-shrink-0 rounded-sm object-contain" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
                   <div class="ml-6">
                     <h3 class="text-gray-900 text-xl font-semibold text-left">{{ user.name }}</h3>
-                    <dd class="mt-1 flex flex-row items-center justify-start text-sm">
+                    <div class="mt-1 flex flex-row items-center justify-start text-sm">
                       <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
                       {{ user.online ? 'Online' : 'Offline' }}
-                    </dd>
+                    </div>
                     <dl class="mt-1 flex-grow flex flex-col justify-between items-start">
-                      <dd class="mt-2">
+                      <div class="mt-2">
                         <span class="px-2 py-1 text-green-800 text-xs font-semibold uppercase bg-green-100 rounded-sm">{{ user_type(user.user_type) }}</span>
-                      </dd>
+                      </div>
                     </dl>
                     <div class="flex flex-row items-center justify-start w-full verified">
                       <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="">{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
@@ -28,7 +28,6 @@
                 </div>
               </div>
             </aside>
-
           </div>
           <div class="second-col">
             <div class="grid grid-cols-1 gap-4 text-sm font-semibold text-gray-300 infos">
@@ -72,63 +71,48 @@
               <ActionButton type="submit" @action="$modal.show('contact-user')" placeholder="Poruka" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
               <ActionButton type="submit" @action="toggleFollow()" :placeholder="isFollowed? 'Otprati' : 'Zaprati'" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
               <ActionButton type="submit" @action="$modal.show('about-agency')" placeholder="O nama" :style-options="{ border: '2px solid #1F2937', color: '#1F2937', background: '#fff', borderRadius: '6px', height: '42px', marginRight: '12px', fontSize: '13px' }" :loading="false"></ActionButton>
-<!--              <div class="rounded-md bg-blue-50 p-3" v-if="!$device.isMobile">-->
-<!--                <div class="flex">-->
-<!--                  <div class="flex-shrink-0">-->
-<!--                    &lt;!&ndash; Heroicon name: solid/information-circle &ndash;&gt;-->
-<!--                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">-->
-<!--                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />-->
-<!--                    </svg>-->
-<!--                  </div>-->
-<!--                  <div class="ml-3 flex-1 md:flex md:justify-between">-->
-<!--                    <p class="text-sm text-blue-700">-->
-<!--                      Korisnik odgovara u roku od 10 sati-->
-<!--                    </p>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
             </div>
           </div>
         </div>
       </div>
       <div class="mb-6">
-        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
+        <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
           <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+            <div class="text-md pb-1 font-medium text-gray-500 truncate">
               {{ user.user_type === 'agency' ? 'Ukupno oglasa' : 'Ukupno zgrada' }}
-            </dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">
+            </div>
+            <div class="mt-1 text-3xl font-semibold text-gray-900">
               {{ meta.active_count + meta.completed_count }}
-            </dd>
+            </div>
           </div>
 
           <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+            <div class="text-md pb-1 font-medium text-gray-500 truncate">
               {{ user.user_type === 'agency' ? 'Aktivni oglasi' : 'Zgrade koje su u prodaji' }}
-            </dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">
+            </div>
+            <div class="mt-1 text-3xl font-semibold text-gray-900">
               {{ meta.active_count }}
-            </dd>
+            </div>
           </div>
 
           <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+            <div class="text-md pb-1 font-medium text-gray-500 truncate">
               Završeni oglasi
-            </dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">
+            </div>
+            <div class="mt-1 text-3xl font-semibold text-gray-900">
               {{ meta.completed_count }}
-            </dd>
+            </div>
           </div>
 
           <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-            <dt class="text-md pb-1 font-medium text-gray-500 truncate">
+            <div class="text-md pb-1 font-medium text-gray-500 truncate">
               Dojmovi
-            </dt>
-            <dd class="mt-1 text-3xl font-semibold text-gray-900">
+            </div>
+            <div class="mt-1 text-3xl font-semibold text-gray-900">
               {{ meta.rating_count }}
-            </dd>
+            </div>
           </div>
-        </dl>
+        </div>
       </div>
       <div class="content-wrapper mt-4">
         <ul class="main-tabs">
@@ -199,24 +183,17 @@
                     <div class="mt-3 flex items-center">
                       <div>
                         <div class="flex items-center">
-                          <!--
-                            Heroicon name: solid/star
-
-                            Active: "text-yellow-400", Default: "text-gray-300"
-                          -->
-                          <star-rating star-size="20" :increment="0.5" inline="true" :read-only="true" v-model="meta.rating"></star-rating>
+                          <client-only>
+                            <star-rating star-size="20" :increment="0.5" inline="true" :read-only="true" v-model="meta.rating"></star-rating>
+                          </client-only>
                           <p class="text-sm ml-2 font-semibold">ukupna ocjena</p>
                         </div>
-                        <p class="sr-only">4 out of 5 stars</p>
                       </div>
                     </div>
-
                     <div class="mt-6">
-                      <h3 class="sr-only">Review data</h3>
-
-                      <dl class="space-y-3">
+                      <div class="space-y-3">
                         <div class="flex items-center text-sm" v-for="(count, key, index) in reviews_meta.counts">
-                          <dt class="flex-1 flex items-center">
+                          <div class="flex-1 flex items-center">
                             <p class="w-3 font-medium text-gray-900">{{ index + 1 }}</p>
                             <div aria-hidden="true" class="ml-1 flex-1 flex items-center">
                               <!-- Heroicon name: solid/star -->
@@ -226,14 +203,13 @@
 
                               <div class="ml-3 relative flex-1">
                                 <div class="h-3 bg-gray-100 border border-gray-200 rounded-full"></div>
-
                                 <div :style="`width: calc(${count.percentage} * 100%)`" class="absolute inset-y-0 bg-yellow-400 border border-yellow-400 rounded-full"></div>
                               </div>
                             </div>
-                          </dt>
-                          <dd class="ml-3 w-10 text-right tabular-nums text-sm text-gray-900">{{ count.percentage * 100 + '%'}}</dd>
+                          </div>
+                          <div class="ml-3 w-10 text-right tabular-nums text-sm text-gray-900">{{ count.percentage * 100 + '%'}}</div>
                         </div>
-                      </dl>
+                      </div>
                     </div>
 
                     <div class="mt-10">
@@ -289,45 +265,47 @@
         </div>
       </div>
     </div>
-    <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
-      <div class="modal-inner">
-        <div class="modal-header">
-          <h2>Poruka za {{ user.name }}</h2>
-          <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
-        </div>
-        <div class="modal-content">
-          <textarea v-model="message"></textarea>
-          <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
-        </div>
-      </div>
-    </modal>
-    <modal @before-open="beforeOpen" @before-close="beforeClose" name="leave-review" :adaptive="true" height="100%">
-      <div class="modal-inner">
-        <div class="modal-header">
-          <h2>Dojam za {{ user.name }}</h2>
-          <i class="material-icons" @click="$modal.hide('leave-review')">close</i>
-        </div>
-        <div class="modal-content review">
-          <textarea v-model="review_message"></textarea>
-          <div class="flex flex-row items-center py-4">
-            <span class="font-semibold mr-4">Ocjena za {{ user.name }}</span>
-            <star-rating star-size="20" animate="true" inline="true" v-model="review_rating"></star-rating>
+    <client-only>
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Poruka za {{ user.name }}</h2>
+            <i class="material-icons" @click="$modal.hide('contact-user')">close</i>
           </div>
-          <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Ostavi dojam" @action="postReview" :loading="loading"></action-button>
+          <div class="modal-content">
+            <textarea v-model="message"></textarea>
+            <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Pošalji" @action="sendMessage" :loading="loading"></action-button>
+          </div>
         </div>
-      </div>
-    </modal>
-    <modal @before-open="beforeOpen" @before-close="beforeClose" name="about-agency" :adaptive="true" height="100%">
-      <div class="modal-inner">
-        <div class="modal-header">
-          <h2>O nama</h2>
-          <i class="material-icons" @click="$modal.hide('about-agency')">close</i>
+      </modal>
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="leave-review" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>Dojam za {{ user.name }}</h2>
+            <i class="material-icons" @click="$modal.hide('leave-review')">close</i>
+          </div>
+          <div class="modal-content review">
+            <textarea v-model="review_message"></textarea>
+            <div class="flex flex-row items-center py-4">
+              <span class="font-semibold mr-4">Ocjena za {{ user.name }}</span>
+              <star-rating star-size="20" animate="true" inline="true" v-model="review_rating"></star-rating>
+            </div>
+            <action-button class="mt-4" :style-options="{ width: '100%'}" placeholder="Ostavi dojam" @action="postReview" :loading="loading"></action-button>
+          </div>
         </div>
-        <div class="modal-content">
-          <div v-html="user.description"></div>
+      </modal>
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="about-agency" :adaptive="true" height="100%">
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h2>O nama</h2>
+            <i class="material-icons" @click="$modal.hide('about-agency')">close</i>
+          </div>
+          <div class="modal-content">
+            <div v-html="user.description"></div>
+          </div>
         </div>
-      </div>
-    </modal>
+      </modal>
+    </client-only>
   </div>
 </template>
 

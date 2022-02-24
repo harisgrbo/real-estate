@@ -194,7 +194,8 @@ export default class urediProfil extends Vue {
 
   @include for-phone-only {
     padding: 24px !important;
-
+    min-height: calc(100vh - 80px) !important;
+    height: auto !important;
   }
 }
 
