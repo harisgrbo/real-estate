@@ -517,8 +517,6 @@
       try {
         let res = await this.$axios.get('/listings/sell')
         this.listings_sell = res.data.data;
-
-        console.log(res)
         this.sellLoaded = true;
       } catch (e) {
         console.log(e)
@@ -543,9 +541,6 @@
       try {
         let res = await this.$axios.get('/listings/booking')
         this.listings_rent_for_a_day = res.data.data;
-
-        console.log(res, 'sdadasd')
-
         this.rentPerDayLoaded = true;
       } catch (e) {
         console.log(e)
@@ -1182,7 +1177,7 @@ ul.most-visited-cats {
 
         label {
           font-size: 14px;
-          font-weight: 500;
+          font-weight: 600;
           margin-bottom: 8px;
         }
       }

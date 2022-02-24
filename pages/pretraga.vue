@@ -301,7 +301,7 @@
         </modal>
       </client-only>
     <client-only>
-      <modal @before-open="beforeOpen" @before-close="beforeClose" classes="only-sort-mobile" name="sort-mobile" :adaptive="true" height="40%" maxHeight="40%">
+      <modal @before-open="beforeOpen" @before-close="beforeClose" classes="only-sort-mobile" name="sort-mobile" :adaptive="true">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Sortiraj</h2>
