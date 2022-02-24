@@ -11,7 +11,7 @@
             </svg>
           </div>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" :class="['h-6 w-6 cursor-pointer', showDropdown ? 'transform rotate-180' : '']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" :class="['h-6 w-6 cursor-pointer arrow-down', showDropdown ? 'transform rotate-180' : '']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </div>
@@ -55,8 +55,10 @@ export default class CitiesMultipleSelect extends Vue{
     let index = this.selectedOptions.findIndex(item => item.id === o.id);
 
     if (index === -1) {
+      console.log('push')
       this.selectedOptions.push(o)
     } else {
+      console.log('splice')
       this.selectedOptions.splice(index, 1);
     }
 
@@ -86,6 +88,12 @@ export default class CitiesMultipleSelect extends Vue{
 </script>
 
 <style scoped lang="scss">
+@mixin for-phone-only {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
 .multiple-select {
   display: flex;
   flex-direction: column;
@@ -131,7 +139,7 @@ export default class CitiesMultipleSelect extends Vue{
     }
 
     svg {
-      width: fit-content;
+      width: 18px !important;
       margin-left: 8px;
     }
   }
@@ -182,4 +190,12 @@ label {
   margin-top: 24px;
 }
 
+.arrow-down {
+  @include for-phone-only {
+    width: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+  }
+
+}
 </style>

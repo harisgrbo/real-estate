@@ -308,7 +308,7 @@
     <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
       <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>
     </div>
-    <a href="https://www.ekupon.ba" target="_blank" class="mx-auto mt-4 banner" v-if="!$device.isMobile">
+    <a href="https://www.ekupon.ba" target="_blank" class="mx-auto mt-4 leaderboard" v-if="!$device.isMobile">
       <img src="/ekuponbanner.jpg" alt="">
     </a>
   </div>
@@ -1420,5 +1420,10 @@ button.search {
   min-width: auto;
   margin-right: 10px;
   filter: invert(1);
+}
+
+.leaderboard {
+  min-width: 650px;
+  min-height: 135px;
 }
 </style>

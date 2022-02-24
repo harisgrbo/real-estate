@@ -93,7 +93,7 @@
           </div>
         </div>
         <div class="mt-12 border-t border-gray-200 pt-2">
-          <p class="text-sm font-semibold text-black xl:text-center">&copy; {{ $moment().year() }} HIM d.o.o - MojKvadrat.ba, Sva prava zadržana.</p>
+          <p class="text-sm font-semibold text-black xl:text-center">&copy; {{ $moment().year() }} HIM d.o.o - MojKvadrat.ba - sva prava zadržana.</p>
         </div>
       </div>
     </footer>
