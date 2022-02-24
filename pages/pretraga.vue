@@ -113,6 +113,11 @@
           <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-6 gap-4 w-full listing-wrap">
             <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)" :avg-price="meta.price"/>
           </div>
+          <ins class="adsbygoogle"
+               v-if="!$device.isMobile"
+               style="display:flex;margin: 24px auto 0px auto;width:728px;height:90px"
+               data-ad-client="ca-pub-3745186233711216"
+               data-ad-slot="5734023899"></ins>
           <client-only>
             <Pagination
               ref="pagination"
