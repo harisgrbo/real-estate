@@ -489,13 +489,11 @@ export default class Agencies extends Vue {
     document.body.style.overflow = 'auto';
   }
 
-  async created() {
+  created() {
 
-    await this.fetchUserListings(this.$route.params.id, null, 1);
-    await this.fetchUserFinishedListings(this.$route.params.id, 1)
+    this.fetchUserListings(this.$route.params.id, null, 1);
+    this.fetchUserFinishedListings(this.$route.params.id, 1)
     this.isFollowed = this.meta.followed;
-
-    console.log(this.listingActiveMeta, 'meta')
   }
 
   get isMe() {
