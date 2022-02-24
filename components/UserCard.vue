@@ -3,7 +3,7 @@
     <nuxt-link :to="user.user_type === 'agency' || user.user_type === 'investor' ? '/pravno-lice/' + user.id : '/korisnik/' + user.id" class="flex flex-col items-center w-full">
       <div class="flex items-start px-4 pt-4 w-full">
         <div class="w-full flex justify-start w-full flex-row items-start">
-          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-sm" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
+          <img alt="Icewall Tailwind HTML Admin Template" class="rounded-sm avatar" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']">
           <div class="ml-4 text-left mt-0">
             <div class="font-semibold text-sm">
               <h2>{{ user.name }}</h2>
@@ -190,5 +190,9 @@ img {
   &:last-child {
     border-right: 0;
   }
+}
+
+.avatar {
+  object-fit: contain;
 }
 </style>

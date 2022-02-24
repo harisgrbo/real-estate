@@ -249,9 +249,9 @@ export default class Paketi extends Vue{
   features = []
   selectedPackage = null;
 
-  async created() {
-    await this.fetchAgencyPackages();
-    await this.fetchFeatures();
+  created() {
+    this.fetchAgencyPackages();
+    // await this.fetchFeatures();
   }
   async fetchAgencyPackages() {
     try {

@@ -177,8 +177,8 @@
             </div>
             <div class="mt-6 mobile-places-btn">
               <ActionButton @action="$modal.show('map-modal')"  placeholder="Mapa" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
-              <ActionButton v-if="!listing.is_booking" @action="$modal.show('places')"  placeholder="U blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
-              <ActionButton v-if="listing.is_booking" @action="$modal.show('places-poi')"  placeholder="Zanimljivosti" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+              <ActionButton v-if="!listing.is_booking" @action="$modal.show('places'); fetchPlaces();"  placeholder="U blizini" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
+              <ActionButton v-if="listing.is_booking" @action="$modal.show('places-poi'); fetchPlaces();"  placeholder="Zanimljivosti" :style-options="{ width: 'auto', background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }" :loading="false" @acition="$modal.show('places')"></ActionButton>
             </div>
             <div class="separator"></div>
             <div class="px-5 lg:px-0 xl:px-0 up:px-0">
@@ -1259,8 +1259,6 @@ export default class Oglas extends Vue {
     if (this.listing.listing_type.shortname === 'booking') {
       this.fetchBookings();
     }
-
-    this.fetchPlaces();
 
     this.specialAttributes = this.getRentSpecialAttributes().slice();
 

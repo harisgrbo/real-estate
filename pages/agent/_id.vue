@@ -6,7 +6,7 @@
           <aside class="w-96 bg-white overflow-y-auto">
             <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
               <div class="flex-1 flex flex-row justify-start user-inner">
-                <img class="w-32 h-32 flex-shrink-0 bg-black rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                <img class="w-32 h-32 flex-shrink-0 rounded-full" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
                 <div class="ml-6">
                   <h3 class="text-gray-900 text-xl font-semibold">{{ user.name }}</h3>
                   <dd class="mt-1 flex flex-row items-center justify-start text-sm">
