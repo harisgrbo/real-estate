@@ -14,7 +14,7 @@
             <div id="chats" class="tab-pane active" role="tabpanel" aria-labelledby="chats-tab">
               <div v-if="isMounted" class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
                 <ins class="adsbygoogle"
-                     style="display:block"
+                     style="display:block; text-align:center; width:100%"
                      data-ad-format="fluid"
                      data-ad-layout-key="-fb+5w+4e-db+86"
                      data-ad-client="ca-pub-3745186233711216"

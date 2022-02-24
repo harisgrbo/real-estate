@@ -66,6 +66,11 @@
       <b class="mr-2 text-2xl">{{ count.listing_count }}</b>
       Objavljenih oglasa
     </div>
+    <ins class="adsbygoogle"
+         v-if="!$device.isMobile"
+         style="display:inline-block;width:980px;height:250px"
+         data-ad-client="ca-pub-3745186233711216"
+         data-ad-slot="2369493952"></ins>
     <div class="flex flex-col" v-if="premiumListingsLoaded && premiumListings.length">
       <div class="flex custom-width items-center justify-between title-wrapper">
         <h2 class="section-title" ssr-only="stanovi sarajevo stan na dan najam izdavanje rentanje novogradnja iznajmljivanje">Premium oglasi</h2>
@@ -84,11 +89,6 @@
           </div>
         </div>
       </div>
-      <ins class="adsbygoogle"
-           v-if="!$device.isMobile"
-           style="display:inline-block;width:980px;height:250px"
-           data-ad-client="ca-pub-3745186233711216"
-           data-ad-slot="2369493952"></ins>
       <div class="flex items-center justify-between custom-width premium-listings" v-if="!$device.isMobile">
         <client-only v-if="premiumListingsLoaded">
           <swiper class="swiper" ref="swiperPremium" :options="swiperOptionPremium">
