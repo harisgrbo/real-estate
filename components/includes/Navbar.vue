@@ -401,9 +401,9 @@ export default class Navbar extends Vue {
       let previewType = '';
 
       if (process.browser) {
-        previewType = localStorage.getItem('preview')
+        previewType = localStorage.getItem('preview') || ''
 
-        if (previewType) {
+        if (previewType !== '') {
           previewType = '&preview=' + previewType;
         }
       }
