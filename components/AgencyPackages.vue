@@ -49,20 +49,20 @@
 <!--    </div>-->
 
     <!-- This example requires Tailwind CSS v2.0+ -->
-    <h3 class="text-2xl font-semibold mb-2.5">Paketi i pogodnosti</h3>
+    <h3 class="text-2xl font-semibold mb-2.5">Pogodnosti registracije agencije za nekretnine</h3>
     <div class="bg-white">
       <div class="paketi-wrap">
         <div class="space-y-4 mt-3 sm:space-y-0 sm:grid sm:grid-cols-1 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-3">
-          <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 package-wrap" v-for="pkg in packages" :key="pkg.id">
-            <div class="p-6 py-3">
-              <h2 class="text-lg font-medium text-gray-900">{{ pkg.title }}</h2>
-              <p class="mt-4 text-sm text-gray-500">{{ pkg.description }}</p>
-              <p class="mt-8">
-                <span class="text-4xl font-extrabold text-gray-900">{{ pkg.price + 'KM' }}</span>
-                <span class="text-base font-medium text-gray-500">/ mjesečno</span>
-              </p>
-              <a href="#" class="mt-8 block w-full bg-gray-800 border border-gray-800 rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-900">Kupi</a>
-            </div>
+          <div class="border border-gray-200 rounded-lg shadow-sm divide-y divide-gray-200 package-wrap" v-for="pkg in packages" :key="pkg.id" v-if="pkg.title === 'Premium'">
+<!--            <div class="p-6 py-3">-->
+<!--              <h2 class="text-lg font-medium text-gray-900">{{ pkg.title }}</h2>-->
+<!--              <p class="mt-4 text-sm text-gray-500">{{ pkg.description }}</p>-->
+<!--              <p class="mt-8">-->
+<!--                <span class="text-4xl font-extrabold text-gray-900">{{ pkg.price + 'KM' }}</span>-->
+<!--                <span class="text-base font-medium text-gray-500">/ mjesečno</span>-->
+<!--              </p>-->
+<!--              <a href="#" class="mt-8 block w-full bg-gray-800 border border-gray-800 rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-gray-900">Kupi</a>-->
+<!--            </div>-->
             <div class="pt-6 pb-8 px-6">
               <h3 class="text-xs font-medium text-gray-900 tracking-wide uppercase">Šta paket uključuje</h3>
               <ul role="list" class="mt-6 space-y-4">
@@ -82,155 +82,155 @@
 
 
 
-    <a class="anchor" id="top"></a>
-    <h3 class="text-2xl font-semibold mb-2.5 mt-8">Detaljne karakteristike paketa</h3>
+<!--    <a class="anchor" id="top"></a>-->
+<!--    <h3 class="text-2xl font-semibold mb-2.5 mt-8">Detaljne karakteristike paketa</h3>-->
 
-    <table>
-      <tr>
-        <th>POGODNOSTI</th>
-        <th>BASIC</th>
-        <th>ADVANCED</th>
-        <th>PREMIUM</th>
-      </tr>
-      <tr>
-        <td>Limit oglasa na objavi</td>
-        <td>30</td>
-        <td>80</td>
-        <td>nema limita</td>
-      </tr>
-      <tr>
-        <td>Broj agenata</td>
-        <td>3</td>
-        <td>8</td>
-        <td>nema limita</td>
-      </tr>
-      <tr>
-        <td>Popust na plaćanje ostalih pogodnosti</td>
-        <td>15%</td>
-        <td>25%</td>
-        <td>30%</td>
-      </tr>
-      <tr>
-        <td>Popust na banere</td>
-        <td>10%</td>
-        <td>15%</td>
-        <td>20%</td>
-      </tr>
-      <tr>
-        <td>Bonus kredit na iznos paketa</td>
-        <td>15%</td>
-        <td>30%</td>
-        <td>50%</td>
-      </tr>
-      <tr>
-        <td>Analitika</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>Podrška</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>Baner na profilu agencije</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>Prikaz agencije na naslovnici</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>Oglasi sa akcijom izdvojeni na naslovnici</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>PDF lista svih oglasa</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>Logotip agencije na kartici oglasa</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>Podrška 24h</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-      <tr>
-        <td>Objava oglasa putem csv-a ili API integracije</td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg></td>
-      </tr>
-    </table>
+<!--    <table>-->
+<!--      <tr>-->
+<!--        <th>POGODNOSTI</th>-->
+<!--        <th>BASIC</th>-->
+<!--        <th>ADVANCED</th>-->
+<!--        <th>PREMIUM</th>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Limit oglasa na objavi</td>-->
+<!--        <td>30</td>-->
+<!--        <td>80</td>-->
+<!--        <td>nema limita</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Broj agenata</td>-->
+<!--        <td>3</td>-->
+<!--        <td>8</td>-->
+<!--        <td>nema limita</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Popust na plaćanje ostalih pogodnosti</td>-->
+<!--        <td>15%</td>-->
+<!--        <td>25%</td>-->
+<!--        <td>30%</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Popust na banere</td>-->
+<!--        <td>10%</td>-->
+<!--        <td>15%</td>-->
+<!--        <td>20%</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Bonus kredit na iznos paketa</td>-->
+<!--        <td>15%</td>-->
+<!--        <td>30%</td>-->
+<!--        <td>50%</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Analitika</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Podrška</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Baner na profilu agencije</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Prikaz agencije na naslovnici</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Oglasi sa akcijom izdvojeni na naslovnici</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>PDF lista svih oglasa</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Logotip agencije na kartici oglasa</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Podrška 24h</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Objava oglasa putem csv-a ili API integracije</td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="red">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--        <td><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg></td>-->
+<!--      </tr>-->
+<!--    </table>-->
   </div>
 </template>
 

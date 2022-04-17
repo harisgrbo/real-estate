@@ -46,7 +46,7 @@
 
 
                   <li>
-                    <nuxt-link to="/paketi" class="text-sm text-black font-normal tracking-wider"> Paketi </nuxt-link>
+                    <nuxt-link to="/paketi" class="text-sm text-black font-normal tracking-wider"> Pogodnosti registracije agencije </nuxt-link>
                   </li>
                 </ul>
               </div>
