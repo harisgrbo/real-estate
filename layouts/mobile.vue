@@ -110,11 +110,8 @@ export default class Mobile extends Vue {
 .home-wrapper {
     padding-top: 60px !important;
     background: #f9f9f9;
-
-    @include for-phone-only {
-        background: #fff;
-        padding-bottom: 0px;
-    }
+    display: flex;
+    flex-direction: column;
 
     &.artikal-page {
         padding-top: 0 !important;

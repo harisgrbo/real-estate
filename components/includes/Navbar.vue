@@ -4,10 +4,10 @@
         <div
             :class="['second-row mx-auto w-full', this.$route.name === 'moj-racun-poruke' ? 'only-search' : '']">
             <div class="flex flex-row items-center">
-                <div class="img-wrapper" v-if="!$device.isMobile"
+                <div class="img-wrapper"
                      :class="[$device.isMobile && focused === true ? 'hide' : '']">
                     <nuxt-link to="/">
-                        <img :src="[ $device.isMobile ? '/svg-logo.svg' : '/svg-logo.svg']" class="main-logo"
+                        <img :src="[ $device.isMobile ? '/mojkvadratnew.png' : '/mojkvadratnew.png']" class="main-logo"
                              height="40" alt="">
                     </nuxt-link>
                 </div>
@@ -545,7 +545,7 @@ export default class Navbar extends Vue {
 
 
     @include for-phone-only {
-        padding: 0 16px;
+        padding: 0 12px;
         border-bottom: none;
         background: #fff !important;
         box-shadow: none !important;
@@ -606,13 +606,13 @@ export default class Navbar extends Vue {
         }
 
         img {
-            height: 48px;
+            height: 30px;
             min-width: fit-content;
         }
 
         @include for-phone-only {
             img {
-                height: 38px;
+                height: 25px;
                 width: auto;
                 min-width: auto;
                 margin-right: 16px;
@@ -1225,7 +1225,7 @@ export default class Navbar extends Vue {
 }
 
 .objava-btn {
-    background: #01FFCF !important;
+    background: #FF3400 !important;
     color: #343434 !important;
     border-radius: 8px !important;
     height: 46px;
@@ -1236,5 +1236,9 @@ export default class Navbar extends Vue {
     &:hover {
         background: #00eec0 !important;
     }
+}
+
+.main-logo {
+    height: 40px;
 }
 </style>

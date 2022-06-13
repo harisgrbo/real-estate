@@ -447,6 +447,7 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
             cities = response.data.meta.cities;
             countries = response.data.meta.countries;
 
+            console.log(results)
             query = JSON.parse(query)
 
             query.forEach(item => {
@@ -1532,7 +1533,7 @@ button.group {
     padding: 6px 8px !important;
 
     &:hover {
-        background: #01FFCF !important;
+        background: #FF3400 !important;
     }
 
 }

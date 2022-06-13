@@ -46,7 +46,7 @@ export default class Settings extends Vue {
 }
 
 .settings-wrapper {
-    margin-top: 120px !important;
+    margin-top: 70px !important;
     min-height: 100%;
     width: 100%;
     padding-bottom: 36px;

@@ -105,7 +105,7 @@ footer {
     margin-top: 48px;
 
     @include for-phone-only {
-        padding: 0 24px;
+        padding: 0 12px;
         margin-top: 0;
     }
 

@@ -78,7 +78,7 @@
                 <h2 class="section-title"
                     ssr-only="stanovi sarajevo stan na dan najam izdavanje rentanje novogradnja iznajmljivanje">Premium
                     oglasi</h2>
-                <div class="flex flex-row items-center mr-5">
+                <div class="flex flex-row items-center mr-2">
                     <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
                         <div
                             @click.prevent.stopPropagation="$refs.swiperPremium.$swiper.sliderPrev()"
@@ -111,20 +111,20 @@
             </div>
             <div class="pl-4 lg:px-20 xl:px-20 up:px-20 mb-0 mobile" v-else>
                 <div v-if="premiumListingsLoaded" class="flex flex-row overflow-y-scroll">
-                    <div v-for="listing in premiumListings" :key="listing.id" class="mr-5">
+                    <div v-for="listing in premiumListings" :key="listing.id" class="mr-2">
                         <PremiumListingCard :action="true" :listing="listing"/>
                     </div>
                 </div>
                 <div v-else class="flex flex-row overflow-y-scroll">
                     <div v-for="i in 5" :key="i" class="w-full">
-                        <skeleton height="200px" width="300px" class="mr-5"></skeleton>
+                        <skeleton height="200px" width="300px" class="mr-2"></skeleton>
                     </div>
                 </div>
             </div>
         </div>
         <div class="flex items-center justify-between custom-width title-wrapper">
             <h2 class="section-title" ssr-only="prodaja stanova sarajevo">Prodaja</h2>
-            <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
+            <div class="flex flex-row items-center mr-2 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
                 <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
                 <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
                     <div
@@ -158,20 +158,20 @@
         </div>
         <div class="mx-auto w-full mobile" v-else>
             <div v-if="sellLoaded" class="flex flex-row overflow-y-scroll ml-4">
-                <div v-for="listing in listings_sell" :key="listing.id" class="mr-5">
+                <div v-for="listing in listings_sell" :key="listing.id" class="mr-2">
                     <ListingCard :action="true" :listing="listing"/>
                 </div>
             </div>
             <div v-else class="flex flex-row overflow-y-scroll mx-5">
                 <div v-for="i in 5" :key="i" class="w-full">
-                    <skeleton height="232px" width="240px" class="mr-5"></skeleton>
+                    <skeleton height="232px" width="240px" class="mr-2"></skeleton>
                 </div>
             </div>
         </div>
 
         <div class="flex items-center justify-between custom-width title-wrapper">
             <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam">Najam</h2>
-            <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
+            <div class="flex flex-row items-center mr-2 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
                 <nuxt-link class="more" :to="`/pretraga?q=[${searchRent}]`">Pogledaj više</nuxt-link>
                 <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
                     <div
@@ -205,19 +205,19 @@
         </div>
         <div class="pl-4 mobile" v-else>
             <div v-if="rentLoaded" class="flex flex-row overflow-y-scroll">
-                <div v-for="listing in listings_rent" :key="listing.id" class="mr-5">
+                <div v-for="listing in listings_rent" :key="listing.id" class="mr-2">
                     <ListingCard :action="true" :listing="listing"/>
                 </div>
             </div>
             <div v-else class="flex flex-row overflow-y-scroll">
                 <div v-for="i in 5" :key="i" class="w-full">
-                    <skeleton height="232px" width="240px" class="mr-5"></skeleton>
+                    <skeleton height="232px" width="240px" class="mr-2"></skeleton>
                 </div>
             </div>
         </div>
         <div class="flex items-center justify-between custom-width title-wrapper">
             <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam">Stan na dan</h2>
-            <div class="flex flex-row items-center mr-5 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
+            <div class="flex flex-row items-center mr-2 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
                 <nuxt-link class="more" :to="`/pretraga?q=[${searchRentDay}]`">Pogledaj više</nuxt-link>
                 <div class="flex flex-row items-center mt-6" v-if="!$device.isMobile">
                     <div
@@ -251,13 +251,13 @@
         </div>
         <div class="mobile" v-else>
             <div v-if="rentPerDayLoaded" class="flex flex-row overflow-y-scroll ml-4">
-                <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-5">
+                <div v-for="listing in listings_rent_for_a_day" :key="listing.id" class="mr-2">
                     <ListingCard :action="false" :listing="listing"/>
                 </div>
             </div>
             <div v-else class="flex flex-row overflow-y-scroll ml-4">
                 <div v-for="i in 5" :key="i" class="w-full">
-                    <skeleton height="232px" width="240px" class="mr-5"></skeleton>
+                    <skeleton height="232px" width="240px" class="mr-2"></skeleton>
                 </div>
             </div>
         </div>
@@ -1148,6 +1148,8 @@ ul.most-visited-cats {
             @include for-phone-only {
                 flex-direction: column !important;
                 align-items: flex-start !important;
+                backdrop-filter: blur(5px);
+                background: #ffffff5c;
             }
 
 
@@ -1303,8 +1305,8 @@ ul.most-visited-cats {
 }
 
 button.search {
-    background: #01FFCF !important;
-    color: #343434;
+    background: #FF3400 !important;
+    color: #fff;
     border-radius: 8px !important;
     height: 46px;
     max-height: 46px;
@@ -1429,5 +1431,24 @@ button.search {
 .leaderboard {
     min-width: 650px;
     min-height: 135px;
+}
+
+::v-deep .text-wrap {
+    @include for-phone-only {
+        background: #fff;
+
+        label {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            left: -1px;
+            padding-top: 2px;
+            font-size: 10px !important;
+            text-transform: uppercase;
+        }
+
+        input {
+            padding: 0!important;
+        }
+    }
 }
 </style>

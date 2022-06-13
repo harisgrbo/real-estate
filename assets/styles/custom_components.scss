@@ -323,3 +323,9 @@ button:focus {
   }
 }
 
+.account-wrapper-inner {
+  @include for-phone-only {
+    background: #f9f9f9;
+  }
+}
+

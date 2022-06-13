@@ -172,7 +172,7 @@ export default class MobileBottomNavbar extends Vue {
     left: 0px;
     box-sizing: border-box;
     right: 0px;
-    min-height: 70px;
+    min-height: 40px;
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
@@ -187,8 +187,8 @@ export default class MobileBottomNavbar extends Vue {
 
     img {
         height: auto !important;
-        width: 24px !important;
-        min-width: 24px !important;
+        width: 14px !important;
+        min-width: 14px !important;
         margin-bottom: 8px;
     }
 }
@@ -228,8 +228,12 @@ a {
 
 a.nuxt-link-exact-active {
     span {
-        color: #1F2937 !important;
+        color: #FF3400 !important;
         font-weight: 800 !important;
+    }
+
+    img {
+        filter: opacity(0.6) drop-shadow(0 0 0 red);
     }
 }
 </style>

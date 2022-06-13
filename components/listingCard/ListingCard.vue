@@ -252,6 +252,7 @@ export default class ListingCard extends Vue {
 
 
     created() {
+
         let index = this.specialAttributesKeys.indexOf('Kvadratura');
 
         if (this.listing.is_booking && index !== -1) {
@@ -456,6 +457,9 @@ a {
 
         @include for-phone-only {
             min-height: fit-content;
+            padding-left: 8px;
+            padding-right: 8px;
+            background: #fff;
         }
 
         .title-price {
@@ -500,7 +504,7 @@ a {
                     }
 
                     @include for-phone-only {
-                        font-weight: 400 !important;
+                        font-weight: 300 !important;
                     }
                 }
             }

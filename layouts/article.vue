@@ -47,6 +47,8 @@ export default class Article extends Vue {
 .home-wrapper {
     padding-top: 80px !important;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     @include for-phone-only {
         min-height: 100%;

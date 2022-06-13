@@ -84,7 +84,7 @@ export default class Agencies extends Vue {
             flex-direction: column;
 
             @include for-phone-only {
-                padding: 24px;
+                padding: 12px;
             }
 
             h1 {
@@ -223,7 +223,7 @@ a {
 
 
 .grid-layout {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     padding: 0 !important;
     grid-row-gap: 16px;
     grid-column-gap: 16px;
@@ -270,11 +270,14 @@ a {
 }
 
 ::v-deep .box {
-    @include for-phone-only {
-        min-width: 100%;
-        width: 100%;
-        max-width: 100%;
-    }
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+@include for-phone-only {
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+}
 }
 </style>
 
