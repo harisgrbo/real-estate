@@ -73,6 +73,10 @@ export default {
     align-items: center;
     justify-content: flex-start;
     margin-right: 16px;
+
+    @include for-phone-only {
+        margin-right: 4px;
+    }
 }
 
 .switch-input {
@@ -133,6 +137,10 @@ export default {
     justify-content: flex-start;
     width: 100%;
     font-size: 16px !important;
+
+    @include for-phone-only {
+        font-size: 14px !important;
+    }
 }
 
 label {

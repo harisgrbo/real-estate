@@ -3,12 +3,12 @@
         <ul v-if="loading === false" role="list"
             class="pb-6 flex flex-col lg:grid up:grid xl:grid xl:grid-cols-2 lg:grid-cols-2 up:grid-cols-2 gap-6 w-full">
             <li v-for="(cat, index) in categories" :key="index" @click="selectCategory(cat)"
-                class="relative border text-wrap border-gray-300 rounded-md px-3 py-1 focus-within:ring-1 focus-within:ring-indigo-900 focus-within:ring-indigo-900 focus-within:border-indigo-900"
+                class="relative border text-wrap"
                 :class="[ 'flow-root', selectedCategory !== null? (cat.id === selectedCategory.id? 'selected': ''): null ]">
-                <div class="w-full text-semibold">
+                <div class="w-full text-semibold title">
                     {{ cat.title }}
                 </div>
-                <div class="flex-shrink-0 flex items-center justify-center h-14 w-14 rounded-lg p-1 svg-wrap">
+                <div class="flex">
                     <img :src="'/cats/' + cat.slug + '.png'" alt="">
                 </div>
             </li>
@@ -114,16 +114,18 @@ a {
 ul {
     @include for-phone-only {
         grid-gap: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 ul li {
     -webkit-box-align: center !important;
     -webkit-box-pack: justify !important;
-    background-color: rgb(255, 255, 255) !important;
-    border: 1px solid rgb(221, 221, 221) !important;
+    background-color: #fff !important;
+    border: 1px solid #343434 !important;
     box-sizing: border-box !important;
-    border-radius: 12px !important;
+    border-radius: 4px !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -135,22 +137,32 @@ ul li {
     font-weight: 600;
 
     @include for-phone-only {
+        border: 1px solid #f1f1f1 !important;
         background: #fff !important;
         color: #000 !important;
-        padding: 8px 12px !important;
+        padding: 12px !important;
         width: 100% !important;
         min-height: fit-content;
         height: fit-content;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column-reverse !important;
+        justify-content: center !important;
+        align-items: center !important;
         border-radius: 8px;
         font-weight: 600 !important;
         display: flex;
+        max-height: fit-content;
 
-        .svg-wrap {
-            height: 40px;
-            width: 40px;
+        img {
+            height: 50px;
+            width: 50px;
             border-radius: 7px;
+        }
+
+        .title {
+            text-align: center;
+            margin-top: 6px;
+            font-size: 16px;
+            font-weight: 400;
         }
     }
 }

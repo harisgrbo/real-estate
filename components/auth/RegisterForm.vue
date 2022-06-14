@@ -1,6 +1,6 @@
 <template>
     <div class="form-wrapper">
-        <img src="/svg-logo.svg" class="img-logo" alt="" @click="$router.push('/')">
+        <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')">
 
         <h2 class="mt-4">Registracija</h2>
         <ul class="flex flex-row items-center justify-start">
@@ -236,7 +236,7 @@ export default class RegisterForm extends Vue {
         padding: 36px 16px;
         height: auto;
         overflow-y: scroll;
-        justify-content: center;
+        justify-content: flex-start;
     }
 
     h2 {
@@ -352,4 +352,10 @@ select {
 //  width: fit-content !important;
 //  min-width: 90% !important;
 //}
+
+::v-deep button {
+    background: #FF3400;
+    color: #fff !important;
+    border: none;
+}
 </style>

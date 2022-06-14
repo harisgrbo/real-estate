@@ -1,7 +1,7 @@
 <template>
     <!-- This example requires Tailwind CSS v2.0+ -->
     <fieldset>
-        <div class="mt-4 grid grid-cols-1 gap-y-6 sm:gap-x-4">
+        <div class="mt-4 grid grid-cols-1 gap-y-3">
             <!--
               Checked: "border-transparent", Not Checked: "border-gray-300"
               Active: "ring-2 ring-indigo-500"

@@ -1,7 +1,7 @@
 <template>
     <div class="form-wrapper">
         <div class="inner" v-if="!messageSent">
-            <img src="/svg-logo.svg" class="img-logo" alt="" @click="$router.push('/')">
+            <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')">
             <h2 class="mt-4 text-left w-full">Zaboravljena šifra</h2>
             <div class="rounded-md bg-yellow-50 p-4 mb-6 w-full">
                 <div class="flex">
@@ -129,7 +129,7 @@ export default class zaboravljenasifra extends Vue {
     overflow-y: scroll;
     padding: 10px;
     height: 100vh;
-    justify-content: center;
+    justify-content: flex-start;
 
     .inner {
         width: 70%;
@@ -150,7 +150,7 @@ export default class zaboravljenasifra extends Vue {
         padding: 24px 16px;
         height: 100%;
         min-height: 100vh;
-        justify-content: center;
+        justify-content: flex-start;
 
 
     }
@@ -166,7 +166,6 @@ export default class zaboravljenasifra extends Vue {
 button {
     width: 100%;
     margin-top: 16px;
-    font-size: 16px;
 }
 
 label {
@@ -225,5 +224,11 @@ label {
 
 form {
     width: 100%;
+}
+
+::v-deep button {
+    background: #FF3400;
+    color: #fff !important;
+    border: none;
 }
 </style>

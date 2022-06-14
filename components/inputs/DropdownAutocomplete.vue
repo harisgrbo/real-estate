@@ -78,6 +78,7 @@ export default class PublishDropdown extends Vue {
     min-height: 36px;
     border: 1px solid #f1f1f1 !important;
     width: 100%;
+    background: #fff;
 
     input {
         min-height: 36px !important;

@@ -104,8 +104,8 @@
                 <PublishMap :location="listing" @latlng="handleLatLng"></PublishMap>
                 <InputError :error="errors.city"/>
                 <InputError :error="errors.description"/>
-                <TextAreaField class="mt-6" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5"
-                               v-model="listing.video_url"></TextAreaField>
+                <TextField class="mt-6" label="Youtube iframe" type="text" placeholder="https://youtube.com/1wts5"
+                               v-model="listing.video_url"></TextField>
                 <client-only>
                     <div class="pt-4">
                         <label class="block text-md font-medium text-gray-900 mb-2">Opis</label>
@@ -924,7 +924,7 @@ export default class ListingEdit extends Vue {
                 margin-top: 36px;
                 font-weight: 600;
                 font-size: 16px;
-                margin-bottom: 12px;
+                margin-bottom: 32px !important;
 
                 &:first-child {
                     margin-top: 0;

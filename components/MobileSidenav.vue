@@ -7,7 +7,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
         </div>
-        <div class="rounded-md bg-yellow-50 p-4 mb-2 mt-4">
+        <div class="rounded-md bg-yellow-50 p-4 mb-2 mt-4" v-if="$auth.user && !$auth.user.verified">
             <div class="flex">
                 <div class="flex-shrink-0">
                     <!-- Heroicon name: solid/exclamation -->
@@ -68,19 +68,19 @@
                     </li>
                 </ul>
             </li>
-            <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between" disabled>
-                <div class="flex flex-row items-center w-full">
-                    <img src="/005-credit-card.png" alt="">
-                    <nuxt-link to="">Plaćanja
-                        <dd class="ml-2">
-                            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Uskoro dostupno</span>
-                        </dd>
-                    </nuxt-link>
-                </div>
-                <span class="bg-gray-50 balance p-1 min-w-min font-semibold text-sm text-gray-800">{{
-                        $auth.user.wallet.balance + ' KM'
-                    }}</span>
-            </li>
+<!--            <li v-if="$auth.user" class="flex flex-row items-center w-full justify-between" disabled>-->
+<!--                <div class="flex flex-row items-center w-full">-->
+<!--                    <img src="/005-credit-card.png" alt="">-->
+<!--                    <nuxt-link to="">Plaćanja-->
+<!--                        <dd class="ml-2">-->
+<!--                            <span class="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">Uskoro dostupno</span>-->
+<!--                        </dd>-->
+<!--                    </nuxt-link>-->
+<!--                </div>-->
+<!--                <span class="bg-gray-50 balance p-1 min-w-min font-semibold text-sm text-gray-800">{{-->
+<!--                        $auth.user.wallet.balance + ' KM'-->
+<!--                    }}</span>-->
+<!--            </li>-->
             <li v-if="$auth.user && $auth.user.user_type === 'user'">
                 <img src="/001-article.png" alt="">
                 <nuxt-link to="/moj-racun/moji-oglasi">Moji oglasi</nuxt-link>
@@ -117,14 +117,6 @@
                 <nuxt-link to="/agencije">Agencije</nuxt-link>
             </li>
             <li>
-                <img src="/001-advertising.png" alt="">
-                <nuxt-link to="/investitori">Investitori</nuxt-link>
-            </li>
-            <li>
-                <img src="/002-box.png" alt="">
-                <nuxt-link to="/paketi">Paketi pretplate</nuxt-link>
-            </li>
-            <li>
                 <img src="/003-bug.png" alt="">
                 <nuxt-link to="/prijavi-gresku">Prijavi grešku/bug</nuxt-link>
             </li>
@@ -153,6 +145,10 @@ export default class sidenav extends Vue {
         if (newVal) {
             this.$modal.hide('sidebar')
         }
+    }
+
+    created() {
+        console.log(this.$auth.user)
     }
 
     logout() {
@@ -215,7 +211,6 @@ export default class sidenav extends Vue {
 <style scoped lang="scss">
 ul {
     li {
-        height: 60px;
         font-size: 15px;
         font-weight: 400;
         display: flex;
@@ -225,6 +220,7 @@ ul {
         border-radius: 5px;
         color: #444;
         margin-bottom: 0px;
+        padding: 8px 0;
 
         &:hover {
             text-decoration: underline;
@@ -235,7 +231,7 @@ ul {
         }
 
         img {
-            height: 24px !important;
+            height: 18px !important;
             min-width: auto !important;
             max-width: auto !important;
             width: auto !important;

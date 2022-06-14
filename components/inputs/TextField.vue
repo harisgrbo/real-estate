@@ -71,6 +71,7 @@ export default class TextField extends Vue {
     border: 1px solid #f1f1f1 !important;
     width: 100%;
     max-height: 46px;
+    background: #fff;
 
     input {
         min-height: 36px !important;

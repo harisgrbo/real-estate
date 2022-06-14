@@ -1314,7 +1314,7 @@ button.search {
     font-weight: 700;
 
     &:hover {
-        background: #00eec0 !important;
+        background: #dc2b00 !important;
     }
 
     @include for-phone-only {

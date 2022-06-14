@@ -1,6 +1,6 @@
 <template>
     <div class="form-wrapper">
-        <img src="/svg-logo.svg" class="img-logo" alt="" @click="$router.push('/')">
+        <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')">
 
         <h2 class="mt-4">Prijava</h2>
         <form @submit.prevent="handleLogin">
@@ -11,13 +11,15 @@
             <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading"
                           type="submit" placeholder="Prijavi se"></ActionButton>
         </form>
-        <div class="flex items-center justify-center login-u">
-            <p>Nemaš račun?</p>
-            <nuxt-link :to="{ path: '/registracija' }">Registruj se</nuxt-link>
+        <div class="flex flex-row items-center justify-between w-full mt-4 pt-4 links">
+            <div class="flex items-center text-left login-u">
+                <nuxt-link :to="{ path: '/registracija' }" class="text-red-600">Registruj se</nuxt-link>
+            </div>
+            <div class="flex items-center text-right">
+                <nuxt-link :to="{ path: '/zaboravljena-sifra' }" class="underline">Zaboravljena šifra?</nuxt-link>
+            </div>
         </div>
-        <div class="flex items-center justify-center mt-8">
-            <nuxt-link :to="{ path: '/zaboravljena-sifra' }">Zaboravili ste šifru?</nuxt-link>
-        </div>
+
     </div>
 </template>
 
@@ -102,7 +104,7 @@ export default class LoginForm extends Vue {
         padding: 24px 16px;
         height: 100%;
         min-height: 100vh;
-        justify-content: center;
+        justify-content: flex-start;
 
 
     }
@@ -155,11 +157,6 @@ label {
 }
 
 .login-u {
-    width: 100%;
-    padding-top: 24px;
-    margin-top: 24px;
-    border-top: 1px solid #f1f1f1;
-
     p {
         min-width: fit-content;
         margin-right: 8px;
@@ -167,10 +164,21 @@ label {
     }
 
     a {
+        width: fit-content;
         &:hover {
             text-decoration: underline;
             cursor: pointer;
         }
     }
+}
+
+.links {
+    border-top: 1px solid #ededed;
+}
+
+::v-deep button {
+    background: #FF3400;
+    color: #fff !important;
+    border: none;
 }
 </style>

@@ -94,6 +94,10 @@ export default class TermsInput extends Vue {
             width: 100%;
             font-size: 14px;
 
+            @include for-phone-only {
+                background: #fff;
+            }
+
             &:focus {
                 outline: none;
             }
@@ -101,6 +105,11 @@ export default class TermsInput extends Vue {
             &.selected {
                 background: #d8d8db;
                 font-weight: 500;
+
+                @include for-phone-only {
+                    background: #FF3400;
+                    color: #fff;
+                }
             }
         }
     }

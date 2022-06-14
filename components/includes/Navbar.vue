@@ -18,7 +18,7 @@
                 <!--          <nuxt-link to="/zasto-se-registrovati" class="ml-2 uppercase text-black hover:underline font-light text-sm mr-4">Zašto se registrovati</nuxt-link>-->
                 <!--        </div>-->
             </div>
-            <div :class="['flex items-center justify-center flex-1 centralize']">
+            <div v-if="!$device.isMobile" :class="['flex items-center justify-center flex-1 centralize']">
                 <div class="input-wrapper"
                      @focusin="focused = true"
                      :class="[ focused? 'focused' : '']"
@@ -111,7 +111,7 @@
             <div class="auth-buttons relative" v-if="!$device.isMobile">
                 <ActionButton class="objava-btn" v-if="$auth.user" type="submit" @action="redirectToPublish"
                               placeholder="Objava"
-                              :style-options="{ border: '2px solid #232e3f', color: '#343434 !important', background: '#232e3f', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }"
+                              :style-options="{ border: '2px solid #232e3f', color: '#fff !important', background: '#232e3f', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }"
                               :loading="false"></ActionButton>
 
                 <div class="inner overflow-x-hidden">
@@ -1226,7 +1226,7 @@ export default class Navbar extends Vue {
 
 .objava-btn {
     background: #FF3400 !important;
-    color: #343434 !important;
+    color: #fff !important;
     border-radius: 8px !important;
     height: 46px;
     max-height: 46px;
@@ -1234,7 +1234,7 @@ export default class Navbar extends Vue {
     font-weight: 700;
 
     &:hover {
-        background: #00eec0 !important;
+        background: #dc2b00 !important;
     }
 }
 
