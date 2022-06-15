@@ -1,19 +1,19 @@
 <template>
-  <div class="settings-wrapper">
-    <Navbar></Navbar>
-    <div :class="['preview-wrapper', $route.path === '/moj-racun/poruke' ? 'messages' : '']">
-      <Nuxt />
+    <div class="settings-wrapper">
+        <Navbar></Navbar>
+        <div :class="['preview-wrapper', $route.path === '/moj-racun/poruke' ? 'messages' : '']">
+            <Nuxt/>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import Navbar from "@/components/includes/Navbar";
 import Footer from "@/components/Footer"
 
 @Component({
-  components: {Navbar, Footer}
+    components: {Navbar, Footer}
 })
 
 export default class Settings extends Vue {
@@ -22,59 +22,62 @@ export default class Settings extends Vue {
 
 <style lang="scss" scoped>
 @mixin for-laptop {
-  @media (min-width: 768px) and (max-width: 1023px) {
-    @content;
-  }
+    @media (min-width: 768px) and (max-width: 1023px) {
+        @content;
+    }
 }
+
 @mixin for-desktop-up {
-  @media (min-width: 1200px) {
-    @content;
-  }
+    @media (min-width: 1200px) {
+        @content;
+    }
 }
+
 @mixin for-big-desktop-up {
-  @media (min-width: 1800px) {
-    @content;
-  }
+    @media (min-width: 1800px) {
+        @content;
+    }
 }
+
 @mixin for-phone-only {
-  @media (max-width: 599px) {
-    @content;
-  }
+    @media (max-width: 599px) {
+        @content;
+    }
 }
 
 .settings-wrapper {
-  margin-top: 120px !important;
-  min-height: 100%;
-  width: 100%;
-  padding-bottom: 36px;
-
-  .preview-wrapper {
-    width: 1280px;
-    margin: 0 auto;
-    background: #fff;
+    margin-top: 70px !important;
+    min-height: 100%;
+    width: 100%;
     padding-bottom: 36px;
 
-    &.messages {
-      background: transparent;
-      padding-bottom: 0;
-      width: 1280px;
-      margin: 0 auto;
+    .preview-wrapper {
+        width: 1280px;
+        margin: 0 auto;
+        background: #fff;
+        padding-bottom: 36px;
+
+        &.messages {
+            background: transparent;
+            padding-bottom: 0;
+            width: 1280px;
+            margin: 0 auto;
+        }
+
+        @include for-phone-only {
+            width: 100%;
+            padding-bottom: 36px;
+        }
     }
 
     @include for-phone-only {
-      width: 100%;
-      padding-bottom: 36px;
+        min-height: 100%;
+        background: #fff;
     }
-  }
 
-  @include for-phone-only {
-    min-height: 100%;
-    background: #fff;
-  }
-
-  &.no-padding {
-    padding-top: 0;
-  }
+    &.no-padding {
+        padding-top: 0;
+    }
 
 }
 </style>
