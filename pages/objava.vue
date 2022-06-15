@@ -42,7 +42,7 @@
                     <h2 class="test" v-if="currentStep === steps.STEP_TWO">
                         Šta želite uraditi sa vašom nekretninom?
                     </h2>
-                    <PublishRadioButton :options="getListingTypesForCategories" v-model="listingType" :error="errors.listingType.error" :error-message="errors" @input="nextStep"></PublishRadioButton>
+                    <PublishRadioButton :options="getListingTypesForCategory" v-model="listingType" :error="errors.listingType.error" :error-message="errors" @input="nextStep"></PublishRadioButton>
                 </div>
 
                 <div class="button-wrapper">
@@ -368,9 +368,9 @@ export default class Objava extends Vue {
       'zemljista': ['sell']
     }
 
-    getListingTypesForCategory() {
+    get getListingTypesForCategory() {
       if (this.category) {
-        let types = this.categoryListingTypeMap[category.slug];
+        let types = this.categoryListingTypeMap[this.category.slug];
 
         return this.listingTypes.filter(item => {
           return types.indexOf(item.shortname) !== -1
