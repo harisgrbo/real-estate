@@ -1016,7 +1016,7 @@ export default class Objava extends Vue {
                     font-family: 'NunitoSans', sans-serif;;
                     cursor: pointer;
                     margin-right: 16px;
-                    background: #FF3400;
+                    background: #FC8709;
                     border-radius: 6px;
                     color: #fff;
                     &.back {

@@ -441,6 +441,8 @@ a {
         width: 100%;
         border-radius: 4px;
         object-fit: cover;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
 
         @include for-phone-only {
             height: 154px;
@@ -451,9 +453,9 @@ a {
     .listing-card-content {
         display: flex;
         flex-direction: column;
-        padding-top: 10px;
         min-height: 80px;
-        padding-bottom: 8px;
+        padding: 12px;
+        background: #fff;
 
         @include for-phone-only {
             min-height: fit-content;

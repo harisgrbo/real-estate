@@ -3,10 +3,6 @@
         <div class="publish mb-24 p-8">
 <!--            <img src="/image.webp" alt="" class="image-bg">-->
             <div class="quick-search">
-                <div class="flex flex-col" v-show="!$device.isMobile">
-                    <h3 class="main-title">Sve nekretnine na jednom mjestu</h3>
-                    <h5 class="main-title sub">U par koraka do vaših kvadrata.</h5>
-                </div>
                 <div class="flex flex-col mt-6">
                     <div class="flex flex-row items-center w-full inputs">
                         <div class="search-inputs">
@@ -122,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex items-center justify-between custom-width title-wrapper">
+        <div class="flex items-center justify-between custom-width title-wrapper first">
             <h2 class="section-title" ssr-only="prodaja stanova sarajevo">Prodaja</h2>
             <div class="flex flex-row items-center mr-2 lg:mr-0 up:mr-0 md:mr-0 xl:mr-0">
                 <nuxt-link class="more" :to="`/pretraga?q=[${searchSell}]`">Pogledaj više</nuxt-link>
@@ -679,6 +675,9 @@ export default class Homepage extends Vue {
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
+    background: #f9f9f9;
+    padding-bottom: 64px;
+    border-bottom: 1px solid #dcdcdc;
 
 
     @include for-phone-only {
@@ -1067,10 +1066,8 @@ ul.most-visited-cats {
         position: absolute;
         width: 1280px;
         margin: 0 auto;
-        bottom: 0px;
-        top: 150px;
+        bottom: -40px;
         border-radius: 8px;
-        height: 276px;
         left: 0;
         right: 0;
         margin-left: auto;
@@ -1304,7 +1301,7 @@ ul.most-visited-cats {
 }
 
 button.search {
-    background: #FF3400 !important;
+    background: #FC8709 !important;
     color: #fff;
     border-radius: 8px !important;
     height: 46px;
@@ -1449,5 +1446,9 @@ button.search {
             padding: 0!important;
         }
     }
+}
+
+.first {
+    margin-top: 80px;
 }
 </style>

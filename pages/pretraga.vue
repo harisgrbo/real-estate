@@ -1533,7 +1533,7 @@ button.group {
     padding: 6px 8px !important;
 
     &:hover {
-        background: #FF3400 !important;
+        background: #FC8709 !important;
     }
 
 }

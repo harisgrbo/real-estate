@@ -228,7 +228,7 @@ a {
 
 a.nuxt-link-exact-active {
     span {
-        color: #FF3400 !important;
+        color: #FC8709 !important;
         font-weight: 800 !important;
     }
 

@@ -102,7 +102,6 @@ export default {
 footer {
     padding: 36px 0;
     background: #F2F2F2;
-    margin-top: 48px;
 
     @include for-phone-only {
         padding: 0 12px;

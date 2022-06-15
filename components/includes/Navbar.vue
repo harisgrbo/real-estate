@@ -1225,7 +1225,7 @@ export default class Navbar extends Vue {
 }
 
 .objava-btn {
-    background: #FF3400 !important;
+    background: #FC8709 !important;
     color: #fff !important;
     border-radius: 8px !important;
     height: 46px;

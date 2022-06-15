@@ -107,7 +107,7 @@ export default class TermsInput extends Vue {
                 font-weight: 500;
 
                 @include for-phone-only {
-                    background: #FF3400;
+                    background: #FC8709;
                     color: #fff;
                 }
             }
