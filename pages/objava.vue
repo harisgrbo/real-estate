@@ -220,31 +220,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- izdvajanje -->
-            <div v-show="currentStep === steps.STEP_EIGHT" class="step-9 test">
-                <div class="advertising-options-wrapper">
-                    <div class="inner">
-                        <Advertising :publishing="true" :id="listingId" :slug="listingSlug"></Advertising>
-                        <!--              <div class="advertising-calculator">-->
-                        <!--                <ActionButton placeholder="Dopuni kredit" :style-options="{ color: '#fff', height: '48px', marginTop: '36px' }"></ActionButton>-->
-                        <!--              </div>-->
-                    </div>
-
-                    <div class="button-wrapper">
-                        <button @click="prevStep" class="back">Nazad
-                        </button>
-                        <button @click="nextStep">Dalje
-                        </button>
-                    </div>
-                </div>
-
-                <div class="button-wrapper">
-                    <button @click="prevStep" class="back">Nazad
-                    </button>
-                    <ActionButton :loading="finishLoader" @action="nextStep" placeholder="Završi" :style-options="{ color: '#fff' }"></ActionButton>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -335,9 +310,6 @@ export default class Objava extends Vue {
         }
         return true;
     }
-    async created() {
-        await this.fetchSponsorship()
-    }
     dropzoneChangeUrl() {
         this.uploading = true;
         this.$refs.dropzone.setOption('url', `https://api.mojkvadrat.ba/listings/${this.listingId}/image`);
@@ -381,10 +353,6 @@ export default class Objava extends Vue {
     }
     // Errors
     errors = {
-        'sponsorship': {
-            'error': false,
-            'message': "Select sponsorship"
-        },
         'district': {
             'error': false,
             'message': "district needs to be two words"
@@ -442,8 +410,7 @@ export default class Objava extends Vue {
         STEP_FIVE: 5,
         STEP_SIX: 6,
         STEP_SEVEN: 7,
-        STEP_EIGHT: 8,
-        TOTAL_STEPS: 9
+        TOTAL_STEPS: 8
     }
     currentStep = this.steps.STEP_ONE;
 
@@ -476,17 +443,6 @@ export default class Objava extends Vue {
     }
     get fullTitle() {
         return this.city_id + this.category_id + this.neighborhood
-    }
-    async fetchSponsorship() {
-        try {
-            let res = await this.$axios.get('/sponsorship/packages');
-            this.advertising_options = res.data.data;
-            if (this.advertising_options.length) {
-                this.selectedAdvertisement = this.advertising_options[0].id;
-            }
-        } catch(e) {
-            console.log(e)
-        }
     }
     async finish() {
         if (this.listingSlug) {
@@ -538,36 +494,8 @@ export default class Objava extends Vue {
                     }
                     await this.publish();
                     break;
-                case this.steps.STEP_EIGHT:
-                    if(! this.validateMany(['sponsorship'])) {
-                        await this.finish();
-                        return;
-                    }
-                    let success = await this.sponsor(this.listingId);
-                    if (! success) {
-                        this.$toast.open({
-                            message: "Nemate dovoljno sredstava na računu",
-                            type: 'error',
-                            duration: 5000
-                        });
-                        return;
-                    }
-                    await this.finish();
-                    break;
             }
             this.currentStep++;
-        }
-    }
-    async sponsor(listingId) {
-        try {
-            await this.$axios.post(`/listings/${listingId}/sponsor`, {
-                sponsorship_id: this.selectedAdvertisement
-            })
-            await this.$auth.fetchUser();
-            return true;
-        } catch (e) {
-            console.log(e);
-            return false;
         }
     }
     prevStep() {
@@ -745,13 +673,6 @@ export default class Objava extends Vue {
     @Watch('description')
     handleDescriptionChange(newVal, oldVal) {
         this.errors.description.error = false;
-    }
-    @Watch('selectedAdvertisement')
-    handleSelectedAdvertisementChange(newVal, oldVal) {
-        this.errors.sponsorship.error = false;
-    }
-    validateSponsorship() {
-        return this.selectedAdvertisement !== null;
     }
     validateDistrict() {
         return this.district !== null && this.district !== '';
