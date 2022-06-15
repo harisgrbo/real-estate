@@ -1215,8 +1215,8 @@ export default class Navbar extends Vue {
 .notification-button {
     img {
         height: auto !important;
-        width: 24px !important;
-        min-width: 24px !important;
+        width: 19px !important;
+        min-width: 19px !important;
     }
 }
 

@@ -13,9 +13,9 @@
             <img src="/005-add.png" alt="">
             <span>Objava</span>
         </nuxt-link>
-        <nuxt-link :to="goToUser()">
+        <nuxt-link v-if="!$auth.user" to="/prijava">
             <img src="/001-user.png" alt="">
-            <span>{{ $auth.user ? 'Profil' : 'Prijavi se' }}</span>
+            <span>Prijavi se</span>
         </nuxt-link>
         <nuxt-link to="" class="relative" v-if="$auth.user">
             <div @click="openSidebarMenu" class="flex flex-col items-center justify-center">

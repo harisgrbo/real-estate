@@ -31,7 +31,7 @@
             </div>
         </div>
         <ul>
-            <li v-if="$auth.user" class="user-label" @click="goToUser">
+            <li v-if="$auth.user" class="user-label">
                 <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
                 <div class="user-wrap w-full">
                     <dd class="mt-3 w-full flex flex-row items-center justify-between">

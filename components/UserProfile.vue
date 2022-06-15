@@ -55,12 +55,12 @@
                                       @action="$router.push('/oglas/' + id + '/sponzorisanje-oglasa')"
                                       class="w-full"></ActionButton>
                     </div>
-                    <div class="w-full flex flex-col items-center justify-between" v-else>
+                    <div class="w-full flex flex-row items-center justify-between" v-else>
                         <ActionButton @action="$modal.show('contact-user')"
                                       :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"
                                       placeholder="Poruka" class="w-full mr-sm"></ActionButton>
-                        <a target="_blank" :href="`https://wa.me/${user.phone_number}`">Whatsapp poziv</a>
-                        <a :href="`viber://chat?number=${user.phone_number}`" target="_blank">Viber poziv</a>
+                        <a class="call-btn" target="_blank" :href="`https://wa.me/${user.phone_number}`">Whatsapp poziv</a>
+                        <a class="call-btn" :href="`viber://chat?number=${user.phone_number}`" target="_blank">Viber poziv</a>
 
                     </div>
                 </div>
@@ -606,5 +606,13 @@ textarea {
         background: red !important;
         color: #fff !important
     }
+}
+
+.call-btn {
+    background: transparent;
+    border: 2px solid #1F2937;
+    color: #1F2937;
+    margin-bottom: 12px;
+    height: 30px;
 }
 </style>
