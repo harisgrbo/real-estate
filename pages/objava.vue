@@ -42,7 +42,7 @@
                     <h2 class="test" v-if="currentStep === steps.STEP_TWO">
                         Šta želite uraditi sa vašom nekretninom?
                     </h2>
-                    <PublishRadioButton :options="listingTypes" v-model="listingType" :error="errors.listingType.error" :error-message="errors" @input="nextStep"></PublishRadioButton>
+                    <PublishRadioButton :options="getListingTypesForCategory" v-model="listingType" :error="errors.listingType.error" :error-message="errors" @input="nextStep"></PublishRadioButton>
                 </div>
 
                 <div class="button-wrapper">
@@ -121,20 +121,9 @@
                 </div>
             </div>
 
-            <div v-show="currentStep === steps.STEP_FIVE" class="step-5 test relative h-full">
-                treba ukinut
-
-                <div class="button-wrapper">
-                    <button @click="prevStep" class="back">Nazad
-                    </button>
-                    <button @click="nextStep">Dalje
-                    </button>
-                </div>
-            </div>
-
-            <div v-show="currentStep === steps.STEP_SIX" class="step-6 test">
+            <div v-show="currentStep === steps.STEP_FIVE" class="step-6 test">
                 <div class="inner">
-                    <h2 class="test" v-if="currentStep === steps.STEP_SIX">
+                    <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
                         Opišite vašu nekretninu
                     </h2>
                     <TextAreaField v-model="description"></TextAreaField>
@@ -148,9 +137,9 @@
                 </div>
             </div>
 
-            <div v-show="currentStep === steps.STEP_SEVEN" class="step-7 test">
+            <div v-show="currentStep === steps.STEP_SIX" class="step-7 test">
                 <div class="inner pt-20 pb-52">
-                    <h2 class="test" v-if="currentStep === steps.STEP_SEVEN">
+                    <h2 class="test" v-if="currentStep === steps.STEP_SIX">
                         Detaljne informacije nekretnine
                     </h2>
                     <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
@@ -215,7 +204,7 @@
                 </div>
             </div>
 
-            <div v-show="currentStep === steps.STEP_EIGHT" class="step-8 test">
+            <div v-show="currentStep === steps.STEP_SEVEN" class="step-8 test">
                 <div class="inner">
                     <h2 class="test">
                         Dodajte slike nekretnine
@@ -227,13 +216,13 @@
                 <div class="button-wrapper">
                     <button @click="prevStep" class="back">Nazad
                     </button>
-                    <button @click="nextStep" :disabled="uploading === true ? true : false">Dalje
+                    <button @click="nextStep" :disabled="uploading">Dalje
                     </button>
                 </div>
             </div>
 
             <!-- izdvajanje -->
-            <div v-show="currentStep === steps.STEP_NINE" class="step-9 test">
+            <div v-show="currentStep === steps.STEP_EIGHT" class="step-9 test">
                 <div class="advertising-options-wrapper">
                     <div class="inner">
                         <Advertising :publishing="true" :id="listingId" :slug="listingSlug"></Advertising>
@@ -366,8 +355,29 @@ export default class Objava extends Vue {
     selectAdvertisement(o) {
         this.selectedAdvertisement = o.id;
     }
+
     get allAttributes() {
         return this.globalAttributes.merge(this.categoryAttributes).merge(this.listingTypeAttributes);
+    }
+
+    categoryListingTypeMap = {
+      'stanovi': ['sell', 'rent', 'booking'],
+      'kuce': ['sell', 'rent'],
+      'poslovni-prostori': ['sell', 'rent'],
+      'garaze': ['sell', 'rent'],
+      'zemljista': ['sell']
+    }
+
+    get getListingTypesForCategory() {
+      if (this.category) {
+        let types = this.categoryListingTypeMap[this.category.slug];
+
+        return this.listingTypes.filter(item => {
+          return types.indexOf(item.shortname) !== -1
+        })
+      }
+
+      return this.listingTypes;
     }
     // Errors
     errors = {
@@ -433,11 +443,10 @@ export default class Objava extends Vue {
         STEP_SIX: 6,
         STEP_SEVEN: 7,
         STEP_EIGHT: 8,
-        STEP_NINE: 9,
-        TOTAL_STEPS: 10
+        TOTAL_STEPS: 9
     }
     currentStep = this.steps.STEP_ONE;
-    recommendedAddresses = []
+
     async publish() {
         const payload = {
             district: this.district,
@@ -517,25 +526,19 @@ export default class Objava extends Vue {
                     }
                     break;
                 case this.steps.STEP_FIVE:
-                    if(! this.validateMany(['city'])) {
-                        this.snackbarValidationError("Niste postavili pin");
-                        return;
-                    }
-                    break;
-                case this.steps.STEP_SIX:
                     if(! this.validateMany(['description'])) {
                         this.snackbarValidationError("Niste popunili opis");
                         return;
                     }
                     break;
-                case this.steps.STEP_SEVEN:
+                case this.steps.STEP_SIX:
                     if(! this.validateAttributes()) {
                         this.snackbarValidationError("Niste popunili obavezna polja");
                         return;
                     }
                     await this.publish();
                     break;
-                case this.steps.STEP_NINE:
+                case this.steps.STEP_EIGHT:
                     if(! this.validateMany(['sponsorship'])) {
                         await this.finish();
                         return;
