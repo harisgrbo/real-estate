@@ -68,6 +68,7 @@ button {
     img {
         height: 14px;
         max-height: 14px;
+        filter: invert(1);
     }
 }
 </style>

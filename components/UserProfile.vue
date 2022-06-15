@@ -278,16 +278,16 @@ export default class UserProfile extends Vue {
         })
     }
 
-    mounted() {
-        this.$nextTick(() => {
-            try {
-                // this is required for each ad slot (calling this once will only load 1 ad)
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (error) {
-                console.error(error)
-            }
-        })
-    }
+    // mounted() {
+    //     this.$nextTick(() => {
+    //         try {
+    //             // this is required for each ad slot (calling this once will only load 1 ad)
+    //             (window.adsbygoogle = window.adsbygoogle || []).push({});
+    //         } catch (error) {
+    //             console.error(error)
+    //         }
+    //     })
+    // }
 
     async blockUser(u) {
         try {

@@ -1088,25 +1088,15 @@ export default class Objava extends Vue {
     width: fit-content;
 }
 .map-wrapper {
-    margin-bottom: 24px;
-    margin-top: 24px;
-    position: absolute;
-    top: -24px;
+    position: relative;
     left: 0;
     right: 0;
     bottom: 0;
-    height: calc(100vh - 80px);
-    @include for-phone-only {
-        position: relative;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        border-radius: 4px;
-        height: 200px;
-    }
+    top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-radius: 4px;
+    height: 200px;
     ::v-deep #map {
         margin-top: 0;
         height: 100% !important;

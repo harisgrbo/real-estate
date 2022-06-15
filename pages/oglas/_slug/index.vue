@@ -1171,14 +1171,14 @@ export default class Oglas extends Vue {
     }
 
     mounted() {
-        this.$nextTick(() => {
-            try {
-                // this is required for each ad slot (calling this once will only load 1 ad)
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (error) {
-                console.error(error)
-            }
-        })
+        // this.$nextTick(() => {
+        //     try {
+        //         // this is required for each ad slot (calling this once will only load 1 ad)
+        //         (window.adsbygoogle = window.adsbygoogle || []).push({});
+        //     } catch (error) {
+        //         console.error(error)
+        //     }
+        // })
 
         if (this.error) {
             this.$router.push('/404')
