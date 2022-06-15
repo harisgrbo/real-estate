@@ -51,6 +51,17 @@
                                 <img src="/noimage.jpeg" alt="">
                             </div>
                         </div>
+                        <client-only>
+                            <light-box
+                                ref="lightbox"
+                                :media="lightboxImages"
+                                :show-light-box="false"
+                                :show-thumbs="true"
+                                close-text="function() {
+                                    return 'Zatvori galeriju'
+                                    }"
+                            />
+                        </client-only>
                         <div class="w-full mt-4" v-if="!$device.isMobile">
                             <h2 v-if="listing">{{ listing.title }}</h2>
                             <div class="w-full flex flex-row justify-between items-center my-2">
@@ -473,17 +484,6 @@
                                      @finish-listing="handleFinishListing"></UserProfile>
                     </div>
                 </div>
-                <client-only>
-                    <light-box
-                        ref="lightbox"
-                        :media="lightboxImages"
-                        :show-light-box="false"
-                        :show-thumbs="true"
-                        close-text="function() {
-                                    return 'Zatvori galeriju'
-                                    }"
-                    />
-                </client-only>
                 <client-only>
                     <modal @before-open="beforeOpen" @before-close="beforeClose" name="places" :adaptive="true"
                            height="100%">

@@ -1036,8 +1036,8 @@ ul.most-visited-cats {
 }
 
 .publish {
-    height: 295px;
-    background-image: url("/image.webp");
+    height: 365px;
+    background-image: url("/mojkvadratbg.jpg");
     background-size: cover;
     background-position: right;
     position: relative;
@@ -1045,7 +1045,6 @@ ul.most-visited-cats {
     padding: 0;
     width: 100%;
     margin: 60px auto 0 auto;
-    background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1069,7 +1068,7 @@ ul.most-visited-cats {
         width: 1280px;
         margin: 0 auto;
         bottom: 0px;
-        top: 0;
+        top: 150px;
         border-radius: 8px;
         height: 276px;
         left: 0;
