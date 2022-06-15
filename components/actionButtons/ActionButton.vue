@@ -57,10 +57,6 @@ button {
     color: #232e3f !important;
     justify-content: center;
 
-    &:hover {
-        background-color: #f2f3f4 !important;
-    }
-
     svg {
         margin-right: 8px;
     }
