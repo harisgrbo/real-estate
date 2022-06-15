@@ -102,6 +102,7 @@
         </div>
       </div>
     </div>
+
     <div :class="['content w-full mx-auto', selectedPreviewType === 'map' ? 'pl-4' : 'pl-4 pr-4']">
       <ins class="adsbygoogle"
            v-if="!$device.isMobile"
