@@ -47,7 +47,6 @@ export default class TextAreaField extends Vue {
     border: 1px solid #f1f1f1 !important;
     width: 100%;
     background: #fff;
-    overflow: hidden;
     textarea {
         padding: 14px;
         min-height: 180px !important;

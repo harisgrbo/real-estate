@@ -160,6 +160,10 @@ export default class accountpage extends Vue {
 .account-wrapper-a {
     padding-bottom: 36px;
 
+    @include for-phone-only {
+        padding: 14px !important;
+    }
+
     .account-wrapper-inner {
         width: 100%;
 

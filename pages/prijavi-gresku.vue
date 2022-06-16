@@ -2,7 +2,7 @@
     <div class="account-wrapper-a preview-wrapper-inner">
         <div class="account-wrapper-inner">
             <div class="sidenav">
-                <h1 class="heading-account">Prijavi grešku/bug</h1>
+                <h1>Prijavi grešku/bug</h1>
                 <form @submit.prevent="submitBug" class="mt-6">
                     <TextField type="text" label="Naslov" placeholder="Prijava greške" v-model="title"
                                class="mb-6 mt-1"></TextField>
@@ -11,7 +11,7 @@
                                        class="mt-1"></TextAreaField>
                     </div>
                     <ActionButton class="w-full"
-                                  :style-options="{ color: '#fff', marginTop: '24px', width: $device.isMobile ? '100%' : 'fit-content' }"
+                                  :style-options="{ color: '#fff !important', background: '#fc8709', marginTop: '24px', width: $device.isMobile ? '100%' : 'fit-content' }"
                                   :loading="loading" type="submit" placeholder="Prijavi"></ActionButton>
                 </form>
             </div>
@@ -78,7 +78,7 @@ export default class prijavigresku extends Vue {
     padding: 24px;
 
     @include for-phone-only {
-        padding: 24px !important;
+        padding: 14px !important;
         height: 100% !important;
     }
 }
@@ -225,6 +225,10 @@ export default class prijavigresku extends Vue {
     ::v-deep textarea {
         min-height: 320px;
     }
+}
+
+h1 {
+    font-size: 18px !important;
 }
 </style>
 

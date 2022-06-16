@@ -11,7 +11,7 @@
             </li>
         </ul>
         <div class="flex flex-row pb-8 justify-between notifications-wrap" v-if="notifications.length">
-            <ul class="divide-y divide-gray-200 w-full">
+            <ul class="divide-y w-full">
                 <li class="notification flex flex-col items-start justify-start relative bg-white hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
                     v-for="(notification, index) in notifications" :key="index">
                     <div class="flex justify-between w-full items-start">
@@ -93,22 +93,21 @@ export default class notifikacije extends Vue {
     padding: 24px;
 
     @include for-phone-only {
-        padding: 24px !important;
+        padding: 14px !important;
         height: 100% !important;
     }
 }
 
 .notification {
     margin-bottom: 16px;
-    border-bottom: 1px solid #f1f1f1;
     transition: 0.3s all ease;
-    padding: 12px 12px 16px 12px;
+    padding: 14px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     @include for-phone-only {
-        padding: 0 !important;
-        padding-bottom: 24px !important;
+        padding: 14px !important;
+        margin-bottom: 14px;
     }
 
     p {
@@ -134,16 +133,16 @@ h1 {
     margin-top: 36px;
     width: 100%;
     height: 100%;
-    background: #fff;
 
     button {
-        height: 44px;
-        border-radius: 6px;
-        background: #1F2937 !important;
+        height: 40px;
+        border-radius: 4px;
+        background: #FC8709 !important;
         width: fit-content;
         color: #fff;
         padding: 0 12px;
         margin-top: 12px;
+        font-size: 14px;
     }
 }
 </style>

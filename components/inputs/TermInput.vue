@@ -123,7 +123,7 @@ export default {
 }
 
 .switch-input:checked + .switch-label::before {
-    background-color: #1F2937;
+    background-color: #FC8709;
 }
 
 .switch-input:checked + .switch-label::after {

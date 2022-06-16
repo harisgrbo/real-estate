@@ -207,7 +207,7 @@
             <div v-show="currentStep === steps.STEP_SEVEN" class="step-8 test">
                 <div class="inner">
                     <h2 class="test">
-                        Dodajte slike nekretnine
+                        Dodajte slike ili snimke nekretnine
                     </h2>
                     <div class="img-upload-wrapper">
                         <dropzone ref="dropzone" :options="dropzoneOptions" :destroy-dropzone="false" @vdropzone-processing="dropzoneChangeUrl" @vdropzone-sending="sendImages"></dropzone>
@@ -1530,7 +1530,7 @@ h2.info {
         transition: left 0.25s ease;
     }
     .switch-input:checked + .switch-label::before {
-        background-color: #1F2937;
+        background-color: #FC8709;
     }
     .switch-input:checked + .switch-label::after {
         left: 24px;

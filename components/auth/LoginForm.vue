@@ -3,13 +3,17 @@
         <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')">
 
         <h2 class="mt-4">Prijava</h2>
-        <form @submit.prevent="handleLogin">
+        <form @submit.prevent.stop="handleLogin()">
             <TextField type="text" label="Email" placeholder="johndoe@mail.com" v-model="payload.username"
                        class="mb-6 mt-1"></TextField>
             <TextField type="password" label="Šifra" placeholder="*******" v-model="payload.password"
                        class="mt-1"></TextField>
             <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading"
                           type="submit" placeholder="Prijavi se"></ActionButton>
+            <button class="google-btn" @click="handleGoogleLogin($event)">
+                <img src="/google-btn.png" alt="">
+                Prijavi se sa Google računom
+            </button>
         </form>
         <div class="flex flex-row items-center justify-between w-full mt-4 pt-4 links">
             <div class="flex items-center text-left login-u">
@@ -42,7 +46,19 @@ export default class LoginForm extends Vue {
     }
     loading = false;
 
-    async handleLogin() {
+    async handleGoogleLogin(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            let res = await this.$axios.get('/auth/google');
+
+            window.location.replace(res.data.url);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    async handleLogin(e) {
         this.loading = true;
 
         try {
@@ -180,5 +196,35 @@ label {
     background: #FC8709;
     color: #fff !important;
     border: none;
+}
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    -webkit-transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    color: #343434 !important;
+    justify-content: center;
+    width: 100%;
+    height: 36px;
+    transition: 0.3s all ease;
+
+    img {
+        margin-right: 12px;
+        height: auto;
+        width: 20px;
+    }
+
+    &:hover {
+        background: #e0e0e0;
+    }
 }
 </style>

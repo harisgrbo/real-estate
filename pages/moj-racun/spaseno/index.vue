@@ -7,93 +7,22 @@
                      stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
-                <p>Spašeno</p>
+                <p>Spašeni oglasi</p>
             </li>
         </ul>
         <div class="content-wrapper">
-            <ul class="cw-ul">
-                <li v-for="(tab, index) in tabs"
-                    :key="index"
-                    @click="activeTab = index"
-                    :class="[activeTab === index? 'active' : '']"
-                >
-                    {{ tab }}
-                </li>
-            </ul>
             <div class="saved-content">
-                <!--        <div v-show="activeTab === 0">-->
-                <!--          <div class="flex flex-col" v-if="searches.length">-->
-                <!--            <div class="overflow-x-auto">-->
-                <!--              <div class="py-2 align-middle inline-block min-w-full">-->
-                <!--                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">-->
-                <!--                  <table class="min-w-full divide-y divide-gray-200">-->
-                <!--                    <thead class="bg-gray-50">-->
-                <!--                    <tr>-->
-                <!--                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-                <!--                        Naziv pretrage-->
-                <!--                      </th>-->
-                <!--                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-                <!--                        Title-->
-                <!--                      </th>-->
-                <!--                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-                <!--                        Filteri-->
-                <!--                      </th>-->
-                <!--                      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">-->
-                <!--                        Datum-->
-                <!--                      </th>-->
-                <!--                      <th scope="col" class="relative px-6 py-3">-->
-                <!--                        <span class="sr-only">Edit</span>-->
-                <!--                      </th>-->
-                <!--                      <th scope="col" class="relative px-6 py-3">-->
-                <!--                        <span class="sr-only">Edit</span>-->
-                <!--                      </th>-->
-                <!--                    </tr>-->
-                <!--                    </thead>-->
-                <!--                    <tbody class="bg-white divide-y divide-gray-200">-->
-                <!--                    <tr v-for="search in searches" :key="search.id">-->
-                <!--                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">-->
-                <!--                        {{ search.description }}-->
-                <!--                      </td>-->
-                <!--                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-->
-                <!--                        Regional Paradigm Technician-->
-                <!--                      </td>-->
-                <!--                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-->
-                <!--                        Novogradnja-->
-                <!--                      </td>-->
-                <!--                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-->
-                <!--                        {{ $moment(search.created_at).format('DD.MM.YYYY u HH:MM') }}-->
-                <!--                      </td>-->
-                <!--                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" @click="goToSearch(search)">-->
-                <!--                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Idi na pretragu</a>-->
-                <!--                      </td>-->
-                <!--                      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" @click="deleteSingleSearch(search.id)">-->
-                <!--                        <a href="#" class="text-indigo-600 hover:text-indigo-900">Izbrisi</a>-->
-                <!--                      </td>-->
-                <!--                    </tr>-->
-
-                <!--                    &lt;!&ndash; More people... &ndash;&gt;-->
-                <!--                    </tbody>-->
-                <!--                  </table>-->
-                <!--                </div>-->
-                <!--              </div>-->
-                <!--            </div>-->
-                <!--          </div>-->
-                <!--          <NotFound v-else src="/saved.svg" text="Nemate spašenih pretraga"></NotFound>-->
-
-                <!--        </div>-->
-                <div v-show="activeTab === 0">
-                    <div v-if="usersLoaded">
-                        <div class="grid-layout" v-if="savedListings.length">
-                            <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id"
-                                         :from="true" @remove-listing-from-saved="handleRemoveListing"></ListingCard>
-                        </div>
-                        <NotFound v-else src="/saved.svg" text="Nemate spašenih oglasa"></NotFound>
+                <div v-if="usersLoaded">
+                    <div class="grid-layout" v-if="savedListings.length">
+                        <ListingCard v-for="listing in savedListings" :listing="listing" :key="listing.id"
+                                     :from="true" @remove-listing-from-saved="handleRemoveListing"></ListingCard>
                     </div>
-                    <div class="grid-layout" v-else>
-                        <Skeleton :height="$device.isMobile ? '337px' : '372px'"
-                                  :width="$device.isMobile ? '165px' : '236px'" v-for="(i, index) in 20"
-                                  :key="index"></Skeleton>
-                    </div>
+                    <NotFound v-else src="/saved.svg" text="Nemate spašenih oglasa"></NotFound>
+                </div>
+                <div class="grid-layout" v-else>
+                    <Skeleton :height="$device.isMobile ? '337px' : '372px'"
+                              :width="$device.isMobile ? '100%' : '236px'" v-for="(i, index) in 5"
+                              :key="index"></Skeleton>
                 </div>
             </div>
         </div>
@@ -226,7 +155,7 @@ export default class spaseno extends Vue {
     padding: 24px;
 
     @include for-phone-only {
-        padding: 24px !important;
+        padding: 14px !important;
         height: 100% !important;
     }
 }
@@ -280,7 +209,7 @@ export default class spaseno extends Vue {
     grid-template-columns: repeat(5, 1fr);
 
     @include for-phone-only {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         grid-column-gap: 12px !important;
         grid-row-gap: 12px !important;
     }

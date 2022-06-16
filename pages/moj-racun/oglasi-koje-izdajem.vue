@@ -145,6 +145,11 @@ ul.orders li {
     padding-bottom: 24px;
     margin-bottom: 24px;
 
+    @include for-phone-only {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
     .main {
         height: 200px;
         width: 240px;
@@ -167,7 +172,7 @@ ul.orders li {
     padding: 24px;
 
     @include for-phone-only {
-        padding: 24px !important;
+        padding: 14px !important;
         height: 100% !important;
     }
 

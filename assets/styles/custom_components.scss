@@ -221,7 +221,7 @@ textarea, select, input[type="text"] {
 
 .preview-wrapper-inner {
   @include for-phone-only {
-    padding: 16px !important;
+    padding: 12px !important;
     margin-top: 0 !important;
   }
 }

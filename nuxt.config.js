@@ -91,6 +91,7 @@ export default {
     { src: "~plugins/swiper.js", mode: "client" },
     { src: "~plugins/vue2-editor.js", mode: "client" },
     { src: "~plugins/modal.js", mode: "client" },
+    { src: "~plugins/vue-stories.js", mode: "client" },
     { src: "~plugins/datepicker.js", mode: "client" },
     { src: "~plugins/infiniteloading.js", mode: "client" },
     { src: "~plugins/vue-lightbox.js", mode: "client" },
@@ -194,7 +195,10 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
 
-  loading: '@/components/LoadingBar.vue',
+  loading: {
+    color: '#FC8709',
+    height: '5px'
+  },
 
   cache: {
     // if you're serving multiple host names (with differing

@@ -1309,10 +1309,6 @@ button.search {
     border: none !important;
     font-weight: 700;
 
-    &:hover {
-        background: #dc2b00 !important;
-    }
-
     @include for-phone-only {
         width: 100% !important;
     }

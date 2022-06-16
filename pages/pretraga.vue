@@ -962,6 +962,7 @@ export default class Pretraga extends Vue {
         @include for-phone-only {
             padding-bottom: 0px;
             padding-top: 12px;
+            width: 100%;
         }
 
         h2 {

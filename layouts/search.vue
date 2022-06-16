@@ -2,7 +2,7 @@
     <div class="search-wrapper">
         <Navbar></Navbar>
         <Nuxt/>
-        <Footer></Footer>
+        <Footer v-if="$route.name !== 'moj-racun-poruke'"></Footer>
     </div>
 </template>
 

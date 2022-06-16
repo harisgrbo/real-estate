@@ -19,7 +19,7 @@
                         </dd>
                     </div>
                     <dd class="mt-1 flex flex-row items-center justify-start text-sm">
-                        <span :class="['p-1 mr-2 rounded-full', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
+                        <span :class="['p-1 mr-2 rounded-full status', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
                         {{ user.online ? 'Online' : 'Offline' }}
                     </dd>
                     <div class="flex flex-row items-center justify-start w-full verified">
@@ -42,25 +42,23 @@
                     <div class="w-full flex flex-col items-center justify-between" v-if="isMe">
                         <div class="w-full flex items-center justify-center">
                             <ActionButton v-if="listing.completed_at === null"
-                                          :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"
                                           @action="handleEditListing" class="w-full mr-sm"
                                           placeholder="Uredi"></ActionButton>
                             <ActionButton v-if="listing.completed_at === null"
-                                          :style-options="{ color: '#fff !important', background: 'red', borderColor: 'red' }"
+                                          :style-options="{ color: '#fff !important', background: '#FC8709', borderColor: 'transparent' }"
                                           placeholder="Završi" @action="$emit('finish-listing')"
                                           class="w-full ml-sm no-hover"></ActionButton>
                         </div>
-                        <ActionButton v-if="listing.sponsored === 0 && listing.completed_at === null"
-                                      :style-options="{ color: '#fff' }" placeholder="Sponzoriši"
-                                      @action="$router.push('/oglas/' + id + '/sponzorisanje-oglasa')"
-                                      class="w-full"></ActionButton>
                     </div>
-                    <div class="w-full flex flex-row items-center justify-between" v-else>
+                    <div class="w-full flex flex-row items-center justify-between mobile-buttons" v-else>
                         <ActionButton @action="$modal.show('contact-user')"
-                                      :style-options="{ background: 'transparent', border: '2px solid #1F2937', color: '#1F2937' }"
                                       placeholder="Poruka" class="w-full mr-sm"></ActionButton>
-                        <a class="call-btn" target="_blank" :href="`https://wa.me/${user.phone_number}`">Whatsapp poziv</a>
-                        <a class="call-btn" :href="`viber://chat?number=${user.phone_number}`" target="_blank">Viber poziv</a>
+                        <a class="call-btn" target="_blank" :href="`https://wa.me/${user.phone_number}`">
+                            <img src="/whatsapp.png" alt="">
+                        </a>
+                        <a class="call-btn" :href="`viber://chat?number=${user.phone_number}`" target="_blank">
+                            <img src="/viber.png" alt="">
+                        </a>
 
                     </div>
                 </div>
@@ -591,7 +589,6 @@ textarea {
 .verified {
     font-size: 13px;
     font-weight: 300;
-    margin-top: 12px;
 
     img {
         height: 20px;
@@ -608,11 +605,47 @@ textarea {
     }
 }
 
+.mobile-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 14px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 12px;
+
+    @include for-phone-only {
+        border-top: none;
+        padding-top: 0px;
+    }
+    button, a {
+        min-width: 100%;
+        background: #f1f1f1 !important;
+        border: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 37px;
+        margin-top: 0 !important;
+        border-radius: 4px;
+
+        @include for-phone-only {
+            margin-bottom: 14px;
+        }
+    }
+}
 .call-btn {
     background: transparent;
     border: 2px solid #1F2937;
     color: #1F2937;
-    margin-bottom: 12px;
     height: 30px;
+
+    img {
+        width: 20px;
+        height: auto;
+    }
+}
+
+.status {
+    font-size: 11px;
+    font-weight: 300;
 }
 </style>

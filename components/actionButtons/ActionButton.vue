@@ -41,8 +41,6 @@ button {
     width: auto;
     -webkit-transition: background-color 0.15s ease-in-out;
     transition: background-color 0.15s ease-in-out;
-    border-width: 1px;
-    border-style: solid;
     border-radius: 4px;
     outline: none;
     font-size: 14px;
@@ -51,10 +49,8 @@ button {
     text-align: center;
     cursor: pointer;
     padding: 11px 15px;
-    border-width: 2px;
-    border-color: #232e3f;
-    background-color: #ffffff;
-    color: #232e3f !important;
+    background-color: #f1f1f1;
+    color: #343434 !important;
     justify-content: center;
 
     svg {

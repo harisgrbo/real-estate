@@ -30,7 +30,7 @@
 
                 <div v-else class="grid-cards">
                     <Skeleton :height="$device.isMobile ? '337px' : '372px'"
-                              :width="$device.isMobile ? '165px' : '236px'" v-for="(i, index) in 20"
+                              :width="$device.isMobile ? '100%' : '236px'" v-for="(i, index) in 5"
                               :key="index"></Skeleton>
                 </div>
 
@@ -278,7 +278,7 @@ export default class mojiOglasi extends Vue {
     border-radius: 6px;
 
     @include for-phone-only {
-        padding: 24px !important;
+        padding: 14px !important;
         height: 100% !important;
     }
 }
@@ -298,7 +298,7 @@ export default class mojiOglasi extends Vue {
         width: 100%;
 
         @include for-phone-only {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(1, 1fr);
             grid-column-gap: 12px;
             grid-row-gap: 12px;
         }

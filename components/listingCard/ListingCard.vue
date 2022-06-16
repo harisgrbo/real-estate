@@ -34,19 +34,19 @@
                 <action-button v-if="listing.completed_at === null" class="option-btn" placeholder="Završi oglas"
                                @action="$emit('finish-listing', listing.id)"
                                :style-options="{ width: '100%'}"></action-button>
-                <action-button v-if="listing.sponsored === 0" class="option-btn" placeholder="Sponzoriši oglas"
-                               @action="$router.push('/oglas/' + listing.id + '/sponzorisanje-oglasa')"
-                               :style-options="{ width: '100%'}"></action-button>
+<!--                <action-button v-if="listing.sponsored === 0" class="option-btn" placeholder="Sponzoriši oglas"-->
+<!--                               @action="$router.push('/oglas/' + listing.id + '/sponzorisanje-oglasa')"-->
+<!--                               :style-options="{ width: '100%'}"></action-button>-->
                 <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}"
                                @action="$router.push('/oglas/' + listing.slug)"></action-button>
                 <action-button class="option-btn" placeholder="Izbriši oglas"
-                               :style-options="{ width: '100%', background: 'red'}"
+                               :style-options="{ width: '100%', background: '#FC8709'}"
                                @action="$emit('remove-listing', listing.id)"></action-button>
             </div>
             <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/spaseno'"
                  class="w-full">
                 <action-button class="option-btn" placeholder="Izbriši iz spašenih"
-                               :style-options="{ width: '100%', background: 'red'}"
+                               :style-options="{ width: '100%', background: '#FC8709'}"
                                @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
                 <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}"
                                @action="$router.push('/oglas/' + listing.slug)"></action-button>
@@ -61,19 +61,19 @@
                 <action-button v-if="listing.completed_at === null" class="option-btn" placeholder="Završi oglas"
                                @action="$emit('finish-listing', listing.id)"
                                :style-options="{ width: '100%'}"></action-button>
-                <action-button v-if="listing.sponsored === 0" class="option-btn" placeholder="Sponzoriši oglas"
-                               @action="$router.push('/oglas/' + listing.id + '/sponzorisanje-oglasa')"
-                               :style-options="{ width: '100%'}"></action-button>
+<!--                <action-button v-if="listing.sponsored === 0" class="option-btn" placeholder="Sponzoriši oglas"-->
+<!--                               @action="$router.push('/oglas/' + listing.id + '/sponzorisanje-oglasa')"-->
+<!--                               :style-options="{ width: '100%'}"></action-button>-->
                 <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}"
                                @action="$router.push('/oglas/' + listing.slug)"></action-button>
                 <action-button class="option-btn" placeholder="Izbriši oglas"
-                               :style-options="{ width: '100%', background: 'red'}"
+                               :style-options="{ width: '100%', background: '#FC8709'}"
                                @action="$emit('remove-listing', listing.id)"></action-button>
             </div>
             <div v-show="showListingOptions && $router.history.current.fullPath === '/moj-racun/spaseno'"
                  class="w-full">
                 <action-button class="option-btn" placeholder="Izbirši iz spašenih"
-                               :style-options="{ width: '100%', background: 'red'}"
+                               :style-options="{ width: '100%', background: '#FC8709'}"
                                @action="$emit('remove-listing-from-saved', listing.id)"></action-button>
                 <action-button class="option-btn" placeholder="Pogledaj oglas" :style-options="{ width: '100%'}"
                                @action="$router.push('/oglas/' + listing.slug)"></action-button>
