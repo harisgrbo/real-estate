@@ -639,8 +639,9 @@ textarea {
     height: 30px;
 
     img {
-        width: 20px;
-        height: auto;
+        width: 21px !important;
+        height: auto !important;
+        min-width: 15px !important;
     }
 }
 

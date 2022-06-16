@@ -1485,8 +1485,9 @@ h2 {
 
     @include for-phone-only {
         font-size: 18px;
-        font-weight: 400 !important;
-        margin-bottom: 0px !important;
+        font-weight: 400!important;
+        line-height: 20px !important;
+        margin-bottom: 5px !important;
     }
 }
 
