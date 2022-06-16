@@ -1,5 +1,4 @@
 <template>
-  <div>Uspjeh</div>
 </template>
 
 <script>

@@ -25,7 +25,7 @@
                     <div class="flex items-center justify-end types">
                         <div class="flex w-full text-left type z-10">
                             <button
-                                @click="$device.isMobile ? $modal.show('type-modal') : (showTypeDropdown = !showTypeDropdown)"
+                                @click="$modal.show('type-modal')"
                                 type="button"
                                 class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100"
                                 aria-expanded="false">
@@ -36,7 +36,7 @@
                                     }}</span>
                             </button>
                             <div v-if="showTypeDropdown"
-                                 class="origin-top-right listing-types top-9 absolute right-0 mt-2 bg-white rounded-lg shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                 class="listing-types top-9 z-10 absolute right-0 mt-2 bg-white rounded-lg shadow-2xl p-2 ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 <form class="space-y-4">
                                     <div class="flex items-center cursor-pointer" v-for="item in listing_types"
                                          :key="item.id">
@@ -70,10 +70,10 @@
                                 {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
                         </button>
                         <div v-if="showSortDropdown"
-                             class="origin-top-right listing-types top-9 absolute right-60 mt-2 bg-white rounded-lg shadow-2xl p-4 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                             class="origin-top-right listing-types top-9 absolute right-60 mt-2 bg-white rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
                              role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                             <div v-for="(item, index) in sort_types" :key="index"
-                                 :class="['text-gray-500 px-4 cursor-pointer block px-2 py-2 text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']"
+                                 :class="['text-gray-500 text-left px-2 cursor-pointer py-2 block text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']"
                                  role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
                                 {{ item.name }}
                             </div>
@@ -309,7 +309,7 @@
         </client-only>
         <client-only>
             <modal @before-open="beforeOpen" @before-close="beforeClose" classes="only-sort-mobile" name="type-modal"
-                   :adaptive="true" height="40%" maxHeight="40%">
+                   :adaptive="true">
                 <div class="modal-inner">
                     <div class="modal-header">
                         <h2>Vrsta oglasa</h2>
@@ -1437,6 +1437,8 @@ export default class Pretraga extends Vue {
 }
 
 .listing-types {
+    right: 0;
+    top: 80px;
     @include for-phone-only {
         width: 100%;
         margin-top: 8px;
@@ -1466,8 +1468,9 @@ export default class Pretraga extends Vue {
     li {
         border-radius: 4px;
         font-size: 12px;
-        font-weight: 200;
-        border: 1px solid #343434;
+        font-weight: 400;
+        background: #FC8709;
+        color: #fff;
 
         @include for-phone-only {
             background: #f9f9f9;
@@ -1494,8 +1497,8 @@ export default class Pretraga extends Vue {
         button {
             margin-left: 4px;
             cursor: pointer;
-            padding: 2px 4px;
-            backgroundck: transparent !important;
+            padding: 2px 0px 2px 2px;
+            background: transparent !important;
 
             @include for-phone-only {
                 padding: 0;
@@ -1514,11 +1517,8 @@ button.group {
     display: flex !important;
     flex-display: row;
     align-items: center;
-    width: auto !important;
     -webkit-transition: background-color 0.15s ease-in-out !important;
     transition: background-color 0.15s ease-in-out;
-    border-width: 1px !important;
-    border-style: solid !important;
     border-radius: 4px !important;
     outline: none !important;
     font-size: 13px !important;
@@ -1526,15 +1526,14 @@ button.group {
     line-height: 1 !important;
     text-align: center !important;
     cursor: pointer !important;
-    border-color: #232e3f !important;
-    background-color: #ffffff !important;
     color: #232e3f !important;
     min-width: fit-content !important;
     width: fit-content !important;
     padding: 6px 8px !important;
+    background: #e0e0e0;
 
     &:hover {
-        background: #FC8709 !important;
+        background: #f1f1f1 !important;
     }
 
 }
@@ -1663,13 +1662,6 @@ button.group {
 
 .min-width {
     min-width: fit-content;
-}
-
-button {
-    &:hover {
-        background-color: #f2f3f4 !important;
-
-    }
 }
 
 .first-category {

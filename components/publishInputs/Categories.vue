@@ -123,7 +123,9 @@ ul li {
     -webkit-box-align: center !important;
     -webkit-box-pack: justify !important;
     background-color: #fff !important;
-    border: 1px solid #343434 !important;
+    border: 1px solid #f1f1f1 !important;
+    background: #f1f1f1 !important;
+    color: #000 !important;
     box-sizing: border-box !important;
     border-radius: 4px !important;
     display: flex !important;
@@ -135,6 +137,11 @@ ul li {
     padding: 0px 16px !important;
     outline: none !important;
     font-weight: 600;
+
+    img {
+        height: auto;
+        width: 60px !important;
+    }
 
     @include for-phone-only {
         border: 1px solid #f1f1f1 !important;

@@ -10,7 +10,7 @@
         </ul>
         <!-- User registration -->
         <div v-if="currentType === 0">
-            <div class="form" @submit.prevent="handleUserRegistration">
+            <div class="form" @submit.prevent.stop="handleUserRegistration">
                 <TextField label="Korisničko ime" type="text" v-model="userPayload.name" class="mb-6 mt-1"></TextField>
                 <TextField type="text" label="Email" v-model="userPayload.email" class="mb-6 mt-1"></TextField>
                 <TextField type="password" label="Šifra" v-model="userPayload.password" class="mb-6 mt-1"></TextField>
@@ -21,6 +21,10 @@
                 <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }"
                               @action="handleUserRegistration" :loading="loading"
                               placeholder="Registruj se"></ActionButton>
+                <button class="google-btn" @click="handleGoogleRegister($event)">
+                    <img src="/google-btn.png" alt="">
+                    Registruj se sa Google računom
+                </button>
             </div>
         </div>
         <!-- Real estate agencija registration -->
@@ -28,16 +32,6 @@
             <div class="form" @submit.prevent="handleBusinessRegistration">
                 <TextField label="Naziv pravnog lica" type="text" v-model="businessPayload.name"
                            class="mb-6 mt-1"></TextField>
-                <!--        <div class="mb-6 mt-1">-->
-                <!--          <div class="relative w-full flex flex-col items-start">-->
-                <!--            <div class="relative select-border border w-full text-wrap border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:text-gray-900 focus-within:ring-gray-900 focus-within:ring-gray-900 focus-within:border-gray-900">-->
-                <!--              <label for="name" class="absolute -top-2 left-1 -mt-px inline-block px-2 bg-white text-xs font-semibold text-gray-900">Vrsta pravnog lica</label>-->
-                <!--              <select v-model="businessPayload.user_type" id="language" name="language" class="block bg-white w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">-->
-                <!--                <option class="font-medium text-sm" v-for="(type, index) in business_types" :key="index" :value="type.user_type">{{ type.name }}</option>-->
-                <!--              </select>-->
-                <!--            </div>-->
-                <!--          </div>-->
-                <!--        </div>-->
                 <TextField label="Email" type="text" v-model="businessPayload.email" class="mb-6 mt-1"></TextField>
                 <TextField label="Šifra" type="password" v-model="businessPayload.password"
                            class="mb-6 mt-1"></TextField>
@@ -52,7 +46,7 @@
                               placeholder="Registruj se"></ActionButton>
             </div>
         </div>
-        <div class="flex items-center justify-center login-u">
+        <div class="flex items-center justify-start login-u">
             <p>Imaš račun?</p>
             <nuxt-link :to="{ path: '/prijava' }">Prijavi se</nuxt-link>
         </div>
@@ -144,6 +138,30 @@ export default class RegisterForm extends Vue {
     }
 
     // User registration
+    handleGoogleRegister(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.$axios
+        .post('/auth/google', this.userPayload, this.config)
+        .then(() => {
+            this.handlePostRegister();
+
+            window.location.replace(res.data.url);
+
+        })
+        .catch(error => {
+            this.loading = false;
+            if (error.response && error.response.status === 422) {
+
+                this.$toast.open({
+                    message: "Unijeli ste pogrešne informacije!",
+                    type: 'error',
+                    duration: 5000
+                });
+            }
+        })
+
+    }
     handleUserRegistration() {
         this.loading = true;
 
@@ -357,5 +375,35 @@ select {
     background: #FC8709;
     color: #fff !important;
     border: none;
+}
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    -webkit-transition: background-color 0.15s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
+    border-radius: 4px;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    color: #343434 !important;
+    justify-content: center;
+    width: 100%;
+    height: 36px;
+    transition: 0.3s all ease;
+
+    img {
+        margin-right: 12px;
+        height: auto;
+        width: 20px;
+    }
+
+    &:hover {
+        background: #e0e0e0;
+    }
 }
 </style>

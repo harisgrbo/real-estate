@@ -1314,7 +1314,7 @@ h2.info {
     -o-animation: fadein 2s; /* Opera */
 }
 .left {
-    background-image: url(/publish-img.png);
+    background-image: url(/objava-bg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
