@@ -410,7 +410,7 @@ export default class Objava extends Vue {
         STEP_FIVE: 5,
         STEP_SIX: 6,
         STEP_SEVEN: 7,
-        TOTAL_STEPS: 8
+        TOTAL_STEPS: 7
     }
     currentStep = this.steps.STEP_ONE;
 
