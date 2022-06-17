@@ -86,7 +86,7 @@
                                     <div class="flex items-center cursor-pointer"
                                          @click="goToUser(others(currentConversation))">
                                         <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full"
-                                             :src="others(currentConversation)[0].avatar_url !== null ? others(currentConversation)[0].avatar_url : '/noimage.jpeg'">
+                                             :src="others(currentConversation).length && others(currentConversation)[0].avatar_url !== null ? others(currentConversation)[0].avatar_url : '/noimage.jpeg'">
                                         <h3 class="ml-3">{{
                                                 others(currentConversation).map(item => item.name).join(',')
                                             }}</h3>
