@@ -77,7 +77,7 @@
                     </div>
                 </li>
             </ul>
-            <NotFound v-else src="/nobooking.svg" text="Nemate rezervacija"></NotFound>
+            <NotFound v-else src="/noreservation.svg" text="Nemate rezervacija"></NotFound>
         </div>
     </div>
 </template>

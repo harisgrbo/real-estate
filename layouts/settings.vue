@@ -50,6 +50,8 @@ export default class Settings extends Vue {
     min-height: 100%;
     width: 100%;
     padding-bottom: 36px;
+    padding-top: 36px;
+
 
     .preview-wrapper {
         width: 1280px;
