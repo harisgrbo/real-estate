@@ -4,10 +4,10 @@
             <h2>Obavijesti</h2>
             <i class="material-icons cursor-pointer" @click="$emit('close-notifications')">close</i>
         </div>
-        <div class="flex flex-col justify-between mt-7">
+        <div class="flex flex-col justify-between">
             <div v-if="notifications.length">
                 <div v-for="notification in notifications" :key="notification.id"
-                     class="p-5 notification hover:shadow-md rounded-md">
+                     class="notification hover:shadow-md">
                     <div class="flex items-center justify-between">
                         <div class="text-base font-medium truncate text-black" v-if="notification.user">
                             {{ notification.user.name }}
@@ -109,10 +109,10 @@ ul, .no-notifications {
 
 .notification {
     padding: 0;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     border-bottom: 1px solid #f1f1f1;
     transition: 0.3s all ease;
-    padding: 12px 12px 16px 12px;
+    padding-bottom: 12px;
 
     &:hover {
         cursor: pointer;
@@ -121,6 +121,12 @@ ul, .no-notifications {
     @include for-phone-only {
         padding: 0;
         padding-bottom: 24px
+    }
+
+    a {
+        button {
+            color: #000 !important;
+        }
     }
 }
 

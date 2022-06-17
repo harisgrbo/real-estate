@@ -873,7 +873,7 @@ export default class Navbar extends Vue {
             //background: #31335d9c;
 
             &:last-child {
-                margin-left: 16px;
+                margin-left: 8px;
                 border-right: none;
             }
 
@@ -1158,17 +1158,21 @@ export default class Navbar extends Vue {
 
 .notify {
     width: fit-content;
-    padding: 1px 3px;
+    width: 15px;
+    height: 15px;
     border-radius: 7px;
     font-weight: 600;
     color: #fff;
-    background: #D63946;
+    background: #FC8709;
     position: absolute;
     font-size: 10px;
     top: -1px;
     left: 13px;
     text-align: center;
     line-height: 14px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 
 }
 

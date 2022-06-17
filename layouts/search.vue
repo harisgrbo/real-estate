@@ -1,6 +1,6 @@
 <template>
     <div class="search-wrapper">
-        <Navbar></Navbar>
+        <Navbar :class="[$route.name === 'moj-racun-poruke' ? 'px-2' : '']"></Navbar>
         <Nuxt/>
         <Footer v-if="$route.name !== 'moj-racun-poruke'"></Footer>
     </div>
