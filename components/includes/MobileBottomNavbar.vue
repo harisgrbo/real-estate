@@ -181,14 +181,14 @@ export default class MobileBottomNavbar extends Vue {
     align-items: center;
     background: white;
     z-index: 5;
-    padding: 0 24px;
+    padding: 12px;
     border-top: 1px solid #EBEBEB;
     margin-bottom: env(safe-area-inset-bottom) !important;
 
     img {
         height: auto !important;
-        width: 14px !important;
-        min-width: 14px !important;
+        width: 18px !important;
+        min-width: 18px !important;
         margin-bottom: 8px;
     }
 }

@@ -131,7 +131,7 @@
                     >
                         <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
                         <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                        <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">
+                        <img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="">
                         <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
                         {{ attr.value }}
                         <p v-if="attr.name === 'Kvadratura'">

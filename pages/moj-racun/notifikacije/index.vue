@@ -38,7 +38,7 @@
                 </li>
             </ul>
         </div>
-        <NotFound v-else src="/notifications.svg" text="Nemate obavijesti"></NotFound>
+        <NotFound v-else src="/notifications.png" text="Nemate obavijesti"></NotFound>
 
     </div>
 </template>
