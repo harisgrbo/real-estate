@@ -78,6 +78,12 @@ export default class accountpage extends Vue {
             desc: 'Upravljanje obavijestima'
         },
         {
+            name: "Pratioci/Pratim",
+            slug: 'pratioci-pratim',
+            icon: '034-rating-2.svg',
+            desc: 'Lista korisnika koje pratite i koji Vas prate'
+        },
+        {
             name: "Moji upiti za rezervacije",
             slug: "moje-rezervacije",
             icon: '050-chat.svg',

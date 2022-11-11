@@ -1036,7 +1036,7 @@ ul.most-visited-cats {
 
 .publish {
     height: 365px;
-    background-image: url("/mojkvadratbg.jpg");
+    background-image: url("/mojkvadratbg.jpeg");
     background-size: cover;
     background-position: right;
     position: relative;
@@ -1288,7 +1288,6 @@ ul.most-visited-cats {
 
 .price-label ::v-deep input {
     font-weight: 500;
-    padding: 0 12px !important;
     font-size: 14px;
     background: #fff;
     border-radius: 4px !important;

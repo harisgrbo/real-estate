@@ -8,7 +8,7 @@
                 </div>
                 <div class="flex flex-col items-start justify-start pl-4 w-full">
                     <div class="flex flex-row items-center justify-between w-full cursor-pointer">
-                        <h2 class="text-lg font-medium text-black text-left leading-5">{{
+                        <h2 @click="goToUser(user)" class="text-lg font-medium text-black text-left leading-5">{{
                                 user.name
                             }}</h2>
                         <dd>
@@ -362,6 +362,14 @@ export default class UserProfile extends Vue {
             return this.price * this.numOfDays
         }
     }
+
+  goToUser(u) {
+    if (u.user_type === 'agency' || u.user_type === 'investor') {
+      this.$router.push('/pravno-lice/' + u.id)
+    } else {
+      this.$router.push('/users/' + u.id)
+    }
+  }
 
     onDayClick(day) {
         const idx = this.days.findIndex(d => d.id === day.id);

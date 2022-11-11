@@ -771,8 +771,6 @@ export default class Poruke extends Vue {
         console.log(u)
         if (u[0].user_type === 'agency' || u[0].user_type === 'investor') {
             this.$router.push('/pravno-lice/' + u[0].id)
-        } else if (this.$auth.user.user_type === 'agent') {
-            this.$router.push('/agent/' + u[0].id)
         } else {
             this.$router.push('/users/' + u[0].id)
         }
