@@ -16,6 +16,7 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" },
+      { name: "keywords", content: "nekretnine, stanovi, kuce, apartmani, more, mojkvadrat, novogradnja, stan na dan, sarajevo stan, sarajevo stanovi, sarajevo, poslovni prostor, garaza" },
       { hid: "description", name: "description", content: "nekretnine stanovi kuce apartmani more mojkvadrat novogradnja stan na dan" },
     ],
     link: [
@@ -91,6 +92,7 @@ export default {
     { src: "~plugins/swiper.js", mode: "client" },
     { src: "~plugins/vue2-editor.js", mode: "client" },
     { src: "~plugins/modal.js", mode: "client" },
+    { src: "~plugins/vue-stories.js", mode: "client" },
     { src: "~plugins/datepicker.js", mode: "client" },
     { src: "~plugins/infiniteloading.js", mode: "client" },
     { src: "~plugins/vue-lightbox.js", mode: "client" },
@@ -194,7 +196,10 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
 
-  loading: '@/components/LoadingBar.vue',
+  loading: {
+    color: '#FC8709',
+    height: '5px'
+  },
 
   cache: {
     // if you're serving multiple host names (with differing

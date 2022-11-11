@@ -472,6 +472,8 @@ export default class Agencies extends Vue {
     this.fetchUserListings(this.$route.params.id, null, 1);
     this.fetchUserFinishedListings(this.$route.params.id, 1)
     this.isFollowed = this.meta.followed;
+
+    console.log(this.user)
   }
 
   get isMe() {

@@ -218,7 +218,7 @@ export default class Users extends Vue {
   }
 
   goToUser(id) {
-      this.$router.push('/pravno-lice/' + id)
+    this.$router.push('/pravno-lice/' + id)
   }
 
   async created() {
@@ -270,7 +270,7 @@ export default class Users extends Vue {
 
       this.$toast.open({
         message: "Uspješno ste poslali poruku korisniku " + this.user.name,
-        type: 'warning',
+        type: 'success',
         duration: 5000
       });
 

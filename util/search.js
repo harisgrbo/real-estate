@@ -39,8 +39,8 @@ function buildCategory(category) {
 function buildCity(city) {
   return JSON.stringify({
     name: "city_id",
-    type: "term",
-    value: city.id
+    type: "terms",
+    value: [city.id]
   })
 }
 

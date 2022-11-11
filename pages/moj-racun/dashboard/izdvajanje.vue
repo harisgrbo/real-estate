@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "izdvajanje"
+    name: "izdvajanje"
 }
 </script>
 

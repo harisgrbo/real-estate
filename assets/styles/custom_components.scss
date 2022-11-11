@@ -155,7 +155,7 @@
   height: fit-content;
 
   @include for-phone-only {
-    padding: 0 24px 24px 24px;
+    padding: 0 12px 12px 12px;
   }
 
   .modal-content {
@@ -221,7 +221,7 @@ textarea, select, input[type="text"] {
 
 .preview-wrapper-inner {
   @include for-phone-only {
-    padding: 16px !important;
+    padding: 12px !important;
     margin-top: 0 !important;
   }
 }
@@ -321,5 +321,16 @@ button:focus {
   input {
     font-size: 16px;
   }
+}
+
+.account-wrapper-inner {
+  @include for-phone-only {
+    background: #f9f9f9;
+  }
+}
+
+.text-wrap {
+  display: flex;
+  align-items: center;
 }
 

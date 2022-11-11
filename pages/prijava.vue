@@ -1,18 +1,20 @@
 <template>
-  <div class="flex flex-row">
-    <LoginForm></LoginForm>
-  </div>
+    <div class="flex flex-row">
+        <LoginForm></LoginForm>
+    </div>
 </template>
 
 <script>
-import { Component, Vue} from "nuxt-property-decorator";
+import {Component, Vue} from "nuxt-property-decorator";
 import LoginForm from "@/components/auth/LoginForm";
 
 @Component({
-  components: {LoginForm},
-  layout() { return "auth" }
+    components: {LoginForm},
+    layout() {
+        return "auth"
+    }
 })
-export default class Login extends Vue{
+export default class Login extends Vue {
 
 }
 </script>
