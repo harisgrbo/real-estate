@@ -1,6 +1,7 @@
 # Block all user agents
+User-agent: Googlebot
+Disallow: /nogooglebot/
 User-agent: *
-User-agent: AdsBot-Google
 Disallow: /poruke
 Disallow: /moj-racun
 Disallow: /moj-racun/uredi-profil
