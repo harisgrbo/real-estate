@@ -18,7 +18,7 @@
                 <!--          <p>Pogledaj sve slike</p>-->
                 <!--        </div>-->
                 <div :class="'item' + img.id" v-for="(img, index) in images" :key="index">
-                    <img :src="img.name" alt="" @click="openGallery(index)">
+                    <nuxt-img :src="img.name" alt="" @click="openGallery(index)" />
                 </div>
                 <client-only>
                     <light-box

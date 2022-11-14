@@ -85,12 +85,12 @@
             <div class="overflow-hidden relative">
                 <div v-if="listing.thumbnail !== null" class="wrapper">
                     <transition name="fade">
-                        <img class="main-image" :src="listing.thumbnail.url" @load="onLoaded" v-show="loaded" alt="">
+                        <nuxt-img class="main-image" :src="listing.thumbnail.url" @load="onLoaded" v-show="loaded" alt="" />
                     </transition>
                 </div>
                 <div v-else class="wrapper">
                     <transition name="fade">
-                        <img class="main-image" src="/noimage.jpeg" @load="onLoaded" v-show="loaded" alt="">
+                        <nuxt-img class="main-image" src="/noimage.jpeg" @load="onLoaded" v-show="loaded" alt="" />
                     </transition>
                 </div>
             </div>
@@ -129,11 +129,11 @@
                         :key="index"
                         class="flex flex-row items-center mr-2 special-icons"
                     >
-                        <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
-                        <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                        <img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="">
-                        <img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="">
-                        <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
+                        <nuxt-img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />
+                        <nuxt-img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
+                        <nuxt-img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="" />
+                        <nuxt-img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="" />
+                        <nuxt-img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />
                         {{ attr.value }}
                         <p v-if="attr.name === 'Kvadratura'">
                             m²

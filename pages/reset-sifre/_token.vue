@@ -1,7 +1,7 @@
 <template>
     <div class="form-wrapper">
         <div class="inner">
-            <img src="/svg-logo.svg" class="img-logo" alt="" @click="$router.push('/')">
+            <nuxt-img src="/svg-logo.svg" class="img-logo" alt="" @click="$router.push('/')" />
             <h2 class="mt-4 text-left w-full">Reset šifre</h2>
             <div class="rounded-md bg-yellow-50 p-4 mb-6 w-full">
                 <div class="flex">

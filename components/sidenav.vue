@@ -25,7 +25,7 @@
         </div>
         <ul>
             <li v-if="$auth.user" class="user-label" @click="goToUser">
-                <img :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']" alt="">
+                <nuxt-img :src="$auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg'" alt="" />
                 <div class="user-wrap w-full">
                     <dd class="w-full flex flex-col items-start justify-between">
                         <h2 class="text-md font-medium text-black leading-5 text-left">{{ $auth.user.name }}</h2>
@@ -39,74 +39,74 @@
             <li v-if="$auth.user && ($auth.user.user_type === 'agency' || $auth.user.user_type === 'investor')"
                 class="w-full flex flex-col items-start sub-menu">
                 <div class="flex flex-row items-center justify-start w-full">
-                    <img src="/001-monitor.png" alt="">
+                    <nuxt-img src="/001-monitor.png" alt="" />
                     <nuxt-link to="/moj-racun/dashboard/analitika">Dashboard</nuxt-link>
                 </div>
 
                 <ul class="w-full inner-ul mt-2">
                     <li>
-                        <img src="/002-dashboard.png" alt="">
+                        <nuxt-img src="/002-dashboard.png" alt="" />
                         <nuxt-link to="/moj-racun/dashboard/analitika">Analitika</nuxt-link>
                     </li>
                     <li>
-                        <img src="/004-settings.png" alt="">
+                        <nuxt-img src="/004-settings.png" alt="" />
                         <nuxt-link to="/moj-racun/dashboard/postavke-profila">Postavke profila</nuxt-link>
                     </li>
                     <li>
-                        <img src="/003-temporary-agency.png" alt="">
+                        <nuxt-img src="/003-temporary-agency.png" alt="" />
                         <nuxt-link to="/moj-racun/dashboard/agenti-za-nekretnine">Agenti za nekretnine</nuxt-link>
                     </li>
                     <li>
-                        <img src="/005-real-estate.png" alt="">
+                        <nuxt-img src="/005-real-estate.png" alt="" />
                         <nuxt-link to="/moj-racun/dashboard/upravljanje-oglasima">Upravljanje oglasima</nuxt-link>
                     </li>
                 </ul>
             </li>
             <li v-if="$auth.user && $auth.user.user_type === 'user'">
-                <img src="/001-article.png" alt="">
+                <nuxt-img src="/001-article.png" alt="" />
                 <nuxt-link to="/moj-racun/moji-oglasi">Moji oglasi</nuxt-link>
             </li>
             <li>
-                <img src="/003-settings.png" alt="">
+                <nuxt-img src="/003-settings.png" alt="" />
                 <nuxt-link to="/moj-racun/">Postavke</nuxt-link>
             </li>
             <li>
-                <img src="/001-speech-bubble.png" alt="">
+                <nuxt-img src="/001-speech-bubble.png" alt="" />
                 <nuxt-link to="/moj-racun/poruke">Poruke</nuxt-link>
             </li>
             <li>
-                <img src="/002-heart.png" alt="">
+                <nuxt-img src="/002-heart.png" alt="" />
                 <nuxt-link to="/moj-racun/spaseno">Spašeni oglasi</nuxt-link>
             </li>
             <li>
-                <img src="/007-user.png" alt="">
+                <nuxt-img src="/007-user.png" alt="" />
                 <nuxt-link to="/moj-racun/uredi-profil">Uredi profil</nuxt-link>
             </li>
             <li>
-                <img src="/006-calendar.png" alt="">
+                <nuxt-img src="/006-calendar.png" alt="" />
                 <nuxt-link to="/moj-racun/moje-rezervacije" class="font-medium">Moje rezervacije</nuxt-link>
             </li>
             <li>
-                <img src="/004-ask.png" alt="">
+                <nuxt-img src="/004-ask.png" alt="" />
                 <nuxt-link to="/moj-racun/oglasi-koje-izdajem" class="font-medium">Zahtjevi za rezervacije</nuxt-link>
             </li>
         </ul>
         <h4>Ostali linkovi</h4>
         <ul>
             <li>
-                <img src="/001-advertising.png" alt="">
+                <nuxt-img src="/001-advertising.png" alt="" />
                 <nuxt-link to="/agencije">Agencije</nuxt-link>
             </li>
             <li>
-                <img src="/003-bug.png" alt="">
+                <nuxt-img src="/003-bug.png" alt="" />
                 <nuxt-link to="/prijavi-gresku">Prijavi grešku/bug</nuxt-link>
             </li>
             <li>
-                <img src="/004-mail.png" alt="">
+                <nuxt-img src="/004-mail.png" alt="" />
                 <nuxt-link to="/kontakt">Kontakt</nuxt-link>
             </li>
             <li v-if="$auth.user" @click="logout()" class="text-red-600">
-                <img src="/008-logout.png" alt="">
+                <nuxt-img src="/008-logout.png" alt="" />
                 <a class="text-red-600">Odjavi se</a>
             </li>
         </ul>

@@ -2,7 +2,7 @@
     <!--  <div class="single-question-wrapper" v-if="message">-->
     <!--    <div class="user-info">-->
     <!--      <div>-->
-    <!--        <img src="/avatar.jpg" alt="">-->
+    <!--        <nuxt-img src="/avatar.jpg" alt="" />-->
     <!--        <p>{{ message.user.name }}</p>-->
     <!--      </div>-->
     <!--      <small>{{ $moment(message.created_at).format('DD.MM.YYYY') }} u {{$moment(message.created_at).format('HH:MM')  }}</small>-->
@@ -49,10 +49,10 @@
                     <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex items-start space-x-3">
                         <div class="relative">
-                            <img
+                            <nuxt-img
                                 class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
                                 src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
-                                alt="">
+                                alt="" />
 
                             <span class="absolute -bottom-0.5 -right-1 bg-white rounded-tl px-0.5 py-px">
               <!-- Heroicon name: solid/chat-alt -->

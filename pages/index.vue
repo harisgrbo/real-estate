@@ -1,7 +1,7 @@
 <template>
     <div :class="['homepage-wrap', this.$route.name === 'index' ? 'no-padding' : '']">
         <div class="publish mb-24 p-8">
-<!--            <img src="/image.webp" alt="" class="image-bg">-->
+<!--            <nuxt-img src="/image.webp" alt="" class="image-bg">-->
             <div class="quick-search">
                 <div class="flex flex-col mt-6">
                     <div class="flex flex-row items-center w-full inputs">
@@ -286,7 +286,7 @@
         <!--      <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>-->
         <!--    </div>-->
         <a href="https://www.ekupon.ba" target="_blank" class="mx-auto mt-8 leaderboard" v-if="!$device.isMobile">
-            <img src="/ekuponbanner.jpg" alt="">
+            <nuxt-img src="/ekuponbanner.jpg" alt="" />
         </a>
     </div>
 </template>
@@ -335,6 +335,7 @@ import PremiumListingCard from "../components/PremiumListingCard";
                 name: "Želite prodati, kupiti ili rezervisati smještaj unutar BiH, samostalno ili uz pomoć agencije? Na pravom ste mjestu.",
                 content: "Sve nekretnine na jednom mjestu! Stanovi, apartmani, kuce, garaze, stanovi za izdavanje, stan na dan, rentanje, novogradnja",
             },
+            { name: "keywords", content: "nekretnine, stanovi, kuce, apartmani, more, mojkvadrat, novogradnja, stan na dan, sarajevo stan, sarajevo stanovi, sarajevo, poslovni prostor, garaza" },
         ],
         link: [{rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}]
     },

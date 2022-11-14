@@ -10,7 +10,7 @@
                 <div class="overflow-hidden relative image-wrapper">
                     <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
                         <swiper-slide v-for="(img, index) in listing.images" :key="index">
-                            <img class="slider-img swiper-lazy" :data-src="img.url" alt="">
+                            <nuxt-img class="slider-img swiper-lazy" :data-src="img.url" alt="" />
                             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         </swiper-slide>
                         <div
@@ -23,7 +23,7 @@
                         ></div>
                         <div class="swiper-pagination" slot="pagination"></div>
                     </swiper>
-                    <img v-else src="/noimage.jpeg" alt="">
+                    <nuxt-img v-else src="/noimage.jpeg" alt="" />
                 </div>
                 <div class="flex w-full flex-col justify-between">
                     <div>
@@ -43,8 +43,8 @@
                                 :key="index"
                                 class='px-2 flex items-center sm:text-lg py-0 rounded-full transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500 flex flex-row items-center mr-2'
                             >
-                                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                                <img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="">
+                                <nuxt-img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
+                                <nuxt-img v-if="attr.name === 'Sprat'" src="/stairs.svg" alt="" />
                                 {{ attr.value }}
                                 <p v-if="attr.name === 'Kvadratura'">
                                     m²

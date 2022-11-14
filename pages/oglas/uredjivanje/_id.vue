@@ -188,7 +188,7 @@
                 </div>
                 <div class="w-full rounded-md mobile-image-grid">
                     <div v-for="(image, index) in listing.images" :key="index" class="img-upload-box">
-                        <img :src="image.url" width="300" height="200"/>
+                        <nuxt-img :src="image.url" width="300" height="200"/>
                         <button @click="deleteImage(image, index)">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">

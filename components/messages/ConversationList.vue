@@ -5,7 +5,7 @@
             @click="setSelectedConversation(conversation, index)"
             :class="[ (conversation.id === (value ? value.id: null)) ? 'active' : '']"
             class="relative bg-white py-5 px-6 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600">
-            <img src="/noimage.jpeg" alt="">
+            <nuxt-img src="/noimage.jpeg" alt="" />
             <div class="flex flex-col w-full">
                 <div class="flex justify-between w-full space-x-3">
                     <div class="min-w-0 flex-1">

@@ -1,6 +1,6 @@
 <template>
     <div v-if="override || loading" class="loading-page">
-        <img src="/loader.svg" alt="">
+        <nuxt-img src="/loader.svg" alt="" />
     </div>
 </template>
 

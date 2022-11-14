@@ -2,8 +2,8 @@
     <div class="conversation-list-wrapper">
         <div class="conversation-wrapper" v-for="(message, index) in messages" :key="index"
              :class="[ isMe(message)? 'me' : '' ]">
-            <img src="/avatar.jpg" alt=""
-                 :class="[(index < messages.length - 1 && message.sender.id !== messages[index + 1].sender.id) || index === messages.length - 1? '' : 'no-image']">
+            <nuxt-img src="/avatar.jpg" alt=""
+                 :class="[(index < messages.length - 1 && message.sender.id !== messages[index + 1].sender.id) || index === messages.length - 1? '' : 'no-image']" />
             <div class="bubble">
                 <p>{{ message.content }}</p>
                 <div class="message-info">
