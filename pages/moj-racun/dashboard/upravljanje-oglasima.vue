@@ -7,7 +7,7 @@
                          action_text="Opcije oglasa" :key="listing.id"/>
         </div>
         <div class="no-image" v-else>
-            <img src="/nodata.jpeg" alt="no-image">
+            <nuxt-img src="/nodata.jpeg" alt="no-image" />
             <NotFound v-if="listings.length === 0" src="/realestatenoresults.svg"
                       text="Nemate objavljenih oglasa"></NotFound>
         </div>

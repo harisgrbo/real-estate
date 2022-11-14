@@ -7,8 +7,8 @@
                 <div class="img-wrapper"
                      :class="[$device.isMobile && focused === true ? 'hide' : '']">
                     <nuxt-link to="/">
-                        <img :src="[ $device.isMobile ? '/mojkvadratnew.png' : '/mojkvadratnew.png']" class="main-logo"
-                             height="40" alt="">
+                        <nuxt-img :src="$device.isMobile ? '/mojkvadratnew.png' : '/mojkvadratnew.png'" class="main-logo"
+                             height="40" alt="" />
                     </nuxt-link>
                 </div>
                 <!--        <div class="relative flex flex-row items-center ml-10" v-if="!$device.isMobile">-->
@@ -104,7 +104,7 @@
             <div class="flex flex-row items-center" v-if="$route.name !== 'pretraga'">
                 <button v-if="$auth.user && $device.isMobile" class="login-a relative notification-button ml-4"
                         @click="$modal.show('notifications')">
-                    <img src="/001-notification-bell.png" alt="">
+                    <nuxt-img src="/001-notification-bell.png" alt="" />
                     <div class="notify" v-if="notifications.length">{{ notifications.length }}</div>
                 </button>
             </div>
@@ -119,19 +119,19 @@
                         <button @click="$router.push('/prijava')">Prijavi se</button>
                     </div>
 <!--                    <button v-if="$auth.user" class="login-a mr-3">-->
-<!--                        <img src="/005-credit-card.png" alt="" class="mr-1">-->
+<!--                        <nuxt-img src="/005-credit-card.png" alt="" class="mr-1">-->
 
 <!--                        <span class="text-sm font-bold text-gray-900 px-1 py-1 ml-0">{{-->
 <!--                                $auth.user.wallet.balance-->
 <!--                            }}</span>-->
 <!--                    </button>-->
                     <button v-if="$auth.user" class="login-a" @click="$router.push('/moj-racun/poruke')">
-                        <img src="/001-speech-bubble.png" alt="">
+                        <nuxt-img src="/001-speech-bubble.png" alt="" />
 
                         <span class="notify" v-if="messagesCount">{{ messagesCount }}</span>
                     </button>
                     <button v-if="$auth.user" class="login-a ml-4" @click="showNotifications = true">
-                        <img src="/001-notification-bell.png" alt="">
+                        <nuxt-img src="/001-notification-bell.png" alt="" />
 
                         <span class="notify" v-if="notifications.length">{{ notifications.length }}</span>
                     </button>

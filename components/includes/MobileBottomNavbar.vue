@@ -1,25 +1,25 @@
 <template>
     <div class="mobile-bottom-navbar">
         <nuxt-link :to="{ path: '/' }">
-            <img src="/003-home.png" alt="">
+            <nuxt-img src="/003-home.png" alt="" />
             <span>Početna</span>
         </nuxt-link>
         <nuxt-link to="/moj-racun/poruke" class="relative" v-if="$auth.user">
-            <img src="/004-conversation.png" alt="">
+            <nuxt-img src="/004-conversation.png" alt="" />
             <p class="notify" v-if="messagesCount > 0">{{ messagesCount }}</p>
             <span>Poruke</span>
         </nuxt-link>
         <nuxt-link :to="redirectToPublish()" v-if="$auth.user">
-            <img src="/005-add.png" alt="">
+            <nuxt-img src="/005-add.png" alt="" />
             <span>Objava</span>
         </nuxt-link>
         <nuxt-link v-if="!$auth.user" to="/prijava">
-            <img src="/001-user.png" alt="">
+            <nuxt-img src="/001-user.png" alt="" />
             <span>Prijavi se</span>
         </nuxt-link>
         <nuxt-link to="" class="relative" v-if="$auth.user">
             <div @click="openSidebarMenu" class="flex flex-col items-center justify-center">
-                <img src="/002-menu.png" alt="">
+                <nuxt-img src="/002-menu.png" alt="" />
                 <span>Meni</span>
             </div>
         </nuxt-link>

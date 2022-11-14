@@ -41,14 +41,14 @@
                     <div class="flex flex-col w-full relative add-width">
                         <div class="mobile-images">
                             <div v-if="listing.thumbnail !== null" class="h-full relative cursor-pointer mobile-new">
-                                <img class="main-image" :src="listing.thumbnail.url" @click="startStories = true">
+                                <nuxt-img class="main-image" :src="listing.thumbnail.url" @click="startStories = true" />
                                 <div
                                     class="absolute bottom-4 left-4 z-10 py-1 px-3 bg-white rounded-sm text-sm font-semibold image-counter-border">
                                     {{ listing_meta.image_count + ' slika u galeriji' }}
                                 </div>
                             </div>
                             <div v-else class="no-image-grid h-full">
-                                <img src="/noimage.jpeg" alt="">
+                                <nuxt-img src="/noimage.jpeg" alt="" />
                             </div>
                         </div>
                         <client-only>
@@ -141,11 +141,11 @@
                                                 :key="index"
                                                 class="flex flex-row items-center inside mr-2 relative special-icons"
                                             >
-                                                <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
-                                                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                                                <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
-                                                <img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="">
-                                                <img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="">
+                                                <nuxt-img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />
+                                                <nuxt-img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
+                                                <nuxt-img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />
+                                                <nuxt-img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="" />
+                                                <nuxt-img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="" />
                                                 {{ attr.value }}
                                                 <p v-if="attr.name === 'Kvadratura' || attr.name === 'Okućnica'">
                                                     m²
@@ -164,10 +164,10 @@
 <!--                                        :key="index"-->
 <!--                                        class="flex flex-row items-center mr-2"-->
 <!--                                    >-->
-<!--                                        <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">-->
-<!--                                        <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">-->
-<!--                                        <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">-->
-<!--                                        <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="">-->
+<!--                                        <nuxt-img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />-->
+<!--                                        <nuxt-img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />-->
+<!--                                        <nuxt-img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />-->
+<!--                                        <nuxt-img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="" />-->
 <!--                                        {{ attr.value }}-->
 <!--                                    </div>-->
                                 </div>
@@ -207,11 +207,11 @@
                                         :key="index"
                                         class="flex flex-row items-center mr-2 relative special-icons"
                                     >
-                                        <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="">
-                                        <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
-                                        <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="">
-                                        <img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="">
-                                        <img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="">
+                                        <nuxt-img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />
+                                        <nuxt-img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
+                                        <nuxt-img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />
+                                        <nuxt-img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="" />
+                                        <nuxt-img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="" />
                                         {{ attr.value }}
                                         <p v-if="attr.name === 'Kvadratura' || attr.name === 'Okućnica'">
                                             m²
@@ -298,7 +298,7 @@
                                     <li v-for="(attr, index) in RentSpecialAttributes"
                                         :key="index"
                                         class="col-span-1 flex">
-                                        <img :src="'/' + attr.name + '.png'" alt="">
+                                        <nuxt-img :src="'/' + attr.name + '.png'" alt="" />
                                         <div
                                             class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                                             <div
@@ -376,7 +376,7 @@
 <!--                                             :key="review.id">-->
 <!--                                            <div class="flex text-sm text-gray-500 space-x-4 px-4">-->
 <!--                                                <div class="flex-none py-4">-->
-<!--                                                    <img-->
+<!--                                                    <nuxt-img-->
 <!--                                                        src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"-->
 <!--                                                        alt="" class="w-10 h-10 bg-gray-100 rounded-full">-->
 <!--                                                </div>-->
@@ -511,7 +511,7 @@
                                         <div class="places-grid" v-if="selectedPlace !== null">
                                             <div v-for="(p, index) in selectedPlace" :key="index"
                                                  class="flex flex-row items-center justify-start">
-                                                <img :src="p.icon" :alt="p.name" class="mr-2">
+                                                <nuxt-img :src="p.icon" :alt="p.name" class="mr-2" />
                                                 {{ p.name }}
                                             </div>
                                         </div>
@@ -535,7 +535,7 @@
                                         <div v-for="p in bookingPoi()" :key="p.id"
                                              class="flex flex-col items-start justify-start">
                                             <div class="flex flex-row items-center">
-                                                <img :src="p.icon" :alt="p.name" class="mr-2">
+                                                <nuxt-img :src="p.icon" :alt="p.name" class="mr-2" />
                                                 {{ p.name }}
                                             </div>
                                             <div class="flex mt-1 flex-row items-center">
@@ -834,10 +834,15 @@ import SearchListingCard from "../../../components/SearchListingCard";
             title: this.listing ? (this.listing.title + " - " + (this.listing.category ? this.listing.category.title : '') + " - " + "MojKvadrat.ba") : "MojKvadrat.ba",
             meta: [
                 {
-                    hid: this.listing ? this.listing.description : "",
-                    name: this.listing ? this.listing.description : "",
-                    content: 'Stanovi sarajevo zenica tuzla banjaluka stan na dan izdavanje rentanje renta'
+                    hid: 'description',
+                    name: 'description',
+                    content: this.listing.description
                 },
+                {
+                    name: 'keywords',
+                    content: this.listing.title + ' Stanovi sarajevo zenica tuzla banjaluka stan na dan izdavanje rentanje renta'
+                },
+                { name: "keywords", content: this.listing.title + " nekretnine, stanovi, kuce, apartmani, more, mojkvadrat, novogradnja, stan na dan, sarajevo stan, sarajevo stanovi, sarajevo, poslovni prostor, garaza" },
             ],
         };
     },

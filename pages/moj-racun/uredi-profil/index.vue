@@ -38,8 +38,8 @@
                             <div
                                 class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 mb-6">
                                 <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
-                                    <img class="h-full w-full rounded-md" alt="Profile picture"
-                                         :src="avatarUrl !== '' ? avatarUrl: '/noimage.jpeg'">
+                                    <nuxt-img class="h-full w-full rounded-md" alt="Profile picture"
+                                         :src="avatarUrl !== '' ? avatarUrl: '/noimage.jpeg'" />
                                     <div title="Remove this profile photo?"
                                          class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2">
                                         <i data-feather="x" class="w-4 h-4"></i></div>

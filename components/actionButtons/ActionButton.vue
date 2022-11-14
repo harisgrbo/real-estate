@@ -1,7 +1,7 @@
 <template>
     <button @click="action" :style="styleOptions" :disabled="loading === true">
         <span v-if="loading === false">{{ placeholder }}</span>
-        <img v-else src="/loader.svg" alt="">
+        <nuxt-img v-else src="/loader.svg" alt="" />
     </button>
 </template>
 

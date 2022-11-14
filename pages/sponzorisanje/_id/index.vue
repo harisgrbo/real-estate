@@ -5,8 +5,8 @@
                 <ul>
                     <li v-for="(option, index) in advertising_options" :key="index" @click="selectAdvertisment(option)"
                         :class="[selectedAdvertisment === option.id ? 'selected' : '']">
-                        <img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="">
-                        <img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main">
+                        <nuxt-img :src="selectedAdvertisment === option.id ? '/GreenCheck.svg' : '/EmptyCheck.svg'" alt="" />
+                        <nuxt-img src="/IzdvojenaKategorija.svg" alt="mainoption" class="main" />
                         <div class="text-wrapper">
                             <p>{{ option.title }}</p>
                             <!--                      <p>{{ option.description }}</p>-->

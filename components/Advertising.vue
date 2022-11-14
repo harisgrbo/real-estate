@@ -79,11 +79,11 @@
                                                     calculatedPrice.price + ' KM - ' + (calculatedPrice.discount * 100.0).toFixed(0) + ' % popusta'
                                                 }}
                                             </div>
-                                            <img class="loading" src="/loader.svg" alt="" v-else>
+                                            <nuxt-img class="loading" src="/loader.svg" alt="" v-else />
                                         </div>
                                     </div>
 
-                                    <img class="preview-img" :src="'/' + option.title + '.png'" alt="">
+                                    <nuxt-img class="preview-img" :src="'/' + option.title + '.png'" alt="" />
                                 </div>
                             </div>
                         </div>

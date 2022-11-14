@@ -17,7 +17,7 @@
                                         <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.listings">
                                             {{ listings.length }}
                                         </div>
-                                        <img class="loading" src="/loader.svg" alt="" v-else>
+                                        <nuxt-img class="loading" src="/loader.svg" alt="" v-else />
                                         <div class="text-base text-gray-600 mt-1">Broj aktivnih oglasa</div>
                                     </div>
                                 </div>
@@ -28,7 +28,7 @@
                                         <div class="text-3xl font-medium leading-8 mt-6"
                                              v-if="loaders.finished_listings">{{ completed_listings }}
                                         </div>
-                                        <img class="loading" src="/loader.svg" alt="" v-else>
+                                        <nuxt-img class="loading" src="/loader.svg" alt="" v-else />
                                         <div class="text-base text-gray-600 mt-1">Broj završenih oglasa</div>
                                     </div>
                                 </div>
@@ -39,7 +39,7 @@
                                         <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.agents">
                                             {{ agents.length }}
                                         </div>
-                                        <img class="loading" src="/loader.svg" alt="" v-else>
+                                        <nuxt-img class="loading" src="/loader.svg" alt="" v-else />
                                         <div class="text-base text-gray-600 mt-1">Broj agenata</div>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                         <div class="text-3xl font-medium leading-8 mt-6" v-if="loaders.listing_views">
                                             {{ total_views }}
                                         </div>
-                                        <img class="loading" src="/loader.svg" alt="" v-else>
+                                        <nuxt-img class="loading" src="/loader.svg" alt="" v-else />
                                         <div class="text-base text-gray-600 mt-1">Ukupna posjećenost svih oglasa</div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                 </h2>
                             </div>
                             <PieChart v-if="loaders.listings_per_category" :data="listings_per_category"></PieChart>
-                            <img class="loading" src="/loader.svg" alt="" v-else>
+                            <nuxt-img class="loading" src="/loader.svg" alt="" v-else />
                         </div>
                         <div class="w-full mt-8">
                             <div class=" flex items-center h-10">
@@ -74,7 +74,7 @@
                                 </h2>
                             </div>
                             <PieChart v-if="loaders.listings_per_location" :data="listings_per_location"></PieChart>
-                            <img class="loading" src="/loader.svg" alt="" v-else>
+                            <nuxt-img class="loading" src="/loader.svg" alt="" v-else />
 
                         </div>
                     </div>
@@ -103,9 +103,9 @@
                                 <div class="shadow-md rounded-md" v-for="agent in agents" :key="agent.id">
                                     <div class="box px-4 py-4 mb-3 flex items-center zoom-in">
                                         <div class="w-10 h-10 flex-none image-fit rounded-md overflow-hidden">
-                                            <img alt="Icewall Tailwind HTML Admin Template"
-                                                 :src="[ agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg']"
-                                                 class="h-full w-full">
+                                            <nuxt-img alt="Icewall Tailwind HTML Admin Template"
+                                                 :src="agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg'"
+                                                 class="h-full w-full" />
                                         </div>
                                         <div class="ml-4 mr-auto">
                                             <div class="font-medium">{{ agent.name }}</div>
