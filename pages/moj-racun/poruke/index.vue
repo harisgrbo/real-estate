@@ -17,7 +17,7 @@
                                 <div v-for="(conversation, index) in conversations" :key="index"
                                      @click="handleSelectedConversation(conversation, index)"
                                      :class="['bg-white cursor-pointer box relative flex items-center py-4 px-0 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
-                                    <nuxt-img alt="mojkvadrat - slika korisnika"
+                                    <img alt="mojkvadrat - slika korisnika"
                                          class="w-12 h-12 flex-none image-fit mr-1 rounded-full"
                                          :src="others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg'" />
                                     <div class="ml-2 overflow-hidden w-full h-full">
@@ -85,7 +85,7 @@
                                 <div class="flex flex-row items-center">
                                     <div class="flex items-center cursor-pointer"
                                          @click="goToUser(others(currentConversation))">
-                                        <nuxt-img alt="Icewall Tailwind HTML Admin Template" class="rounded-full"
+                                        <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full"
                                              :src="others(currentConversation).length && others(currentConversation)[0].avatar_url !== null ? others(currentConversation)[0].avatar_url : '/noimage.jpeg'" />
                                         <h3 class="ml-3">{{
                                                 others(currentConversation).map(item => item.name).join(',')
@@ -118,7 +118,7 @@
                             </div>
                             <div v-show="messagesLoaded" ref="messageContainer" class="messages-wrapper">
                                 <div class="w-full flex justify-center">
-                                    <nuxt-img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise"/>
+                                    <img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise"/>
                                     <button v-show="! loadingMore" v-if="messagesPage < messagesTotalPages"
                                             @click="loadMore">Prikaži više
                                     </button>
@@ -146,10 +146,10 @@
                                                        v-if="message.content.listing">
                                                 <div v-if="message.content.listing.image_urls.length > 0"
                                                      class="grid grid-cols-1">
-                                                    <nuxt-img :src="message.content.listing.image_urls[0]" alt="" />
+                                                    <img :src="message.content.listing.image_urls[0]" alt="" />
                                                 </div>
                                                 <div v-else class="grid grid-cols-1">
-                                                    <nuxt-img src="/noimage.jpeg" alt="" />
+                                                    <img src="/noimage.jpeg" alt="" />
                                                 </div>
                                                 <h3>{{ message.content.listing.title }}</h3>
                                             </nuxt-link>
@@ -174,7 +174,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
                                                     </svg>
                                                 </a>
-                                                <nuxt-img class="message-image cursor-pointer" :src="message.content.url"
+                                                <img class="message-image cursor-pointer" :src="message.content.url"
                                                      alt=""
                                                      @click="openImageGallery = true; selectedImage = message.content.url" />
                                                 <a :href="message.content.url" target="_blank"
@@ -204,7 +204,7 @@
                             </div>
                             <div v-show="!messagesLoaded"
                                  class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
-                                <nuxt-img src="/loader.svg" alt="" />
+                                <img src="/loader.svg" alt="" />
                             </div>
                             <div
                                 class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
@@ -248,7 +248,7 @@
                             <div class="mx-auto text-center">
                                 <div
                                     class="w-16 h-16 min-w-16 max-w-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                                    <nuxt-img class="h-full w-full" alt="Icewall Tailwind HTML Admin Template"
+                                    <img class="h-full w-full" alt="Icewall Tailwind HTML Admin Template"
                                          :src="$auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg'" />
                                 </div>
                                 <div class="mt-3">
@@ -293,7 +293,7 @@
                                 @change="preview"
                                 class="hidden"
                             />
-                            <nuxt-img v-if="imgSrc.length" id="image" :src="imgSrc" class="mt-md"/>
+                            <img v-if="imgSrc.length" id="image" :src="imgSrc" class="mt-md"/>
                             <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
                                  viewBox="0 0 24 24" stroke="#1F2937">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -336,7 +336,7 @@
                                 @change="preview"
                                 class="hidden"
                             />
-                            <nuxt-img v-if="imgSrc.length" id="image" :src="imgSrc" class="mt-md"/>
+                            <img v-if="imgSrc.length" id="image" :src="imgSrc" class="mt-md"/>
                             <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
                                  viewBox="0 0 24 24" stroke="#1F2937">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -382,7 +382,7 @@
                                         @change="preview"
                                         class="hidden"
                                     />
-                                    <nuxt-img v-if="imgSrc.length" id="image" :src="imgSrc" class="mt-md"/>
+                                    <img v-if="imgSrc.length" id="image" :src="imgSrc" class="mt-md"/>
                                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
                                          viewBox="0 0 24 24" stroke="#1F2937">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -458,7 +458,7 @@
                                     class="shadow-sm mb-4 flex flex-row justify-between rounded-md items-center border-b border-gray-200 dark:border-dark-5 py-3">
                                     <div class="flex items-center">
                                         <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
-                                            <nuxt-img alt="Icewall Tailwind HTML Admin Template" class="rounded-full"
+                                            <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full"
                                                  src="/noimage.jpeg" />
                                         </div>
                                         <div class="ml-3 mr-auto">
@@ -492,7 +492,7 @@
                                 <div v-show="messagesLoaded" ref="mobileConversations"
                                      class="overflow-y-scroll scrollbar-hidden mobile-height pt-5 flex-1">
                                     <div class="w-full flex justify-center">
-                                        <nuxt-img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise"/>
+                                        <img v-show="loadingMore" class="invert" src="/loader.svg" alt="Prikazi vise"/>
                                         <button v-show="! loadingMore" v-if="messagesPage < messagesTotalPages"
                                                 @click="loadMore">Prikaži više
                                         </button>
@@ -518,10 +518,10 @@
                                                 <div class="listing-card flex flex-col" v-if="message.content.listing">
                                                     <div v-if="message.content.listing.image_urls.length > 0"
                                                          class="grid grid-cols-1">
-                                                        <nuxt-img :src="message.content.listing.image_urls[0]" alt="" />
+                                                        <img :src="message.content.listing.image_urls[0]" alt="" />
                                                     </div>
                                                     <div v-else class="grid grid-cols-1">
-                                                        <nuxt-img src="/noimage.jpeg" alt="" />
+                                                        <img src="/noimage.jpeg" alt="" />
                                                     </div>
                                                     <h3>{{ message.content.listing.title }}</h3>
                                                 </div>
@@ -546,7 +546,7 @@
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
                                                         </svg>
                                                     </a>
-                                                    <nuxt-img class="message-image cursor-pointer" :src="message.content.url"
+                                                    <img class="message-image cursor-pointer" :src="message.content.url"
                                                          alt=""
                                                          @click="openImageGallery = true; selectedImage = message.content.url" />
                                                     <a :href="message.content.url" target="_blank"
@@ -576,7 +576,7 @@
                                 </div>
                                 <div v-show="!messagesLoaded"
                                      class="no-messages overflow-y-scroll scrollbar-hidden pt-5 flex-1">
-                                    <nuxt-img src="/loader.svg" alt="" />
+                                    <img src="/loader.svg" alt="" />
                                 </div>
                                 <div
                                     class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
@@ -619,7 +619,7 @@
                             <div v-else class="h-full flex items-center">
                                 <div class="mx-auto text-center">
                                     <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                                        <nuxt-img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg" />
+                                        <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg" />
                                     </div>
                                     <div class="mt-3">
                                         <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
@@ -638,8 +638,8 @@
 
         <div v-if="openImageGallery" class="image-gallery" @click="openImageGallery = false; selectedImage = ''">
             <div class="img-wrap">
-                <nuxt-img src="/svg/close.svg" alt="" class="close" />
-                <nuxt-img :src="selectedImage" alt="" class="main-image" />
+                <img src="/svg/close.svg" alt="" class="close" />
+                <img :src="selectedImage" alt="" class="main-image" />
             </div>
         </div>
     </div>

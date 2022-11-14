@@ -31,14 +31,14 @@
                      @mouseleave="handleCardHoverDone">
                     <swiper class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>
                         <swiper-slide v-for="(img, index) in listing.images" :key="index">
-                            <nuxt-img class="slider-img swiper-lazy" :data-src="img.url" alt="" />
+                            <img class="slider-img swiper-lazy" :data-src="img.url" alt="" />
                             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         </swiper-slide>
                         <div class="swiper-pagination" slot="pagination"></div>
                     </swiper>
                 </div>
                 <div v-else class="gallery-wrap">
-                    <nuxt-img src="/noimage.jpeg" alt="" />
+                    <img src="/noimage.jpeg" alt="" />
                 </div>
             </div>
             <div class="listing-card-content relative">
@@ -55,10 +55,10 @@
                         :key="index"
                         class="flex flex-row items-center mr-2"
                     >
-                        <nuxt-img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />
-                        <nuxt-img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
-                        <nuxt-img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="" />
-                        <nuxt-img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />
+                        <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />
+                        <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
+                        <img v-if="attr.name === 'Kvadratura'" src="/m2.png" alt="" />
+                        <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />
                         {{ attr.value }}
                         <p v-if="attr.name === 'Kvadratura'">
                             m²

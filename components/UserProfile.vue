@@ -3,7 +3,7 @@
         <div class="main-user-wrapper">
             <div class="flex flex-row">
                 <div class="flex w-14 min-w-14 h-14 items-center justify-center rounded-full overflow-hidden img-wrap">
-                    <nuxt-img :src="user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg'" alt=""
+                    <img :src="user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg'" alt=""
                          class="object-contain w-full min-w-full" />
                 </div>
                 <div class="flex flex-col items-start justify-start pl-4 w-full">
@@ -23,7 +23,7 @@
                         {{ user.online ? 'Online' : 'Offline' }}
                     </dd>
                     <div class="flex flex-row items-center justify-start w-full verified">
-                        <nuxt-img :src="user.verified ? '/001-completed.png' : '/002-error.png'"
+                        <img :src="user.verified ? '/001-completed.png' : '/002-error.png'"
                              alt="" />{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
                     </div>
                     <div class="flex items-center justify-start text-gray-700 mt-2 w-full"
@@ -54,10 +54,10 @@
                         <ActionButton @action="$modal.show('contact-user')"
                                       placeholder="Poruka" class="w-full mr-sm"></ActionButton>
                         <a class="call-btn" target="_blank" :href="`https://wa.me/${user.phone_number}`">
-                            <nuxt-img src="/whatsapp.png" alt="" />
+                            <img src="/whatsapp.png" alt="" />
                         </a>
                         <a class="call-btn" :href="`viber://chat?number=${user.phone_number}`" target="_blank">
-                            <nuxt-img src="/viber.png" alt="" />
+                            <img src="/viber.png" alt="" />
                         </a>
 
                     </div>
@@ -221,7 +221,7 @@
         </div>
 <!--        <div class="flex justify-center mt-4 mb-4" v-if="!$device.isMobile">-->
 <!--            <a href="https://www.korpa.ba" target="_blank">-->
-<!--                <nuxt-img :src="$device.isMobile ? '/korpasmall.jpg' : '/korpanew.jpg'" alt="" />-->
+<!--                <img :src="$device.isMobile ? '/korpasmall.jpg' : '/korpanew.jpg'" alt="" />-->
 <!--            </a>-->
 <!--        </div>-->
     </aside>

@@ -3,7 +3,7 @@
         <div class="credit-inner">
             <div class="flex mob-credit flex-row w-full justify-between mb-8">
                 <div class="flex flex-row items-center">
-                    <nuxt-img src="/credit-card.svg" alt="" class="mr-4" />
+                    <img src="/credit-card.svg" alt="" class="mr-4" />
                     <p class="text-xl text-gray-800 font-medium">Dopuna kredita karticom</p>
                 </div>
                 <div class="actual flex flex-col p-4 bg-gray-50 rounded-md">
@@ -26,7 +26,7 @@
                                 :class="[ selectedCardOption !== null && selectedCardOption.id === option.id ? 'bg-gray-800 text-white selected' : '' ]">
                             <div class="value">{{ option.value + ' kredita' }}</div>
                             <div class="price">
-                                <nuxt-img src="/coins.png" alt="" />
+                                <img src="/coins.png" alt="" />
                                 <p>{{ option.price }}</p>
                             </div>
                         </button>
@@ -35,7 +35,7 @@
                     <ul v-if="selectedCardOption !== null" class="cards">
                         <li v-for="(tab, index) in cards" @click="currentCard = index" :key="index"
                             :class="[ currentCard === index ? 'bg-gray-800 text-white selected-card' : '' ]">
-                            <nuxt-img :src="tab.img" alt="" />
+                            <img :src="tab.img" alt="" />
                             <p v-if="!$device.isMobile">{{ tab.type }}</p>
                         </li>
                     </ul>

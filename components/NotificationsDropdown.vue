@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div v-else class="flex flex-col items-center no-notifications">
-                <nuxt-img src="/notifications.png" alt="" />
+                <img src="/notifications.png" alt="" />
                 <h2 class="mt-2 p-2 text-standard text-gray-800 font-medium">Nemate obavijesti</h2>
             </div>
             <ActionButton v-if="notifications.length"

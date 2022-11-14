@@ -10,7 +10,7 @@
         <div class="content-wrapper flex flex-col">
             <div v-if="$device.isMobile" class="back-to-home">
                 <nuxt-link to="/">
-                    <nuxt-img src="/mojkvadratnew.png" alt="" />
+                    <img src="/mojkvadratnew.png" alt="" />
                 </nuxt-link>
             </div>
             <div class="loader-wrapper">

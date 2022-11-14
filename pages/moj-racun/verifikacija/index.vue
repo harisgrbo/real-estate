@@ -18,7 +18,7 @@
                     Vašega profila putem e-maila. Ako verifikacijski e-mail ne možete pronaći u Vašem inboxu, pogledajte
                     u folderima Junk ili Spam.</small>
                 <div class="verify-info">
-                    <nuxt-img src="/neverifikovan.svg" alt="" />
+                    <img src="/neverifikovan.svg" alt="" />
                     <p>Email nije verifikovan</p>
                 </div>
                 <ActionButton placeholder="Pošalji verifikacijski e-mail"></ActionButton>
@@ -30,7 +30,7 @@
                     Vašega profila putem e-maila. Ako verifikacijski e-mail ne možete pronaći u Vašem inboxu, pogledajte
                     u folderima Junk ili Spam.</small>
                 <div class="verify-info">
-                    <nuxt-img src="/verifikovan.svg" alt="" />
+                    <img src="/verifikovan.svg" alt="" />
                     <p>Broj telefona nije verifikovan</p>
                 </div>
                 <h3>Molimo Vas da unesete Vaš broj telefona</h3>

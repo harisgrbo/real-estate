@@ -1,6 +1,6 @@
 <template>
     <div class="most-visited-card">
-        <nuxt-img :src="img" alt="" />
+        <img :src="img" alt="" />
 
         <div class="info-wrap">
             <p>{{ city }}</p>

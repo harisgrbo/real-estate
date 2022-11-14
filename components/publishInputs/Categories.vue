@@ -9,7 +9,7 @@
                     {{ cat.title }}
                 </div>
                 <div class="flex">
-                    <nuxt-img :src="'/cats/' + cat.slug + '.png'" alt="" />
+                    <img :src="'/cats/' + cat.slug + '.png'" alt="" />
                 </div>
             </li>
         </ul>

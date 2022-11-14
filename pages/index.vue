@@ -1,7 +1,7 @@
 <template>
     <div :class="['homepage-wrap', this.$route.name === 'index' ? 'no-padding' : '']">
         <div class="publish mb-24 p-8">
-<!--            <nuxt-img src="/image.webp" alt="" class="image-bg">-->
+<!--            <img src="/image.webp" alt="" class="image-bg">-->
             <div class="quick-search">
                 <div class="flex flex-col mt-6">
                     <div class="flex flex-row items-center w-full inputs">
@@ -286,7 +286,7 @@
         <!--      <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>-->
         <!--    </div>-->
         <a href="https://www.ekupon.ba" target="_blank" class="mx-auto mt-8 leaderboard" v-if="!$device.isMobile">
-            <nuxt-img src="/ekuponbanner.jpg" alt="" />
+            <img src="/ekuponbanner.jpg" alt="" />
         </a>
     </div>
 </template>
