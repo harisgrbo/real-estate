@@ -3,7 +3,7 @@
         <div class="avatar">
             <div>
                 <div class="avatar-wrapper">
-                    <img src="/avatar.jpg" alt="">
+                    <img src="/avatar.jpg" alt="" />
                     <div class="user-info">
                         <h2>SIGEX d.o.o</h2>
                         <p class="location">Sarajevo - Centar</p>

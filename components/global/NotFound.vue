@@ -1,6 +1,6 @@
 <template>
     <div class="not-found-wrapper">
-        <img :src="src" alt="">
+        <img :src="src" alt="" />
         <p>{{ text }}</p>
     </div>
 </template>

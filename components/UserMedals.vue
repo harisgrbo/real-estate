@@ -1,7 +1,7 @@
 <template>
     <div class="medals">
-        <img src="/medals/years-1.svg" alt="">
-        <img src="/medals/package-gold.svg" alt="">
+        <img src="/medals/years-1.svg" alt="" />
+        <img src="/medals/package-gold.svg" alt="" />
     </div>
 </template>
 

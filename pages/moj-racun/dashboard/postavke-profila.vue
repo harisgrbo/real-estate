@@ -9,7 +9,7 @@
             <div class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5">
                 <div class="h-auto relative image-fit cursor-pointer zoom-in mx-auto">
                     <img v-show="banner_url !== '' && banner_url != null" class="banner-wrap w-full rounded-md" alt=""
-                         :src="banner_url">
+                         :src="banner_url" />
                     <div title="Remove this profile photo?"
                          class="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-24 right-0 top-0 -mr-2 -mt-2">
                         <i data-feather="x" class="w-4 h-4"></i></div>

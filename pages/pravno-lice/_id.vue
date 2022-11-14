@@ -9,7 +9,7 @@
             <aside class="w-96 bg-white overflow-y-auto">
               <div class="col-span-1 flex flex-col text-center bg-white rounded-lg divide-y divide-gray-200">
                 <div class="flex-1 flex flex-row justify-start user-inner">
-                  <img class="w-44 h-44 flex-shrink-0 rounded-sm object-contain" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                  <img class="w-44 h-44 flex-shrink-0 rounded-sm object-contain" :src="user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg'" alt="" />
                   <div class="ml-6">
                     <h3 class="text-gray-900 text-xl font-semibold text-left">{{ user.name }}</h3>
                     <div class="mt-1 flex flex-row items-center justify-start text-sm">
@@ -22,7 +22,7 @@
                       </div>
                     </dl>
                     <div class="flex flex-row items-center justify-start w-full verified">
-                      <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="">{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
+                      <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="" />{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
                     </div>
                   </div>
                 </div>
@@ -226,7 +226,7 @@
                     <div class="-my-12 divide-y divide-gray-200">
                       <div v-for="review in reviews" :key="review.id" class="py-12 review-user">
                         <div class="flex items-center">
-                          <img :src="user.avatar_url !== null ? user.avatar_url : '/noimage.jpeg'" alt="Emily Selman." class="h-12 w-12 rounded-full">
+                          <img :src="user.avatar_url !== null ? user.avatar_url : '/noimage.jpeg'" :alt="user.name" class="h-12 w-12 rounded-full" />
                           <div class="ml-4">
                             <h4 class="text-sm font-semibold text-gray-900">{{ review.user.name }} dana {{ $moment(review.created_at).format("DD.MM.YYYY") }}</h4>
                             <div class="mt-1 flex items-center">

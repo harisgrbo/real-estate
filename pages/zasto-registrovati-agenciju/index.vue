@@ -13,17 +13,17 @@
                     </div>
                     <ul>
                         <li>
-                            <img src="/check.svg" alt="">
+                            <img src="/check.svg" alt="" />
                             <p>Prvi mjesec potpuno besplatno!</p>
                         </li>
                         <li>
-                            <img src="/check.svg" alt="">
+                            <img src="/check.svg" alt="" />
                             <p>Dodatni popust na pretplatu od 3, 6 i 12 mjeseci</p>
                         </li>
                     </ul>
                 </div>
                 <div class="right">
-                    <img src="/grafika.png" alt="">
+                    <img src="/grafika.png" alt="" />
                 </div>
             </div>
         </div>

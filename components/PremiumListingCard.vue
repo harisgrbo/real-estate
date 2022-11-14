@@ -32,7 +32,7 @@
                     :key="index"
                     class="flex flex-row items-center mr-2"
                 >
-                    <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="">
+                    <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
                     {{ attr.value }}
                     <p v-if="attr.name === 'Kvadratura'">
                         m²

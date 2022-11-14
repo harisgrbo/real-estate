@@ -1,6 +1,6 @@
 <template>
     <div class="form-wrapper">
-        <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')">
+        <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')" />
 
         <h2 class="mt-4">Registracija</h2>
         <ul class="flex flex-row items-center justify-start">
@@ -22,7 +22,7 @@
                               @action="handleUserRegistration" :loading="loading"
                               placeholder="Registruj se"></ActionButton>
                 <button class="google-btn" @click="handleGoogleRegister($event)">
-                    <img src="/google-btn.png" alt="">
+                    <img src="/google-btn.png" alt="" />
                     Registruj se sa Google računom
                 </button>
             </div>

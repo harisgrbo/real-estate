@@ -16,8 +16,6 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" },
-      { name: "keywords", content: "nekretnine, stanovi, kuce, apartmani, more, mojkvadrat, novogradnja, stan na dan, sarajevo stan, sarajevo stanovi, sarajevo, poslovni prostor, garaza" },
-      { hid: "description", name: "description", content: "nekretnine stanovi kuce apartmani more mojkvadrat novogradnja stan na dan" },
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
@@ -111,6 +109,7 @@ export default {
   buildModules: [
     ["@nuxtjs/tailwindcss"],
     '@nuxtjs/google-analytics',
+    '@nuxt/image',
     ["@nuxtjs/device"],
     [
       "@nuxtjs/laravel-echo",

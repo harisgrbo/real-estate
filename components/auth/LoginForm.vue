@@ -1,6 +1,6 @@
 <template>
     <div class="form-wrapper">
-        <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')">
+        <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')" />
 
         <h2 class="mt-4">Prijava</h2>
         <form @submit.prevent.stop="handleLogin()">
@@ -11,7 +11,7 @@
             <ActionButton class="w-full" :style-options="{ color: '#fff', marginTop: '24px' }" :loading="loading"
                           type="submit" placeholder="Prijavi se"></ActionButton>
             <button class="google-btn" @click="handleGoogleLogin($event)">
-                <img src="/google-btn.png" alt="">
+                <img src="/google-btn.png" alt="" />
                 Prijavi se sa Google računom
             </button>
         </form>

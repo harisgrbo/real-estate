@@ -52,7 +52,7 @@
                     <div class="flex items-start px-5 pt-5">
                         <div class="w-full flex flex-col lg:flex-row items-center">
                             <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full agent-image"
-                                 :src="[ agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg']">
+                                 :src="agent.avatar_url !== null ? agent.avatar_url  : '/noimage.jpeg'" />
                             <div class="lg:ml-4 text-center lg:text-left mt-3 lg:mt-0">
                                 <div class="font-medium">{{ agent.name }}</div>
                                 <dd class="mt-3">

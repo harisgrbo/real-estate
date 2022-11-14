@@ -139,7 +139,7 @@
                     </div>
                     <div class="modal-content filters">
                         <!--            <div v-show="loading" class="loading-wrapper">-->
-                        <!--              <img src="/gps.gif" alt="">-->
+                        <!--              <img src="/gps.gif" alt="" />-->
                         <!--            </div>-->
                         <div class="rounded-md bg-yellow-50 p-4" v-show="! selectedCategoryId">
                             <div class="flex">
@@ -275,7 +275,7 @@
                                     <div class="relative flex">
                                         <div class="svg-wrap">
                                             <!-- Heroicon name: outline/clock -->
-                                            <img :src="'/cats/' + cat.slug + '.png'" alt="">
+                                            <img :src="'/cats/' + cat.slug + '.png'" alt="" />
                                         </div>
                                     </div>
                                 </li>

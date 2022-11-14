@@ -1,7 +1,7 @@
 <template>
     <div class="form-wrapper">
         <div class="inner" v-if="!messageSent">
-            <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')">
+            <img src="/mojkvadratnew.png" class="img-logo" alt="" @click="$router.push('/')" />
             <h2 class="mt-4 text-left w-full">Zaboravljena šifra</h2>
             <div class="rounded-md bg-yellow-50 p-4 mb-6 w-full">
                 <div class="flex">

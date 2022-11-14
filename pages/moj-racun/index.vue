@@ -13,7 +13,7 @@
                         <div>
               <span class="flex items-start justify-start">
                 <!-- Heroicon name: outline/clock -->
-                 <img class="max-h-12" :src="'/settings/' + tab.icon" alt="">
+                 <img class="max-h-12" :src="'/settings/' + tab.icon" alt="" />
               </span>
                         </div>
                         <div class="mt-8">

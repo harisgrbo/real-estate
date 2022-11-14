@@ -1,6 +1,6 @@
 <template>
     <div class="most-visited-card">
-        <img src="/newlogo.png" alt="">
+        <img src="/newlogo.png" alt="" />
 
         <div class="info-wrap">
             <p>Nekretnine d.o.o</p>

@@ -82,7 +82,7 @@
             <aside class="user-wrap bg-white p-0 w-full lg:px-4 up:px-4 xl:px-4 ml-6 overflow-y-auto">
               <div class="col-span-1 flex flex-col text-center bg-white divide-y divide-gray-200">
                 <div class="flex-1 flex flex-row justify-start p-0 pt-0 inner">
-                  <img class="w-44 h-44 flex-shrink-0 rounded-sm cursor-pointer" :src="[ user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg']" alt="">
+                  <img class="w-44 h-44 flex-shrink-0 rounded-sm cursor-pointer" :src="user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg'" alt="" />
                   <div class="w-full inner ml-4">
                     <div class="flex flex-col items-start justify-start w-full">
                       <div class="flex flex-row items-center justify-between w-full">
@@ -96,7 +96,7 @@
                         {{ user.online ? 'Online' : 'Offline' }}
                       </dd>
                       <div class="flex flex-row items-center justify-start w-full verified">
-                        <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="">{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
+                        <img :src="user.verified ? '/001-completed.png' : '/002-error.png'" alt="" />{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
                       </div>
                     </div>
                     <div>

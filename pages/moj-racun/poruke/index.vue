@@ -19,7 +19,7 @@
                                      :class="['bg-white cursor-pointer box relative flex items-center py-4 px-0 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                                     <img alt="mojkvadrat - slika korisnika"
                                          class="w-12 h-12 flex-none image-fit mr-1 rounded-full"
-                                         :src="[ others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg']">
+                                         :src="others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg'" />
                                     <div class="ml-2 overflow-hidden w-full h-full">
                                         <div class="flex items-center w-full">
                                             <div class="text-gray-700 font-semibold text-md">
@@ -86,7 +86,7 @@
                                     <div class="flex items-center cursor-pointer"
                                          @click="goToUser(others(currentConversation))">
                                         <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full"
-                                             :src="others(currentConversation).length && others(currentConversation)[0].avatar_url !== null ? others(currentConversation)[0].avatar_url : '/noimage.jpeg'">
+                                             :src="others(currentConversation).length && others(currentConversation)[0].avatar_url !== null ? others(currentConversation)[0].avatar_url : '/noimage.jpeg'" />
                                         <h3 class="ml-3">{{
                                                 others(currentConversation).map(item => item.name).join(',')
                                             }}</h3>
@@ -146,10 +146,10 @@
                                                        v-if="message.content.listing">
                                                 <div v-if="message.content.listing.image_urls.length > 0"
                                                      class="grid grid-cols-1">
-                                                    <img :src="message.content.listing.image_urls[0]" alt="">
+                                                    <img :src="message.content.listing.image_urls[0]" alt="" />
                                                 </div>
                                                 <div v-else class="grid grid-cols-1">
-                                                    <img src="/noimage.jpeg" alt="">
+                                                    <img src="/noimage.jpeg" alt="" />
                                                 </div>
                                                 <h3>{{ message.content.listing.title }}</h3>
                                             </nuxt-link>
@@ -176,7 +176,7 @@
                                                 </a>
                                                 <img class="message-image cursor-pointer" :src="message.content.url"
                                                      alt=""
-                                                     @click="openImageGallery = true; selectedImage = message.content.url">
+                                                     @click="openImageGallery = true; selectedImage = message.content.url" />
                                                 <a :href="message.content.url" target="_blank"
                                                            class="mt-3 flex items-center justify-start tab-link">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"
@@ -204,7 +204,7 @@
                             </div>
                             <div v-show="!messagesLoaded"
                                  class="no-messages overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
-                                <img src="/loader.svg" alt="">
+                                <img src="/loader.svg" alt="" />
                             </div>
                             <div
                                 class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
@@ -249,7 +249,7 @@
                                 <div
                                     class="w-16 h-16 min-w-16 max-w-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
                                     <img class="h-full w-full" alt="Icewall Tailwind HTML Admin Template"
-                                         :src="[ $auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg']">
+                                         :src="$auth.user.avatar_url !== null ? $auth.user.avatar_url  : '/noimage.jpeg'" />
                                 </div>
                                 <div class="mt-3">
                                     <div class="font-bold text-lg">Pozdrav, {{ $auth.user.name }}</div>
@@ -459,7 +459,7 @@
                                     <div class="flex items-center">
                                         <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
                                             <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full"
-                                                 src="/noimage.jpeg">
+                                                 src="/noimage.jpeg" />
                                         </div>
                                         <div class="ml-3 mr-auto">
                                             <div class="font-medium text-base">
@@ -518,10 +518,10 @@
                                                 <div class="listing-card flex flex-col" v-if="message.content.listing">
                                                     <div v-if="message.content.listing.image_urls.length > 0"
                                                          class="grid grid-cols-1">
-                                                        <img :src="message.content.listing.image_urls[0]" alt="">
+                                                        <img :src="message.content.listing.image_urls[0]" alt="" />
                                                     </div>
                                                     <div v-else class="grid grid-cols-1">
-                                                        <img src="/noimage.jpeg" alt="">
+                                                        <img src="/noimage.jpeg" alt="" />
                                                     </div>
                                                     <h3>{{ message.content.listing.title }}</h3>
                                                 </div>
@@ -548,7 +548,7 @@
                                                     </a>
                                                     <img class="message-image cursor-pointer" :src="message.content.url"
                                                          alt=""
-                                                         @click="openImageGallery = true; selectedImage = message.content.url">
+                                                         @click="openImageGallery = true; selectedImage = message.content.url" />
                                                     <a :href="message.content.url" target="_blank"
                                                                class="mt-3 flex items-center justify-start tab-link">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"
@@ -576,7 +576,7 @@
                                 </div>
                                 <div v-show="!messagesLoaded"
                                      class="no-messages overflow-y-scroll scrollbar-hidden pt-5 flex-1">
-                                    <img src="/loader.svg" alt="">
+                                    <img src="/loader.svg" alt="" />
                                 </div>
                                 <div
                                     class="pt-4 pb-4 flex items-center justify-between border-t border-gray-400 dark:border-dark-5 px-4 mobile-message-wrapper">
@@ -619,7 +619,7 @@
                             <div v-else class="h-full flex items-center">
                                 <div class="mx-auto text-center">
                                     <div class="w-16 h-16 flex-none image-fit rounded-full overflow-hidden mx-auto">
-                                        <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg">
+                                        <img alt="Icewall Tailwind HTML Admin Template" src="/noimage.jpeg" />
                                     </div>
                                     <div class="mt-3">
                                         <div class="font-medium">Pozdrav, {{ $auth.user.name }}</div>
@@ -638,8 +638,8 @@
 
         <div v-if="openImageGallery" class="image-gallery" @click="openImageGallery = false; selectedImage = ''">
             <div class="img-wrap">
-                <img src="/svg/close.svg" alt="" class="close">
-                <img :src="selectedImage" alt="" class="main-image">
+                <img src="/svg/close.svg" alt="" class="close" />
+                <img :src="selectedImage" alt="" class="main-image" />
             </div>
         </div>
     </div>
