@@ -2,6 +2,11 @@
     <div class="input-wrapper">
         <label>{{ title }}</label>
         <textarea placeholder="Opišite nekretninu" @input="$emit('input', $event.target.value)">{{ value }}</textarea>
+        <client-only>
+            <div class="pt-4">
+                <vue-editor @input="$emit('input', $event.target.value)" v-model="value"/>
+            </div>
+        </client-only>
     </div>
 </template>
 

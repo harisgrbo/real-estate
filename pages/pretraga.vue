@@ -13,7 +13,7 @@
                             class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 first-category">
                         {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
                     </button>
-                    <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100"
+                    <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 px-2 py-3 rounded-lg px-3 hover:bg-gray-100"
                             @click="$modal.show('search-filters')">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
@@ -27,7 +27,7 @@
                             <button
                                 @click="$modal.show('type-modal')"
                                 type="button"
-                                class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100"
+                                class="min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-3 rounded-lg hover:bg-gray-100"
                                 aria-expanded="false">
                                 <span>Vrsta oglasa</span>
 
@@ -58,7 +58,7 @@
             </div>
             <div class="flex flex-col items-center justify-between w-full w-full mt-4">
                 <div class="flex items-center justify-between w-full mobile-button mb-2">
-                    <h1 class="results-number font-medium text-lg">{{ meta.total }} rezultata</h1>
+                    <h1 class="results-number uppercase font-semibold text-sm">{{ meta.total }} rezultata</h1>
                     <div class="flex w-full text-right justify-end type z-10">
                         <button @click="showSortDropdown = !showSortDropdown" type="button"
                                 class="flex flex-row items-center">
@@ -930,11 +930,15 @@ export default class Pretraga extends Vue {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 12px;
+    padding-top: 0;
 
     @include for-phone-only {
         padding-top: 12px;
         background: transparent;
         padding-bottom: 12px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 }
 
@@ -943,7 +947,6 @@ export default class Pretraga extends Vue {
     flex-direction: column;
     width: 1280px;
     margin: 0 auto;
-    padding-top: 36px;
 
     @include for-phone-only {
         background: #f9f9f9;
@@ -1174,21 +1177,21 @@ export default class Pretraga extends Vue {
         border-radius: 4px;
         outline: none;
         font-size: 14px;
-        font-weight: 400;
+        font-weight: 500;
         line-height: 1;
         text-align: center;
         cursor: pointer;
-        padding: 6px 8px !important;
+        padding: 8px 12px !important;
         background-color: #ffffff;
         color: #232e3f;
         margin-right: 3px;
 
         &.selected-cat {
-            background: #fff;
+            background: #FC8709 !important;
             border-width: 1px;
             border-style: solid;
-            border-color: #343434;
-            color: #232e3f;
+            border-color: #FC8709;
+            color: #fff;
             font-weight: 500;
             border-radius: 4px;
         }
@@ -1469,8 +1472,8 @@ export default class Pretraga extends Vue {
         border-radius: 4px;
         font-size: 12px;
         font-weight: 400;
-        background: #FC8709;
-        color: #fff;
+        background: #f9f9f9;
+        color: #000;
 
         @include for-phone-only {
             background: #f9f9f9;
@@ -1521,7 +1524,7 @@ button.group {
     transition: background-color 0.15s ease-in-out;
     border-radius: 4px !important;
     outline: none !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
     line-height: 1 !important;
     text-align: center !important;
@@ -1529,11 +1532,12 @@ button.group {
     color: #232e3f !important;
     min-width: fit-content !important;
     width: fit-content !important;
-    padding: 6px 8px !important;
-    background: #e0e0e0;
+    padding: 10px !important;
+    background: #f1f1f1;
 
     &:hover {
         background: #f1f1f1 !important;
+        border: 1px solid #444;
     }
 
 }
@@ -1708,6 +1712,19 @@ button.group {
     font-weight: 400 !important;
     &:hover {
         background: transparent !important;
+    }
+}
+
+.search-options {
+    position: sticky;
+    top: 60px;
+    background: #fff;
+    z-index: 12;
+    padding: 12px 0;
+    border-bottom: 1px solid #dedede;
+
+    @include for-phone-only {
+        top: 0;
     }
 }
 </style>

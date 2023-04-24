@@ -66,7 +66,7 @@
 <!--                                    }"-->
 <!--                            />-->
                         </client-only>
-                        <div class="w-full mt-4" v-if="!$device.isMobile">
+                        <div class="w-full mt-4 mb-2" v-if="!$device.isMobile">
                             <h2 v-if="listing">{{ listing.title }}</h2>
                             <div class="w-full flex flex-row justify-between items-center my-2">
                                 <div class="flex flex-row items-center">
@@ -267,7 +267,7 @@
                             <div class="px-3 lg:px-0 xl:px-0 up:px-0">
                                 <ul role="list"
                                     :class="['border-t border-b border-gray-200 mobile-grid informations', showMoreInfo ? 'expand' : '']">
-                                    <li class="flow-root" v-for="(info, i) in normalAttributes" :key="i">
+                                    <li class="flow-root py-1 list-info" v-for="(info, i) in normalAttributes" :key="i">
                                         <div class="relative flex items-center space-x-4 inner-info-border">
                                             <div class="inner-info">
                                                 <h3>
@@ -1485,8 +1485,8 @@ export default class Oglas extends Vue {
 
 h2 {
     color: #000 !important;
-    font-size: 25px;
-    font-weight: 600 !important;
+    font-size: 22px;
+    font-weight: 500 !important;
     padding: 0px !important;
     display: inline !important;
     line-height: 33px;
@@ -2523,7 +2523,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .mobile-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     column-gap: 32px;
 
     @include for-phone-only {
@@ -2847,16 +2847,17 @@ input[type=range]:focus::-ms-fill-upper {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 50%;
 
     h3 {
-        color: #747474;
-        font-weight: 400;
-        font-size: 13px;
+        color: #444;
+        font-weight: 500;
+        font-size: 15px;
     }
 
     p {
-        font-weight: 400;
+        font-weight: 600;
+        font-size: 15px;
     }
 }
 
@@ -2984,6 +2985,10 @@ h3.text-2xl {
         font-size: 20px !important;
         margin-bottom: 14px !important;
     }
+}
+
+.list-info {
+    border-bottom: 1px solid #ddd;
 }
 </style>
 

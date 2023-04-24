@@ -621,9 +621,7 @@ a {
             padding-right: 8px;
 
             .address.title {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                height: 40px;
                 font-weight: 200 !important;
                 font-size: 18px !important;
                 line-height: 20px !important;

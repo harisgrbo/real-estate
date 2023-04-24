@@ -386,7 +386,7 @@ a {
 
             &.title {
                 h2 {
-                    font-weight: 200 !important;
+                    font-weight: 500 !important;
                     font-size: 15px;
                     line-height: 20px !important;
                     @include for-phone-only {
@@ -398,11 +398,9 @@ a {
             h2 {
                 position: relative;
                 color: #000;
-                font-weight: 400;
-                font-size: 13px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                font-weight: 500;
+                font-size: 14px;
+                height: 40px;
                 max-width: 100%;
 
                 &:first-child {
@@ -505,9 +503,7 @@ a {
             padding-right: 8px;
 
             .address.title {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                height: 40px;
                 font-weight: 200 !important;
                 font-size: 18px !important;
                 line-height: 20px !important;
