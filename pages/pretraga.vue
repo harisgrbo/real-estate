@@ -57,7 +57,22 @@
                 </div>
             </div>
             <div class="flex flex-col items-center justify-between w-full w-full mt-4">
-                <div class="flex items-center justify-between w-full mobile-button mb-2">
+                <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3">
+                    <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)"
+                        class="py-1 px-2 border border-black mr-1">
+                        <div class="flex flex-row items-center">
+                            {{ filterResolveValue(filter) }}
+                            <button @click="queryPayload[filter.name] = null; newSearch();">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+                <div class="flex items-center justify-between w-full mobile-button mb-3 mt-3">
                     <h1 class="results-number uppercase font-semibold text-sm">{{ meta.total }} rezultata</h1>
                     <div class="flex w-full text-right justify-end type z-10">
                         <button @click="showSortDropdown = !showSortDropdown" type="button"
@@ -80,22 +95,6 @@
                         </div>
                     </div>
                 </div>
-                <ul v-if="!$device.isMobile"
-                    class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3">
-                    <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)"
-                        class="py-1 px-2 border border-black mr-1">
-                        <div class="flex flex-row items-center">
-                            {{ filterResolveValue(filter) }}
-                            <button @click="queryPayload[filter.name] = null; newSearch();">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
                 <div class="content">
                     <div class="results relative">
                         <div v-if="results.length" class="w-full flex flex-col">
@@ -377,6 +376,24 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
 
     watchQuery: true,
 
+    head() {
+        return {
+            title: 'Pretraga za ' + this.metaTitle,
+            meta: [
+                {
+                    hid: 'keywords',
+                    name: 'keywords',
+                    content: this.metaKeywords,
+                },
+                {
+                    hid: 'descriptions',
+                    name: 'description',
+                    content: this.metaContent,
+                },
+            ],
+        }
+    },
+
     async asyncData(ctx) {
         let center = null;
         let page = 1;
@@ -604,40 +621,24 @@ export default class Pretraga extends Vue {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    // get histogramOptions() {
-    //   return {
-    //     chart: {
-    //       id: 'prices-histogram'
-    //     },
-    //     yaxis: {
-    //       show: false,
-    //     },
-    //     xaxis: {
-    //       lines: {
-    //         show: false
-    //       },
-    //       categories: this.meta.prices.buckets.map(item => {
-    //         if (item.min === item.max) {
-    //           return this.numberWithCommas(item.max) + " KM";
-    //         }
-    //
-    //         return "Od " + this.numberWithCommas(item.min) + " do " + this.numberWithCommas(item.max) + ' KM';
-    //       })
-    //     },
-    //     colors: ['#1F2937', '#E91E63'],
-    //   }
-    // }
+    get metaKeywords() {
+        let filters = ['prodaja, najam, iznajmljivanje, stanovi, stan, sarajevo, zenica, tuzla, mostar, jeftini stanovi, novogradnja, kupovina'];
+        for (const obj of Object.entries(this.queryPayload)) {
+            filters.push(this.filterResolveValue(obj[1]).toLowerCase());
+        }
 
-    // get priceBuckets() {
-    //   return [
-    //     {
-    //       'name': "Artikala",
-    //       'data': this.meta.prices.buckets.map(item => {
-    //         return parseInt(item.doc_count);
-    //       })
-    //     }
-    //   ];
-    // }
+        return filters;
+    }
+
+    get metaTitle() {
+
+        let filters = [];
+        for (const obj of Object.entries(this.queryPayload)) {
+            filters.push(this.filterResolveValue(obj[1]).toLowerCase());
+        }
+
+        return filters;
+    }
 
     filterResolveValue(filter) {
         if (filter.name === 'category_id') {
@@ -1476,7 +1477,7 @@ export default class Pretraga extends Vue {
         color: #000;
 
         @include for-phone-only {
-            background: #f9f9f9;
+            background: #fff;
             color: #000;
             font-size: 13px !important;
             min-width: -webkit-fit-content;
