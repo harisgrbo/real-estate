@@ -126,7 +126,9 @@
                     <h2 class="test" v-if="currentStep === steps.STEP_FIVE">
                         Opišite vašu nekretninu
                     </h2>
-                    <TextAreaField v-model="description"></TextAreaField>
+                    <client-only>
+                        <vue-editor v-model="description"/>
+                    </client-only>
                 </div>
 
                 <div class="button-wrapper">

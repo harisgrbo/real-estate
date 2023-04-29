@@ -10,7 +10,7 @@
                 <div class="overflow-hidden relative image-wrapper">
                     <swiper v-if="listing.images.length" class="swiper" :options="swiperOptionCard" @click.native.stop>
                         <swiper-slide v-for="(img, index) in listing.images" :key="index">
-                            <img class="slider-img swiper-lazy" :data-src="img.url" alt="" />
+                            <img class="slider-img swiper-lazy" :data-src="img.url" :src="img.url" alt="" />
                             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                         </swiper-slide>
                         <div

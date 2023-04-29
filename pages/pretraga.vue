@@ -99,7 +99,7 @@
                 <div class="content">
                     <div class="results relative">
                         <div v-if="results.length" class="w-full flex flex-col">
-                            <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-5 gap-4 w-full listing-wrap">
+                            <div class="divide-y mb-7 divide-gray-200 flex flex-col grid grid-cols-5 gap-4 w-full listing-wrap">
                                 <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)"
                                                    :avg-price="meta.price"/>
                             </div>
