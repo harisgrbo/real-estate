@@ -13,7 +13,7 @@
                             class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 first-category">
                         {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
                     </button>
-                    <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100"
+                    <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 px-2 py-3 rounded-lg px-3 hover:bg-gray-100"
                             @click="$modal.show('search-filters')">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
@@ -27,7 +27,7 @@
                             <button
                                 @click="$modal.show('type-modal')"
                                 type="button"
-                                class=" min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-lg px-3 hover:bg-gray-100"
+                                class="min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-3 rounded-lg hover:bg-gray-100"
                                 aria-expanded="false">
                                 <span>Vrsta oglasa</span>
 
@@ -57,8 +57,23 @@
                 </div>
             </div>
             <div class="flex flex-col items-center justify-between w-full w-full mt-4">
-                <div class="flex items-center justify-between w-full mobile-button mb-2">
-                    <h1 class="results-number font-medium text-lg">{{ meta.total }} rezultata</h1>
+                <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3">
+                    <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)"
+                        class="py-1 px-2 border border-black mr-1">
+                        <div class="flex flex-row items-center">
+                            {{ filterResolveValue(filter) }}
+                            <button @click="queryPayload[filter.name] = null; newSearch();">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+                <div class="flex items-center justify-between w-full mobile-button mb-3 mt-3">
+                    <h1 class="results-number uppercase font-semibold text-sm">{{ meta.total }} rezultata</h1>
                     <div class="flex w-full text-right justify-end type z-10">
                         <button @click="showSortDropdown = !showSortDropdown" type="button"
                                 class="flex flex-row items-center">
@@ -80,26 +95,10 @@
                         </div>
                     </div>
                 </div>
-                <ul v-if="!$device.isMobile"
-                    class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3">
-                    <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)"
-                        class="py-1 px-2 border border-black mr-1">
-                        <div class="flex flex-row items-center">
-                            {{ filterResolveValue(filter) }}
-                            <button @click="queryPayload[filter.name] = null; newSearch();">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
                 <div class="content">
                     <div class="results relative">
                         <div v-if="results.length" class="w-full flex flex-col">
-                            <div class="divide-y divide-gray-200 flex flex-col grid grid-cols-5 gap-4 w-full listing-wrap">
+                            <div class="divide-y mb-7 divide-gray-200 flex flex-col grid grid-cols-5 gap-4 w-full listing-wrap">
                                 <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)"
                                                    :avg-price="meta.price"/>
                             </div>
@@ -377,6 +376,24 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
 
     watchQuery: true,
 
+    head() {
+        return {
+            title: 'Pretraga za ' + this.metaTitle,
+            meta: [
+                {
+                    hid: 'keywords',
+                    name: 'keywords',
+                    content: this.metaKeywords,
+                },
+                {
+                    hid: 'descriptions',
+                    name: 'description',
+                    content: this.metaContent,
+                },
+            ],
+        }
+    },
+
     async asyncData(ctx) {
         let center = null;
         let page = 1;
@@ -604,40 +621,24 @@ export default class Pretraga extends Vue {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    // get histogramOptions() {
-    //   return {
-    //     chart: {
-    //       id: 'prices-histogram'
-    //     },
-    //     yaxis: {
-    //       show: false,
-    //     },
-    //     xaxis: {
-    //       lines: {
-    //         show: false
-    //       },
-    //       categories: this.meta.prices.buckets.map(item => {
-    //         if (item.min === item.max) {
-    //           return this.numberWithCommas(item.max) + " KM";
-    //         }
-    //
-    //         return "Od " + this.numberWithCommas(item.min) + " do " + this.numberWithCommas(item.max) + ' KM';
-    //       })
-    //     },
-    //     colors: ['#1F2937', '#E91E63'],
-    //   }
-    // }
+    get metaKeywords() {
+        let filters = ['prodaja, najam, iznajmljivanje, stanovi, stan, sarajevo, zenica, tuzla, mostar, jeftini stanovi, novogradnja, kupovina'];
+        for (const obj of Object.entries(this.queryPayload)) {
+            filters.push(this.filterResolveValue(obj[1]).toLowerCase());
+        }
 
-    // get priceBuckets() {
-    //   return [
-    //     {
-    //       'name': "Artikala",
-    //       'data': this.meta.prices.buckets.map(item => {
-    //         return parseInt(item.doc_count);
-    //       })
-    //     }
-    //   ];
-    // }
+        return filters;
+    }
+
+    get metaTitle() {
+
+        let filters = [];
+        for (const obj of Object.entries(this.queryPayload)) {
+            filters.push(this.filterResolveValue(obj[1]).toLowerCase());
+        }
+
+        return filters;
+    }
 
     filterResolveValue(filter) {
         if (filter.name === 'category_id') {
@@ -930,11 +931,15 @@ export default class Pretraga extends Vue {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 12px;
+    padding-top: 0;
 
     @include for-phone-only {
         padding-top: 12px;
         background: transparent;
         padding-bottom: 12px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
 }
 
@@ -943,7 +948,6 @@ export default class Pretraga extends Vue {
     flex-direction: column;
     width: 1280px;
     margin: 0 auto;
-    padding-top: 36px;
 
     @include for-phone-only {
         background: #f9f9f9;
@@ -1174,21 +1178,21 @@ export default class Pretraga extends Vue {
         border-radius: 4px;
         outline: none;
         font-size: 14px;
-        font-weight: 400;
+        font-weight: 500;
         line-height: 1;
         text-align: center;
         cursor: pointer;
-        padding: 6px 8px !important;
+        padding: 8px 12px !important;
         background-color: #ffffff;
         color: #232e3f;
         margin-right: 3px;
 
         &.selected-cat {
-            background: #fff;
+            background: #FC8709 !important;
             border-width: 1px;
             border-style: solid;
-            border-color: #343434;
-            color: #232e3f;
+            border-color: #FC8709;
+            color: #fff;
             font-weight: 500;
             border-radius: 4px;
         }
@@ -1469,11 +1473,11 @@ export default class Pretraga extends Vue {
         border-radius: 4px;
         font-size: 12px;
         font-weight: 400;
-        background: #FC8709;
-        color: #fff;
+        background: #f9f9f9;
+        color: #000;
 
         @include for-phone-only {
-            background: #f9f9f9;
+            background: #fff;
             color: #000;
             font-size: 13px !important;
             min-width: -webkit-fit-content;
@@ -1521,7 +1525,7 @@ button.group {
     transition: background-color 0.15s ease-in-out;
     border-radius: 4px !important;
     outline: none !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
     line-height: 1 !important;
     text-align: center !important;
@@ -1529,11 +1533,12 @@ button.group {
     color: #232e3f !important;
     min-width: fit-content !important;
     width: fit-content !important;
-    padding: 6px 8px !important;
-    background: #e0e0e0;
+    padding: 10px !important;
+    background: #f1f1f1;
 
     &:hover {
         background: #f1f1f1 !important;
+        border: 1px solid #444;
     }
 
 }
@@ -1708,6 +1713,19 @@ button.group {
     font-weight: 400 !important;
     &:hover {
         background: transparent !important;
+    }
+}
+
+.search-options {
+    position: sticky;
+    top: 60px;
+    background: #fff;
+    z-index: 12;
+    padding: 12px 0;
+    border-bottom: 1px solid #dedede;
+
+    @include for-phone-only {
+        top: 0;
     }
 }
 </style>

@@ -151,7 +151,7 @@
 .modal-inner {
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 16px;
   height: fit-content;
 
   @include for-phone-only {

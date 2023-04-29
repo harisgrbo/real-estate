@@ -4,29 +4,19 @@
             <button @click="$router.go(-1)" type="button"
                     class="mr-4 inline-flex items-center p-1  rounded-full text-black">
                 <!-- Heroicon name: solid/plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                          d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
                 </svg>
+
             </button>
             <div class="flex flex-row items-center">
                 <button @click="shareListing()" type="button"
                         class="inline-flex items-center p-1 text-black">
                     <!-- Heroicon name: solid/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
                     </svg>
-                </button>
-                <button v-if="$auth.user && $auth.user.id !== listing.user.id" @click="toggleSaveListing()"
-                        type="button"
-                        class="ml-4 inline-flex items-center p-1 text-black">
-                    <!-- Heroicon name: solid/plus -->
-                    <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#fc8709' : 'none']"
-                         viewBox="0 0 24 24" stroke="#fc8709">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
+
                 </button>
             </div>
         </div>
@@ -41,34 +31,44 @@
                     <div class="flex flex-col w-full relative add-width">
                         <div class="mobile-images">
                             <div v-if="listing.thumbnail !== null" class="h-full relative cursor-pointer mobile-new">
-                                <img class="main-image" :src="listing.thumbnail.url" @click="startStories = true" />
+                                <div :class="'item' + img.id" v-for="(img, index) in images" :key="index">
+                                    <img :src="img.url" alt="" @click="openGallery(index)" />
+                                </div>
                                 <div
                                     class="absolute bottom-4 left-4 z-10 py-1 px-3 bg-white rounded-sm text-sm font-semibold image-counter-border">
                                     {{ listing_meta.image_count + ' slika u galeriji' }}
                                 </div>
+                                <div
+                                    v-if="$auth.user && $auth.user.id !== listing.user.id"
+                                    @click="toggleSaveListing"
+                                    class="absolute top-4 right-4 h-10 w-10 z-10 bg-white rounded-full flex items-center justify-center text-sm font-semibold image-counter-border">
+                                    <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#FC8709' : 'none']" viewBox="0 0 24 24" stroke-width="1.5" :stroke="[ listingSaved ? '#FC8709' : '#000']" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                    </svg>
+                                </div>
+
                             </div>
                             <div v-else class="no-image-grid h-full">
                                 <img src="/noimage.jpeg" alt="" />
                             </div>
                         </div>
                         <client-only>
-                            <div v-if="galleryImages.length && startStories" class="relative">
-                                <vue-stories :stories="galleryImages" @allStoriesEnd="startStories = false"/>
-                                <button class="close-stories" @click="startStories = false">Zatvori</button>
-                            </div>
-<!--                            <light-box-->
-<!--                                ref="lightbox"-->
-<!--                                :media="lightboxImages"-->
-<!--                                :show-light-box="false"-->
-<!--                                :show-thumbs="true"-->
-<!--                                close-text="function() {-->
-<!--                                    return 'Zatvori galeriju'-->
-<!--                                    }"-->
-<!--                            />-->
+                            <light-box
+                                ref="lightbox"
+                                :media="lightboxImages"
+                                :show-light-box="false"
+                                :show-thumbs="true"
+                                close-text="function() {
+                                    return 'Zatvori galeriju'
+                                    }"
+                            />
                         </client-only>
-                        <div class="w-full mt-4" v-if="!$device.isMobile">
-                            <h2 v-if="listing">{{ listing.title }}</h2>
-                            <div class="w-full flex flex-row justify-between items-center my-2">
+                        <div class="w-full mt-4 mb-2" v-if="!$device.isMobile">
+                            <div v-if="listing" class="flex flex-row items-center mb-4">
+                                <p class="text-md mr-md text-black font-normal listing-type">{{ listing.listing_type.title }}</p>
+                                <h2>{{ listing.title }}</h2>
+                            </div>
+                            <div class="w-full flex flex-row justify-between items-center mt-md">
                                 <div class="flex flex-row items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor">
@@ -80,28 +80,16 @@
                                     <p class="min-w-min text-md text-gray-700 font-normal underline">
                                         {{ listing.district + ', ' + listing.address }}</p>
                                 </div>
-                                <div class="flex flex-row items-center min-w-min" v-if="!$device.isMobile">
-                                    <button v-if="$auth.user && $auth.user.id !== listing.user.id"
-                                            @click="toggleSaveListing()" type="button" class="flex items-center">
-                                        <!-- Heroicon name: solid/plus -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"
-                                             :fill="[ listingSaved ? '#1F2937' : 'none']" viewBox="0 0 24 24"
-                                             stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                        </svg>
-                                        <span class="save-listing">{{
-                                                listingSaved ? 'Izbriši iz spašenih' : 'Spasi oglas'
-                                            }}</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
 
                         <div class="mobile-wrapper">
                             <!-- mobile -->
                             <div v-if="$device.isMobile" class="mx-3 mt-2 flex flex-col">
-                                <h2 v-if="listing" class="mb-4">{{ listing.title }}</h2>
+                                <div v-if="listing" class="flex flex-row items-center my-md">
+                                    <p class="text-md mr-md text-black font-normal listing-type">{{ listing.listing_type.title }}</p>
+                                    <h2>{{ listing.title }}</h2>
+                                </div>
                                 <div class="flex flex-row items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor">
@@ -228,9 +216,6 @@
                                 <li>
                                     <p class="text-md text-black font-normal">{{ listing.city.name }}</p>
                                 </li>
-                                <li>
-                                    <p class="text-md text-black font-normal">{{ listing.listing_type.title }}</p>
-                                </li>
                                 <li v-if="!$device.isMobile">
                                     <p class="text-md text-black font-normal">{{ listing.address }}</p>
                                 </li>
@@ -267,11 +252,11 @@
                             <div class="px-3 lg:px-0 xl:px-0 up:px-0">
                                 <ul role="list"
                                     :class="['border-t border-b border-gray-200 mobile-grid informations', showMoreInfo ? 'expand' : '']">
-                                    <li class="flow-root" v-for="(info, i) in normalAttributes" :key="i">
+                                    <li class="flow-root list-info" v-for="(info, i) in normalAttributes" :key="i">
                                         <div class="relative flex items-center space-x-4 inner-info-border">
                                             <div class="inner-info">
                                                 <h3>
-                                                    {{ info.name }}
+                                                    {{ info.name }}:
                                                 </h3>
                                                 <p>{{
                                                         info.value === 'true' || info.value === true ? 'Da' : info.value
@@ -280,14 +265,6 @@
                                         </div>
                                     </li>
                                 </ul>
-                                <span v-show="normalAttributes.length > 12" @click="showMoreInfo = !showMoreInfo"
-                                      class="rounded-md show-more-btn no-padding border border-gray-800 py-4 flex flex-row items-center min-w-min justify-start text-md font-medium mt-4 hover:underline cursor-pointer">
-              {{ showMoreInfo ? 'Prikaži manje' : 'Prikaži više' }}
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24"
-                   stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </span>
                             </div>
                             <div v-if="RentSpecialAttributes.length && listing.listing_type.shortname !== 'sell'">
                                 <div class="separator"></div>
@@ -1465,8 +1442,6 @@ export default class Oglas extends Vue {
             if (desc_h)
                 this.descriptionRows = desc_h.getClientRects()[0].height;
         }
-
-        console.log(this.listing, 'listing')
     }
 
     get listingType() {
@@ -1485,8 +1460,8 @@ export default class Oglas extends Vue {
 
 h2 {
     color: #000 !important;
-    font-size: 25px;
-    font-weight: 600 !important;
+    font-size: 22px;
+    font-weight: 500 !important;
     padding: 0px !important;
     display: inline !important;
     line-height: 33px;
@@ -2523,7 +2498,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .mobile-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     column-gap: 32px;
 
     @include for-phone-only {
@@ -2537,6 +2512,23 @@ input[type=range]:focus::-ms-fill-upper {
         @include for-phone-only {
             grid-template-columns: repeat(1, 1fr);
 
+        }
+    }
+
+    &.informations {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        column-gap: 0;
+        max-width: 100%;
+        flex-wrap: wrap;
+
+        li {
+            margin-bottom: 6px;
+            margin-right: 6px;
+            width: fit-content;
+            min-width: fit-content;
+            flex-wrap: wrap;
         }
     }
 }
@@ -2850,13 +2842,15 @@ input[type=range]:focus::-ms-fill-upper {
     width: 100%;
 
     h3 {
-        color: #747474;
-        font-weight: 400;
-        font-size: 13px;
+        color: #444;
+        font-weight: 500;
+        font-size: 15px;
+        margin-right: 3px;
     }
 
     p {
-        font-weight: 400;
+        font-weight: 600;
+        font-size: 15px;
     }
 }
 
@@ -2872,15 +2866,6 @@ iframe {
 
     @include for-phone-only {
         min-height: 430px;
-    }
-}
-
-.informations {
-    max-height: 310px;
-    overflow: hidden;
-
-    &.expand {
-        max-height: fit-content;
     }
 }
 
@@ -2983,6 +2968,43 @@ h3.text-2xl {
     @include for-phone-only {
         font-size: 20px !important;
         margin-bottom: 14px !important;
+    }
+}
+
+.list-info {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+
+    h3 {
+        min-width: fit-content;
+        width: fit-content;
+        font-size: 12px;
+    }
+
+    p {
+        font-size: 12px;
+        font-weight: bold;
+    }
+}
+
+.listing-type {
+    display: flex;
+    padding: 10px 24px;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    background: #FC8709;
+    color: #fff;
+    border-radius: 3px;
+    margin-right: 16px;
+
+    @include for-phone-only {
+        padding: 4px 8px;
+        font-size: 13px;
     }
 }
 </style>

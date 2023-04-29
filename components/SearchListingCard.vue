@@ -23,10 +23,23 @@
         </label>
         <nuxt-link :to="'/oglas/' + listing.slug">
             <div class="overflow-hidden relative">
-                <div v-if="listing.thumbnail_url !== null" class="wrapper">
+                <div v-if="listing.images.length" class="wrapper">
                     <transition name="fade">
-                        <img class="main-image" :src="listing.thumbnail_url" @load="onLoaded" v-show="loaded" alt="" />
-                    </transition>
+                        <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
+                            <swiper-slide v-for="(img, index) in listing.images" :key="index">
+                                <img class="slider-img swiper-lazy" :data-src="img" alt="" />
+                                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                            </swiper-slide>
+                            <div
+                                class="swiper-button-prev swiper-button-white"
+                                slot="button-prev"
+                            ></div>
+                            <div
+                                class="swiper-button-next swiper-button-white"
+                                slot="button-next"
+                            ></div>
+                            <div class="swiper-pagination" slot="pagination"></div>
+                        </swiper>                    </transition>
                 </div>
                 <div v-else class="wrapper">
                     <transition name="fade">
@@ -125,6 +138,34 @@ export default class SearchListingCard extends Vue {
 
     ];
     specialRentAttributes = [];
+
+    swiperOptionCard = {
+        spaceBetween: 0,
+        // centeredSlides: true,
+        // slidesOffsetBefore: '100px',
+        // slidesOffsetAfter: '100px',
+        // slidesOffsetBefore: '0px',
+        loop: true,
+        autoplay: false,
+        slidesPerView: 1,
+        pagination: {
+            el: ".swiper-pagination",
+            dynamicBullets: true,
+        },
+        touchRatio: 0.2,
+        slideToClickedSlide: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        },
+        preloadImages: false,
+        lazy: {
+            //  tell swiper to load images before they appear
+            loadPrevNext: false,
+            // amount of images to load
+            loadPrevNextAmount: 1,
+        },
+    }
 
     getSpecialAttributes() {
         if (!this.listing.attributes) return [];
@@ -386,9 +427,10 @@ a {
 
             &.title {
                 h2 {
-                    font-weight: 200 !important;
+                    font-weight: 500 !important;
                     font-size: 15px;
                     line-height: 20px !important;
+                    overflow: hidden;
                     @include for-phone-only {
                         font-weight: 400 !important;
                     }
@@ -398,11 +440,9 @@ a {
             h2 {
                 position: relative;
                 color: #000;
-                font-weight: 400;
-                font-size: 13px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                font-weight: 500;
+                font-size: 14px;
+                height: 40px;
                 max-width: 100%;
 
                 &:first-child {
@@ -505,9 +545,7 @@ a {
             padding-right: 8px;
 
             .address.title {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                height: 40px;
                 font-weight: 200 !important;
                 font-size: 18px !important;
                 line-height: 20px !important;

@@ -110,7 +110,7 @@
             </div>
             <div class="auth-buttons relative" v-if="!$device.isMobile">
                 <ActionButton class="objava-btn" v-if="$auth.user" type="submit" @action="redirectToPublish"
-                              placeholder="Objava"
+                              placeholder="Objavi nekretninu"
                               :style-options="{ border: '2px solid #232e3f', color: '#fff !important', background: '#232e3f', borderRadius: '4px', height: '42px', marginRight: '24px', fontSize: '13px' }"
                               :loading="false"></ActionButton>
 
@@ -180,6 +180,16 @@
                                        @clear-notifications="handleClearNotifications"></NotificationsDropdown>
             </modal>
         </client-only>
+        <div class="chat-wrapper" v-if="!$device.isMobile && $route.path !== '/moj-racun/poruke'">
+            <button class="chat-btn" v-if="$auth.user && minimizeChat === true" @click="minimizeChat = false">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" class="w-6 h-6 mr-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                </svg>
+
+                Otvori chat
+            </button>
+            <Chat v-if="!minimizeChat" @close-chat="handleChatMinimize" @chat-hovered="handleMouseOver" @chat-not-hovered="handleMouseOut"></Chat>
+        </div>
     </div>
 </template>
 
@@ -218,11 +228,20 @@ export default class Navbar extends Vue {
     searchInput = ""
     savedSearches = []
     showNotifications = false;
+    minimizeChat = true;
 
     mounted() {
         if (!this.$device.isMobile) {
             this.realtime();
         }
+    }
+
+    handleMouseOver() {
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+    }
+
+    handleMouseOut() {
+        document.getElementsByTagName('body')[0].style.overflow = 'auto';
     }
 
     beforeOpen() {
@@ -239,6 +258,11 @@ export default class Navbar extends Vue {
         }
 
         window.removeEventListener("scroll", this.onScroll);
+    }
+
+    handleChatMinimize() {
+        document.getElementsByTagName('body')[0].style.overflow = 'auto';
+        this.minimizeChat = true;
     }
 
     notificationFilter = {};
@@ -1231,7 +1255,7 @@ export default class Navbar extends Vue {
 .objava-btn {
     background: #FC8709 !important;
     color: #fff !important;
-    border-radius: 8px !important;
+    border-radius: 4px !important;
     height: 46px;
     max-height: 46px;
     border: none !important;
@@ -1244,5 +1268,26 @@ export default class Navbar extends Vue {
 
 .main-logo {
     height: 40px;
+}
+
+.chat-wrapper {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 10000;
+}
+
+.chat-btn {
+    background: #FC8709 !important;
+    color: #fff !important;
+    border-radius: 4px !important;
+    height: 46px;
+    max-height: 46px;
+    border: none !important;
+    font-weight: 500;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 </style>

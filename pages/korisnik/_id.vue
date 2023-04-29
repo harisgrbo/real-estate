@@ -139,7 +139,7 @@
       </div>
     </div>
     <client-only>
-      <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100%">
+      <modal @before-open="beforeOpen" @before-close="beforeClose" name="contact-user" :adaptive="true" height="100vh">
         <div class="modal-inner">
           <div class="modal-header">
             <h2>Poruka za {{ user.name }}</h2>

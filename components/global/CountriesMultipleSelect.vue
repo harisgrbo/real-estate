@@ -82,15 +82,14 @@ label {
     font-size: 14px;
     font-weight: 600;
     text-transform: capitalize;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     margin-top: 24px;
 }
 
 .options-wrap {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-row-gap: 16px;
-    grid-column-gap: 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
     @include for-phone-only {
         grid-template-columns: repeat(2, 1fr);
@@ -104,20 +103,22 @@ label {
         box-sizing: border-box;
         height: 40px;
         line-height: .733rem;
-        margin: initial;
         overflow: hidden;
         padding: 1px 2px;
         white-space: normal;
-        width: 100%;
+        width: fit-content;
         font-size: 14px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        padding-inline: 8px;
 
         &:focus {
             outline: none;
         }
 
         &.active {
-            background: #cacdd2;
-
+            background: #FC8709;
+            color: #fff;
         }
     }
 }
