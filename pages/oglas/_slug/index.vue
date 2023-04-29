@@ -31,7 +31,7 @@
                     <div class="flex flex-col w-full relative add-width">
                         <div class="mobile-images">
                             <div v-if="listing.thumbnail !== null" class="h-full relative cursor-pointer mobile-new">
-                                <div :class="'item' + img.id" v-for="(img, index) in images" :key="index">
+                                <div :class="'item' + img.id" v-for="(img, index) in images" :key="index" class="h-full">
                                     <img :src="img.url" alt="" @click="openGallery(index)" />
                                 </div>
                                 <div
