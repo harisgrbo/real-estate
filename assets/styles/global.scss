@@ -124,6 +124,9 @@ label.dropdown-label {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 8px !important;
     background: #fff;
     z-index: 1000;
+    left: 0;
+    top: 12px;
+    padding: 12px;
 
 
     @include for-phone-only {

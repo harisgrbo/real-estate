@@ -9,7 +9,7 @@
 <!--                            v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}-->
 <!--                        </li>-->
 <!--                    </ul>-->
-                    <div class="relative" style="min-width: fit-content; width: fit-content;">
+                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showCategories = !showCategories">
                             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
                         </label>
@@ -72,7 +72,7 @@
                         @clear="queryPayload[attr.id] = null; newSearch()"
                         @input="newSearch"
                     />
-                    <div class="relative" style="min-width: fit-content; width: fit-content;">
+                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showOtherFilters = !showOtherFilters">
                             Ostale pogodnosti
                         </label>
@@ -100,7 +100,7 @@
                         </div>
 
                     </div>
-                    <div class="relative" style="min-width: fit-content; width: fit-content;">
+                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showListingType = !showListingType">
                             Vrsta oglasa
                         </label>
@@ -169,7 +169,7 @@
                 </ul>
                 <div class="flex items-center justify-between w-full mobile-button mb-3 mt-3">
                     <h1 class="results-number uppercase font-semibold text-sm">{{ meta.total }} rezultata</h1>
-                    <div class="relative" style="min-width: fit-content; width: fit-content;">
+                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showSortDropdown = !showSortDropdown">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />

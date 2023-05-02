@@ -1,5 +1,5 @@
 <template>
-    <div class="terms-filter">
+    <div class="terms-filter relative">
         <label @click="showDropdown = !showDropdown" class="dropdown-label">
             {{ displayName }}
         </label>

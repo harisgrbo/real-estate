@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex flex-col min-w-min" style="min-width: fit-content; width: fit-content;">
+    <div class="w-full flex flex-col min-w-min" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
         <label @click="showDropdown = !showDropdown" class="dropdown-label">
             Izaberite državu
         </label>

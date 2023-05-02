@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full flex flex-col min-w-min">
+    <div class="w-full flex flex-col min-w-min" style="min-width: fit-content; max-width: fit-content; width: fit-content">
         <label @click="showDropdown = !showDropdown" class="dropdown-label">Lokacija</label>
         <div class="dropdown-menu" v-show="showDropdown">
             <div class="label-wrap" v-if="$device.isMobile">
