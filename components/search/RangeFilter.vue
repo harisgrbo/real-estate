@@ -1,14 +1,25 @@
 <template>
-    <div class="range-wrapper">
-        <label class="first-one">
+    <div class="range-wrapper relative">
+        <label @click="showDropdown = !showDropdown" class="dropdown-label">
             {{ displayName }}
         </label>
-        <div class="input-wrapper">
-            <input v-model="from" type="number" placeholder="Od" @input="showConfirmButton">
-            <input v-model="to" type="number" placeholder="Do" @input="showConfirmButton">
+
+        <div v-show="showDropdown" class="dropdown-menu">
+            <div class="label-wrap" v-if="$device.isMobile">
+                <p class="first-one">
+                    {{ displayName }}
+                </p>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" @click="showDropdown = false">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <div class="input-wrapper">
+                <input v-model="from" type="number" placeholder="Od" @input="showConfirmButton">
+                <input v-model="to" type="number" placeholder="Do" @input="showConfirmButton">
+            </div>
+            <action-button v-show="showBtn" :style-options="{ color: '#fff', width: 'fit-content' }" class="mt-4"
+                           placeholder="Osvježi rezultate" @action="handleBtn"></action-button>
         </div>
-        <action-button v-show="showBtn" :style-options="{ color: '#fff', width: 'fit-content' }" class="mt-4"
-                       placeholder="Osvježi rezultate" @action="handleBtn"></action-button>
     </div>
 </template>
 
@@ -25,6 +36,7 @@ export default class RangeFilter extends Vue {
     from = null
     to = null
     showBtn = false;
+    showDropdown = false;
 
     created() {
         this.from = this.set ? this.value.value[0] : null;
@@ -52,17 +64,16 @@ export default class RangeFilter extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@mixin for-phone-only {
+    @media (max-width: 599px) {
+        @content;
+    }
+}
+
 .range-wrapper {
     display: flex;
     flex-direction: column;
-    margin-top: 24px;
-
-    label {
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: capitalize;
-        margin-bottom: 6px;
-    }
+    min-width: fit-content;
 
     small {
         margin-bottom: 16px;
@@ -103,4 +114,5 @@ export default class RangeFilter extends Vue {
         }
     }
 }
+
 </style>

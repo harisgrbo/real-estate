@@ -1,36 +1,46 @@
 <template>
-    <div class="w-full flex flex-col">
-        <label>Lokacija</label>
-        <div class="multiple-select">
-            <div class="selected-options" @click="showDropdown = !showDropdown">
-                <div class="selected-options-array cursor-pointer">
-                    <p v-if="selectedOptions.length === 0" class="text-gray-900">Izaberite lokaciju</p>
-                    <div v-for="(item, index) in selectedOptions" :key="index">{{ item.name }}
-                        <svg @click="removeFromSelected(item, index)" xmlns="http://www.w3.org/2000/svg"
-                             class="h-3 w-3 bg-gray-100 rounded-full" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </div>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     :class="['h-6 w-6 cursor-pointer arrow-down', showDropdown ? 'transform rotate-180' : '']"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    <div class="w-full flex flex-col min-w-min">
+        <label @click="showDropdown = !showDropdown" class="dropdown-label">Lokacija</label>
+        <div class="dropdown-menu" v-show="showDropdown">
+            <div class="label-wrap" v-if="$device.isMobile">
+                <p class="first-one">
+                    {{ displayName }}
+                </p>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" @click="showDropdown = false">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>
-            <div class="options" v-show="showDropdown">
-                <input v-model="searchTerm"
-                       @input="showResults"
-                       type="text"
-                       placeholder="npr. novo sarajevo ili sarajevo"
-                >
-                <ul v-show="cities.length">
-                    <li v-for="option in cities" :key="option.id" class="cursor-pointer"
-                        @click="addOptionToSelected(option)">{{ option.name }}
-                    </li>
-                </ul>
+            <div class="multiple-select">
+                <div class="selected-options" @click="showDropdown = !showDropdown">
+                    <div class="selected-options-array cursor-pointer">
+                        <p v-if="selectedOptions.length === 0" class="text-gray-900">Izaberite lokaciju</p>
+                        <div v-for="(item, index) in selectedOptions" :key="index">{{ item.name }}
+                            <svg @click="removeFromSelected(item, index)" xmlns="http://www.w3.org/2000/svg"
+                                 class="h-3 w-3 bg-gray-100 rounded-full" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         :class="['h-6 w-6 cursor-pointer arrow-down', showDropdown ? 'transform rotate-180' : '']"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="options" v-show="showDropdown">
+                    <input v-model="searchTerm"
+                           @input="showResults"
+                           type="text"
+                           placeholder="npr. novo sarajevo ili sarajevo"
+                    >
+                    <ul v-show="cities.length">
+                        <li v-for="option in cities" :key="option.id" class="cursor-pointer"
+                            @click="addOptionToSelected(option)">{{ option.name }}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -190,14 +200,6 @@ export default class CitiesMultipleSelect extends Vue {
             }
         }
     }
-}
-
-label {
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
-    margin-bottom: 6px;
-    margin-top: 24px;
 }
 
 .arrow-down {

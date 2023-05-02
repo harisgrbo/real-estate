@@ -82,10 +82,10 @@
                         class="flex flex-row items-center mr-2 special-icons"
                     >
                         <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />
-                        <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
-                        <img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="" />
-                        <img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="" />
+                        <img v-if="attr.name === 'Broj soba'" src="/002-bed.png" alt="" />
                         <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />
+                        <img v-if="attr.name === 'Kvadratura'" src="/001-area.png" alt="" />
+                        <img v-if="attr.name === 'Okućnica'" src="/001-fence.png" alt="" />
                         {{ attr.value }}
                         <p v-if="attr.name === 'Kvadratura' || attr.name === 'Okućnica'">
                             m²
@@ -96,6 +96,14 @@
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
                     </div>
+<!--                    <div class="w-full flex flex-row items-center justify-between mobile-buttons">-->
+<!--                        <a class="call-btn" target="_blank" :href="`https://wa.me/${listing.user.phone_number}`">-->
+<!--                            <img src="/whatsapp.png" alt="" />-->
+<!--                        </a>-->
+<!--                        <a class="call-btn" :href="`viber://chat?number=${listing.user.phone_number}`" target="_blank">-->
+<!--                            <img src="/viber.png" alt="" />-->
+<!--                        </a>-->
+<!--                    </div>-->
                 </div>
             </div>
         </nuxt-link>
@@ -194,6 +202,8 @@ export default class SearchListingCard extends Vue {
         }
 
         this.specialAttributes = this.getSpecialAttributes().slice();
+
+        console.log(this.listing)
     }
 }
 </script>
@@ -378,7 +388,7 @@ a {
         object-fit: cover;
 
         @include for-phone-only {
-            height: 154px;
+            height: 210px !important;
             //max-width: 220px;
         }
     }
@@ -444,6 +454,11 @@ a {
                 font-size: 14px;
                 height: 40px;
                 max-width: 100%;
+
+                @include for-phone-only {
+                    height: 20px;
+                    font-size: 15px !important;
+                }
 
                 &:first-child {
                     padding-left: 0;
@@ -522,6 +537,11 @@ a {
                     font-weight: 600 !important;
                     margin-left: 0px;
                     margin: 4px 0;
+
+                    @include for-phone-only {
+                        margin: 3px 0 !important;
+                        font-weight: 700 !important;
+                    }
 
                     &.cross {
                         font-size: 13px !important;
@@ -842,6 +862,14 @@ a {
 }
 
 .special-icons {
+    @include for-phone-only {
+        border: 1px solid #f1f4f5 !important;
+        padding: 2px 3px !important;
+
+        img {
+            height: 20px !important;
+        }
+    }
     &:hover {
         cursor: pointer;
 
@@ -858,6 +886,7 @@ a {
 
     @include for-phone-only {
         min-height: 210px;
+        max-height: 210px;
     }
 }
 

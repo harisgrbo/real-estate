@@ -22,10 +22,6 @@
                         <span :class="['p-1 mr-2 rounded-full status', user.online ? 'bg-green-500' : 'bg-gray-300']"></span>
                         {{ user.online ? 'Online' : 'Offline' }}
                     </dd>
-                    <div class="flex flex-row items-center justify-start w-full verified">
-                        <img :src="user.verified ? '/001-completed.png' : '/002-error.png'"
-                             alt="" />{{ user.verified ? 'Verifikovan email' : 'Nije verifikovan email' }}
-                    </div>
                     <div class="flex items-center justify-start text-gray-700 mt-2 w-full"
                          v-if="user.working_agency !== null">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"

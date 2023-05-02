@@ -1,12 +1,22 @@
 <template>
-    <div class="flex flex-col">
-        <label>
+    <div class="w-full flex flex-col min-w-min" style="min-width: fit-content;">
+        <label @click="showDropdown = !showDropdown" class="dropdown-label">
             Izaberite državu
         </label>
-        <div class="options-wrap">
-            <button v-for="country in countries" @click="handleSelectedCountry(country)"
-                    :class="[selectedIds.indexOf(country.id) !== -1 ? 'active': '']">{{ country.name }}
-            </button>
+        <div class="dropdown-menu" v-show="showDropdown">
+            <div class="label-wrap" v-if="$device.isMobile">
+                <p class="first-one">
+                    Izaberite državu
+                </p>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" @click="showDropdown = false">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <div class="options-wrap">
+                <button v-for="country in countries" @click="handleSelectedCountry(country)"
+                        :class="[selectedIds.indexOf(country.id) !== -1 ? 'active': '']">{{ country.name }}
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -17,7 +27,7 @@ import {Component, Prop, Vue} from "nuxt-property-decorator";
 @Component({})
 export default class CountriesMultipleSelect extends Vue {
     @Prop({type: Array, default: () => []}) initialCountries;
-
+    showDropdown = false;
     countries = [
         {
             "type": "country",
@@ -76,14 +86,6 @@ export default class CountriesMultipleSelect extends Vue {
     @media (max-width: 599px) {
         @content;
     }
-}
-
-label {
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
-    margin-bottom: 10px;
-    margin-top: 24px;
 }
 
 .options-wrap {

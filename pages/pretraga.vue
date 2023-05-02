@@ -3,40 +3,115 @@
         <div class="search-heading py-2 my-0 sticky">
             <div class="w-full relative search-options">
                 <div
-                    class="flex flex-row overflow-y-scroll gap-2 w-full items-center justify-between sm:justify-start border-b border-gray-200 px-4 lg:px-0 xl:px-0 up:px-0">
-                    <ul class="category-list w-full" v-if="!$device.isMobile">
-                        <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']"
-                            v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}
-                        </li>
-                    </ul>
-                    <button @click="toggleCatsModal" v-else
-                            class="group inline-flex justify-center text-sm font-normal text-gray-700 hover:text-gray-900 border border-gray-200 p-2 rounded-sm px-3 hover:bg-gray-100 first-category">
-                        {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
-                    </button>
-                    <button class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 px-2 py-3 rounded-lg px-3 hover:bg-gray-100"
-                            @click="$modal.show('search-filters')">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform rotate-90 mr-2" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                        </svg>
-                        Filteri
-                    </button>
-                    <div class="flex items-center justify-end types">
-                        <div class="flex w-full text-left type z-10">
-                            <button
-                                @click="$modal.show('type-modal')"
-                                type="button"
-                                class="min-w-full group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200 p-3 rounded-lg hover:bg-gray-100"
-                                aria-expanded="false">
-                                <span>Vrsta oglasa</span>
+                    class="flex flex-row overflow-x-scroll w-full items-center justify-start border-b border-gray-200 gap-2 px-2">
+<!--                    <ul class="category-list w-full" v-if="!$device.isMobile">-->
+<!--                        <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']"-->
+<!--                            v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}-->
+<!--                        </li>-->
+<!--                    </ul>-->
+                    <div class="relative" style="min-width: fit-content;">
+                        <label class="dropdown-label" @click="showCategories = !showCategories">
+                            {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
+                        </label>
+                        <div class="dropdown-menu" v-show="showCategories">
+                            <div class="label-wrap" v-if="$device.isMobile">
+                                Ostale pogodnosti
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" @click="showCategories = false">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col">
+                                <ul role="list"
+                                    class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 gap-4 w-full categories-list-wrap">
+                                    <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)"
+                                        class="flow-root shadow-sm border rounded-sm"
+                                        :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
+                                        <div>
+                                            <div class="focus:outline-none">
+                                                <span aria-hidden="true"></span>
+                                                {{ cat.title }}
+                                            </div>
+                                        </div>
+                                        <div class="relative flex">
+                                            <div class="svg-wrap">
+                                                <!-- Heroicon name: outline/clock -->
+                                                <img :src="'/cats/' + cat.slug + '.png'" alt="" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
-                                <span class="ml-1.5 rounded text-xs font-semibold text-gray-700 tabular-nums">{{
-                                        selectedTypes && selectedTypes.length ? selectedTypes.length : '0'
-                                    }}</span>
-                            </button>
-                            <div v-if="showTypeDropdown"
-                                 class="listing-types top-9 z-10 absolute right-0 mt-2 bg-white rounded-lg shadow-2xl p-2 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    </div>
+                    <RangeFilter
+                        class="bb-filters"
+                        v-model="queryPayload.price"
+                        :attr="false"
+                        :filter="{name: 'price', display_name: 'Cijena'}"
+                        @input="newSearch"
+                        @close-filters="$modal.hide('search-filters')"
+                    />
+                    <!--                <client-only>-->
+                    <!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
+                    <!--                </client-only>-->
+                    <CountriesMultipleSelect :countries="allCountries" :initial-countries="countries"
+                                             @countries="handleCountriesSearch"/>
+
+                    <CitiesMultipleSelect :initial-cities="cities" @cities="handleCitiesSearch"/>
+
+                    <component
+                        class="bb-filters"
+                        v-for="(attr, i) in allAttributes"
+                        v-if="attr.type !== 'term'"
+                        :key="i"
+                        :filter="attr"
+                        :attr="true"
+                        :is="filterFor(attr.type)"
+                        v-model="queryPayload[attr.id]"
+                        @clear="queryPayload[attr.id] = null; newSearch()"
+                        @input="newSearch"
+                    />
+                    <div class="relative" style="min-width: fit-content;">
+                        <label class="dropdown-label" @click="showOtherFilters = !showOtherFilters">
+                            Ostale pogodnosti
+                        </label>
+                        <div class="dropdown-menu" v-show="showOtherFilters">
+                            <div class="label-wrap" v-if="$device.isMobile">
+                                Ostale pogodnosti
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" @click="showOtherFilters = false">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col">
+                                <component
+                                    class="bb-filters"
+                                    v-for="(attr, i) in allAttributes"
+                                    v-if="attr.type === 'term'"
+                                    :key="i"
+                                    :filter="attr"
+                                    :attr="true"
+                                    :is="filterFor(attr.type)"
+                                    v-model="queryPayload[attr.id]"
+                                    @clear="queryPayload[attr.id] = null; newSearch()"
+                                    @input="newSearch"
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="relative" style="min-width: fit-content;">
+                        <label class="dropdown-label" @click="showListingType = !showListingType">
+                            Vrsta oglasa
+                        </label>
+                        <div class="dropdown-menu" v-show="showListingType">
+                            <div class="label-wrap" v-if="$device.isMobile">
+                                Vrsta oglasa
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" @click="showListingType = false">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                            <div class="flex flex-col">
                                 <form class="space-y-4">
                                     <div class="flex items-center cursor-pointer" v-for="item in listing_types"
                                          :key="item.id">
@@ -53,12 +128,32 @@
                                 </form>
                             </div>
                         </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="rounded-md bg-blue-50 p-4 w-full" v-show="! selectedCategoryId">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <!-- Heroicon name: solid/exclamation -->
+                        <svg class="h-5 w-5 text-blue-300" xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-blue-800">
+                            Izaberite kategoriju za više filtera
+                        </h3>
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-between w-full w-full mt-4">
-                <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3">
-                    <li v-for="filter in queryPayload" :key="filter.id" v-if="filter && filterResolveValue(filter)"
+            <div class="flex flex-col items-center justify-between w-full w-full lg:mt-4 up:mt-4 md:mt-4">
+                <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3" v-if="filter && filterResolveValue(filter)">
+                    <li v-for="filter in queryPayload" :key="filter.id"
                         class="py-1 px-2 border border-black mr-1">
                         <div class="flex flex-row items-center">
                             {{ filterResolveValue(filter) }}
@@ -74,25 +169,29 @@
                 </ul>
                 <div class="flex items-center justify-between w-full mobile-button mb-3 mt-3">
                     <h1 class="results-number uppercase font-semibold text-sm">{{ meta.total }} rezultata</h1>
-                    <div class="flex w-full text-right justify-end type z-10">
-                        <button @click="showSortDropdown = !showSortDropdown" type="button"
-                                class="flex flex-row items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                          d="M8 9l4-4 4 4m0 6l-4 4-4-4"/>
+                    <div class="relative" style="min-width: fit-content;">
+                        <label class="dropdown-label" @click="showSortDropdown = !showSortDropdown">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+                            </svg>
+                            {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
+                        </label>
+                        <div class="dropdown-menu" v-show="showSortDropdown">
+                            <div class="label-wrap" v-if="$device.isMobile">
+                                Vrsta oglasa
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" @click="showSortDropdown = false">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                                {{ selectedSort !== "" ? selectedSort.name : 'Sortiraj' }}
-                        </button>
-                        <div v-if="showSortDropdown"
-                             class="origin-top-right listing-types top-9 absolute right-60 mt-2 bg-white rounded-lg shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none"
-                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                            <div v-for="(item, index) in sort_types" :key="index"
-                                 :class="['text-gray-500 text-left px-2 cursor-pointer py-2 block text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']"
-                                 role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
-                                {{ item.name }}
+                            </div>
+                            <div class="flex flex-col">
+                                <div v-for="(item, index) in sort_types" :key="index"
+                                     :class="['text-gray-500 text-left px-2 cursor-pointer py-2 block text-sm hover:bg-gray-100', selectedSort.value === index ? 'font-semibold text-gray-900' : '']"
+                                     role="menuitem" tabindex="-1" id="menu-item-0" @click.prevent="selectSort(item)">
+                                    {{ item.name }}
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="content">
@@ -140,24 +239,6 @@
                         <!--            <div v-show="loading" class="loading-wrapper">-->
                         <!--              <img src="/gps.gif" alt="" />-->
                         <!--            </div>-->
-                        <div class="rounded-md bg-yellow-50 p-4" v-show="! selectedCategoryId">
-                            <div class="flex">
-                                <div class="flex-shrink-0">
-                                    <!-- Heroicon name: solid/exclamation -->
-                                    <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                              clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-yellow-800">
-                                        Izaberite kategoriju za više filtera
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
                         <div class="flex flex-col w-full filters-divs">
                             <RangeFilter
                                 v-model="queryPayload.price"
@@ -188,69 +269,6 @@
             </modal>
         </client-only>
         <client-only>
-            <modal @before-open="beforeOpen" @before-close="beforeClose" name="search-filters" :adaptive="true"
-                   height="100%">
-                <div class="modal-inner only-mobile-wrap relative">
-                    <div class="modal-header only-mobile">
-                        <h2>Filteri</h2>
-                        <i class="material-icons" @click="$modal.hide('search-filters')">close</i>
-                    </div>
-
-                    <div class="modal-content">
-                        <div class="filters rounded-md">
-                            <div class="rounded-md bg-yellow-50 p-4 pb-4" v-show="! selectedCategoryId">
-                                <div class="flex">
-                                    <div class="flex-shrink-0">
-                                        <!-- Heroicon name: solid/exclamation -->
-                                        <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd"
-                                                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                                  clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                    <div class="ml-3">
-                                        <h3 class="text-sm font-medium text-yellow-800">
-                                            Izaberite kategoriju za više filtera
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <RangeFilter
-                                class="bb-filters"
-                                v-model="queryPayload.price"
-                                :attr="false"
-                                :filter="{name: 'price', display_name: 'Cijena'}"
-                                @input="newSearch"
-                                @close-filters="$modal.hide('search-filters')"
-                            />
-                            <!--                <client-only>-->
-                            <!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
-                            <!--                </client-only>-->
-                            <CountriesMultipleSelect :countries="allCountries" :initial-countries="countries"
-                                                     @countries="handleCountriesSearch"/>
-
-                            <CitiesMultipleSelect :initial-cities="cities" @cities="handleCitiesSearch"/>
-
-                            <component
-                                class="bb-filters"
-                                v-for="(attr, i) in allAttributes"
-                                :key="i"
-                                :filter="attr"
-                                :attr="true"
-                                :is="filterFor(attr.type)"
-                                v-model="queryPayload[attr.id]"
-                                @clear="queryPayload[attr.id] = null; newSearch()"
-                                @input="newSearch"
-                            />
-
-                        </div>
-                    </div>
-                </div>
-            </modal>
-        </client-only>
-        <client-only>
             <modal @before-open="beforeOpen" @before-close="beforeClose" name="cats-modal" :adaptive="true"
                    height="100%">
                 <div class="modal-inner">
@@ -260,25 +278,7 @@
                     </div>
                     <div class="modal-content">
                         <div class="filters rounded-md">
-                            <ul role="list"
-                                class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 gap-4 w-full categories-list-wrap">
-                                <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)"
-                                    class="flow-root shadow-sm border rounded-sm"
-                                    :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
-                                    <div>
-                                        <div class="focus:outline-none">
-                                            <span aria-hidden="true"></span>
-                                            {{ cat.title }}
-                                        </div>
-                                    </div>
-                                    <div class="relative flex">
-                                        <div class="svg-wrap">
-                                            <!-- Heroicon name: outline/clock -->
-                                            <img :src="'/cats/' + cat.slug + '.png'" alt="" />
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+
                         </div>
                     </div>
                 </div>
@@ -461,6 +461,7 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
             results = response.data.data;
             meta = response.data.meta;
             allAttributes = response.data.meta.attributes;
+            console.log(allAttributes)
             cities = response.data.meta.cities;
             countries = response.data.meta.countries;
 
@@ -536,7 +537,10 @@ import CountriesMultipleSelect from "../components/global/CountriesMultipleSelec
 export default class Pretraga extends Vue {
     searchName = '';
     showSortDropdown = false;
+    showOtherFilters = false;
     showTypeDropdown = false;
+    showCategories = false;
+    showListingType = false;
     currentResultIndex = -1;
     selected_sort = ''
     listing_types = [

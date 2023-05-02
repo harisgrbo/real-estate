@@ -41,7 +41,7 @@
                                 <div
                                     v-if="$auth.user && $auth.user.id !== listing.user.id"
                                     @click="toggleSaveListing"
-                                    class="absolute top-4 right-4 h-10 w-10 z-10 bg-white rounded-full flex items-center justify-center text-sm font-semibold image-counter-border">
+                                    class="absolute top-4 right-4 save h-10 w-10 z-10 bg-white rounded-full flex items-center justify-center text-sm font-semibold image-counter-border">
                                     <svg xmlns="http://www.w3.org/2000/svg" :fill="[ listingSaved ? '#FC8709' : 'none']" viewBox="0 0 24 24" stroke-width="1.5" :stroke="[ listingSaved ? '#FC8709' : '#000']" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                                     </svg>
@@ -90,7 +90,7 @@
                                     <p class="text-md mr-md text-black font-normal listing-type">{{ listing.listing_type.title }}</p>
                                     <h2>{{ listing.title }}</h2>
                                 </div>
-                                <div class="flex flex-row items-center">
+                                <div class="flex flex-row items-center mt-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -102,7 +102,7 @@
                                         {{ listing.district + ', ' + listing.address }}</p>
                                 </div>
                                 <div class="addresses">
-                                    <div class="flex flex-row items-center justify-start mb-6 items-center price-main-wrapper">
+                                    <div class="flex flex-row items-center justify-start items-center price-main-wrapper">
                                         <div class="flex flex-row items-center justify-between" v-if="listing.price !== 0">
                                             <div class="flex flex-row items-center">
                                                 <p :class="[listing.hasOwnProperty('discount') ? 'line-through text-md' : 'text-xl font-bold']">
@@ -130,10 +130,10 @@
                                                 class="flex flex-row items-center inside mr-2 relative special-icons"
                                             >
                                                 <img v-if="attr.name === 'Broj kreveta'" src="/double-bed.png" alt="" />
-                                                <img v-if="attr.name === 'Broj soba'" src="/door.svg" alt="" />
+                                                <img v-if="attr.name === 'Broj soba'" src="/002-bed.png" alt="" />
                                                 <img v-if="attr.name === 'Broj gostiju'" src="/guests.png" alt="" />
-                                                <img v-if="attr.name === 'Kvadratura'" src="/povrsina.png" alt="" />
-                                                <img v-if="attr.name === 'Okućnica'" src="/m2.png" alt="" />
+                                                <img v-if="attr.name === 'Kvadratura'" src="/001-area.png" alt="" />
+                                                <img v-if="attr.name === 'Okućnica'" src="/001-fence.png" alt="" />
                                                 {{ attr.value }}
                                                 <p v-if="attr.name === 'Kvadratura' || attr.name === 'Okućnica'">
                                                     m²
@@ -159,14 +159,6 @@
 <!--                                        {{ attr.value }}-->
 <!--                                    </div>-->
                                 </div>
-                            </div>
-                            <div class="user-wrap relative z-10" v-if="$device.isMobile">
-                                <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest"
-                                             :auth-user="authUser" :vat="listing.vat_included" :price="listing.price"
-                                             :id="listing.id" :user="listing.user"
-                                             :is-rent="listing.is_rent" :is-booking="listing.is_booking"
-                                             :type="listing.user.user_type" @send-booking-request="sendBookingRequest()"
-                                             @finish-listing="handleFinishListing"></UserProfile>
                             </div>
                             <div class="flex flex-row items-center justify-start mb-6 items-center price-main-wrapper" v-if="!$device.isMobile">
                                 <div class="flex flex-row items-center justify-between" v-if="listing.price !== 0">
@@ -433,7 +425,7 @@
                                               :style-options="{ width: 'auto' }" :loading="false"
                                               @action="toggleBookingModal()"></ActionButton>
                             </div>
-                            <div class="w-full px-3 pb-6 lg:px-0 xl:px-0 up:px-0 relative bg-white z-10" v-if="similarListings.length">
+                            <div class="w-full px-3 pb-6 lg:px-0 xl:px-0 up:px-0 relative bg-white z-10 similar" v-if="similarListings.length">
                                 <div class="separator"></div>
                                 <h3 class="text-2xl font-semibold text-gray-900 mb-6 lg:mx-0 xl:mx-0 up:mx-0">Slični oglasi</h3>
                                 <div class="flex flex-row w-1280 relative similar">
@@ -444,7 +436,14 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="user-wrap relative z-10" v-if="$device.isMobile">
+                                <UserProfile :listing="listing" :bookings="bookings" :perguest="listing.per_guest"
+                                             :auth-user="authUser" :vat="listing.vat_included" :price="listing.price"
+                                             :id="listing.id" :user="listing.user"
+                                             :is-rent="listing.is_rent" :is-booking="listing.is_booking"
+                                             :type="listing.user.user_type" @send-booking-request="sendBookingRequest()"
+                                             @finish-listing="handleFinishListing"></UserProfile>
+                            </div>
                         </div>
 
                         <client-only>
@@ -1490,6 +1489,7 @@ h2 {
         max-width: 100%;
         min-width: 100%;
         max-height: 400px;
+        min-height: 400px;
     }
 
     img {
@@ -1629,6 +1629,9 @@ h2 {
                 position: relative;
                 background: #fff;
                 z-index: 1;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                padding-top: 331px;
             }
 
             .listing-content-wrapper {
@@ -1808,6 +1811,10 @@ h2 {
     height: 50px;
     min-height: 50px;
     width: 100%;
+
+    @include for-phone-only {
+        z-index: 2;
+    }
 
     button {
         height: 30px;
@@ -2308,6 +2315,8 @@ h2 {
     overflow: hidden;
 
     @include for-phone-only {
+        position: fixed;
+        top: 0;
         min-height: 400px;
         max-height: 400px;
         border-radius: 0;
@@ -2315,7 +2324,7 @@ h2 {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        z-index: 0;
+        z-index: 1;
     }
 
     img {
@@ -2633,11 +2642,12 @@ input[type=range]:focus::-ms-fill-upper {
     &.mobile {
         @include for-phone-only {
             flex-direction: row !important;
+            margin-bottom: 12px;
         }
     }
 
     @include for-phone-only {
-        margin-top: 16px;
+        margin-top: 12px;
         flex-direction: column;
         align-items: flex-start;
         margin-left: 0;
@@ -2654,14 +2664,18 @@ input[type=range]:focus::-ms-fill-upper {
 
     > div.inside {
         width: fit-content;
-        font-weight: 700;
+        font-weight: 500;
         background: #fff;
-        font-size: 18px;
+        font-size: 15px;
         line-height: 8px;
         color: #000;
-        border-left: 1px solid #e0e0e0;
-        padding-left: 12px;
-        margin-left: 6px;
+        border: 1px solid #e0e0e0;
+        padding: 4px 8px;
+        border-radius: 3px;
+
+        img {
+            height: 16px;
+        }
 
         &:first-child {
             border-left: none;
@@ -2923,6 +2937,12 @@ iframe {
     z-index: 10;
     background: #fff;
 
+    @include for-phone-only {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        box-shadow: rgb(0 0 0 / 12%) 0px -12px 16px;
+        padding-top: 12px;
+    }
 }
 
 .add-width {
@@ -3005,6 +3025,18 @@ h3.text-2xl {
     @include for-phone-only {
         padding: 4px 8px;
         font-size: 13px;
+    }
+}
+
+.similar ::v-deep .swiper {
+    @include for-phone-only {
+        min-height: 250px;
+    }
+}
+
+.save {
+    @include for-phone-only {
+        top: 320px;
     }
 }
 </style>
