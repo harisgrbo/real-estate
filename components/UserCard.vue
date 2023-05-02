@@ -1,44 +1,11 @@
 <template>
-    <div class="box">
+    <div class="box cursor-pointer" @click="goToUser(user)">
         <div
             class="flex flex-col items-center w-full">
-            <div class="flex items-start px-4 pt-4 w-full">
-                <div class="w-full flex justify-start w-full flex-row items-start">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-sm avatar"
-                         :src="user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg'" />
-                    <div class="ml-4 text-left mt-0">
-                        <div class="font-semibold text-sm">
-                            <h2>{{ user.name }}</h2>
-<!--                            <span v-if="user.rating !== null" class="flex flex-row items-center">-->
-<!--                 <star-rating :star-size="12" :increment="0.5" :inline="true" :read-only="true"-->
-<!--                              v-model="user.rating"></star-rating>-->
-<!--              </span>-->
-                        </div>
-                        <dd class="mt-1">
-                            <span
-                                class="px-2 py-1 text-green-800 text-xs font-semibold uppercase bg-green-100 rounded-sm agency">{{
-                                    user_type(user.user_type)
-                                }}</span>
-                        </dd>
-                    </div>
-                </div>
-            </div>
-            <div class="text-left px-5 pb-5 info w-full">
-                <div class="flex items-start justify-center flex-col text-gray-700 mt-2 w-full">
-                    <div class="flex flex-row items-center mb-1 text-sm"
-                         v-if="user.hasOwnProperty('email') && user.hasOwnProperty('email')">
-                        <p>{{ user.email }}</p>
-                    </div>
-                    <div class="flex flex-row items-center text-sm mb-1"
-                         v-if="user.hasOwnProperty('location') && user.location !== null">
-                        <p>{{ user.location }}</p>
-                    </div>
-                    <div class="flex flex-row items-center text-sm main-number"
-                         v-if="user.hasOwnProperty('phone_number') && user.phone_number !== null">
-                        <p>{{ user.phone_number }}</p>
-                    </div>
-                </div>
-            </div>
+            <img class="mx-auto h-24 w-24 rounded-full" :src="user.avatar_url !== null ? user.avatar_url  : '/noimage.jpeg'" :alt="user.name">
+            <p class="text-sm mt-2 leading-6 bg-gray-100 rounded-md text-xs p-1 px-2 text-gray-600">{{ user_type(user) }}</p>
+            <h3 class="mt-2 text-base font-semibold leading-7 tracking-tight text-gray-900">{{ user.name }}</h3>
+            <p class="text-sm mt-2 leading-6 text-gray-600" v-if="user.hasOwnProperty('phone_number') && user.phone_number !== null">{{ user.phone_number }}</p>
         </div>
     </div>
 </template>
@@ -64,6 +31,14 @@ export default class UserCard extends Vue {
         this.$emit('remove-user', e)
     }
 
+    goToUser(u) {
+        if (u.user_type === 'agency' || u.user_type === 'investor') {
+            this.$router.push('/pravno-lice/' + u.id)
+        } else {
+            this.$router.push('/users/' + u.id)
+        }
+    }
+
     user_type(t) {
         if (t === 'agency') {
             return 'Agencija'
@@ -78,54 +53,6 @@ export default class UserCard extends Vue {
         }
     }
 
-    async sendMessage() {
-        if (this.message.length === 0) {
-            this.$toast.open({
-                message: 'Morate upisati poruku',
-                type: 'warning',
-                duration: 5000
-            });
-
-            return
-        }
-
-        this.loading = true;
-        try {
-            let res = await this.$axios.post('/conversations', {
-                users: [this.user.id],
-            })
-
-            let conversation = res.data.data;
-
-            await this.$axios.post('/conversations/' + conversation.id + '/messages', {
-                content: this.message,
-                key: Math.floor(Math.random() * 100).toString()
-            });
-
-            this.$modal.hide('contact-user');
-
-            this.loading = false;
-
-            this.$toast.open({
-                message: "Uspješno ste poslali poruku korisniku " + this.user.name,
-                type: 'success',
-                duration: 5000
-            });
-
-
-            this.message = '';
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    beforeOpen() {
-        document.body.style.overflow = 'hidden';
-    }
-
-    beforeClose() {
-        document.body.style.overflow = 'auto';
-    }
 }
 </script>
 
@@ -138,15 +65,20 @@ export default class UserCard extends Vue {
 
 .box {
     border-radius: 6px;
-    min-width: 360px;
-    width: 360px;
-    max-width: 360px;
-    max-height: 216px;
-    min-height: 16px;
+    min-width: 180px;
+    width: 180px;
+    max-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
     position: relative;
     z-index: 10;
-    border: 2px solid #f1f1f1;
+    border: 1px solid #f1f1f1;
     background: #fff;
+    padding: 16px 0;
+    height: 222px;
+    min-height: 222px;
 
     h2 {
         font-size: 16px;
@@ -164,9 +96,14 @@ export default class UserCard extends Vue {
 
 
     @include for-phone-only {
-        min-width: 300px;
-        width: 300px;
-        max-width: 300px;
+        min-width: 180px;
+        width: 180px;
+        max-width: 180px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
     }
 }
 
@@ -174,19 +111,6 @@ img {
     height: 80px;
     width: 80px;
     min-width: 80px;
-}
-
-.info p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 300px;
-    color: #000;
-    font-weight: 300;
-
-    @include for-phone-only {
-        max-width: 180px;
-    }
 }
 
 .info-box {
@@ -203,13 +127,5 @@ img {
 
 .agency {
     font-size: 9px;
-}
-
-.main-number {
-    margin-top: 6px;
-    p {
-        font-size: 18px;
-        font-weight: 600;
-    }
 }
 </style>

@@ -257,37 +257,25 @@
                 </div>
             </div>
         </div>
-<!--        <ins class="adsbygoogle"-->
-<!--             v-if="!$device.isMobile"-->
-<!--             style="display:inline-block;width:980px;height:250px"-->
-<!--             data-ad-client="ca-pub-3745186233711216"-->
-<!--             data-ad-slot="2369493952"></ins>-->
-<!--        <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">-->
-<!--            <h2 class="section-title"-->
-<!--                ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">-->
-<!--                Agencije</h2>-->
-<!--            <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>-->
-<!--        </div>-->
-<!--        <div class="flex items-center justify-start pb-4 custom-width gap-4 flex-row overflow-x-scroll agencija"-->
-<!--             v-if="agenciesLoaded">-->
-<!--            <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>-->
-<!--        </div>-->
-<!--        <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>-->
-<!--            <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>-->
-<!--        </div>-->
-        <!--    <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">-->
-        <!--      <h2 class="section-title" ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">Investitori</h2>-->
-        <!--      <nuxt-link class="more" to="/investitori">Pogledaj više</nuxt-link>-->
-        <!--    </div>-->
-        <!--    <div class="flex items-center justify-start pb-4 custom-width gap-4 flex-row overflow-x-scroll agencija" v-if="investorsLoaded">-->
-        <!--      <UserCard v-for="(investor, index) in investors" :key="index" :user="investor"/>-->
-        <!--    </div>-->
-        <!--    <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>-->
-        <!--      <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>-->
-        <!--    </div>-->
-        <a href="https://www.ekupon.ba" target="_blank" class="mx-auto mt-8 leaderboard" v-if="!$device.isMobile">
-            <img src="/ekuponbanner.jpg" alt="" />
-        </a>
+        <ins class="adsbygoogle"
+             v-if="!$device.isMobile"
+             style="display:inline-block;width:980px;height:250px"
+             data-ad-client="ca-pub-3745186233711216"
+             data-ad-slot="2369493952"></ins>
+        <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">
+            <h2 class="section-title"
+                ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">
+                Agencije</h2>
+            <nuxt-link class="more" to="/agencije">Pogledaj više</nuxt-link>
+        </div>
+        <div class="flex items-center justify-start pb-4 custom-width gap-4 flex-row overflow-x-scroll agencija"
+             v-if="agenciesLoaded">
+            <UserCard v-for="(agency, index) in agencies" :key="index" :user="agency"/>
+        </div>
+        <div class="flex items-center justify-start pb-4 custom-width gap-2 flex-row overflow-x-scroll agencija" v-else>
+            <skeleton height="166px" width="360px" class="mr-5" v-for="i in 4" :key="i"></skeleton>
+        </div>
+
     </div>
 </template>
 

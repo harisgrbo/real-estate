@@ -86,11 +86,11 @@
                         <div class="mobile-wrapper">
                             <!-- mobile -->
                             <div v-if="$device.isMobile" class="mx-3 mt-2 flex flex-col">
-                                <div v-if="listing" class="flex flex-row items-center my-md">
-                                    <p class="text-md mr-md text-black font-normal listing-type">{{ listing.listing_type.title }}</p>
+                                <div v-if="listing" class="flex flex-col items-start my-md">
+                                    <p class="text-md mb-2 text-black font-normal listing-type">{{ listing.listing_type.title }}</p>
                                     <h2>{{ listing.title }}</h2>
                                 </div>
-                                <div class="flex flex-row items-center mt-4">
+                                <div class="flex flex-row items-center mt-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -2903,9 +2903,8 @@ iframe {
 }
 
 .price-main-wrapper {
-    border-top: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
     padding: 16px 0;
+    padding-bottom: 0;
 
     @include for-phone-only {
         padding: 0;
@@ -3016,7 +3015,6 @@ h3.text-2xl {
     display: flex;
     padding: 10px 24px;
     font-weight: bold;
-    border: 1px solid #ddd;
     background: #FC8709;
     color: #fff;
     border-radius: 3px;
