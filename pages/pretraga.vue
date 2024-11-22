@@ -1,14 +1,9 @@
 <template>
     <div class="search-wrapper w-full relative flex flex-col">
         <div class="search-heading py-2 my-0 sticky">
-            <div class="w-full relative search-options">
+            <div class="w-full search-options">
                 <div
                     class="flex flex-row overflow-x-scroll w-full items-center justify-start border-b border-gray-200 gap-2 px-2">
-<!--                    <ul class="category-list w-full" v-if="!$device.isMobile">-->
-<!--                        <li :class="['group cat-list inline-flex items-center justify-center text-sm font-standard text-gray-800 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']"-->
-<!--                            v-for="cat in categories" @click="handleSelectedCategory(cat)" :key="cat.id">{{ cat.title }}-->
-<!--                        </li>-->
-<!--                    </ul>-->
                     <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showCategories = !showCategories">
                             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
@@ -52,9 +47,10 @@
                         @input="newSearch"
                         @close-filters="$modal.hide('search-filters')"
                     />
-                    <!--                <client-only>-->
-                    <!--                  <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
-                    <!--                </client-only>-->
+
+<!--                                    <client-only>-->
+<!--                                      <apexchart type="bar" :options="histogramOptions" :series="priceBuckets"></apexchart>-->
+<!--                                    </client-only>-->
                     <CountriesMultipleSelect :countries="allCountries" :initial-countries="countries"
                                              @countries="handleCountriesSearch"/>
 
@@ -72,7 +68,7 @@
                         @clear="queryPayload[attr.id] = null; newSearch()"
                         @input="newSearch"
                     />
-                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
+                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showOtherFilters = !showOtherFilters">
                             Ostale pogodnosti
                         </label>
@@ -100,7 +96,7 @@
                         </div>
 
                     </div>
-                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
+                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showListingType = !showListingType">
                             Vrsta oglasa
                         </label>
@@ -128,9 +124,7 @@
                                 </form>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
             <div class="rounded-md bg-blue-50 p-4 w-full" v-show="! selectedCategoryId">
@@ -151,7 +145,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-between w-full w-full lg:mt-4 up:mt-4 md:mt-4">
+            <div class="flex relative z-10 flex-col items-center justify-between w-full lg:mt-4 up:mt-4 md:mt-4">
                 <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3" v-if="filter && filterResolveValue(filter)">
                     <li v-for="filter in queryPayload" :key="filter.id"
                         class="py-1 px-2 border border-black mr-1">
@@ -169,7 +163,7 @@
                 </ul>
                 <div class="flex items-center justify-between w-full mobile-button mb-3 mt-3">
                     <h1 class="results-number uppercase font-semibold text-sm">{{ meta.total }} rezultata</h1>
-                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
+                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showSortDropdown = !showSortDropdown">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
@@ -625,24 +619,25 @@ export default class Pretraga extends Vue {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    get metaKeywords() {
-        let filters = ['prodaja, najam, iznajmljivanje, stanovi, stan, sarajevo, zenica, tuzla, mostar, jeftini stanovi, novogradnja, kupovina'];
-        for (const obj of Object.entries(this.queryPayload)) {
-            filters.push(this.filterResolveValue(obj[1]).toLowerCase());
-        }
-
-        return filters;
-    }
-
-    get metaTitle() {
-
-        let filters = [];
-        for (const obj of Object.entries(this.queryPayload)) {
-            filters.push(this.filterResolveValue(obj[1]).toLowerCase());
-        }
-
-        return filters;
-    }
+    // get metaKeywords() {
+    //     let filters = ['prodaja, najam, iznajmljivanje, stanovi, stan, sarajevo, zenica, tuzla, mostar, jeftini stanovi, novogradnja, kupovina'];
+    //
+    //     for (const obj of Object.entries(this.queryPayload)) {
+    //         filters.push(this.filterResolveValue(obj[1]).toLowerCase());
+    //     }
+    //
+    //     return filters;
+    // }
+    //
+    // get metaTitle() {
+    //
+    //     let filters = [];
+    //     for (const obj of Object.entries(this.queryPayload)) {
+    //         filters.push(this.filterResolveValue(obj[1]).toLowerCase());
+    //     }
+    //
+    //     return filters;
+    // }
 
     filterResolveValue(filter) {
         if (filter.name === 'category_id') {
@@ -1114,7 +1109,7 @@ export default class Pretraga extends Vue {
         background: transparent;
         cursor: pointer;
         transition: 0.3s all ease;
-        font-family: 'NunitoSans', sans-serif;;
+        font-family: 'NunitoSans', sans-serif;
 
         &:hover {
             border: 1px solid #444;
@@ -1361,7 +1356,7 @@ export default class Pretraga extends Vue {
 .toggle-map-wrapper {
     display: flex;
     align-items: center;
-    min-width: fit-content;;
+    min-width: fit-content;
     justify-content: center;
     height: 40px;
 
@@ -1724,7 +1719,8 @@ button.group {
     position: sticky;
     top: 60px;
     background: #fff;
-    z-index: 12;
+    z-index: 9999;
+    height: fit-content;
     padding: 12px 0;
     border-bottom: 1px solid #dedede;
 

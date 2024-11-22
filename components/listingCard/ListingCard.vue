@@ -356,7 +356,7 @@ a {
             }
 
             button {
-                font-family: 'NunitoSans', sans-serif;;
+                font-family: 'NunitoSans', sans-serif;
                 border: none;
                 margin-right: 8px;
                 border-radius: 2px;
@@ -829,12 +829,15 @@ a {
 }
 
 ::v-deep .swiper-slide.active {
+    min-width: 100% !important;
+
     @include for-phone-only {
         width: 100% !important;
     }
 }
 
 ::v-deep .swiper-slide {
+    min-width: 100% !important;
     @include for-phone-only {
         width: 100% !important;
         max-width: 100% !important;
@@ -962,5 +965,9 @@ a {
 
 .fade-enter {
     opacity: 0;
+}
+
+::v-deep .swiper-slide.swiper-slide-active {
+    min-width: 100% !important;
 }
 </style>

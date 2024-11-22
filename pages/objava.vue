@@ -939,7 +939,7 @@ export default class Objava extends Vue {
                     font-weight: 400 !important;
                     transition: 0.3s all ease;
                     margin-bottom: 0;
-                    font-family: 'NunitoSans', sans-serif;;
+                    font-family: 'NunitoSans', sans-serif;
                     cursor: pointer;
                     margin-right: 16px;
                     background: #FC8709;

@@ -182,7 +182,7 @@
         </client-only>
         <div class="chat-wrapper" v-if="!$device.isMobile && $route.path !== '/moj-racun/poruke'">
             <button class="chat-btn" v-if="$auth.user && minimizeChat === true" @click="minimizeChat = false">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" class="w-6 h-6 mr-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" class="w-6 h-6 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
                 </svg>
 
@@ -1203,7 +1203,7 @@ export default class Navbar extends Vue {
 .first-part {
     font-size: 20px;
     font-weight: 600;
-    font-family: 'NunitoSans', sans-serif;;
+    font-family: 'NunitoSans', sans-serif;
     color: #002F34;
     margin-left: 5px;
 }
@@ -1211,7 +1211,7 @@ export default class Navbar extends Vue {
 .second-part {
     font-size: 20px;
     font-weight: 500;
-    font-family: 'NunitoSans', sans-serif;;
+    font-family: 'NunitoSans', sans-serif;
     color: #002F34;
 }
 
@@ -1272,8 +1272,8 @@ export default class Navbar extends Vue {
 
 .chat-wrapper {
     position: fixed;
-    bottom: 50px;
-    right: 50px;
+    bottom: 30px;
+    right: 30px;
     z-index: 10000;
 }
 
@@ -1281,11 +1281,12 @@ export default class Navbar extends Vue {
     background: #FC8709 !important;
     color: #fff !important;
     border-radius: 4px !important;
-    height: 46px;
-    max-height: 46px;
+    height: 40px;
+    max-height: 40px;
     border: none !important;
     font-weight: 500;
-    padding: 0 24px;
+    font-size: 13px;
+    padding: 0 16px;
     display: flex;
     align-items: center;
     justify-content: flex-start;

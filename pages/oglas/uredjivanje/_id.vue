@@ -119,8 +119,8 @@
                     Detaljne informacije oglasa
                 </h1>
                 <div
-                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 up:grid-cols-2 gap-x-5 gap-y-5 grid-flow-row auto-rows-auto">
-                    <div v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
+                    class="flex flex-col">
+                    <div class="mb-4" v-for="attr in ordinaryGlobalAttributes" :key="attr.id">
                         <InputError v-if="errors.attributes[attr.id]" :error="errors.attributes[attr.id]"/>
                         <component
                             :attr="attr"
@@ -131,7 +131,7 @@
                         />
                     </div>
 
-                    <div v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
+                    <div class="mb-4" v-for="attr in ordinaryCategoryAttributes" :key="attr.id">
                         <InputError :error="errors.attributes[attr.id]"/>
                         <component
                             :attr="attr"
@@ -772,17 +772,17 @@ export default class ListingEdit extends Vue {
 }
 
 .preview-wrapper-inner {
-    margin-top: 32px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
     border-radius: 6px;
-    padding: 0 24px 24px 24px;
+    padding: 0 24px 24px 24px !important;
     width: 800px;
     margin-left: auto;
     margin-right: auto;
     height: 100% !important;
+    background: #fff;
 
     @include for-phone-only {
         width: 100%;

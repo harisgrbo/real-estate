@@ -1,7 +1,7 @@
 <template>
     <div class="packages-wrap">
         <h2>MojKvadrat.ba</h2>
-        <p>MojKvadrat.ba u vlasništvu HIM d.o.o Sarajevo pruža online usluge prodaje, kupovine i iznajmljivanja
+        <p>MojKvadrat.ba u vlasništvu ... Sarajevo pruža online usluge prodaje, kupovine i iznajmljivanja
             nekretnina, rezervacije smještaja (booking sistem) samostalno ili uz pomoć agencija za nekretnine.</p>
         <p>Platforma omogućava korisnicima da pregledaju i postavljaju oglase za prodaju ili iznajmljivanje, rezervišu
             smještaj sa posebnim akcentom na stanove, kuće, garaže, zemljišta i poslovne prostore. Također možete
@@ -14,10 +14,10 @@
             stanova i lokala sa sekundarnog tržišta kao i kompanija i usluga koje posluju u branši.</p>
 
         <div class="w-full flex flex-col info">
-            <p>HIM d.o.o. Sarajevo</p>
-            <p>Skraćeni naziv društva je: HIM d.o.o.</p>
-            <p>Sjedište Društva nalazi se ulici Kranjčevićeva broj: 11D, u Sarajevu, naselje Marijin Dvor, Općina
-                Centar</p>
+            <p>... Sarajevo</p>
+            <p>Skraćeni naziv društva je: ...</p>
+            <p>Sjedište Društva nalazi se ulici ..., u Sarajevu, naselje ..., Općina
+                ...</p>
             <p>MBS: 65-01-0226-19</p>
             <p>Tel: +387 61 078 809</p>
             <p>Mail: mojkvadratsarajevo@gmail.com</p>

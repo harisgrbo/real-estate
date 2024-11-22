@@ -61,11 +61,11 @@
                         <h3 class="text-sm font-semibold text-gray-900 font-bold tracking-wider">Kontakt informacije</h3>
                         <ul role="list" class="mt-4">
                             <li>
-                                <p class="text-sm text-black font-normal tracking-wider"> HIM d.o.o. Sarajevo </p>
+                                <p class="text-sm text-black font-normal tracking-wider"> ... Sarajevo </p>
                             </li>
 
                             <li>
-                                <p class="text-sm text-black font-normal tracking-wider"> Kranjčevićeva 11D </p>
+                                <p class="text-sm text-black font-normal tracking-wider">... </p>
                             </li>
 
                             <li>
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="mt-12 border-t border-gray-200 pt-2">
-                <p class="text-sm font-semibold text-black xl:text-cente copyright">&copy; {{ $moment().year() }} HIM d.o.o -
+                <p class="text-sm font-semibold text-black xl:text-cente copyright">&copy; {{ $moment().year() }} ... -
                     MojKvadrat.ba - sva prava zadržana.</p>
             </div>
         </div>

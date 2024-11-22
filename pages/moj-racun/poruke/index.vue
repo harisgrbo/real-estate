@@ -16,13 +16,13 @@
                                  class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
                                 <div v-for="(conversation, index) in conversations" :key="index"
                                      @click="handleSelectedConversation(conversation, index)"
-                                     :class="['bg-white cursor-pointer box relative flex items-center py-4 px-0 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
+                                     :class="['bg-white cursor-pointer box relative flex items-center py-2 px-2 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                                     <img alt="mojkvadrat - slika korisnika"
                                          class="w-12 h-12 flex-none image-fit mr-1 rounded-full"
                                          :src="others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg'" />
                                     <div class="ml-2 overflow-hidden w-full h-full">
                                         <div class="flex items-center w-full">
-                                            <div class="text-gray-700 font-semibold text-md">
+                                            <div class="text-gray-700 font-semibold text-sm">
                                                 {{ others(conversation).map(item => item.name).join(',') }}
                                             </div>
                                             <div class="text-xs text-gray-900 font-medium ml-auto">
@@ -54,7 +54,7 @@
                                                 </svg>
                                                 Korisnik je poslao pitanje vezano za oglas
                                             </div>
-                                            <div class="w-full truncate text-gray-900 text-md font-medium mt-0.5"
+                                            <div class="w-full truncate text-gray-900 text-sm font-medium mt-0.5"
                                                  v-else>
                                                 {{ conversation.last_message.content }}
                                             </div>
@@ -127,7 +127,7 @@
                                     <div :class="[isMe(message) ? 'float-right' : 'float-left']"
                                          class="chat__box__text-box flex items-end mb-4">
                                         <div v-if="message.message_type === 'text'"
-                                             :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
+                                             :class="[isMe(message) ? 'bg-gray-50 border border-gray-300 p-2 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-2 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
                                             {{ message.content }}
                                             <div class="flex justify-between mt-2">
                                                 <div
@@ -501,7 +501,7 @@
                                         <div :class="[isMe(message) ? 'float-right' : 'float-left']"
                                              class="chat__box__text-box flex items-end mb-4">
                                             <div v-if="message.message_type === 'text'"
-                                                 :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-4 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
+                                                 :class="[isMe(message) ? 'bg-gray-100 border border-gray-300 p-2 text-gray-900 rounded-l-lg text-md leading-6 rounded-t-lg text-right' : 'not-me-box border border-gray-300 p-4 text-md leading-6 font-medium text-gray-700 rounded-r-lg rounded-t-lg']">
                                                 {{ message.content }}
                                                 <div class="flex justify-between mt-2">
                                                     <div
@@ -1135,7 +1135,7 @@ textarea {
 }
 
 .chat .chat__tabs a {
-    font-family: 'NunitoSans', sans-serif;;
+    font-family: 'NunitoSans', sans-serif;
     height: 48px;
     border-radius: 6px;
     width: fit-content;
@@ -1153,7 +1153,7 @@ textarea {
 }
 
 .chat .chat__tabs a.active {
-    font-family: 'NunitoSans', sans-serif;;
+    font-family: 'NunitoSans', sans-serif;
     height: 48px;
     border-radius: 6px;
     width: fit-content;
@@ -1173,7 +1173,7 @@ textarea {
 .chat__chat-list {
     display: flex !important;
     flex-direction: column !important;
-    padding: 24px;
+    padding: 16px;
 
     @include for-phone-only {
         padding-top: 0px;
@@ -1445,7 +1445,7 @@ img {
     height: calc(100vh - 263px);
     overflow-y: scroll;
     background-color: #ffffff;
-    padding: 24px 25%;
+    padding: 24px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23aaaaaa' fill-opacity='0.05'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -1455,7 +1455,7 @@ img {
 
 .not-me-box {
     border: 1px solid #f1f1f1;
-    background-color: #fff;
+    background-color: rgba(198, 220, 250, 0.45);
 }
 
 .listing-card {

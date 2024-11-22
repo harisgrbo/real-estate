@@ -40,7 +40,7 @@ export default class Package extends Vue {
         border-bottom: 10px solid #1B1E31;
         padding: 16px;
         color: #000;
-        font-family: 'NunitoSans', sans-serif;;
+        font-family: 'NunitoSans', sans-serif;
         border-radius: 8px;
 
         .package-type {
@@ -110,7 +110,7 @@ export default class Package extends Vue {
             border: none;
             color: #fff;
             width: 100%;
-            font-family: 'NunitoSans', sans-serif;;
+            font-family: 'NunitoSans', sans-serif;
             font-size: 15px;
             font-weight: 500;
             margin-bottom: 24px;

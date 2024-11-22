@@ -31,8 +31,8 @@
                     <div class="flex flex-col w-full relative add-width">
                         <div class="mobile-images">
                             <div v-if="listing.thumbnail !== null" class="h-full relative cursor-pointer mobile-new">
-                                <div :class="'item' + img.id" v-for="(img, index) in images" :key="index" class="h-full">
-                                    <img :src="img.url" alt="" @click="openGallery(index)" />
+                                <div :class="'item' + img.id" v-for="(img, index) in images" :key="index" class="h-full w-full">
+                                    <img :src="img.url" alt="" @click="openGallery(index)" class="object-cover h-full product-image" />
                                 </div>
                                 <div
                                     class="absolute bottom-4 left-4 z-10 py-1 px-3 bg-white rounded-sm text-sm font-semibold image-counter-border">
@@ -2043,7 +2043,7 @@ h2 {
         align-items: center;
         justify-content: center;
         border-radius: 6px;
-        font-family: 'NunitoSans', sans-serif;;
+        font-family: 'NunitoSans', sans-serif;
         font-size: 13px;
         font-weight: 500;
         margin-bottom: 24px;
@@ -3036,6 +3036,12 @@ h3.text-2xl {
     @include for-phone-only {
         top: 320px;
     }
+}
+
+.product-image {
+    height: 100%;
+    width: 100% !important;
+    object-fit: cover;
 }
 </style>
 

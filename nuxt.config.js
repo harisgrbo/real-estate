@@ -23,7 +23,7 @@ export default {
     script: [
       {
         src:
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPijVFzKPk9M21q2dCj3-_1Yrve0mDx60&map_ids=90b8b95b1bbd0bc9&callback=initMap"
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyB4GymIRnVaYW3CgDrOEJo06NNtua7-eYw&map_ids=90b8b95b1bbd0bc9&callback=initMap"
       },
       {
         src:

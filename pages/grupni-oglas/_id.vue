@@ -717,7 +717,7 @@ export default class Artikal extends Vue {
         height: 100px;
         padding: 12px;
         border-radius: 5px;
-        font-family: 'NunitoSans', sans-serif;;
+        font-family: 'NunitoSans', sans-serif;
 
         &:focus {
             outline: none;

@@ -330,7 +330,7 @@ export default class Paketi extends Vue {
     }
 
     table {
-        font-family: 'NunitoSans', sans-serif;;
+        font-family: 'NunitoSans', sans-serif;
         border-collapse: collapse;
         width: 100%;
         margin-top: 24px;
@@ -382,7 +382,7 @@ export default class Paketi extends Vue {
             .package-header {
                 padding: 24px;
                 color: #fff;
-                font-family: 'NunitoSans', sans-serif;;
+                font-family: 'NunitoSans', sans-serif;
 
                 > div {
                     display: flex;

@@ -85,7 +85,7 @@ export default class TermsInput extends Vue {
             border-radius: 4px;
             box-shadow: none;
             box-sizing: border-box;
-            height: 48px;
+            height: 38px;
             line-height: .733rem;
             margin: initial;
             overflow: hidden;

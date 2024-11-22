@@ -49,6 +49,7 @@ export default class Home extends Vue {
     min-height: calc(100vh - 80px);
     display: flex;
     flex-direction: column;
+    background: #f1f4f5;
 
     @include for-phone-only {
         min-height: 100%;

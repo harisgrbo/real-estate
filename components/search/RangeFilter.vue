@@ -1,5 +1,5 @@
 <template>
-    <div class="range-wrapper relative">
+    <div class="range-wrapper">
         <label @click="showDropdown = !showDropdown" class="dropdown-label">
             {{ displayName }}
         </label>

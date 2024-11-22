@@ -231,7 +231,7 @@ export default class accountpage extends Vue {
             }
 
             h2 {
-                //font-family: 'NunitoSans', sans-serif;;
+                //font-family: 'NunitoSans', sans-serif;
                 font-weight: 500;
                 font-size: 20px;
                 margin-bottom: 36px;

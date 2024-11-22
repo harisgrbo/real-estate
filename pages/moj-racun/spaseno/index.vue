@@ -412,7 +412,7 @@ export default class spaseno extends Vue {
 
                         .save {
                             display: flex;
-                            font-family: 'NunitoSans', sans-serif;;
+                            font-family: 'NunitoSans', sans-serif;
                             align-items: center;
                             font-size: 16px;
                             padding: 6px 12px;
@@ -469,7 +469,7 @@ export default class spaseno extends Vue {
                     }
 
                     button {
-                        font-family: 'NunitoSans', sans-serif;;
+                        font-family: 'NunitoSans', sans-serif;
                         height: 100%;
                         width: 100%;
                         display: flex;

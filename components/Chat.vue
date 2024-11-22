@@ -1165,7 +1165,7 @@ textarea {
 }
 
 .chat .chat__tabs a {
-    font-family: 'NunitoSans', sans-serif;;
+    font-family: 'NunitoSans', sans-serif;
     height: 48px;
     border-radius: 6px;
     width: fit-content;
@@ -1183,7 +1183,7 @@ textarea {
 }
 
 .chat .chat__tabs a.active {
-    font-family: 'NunitoSans', sans-serif;;
+    font-family: 'NunitoSans', sans-serif;
     height: 48px;
     border-radius: 6px;
     width: fit-content;

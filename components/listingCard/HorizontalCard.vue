@@ -569,7 +569,7 @@ a {
             box-shadow: none;
 
             button {
-                font-family: 'NunitoSans', sans-serif;;
+                font-family: 'NunitoSans', sans-serif;
                 border: none;
                 margin-right: 8px;
                 border-radius: 5px;

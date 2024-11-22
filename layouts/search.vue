@@ -45,10 +45,9 @@ export default class Home extends Vue {
 }
 
 .search-wrapper {
-    margin-top: 30px !important;
-    min-height: calc(100vh - 80px);
+    margin-top: 63px !important;
+    min-height: calc(100vh - 63px);
     background: #f1f4f5;
-    padding-top: 16px;
 
     @include for-phone-only {
         min-height: 100%;
