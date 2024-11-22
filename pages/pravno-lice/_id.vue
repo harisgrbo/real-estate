@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile-wrapper mx-auto pt-0">
-    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
-    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-if="user.banner_url !== null" :style="{ backgroundImage: 'url(' + user.banner_url + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
+    <div class="agency-banner" v-else :style="{ backgroundImage: 'url(' + '/nobanner.png' + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }">.</div>
     <div class="flex flex-col custom-width mx-auto">
       <div class="user-content-wrapper mt-8">
         <div class="flex flex-row justify-start mobile-spans items-start">
@@ -77,7 +77,7 @@
       </div>
       <div class="mb-6">
         <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
-          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6 bg-gray-50">
             <div class="text-md pb-1 font-medium text-gray-500 truncate">
               {{ user.user_type === 'agency' ? 'Ukupno oglasa' : 'Ukupno zgrada' }}
             </div>
@@ -86,7 +86,7 @@
             </div>
           </div>
 
-          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6 bg-gray-50">
             <div class="text-md pb-1 font-medium text-gray-500 truncate">
               {{ user.user_type === 'agency' ? 'Aktivni oglasi' : 'Zgrade koje su u prodaji' }}
             </div>
@@ -95,7 +95,7 @@
             </div>
           </div>
 
-          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6 bg-gray-50">
             <div class="text-md pb-1 font-medium text-gray-500 truncate">
               Završeni oglasi
             </div>
@@ -104,7 +104,7 @@
             </div>
           </div>
 
-          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+          <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6 bg-gray-50">
             <div class="text-md pb-1 font-medium text-gray-500 truncate">
               Dojmovi
             </div>
@@ -119,9 +119,9 @@
           <li v-for="(tab, index) in tabs" :key="index" @click="selected_tab = index" :class="[ selected_tab === index ? 'active' : '' ]">{{ tab }}</li>
         </ul>
         <div v-if="selected_tab === 0">
-          <div class="flex flex-row items-center justify-between mb-8 user-options">
+          <div class="flex flex-row items-center justify-between mb-3 user-options">
             <ul class="category-list w-full">
-              <li :class="['group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900 border border-gray-200', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
+              <li :class="['group border border-gray-100 bg-gray-50 inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900', cat.id === selectedCategoryId ? 'selected-cat': '']" v-for="cat in categories" :key="cat.id" @click="handleSelectedCategory(cat)">{{ cat.title }}</li>
             </ul>
           </div>
           <div>
@@ -607,6 +607,8 @@ export default class Agencies extends Vue {
   height: 100%;
   box-sizing: border-box;
   margin: 0 auto;
+    background: #fff;
+    padding: 16px;
 
   @include for-phone-only {
     padding: 16px;
@@ -904,16 +906,17 @@ export default class Agencies extends Vue {
   justify-content: flex-start;
 
   li {
-    height: 44px;
-    padding: 0 10px;
-    background: #fff;
+    height: 30px;
+    padding: 0 8px;
+    background: #f1f4f5;
     margin-right: 12px;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     min-width: fit-content;
     cursor: pointer;
-    color: #717171;
+    color: #000;
+      border: 1px solid #ddd;
 
     &.selected-cat {
       background: #fff;
@@ -947,7 +950,10 @@ export default class Agencies extends Vue {
 }
 
 .agency-banner {
-  height: 400px;
+  height: 300px;
+    width: 100%;
+    object-fit: cover;
+    background-size: cover;
 
   @include for-phone-only {
     height: 150px;

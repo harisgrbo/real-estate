@@ -74,13 +74,14 @@ a {
 }
 
 .preview-wrapper-inner {
-    margin-top: 32px;
+    margin-top: 40px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    padding: 0 !important;
     height: 100% !important;
+    background: #fff;
+    padding: 16px !important;
 
     @include for-phone-only {
         padding: 0 24px !important;

@@ -26,7 +26,7 @@
                                     class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 mt-0 pt-0">
                                     <div v-for="(conversation, index) in conversations" :key="index"
                                          @click="handleSelectedConversation(conversation, index)"
-                                         :class="['bg-white cursor-pointer box relative flex items-center py-2 px-0 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
+                                         :class="['bg-white cursor-pointer box relative flex items-center py-2 px-2 chat_conversation conversation-box', pinned_conversation && (pinned_conversation.id === conversation.id) ? 'pinned' : '', currentConversation === conversation ? 'active-chat' : '']">
                                         <img alt="mojkvadrat - slika korisnika"
                                              class="w-8 h-8 max-w-8 min-w-8 flex-none image-fit mr-1 rounded-full"
                                              :src="others(conversation).length && others(conversation)[0].avatar_url !== null ? others(conversation)[0].avatar_url  : '/noimage.jpeg'" />
@@ -1233,8 +1233,9 @@ textarea {
     &.pinned {
         order: -1;
         color: #fff !important;
-        border: 1px solid #000;
+        border: 1px solid #fad8d8;
         border-radius: 10px;
+        background: #f1f4f5;
     }
 }
 

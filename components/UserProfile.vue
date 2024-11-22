@@ -494,11 +494,11 @@ aside {
 }
 
 .main-user-wrapper {
-    border: 1px solid rgb(221, 221, 221);
     border-radius: 4px;
     padding: 16px;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
     margin-bottom: 26px;
+    background: #fff;
 
     @include for-phone-only {
         box-shadow: none;

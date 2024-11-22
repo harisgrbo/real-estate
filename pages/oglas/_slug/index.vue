@@ -2946,6 +2946,8 @@ iframe {
 
 .add-width {
     width: 800px;
+    padding: 12px;
+    background: #fff;
 
     @include for-phone-only {
         width: 100%;

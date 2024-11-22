@@ -257,11 +257,11 @@
                 </div>
             </div>
         </div>
-        <ins class="adsbygoogle"
-             v-if="!$device.isMobile"
-             style="display:inline-block;width:980px;height:250px"
-             data-ad-client="ca-pub-3745186233711216"
-             data-ad-slot="2369493952"></ins>
+<!--        <ins class="adsbygoogle"-->
+<!--             v-if="!$device.isMobile"-->
+<!--             style="display:inline-block;width:980px;height:250px"-->
+<!--             data-ad-client="ca-pub-3745186233711216"-->
+<!--             data-ad-slot="2369493952"></ins>-->
         <div class="flex items-center justify-between custom-width mt-8 title-wrapper agency">
             <h2 class="section-title"
                 ssr-only="stanovi izdavanje stan na dan rentanje najam agencija agencije za nekretnine agent">
