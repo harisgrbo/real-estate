@@ -51,6 +51,7 @@ export default class Settings extends Vue {
     padding-bottom: 36px;
     background: #f1f4f5;
     padding-top: 40px !important;
+    margin-top: 60px;
 
 
     .preview-wrapper {

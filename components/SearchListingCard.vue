@@ -25,7 +25,7 @@
             <div class="overflow-hidden relative">
                 <div v-if="listing.images.length" class="wrapper">
                     <transition name="fade">
-                        <swiper class="swiper" :options="swiperOptionCard" @click.native.stop>
+                        <swiper class="swiper" ref="swiper" :options="swiperOptionCard" @click.native.stop>
                             <swiper-slide v-for="(img, index) in listing.images" :key="index">
                                 <img class="slider-img swiper-lazy" :data-src="img" alt="" />
                                 <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
@@ -173,6 +173,15 @@ export default class SearchListingCard extends Vue {
             // amount of images to load
             loadPrevNextAmount: 1,
         },
+    }
+
+    mounted() {
+        setTimeout(() => {
+            let swiper = this.$refs.swiper;
+            swiper.updateSwiper();
+            console.log(swiper, 'swiper')
+        }, 300)
+
     }
 
     getSpecialAttributes() {

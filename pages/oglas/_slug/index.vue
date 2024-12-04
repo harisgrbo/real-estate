@@ -1313,10 +1313,18 @@ export default class Oglas extends Vue {
     }
 
     get normalAttributes() {
+        if (! this.listing.attributes) {
+            return [];
+        }
+
         return this.listing.attributes.filter(item => item.value !== true && item.value !== false);
     }
 
     get checkboxAttributes() {
+        if (! this.listing.attributes) {
+            return [];
+        }
+
         return this.listing.attributes.filter(item => !(item.value !== true && item.value !== false));
     }
 

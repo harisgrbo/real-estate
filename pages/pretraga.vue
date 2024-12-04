@@ -1,10 +1,10 @@
 <template>
     <div class="search-wrapper w-full relative flex flex-col">
-        <div class="search-heading py-2 my-0 sticky">
-            <div class="w-full search-options">
+        <div class="search-heading py-2 my-0">
+            <div class="w-full search-options" v-on-clickaway="away">
                 <div
-                    class="flex flex-row overflow-x-scroll w-full items-center justify-start border-b border-gray-200 gap-2 px-2">
-                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
+                    class="flex flex-row w-full relative items-center justify-start border-b border-gray-200 gap-2 px-2">
+                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showCategories = !showCategories">
                             {{ categoryTitle !== '' ? categoryTitle : "Kategorije" }}
                         </label>
@@ -17,22 +17,12 @@
                             </div>
                             <div class="flex flex-col">
                                 <ul role="list"
-                                    class="border-t border-b border-gray-200 pb-6 grid grid-cols-1 gap-4 w-full categories-list-wrap">
+                                    class="grid grid-cols-1 w-full categories-list-wrap">
                                     <li v-for="(cat, index) in categories" :key="index" @click="handleSelectedCategory(cat)"
-                                        class="flow-root shadow-sm border rounded-sm"
-                                        :class="[ 'flow-root', cat.id === selectedCategoryId ? 'selected' : '' ]">
-                                        <div>
-                                            <div class="focus:outline-none">
-                                                <span aria-hidden="true"></span>
-                                                {{ cat.title }}
-                                            </div>
-                                        </div>
-                                        <div class="relative flex">
-                                            <div class="svg-wrap">
-                                                <!-- Heroicon name: outline/clock -->
-                                                <img :src="'/cats/' + cat.slug + '.png'" alt="" />
-                                            </div>
-                                        </div>
+                                        class="flex p-2 flex-row items-center border rounded-sm"
+                                        :class="[ 'fex', cat.id === selectedCategoryId ? 'selected' : '' ]">
+                                        <img :src="'/cats/' + cat.slug + '.png'" alt="" style="height: 20px; margin-right: 5px" />
+                                        {{ cat.title }}
                                     </li>
                                 </ul>
                             </div>
@@ -57,7 +47,7 @@
                     <CitiesMultipleSelect :initial-cities="cities" @cities="handleCitiesSearch"/>
 
                     <component
-                        class="bb-filters"
+                        class="bb-filters relative"
                         v-for="(attr, i) in allAttributes"
                         v-if="attr.type !== 'term'"
                         :key="i"
@@ -68,7 +58,7 @@
                         @clear="queryPayload[attr.id] = null; newSearch()"
                         @input="newSearch"
                     />
-                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;">
+                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showOtherFilters = !showOtherFilters">
                             Ostale pogodnosti
                         </label>
@@ -96,7 +86,7 @@
                         </div>
 
                     </div>
-                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;">
+                    <div class="relative" style="min-width: fit-content; width: fit-content; max-width: fit-content;">
                         <label class="dropdown-label" @click="showListingType = !showListingType">
                             Vrsta oglasa
                         </label>
@@ -127,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="rounded-md bg-blue-50 p-4 w-full" v-show="! selectedCategoryId">
+            <div class="rounded-md bg-blue-50 p-4 w-full" v-if="! selectedCategoryId">
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <!-- Heroicon name: solid/exclamation -->
@@ -145,7 +135,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex relative z-10 flex-col items-center justify-between w-full lg:mt-4 up:mt-4 md:mt-4">
+            <div class="flex flex-col items-center justify-between w-full lg:mt-4 up:mt-4 md:mt-4">
                 <ul class="flex flex-row items-center justify-start w-full selected-filters sm:mt-0 mb-3" v-if="filter && filterResolveValue(filter)">
                     <li v-for="filter in queryPayload" :key="filter.id"
                         class="py-1 px-2 border border-black mr-1">
@@ -163,7 +153,7 @@
                 </ul>
                 <div class="flex items-center justify-between w-full mobile-button mb-3 mt-3">
                     <h1 class="results-number uppercase font-semibold text-sm">{{ meta.total }} rezultata</h1>
-                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;">
+                    <div style="min-width: fit-content; width: fit-content; max-width: fit-content;" class="relative">
                         <label class="dropdown-label" @click="showSortDropdown = !showSortDropdown">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
@@ -189,7 +179,7 @@
                     </div>
                 </div>
                 <div class="content">
-                    <div class="results relative">
+                    <div class="results">
                         <div v-if="results.length" class="w-full flex flex-col">
                             <div class="divide-y mb-7 divide-gray-200 flex flex-col grid grid-cols-5 gap-4 w-full listing-wrap">
                                 <SearchListingCard v-for="listing in results" :listing="listing" :key="getResultKey(listing)"
@@ -791,6 +781,14 @@ export default class Pretraga extends Vue {
         });
     }
 
+    away() {
+        this.showCategories = false;
+        this.showOtherFilters = false;
+        this.showListingType = false;
+        this.showTypeDropdown = false;
+        this.showSortDropdown = false;
+    }
+
     handleSelectPreviewType(t) {
         let old = this.selectedPreviewType;
 
@@ -924,9 +922,6 @@ export default class Pretraga extends Vue {
 
 .search-heading {
     background: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 9;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -947,6 +942,7 @@ export default class Pretraga extends Vue {
     flex-direction: column;
     width: 1280px;
     margin: 0 auto;
+    padding-top: 30px;
 
     @include for-phone-only {
         background: #f9f9f9;
@@ -1255,6 +1251,15 @@ export default class Pretraga extends Vue {
 }
 
 .categories-list-wrap li {
+
+    &.selected {
+        background:#f1f4f5;
+        font-weight: 600 !important;
+
+        @include for-phone-only {
+            border: 1px solid #000 !important;
+        }
+    }
     @include for-phone-only {
         background: #FFFFFF !important;
         color: #000 !important;
@@ -1282,16 +1287,6 @@ export default class Pretraga extends Vue {
                 height: 40px;
                 width: 40px;
                 min-width: 40px;
-            }
-        }
-
-        &.selected {
-            border: 1px solid #000;
-            font-weight: 600 !important;
-
-
-            @include for-phone-only {
-                border: 1px solid #000 !important;
             }
         }
     }
@@ -1716,10 +1711,7 @@ button.group {
 }
 
 .search-options {
-    position: sticky;
-    top: 60px;
     background: #fff;
-    z-index: 9999;
     height: fit-content;
     padding: 12px 0;
     border-bottom: 1px solid #dedede;

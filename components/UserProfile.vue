@@ -572,6 +572,7 @@ textarea {
     border-radius: 6px;
     padding: 16px;
     box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    background: #fff;
 }
 
 .total {
